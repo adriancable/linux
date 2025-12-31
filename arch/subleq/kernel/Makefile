@@ -11,4 +11,4 @@ obj-y += traps.o
 obj-y += ptrace.o
 obj-y += syscalls.o
 
-extra-y := vmlinux.lds
+always-$(KBUILD_BUILTIN) := vmlinux.lds

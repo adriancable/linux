@@ -40,8 +40,8 @@ head-y := arch/subleq/kernel/head.o
 # Core directories
 core-y += arch/subleq/
 
-# Linker flags
-LDFLAGS_vmlinux := -T $(srctree)/arch/subleq/kernel/vmlinux.lds
+# Note: The kernel build system uses KBUILD_LDS from $(srctree)/Makefile
+# which points to arch/$(SRCARCH)/kernel/vmlinux.lds - no need to set it here
 
 PHONY += archheaders
 archheaders:

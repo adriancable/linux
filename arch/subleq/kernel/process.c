@@ -95,3 +95,23 @@ unsigned long __get_wchan(struct task_struct *p)
 void flush_thread(void)
 {
 }
+
+/*
+ * Machine power management - required by kernel/reboot.c
+ */
+void machine_halt(void)
+{
+	/* Use Subleq HALT instruction: subleq(-4, 0, -4) */
+	while (1)
+		;
+}
+
+void machine_power_off(void)
+{
+	machine_halt();
+}
+
+void machine_restart(char *cmd)
+{
+	machine_halt();
+}

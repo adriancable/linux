@@ -1,0 +1,41 @@
+# SPDX-License-Identifier: GPL-2.0
+# Minimal defconfig for Subleq
+
+# CONFIG_MMU is not set
+# CONFIG_SMP is not set
+CONFIG_SUBLEQ=y
+CONFIG_SUBLEQ_SIM=y
+
+# Basic kernel features
+CONFIG_PRINTK=y
+CONFIG_BUG=y
+# CONFIG_MODULES is not set
+# CONFIG_BLOCK is not set
+
+# Minimal required options
+CONFIG_SYSFS=y
+CONFIG_PROC_FS=y
+
+# No file systems (we'll crash at init)
+# CONFIG_EXT2_FS is not set
+# CONFIG_EXT4_FS is not set
+# CONFIG_TMPFS is not set
+
+# No networking
+# CONFIG_NET is not set
+
+# No drivers
+# CONFIG_SERIAL_8250 is not set
+# CONFIG_VT is not set
+# CONFIG_HW_CONSOLE is not set
+
+# Early console
+CONFIG_EARLY_PRINTK=y
+
+# Command line
+CONFIG_CMDLINE="console=subleq"
+CONFIG_CMDLINE_FORCE=y
+
+# Disable debugging (too much output)
+# CONFIG_DEBUG_KERNEL is not set
+# CONFIG_DEBUG_INFO is not set

@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: GPL-2.0
+# Subleq debugging configuration
+
+menu "Kernel hacking"
+
+config EARLY_PRINTK
+	def_bool y
+	help
+	  Early printk support using Subleq's putchar instruction.
+
+endmenu

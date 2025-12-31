@@ -1,0 +1,5 @@
+# SPDX-License-Identifier: GPL-2.0
+# UAPI headers for Subleq
+
+# Extra non-mandatory headers from asm-generic
+generic-y += ucontext.h

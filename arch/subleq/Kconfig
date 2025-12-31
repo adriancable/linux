@@ -16,6 +16,8 @@ config SUBLEQ
 	select SET_FS
 	select TRACE_IRQFLAGS_SUPPORT
 	select UACCESS_MEMCPY
+	select ARCH_HAS_STRNCPY_FROM_USER
+	select ARCH_HAS_STRNLEN_USER
 	help
 	  Subleq is a One Instruction Set Computer (OISC) where the only
 	  operation is "subtract and branch if less than or equal to zero."
@@ -26,7 +28,7 @@ config GENERIC_BUG
 	depends on BUG
 
 config GENERIC_CALIBRATE_DELAY
-	def_bool y
+	def_bool n
 
 config GENERIC_HWEIGHT
 	def_bool y

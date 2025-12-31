@@ -12,6 +12,7 @@
 
 /* Task size - 1GB total address space, kernel takes some */
 #define TASK_SIZE (0x30000000UL) /* 768MB for user */
+#define TASK_SIZE_MAX TASK_SIZE
 
 /* Where to search for free VM space during mmap */
 #define TASK_UNMAPPED_BASE (TASK_SIZE / 3)

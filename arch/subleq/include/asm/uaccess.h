@@ -67,7 +67,10 @@ raw_copy_to_user(void __user *to, const void *from, unsigned long n)
 #define get_user(x, ptr) __get_user(x, ptr)
 #define put_user(x, ptr) __put_user(x, ptr)
 
-/* String functions */
+/* String functions - we provide our own so lib/strncpy_from_user.c is not compiled */
+#define __HAVE_ARCH_STRNCPY_FROM_USER
+#define __HAVE_ARCH_STRNLEN_USER
+
 static inline long strnlen_user(const char __user *s, long n)
 {
 	return strnlen((const char __force *)s, n) + 1;

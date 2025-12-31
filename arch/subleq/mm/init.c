@@ -13,14 +13,12 @@
 
 /*
  * Memory initialization for NOMMU kernel
+ * 
+ * Note: max_mapnr, max_low_pfn, min_low_pfn are defined in generic kernel code
+ * (mm/mm_init.c, mm/memblock.c). We just use them here.
+ *
+ * empty_zero_page is defined in arch/subleq/kernel/head.o
  */
-
-unsigned long max_mapnr;
-unsigned long max_low_pfn;
-unsigned long min_low_pfn;
-
-/* Empty zero page for NOMMU */
-void *empty_zero_page;
 
 /*
  * Memory map - we have a simple flat memory model

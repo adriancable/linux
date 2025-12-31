@@ -11,6 +11,13 @@
 /* Exception table alignment - needed by RO_DATA macro */
 #define RO_EXCEPTION_TABLE_ALIGN	16
 
+/*
+ * Keep .exit.text sections at link time to avoid LLD relocation errors.
+ * Built-in drivers reference their exit functions even though they won't
+ * be called on NOMMU systems without module unloading.
+ */
+#define RUNTIME_DISCARD_EXIT
+
 #include <asm/page.h>
 #include <asm/cache.h>
 #include <asm/thread_info.h>

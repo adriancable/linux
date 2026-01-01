@@ -1,6 +1,13 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
  * Subleq interrupt handling
+ *
+ * The VM fires a timer interrupt every 10000 instruction cycles:
+ * - Saves current PC to m[1] (byte address 4)
+ * - Jumps to handler address in m[0]
+ *
+ * The low-level assembly entry point is in entry.S (subleq_irq_entry).
+ * It calls subleq_do_IRQ() and returns to the interrupted code.
  */
 
 #include <linux/init.h>
@@ -11,19 +18,23 @@
 #include <asm/irq.h>
 
 /*
- * Subleq has a single timer interrupt source.
- * It fires every 10000 instruction cycles.
+ * Memory-mapped interrupt registers
  */
+#define INT_HANDLER_ADDR ((volatile unsigned long *)0)
+#define INT_SAVED_PC_ADDR ((volatile unsigned long *)4)
+#define INT_SAVED_HANDLER ((volatile unsigned long *)8)
+
+/* Assembly entry point from entry.S */
+extern void subleq_irq_entry(void);
 
 /* Forward declaration */
 extern void subleq_timer_interrupt(void);
 
 /*
- * Interrupt handler entry point - called from timer handler
+ * C-level interrupt handler - called from assembly entry.S
  */
 void subleq_do_IRQ(void)
 {
-	/* Just tick the timer for now */
 	subleq_timer_interrupt();
 }
 
@@ -32,7 +43,14 @@ void subleq_do_IRQ(void)
  */
 void __init init_IRQ(void)
 {
-	/* Minimal initialization - nothing to do yet */
+	/*
+	 * Install our assembly interrupt handler.
+	 * Set m[2] (saved handler) to the handler address.
+	 * m[0] stays 0 (disabled) until local_irq_enable() is called.
+	 */
+	*INT_SAVED_HANDLER = (unsigned long)subleq_irq_entry;
+
+	pr_info("Subleq IRQ: handler installed at %p\n", subleq_irq_entry);
 }
 
 /*

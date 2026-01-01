@@ -25,8 +25,11 @@ static unsigned long subleq_jiffies;
 /*
  * Timer interrupt handler
  */
+extern void __subleq_putchar(int c);
+
 void subleq_timer_interrupt(void)
 {
+	__subleq_putchar('!'); /* DEBUG: show timer interrupt firing */
 	subleq_jiffies++;
 
 	/* Update jiffies - called from interrupt context */

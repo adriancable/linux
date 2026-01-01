@@ -2,6 +2,7 @@
 # Kernel Makefile for Subleq
 
 obj-y += head.o
+obj-y += entry.o
 obj-y += setup.o
 obj-y += irq.o
 obj-y += time.o

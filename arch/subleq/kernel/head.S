@@ -47,14 +47,9 @@ _start:
 	.size _start, . - _start
 
 /*
- * Empty zero page - required by some kernel code.
- * Must be in .data..page_aligned so it gets merged with main .data section.
+ * Note: empty_zero_page is allocated dynamically in arch/subleq/mm/init.c
+ * via memblock_alloc() during paging_init().
  */
-	.section ".data..page_aligned", "aw"
-	.align 4096
-	.global empty_zero_page
-empty_zero_page:
-	.fill 4096, 1, 0
 
 /*
  * init_stack/init_thread_union symbol definitions.

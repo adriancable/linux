@@ -11,6 +11,7 @@
 #include <linux/screen_info.h>
 #include <linux/root_dev.h>
 #include <linux/seq_file.h>
+#include <linux/sched/task.h>
 #include <generated/utsrelease.h>
 
 #include <asm/setup.h>
@@ -20,8 +21,8 @@
 unsigned long subleq_memory_start = 0;
 unsigned long subleq_memory_end = 0x40000000; /* 1GB */
 
-/* Current task pointer for non-SMP */
-struct task_struct *subleq_current_task;
+/* Current task pointer for non-SMP - must be initialized to init_task */
+struct task_struct *subleq_current_task = &init_task;
 EXPORT_SYMBOL(subleq_current_task);
 
 /* Command line */
@@ -67,6 +68,8 @@ static void __init clear_bss(void)
  *
  * Called early in boot by start_kernel()
  */
+extern void paging_init(void);
+
 void __init setup_arch(char **cmdline_p)
 {
 	/* Clear BSS first */
@@ -101,6 +104,12 @@ void __init setup_arch(char **cmdline_p)
 
 	/* No swap device */
 	ROOT_DEV = 0;
+
+	/*
+	 * Initialize memory zones - this MUST be called before mm_core_init()
+	 * so the zone allocator knows about available memory.
+	 */
+	paging_init();
 
 	pr_info("setup_arch complete\n");
 }

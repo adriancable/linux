@@ -10,6 +10,9 @@
 #define NR_IRQS 2
 #define TIMER_IRQ 0
 
+/* Timer interrupt handler (called from entry.S via subleq_do_IRQ) */
+extern void subleq_timer_interrupt(void);
+
 #include <asm-generic/irq.h>
 
 #endif /* _ASM_SUBLEQ_IRQ_H */

@@ -10,9 +10,13 @@
 #include <linux/clocksource.h>
 #include <linux/clockchips.h>
 #include <linux/delay.h>
+#include <linux/hardirq.h>
+#include <linux/timekeeping.h>
 
 #include <asm/irq.h>
 #include <asm/irqflags.h>
+#include <asm/irq_regs.h>
+#include <asm/ptrace.h>
 
 /*
  * Subleq timer interrupt fires every 10000 instructions.
@@ -23,19 +27,40 @@
 static unsigned long subleq_jiffies;
 
 /*
- * Timer interrupt handler
+ * Dummy pt_regs for timer interrupt
+ * Since Subleq doesn't have hardware registers and we're always in kernel
+ * mode, we use a static dummy structure.
+ */
+static struct pt_regs subleq_timer_regs;
+
+/*
+ * Timer interrupt handler - called from assembly entry.S
+ * 
+ * This is the main integration point between the VM's timer interrupt
+ * and the Linux kernel scheduler. We use legacy_timer_tick() which is
+ * designed for architectures without generic clockevents. It handles:
+ * - do_timer() for jiffies/timekeeping
+ * - update_wall_time()
+ * - update_process_times() which calls sched_tick() for scheduling
+ * - profile_tick()
  */
 extern void __subleq_putchar(int c);
 
 void subleq_timer_interrupt(void)
 {
-	__subleq_putchar('!'); /* DEBUG: show timer interrupt firing */
+	struct pt_regs *old_regs;
+
+	/* Set up irq_regs for get_irq_regs() */
+	old_regs = set_irq_regs(&subleq_timer_regs);
+
+	irq_enter();
+
 	subleq_jiffies++;
+	legacy_timer_tick(1);
 
-	/* Update jiffies - called from interrupt context */
-	jiffies_64++;
+	irq_exit();
 
-	/* TODO: Call the scheduler tick */
+	set_irq_regs(old_regs);
 }
 
 /*

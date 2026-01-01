@@ -26,6 +26,7 @@ int main(void)
 
 	COMMENT("Subleq task_struct offsets");
 	OFFSET(TASK_THREAD, task_struct, thread);
+	OFFSET(THREAD_SP, thread_struct, sp);
 	BLANK();
 
 	return 0;

@@ -10,6 +10,7 @@ config SUBLEQ
 	select GENERIC_HWEIGHT
 	select GENERIC_IRQ_SHOW
 	select GENERIC_CPU_DEVICES
+	select LEGACY_TIMER_TICK
 	select OF_EARLY_FLATTREE if OF
 	select NO_IOPORT_MAP
 	select SET_FS

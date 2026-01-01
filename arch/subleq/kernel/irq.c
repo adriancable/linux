@@ -33,6 +33,8 @@ extern void subleq_timer_interrupt(void);
 /*
  * C-level interrupt handler - called from assembly entry.S
  */
+extern void __subleq_putchar(int c);
+
 void subleq_do_IRQ(void)
 {
 	subleq_timer_interrupt();

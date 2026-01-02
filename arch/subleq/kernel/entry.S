@@ -143,7 +143,7 @@
  */
 subleq_irq_entry:
         /* DEBUG disabled - was printing 'A' */
-        .word   -4, .Lchar_A, .Ldisable0
+        /* .word   -4, .Lchar_A, .Ldisable0 */
 
         /* PHASE 0: DISABLE INTERRUPTS */
 .Ldisable0:
@@ -159,7 +159,7 @@ subleq_irq_entry:
 
 .Ldisable_done:
         /* DEBUG: Print 'B' (66) - after disable */
-        .word   -4, .Lchar_B, .Lsave_z
+        /* .word   -4, .Lchar_B, .Lsave_z */
 
         /* PHASE 1: SAVE ALL REGISTERS */
 .Lsave_z:
@@ -261,12 +261,12 @@ subleq_irq_entry:
 
 .Lsave_done:
         /* DEBUG: Print 'C' (67) - after save */
-        .word   -4, .Lchar_C, .Lirq_call
+        /* .word   -4, .Lchar_C, .Lirq_call */
 
         /* PHASE 2: CALL C HANDLER */
 .Lirq_call:
         /* DEBUG: Print 'D' (68) - before C call */
-        .word   -4, .Lchar_D, .Lirq_do_call
+        /* .word   -4, .Lchar_D, .Lirq_do_call */
 
         /*
          * STACK-BASED CALL to subleq_do_IRQ
@@ -359,7 +359,7 @@ subleq_irq_entry:
         /* PHASE 3: RESTORE ALL REGISTERS */
 .Lirq_returned:
         /* DEBUG: Print 'E' (69) - after C call */
-        .word   -4, .Lchar_E, .Lrestore_t15
+        /* .word   -4, .Lchar_E, .Lrestore_t15 */
 
 .Lrestore_t15:
         RESTORE_REG SAVE_T15, REG_T15, .Lrestore_t14
@@ -460,7 +460,7 @@ subleq_irq_entry:
 
 .Lrestore_done:
         /* DEBUG: Print 'F' (70) - after restore */
-        .word   -4, .Lchar_F, .Lirq_return
+        /* .word   -4, .Lchar_F, .Lirq_return */
 
         /* PHASE 4: CAPTURE RETURN ADDRESS */
 .Lirq_return:
@@ -474,7 +474,7 @@ subleq_irq_entry:
 
 .Lcapture_done:
         /* DEBUG: Print 'G' (71) - after capture */
-        .word   -4, .Lchar_G, .Ldo_jump
+        /* .word   -4, .Lchar_G, .Ldo_jump */
 
         /* PHASE 5+6: SET UP JUMP, THEN RE-ENABLE, THEN JUMP */
         /*

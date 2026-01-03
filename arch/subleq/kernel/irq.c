@@ -16,6 +16,8 @@
 #include <linux/hardirq.h>
 
 #include <asm/irq.h>
+#include <asm/irq_regs.h>
+#include <asm/ptrace.h>
 
 /*
  * Memory-mapped interrupt registers
@@ -27,17 +29,40 @@
 /* Assembly entry point from entry.S */
 extern void subleq_irq_entry(void);
 
-/* Forward declaration */
+/* Timer interrupt handler (in time.c) - just calls legacy_timer_tick */
 extern void subleq_timer_interrupt(void);
 
 /*
- * C-level interrupt handler - called from assembly entry.S
+ * Dummy pt_regs for interrupt context.
+ * Since Subleq doesn't have hardware registers and we're always in kernel
+ * mode, we use a static dummy structure.
  */
-extern void __subleq_putchar(int c);
+static struct pt_regs subleq_irq_regs;
 
+/*
+ * C-level interrupt handler - called from assembly entry.S
+ *
+ * This function wraps the actual interrupt handlers with irq_enter()/irq_exit().
+ * Following the m68k do_IRQ() pattern in arch/m68k/kernel/irq.c.
+ */
 void subleq_do_IRQ(void)
 {
+	struct pt_regs *old_regs;
+
+	/* Set up irq_regs for get_irq_regs() - must be done BEFORE irq_enter */
+	old_regs = set_irq_regs(&subleq_irq_regs);
+
+	/* Enter IRQ context - increments preempt_count hardirq bits */
+	irq_enter();
+
+	/* Handle the timer interrupt (the only interrupt we have) */
 	subleq_timer_interrupt();
+
+	/* Exit IRQ context - may trigger softirqs */
+	irq_exit();
+
+	/* Restore previous irq_regs */
+	set_irq_regs(old_regs);
 }
 
 /*

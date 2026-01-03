@@ -127,6 +127,11 @@
 .set SAVE_SCRATCH, 420
 .set SAVE_JMPTGT, 424
 
+/* Context switch scratch registers - separate from INT_ZZ to avoid conflicts
+ * when context switch runs with interrupts enabled */
+.set SW_ZZ, 428   /* Scratch for __switch_to / ret_from_fork */
+.set SW_ZZ2, 432  /* Second scratch if needed */
+
 /* Save/restore macros */
 .macro SAVE_REG reg_addr, save_addr, next_label
         .word   \save_addr, \save_addr, .+4
@@ -143,7 +148,7 @@
  */
 subleq_irq_entry:
         /* DEBUG disabled - was printing 'A' */
-        /* .word   -4, .Lchar_A, .Ldisable0 */
+        .word   -4, .Lchar_A, .Ldisable0
 
         /* PHASE 0: DISABLE INTERRUPTS */
 .Ldisable0:
@@ -541,7 +546,7 @@ subleq_irq_entry:
 .Lchar_G:
         .word   71
 .Lchar_H:
-        .word   72
+        .word   42
 .Lchar_I:
         .word   73
 .Lchar_X:
@@ -629,20 +634,20 @@ __switch_to:
 
 .Lsw_push_ra1:
         /* Store RA at [SP] using self-modifying code */
-        /* Get -SP into INT_ZZ */
-        .word   INT_ZZ, INT_ZZ, .Lsw_push_ra2
+        /* Get -SP into SW_ZZ */
+        .word   SW_ZZ, SW_ZZ, .Lsw_push_ra2
 .Lsw_push_ra2:
-        .word   REG_SP, INT_ZZ, .Lsw_push_ra3
+        .word   REG_SP, SW_ZZ, .Lsw_push_ra3
 .Lsw_push_ra3:
         /* Patch the clear instruction's A field with SP */
         .word   .Lsw_clr_a, .Lsw_clr_a, .Lsw_push_ra4
 .Lsw_push_ra4:
-        .word   INT_ZZ, .Lsw_clr_a, .Lsw_push_ra5
+        .word   SW_ZZ, .Lsw_clr_a, .Lsw_push_ra5
 .Lsw_push_ra5:
         /* Patch the clear instruction's B field with SP */
         .word   .Lsw_clr_b, .Lsw_clr_b, .Lsw_push_ra6
 .Lsw_push_ra6:
-        .word   INT_ZZ, .Lsw_clr_b, .Lsw_do_clr
+        .word   SW_ZZ, .Lsw_clr_b, .Lsw_do_clr
 .Lsw_do_clr:
         /* Clear [SP] */
         .word   0, 0, .Lsw_push_ra7
@@ -651,11 +656,11 @@ __switch_to:
 
 .Lsw_push_ra7:
         /* Now store RA to [SP]: [SP] -= (-RA) */
-        .word   INT_ZZ, INT_ZZ, .Lsw_push_ra8
+        .word   SW_ZZ, SW_ZZ, .Lsw_push_ra8
 .Lsw_push_ra8:
-        .word   REG_RA, INT_ZZ, .Lsw_push_ra9
+        .word   REG_RA, SW_ZZ, .Lsw_push_ra9
 .Lsw_push_ra9:
-        /* INT_ZZ now has -RA, get -SP again */
+        /* SW_ZZ now has -RA, get -SP again */
         /* Reuse: need to patch store instruction */
         .word   .Lsw_store_b, .Lsw_store_b, .Lsw_push_ra10
 .Lsw_push_ra10:
@@ -666,8 +671,8 @@ __switch_to:
 .Lsw_push_ra12:
         .word   REG_Z, .Lsw_store_b, .Lsw_do_store
 .Lsw_do_store:
-        /* [SP] -= INT_ZZ => [SP] = RA */
-        .word   INT_ZZ, 0, .Lsw_save_sp
+        /* [SP] -= SW_ZZ => [SP] = RA */
+        .word   SW_ZZ, 0, .Lsw_save_sp
 .Lsw_store_b = .Lsw_do_store + 4
 
         /*
@@ -679,16 +684,16 @@ __switch_to:
         /* We need to read [R21+1180] but Subleq only does indirect via patching */
         /* For simplicity, use R3 as scratch (it's callee-saved but we'll save it) */
         
-        /* Actually, let's just use INT_ZZ and patch approach */
+        /* Actually, let's just use SW_ZZ and patch approach */
         /* First: compute address = R21 + 1180 into a scratch location */
         
-        .word   INT_ZZ, INT_ZZ, .Lsw_save_sp1
+        .word   SW_ZZ, SW_ZZ, .Lsw_save_sp1
 .Lsw_save_sp1:
-        .word   REG_R21, INT_ZZ, .Lsw_save_sp2   /* INT_ZZ = -R21 */
+        .word   REG_R21, SW_ZZ, .Lsw_save_sp2   /* SW_ZZ = -R21 */
 .Lsw_save_sp2:
         .word   .Lsw_addr_scratch, .Lsw_addr_scratch, .Lsw_save_sp3
 .Lsw_save_sp3:
-        .word   INT_ZZ, .Lsw_addr_scratch, .Lsw_save_sp4  /* addr_scratch = R21 */
+        .word   SW_ZZ, .Lsw_addr_scratch, .Lsw_save_sp4  /* addr_scratch = R21 */
 .Lsw_save_sp4:
         .word   .Loffset_neg, .Lsw_addr_scratch, .Lsw_save_sp5 /* addr_scratch = R21 + 1180 */
         
@@ -696,18 +701,18 @@ __switch_to:
         /* Now addr_scratch has the address of prev->thread.sp */
         /* We need to store SP there */
         /* Patch a store instruction to write to [addr_scratch] */
-        .word   INT_ZZ, INT_ZZ, .Lsw_save_sp6
+        .word   SW_ZZ, SW_ZZ, .Lsw_save_sp6
 .Lsw_save_sp6:
-        .word   .Lsw_addr_scratch, INT_ZZ, .Lsw_save_sp7
+        .word   .Lsw_addr_scratch, SW_ZZ, .Lsw_save_sp7
 .Lsw_save_sp7:
         /* Clear the target location first */
         .word   .Lsw_sp_clr_a2, .Lsw_sp_clr_a2, .Lsw_save_sp8
 .Lsw_save_sp8:
-        .word   INT_ZZ, .Lsw_sp_clr_a2, .Lsw_save_sp9
+        .word   SW_ZZ, .Lsw_sp_clr_a2, .Lsw_save_sp9
 .Lsw_save_sp9:
         .word   .Lsw_sp_clr_b2, .Lsw_sp_clr_b2, .Lsw_save_sp10
 .Lsw_save_sp10:
-        .word   INT_ZZ, .Lsw_sp_clr_b2, .Lsw_do_sp_clr
+        .word   SW_ZZ, .Lsw_sp_clr_b2, .Lsw_do_sp_clr
 
 .Lsw_do_sp_clr:
         .word   0, 0, .Lsw_save_sp11
@@ -716,112 +721,112 @@ __switch_to:
 
 .Lsw_save_sp11:
         /* Now store SP to that location */
-        .word   INT_ZZ, INT_ZZ, .Lsw_save_sp12
+        .word   SW_ZZ, SW_ZZ, .Lsw_save_sp12
 .Lsw_save_sp12:
-        .word   REG_SP, INT_ZZ, .Lsw_save_sp13  /* INT_ZZ = -SP */
+        .word   REG_SP, SW_ZZ, .Lsw_save_sp13  /* SW_ZZ = -SP */
 .Lsw_save_sp13:
         /* Patch store B field */
         .word   .Lsw_sp_store_b2, .Lsw_sp_store_b2, .Lsw_save_sp14
 .Lsw_save_sp14:
-        .word   .Lsw_addr_scratch, INT_ZZ, .Lsw_save_sp15
+        .word   .Lsw_addr_scratch, SW_ZZ, .Lsw_save_sp15
 .Lsw_save_sp15:
-        .word   INT_ZZ, INT_ZZ, .Lsw_save_sp16
+        .word   SW_ZZ, SW_ZZ, .Lsw_save_sp16
 .Lsw_save_sp16:
-        .word   REG_SP, INT_ZZ, .Lsw_save_sp17  /* INT_ZZ = -SP again */
+        .word   REG_SP, SW_ZZ, .Lsw_save_sp17  /* SW_ZZ = -SP again */
 .Lsw_save_sp17:
-        .word   INT_ZZ, .Lsw_sp_store_b2, .Lsw_do_sp_store
+        .word   SW_ZZ, .Lsw_sp_store_b2, .Lsw_do_sp_store
 
 .Lsw_do_sp_store:
-        .word   INT_ZZ, 0, .Lsw_update_current
+        .word   SW_ZZ, 0, .Lsw_update_current
 .Lsw_sp_store_b2 = .Lsw_do_sp_store + 4
 
         /*
          * Step 3: Update subleq_current_task = next
          */
 .Lsw_update_current:
-        .word   INT_ZZ, INT_ZZ, .Lsw_update1
+        .word   SW_ZZ, SW_ZZ, .Lsw_update1
 .Lsw_update1:
-        .word   REG_R22, INT_ZZ, .Lsw_update2  /* INT_ZZ = -next */
+        .word   REG_R22, SW_ZZ, .Lsw_update2  /* SW_ZZ = -next */
 .Lsw_update2:
         .word   subleq_current_task, subleq_current_task, .Lsw_update3
 .Lsw_update3:
-        .word   INT_ZZ, subleq_current_task, .Lsw_load_sp  /* current = next */
+        .word   SW_ZZ, subleq_current_task, .Lsw_load_sp  /* current = next */
 
         /*
          * Step 4: Load SP from next->thread.sp
          */
 .Lsw_load_sp:
         /* Calculate next->thread.sp address = R22 + 1180 */
-        .word   INT_ZZ, INT_ZZ, .Lsw_load_sp1
+        .word   SW_ZZ, SW_ZZ, .Lsw_load_sp1
 .Lsw_load_sp1:
-        .word   REG_R22, INT_ZZ, .Lsw_load_sp2
+        .word   REG_R22, SW_ZZ, .Lsw_load_sp2
 .Lsw_load_sp2:
         .word   .Lsw_addr_scratch, .Lsw_addr_scratch, .Lsw_load_sp3
 .Lsw_load_sp3:
-        .word   INT_ZZ, .Lsw_addr_scratch, .Lsw_load_sp4  /* addr_scratch = R22 */
+        .word   SW_ZZ, .Lsw_addr_scratch, .Lsw_load_sp4  /* addr_scratch = R22 */
 .Lsw_load_sp4:
         .word   .Loffset_neg, .Lsw_addr_scratch, .Lsw_load_sp5 /* addr_scratch = R22 + 1180 */
 
 .Lsw_load_sp5:
         /* Load from [addr_scratch] into SP */
         /* Patch a load instruction */
-        .word   INT_ZZ, INT_ZZ, .Lsw_load_sp6
+        .word   SW_ZZ, SW_ZZ, .Lsw_load_sp6
 .Lsw_load_sp6:
-        .word   .Lsw_addr_scratch, INT_ZZ, .Lsw_load_sp7  /* INT_ZZ = -addr */
+        .word   .Lsw_addr_scratch, SW_ZZ, .Lsw_load_sp7  /* SW_ZZ = -addr */
 .Lsw_load_sp7:
         .word   .Lsw_ld_a, .Lsw_ld_a, .Lsw_load_sp8
 .Lsw_load_sp8:
-        .word   INT_ZZ, .Lsw_ld_a, .Lsw_do_ld
+        .word   SW_ZZ, .Lsw_ld_a, .Lsw_do_ld
 
 .Lsw_do_ld:
-        /* Read [addr_scratch] into INT_ZZ */
-        .word   INT_ZZ, INT_ZZ, .Lsw_do_ld1
+        /* Read [addr_scratch] into SW_ZZ */
+        .word   SW_ZZ, SW_ZZ, .Lsw_do_ld1
 .Lsw_do_ld1:
-        .word   0, INT_ZZ, .Lsw_load_sp9  /* INT_ZZ = -[addr] */
+        .word   0, SW_ZZ, .Lsw_load_sp9  /* SW_ZZ = -[addr] */
 .Lsw_ld_a = .Lsw_do_ld1 + 0
 
 .Lsw_load_sp9:
-        /* SP = -INT_ZZ */
+        /* SP = -SW_ZZ */
         .word   REG_SP, REG_SP, .Lsw_load_sp10
 .Lsw_load_sp10:
-        .word   INT_ZZ, REG_SP, .Lsw_set_retval  /* SP = new SP */
+        .word   SW_ZZ, REG_SP, .Lsw_set_retval  /* SP = new SP */
 
         /*
          * Step 5: Set return value R20 = prev (R21)
          */
 .Lsw_set_retval:
-        .word   INT_ZZ, INT_ZZ, .Lsw_set_retval1
+        .word   SW_ZZ, SW_ZZ, .Lsw_set_retval1
 .Lsw_set_retval1:
-        .word   REG_R21, INT_ZZ, .Lsw_set_retval2  /* INT_ZZ = -prev */
+        .word   REG_R21, SW_ZZ, .Lsw_set_retval2  /* SW_ZZ = -prev */
 .Lsw_set_retval2:
         .word   REG_R20, REG_R20, .Lsw_set_retval3
 .Lsw_set_retval3:
-        .word   INT_ZZ, REG_R20, .Lsw_pop_ra  /* R20 = prev */
+        .word   SW_ZZ, REG_R20, .Lsw_pop_ra  /* R20 = prev */
 
         /*
          * Step 6: Pop return address and return
          */
 .Lsw_pop_ra:
         /* Load RA from [SP] */
-        .word   INT_ZZ, INT_ZZ, .Lsw_pop_ra1
+        .word   SW_ZZ, SW_ZZ, .Lsw_pop_ra1
 .Lsw_pop_ra1:
-        .word   REG_SP, INT_ZZ, .Lsw_pop_ra2  /* INT_ZZ = -SP */
+        .word   REG_SP, SW_ZZ, .Lsw_pop_ra2  /* SW_ZZ = -SP */
 .Lsw_pop_ra2:
         .word   .Lsw_pop_a, .Lsw_pop_a, .Lsw_pop_ra3
 .Lsw_pop_ra3:
-        .word   INT_ZZ, .Lsw_pop_a, .Lsw_do_pop
+        .word   SW_ZZ, .Lsw_pop_a, .Lsw_do_pop
 
 .Lsw_do_pop:
-        .word   INT_ZZ, INT_ZZ, .Lsw_do_pop1
+        .word   SW_ZZ, SW_ZZ, .Lsw_do_pop1
 .Lsw_do_pop1:
-        .word   0, INT_ZZ, .Lsw_pop_ra4  /* INT_ZZ = -[SP] = -RA */
+        .word   0, SW_ZZ, .Lsw_pop_ra4  /* SW_ZZ = -[SP] = -RA */
 .Lsw_pop_a = .Lsw_do_pop1 + 0
 
 .Lsw_pop_ra4:
-        /* RA = -INT_ZZ */
+        /* RA = -SW_ZZ */
         .word   REG_RA, REG_RA, .Lsw_pop_ra5
 .Lsw_pop_ra5:
-        .word   INT_ZZ, REG_RA, .Lsw_pop_ra6  /* RA = return address */
+        .word   SW_ZZ, REG_RA, .Lsw_pop_ra6  /* RA = return address */
 
 .Lsw_pop_ra6:
         /* SP += 4 */
@@ -836,15 +841,15 @@ __switch_to:
 
 .Lsw_do_ret:
         /* Jump to RA using patching */
-        .word   INT_ZZ, INT_ZZ, .Lsw_do_ret1
+        .word   SW_ZZ, SW_ZZ, .Lsw_do_ret1
 .Lsw_do_ret1:
-        .word   REG_RA, INT_ZZ, .Lsw_do_ret2
+        .word   REG_RA, SW_ZZ, .Lsw_do_ret2
 .Lsw_do_ret2:
         .word   .Lsw_ret_target, .Lsw_ret_target, .Lsw_do_ret3
 .Lsw_do_ret3:
-        .word   INT_ZZ, .Lsw_ret_target, .Lsw_do_ret4
+        .word   SW_ZZ, .Lsw_ret_target, .Lsw_do_ret4
 .Lsw_do_ret4:
-        .word   INT_ZZ, INT_ZZ, 0
+        .word   SW_ZZ, SW_ZZ, 0
 .Lsw_ret_target = .Lsw_do_ret4 + 8
 
 /* Data for __switch_to */
@@ -903,18 +908,18 @@ ret_from_fork:
 
 .Lrff_call:
         /* Push return address (infinite loop) onto stack */
-        .word   INT_ZZ, INT_ZZ, .Lrff_call1
+        .word   SW_ZZ, SW_ZZ, .Lrff_call1
 .Lrff_call1:
-        .word   REG_SP, INT_ZZ, .Lrff_call2
+        .word   REG_SP, SW_ZZ, .Lrff_call2
 .Lrff_call2:
         /* Clear [SP] */
         .word   .Lrff_clr_a, .Lrff_clr_a, .Lrff_call3
 .Lrff_call3:
-        .word   INT_ZZ, .Lrff_clr_a, .Lrff_call4
+        .word   SW_ZZ, .Lrff_clr_a, .Lrff_call4
 .Lrff_call4:
         .word   .Lrff_clr_b, .Lrff_clr_b, .Lrff_call5
 .Lrff_call5:
-        .word   INT_ZZ, .Lrff_clr_b, .Lrff_do_clr
+        .word   SW_ZZ, .Lrff_clr_b, .Lrff_do_clr
 
 .Lrff_do_clr:
         .word   0, 0, .Lrff_call6
@@ -923,9 +928,9 @@ ret_from_fork:
 
 .Lrff_call6:
         /* Store loop address to [SP] */
-        .word   INT_ZZ, INT_ZZ, .Lrff_call7
+        .word   SW_ZZ, SW_ZZ, .Lrff_call7
 .Lrff_call7:
-        .word   .Lrff_loop_addr, INT_ZZ, .Lrff_call8
+        .word   .Lrff_loop_addr, SW_ZZ, .Lrff_call8
 .Lrff_call8:
         .word   .Lrff_store_b, .Lrff_store_b, .Lrff_call9
 .Lrff_call9:
@@ -936,18 +941,18 @@ ret_from_fork:
         .word   REG_Z, .Lrff_store_b, .Lrff_do_store2
 
 .Lrff_do_store2:
-        .word   INT_ZZ, 0, .Lrff_jump
+        .word   SW_ZZ, 0, .Lrff_jump
 .Lrff_store_b = .Lrff_do_store2 + 4
 
 .Lrff_jump:
         /* Jump to kernel_thread_helper */
-        .word   INT_ZZ, INT_ZZ, kernel_thread_helper
+        .word   SW_ZZ, SW_ZZ, kernel_thread_helper
 
 .Lrff_loop:
         /* Infinite loop - should never reach here */
         .word   -4, .Lchar_exclaim, .Lrff_loop2
 .Lrff_loop2:
-        .word   INT_ZZ, INT_ZZ, .Lrff_loop
+        .word   SW_ZZ, SW_ZZ, .Lrff_loop
 
 .Lrff_loop_addr:
         .word   .Lrff_loop

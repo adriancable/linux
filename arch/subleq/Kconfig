@@ -23,6 +23,12 @@ config SUBLEQ
 	  operation is "subtract and branch if less than or equal to zero."
 	  This port runs on the Subleq virtual machine.
 
+config MMU
+	def_bool n
+
+config NOMMU
+	def_bool !MMU
+
 config GENERIC_BUG
 	def_bool y
 	depends on BUG

@@ -1,6 +1,10 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
  * Subleq timer and timekeeping
+ *
+ * The Subleq VM fires a timer interrupt every ~10000 instruction cycles.
+ * We use legacy_timer_tick() for timekeeping, following the pattern of
+ * m68k coldfire (arch/m68k/coldfire/timers.c).
  */
 
 #include <linux/init.h>
@@ -10,65 +14,37 @@
 #include <linux/clocksource.h>
 #include <linux/clockchips.h>
 #include <linux/delay.h>
-#include <linux/hardirq.h>
 #include <linux/timekeeping.h>
 
 #include <asm/irq.h>
-#include <asm/irqflags.h>
-#include <asm/irq_regs.h>
-#include <asm/ptrace.h>
 
 /*
- * Subleq timer interrupt fires every 10000 instructions.
- * We use this as our tick source.
+ * Subleq timer counter - incremented on each tick.
+ * Also used as the clocksource value.
  */
-
-/* Jiffies counter */
-static unsigned long subleq_jiffies;
+static unsigned long subleq_ticks;
 
 /*
- * Dummy pt_regs for timer interrupt
- * Since Subleq doesn't have hardware registers and we're always in kernel
- * mode, we use a static dummy structure.
+ * Timer interrupt handler - called from subleq_do_IRQ() in irq.c
+ *
+ * NOTE: irq_enter()/irq_exit() are called by subleq_do_IRQ(),
+ * so this function should NOT call them again.
+ *
+ * This follows the m68k coldfire pattern - see mcftmr_tick() in
+ * arch/m68k/coldfire/timers.c which just calls legacy_timer_tick(1).
  */
-static struct pt_regs subleq_timer_regs;
-
-/*
- * Timer interrupt handler - called from assembly entry.S
- * 
- * This is the main integration point between the VM's timer interrupt
- * and the Linux kernel scheduler. We use legacy_timer_tick() which is
- * designed for architectures without generic clockevents. It handles:
- * - do_timer() for jiffies/timekeeping
- * - update_wall_time()
- * - update_process_times() which calls sched_tick() for scheduling
- * - profile_tick()
- */
-extern void __subleq_putchar(int c);
-
 void subleq_timer_interrupt(void)
 {
-	struct pt_regs *old_regs;
-
-	/* Set up irq_regs for get_irq_regs() */
-	old_regs = set_irq_regs(&subleq_timer_regs);
-
-	irq_enter();
-
-	subleq_jiffies++;
+	subleq_ticks++;
 	legacy_timer_tick(1);
-
-	irq_exit();
-
-	set_irq_regs(old_regs);
 }
 
 /*
- * Read current timer value (just return jiffies)
+ * Read current timer value (just return ticks count)
  */
 static u64 subleq_read_clock(struct clocksource *cs)
 {
-	return subleq_jiffies;
+	return subleq_ticks;
 }
 
 static struct clocksource subleq_clocksource = {

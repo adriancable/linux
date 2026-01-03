@@ -432,17 +432,30 @@ subleq_irq_entry:
         /* .word   -4, .Lchar_G, .Ldo_jump */
 
         /*
-         * PHASE 5+6: RE-ENABLE INTERRUPTS AND RETURN
+         * PHASE 5: RE-ENABLE INTERRUPTS AND RETURN
+         *
+         * At this point, subleq_do_IRQ() has returned, which means:
+         * - All C-level interrupt processing is complete
+         * - irq_exit() has finished (including any softirq processing)
+         * - The preempt_count is back to its pre-interrupt value
+         *
+         * The key to preventing re-entrancy is in irqflags.h:
+         * - arch_local_irq_enable() checks in_interrupt() (hardirq | softirq)
+         * - During irq_exit(), even though hardirq count is decremented,
+         *   the softirq bits are set during handle_softirqs()
+         * - So local_irq_enable() calls inside softirq processing are no-ops
+         *
+         * We MUST re-enable interrupts here because:
+         * - The interrupted code was running with interrupts enabled
+         *   (otherwise the interrupt wouldn't have fired)
+         * - If we don't re-enable, the system will hang with interrupts off
          *
          * Using Subleq+ indirect addressing for the return jump.
          * SAVE_JMPTGT contains the return address (from INT_SAVED_PC).
          * We use indirect jump: subleq(Z, Z, SAVE_JMPTGT|I) to jump to m[SAVE_JMPTGT].
          */
 .Ldo_jump:
-        /* DEBUG: Print 'H' (72) - before re-enable */
-        /* .word   -4, .Lchar_H, .Lenable_irq */
-
-        /* Re-enable interrupts first */
+        /* Re-enable interrupts: restore handler address to m[0] */
 .Lenable_irq:
         .word   INT_ZZ, INT_ZZ, .Lenable1
 .Lenable1:
@@ -450,7 +463,7 @@ subleq_irq_entry:
 .Lenable2:
         .word   INT_HANDLER, INT_HANDLER, .Lenable3
 .Lenable3:
-        /* Re-enable interrupts: m[0] = handler */
+        /* Re-enable interrupts: m[0] = handler address from m[2] */
         .word   INT_ZZ, INT_HANDLER, .Ldo_return
 
 .Ldo_return:

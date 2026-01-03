@@ -148,7 +148,7 @@
  */
 subleq_irq_entry:
         /* DEBUG disabled - was printing 'A' */
-        .word   -4, .Lchar_A, .Ldisable0
+        /* .word   -4, .Lchar_A, .Ldisable0 */
 
         /* PHASE 0: DISABLE INTERRUPTS */
 .Ldisable0:
@@ -274,88 +274,38 @@ subleq_irq_entry:
         /* .word   -4, .Lchar_D, .Lirq_do_call */
 
         /*
-         * STACK-BASED CALL to subleq_do_IRQ
+         * STACK-BASED CALL to subleq_do_IRQ using Subleq+ indirect addressing
          *
          * The C compiler expects the return address to be ON THE STACK,
          * not in RA. We must:
          * 1. SP -= 4 (make room)
-         * 2. Store return address at [SP]
-         * 3. Jump to function
+         * 2. Clear [SP] using indirect addressing
+         * 3. Store return address at [SP] using indirect addressing
+         * 4. Jump to function
          *
-         * This is complex in Subleq because we need self-modifying code
-         * to store to [SP] (indirect write).
+         * Subleq+ indirect addressing avoids self-modifying code entirely.
          */
 
 .Lirq_do_call:
         /* Step 1: SP -= 4 (decrement stack pointer) */
-        /* SP -= 4 can be done as: SP -= const_4 */
-        .word   .Lconst_4, REG_SP, .Lcall_step2
+        .word   .Lconst_4, REG_SP, .Lcall_push1
 
-.Lcall_step2:
-        /* Step 2: Store .Lirq_returned at [SP] using self-modifying code */
-        /*
-         * We need to write to memory at address SP.
-         * Use INT_ZZ as scratch.
-         *
-         * 2a: Get -SP into INT_ZZ
-         * 2b: Patch the 'a' field of a clear instruction with SP
-         * 2c: Patch the 'b' field of a clear instruction with SP
-         * 2d: Execute the patched clear to zero [SP]
-         * 2e: Store return address to [SP] via another patched instruction
-         */
+.Lcall_push1:
+        /* Step 2: Clear [SP] using indirect addressing */
+        /* subleq(SP|I, SP|I, next) does: m[m[SP]] -= m[m[SP]] => [SP] = 0 */
+        .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .Lcall_push2
 
-        /* 2a: INT_ZZ = -SP */
-        .word   INT_ZZ, INT_ZZ, .Lcall_step2a
-.Lcall_step2a:
-        .word   REG_SP, INT_ZZ, .Lcall_step2b
+.Lcall_push2:
+        /* Step 3: Store .Lirq_returned at [SP] */
+        /* Get -return_addr into INT_ZZ */
+        .word   INT_ZZ, INT_ZZ, .Lcall_push3
+.Lcall_push3:
+        .word   .Lirq_return_addr, INT_ZZ, .Lcall_push4
 
-        /* 2b: Patch .Lcall_clear_a with SP (clear a-field) */
-.Lcall_step2b:
-        .word   .Lcall_clear_a, .Lcall_clear_a, .Lcall_step2c
-.Lcall_step2c:
-        .word   INT_ZZ, .Lcall_clear_a, .Lcall_step2d
-
-        /* 2d: Patch .Lcall_clear_b with SP (clear b-field) */
-.Lcall_step2d:
-        .word   .Lcall_clear_b, .Lcall_clear_b, .Lcall_step2e
-.Lcall_step2e:
-        .word   INT_ZZ, .Lcall_clear_b, .Lcall_do_clear
-
-        /* Execute patched clear: mem[SP] = 0 */
-.Lcall_do_clear:
-        .word   0, 0, .Lcall_step3       /* a,b patched to SP */
-.Lcall_clear_a = .Lcall_do_clear + 0
-.Lcall_clear_b = .Lcall_do_clear + 4
-
-.Lcall_step3:
-        /* Step 3: Store return address at [SP] */
-        /* mem[SP] -= (-return_addr) => mem[SP] = return_addr */
-
-        /* 3a: INT_ZZ = -return_addr */
-        .word   INT_ZZ, INT_ZZ, .Lcall_step3a
-.Lcall_step3a:
-        .word   .Lirq_return_addr, INT_ZZ, .Lcall_step3b
-
-        /* 3b: Patch store instruction b-field with SP */
-.Lcall_step3b:
-        .word   INT_ZZ, INT_ZZ, .Lcall_step3c   /* Clear INT_ZZ first */
-.Lcall_step3c:
-        .word   REG_SP, INT_ZZ, .Lcall_step3d    /* INT_ZZ = -SP */
-.Lcall_step3d:
-        .word   .Lcall_store_b, .Lcall_store_b, .Lcall_step3e  /* Clear patch target */
-.Lcall_step3e:
-        .word   INT_ZZ, .Lcall_store_b, .Lcall_step3f  /* Patch with SP */
-
-        /* 3f: Get -return_addr into INT_ZZ again */
-.Lcall_step3f:
-        .word   INT_ZZ, INT_ZZ, .Lcall_step3g
-.Lcall_step3g:
-        .word   .Lirq_return_addr, INT_ZZ, .Lcall_do_store
-
-        /* Execute patched store: mem[SP] -= INT_ZZ => mem[SP] = return_addr */
-.Lcall_do_store:
-        .word   INT_ZZ, 0, .Lcall_jump    /* b patched to SP */
-.Lcall_store_b = .Lcall_do_store + 4
+.Lcall_push4:
+        /* [SP] -= INT_ZZ => [SP] = return_addr */
+        /* subleq(INT_ZZ, SP|I, next) does: m[m[SP]] -= INT_ZZ => [SP] = -(-addr) = addr */
+        .word   INT_ZZ, REG_SP | INDIRECT, .Lcall_jump
 
         /* Step 4: Jump to subleq_do_IRQ */
 .Lcall_jump:
@@ -481,27 +431,18 @@ subleq_irq_entry:
         /* DEBUG: Print 'G' (71) - after capture */
         /* .word   -4, .Lchar_G, .Ldo_jump */
 
-        /* PHASE 5+6: SET UP JUMP, THEN RE-ENABLE, THEN JUMP */
         /*
-         * We must set up the jump target BEFORE re-enabling interrupts,
-         * because once interrupts are enabled, a new interrupt could
-         * clobber SAVE_JMPTGT.
+         * PHASE 5+6: RE-ENABLE INTERRUPTS AND RETURN
+         *
+         * Using Subleq+ indirect addressing for the return jump.
+         * SAVE_JMPTGT contains the return address (from INT_SAVED_PC).
+         * We use indirect jump: subleq(Z, Z, SAVE_JMPTGT|I) to jump to m[SAVE_JMPTGT].
          */
 .Ldo_jump:
-        /* DEBUG: Print 'H' (72) - setting up jump */
-        .word   -4, .Lchar_H, .Ljump_setup
+        /* DEBUG: Print 'H' (72) - before re-enable */
+        /* .word   -4, .Lchar_H, .Lenable_irq */
 
-.Ljump_setup:
-        /* First, patch the jump target while interrupts are still disabled */
-        .word   INT_ZZ, INT_ZZ, .Ljump1
-.Ljump1:
-        .word   SAVE_JMPTGT, INT_ZZ, .Ljump2
-.Ljump2:
-        .word   .Lirq_jmp_target, .Lirq_jmp_target, .Ljump3
-.Ljump3:
-        .word   INT_ZZ, .Lirq_jmp_target, .Lenable_irq
-
-        /* Now re-enable interrupts (jump target is already patched) */
+        /* Re-enable interrupts first */
 .Lenable_irq:
         .word   INT_ZZ, INT_ZZ, .Lenable1
 .Lenable1:
@@ -511,13 +452,15 @@ subleq_irq_entry:
 .Lenable3:
         /* Re-enable interrupts: m[0] = handler */
         .word   INT_ZZ, INT_HANDLER, .Ldo_return
-        /* Fall through to .Ldo_return (result > 0 so no branch) */
 
 .Ldo_return:
-        /* Unconditional jump to patched target */
-        /* subleq(INT_ZZ, INT_ZZ, target) always jumps because 0 <= 0 */
-        .word   INT_ZZ, INT_ZZ, 0
-.Lirq_jmp_target = .Ldo_return + 8
+        /* Clear INT_ZZ for unconditional jump */
+        .word   INT_ZZ, INT_ZZ, .Ldo_return2
+.Ldo_return2:
+        /* Indirect jump: subleq(Z, Z, SAVE_JMPTGT|I) always jumps to m[SAVE_JMPTGT] */
+        .word   INT_ZZ
+        .word   INT_ZZ
+        .word   SAVE_JMPTGT | INDIRECT
 
         /* If we get here, something is very wrong! */
 .Ljump_failed:
@@ -558,8 +501,11 @@ subleq_irq_entry:
 .Lconst_4:
         .word   4
 
+/* Subleq+ indirect addressing flag */
+.set INDIRECT, 2
+
 /*
- * Trivial test function - just returns via RA
+ * Trivial test function - just returns via RA using indirect jump
  * To call: set RA = return address, then jump here
  */
 .globl test_return
@@ -568,30 +514,21 @@ test_return:
         /* Print 'X' to show we got here */
         .word   -4, .Lchar_X, .Ltest_do_return
 .Ltest_do_return:
-        /* Return via RA: jump to address in RA */
-        /* Need to do indirect jump: read RA, jump to it */
-        /* INT_ZZ = 0 */
+        /* Return via RA using Subleq+ indirect jump */
+        /* Clear INT_ZZ for unconditional jump */
         .word   INT_ZZ, INT_ZZ, .Ltest_ret1
 .Ltest_ret1:
-        /* INT_ZZ -= RA => INT_ZZ = -RA */
-        .word   REG_RA, INT_ZZ, .Ltest_ret2
-.Ltest_ret2:
-        /* Clear jump target */
-        .word   .Ltest_jmp_target, .Ltest_jmp_target, .Ltest_ret3
-.Ltest_ret3:
-        /* jmp_target -= INT_ZZ => jmp_target = RA */
-        .word   INT_ZZ, .Ltest_jmp_target, .Ltest_do_jmp
-.Ltest_do_jmp:
-        /* Jump */
-        .word   INT_ZZ, INT_ZZ, 0
-.Ltest_jmp_target = .Ltest_do_jmp + 8
+        /* Indirect jump: subleq(Z, Z, RA|I) always jumps to m[RA] */
+        .word   INT_ZZ
+        .word   INT_ZZ
+        .word   REG_RA | INDIRECT
 .size test_return, .-test_return
 
 .size subleq_irq_entry, .-subleq_irq_entry
 
 /*
  * ===========================================================================
- * Context Switch Implementation
+ * Context Switch Implementation (RE-ENTRANT VERSION)
  * ===========================================================================
  *
  * __switch_to(prev, next) - Switch from prev task to next task
@@ -603,142 +540,73 @@ test_return:
  * Returns:
  *   R20 = prev
  *
+ * This function uses Subleq+ indirect addressing to avoid self-modifying code,
+ * making it fully re-entrant and safe for use when interrupts are enabled.
+ *
+ * The key technique is using the indirect flag (|2) on operands:
+ *   - A|2 means: use m[A] as the actual A address (dereference)
+ *   - B|2 means: use m[B] as the actual B address (dereference)
+ *   - C|2 means: jump to m[C] instead of C
+ *
  * This function:
- *   1. Saves callee-saved registers (R3-R19, R25-R31, RA) to prev's stack
+ *   1. Pushes RA to prev's stack
  *   2. Saves SP to prev->thread.sp
  *   3. Loads SP from next->thread.sp
- *   4. Restores callee-saved registers from next's stack
+ *   4. Pops RA from next's stack
  *   5. Returns (to the return address saved by next's previous switch)
- *
- * For NEW threads (first switch), the stack is set up by copy_thread so that:
- *   - The "return address" points to ret_from_fork
- *   - ret_from_fork will call the thread's function
  */
 
 /* Offset of thread.sp in task_struct (TASK_THREAD + THREAD_SP = 1180 + 0) */
 .set TASK_THREAD_SP, 1180
 
+/* Subleq+ indirect addressing flag (bit 1) */
+.set INDIRECT, 2
+
 .globl __switch_to
 .type __switch_to, @function
 __switch_to:
-        /* Debug: print 'S' for switch */
-        .word   -4, .Lchar_S, .Lswitch_start
-
-.Lswitch_start:
         /*
-         * Step 1: Save return address to stack
-         * We need to push RA so when we switch back, we return to caller
-         * SP -= 4; mem[SP] = RA
+         * NOTE: The caller has ALREADY pushed the return address to the stack
+         * before jumping here. This is the Subleq C calling convention:
+         *   Caller does: SP -= 4; [SP] = return_addr; jump function
+         *
+         * So on entry, SP points to the return address on the stack.
+         * We do NOT push RA here - RA is a scratch register with garbage.
+         *
+         * We simply save SP (which points to the stacked return address),
+         * and later when we restore SP, we pop that return address.
          */
-        .word   .Lconst_4, REG_SP, .Lsw_push_ra1
-
-.Lsw_push_ra1:
-        /* Store RA at [SP] using self-modifying code */
-        /* Get -SP into SW_ZZ */
-        .word   SW_ZZ, SW_ZZ, .Lsw_push_ra2
-.Lsw_push_ra2:
-        .word   REG_SP, SW_ZZ, .Lsw_push_ra3
-.Lsw_push_ra3:
-        /* Patch the clear instruction's A field with SP */
-        .word   .Lsw_clr_a, .Lsw_clr_a, .Lsw_push_ra4
-.Lsw_push_ra4:
-        .word   SW_ZZ, .Lsw_clr_a, .Lsw_push_ra5
-.Lsw_push_ra5:
-        /* Patch the clear instruction's B field with SP */
-        .word   .Lsw_clr_b, .Lsw_clr_b, .Lsw_push_ra6
-.Lsw_push_ra6:
-        .word   SW_ZZ, .Lsw_clr_b, .Lsw_do_clr
-.Lsw_do_clr:
-        /* Clear [SP] */
-        .word   0, 0, .Lsw_push_ra7
-.Lsw_clr_a = .Lsw_do_clr + 0
-.Lsw_clr_b = .Lsw_do_clr + 4
-
-.Lsw_push_ra7:
-        /* Now store RA to [SP]: [SP] -= (-RA) */
-        .word   SW_ZZ, SW_ZZ, .Lsw_push_ra8
-.Lsw_push_ra8:
-        .word   REG_RA, SW_ZZ, .Lsw_push_ra9
-.Lsw_push_ra9:
-        /* SW_ZZ now has -RA, get -SP again */
-        /* Reuse: need to patch store instruction */
-        .word   .Lsw_store_b, .Lsw_store_b, .Lsw_push_ra10
-.Lsw_push_ra10:
-        /* Get -SP */
-        .word   REG_Z, REG_Z, .Lsw_push_ra11
-.Lsw_push_ra11:
-        .word   REG_SP, REG_Z, .Lsw_push_ra12
-.Lsw_push_ra12:
-        .word   REG_Z, .Lsw_store_b, .Lsw_do_store
-.Lsw_do_store:
-        /* [SP] -= SW_ZZ => [SP] = RA */
-        .word   SW_ZZ, 0, .Lsw_save_sp
-.Lsw_store_b = .Lsw_do_store + 4
 
         /*
          * Step 2: Save SP to prev->thread.sp
-         * prev is in R21, offset is TASK_THREAD_SP
+         * prev is in R21, offset is TASK_THREAD_SP (1180)
+         *
+         * Calculate address into SW_ZZ2, then use indirect store
          */
 .Lsw_save_sp:
-        /* Calculate prev->thread.sp address = R21 + 1180 */
-        /* We need to read [R21+1180] but Subleq only does indirect via patching */
-        /* For simplicity, use R3 as scratch (it's callee-saved but we'll save it) */
-        
-        /* Actually, let's just use SW_ZZ and patch approach */
-        /* First: compute address = R21 + 1180 into a scratch location */
-        
+        /* SW_ZZ = R21 (prev) */
         .word   SW_ZZ, SW_ZZ, .Lsw_save_sp1
 .Lsw_save_sp1:
-        .word   REG_R21, SW_ZZ, .Lsw_save_sp2   /* SW_ZZ = -R21 */
+        .word   REG_R21, SW_ZZ, .Lsw_save_sp2
 .Lsw_save_sp2:
-        .word   .Lsw_addr_scratch, .Lsw_addr_scratch, .Lsw_save_sp3
+        .word   SW_ZZ2, SW_ZZ2, .Lsw_save_sp3
 .Lsw_save_sp3:
-        .word   SW_ZZ, .Lsw_addr_scratch, .Lsw_save_sp4  /* addr_scratch = R21 */
+        .word   SW_ZZ, SW_ZZ2, .Lsw_save_sp4         /* SW_ZZ2 = R21 */
 .Lsw_save_sp4:
-        .word   .Loffset_neg, .Lsw_addr_scratch, .Lsw_save_sp5 /* addr_scratch = R21 + 1180 */
-        
+        .word   .Loffset_neg, SW_ZZ2, .Lsw_save_sp5  /* SW_ZZ2 = R21 + 1180 = &prev->thread.sp */
+
 .Lsw_save_sp5:
-        /* Now addr_scratch has the address of prev->thread.sp */
-        /* We need to store SP there */
-        /* Patch a store instruction to write to [addr_scratch] */
-        .word   SW_ZZ, SW_ZZ, .Lsw_save_sp6
+        /* Clear [SW_ZZ2] using indirect addressing */
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ2 | INDIRECT, .Lsw_save_sp6
+
 .Lsw_save_sp6:
-        .word   .Lsw_addr_scratch, SW_ZZ, .Lsw_save_sp7
+        /* Store SP: first get -SP into SW_ZZ */
+        .word   SW_ZZ, SW_ZZ, .Lsw_save_sp7
 .Lsw_save_sp7:
-        /* Clear the target location first */
-        .word   .Lsw_sp_clr_a2, .Lsw_sp_clr_a2, .Lsw_save_sp8
+        .word   REG_SP, SW_ZZ, .Lsw_save_sp8
 .Lsw_save_sp8:
-        .word   SW_ZZ, .Lsw_sp_clr_a2, .Lsw_save_sp9
-.Lsw_save_sp9:
-        .word   .Lsw_sp_clr_b2, .Lsw_sp_clr_b2, .Lsw_save_sp10
-.Lsw_save_sp10:
-        .word   SW_ZZ, .Lsw_sp_clr_b2, .Lsw_do_sp_clr
-
-.Lsw_do_sp_clr:
-        .word   0, 0, .Lsw_save_sp11
-.Lsw_sp_clr_a2 = .Lsw_do_sp_clr + 0
-.Lsw_sp_clr_b2 = .Lsw_do_sp_clr + 4
-
-.Lsw_save_sp11:
-        /* Now store SP to that location */
-        .word   SW_ZZ, SW_ZZ, .Lsw_save_sp12
-.Lsw_save_sp12:
-        .word   REG_SP, SW_ZZ, .Lsw_save_sp13  /* SW_ZZ = -SP */
-.Lsw_save_sp13:
-        /* Patch store B field */
-        .word   .Lsw_sp_store_b2, .Lsw_sp_store_b2, .Lsw_save_sp14
-.Lsw_save_sp14:
-        .word   .Lsw_addr_scratch, SW_ZZ, .Lsw_save_sp15
-.Lsw_save_sp15:
-        .word   SW_ZZ, SW_ZZ, .Lsw_save_sp16
-.Lsw_save_sp16:
-        .word   REG_SP, SW_ZZ, .Lsw_save_sp17  /* SW_ZZ = -SP again */
-.Lsw_save_sp17:
-        .word   SW_ZZ, .Lsw_sp_store_b2, .Lsw_do_sp_store
-
-.Lsw_do_sp_store:
-        .word   SW_ZZ, 0, .Lsw_update_current
-.Lsw_sp_store_b2 = .Lsw_do_sp_store + 4
+        /* [SW_ZZ2] -= SW_ZZ => prev->thread.sp = SP */
+        .word   SW_ZZ, SW_ZZ2 | INDIRECT, .Lsw_update_current
 
         /*
          * Step 3: Update subleq_current_task = next
@@ -746,7 +614,7 @@ __switch_to:
 .Lsw_update_current:
         .word   SW_ZZ, SW_ZZ, .Lsw_update1
 .Lsw_update1:
-        .word   REG_R22, SW_ZZ, .Lsw_update2  /* SW_ZZ = -next */
+        .word   REG_R22, SW_ZZ, .Lsw_update2         /* SW_ZZ = -next */
 .Lsw_update2:
         .word   subleq_current_task, subleq_current_task, .Lsw_update3
 .Lsw_update3:
@@ -756,40 +624,29 @@ __switch_to:
          * Step 4: Load SP from next->thread.sp
          */
 .Lsw_load_sp:
-        /* Calculate next->thread.sp address = R22 + 1180 */
+        /* Calculate &next->thread.sp into SW_ZZ2 */
         .word   SW_ZZ, SW_ZZ, .Lsw_load_sp1
 .Lsw_load_sp1:
         .word   REG_R22, SW_ZZ, .Lsw_load_sp2
 .Lsw_load_sp2:
-        .word   .Lsw_addr_scratch, .Lsw_addr_scratch, .Lsw_load_sp3
+        .word   SW_ZZ2, SW_ZZ2, .Lsw_load_sp3
 .Lsw_load_sp3:
-        .word   SW_ZZ, .Lsw_addr_scratch, .Lsw_load_sp4  /* addr_scratch = R22 */
+        .word   SW_ZZ, SW_ZZ2, .Lsw_load_sp4         /* SW_ZZ2 = R22 */
 .Lsw_load_sp4:
-        .word   .Loffset_neg, .Lsw_addr_scratch, .Lsw_load_sp5 /* addr_scratch = R22 + 1180 */
+        .word   .Loffset_neg, SW_ZZ2, .Lsw_load_sp5  /* SW_ZZ2 = R22 + 1180 = &next->thread.sp */
 
 .Lsw_load_sp5:
-        /* Load from [addr_scratch] into SP */
-        /* Patch a load instruction */
+        /* Load [SW_ZZ2] into SW_ZZ using indirect addressing */
+        /* subleq(SW_ZZ2|I, SW_ZZ, next) does: SW_ZZ -= m[SW_ZZ2] => SW_ZZ = -next->thread.sp */
         .word   SW_ZZ, SW_ZZ, .Lsw_load_sp6
 .Lsw_load_sp6:
-        .word   .Lsw_addr_scratch, SW_ZZ, .Lsw_load_sp7  /* SW_ZZ = -addr */
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ, .Lsw_load_sp7
+
 .Lsw_load_sp7:
-        .word   .Lsw_ld_a, .Lsw_ld_a, .Lsw_load_sp8
+        /* SP = -SW_ZZ = next->thread.sp */
+        .word   REG_SP, REG_SP, .Lsw_load_sp8
 .Lsw_load_sp8:
-        .word   SW_ZZ, .Lsw_ld_a, .Lsw_do_ld
-
-.Lsw_do_ld:
-        /* Read [addr_scratch] into SW_ZZ */
-        .word   SW_ZZ, SW_ZZ, .Lsw_do_ld1
-.Lsw_do_ld1:
-        .word   0, SW_ZZ, .Lsw_load_sp9  /* SW_ZZ = -[addr] */
-.Lsw_ld_a = .Lsw_do_ld1 + 0
-
-.Lsw_load_sp9:
-        /* SP = -SW_ZZ */
-        .word   REG_SP, REG_SP, .Lsw_load_sp10
-.Lsw_load_sp10:
-        .word   SW_ZZ, REG_SP, .Lsw_set_retval  /* SP = new SP */
+        .word   SW_ZZ, REG_SP, .Lsw_set_retval
 
         /*
          * Step 5: Set return value R20 = prev (R21)
@@ -797,152 +654,105 @@ __switch_to:
 .Lsw_set_retval:
         .word   SW_ZZ, SW_ZZ, .Lsw_set_retval1
 .Lsw_set_retval1:
-        .word   REG_R21, SW_ZZ, .Lsw_set_retval2  /* SW_ZZ = -prev */
+        .word   REG_R21, SW_ZZ, .Lsw_set_retval2     /* SW_ZZ = -prev */
 .Lsw_set_retval2:
         .word   REG_R20, REG_R20, .Lsw_set_retval3
 .Lsw_set_retval3:
-        .word   SW_ZZ, REG_R20, .Lsw_pop_ra  /* R20 = prev */
+        .word   SW_ZZ, REG_R20, .Lsw_pop_ra          /* R20 = prev */
 
         /*
-         * Step 6: Pop return address and return
+         * Step 6: Pop return address from stack and return
+         *
+         * The return address was pushed by the CALLER of __switch_to before
+         * jumping here. We saved SP (which points to that return address),
+         * and now we restore SP and pop that same return address.
          */
 .Lsw_pop_ra:
-        /* Load RA from [SP] */
-        .word   SW_ZZ, SW_ZZ, .Lsw_pop_ra1
-.Lsw_pop_ra1:
-        .word   REG_SP, SW_ZZ, .Lsw_pop_ra2  /* SW_ZZ = -SP */
-.Lsw_pop_ra2:
-        .word   .Lsw_pop_a, .Lsw_pop_a, .Lsw_pop_ra3
-.Lsw_pop_ra3:
-        .word   SW_ZZ, .Lsw_pop_a, .Lsw_do_pop
+        /* Load [SP] into SW_ZZ using indirect addressing */
+        .word   SW_ZZ, SW_ZZ, .Lsw_pop1
+.Lsw_pop1:
+        /* subleq(SP|I, SW_ZZ, next) does: SW_ZZ -= m[SP] => SW_ZZ = -return_addr */
+        .word   REG_SP | INDIRECT, SW_ZZ, .Lsw_pop2
 
-.Lsw_do_pop:
-        .word   SW_ZZ, SW_ZZ, .Lsw_do_pop1
-.Lsw_do_pop1:
-        .word   0, SW_ZZ, .Lsw_pop_ra4  /* SW_ZZ = -[SP] = -RA */
-.Lsw_pop_a = .Lsw_do_pop1 + 0
+.Lsw_pop2:
+        /* RA = -SW_ZZ = return_addr */
+        .word   REG_RA, REG_RA, .Lsw_pop3
+.Lsw_pop3:
+        .word   SW_ZZ, REG_RA, .Lsw_pop4
 
-.Lsw_pop_ra4:
-        /* RA = -SW_ZZ */
-        .word   REG_RA, REG_RA, .Lsw_pop_ra5
-.Lsw_pop_ra5:
-        .word   SW_ZZ, REG_RA, .Lsw_pop_ra6  /* RA = return address */
-
-.Lsw_pop_ra6:
-        /* SP += 4 */
+.Lsw_pop4:
+        /* SP += 4 (pop the return address) */
         .word   .Lconst_neg4, REG_SP, .Lsw_return
 
         /*
-         * Step 7: Return via RA
+         * Step 7: Return via RA using indirect jump
          */
 .Lsw_return:
-        /* Debug: print 'T' for "switched To" */
-        .word   -4, .Lchar_T, .Lsw_do_ret
-
-.Lsw_do_ret:
-        /* Jump to RA using patching */
+        /* Clear SW_ZZ for the unconditional jump */
         .word   SW_ZZ, SW_ZZ, .Lsw_do_ret1
 .Lsw_do_ret1:
-        .word   REG_RA, SW_ZZ, .Lsw_do_ret2
-.Lsw_do_ret2:
-        .word   .Lsw_ret_target, .Lsw_ret_target, .Lsw_do_ret3
-.Lsw_do_ret3:
-        .word   SW_ZZ, .Lsw_ret_target, .Lsw_do_ret4
-.Lsw_do_ret4:
-        .word   SW_ZZ, SW_ZZ, 0
-.Lsw_ret_target = .Lsw_do_ret4 + 8
+        /* Indirect jump: subleq(Z, Z, RA|I) jumps to m[RA] */
+        .word   SW_ZZ
+        .word   SW_ZZ
+        .word   REG_RA | INDIRECT
 
 /* Data for __switch_to */
-.Lsw_addr_scratch:
-        .word   0
 .Loffset_neg:
         .word   -1180           /* Negative of TASK_THREAD_SP offset */
 .Lconst_neg4:
         .word   -4
-.Lchar_S:
-        .word   83              /* 'S' */
-.Lchar_T:
-        .word   84              /* 'T' */
+/* Note: .Lconst_4 is defined earlier in the file (in irq handler section) */
 
 .size __switch_to, .-__switch_to
 
 /*
- * ret_from_fork - Entry point for new kernel threads
+ * ret_from_fork - Entry point for new kernel threads (RE-ENTRANT VERSION)
  *
  * When a new thread is scheduled for the first time, __switch_to returns
- * here. The thread's pt_regs are on the stack:
- *   - pc = thread function
- *   - r21 = argument
+ * here. R20 contains the prev task pointer (returned by __switch_to).
  *
- * We call the thread function with its argument.
+ * We must pass prev to kernel_thread_helper so it can call schedule_tail(prev)
+ * to finish the context switch and clear prev->on_cpu.
+ *
+ * Uses Subleq+ indirect addressing for all memory operations.
  */
 .globl ret_from_fork
 .type ret_from_fork, @function
 ret_from_fork:
-        /* Debug: print 'N' for New thread */
-        .word   -4, .Lchar_N, .Lrff_start
-
-.Lrff_start:
         /*
-         * For kernel threads, the pt_regs were set up by copy_thread:
-         *   - childregs->pc = thread function
-         *   - childregs->r21 = argument
-         *
-         * But actually, the simpler approach: copy_thread should set up
-         * the stack so that:
-         *   - SP points to childregs
-         *   - The "return address" we popped was ret_from_fork
-         *
-         * Now we need to call the thread function.
-         * The function pointer should be in a known location.
-         * Let's use the approach where copy_thread stores:
-         *   - thread function in R3 (as saved value)
-         *   - argument in R21
+         * R20 contains prev (from __switch_to's return value)
+         * We need to pass it to kernel_thread_helper as the first argument.
+         * Subleq calling convention: first arg goes in R21.
+         * 
+         * Copy R20 to R21: R21 = R20
          */
+        .word   REG_R21, REG_R21, .Lrff_copy1   /* R21 = 0 */
+.Lrff_copy1:
+        .word   SW_ZZ, SW_ZZ, .Lrff_copy2
+.Lrff_copy2:
+        .word   REG_R20, SW_ZZ, .Lrff_copy3     /* SW_ZZ = -R20 */
+.Lrff_copy3:
+        .word   SW_ZZ, REG_R21, .Lrff_push      /* R21 = R20 */
         
-        /* For now, call kernel_thread_helper which is a C function */
-        /* that reads the pt_regs and calls the actual function */
-        
-        /* Simple approach: just call a C helper */
-        .word   .Lconst_4, REG_SP, .Lrff_call  /* SP -= 4 */
+        /*
+         * Push return address onto stack using indirect addressing
+         * We push the address of an infinite loop (should never return)
+         */
+.Lrff_push:
+        .word   .Lrff_const4, REG_SP, .Lrff_push1  /* SP -= 4 */
 
-.Lrff_call:
-        /* Push return address (infinite loop) onto stack */
-        .word   SW_ZZ, SW_ZZ, .Lrff_call1
-.Lrff_call1:
-        .word   REG_SP, SW_ZZ, .Lrff_call2
-.Lrff_call2:
-        /* Clear [SP] */
-        .word   .Lrff_clr_a, .Lrff_clr_a, .Lrff_call3
-.Lrff_call3:
-        .word   SW_ZZ, .Lrff_clr_a, .Lrff_call4
-.Lrff_call4:
-        .word   .Lrff_clr_b, .Lrff_clr_b, .Lrff_call5
-.Lrff_call5:
-        .word   SW_ZZ, .Lrff_clr_b, .Lrff_do_clr
+.Lrff_push1:
+        /* Clear [SP] using indirect addressing */
+        .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .Lrff_push2
 
-.Lrff_do_clr:
-        .word   0, 0, .Lrff_call6
-.Lrff_clr_a = .Lrff_do_clr + 0
-.Lrff_clr_b = .Lrff_do_clr + 4
-
-.Lrff_call6:
+.Lrff_push2:
         /* Store loop address to [SP] */
-        .word   SW_ZZ, SW_ZZ, .Lrff_call7
-.Lrff_call7:
-        .word   .Lrff_loop_addr, SW_ZZ, .Lrff_call8
-.Lrff_call8:
-        .word   .Lrff_store_b, .Lrff_store_b, .Lrff_call9
-.Lrff_call9:
-        .word   REG_Z, REG_Z, .Lrff_call10
-.Lrff_call10:
-        .word   REG_SP, REG_Z, .Lrff_call11
-.Lrff_call11:
-        .word   REG_Z, .Lrff_store_b, .Lrff_do_store2
-
-.Lrff_do_store2:
-        .word   SW_ZZ, 0, .Lrff_jump
-.Lrff_store_b = .Lrff_do_store2 + 4
+        .word   SW_ZZ, SW_ZZ, .Lrff_push3
+.Lrff_push3:
+        .word   .Lrff_loop_addr, SW_ZZ, .Lrff_push4  /* SW_ZZ = -loop_addr */
+.Lrff_push4:
+        /* [SP] -= SW_ZZ => [SP] = loop_addr */
+        .word   SW_ZZ, REG_SP | INDIRECT, .Lrff_jump
 
 .Lrff_jump:
         /* Jump to kernel_thread_helper */
@@ -956,10 +766,7 @@ ret_from_fork:
 
 .Lrff_loop_addr:
         .word   .Lrff_loop
-
-.Lchar_N:
-        .word   78              /* 'N' */
-.Lchar_exclaim:
-        .word   33              /* '!' */
+.Lrff_const4:
+        .word   4
 
 .size ret_from_fork, .-ret_from_fork

@@ -16,16 +16,10 @@
 /*
  * The idle thread - just spin
  */
-extern void __subleq_putchar(int c);
-static int idle_count = 0;
 
 void __cpuidle arch_cpu_idle(void)
 {
 	/* Print 'I' once on first idle entry to confirm we reach idle */
-	if (idle_count == 0) {
-		__subleq_putchar('I');
-		idle_count = 1;
-	}
 	raw_local_irq_enable();
 	/* Busy wait - Subleq has no halt instruction */
 }
@@ -46,26 +40,28 @@ extern void ret_from_fork(void);
  * When a new kernel thread is first scheduled, __switch_to returns to
  * ret_from_fork, which then calls this function. The thread's function
  * pointer and argument were stored in the pt_regs by copy_thread.
+ *
+ * IMPORTANT: We must call schedule_tail(prev) first to finish the context
+ * switch. The prev pointer is passed in R21 (first argument) by ret_from_fork.
  */
-void kernel_thread_helper(void)
+extern asmlinkage void schedule_tail(struct task_struct *prev);
+
+void kernel_thread_helper(struct task_struct *prev)
 {
 	struct pt_regs *regs = task_pt_regs(current);
 	int (*fn)(void *) = (int (*)(void *))regs->pc;
 	void *arg = (void *)regs->r21;
 
-	__subleq_putchar('H'); /* Debug: Helper called */
-
-	/* Debug: Is it kernel_init or kthreadd? */
-	/* kernel_init is a static function, but kthreadd is extern */
-	extern int kthreadd(void *unused);
-	if (fn == (int (*)(void *))kthreadd) {
-		__subleq_putchar('k'); /* It's kthreadd */
-	}
+	/*
+	 * CRITICAL: Must call schedule_tail() first!
+	 * This calls finish_task_switch(prev) which clears prev->on_cpu.
+	 * Without this, try_to_wake_up() will spin forever waiting for
+	 * on_cpu to become 0 when trying to wake up the previous task.
+	 */
+	schedule_tail(prev);
 
 	/* Call the kernel thread function */
 	fn(arg);
-
-	__subleq_putchar('h'); /* Debug: Thread function returned */
 
 	/* Thread function returned - call do_exit */
 	do_exit(0);

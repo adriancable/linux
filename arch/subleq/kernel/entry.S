@@ -760,8 +760,6 @@ ret_from_fork:
 
 .Lrff_loop:
         /* Infinite loop - should never reach here */
-        .word   -4, .Lchar_exclaim, .Lrff_loop2
-.Lrff_loop2:
         .word   SW_ZZ, SW_ZZ, .Lrff_loop
 
 .Lrff_loop_addr:

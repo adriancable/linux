@@ -11,10 +11,20 @@
 
 typedef unsigned long cycles_t;
 
+/*
+ * Subleq has no hardware cycle counter. We use jiffies as a fallback
+ * entropy source. This isn't cryptographically strong, but it:
+ * 1. Prevents the "Missing cycle counter" RNG warning
+ * 2. Provides some timestamp variation for timer calculations
+ * 3. Avoids timer wheel inconsistencies from zero timestamps
+ *
+ * For better entropy, the VM could expose its instruction counter
+ * at a memory-mapped address.
+ */
 static inline cycles_t get_cycles(void)
 {
-	/* No hardware cycle counter - return 0 */
-	return 0;
+	extern unsigned long volatile jiffies;
+	return jiffies;
 }
 
 #define random_get_entropy() get_cycles()

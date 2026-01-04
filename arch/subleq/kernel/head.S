@@ -11,7 +11,7 @@
  *   - Interrupts are disabled (m[0] = 0)
  */
 
-	.section .text.head, "ax"
+	.section .init.text, "ax"
 	.global _start
 	.type _start, @function
 

@@ -22,24 +22,23 @@ _start:
 	 * 2. Jumped to our entry point
 	 *
 	 * We need to:
-	 * 1. Clear BSS
-	 * 2. Call start_kernel()
+	 * 1. Clear BSS (done in subleq_start)
+	 * 2. Call start_kernel() (done in subleq_start)
 	 * 3. Hang if we return (shouldn't happen)
 	 *
-	/*
-	 * Jump to start_kernel - this never returns
-	 * Subleq unconditional jump: subleq(Z, Z, target)
-	 * Use ZERO constant at word address 6 (byte 24)
+	 * We jump to subleq_start() which is a simple C function that:
+	 * 1. Calls clear_bss()
+	 * 2. Calls start_kernel()
+	 *
+	 * Since start_kernel() never returns, we don't need a proper
+	 * call/return setup - just a simple jump.
 	 */
-	.extern start_kernel
-.Ljump_kernel:
-	.word 24, 24, start_kernel
+	.extern subleq_start
+.Ljump_start:
+	.word 24, 24, subleq_start
 
 	/*
-	 * If start_kernel returns, halt the machine.
-	 * Use HALT instruction: subleq(-4, exit_code, -4)
-	 *
-	 * Exit code address at word 6 = byte 24 (ZERO constant = 0)
+	 * If subleq_start somehow returns, halt the machine.
 	 */
 1:
 	.word -4, 24, -4	/* HALT with exit code 0 */

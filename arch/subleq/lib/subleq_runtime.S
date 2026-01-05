@@ -78873,14 +78873,37 @@ memcpy:
         .globl  memset
         .type   memset,@function
 # memset(dest=R21, c=R22, n=R23) returns R20=dest
-# Byte-by-byte using __subleq_sb
+# Optimized 3-phase: head (byte), body (word), tail (byte)
 memset:
         .word 96, 96, .+4
         .word 12, 12, .+4
         .word 100, 12, .+4
         .word 12, 96, .+4
-        .word 12, 12, .Lmemset_loop
-.Lmemset_loop:
+        .word 12, 12, .+4
+        .word .Lmemset_zero, 108, .Lmemset_done
+        .word 28, 28, .+4
+        .word 12, 12, .+4
+        .word 104, 12, .+4
+        .word 12, 28, .+4
+        .word 12, 12, .+4
+        .word 32, 32, .+4
+        .word 12, 12, .+4
+        .word .Lmemset_c255, 12, .+4
+        .word 12, 32, .+4
+        .word 12, 12, .+4
+        .word .Lmemset_c4, 16, .+4
+        .word 18, 18, .+4
+        .word 12, 12, .+4
+        .word .Lmemset_mask_ret_const, 12, .+4
+        .word 12, 18, .+4
+        .word 12, 12, __subleq_and
+.Lmemset_mask_ret:
+        .word 104, 104, .+4
+        .word 12, 12, .+4
+        .word 28, 12, .+4
+        .word 12, 104, .+4
+        .word 12, 12, .+4
+.Lmemset_head_loop:
         .word .Lmemset_zero, 108, .Lmemset_done
         .word 28, 28, .+4
         .word 12, 12, .+4
@@ -78888,19 +78911,117 @@ memset:
         .word 12, 28, .+4
         .word 12, 12, .+4
         .word 32, 32, .+4
+        .word 12, 12, .+4
+        .word .Lmemset_c3, 12, .+4
+        .word 12, 32, .+4
+        .word 12, 12, .+4
+        .word .Lmemset_c4, 16, .+4
+        .word 18, 18, .+4
+        .word 12, 12, .+4
+        .word .Lmemset_head_and_ret_const, 12, .+4
+        .word 12, 18, .+4
+        .word 12, 12, __subleq_and
+.Lmemset_head_and_ret:
+        .word .Lmemset_zero, 28, .Lmemset_body_setup
+        .word 28, 28, .+4
+        .word 12, 12, .+4
+        .word 100, 12, .+4
+        .word 12, 28, .+4
+        .word 12, 12, .+4
+        .word 32, 32, .+4
+        .word 12, 12, .+4
         .word 104, 12, .+4
         .word 12, 32, .+4
         .word 12, 12, .+4
         .word .Lmemset_c4, 16, .+4
         .word 18, 18, .+4
         .word 12, 12, .+4
-        .word .Lmemset_retaddr_const, 12, .+4
+        .word .Lmemset_head_sb_ret_const, 12, .+4
         .word 12, 18, .+4
         .word 12, 12, __subleq_sb
-.Lmemset_retaddr:
+.Lmemset_head_sb_ret:
         .word .Lmemset_n1, 100, .+4
         .word .Lmemset_c1, 108, .+4
-        .word 12, 12, .Lmemset_loop
+        .word 12, 12, .Lmemset_head_loop
+.Lmemset_body_setup:
+        .word 28, 28, .+4
+        .word 12, 12, .+4
+        .word 108, 12, .+4
+        .word 12, 28, .+4
+        .word 12, 12, .+4
+        .word 32, 32, .+4
+        .word 12, 12, .+4
+        .word .Lmemset_c2, 12, .+4
+        .word 12, 32, .+4
+        .word 12, 12, .+4
+        .word .Lmemset_c4, 16, .+4
+        .word 18, 18, .+4
+        .word 12, 12, .+4
+        .word .Lmemset_srl_ret_const, 12, .+4
+        .word 12, 18, .+4
+        .word 12, 12, __subleq_srl
+.Lmemset_srl_ret:
+        .word 188, 188, .+4
+        .word 12, 12, .+4
+        .word 28, 12, .+4
+        .word 12, 188, .+4
+        .word 12, 12, .+4
+        .word 28, 28, .+4
+        .word 12, 12, .+4
+        .word 104, 12, .+4
+        .word 12, 28, .+4
+        .word 12, 12, .+4
+        .word 32, 32, .+4
+        .word 12, 12, .+4
+        .word .Lmemset_pattern_mult, 12, .+4
+        .word 12, 32, .+4
+        .word 12, 12, .+4
+        .word .Lmemset_c4, 16, .+4
+        .word 18, 18, .+4
+        .word 12, 12, .+4
+        .word .Lmemset_mul_ret_const, 12, .+4
+        .word 12, 18, .+4
+        .word 12, 12, __subleq_mul
+.Lmemset_mul_ret:
+        .word 164, 164, .+4
+        .word 12, 12, .+4
+        .word 28, 12, .+4
+        .word 12, 164, .+4
+        .word 12, 12, .Lmemset_body_loop
+.Lmemset_body_loop:
+        .word .Lmemset_zero, 188, .Lmemset_tail_setup
+        .word 102, 102, .+4
+        .word 160, 160, .+4
+        .word 164, 160, .+4
+        .word 12, 12, .+4
+        .word 160, 102, .+4
+        .word .Lmemset_n4, 100, .+4
+        .word .Lmemset_c4, 108, .+4
+        .word .Lmemset_c1, 188, .+4
+        .word 12, 12, .Lmemset_body_loop
+.Lmemset_tail_setup:
+.Lmemset_tail_loop:
+        .word .Lmemset_zero, 108, .Lmemset_done
+        .word 28, 28, .+4
+        .word 12, 12, .+4
+        .word 100, 12, .+4
+        .word 12, 28, .+4
+        .word 12, 12, .+4
+        .word 32, 32, .+4
+        .word 12, 12, .+4
+        .word 104, 12, .+4
+        .word 12, 32, .+4
+        .word 12, 12, .+4
+        .word .Lmemset_c4, 16, .+4
+        .word 18, 18, .+4
+        .word 12, 12, .+4
+        .word .Lmemset_tail_sb_ret_const, 12, .+4
+        .word 12, 18, .+4
+        .word 12, 12, __subleq_sb
+.Lmemset_tail_sb_ret:
+        .word .Lmemset_n1, 100, .+4
+        .word .Lmemset_c1, 108, .+4
+        .word 12, 12, .Lmemset_tail_loop
 .Lmemset_done:
 .Lmemset_pop:
         .word   12, 12, .Lmemset_pop1
@@ -78926,19 +79047,39 @@ memset:
         .word 0
 .Lmemset_c1:
         .word 1
+.Lmemset_c2:
+        .word 2
+.Lmemset_c3:
+        .word 3
 .Lmemset_c4:
         .word 4
 .Lmemset_n1:
         .word -1
-.Lmemset_retaddr_const:
-        .word .Lmemset_retaddr
+.Lmemset_n4:
+        .word -4
+.Lmemset_pattern_mult:
+        .word 0x01010101
+.Lmemset_c255:
+        .word 0xFF
+.Lmemset_mask_ret_const:
+        .word .Lmemset_mask_ret
+.Lmemset_mul_ret_const:
+        .word .Lmemset_mul_ret
+.Lmemset_head_and_ret_const:
+        .word .Lmemset_head_and_ret
+.Lmemset_head_sb_ret_const:
+        .word .Lmemset_head_sb_ret
+.Lmemset_srl_ret_const:
+        .word .Lmemset_srl_ret
+.Lmemset_tail_sb_ret_const:
+        .word .Lmemset_tail_sb_ret
 
         .size memset, . - memset
 
         .globl  memmove
         .type   memmove,@function
 # memmove(dest=R21, src=R22, n=R23) returns R20=dest
-# Handles overlapping regions correctly
+# Optimized 3-phase when (src&3)==(dst&3), handles overlap
 memmove:
         .word 96, 96, .+4
         .word 12, 12, .+4
@@ -78946,13 +79087,50 @@ memmove:
         .word 12, 96, .+4
         .word 12, 12, .+4
         .word .Lmemmove_zero, 108, .Lmemmove_done
+        .word 28, 28, .+4
+        .word 12, 12, .+4
+        .word 104, 12, .+4
+        .word 12, 28, .+4
+        .word 12, 12, .+4
+        .word 32, 32, .+4
+        .word 12, 12, .+4
+        .word 100, 12, .+4
+        .word 12, 32, .+4
+        .word 12, 12, .+4
+        .word .Lmemmove_c4, 16, .+4
+        .word 18, 18, .+4
+        .word 12, 12, .+4
+        .word .Lmemmove_xor_ret_const, 12, .+4
+        .word 12, 18, .+4
+        .word 12, 12, __subleq_xor
+.Lmemmove_xor_ret:
+        .word 32, 32, .+4
+        .word 12, 12, .+4
+        .word .Lmemmove_c3, 12, .+4
+        .word 12, 32, .+4
+        .word 12, 12, .+4
+        .word .Lmemmove_c4, 16, .+4
+        .word 18, 18, .+4
+        .word 12, 12, .+4
+        .word .Lmemmove_align_and_ret_const, 12, .+4
+        .word 12, 18, .+4
+        .word 12, 12, __subleq_and
+.Lmemmove_align_and_ret:
+        .word 164, 164, .+4
+        .word 12, 12, .+4
+        .word 28, 12, .+4
+        .word 12, 164, .+4
+        .word 12, 12, .+4
         .word 160, 160, .+4
         .word 104, 160, .+4
         .word 12, 12, .+4
         .word 100, 12, .+4
         .word 12, 160, .+4
         .word 12, 12, .+4
-        .word .Lmemmove_zero, 160, .Lmemmove_forward
+        .word .Lmemmove_zero, 160, .Lmemmove_forward_check
+        .word .Lmemmove_zero, 164, .Lmemmove_bwd_fast_setup
+        .word 12, 12, .Lmemmove_bwd_slow_setup
+.Lmemmove_bwd_slow_setup:
         .word 160, 160, .+4
         .word 12, 12, .+4
         .word 108, 12, .+4
@@ -78968,8 +79146,8 @@ memmove:
         .word .Lmemmove_c1, 160, .+4
         .word 12, 12, .+4
         .word 160, 12, .+4
-        .word 12, 100, .Lmemmove_bwd_loop
-.Lmemmove_bwd_loop:
+        .word 12, 100, .Lmemmove_bwd_slow_loop
+.Lmemmove_bwd_slow_loop:
         .word .Lmemmove_zero, 108, .Lmemmove_done
         .word 28, 28, .+4
         .word 12, 12, .+4
@@ -78979,10 +79157,10 @@ memmove:
         .word .Lmemmove_c4, 16, .+4
         .word 18, 18, .+4
         .word 12, 12, .+4
-        .word .Lmemmove_bwd_lb_ret_const, 12, .+4
+        .word .Lmemmove_bwd_slow_lb_ret_const, 12, .+4
         .word 12, 18, .+4
         .word 12, 12, __subleq_lb
-.Lmemmove_bwd_lb_ret:
+.Lmemmove_bwd_slow_lb_ret:
         .word 160, 160, .+4
         .word 12, 12, .+4
         .word 28, 12, .+4
@@ -78999,16 +79177,307 @@ memmove:
         .word .Lmemmove_c4, 16, .+4
         .word 18, 18, .+4
         .word 12, 12, .+4
-        .word .Lmemmove_bwd_sb_ret_const, 12, .+4
+        .word .Lmemmove_bwd_slow_sb_ret_const, 12, .+4
         .word 12, 18, .+4
         .word 12, 12, __subleq_sb
-.Lmemmove_bwd_sb_ret:
+.Lmemmove_bwd_slow_sb_ret:
         .word .Lmemmove_c1, 104, .+4
         .word .Lmemmove_c1, 100, .+4
         .word .Lmemmove_c1, 108, .+4
-        .word 12, 12, .Lmemmove_bwd_loop
-.Lmemmove_forward:
-.Lmemmove_fwd_loop:
+        .word 12, 12, .Lmemmove_bwd_slow_loop
+.Lmemmove_bwd_fast_setup:
+        .word 160, 160, .+4
+        .word 12, 12, .+4
+        .word 108, 12, .+4
+        .word 12, 160, .+4
+        .word .Lmemmove_c1, 160, .+4
+        .word 12, 12, .+4
+        .word 160, 12, .+4
+        .word 12, 104, .+4
+        .word 12, 12, .+4
+        .word 160, 160, .+4
+        .word 108, 12, .+4
+        .word 12, 160, .+4
+        .word .Lmemmove_c1, 160, .+4
+        .word 12, 12, .+4
+        .word 160, 12, .+4
+        .word 12, 100, .Lmemmove_bwd_fast_tail
+.Lmemmove_bwd_fast_tail:
+        .word .Lmemmove_zero, 108, .Lmemmove_done
+        .word 28, 28, .+4
+        .word 12, 12, .+4
+        .word 104, 12, .+4
+        .word 12, 28, .+4
+        .word .Lmemmove_n1, 28, .+4
+        .word 12, 12, .+4
+        .word 32, 32, .+4
+        .word 12, 12, .+4
+        .word .Lmemmove_c3, 12, .+4
+        .word 12, 32, .+4
+        .word 12, 12, .+4
+        .word .Lmemmove_c4, 16, .+4
+        .word 18, 18, .+4
+        .word 12, 12, .+4
+        .word .Lmemmove_bwd_tail_and_ret_const, 12, .+4
+        .word 12, 18, .+4
+        .word 12, 12, __subleq_and
+.Lmemmove_bwd_tail_and_ret:
+        .word .Lmemmove_zero, 28, .Lmemmove_bwd_body_setup
+        .word 28, 28, .+4
+        .word 12, 12, .+4
+        .word 104, 12, .+4
+        .word 12, 28, .+4
+        .word 12, 12, .+4
+        .word .Lmemmove_c4, 16, .+4
+        .word 18, 18, .+4
+        .word 12, 12, .+4
+        .word .Lmemmove_bwd_tail_lb_ret_const, 12, .+4
+        .word 12, 18, .+4
+        .word 12, 12, __subleq_lb
+.Lmemmove_bwd_tail_lb_ret:
+        .word 160, 160, .+4
+        .word 12, 12, .+4
+        .word 28, 12, .+4
+        .word 12, 160, .+4
+        .word 12, 12, .+4
+        .word 28, 28, .+4
+        .word 100, 12, .+4
+        .word 12, 28, .+4
+        .word 12, 12, .+4
+        .word 32, 32, .+4
+        .word 160, 12, .+4
+        .word 12, 32, .+4
+        .word 12, 12, .+4
+        .word .Lmemmove_c4, 16, .+4
+        .word 18, 18, .+4
+        .word 12, 12, .+4
+        .word .Lmemmove_bwd_tail_sb_ret_const, 12, .+4
+        .word 12, 18, .+4
+        .word 12, 12, __subleq_sb
+.Lmemmove_bwd_tail_sb_ret:
+        .word .Lmemmove_c1, 104, .+4
+        .word .Lmemmove_c1, 100, .+4
+        .word .Lmemmove_c1, 108, .+4
+        .word 12, 12, .Lmemmove_bwd_fast_tail
+.Lmemmove_bwd_body_setup:
+        .word .Lmemmove_c3, 104, .+4
+        .word .Lmemmove_c3, 100, .+4
+        .word 28, 28, .+4
+        .word 12, 12, .+4
+        .word 108, 12, .+4
+        .word 12, 28, .+4
+        .word 12, 12, .+4
+        .word 32, 32, .+4
+        .word 12, 12, .+4
+        .word .Lmemmove_c2, 12, .+4
+        .word 12, 32, .+4
+        .word 12, 12, .+4
+        .word .Lmemmove_c4, 16, .+4
+        .word 18, 18, .+4
+        .word 12, 12, .+4
+        .word .Lmemmove_bwd_srl_ret_const, 12, .+4
+        .word 12, 18, .+4
+        .word 12, 12, __subleq_srl
+.Lmemmove_bwd_srl_ret:
+        .word 188, 188, .+4
+        .word 12, 12, .+4
+        .word 28, 12, .+4
+        .word 12, 188, .+4
+        .word 12, 12, .Lmemmove_bwd_body_loop
+.Lmemmove_bwd_body_loop:
+        .word .Lmemmove_zero, 188, .Lmemmove_bwd_head_setup
+        .word 160, 160, .+4
+        .word 106, 160, .+4
+        .word 12, 12, .+4
+        .word 164, 164, .+4
+        .word 160, 164, .+4
+        .word 12, 12, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word 12, 12, .+4
+        .word .Lmemmove_c4, 104, .+4
+        .word .Lmemmove_c4, 100, .+4
+        .word .Lmemmove_c4, 108, .+4
+        .word .Lmemmove_c1, 188, .+4
+        .word 12, 12, .Lmemmove_bwd_body_loop
+.Lmemmove_bwd_head_setup:
+        .word .Lmemmove_n3, 104, .+4
+        .word .Lmemmove_n3, 100, .+4
+.Lmemmove_bwd_head:
+        .word .Lmemmove_zero, 108, .Lmemmove_done
+        .word 28, 28, .+4
+        .word 12, 12, .+4
+        .word 104, 12, .+4
+        .word 12, 28, .+4
+        .word 12, 12, .+4
+        .word .Lmemmove_c4, 16, .+4
+        .word 18, 18, .+4
+        .word 12, 12, .+4
+        .word .Lmemmove_bwd_head_lb_ret_const, 12, .+4
+        .word 12, 18, .+4
+        .word 12, 12, __subleq_lb
+.Lmemmove_bwd_head_lb_ret:
+        .word 160, 160, .+4
+        .word 12, 12, .+4
+        .word 28, 12, .+4
+        .word 12, 160, .+4
+        .word 12, 12, .+4
+        .word 28, 28, .+4
+        .word 100, 12, .+4
+        .word 12, 28, .+4
+        .word 12, 12, .+4
+        .word 32, 32, .+4
+        .word 160, 12, .+4
+        .word 12, 32, .+4
+        .word 12, 12, .+4
+        .word .Lmemmove_c4, 16, .+4
+        .word 18, 18, .+4
+        .word 12, 12, .+4
+        .word .Lmemmove_bwd_head_sb_ret_const, 12, .+4
+        .word 12, 18, .+4
+        .word 12, 12, __subleq_sb
+.Lmemmove_bwd_head_sb_ret:
+        .word .Lmemmove_c1, 104, .+4
+        .word .Lmemmove_c1, 100, .+4
+        .word .Lmemmove_c1, 108, .+4
+        .word 12, 12, .Lmemmove_bwd_head
+.Lmemmove_forward_check:
+        .word .Lmemmove_zero, 164, .Lmemmove_fwd_fast_head
+        .word 12, 12, .Lmemmove_fwd_slow_loop
+.Lmemmove_fwd_fast_head:
+        .word .Lmemmove_zero, 108, .Lmemmove_done
+        .word 28, 28, .+4
+        .word 12, 12, .+4
+        .word 104, 12, .+4
+        .word 12, 28, .+4
+        .word 12, 12, .+4
+        .word 32, 32, .+4
+        .word 12, 12, .+4
+        .word .Lmemmove_c3, 12, .+4
+        .word 12, 32, .+4
+        .word 12, 12, .+4
+        .word .Lmemmove_c4, 16, .+4
+        .word 18, 18, .+4
+        .word 12, 12, .+4
+        .word .Lmemmove_head_and_ret_const, 12, .+4
+        .word 12, 18, .+4
+        .word 12, 12, __subleq_and
+.Lmemmove_head_and_ret:
+        .word .Lmemmove_zero, 28, .Lmemmove_fwd_body_setup
+        .word 28, 28, .+4
+        .word 12, 12, .+4
+        .word 104, 12, .+4
+        .word 12, 28, .+4
+        .word 12, 12, .+4
+        .word .Lmemmove_c4, 16, .+4
+        .word 18, 18, .+4
+        .word 12, 12, .+4
+        .word .Lmemmove_head_lb_ret_const, 12, .+4
+        .word 12, 18, .+4
+        .word 12, 12, __subleq_lb
+.Lmemmove_head_lb_ret:
+        .word 160, 160, .+4
+        .word 12, 12, .+4
+        .word 28, 12, .+4
+        .word 12, 160, .+4
+        .word 12, 12, .+4
+        .word 28, 28, .+4
+        .word 100, 12, .+4
+        .word 12, 28, .+4
+        .word 12, 12, .+4
+        .word 32, 32, .+4
+        .word 160, 12, .+4
+        .word 12, 32, .+4
+        .word 12, 12, .+4
+        .word .Lmemmove_c4, 16, .+4
+        .word 18, 18, .+4
+        .word 12, 12, .+4
+        .word .Lmemmove_head_sb_ret_const, 12, .+4
+        .word 12, 18, .+4
+        .word 12, 12, __subleq_sb
+.Lmemmove_head_sb_ret:
+        .word .Lmemmove_n1, 104, .+4
+        .word .Lmemmove_n1, 100, .+4
+        .word .Lmemmove_c1, 108, .+4
+        .word 12, 12, .Lmemmove_fwd_fast_head
+.Lmemmove_fwd_body_setup:
+        .word 28, 28, .+4
+        .word 12, 12, .+4
+        .word 108, 12, .+4
+        .word 12, 28, .+4
+        .word 12, 12, .+4
+        .word 32, 32, .+4
+        .word 12, 12, .+4
+        .word .Lmemmove_c2, 12, .+4
+        .word 12, 32, .+4
+        .word 12, 12, .+4
+        .word .Lmemmove_c4, 16, .+4
+        .word 18, 18, .+4
+        .word 12, 12, .+4
+        .word .Lmemmove_srl_ret_const, 12, .+4
+        .word 12, 18, .+4
+        .word 12, 12, __subleq_srl
+.Lmemmove_srl_ret:
+        .word 188, 188, .+4
+        .word 12, 12, .+4
+        .word 28, 12, .+4
+        .word 12, 188, .+4
+        .word 12, 12, .Lmemmove_fwd_body_loop
+.Lmemmove_fwd_body_loop:
+        .word .Lmemmove_zero, 188, .Lmemmove_fwd_tail
+        .word 160, 160, .+4
+        .word 106, 160, .+4
+        .word 12, 12, .+4
+        .word 164, 164, .+4
+        .word 160, 164, .+4
+        .word 12, 12, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word 12, 12, .+4
+        .word .Lmemmove_n4, 104, .+4
+        .word .Lmemmove_n4, 100, .+4
+        .word .Lmemmove_c4, 108, .+4
+        .word .Lmemmove_c1, 188, .+4
+        .word 12, 12, .Lmemmove_fwd_body_loop
+.Lmemmove_fwd_tail:
+        .word .Lmemmove_zero, 108, .Lmemmove_done
+        .word 28, 28, .+4
+        .word 12, 12, .+4
+        .word 104, 12, .+4
+        .word 12, 28, .+4
+        .word 12, 12, .+4
+        .word .Lmemmove_c4, 16, .+4
+        .word 18, 18, .+4
+        .word 12, 12, .+4
+        .word .Lmemmove_tail_lb_ret_const, 12, .+4
+        .word 12, 18, .+4
+        .word 12, 12, __subleq_lb
+.Lmemmove_tail_lb_ret:
+        .word 160, 160, .+4
+        .word 12, 12, .+4
+        .word 28, 12, .+4
+        .word 12, 160, .+4
+        .word 12, 12, .+4
+        .word 28, 28, .+4
+        .word 100, 12, .+4
+        .word 12, 28, .+4
+        .word 12, 12, .+4
+        .word 32, 32, .+4
+        .word 160, 12, .+4
+        .word 12, 32, .+4
+        .word 12, 12, .+4
+        .word .Lmemmove_c4, 16, .+4
+        .word 18, 18, .+4
+        .word 12, 12, .+4
+        .word .Lmemmove_tail_sb_ret_const, 12, .+4
+        .word 12, 18, .+4
+        .word 12, 12, __subleq_sb
+.Lmemmove_tail_sb_ret:
+        .word .Lmemmove_n1, 104, .+4
+        .word .Lmemmove_n1, 100, .+4
+        .word .Lmemmove_c1, 108, .+4
+        .word 12, 12, .Lmemmove_fwd_tail
+.Lmemmove_fwd_slow_loop:
         .word .Lmemmove_zero, 108, .Lmemmove_done
         .word 28, 28, .+4
         .word 12, 12, .+4
@@ -79045,7 +79514,7 @@ memmove:
         .word .Lmemmove_n1, 104, .+4
         .word .Lmemmove_n1, 100, .+4
         .word .Lmemmove_c1, 108, .+4
-        .word 12, 12, .Lmemmove_fwd_loop
+        .word 12, 12, .Lmemmove_fwd_slow_loop
 .Lmemmove_done:
 .Lmemmove_pop:
         .word   12, 12, .Lmemmove_pop1
@@ -79071,14 +79540,50 @@ memmove:
         .word 0
 .Lmemmove_c1:
         .word 1
+.Lmemmove_c2:
+        .word 2
+.Lmemmove_c3:
+        .word 3
 .Lmemmove_c4:
         .word 4
 .Lmemmove_n1:
         .word -1
-.Lmemmove_bwd_lb_ret_const:
-        .word .Lmemmove_bwd_lb_ret
-.Lmemmove_bwd_sb_ret_const:
-        .word .Lmemmove_bwd_sb_ret
+.Lmemmove_n3:
+        .word -3
+.Lmemmove_n4:
+        .word -4
+.Lmemmove_xor_ret_const:
+        .word .Lmemmove_xor_ret
+.Lmemmove_align_and_ret_const:
+        .word .Lmemmove_align_and_ret
+.Lmemmove_bwd_slow_lb_ret_const:
+        .word .Lmemmove_bwd_slow_lb_ret
+.Lmemmove_bwd_slow_sb_ret_const:
+        .word .Lmemmove_bwd_slow_sb_ret
+.Lmemmove_bwd_tail_and_ret_const:
+        .word .Lmemmove_bwd_tail_and_ret
+.Lmemmove_bwd_tail_lb_ret_const:
+        .word .Lmemmove_bwd_tail_lb_ret
+.Lmemmove_bwd_tail_sb_ret_const:
+        .word .Lmemmove_bwd_tail_sb_ret
+.Lmemmove_bwd_srl_ret_const:
+        .word .Lmemmove_bwd_srl_ret
+.Lmemmove_bwd_head_lb_ret_const:
+        .word .Lmemmove_bwd_head_lb_ret
+.Lmemmove_bwd_head_sb_ret_const:
+        .word .Lmemmove_bwd_head_sb_ret
+.Lmemmove_head_and_ret_const:
+        .word .Lmemmove_head_and_ret
+.Lmemmove_head_lb_ret_const:
+        .word .Lmemmove_head_lb_ret
+.Lmemmove_head_sb_ret_const:
+        .word .Lmemmove_head_sb_ret
+.Lmemmove_srl_ret_const:
+        .word .Lmemmove_srl_ret
+.Lmemmove_tail_lb_ret_const:
+        .word .Lmemmove_tail_lb_ret
+.Lmemmove_tail_sb_ret_const:
+        .word .Lmemmove_tail_sb_ret
 .Lmemmove_fwd_lb_ret_const:
         .word .Lmemmove_fwd_lb_ret
 .Lmemmove_fwd_sb_ret_const:

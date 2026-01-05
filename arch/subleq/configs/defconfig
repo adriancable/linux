@@ -23,13 +23,23 @@ CONFIG_HZ_100=y
 CONFIG_SYSFS=y
 CONFIG_PROC_FS=y
 
-# No file systems (we'll crash at init)
+# File systems
 # CONFIG_EXT2_FS is not set
 # CONFIG_EXT4_FS is not set
-# CONFIG_TMPFS is not set
+CONFIG_TMPFS=y
+
+# Device and initramfs support
+CONFIG_DEVTMPFS=y
+CONFIG_DEVTMPFS_MOUNT=y
+CONFIG_BLK_DEV_INITRD=y
+CONFIG_INITRAMFS_SOURCE="../initramfs.txt"
+CONFIG_INITRAMFS_COMPRESSION_NONE=y
 
 # No networking
 # CONFIG_NET is not set
+
+# Binary format support
+CONFIG_BINFMT_FLAT=y
 
 # No drivers
 # CONFIG_SERIAL_8250 is not set
@@ -40,7 +50,7 @@ CONFIG_PROC_FS=y
 CONFIG_EARLY_PRINTK=y
 
 # Command line
-CONFIG_CMDLINE="console=subleq"
+CONFIG_CMDLINE="console=ttyS0 initramfs_async=0 loglevel=7"
 CONFIG_CMDLINE_FORCE=y
 
 # Disable debugging (too much output)

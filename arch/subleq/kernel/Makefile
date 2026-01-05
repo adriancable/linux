@@ -11,5 +11,6 @@ obj-y += signal.o
 obj-y += traps.o
 obj-y += ptrace.o
 obj-y += syscalls.o
+obj-y += tty.o
 
 always-$(KBUILD_BUILTIN) := vmlinux.lds

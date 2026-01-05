@@ -75,6 +75,7 @@ SECTIONS
 
 	.init.data : AT(ADDR(.init.data) - LOAD_OFFSET) {
 		INIT_DATA
+		INIT_RAM_FS
 	}
 
 	.init.setup : AT(ADDR(.init.setup) - LOAD_OFFSET) {

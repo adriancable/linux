@@ -24,11 +24,45 @@ void __init trap_init(void)
 }
 
 /*
- * Stack trace display - minimal implementation
+ * Stack trace display
+ *
+ * Subleq calling convention: return address is pushed onto the stack
+ * before each call. We walk the stack looking for values that could be
+ * return addresses (between start of kernel text and end).
+ *
+ * This is a heuristic - we can't perfectly identify stack frames without
+ * frame pointers, but we can print plausible return addresses.
  */
+extern char _stext[], _etext[];
+
 void show_stack(struct task_struct *task, unsigned long *sp, const char *loglvl)
 {
-	pr_info("%sStack trace not available on Subleq\n", loglvl);
+	unsigned long *stack;
+	unsigned long addr;
+	int i, max_entries = 20;
+
+	if (sp == NULL) {
+		/* Get current SP from memory location 16 (REG_SP) */
+		sp = (unsigned long *)*(volatile unsigned long *)16;
+	}
+
+	printk("%sStack trace from SP=%px:\n", loglvl, sp);
+
+	stack = sp;
+	for (i = 0; i < max_entries; i++) {
+		/* Basic bounds check - stack should be above 0x1000 */
+		if ((unsigned long)stack < 0x1000)
+			break;
+
+		addr = *stack++;
+
+		/* Check if this looks like a kernel text address */
+		if (addr >= (unsigned long)_stext &&
+		    addr <= (unsigned long)_etext) {
+			printk("%s [<%08lx>] (possible return address)\n",
+			       loglvl, addr);
+		}
+	}
 }
 
 /*

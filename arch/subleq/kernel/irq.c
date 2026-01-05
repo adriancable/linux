@@ -77,7 +77,8 @@ void __init init_IRQ(void)
 	 */
 	*INT_SAVED_HANDLER = (unsigned long)subleq_irq_entry;
 
-	pr_info("Subleq IRQ: handler installed at %p\n", subleq_irq_entry);
+	pr_info("Subleq IRQ: handler installed at 0x%lx\n",
+		(unsigned long)subleq_irq_entry);
 }
 
 /*

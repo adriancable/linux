@@ -14,6 +14,11 @@
 #include <ctype.h>
 #include <limits.h>
 
+/* macOS portability */
+#ifndef O_LARGEFILE
+#define O_LARGEFILE 0
+#endif
+
 /*
  * Original work by Jeff Garzik
  *
@@ -89,26 +94,26 @@ static int cpio_trailer(void)
 	int len;
 	unsigned int namesize = sizeof(CPIO_TRAILER);
 
-	len = dprintf(outfd, "%s%08X%08X%08lX%08lX%08X%08lX"
-	       "%08X%08X%08X%08X%08X%08X%08X",
-		do_csum ? "070702" : "070701", /* magic */
-		0,			/* ino */
-		0,			/* mode */
-		(long) 0,		/* uid */
-		(long) 0,		/* gid */
-		1,			/* nlink */
-		(long) 0,		/* mtime */
-		0,			/* filesize */
-		0,			/* major */
-		0,			/* minor */
-		0,			/* rmajor */
-		0,			/* rminor */
-		namesize,		/* namesize */
-		0);			/* chksum */
+	len = dprintf(outfd,
+		      "%s%08X%08X%08lX%08lX%08X%08lX"
+		      "%08X%08X%08X%08X%08X%08X%08X",
+		      do_csum ? "070702" : "070701", /* magic */
+		      0, /* ino */
+		      0, /* mode */
+		      (long)0, /* uid */
+		      (long)0, /* gid */
+		      1, /* nlink */
+		      (long)0, /* mtime */
+		      0, /* filesize */
+		      0, /* major */
+		      0, /* minor */
+		      0, /* rmajor */
+		      0, /* rminor */
+		      namesize, /* namesize */
+		      0); /* chksum */
 	offset += len;
 
-	if (len != CPIO_HDR_LEN ||
-	    push_rest(CPIO_TRAILER, namesize) < 0 ||
+	if (len != CPIO_HDR_LEN || push_rest(CPIO_TRAILER, namesize) < 0 ||
 	    push_pad(padlen(offset, 512)) < 0)
 		return -1;
 
@@ -118,8 +123,8 @@ static int cpio_trailer(void)
 	return 0;
 }
 
-static int cpio_mkslink(const char *name, const char *target,
-			 unsigned int mode, uid_t uid, gid_t gid)
+static int cpio_mkslink(const char *name, const char *target, unsigned int mode,
+			uid_t uid, gid_t gid)
 {
 	int len;
 	unsigned int namesize, targetsize = strlen(target) + 1;
@@ -128,33 +133,31 @@ static int cpio_mkslink(const char *name, const char *target,
 		name++;
 	namesize = strlen(name) + 1;
 
-	len = dprintf(outfd, "%s%08X%08X%08lX%08lX%08X%08lX"
-	       "%08X%08X%08X%08X%08X%08X%08X",
-		do_csum ? "070702" : "070701", /* magic */
-		ino++,			/* ino */
-		S_IFLNK | mode,		/* mode */
-		(long) uid,		/* uid */
-		(long) gid,		/* gid */
-		1,			/* nlink */
-		(long) default_mtime,	/* mtime */
-		targetsize,		/* filesize */
-		3,			/* major */
-		1,			/* minor */
-		0,			/* rmajor */
-		0,			/* rminor */
-		namesize,		/* namesize */
-		0);			/* chksum */
+	len = dprintf(outfd,
+		      "%s%08X%08X%08lX%08lX%08X%08lX"
+		      "%08X%08X%08X%08X%08X%08X%08X",
+		      do_csum ? "070702" : "070701", /* magic */
+		      ino++, /* ino */
+		      S_IFLNK | mode, /* mode */
+		      (long)uid, /* uid */
+		      (long)gid, /* gid */
+		      1, /* nlink */
+		      (long)default_mtime, /* mtime */
+		      targetsize, /* filesize */
+		      3, /* major */
+		      1, /* minor */
+		      0, /* rmajor */
+		      0, /* rminor */
+		      namesize, /* namesize */
+		      0); /* chksum */
 	offset += len;
 
-	if (len != CPIO_HDR_LEN ||
-	    push_buf(name, namesize) < 0 ||
+	if (len != CPIO_HDR_LEN || push_buf(name, namesize) < 0 ||
 	    push_pad(padlen(offset, 4)) < 0 ||
-	    push_buf(target, targetsize) < 0 ||
-	    push_pad(padlen(offset, 4)) < 0)
+	    push_buf(target, targetsize) < 0 || push_pad(padlen(offset, 4)) < 0)
 		return -1;
 
 	return 0;
-
 }
 
 static int cpio_mkslink_line(const char *line)
@@ -166,17 +169,19 @@ static int cpio_mkslink_line(const char *line)
 	int gid;
 	int rc = -1;
 
-	if (5 != sscanf(line, "%" str(PATH_MAX) "s %" str(PATH_MAX) "s %o %d %d", name, target, &mode, &uid, &gid)) {
+	if (5 != sscanf(line,
+			"%" str(PATH_MAX) "s %" str(PATH_MAX) "s %o %d %d",
+			name, target, &mode, &uid, &gid)) {
 		fprintf(stderr, "Unrecognized dir format '%s'", line);
 		goto fail;
 	}
 	rc = cpio_mkslink(name, target, mode, uid, gid);
- fail:
+fail:
 	return rc;
 }
 
-static int cpio_mkgeneric(const char *name, unsigned int mode,
-		       uid_t uid, gid_t gid)
+static int cpio_mkgeneric(const char *name, unsigned int mode, uid_t uid,
+			  gid_t gid)
 {
 	int len;
 	unsigned int namesize;
@@ -185,36 +190,32 @@ static int cpio_mkgeneric(const char *name, unsigned int mode,
 		name++;
 	namesize = strlen(name) + 1;
 
-	len = dprintf(outfd, "%s%08X%08X%08lX%08lX%08X%08lX"
-	       "%08X%08X%08X%08X%08X%08X%08X",
-		do_csum ? "070702" : "070701", /* magic */
-		ino++,			/* ino */
-		mode,			/* mode */
-		(long) uid,		/* uid */
-		(long) gid,		/* gid */
-		2,			/* nlink */
-		(long) default_mtime,	/* mtime */
-		0,			/* filesize */
-		3,			/* major */
-		1,			/* minor */
-		0,			/* rmajor */
-		0,			/* rminor */
-		namesize,		/* namesize */
-		0);			/* chksum */
+	len = dprintf(outfd,
+		      "%s%08X%08X%08lX%08lX%08X%08lX"
+		      "%08X%08X%08X%08X%08X%08X%08X",
+		      do_csum ? "070702" : "070701", /* magic */
+		      ino++, /* ino */
+		      mode, /* mode */
+		      (long)uid, /* uid */
+		      (long)gid, /* gid */
+		      2, /* nlink */
+		      (long)default_mtime, /* mtime */
+		      0, /* filesize */
+		      3, /* major */
+		      1, /* minor */
+		      0, /* rmajor */
+		      0, /* rminor */
+		      namesize, /* namesize */
+		      0); /* chksum */
 	offset += len;
 
-	if (len != CPIO_HDR_LEN ||
-	    push_rest(name, namesize) < 0)
+	if (len != CPIO_HDR_LEN || push_rest(name, namesize) < 0)
 		return -1;
 
 	return 0;
 }
 
-enum generic_types {
-	GT_DIR,
-	GT_PIPE,
-	GT_SOCK
-};
+enum generic_types { GT_DIR, GT_PIPE, GT_SOCK };
 
 struct generic_type {
 	const char *type;
@@ -222,18 +223,9 @@ struct generic_type {
 };
 
 static const struct generic_type generic_type_table[] = {
-	[GT_DIR] = {
-		.type = "dir",
-		.mode = S_IFDIR
-	},
-	[GT_PIPE] = {
-		.type = "pipe",
-		.mode = S_IFIFO
-	},
-	[GT_SOCK] = {
-		.type = "sock",
-		.mode = S_IFSOCK
-	}
+	[GT_DIR] = { .type = "dir", .mode = S_IFDIR },
+	[GT_PIPE] = { .type = "pipe", .mode = S_IFIFO },
+	[GT_SOCK] = { .type = "sock", .mode = S_IFSOCK }
 };
 
 static int cpio_mkgeneric_line(const char *line, enum generic_types gt)
@@ -244,14 +236,15 @@ static int cpio_mkgeneric_line(const char *line, enum generic_types gt)
 	int gid;
 	int rc = -1;
 
-	if (4 != sscanf(line, "%" str(PATH_MAX) "s %o %d %d", name, &mode, &uid, &gid)) {
-		fprintf(stderr, "Unrecognized %s format '%s'",
-			line, generic_type_table[gt].type);
+	if (4 != sscanf(line, "%" str(PATH_MAX) "s %o %d %d", name, &mode, &uid,
+			&gid)) {
+		fprintf(stderr, "Unrecognized %s format '%s'", line,
+			generic_type_table[gt].type);
 		goto fail;
 	}
 	mode |= generic_type_table[gt].mode;
 	rc = cpio_mkgeneric(name, mode, uid, gid);
- fail:
+fail:
 	return rc;
 }
 
@@ -270,9 +263,8 @@ static int cpio_mksock_line(const char *line)
 	return cpio_mkgeneric_line(line, GT_SOCK);
 }
 
-static int cpio_mknod(const char *name, unsigned int mode,
-		       uid_t uid, gid_t gid, char dev_type,
-		       unsigned int maj, unsigned int min)
+static int cpio_mknod(const char *name, unsigned int mode, uid_t uid, gid_t gid,
+		      char dev_type, unsigned int maj, unsigned int min)
 {
 	int len;
 	unsigned int namesize;
@@ -286,26 +278,26 @@ static int cpio_mknod(const char *name, unsigned int mode,
 		name++;
 	namesize = strlen(name) + 1;
 
-	len = dprintf(outfd, "%s%08X%08X%08lX%08lX%08X%08lX"
-	       "%08X%08X%08X%08X%08X%08X%08X",
-		do_csum ? "070702" : "070701", /* magic */
-		ino++,			/* ino */
-		mode,			/* mode */
-		(long) uid,		/* uid */
-		(long) gid,		/* gid */
-		1,			/* nlink */
-		(long) default_mtime,	/* mtime */
-		0,			/* filesize */
-		3,			/* major */
-		1,			/* minor */
-		maj,			/* rmajor */
-		min,			/* rminor */
-		namesize,		/* namesize */
-		0);			/* chksum */
+	len = dprintf(outfd,
+		      "%s%08X%08X%08lX%08lX%08X%08lX"
+		      "%08X%08X%08X%08X%08X%08X%08X",
+		      do_csum ? "070702" : "070701", /* magic */
+		      ino++, /* ino */
+		      mode, /* mode */
+		      (long)uid, /* uid */
+		      (long)gid, /* gid */
+		      1, /* nlink */
+		      (long)default_mtime, /* mtime */
+		      0, /* filesize */
+		      3, /* major */
+		      1, /* minor */
+		      maj, /* rmajor */
+		      min, /* rminor */
+		      namesize, /* namesize */
+		      0); /* chksum */
 	offset += len;
 
-	if (len != CPIO_HDR_LEN ||
-	    push_rest(name, namesize) < 0)
+	if (len != CPIO_HDR_LEN || push_rest(name, namesize) < 0)
 		return -1;
 
 	return 0;
@@ -322,13 +314,13 @@ static int cpio_mknod_line(const char *line)
 	unsigned int min;
 	int rc = -1;
 
-	if (7 != sscanf(line, "%" str(PATH_MAX) "s %o %d %d %c %u %u",
-			 name, &mode, &uid, &gid, &dev_type, &maj, &min)) {
+	if (7 != sscanf(line, "%" str(PATH_MAX) "s %o %d %d %c %u %u", name,
+			&mode, &uid, &gid, &dev_type, &maj, &min)) {
 		fprintf(stderr, "Unrecognized nod format '%s'", line);
 		goto fail;
 	}
 	rc = cpio_mknod(name, mode, uid, gid, dev_type, maj, min);
- fail:
+fail:
 	return rc;
 }
 
@@ -356,8 +348,8 @@ static int cpio_mkfile_csum(int fd, unsigned long size, uint32_t *csum)
 }
 
 static int cpio_mkfile(const char *name, const char *location,
-			unsigned int mode, uid_t uid, gid_t gid,
-			unsigned int nlinks)
+		       unsigned int mode, uid_t uid, gid_t gid,
+		       unsigned int nlinks)
 {
 	struct stat buf;
 	unsigned long size;
@@ -371,9 +363,10 @@ static int cpio_mkfile(const char *name, const char *location,
 
 	mode |= S_IFREG;
 
-	file = open (location, O_RDONLY);
+	file = open(location, O_RDONLY);
 	if (file < 0) {
-		fprintf (stderr, "File %s could not be opened for reading\n", location);
+		fprintf(stderr, "File %s could not be opened for reading\n",
+			location);
 		goto error;
 	}
 
@@ -388,14 +381,15 @@ static int cpio_mkfile(const char *name, const char *location,
 	} else {
 		mtime = buf.st_mtime;
 		if (mtime > 0xffffffff) {
-			fprintf(stderr, "%s: Timestamp exceeds maximum cpio timestamp, clipping.\n",
-					location);
+			fprintf(stderr,
+				"%s: Timestamp exceeds maximum cpio timestamp, clipping.\n",
+				location);
 			mtime = 0xffffffff;
 		}
 
 		if (mtime < 0) {
 			fprintf(stderr, "%s: Timestamp negative, clipping.\n",
-					location);
+				location);
 			mtime = 0;
 		}
 	}
@@ -433,31 +427,33 @@ static int cpio_mkfile(const char *name, const char *location,
 			}
 		}
 
-		len = dprintf(outfd, "%s%08X%08X%08lX%08lX%08X%08lX"
-		       "%08lX%08X%08X%08X%08X%08X%08X",
-			do_csum ? "070702" : "070701", /* magic */
-			ino,			/* ino */
-			mode,			/* mode */
-			(long) uid,		/* uid */
-			(long) gid,		/* gid */
-			nlinks,			/* nlink */
-			(long) mtime,		/* mtime */
-			size,			/* filesize */
-			3,			/* major */
-			1,			/* minor */
-			0,			/* rmajor */
-			0,			/* rminor */
-			namesize + namepadlen,	/* namesize */
-			size ? csum : 0);	/* chksum */
+		len = dprintf(outfd,
+			      "%s%08X%08X%08lX%08lX%08X%08lX"
+			      "%08lX%08X%08X%08X%08X%08X%08X",
+			      do_csum ? "070702" : "070701", /* magic */
+			      ino, /* ino */
+			      mode, /* mode */
+			      (long)uid, /* uid */
+			      (long)gid, /* gid */
+			      nlinks, /* nlink */
+			      (long)mtime, /* mtime */
+			      size, /* filesize */
+			      3, /* major */
+			      1, /* minor */
+			      0, /* rmajor */
+			      0, /* rminor */
+			      namesize + namepadlen, /* namesize */
+			      size ? csum : 0); /* chksum */
 		offset += len;
 
-		if (len != CPIO_HDR_LEN ||
-		    push_buf(name, namesize) < 0 ||
+		if (len != CPIO_HDR_LEN || push_buf(name, namesize) < 0 ||
 		    push_pad(namepadlen ? namepadlen : padlen(offset, 4)) < 0)
 			goto error;
 
+#ifdef __linux__
 		if (size) {
-			this_read = copy_file_range(file, NULL, outfd, NULL, size, 0);
+			this_read = copy_file_range(file, NULL, outfd, NULL,
+						    size, 0);
 			if (this_read > 0) {
 				if (this_read > size)
 					goto error;
@@ -466,6 +462,7 @@ static int cpio_mkfile(const char *name, const char *location,
 			}
 			/* short or failed copy falls back to read/write... */
 		}
+#endif
 
 		while (size) {
 			unsigned char filebuf[65536];
@@ -473,7 +470,8 @@ static int cpio_mkfile(const char *name, const char *location,
 
 			this_read = read(file, filebuf, this_size);
 			if (this_read <= 0 || this_read > this_size) {
-				fprintf(stderr, "Can not read %s file\n", location);
+				fprintf(stderr, "Can not read %s file\n",
+					location);
 				goto error;
 			}
 
@@ -507,8 +505,8 @@ static char *cpio_replace_env(char *new_location)
 	       (end = strchr(start + 2, '}'))) {
 		*start = *end = 0;
 		var = getenv(start + 2);
-		snprintf(expanded, sizeof expanded, "%s%s%s",
-			 new_location, var ? var : "", end + 1);
+		snprintf(expanded, sizeof expanded, "%s%s%s", new_location,
+			 var ? var : "", end + 1);
 		strcpy(new_location, expanded);
 	}
 
@@ -527,9 +525,9 @@ static int cpio_mkfile_line(const char *line)
 	int end = 0, dname_len = 0;
 	int rc = -1;
 
-	if (5 > sscanf(line, "%" str(PATH_MAX) "s %" str(PATH_MAX)
-				"s %o %d %d %n",
-				name, location, &mode, &uid, &gid, &end)) {
+	if (5 > sscanf(line,
+		       "%" str(PATH_MAX) "s %" str(PATH_MAX) "s %o %d %d %n",
+		       name, location, &mode, &uid, &gid, &end)) {
 		fprintf(stderr, "Unrecognized file format '%s'", line);
 		goto fail;
 	}
@@ -539,7 +537,7 @@ static int cpio_mkfile_line(const char *line)
 
 		dname = malloc(strlen(line));
 		if (!dname) {
-			fprintf (stderr, "out of memory (%d)\n", dname_len);
+			fprintf(stderr, "out of memory (%d)\n", dname_len);
 			goto fail;
 		}
 
@@ -548,8 +546,8 @@ static int cpio_mkfile_line(const char *line)
 
 		do {
 			nend = 0;
-			if (sscanf(line + end, "%" str(PATH_MAX) "s %n",
-					name, &nend) < 1)
+			if (sscanf(line + end, "%" str(PATH_MAX) "s %n", name,
+				   &nend) < 1)
 				break;
 			len = strlen(name) + 1;
 			memcpy(dname + dname_len, name, len);
@@ -560,16 +558,18 @@ static int cpio_mkfile_line(const char *line)
 	} else {
 		dname = name;
 	}
-	rc = cpio_mkfile(dname, cpio_replace_env(location),
-	                 mode, uid, gid, nlinks);
- fail:
-	if (dname_len) free(dname);
+	rc = cpio_mkfile(dname, cpio_replace_env(location), mode, uid, gid,
+			 nlinks);
+fail:
+	if (dname_len)
+		free(dname);
 	return rc;
 }
 
 static void usage(const char *prog)
 {
-	fprintf(stderr, "Usage:\n"
+	fprintf(stderr,
+		"Usage:\n"
 		"\t%s [-t <timestamp>] [-c] [-o <output_file>] [-a <data_align>] <cpio_list>\n"
 		"\n"
 		"<cpio_list> is a file containing newline separated entries that\n"
@@ -617,32 +617,38 @@ static void usage(const char *prog)
 
 static const struct file_handler file_handler_table[] = {
 	{
-		.type    = "file",
+		.type = "file",
 		.handler = cpio_mkfile_line,
-	}, {
-		.type    = "nod",
+	},
+	{
+		.type = "nod",
 		.handler = cpio_mknod_line,
-	}, {
-		.type    = "dir",
+	},
+	{
+		.type = "dir",
 		.handler = cpio_mkdir_line,
-	}, {
-		.type    = "slink",
+	},
+	{
+		.type = "slink",
 		.handler = cpio_mkslink_line,
-	}, {
-		.type    = "pipe",
+	},
+	{
+		.type = "pipe",
 		.handler = cpio_mkpipe_line,
-	}, {
-		.type    = "sock",
+	},
+	{
+		.type = "sock",
 		.handler = cpio_mksock_line,
-	}, {
-		.type    = NULL,
+	},
+	{
+		.type = NULL,
 		.handler = NULL,
 	}
 };
 
 #define LINE_SIZE (2 * PATH_MAX + 50)
 
-int main (int argc, char *argv[])
+int main(int argc, char *argv[])
 {
 	FILE *cpio_list;
 	char line[LINE_SIZE];
@@ -663,7 +669,7 @@ int main (int argc, char *argv[])
 			default_mtime = strtol(optarg, &invalid, 10);
 			if (!*optarg || *invalid) {
 				fprintf(stderr, "Invalid timestamp: %s\n",
-						optarg);
+					optarg);
 				usage(argv[0]);
 				exit(1);
 			}
@@ -686,7 +692,7 @@ int main (int argc, char *argv[])
 			dalign = strtoul(optarg, &invalid, 10);
 			if (!*optarg || *invalid || (dalign & 3)) {
 				fprintf(stderr, "Invalid data_align: %s\n",
-						optarg);
+					optarg);
 				usage(argv[0]);
 				exit(1);
 			}
@@ -704,7 +710,8 @@ int main (int argc, char *argv[])
 	 * specification. Negative timestamps similarly exceed 8 chars.
 	 */
 	if (default_mtime > 0xffffffff || default_mtime < 0) {
-		fprintf(stderr, "ERROR: Timestamp out of range for cpio format\n");
+		fprintf(stderr,
+			"ERROR: Timestamp out of range for cpio format\n");
 		exit(1);
 	}
 
@@ -716,8 +723,8 @@ int main (int argc, char *argv[])
 	if (!strcmp(filename, "-"))
 		cpio_list = stdin;
 	else if (!(cpio_list = fopen(filename, "r"))) {
-		fprintf(stderr, "ERROR: unable to open '%s': %s\n\n",
-			filename, strerror(errno));
+		fprintf(stderr, "ERROR: unable to open '%s': %s\n\n", filename,
+			strerror(errno));
 		usage(argv[0]);
 		exit(1);
 	}
@@ -733,7 +740,7 @@ int main (int argc, char *argv[])
 			continue;
 		}
 
-		if (! (type = strtok(line, " \t"))) {
+		if (!(type = strtok(line, " \t"))) {
 			fprintf(stderr,
 				"ERROR: incorrect format, could not locate file type line %d: '%s'\n",
 				line_nr, line);
@@ -751,17 +758,19 @@ int main (int argc, char *argv[])
 			continue;
 		}
 
-		if (! (args = strtok(NULL, "\n"))) {
+		if (!(args = strtok(NULL, "\n"))) {
 			fprintf(stderr,
 				"ERROR: incorrect format, newline required line %d: '%s'\n",
 				line_nr, line);
 			ec = -1;
 		}
 
-		for (type_idx = 0; file_handler_table[type_idx].type; type_idx++) {
+		for (type_idx = 0; file_handler_table[type_idx].type;
+		     type_idx++) {
 			int rc;
-			if (! strcmp(line, file_handler_table[type_idx].type)) {
-				if ((rc = file_handler_table[type_idx].handler(args))) {
+			if (!strcmp(line, file_handler_table[type_idx].type)) {
+				if ((rc = file_handler_table[type_idx].handler(
+					     args))) {
 					ec = rc;
 					fprintf(stderr, " line %d\n", line_nr);
 				}

@@ -67,7 +67,14 @@ print_mtime() {
 	local my_mtime="0"
 
 	if [ -e "$1" ]; then
-		my_mtime=$(find "$1" -printf "%T@\n" | sort -r | head -n 1)
+		# Use portable stat command (macOS uses -f, GNU uses -c)
+		if stat -f "%m" "$1" >/dev/null 2>&1; then
+			# macOS/BSD stat
+			my_mtime=$(find "$1" -exec stat -f "%m" {} \; 2>/dev/null | sort -rn | head -n 1)
+		else
+			# GNU stat
+			my_mtime=$(find "$1" -exec stat -c "%Y" {} \; 2>/dev/null | sort -rn | head -n 1)
+		fi
 	fi
 
 	echo "# Last modified: ${my_mtime}" >> $cpio_list
@@ -148,7 +155,14 @@ dir_filelist() {
 	header "$1"
 
 	srcdir=$(echo "$1" | sed -e 's://*:/:g')
-	dirlist=$(find "${srcdir}" -printf "%p %m %U %G\n" | LC_ALL=C sort)
+	# Use portable approach instead of find -printf (not available on macOS)
+	if stat -f "%p %Mp%Lp %u %g" "$srcdir" >/dev/null 2>&1; then
+		# macOS/BSD stat: %p=path, %Mp%Lp=mode, %u=uid, %g=gid
+		dirlist=$(find "${srcdir}" -exec stat -f "%N %Mp%Lp %u %g" {} \; 2>/dev/null | LC_ALL=C sort)
+	else
+		# GNU stat: use find -printf
+		dirlist=$(find "${srcdir}" -printf "%p %m %U %G\n" | LC_ALL=C sort)
+	fi
 
 	# If $dirlist is only one line, then the directory is empty
 	if [  "$(echo "${dirlist}" | wc -l)" -gt 1 ]; then

@@ -719,13 +719,14 @@ __switch_to:
 .size __switch_to, .-__switch_to
 
 /*
- * ret_from_fork - Entry point for new kernel threads (RE-ENTRANT VERSION)
+ * ret_from_fork - Entry point for new threads (RE-ENTRANT VERSION)
  *
  * When a new thread is scheduled for the first time, __switch_to returns
  * here. R20 contains the prev task pointer (returned by __switch_to).
  *
- * We must pass prev to kernel_thread_helper so it can call schedule_tail(prev)
- * to finish the context switch and clear prev->on_cpu.
+ * This function checks pt_regs.r3 to determine if this is a kernel or user thread:
+ *   - r3 != 0: Kernel thread - call kernel_thread_helper(prev)
+ *   - r3 == 0: User thread - call ret_to_user_prep(prev), then jump to userspace
  *
  * Uses Subleq+ indirect addressing for all memory operations.
  */
@@ -734,50 +735,264 @@ __switch_to:
 ret_from_fork:
         /*
          * R20 contains prev (from __switch_to's return value)
-         * We need to pass it to kernel_thread_helper as the first argument.
-         * Subleq calling convention: first arg goes in R21.
+         * We need to pass it as the first argument (R21).
          * 
-         * Copy R20 to R21: R21 = R20
+         * First, check if this is a kernel thread or user thread by reading r3 from pt_regs.
+         * pt_regs is at the top of the kernel stack. After __switch_to pops the return
+         * address from the stack, SP points to pt_regs (since we push ret_from_fork just
+         * below pt_regs in copy_thread).
+         *
+         * pt_regs.r3 is at offset 0 from pt_regs, so [SP] = r3.
          */
+
+        /* Copy R20 to R21: R21 = R20 (will be used as argument to either function) */
         .word   REG_R21, REG_R21, .Lrff_copy1   /* R21 = 0 */
 .Lrff_copy1:
         .word   SW_ZZ, SW_ZZ, .Lrff_copy2
 .Lrff_copy2:
         .word   REG_R20, SW_ZZ, .Lrff_copy3     /* SW_ZZ = -R20 */
 .Lrff_copy3:
-        .word   SW_ZZ, REG_R21, .Lrff_push      /* R21 = R20 */
-        
+        .word   SW_ZZ, REG_R21, .Lrff_check_r3  /* R21 = R20 = prev */
+
         /*
-         * Push return address onto stack using indirect addressing
-         * We push the address of an infinite loop (should never return)
+         * Read pt_regs.r3 from [SP] (offset 0) to check kernel/user thread.
+         * SW_ZZ2 will hold r3 value for comparison.
          */
-.Lrff_push:
-        .word   .Lrff_const4, REG_SP, .Lrff_push1  /* SP -= 4 */
+.Lrff_check_r3:
+        .word   SW_ZZ, SW_ZZ, .Lrff_check_r3_1
+.Lrff_check_r3_1:
+        /* Load [SP] into SW_ZZ using indirect addressing */
+        /* subleq(SP|I, SW_ZZ, next) does: SW_ZZ -= m[SP] => SW_ZZ = -r3 */
+        .word   REG_SP | INDIRECT, SW_ZZ, .Lrff_check_r3_2
+.Lrff_check_r3_2:
+        /* Now SW_ZZ = -r3. If r3 == 0, SW_ZZ == 0. */
+        /* subleq(A, B, C) branches to C if B <= 0 after subtraction */
+        /* We want to branch if r3 == 0, i.e., if SW_ZZ == 0 */
+        /* Test: if SW_ZZ == 0, then 0 - 0 <= 0, so we branch */
+        /* But we need to test SW_ZZ itself, not subtract something from it */
+        
+        /* Check if SW_ZZ == 0 (which means r3 == 0 => user thread) */
+        /* We use: subleq(SW_ZZ, ZERO, user_thread_path) - if SW_ZZ <= 0, branch */
+        /* But since SW_ZZ = -r3, if r3 > 0 then SW_ZZ < 0, so always branches! */
+        /* We need a different approach. */
+        
+        /* Alternative: Check if SW_ZZ != 0 (kernel thread) */
+        /* Actually let's be more direct: check if [SP] (r3) is 0 */
+        /* Negate back: SW_ZZ2 = -SW_ZZ = r3 */
+        .word   SW_ZZ2, SW_ZZ2, .Lrff_check_r3_3
+.Lrff_check_r3_3:
+        .word   SW_ZZ, SW_ZZ2, .Lrff_check_r3_4    /* SW_ZZ2 = -SW_ZZ = r3 */
+.Lrff_check_r3_4:
+        /* Now SW_ZZ2 = r3. Test if r3 == 0 (user thread) or r3 != 0 (kernel thread) */
+        /* subleq(SW_ZZ2, ZERO, target) - branches to target if 0 - SW_ZZ2 <= 0 */
+        /* i.e., branches if -SW_ZZ2 <= 0, i.e., branches if SW_ZZ2 >= 0 */
+        /* This will branch for r3 >= 0, which is always true for valid pointers... */
+        
+        /* Let's use a simpler approach: test if r3 == 0 using subtraction */
+        /* If SW_ZZ2 == 0, then subleq(SW_ZZ2, SW_ZZ2, fallthrough) will NOT branch */
+        /* because 0 - 0 = 0, and 0 <= 0, so it DOES branch! */
+        
+        /* Use the zero_check pattern from SubleqAsmPrinter: */
+        /* To check if X == 0: */
+        /*   subleq(X, Z, label_if_positive_or_zero)  -- branches if -X <= 0 => X >= 0 */
+        /*   subleq(Z, Z, label_if_negative)          -- unconditional (X was negative) */
+        /* label_if_positive_or_zero: */
+        /*   subleq(Z, X, label_if_zero)              -- branches if X - 0 <= 0 => X <= 0 */
+        /*   ; fallthrough means X > 0 */
+        /* label_if_zero: (both <= 0 and >= 0 means == 0) */
+        
+        /* For our purpose: if r3 == 0 => user thread, if r3 != 0 => kernel thread */
+        /* SW_ZZ2 = r3 */
+        
+        /* Step 1: if r3 < 0, it's a kernel thread (valid function pointer) */
+        .word   SW_ZZ2, SW_ZZ, .Lrff_check_nonneg   /* Z -= r3; branches if Z <= 0 after, i.e., -r3 <= 0, i.e., r3 >= 0 */
+        /* If we get here, r3 < 0. But pointers are positive... this is kernel thread */
+        .word   SW_ZZ, SW_ZZ, .Lrff_kernel_thread
 
-.Lrff_push1:
+.Lrff_check_nonneg:
+        /* r3 >= 0. Now check if r3 == 0 or r3 > 0 */
+        /* Clear SW_ZZ first */
+        .word   SW_ZZ, SW_ZZ, .Lrff_check_nonneg2
+.Lrff_check_nonneg2:
+        /* subleq(Z, r3_copy, target) - branches if r3 - 0 <= 0 => r3 <= 0 */
+        /* Since we know r3 >= 0, this branches iff r3 == 0 */
+        /* Use SW_ZZ2 which still holds r3 */
+        .word   SW_ZZ, SW_ZZ2, .Lrff_user_thread   /* branches if r3 <= 0 (since r3 >= 0, this means r3 == 0) */
+        /* Fall through: r3 > 0, it's a kernel thread */
+
+.Lrff_kernel_thread:
+        /*
+         * KERNEL THREAD PATH
+         * Call kernel_thread_helper(prev) - R21 already contains prev
+         */
+        /* Push return address onto stack using indirect addressing */
+        .word   .Lrff_const4, REG_SP, .Lrff_kpush1  /* SP -= 4 */
+
+.Lrff_kpush1:
         /* Clear [SP] using indirect addressing */
-        .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .Lrff_push2
+        .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .Lrff_kpush2
 
-.Lrff_push2:
-        /* Store loop address to [SP] */
-        .word   SW_ZZ, SW_ZZ, .Lrff_push3
-.Lrff_push3:
-        .word   .Lrff_loop_addr, SW_ZZ, .Lrff_push4  /* SW_ZZ = -loop_addr */
-.Lrff_push4:
+.Lrff_kpush2:
+        /* Store loop address to [SP] (kernel threads should never return) */
+        .word   SW_ZZ, SW_ZZ, .Lrff_kpush3
+.Lrff_kpush3:
+        .word   .Lrff_loop_addr, SW_ZZ, .Lrff_kpush4  /* SW_ZZ = -loop_addr */
+.Lrff_kpush4:
         /* [SP] -= SW_ZZ => [SP] = loop_addr */
-        .word   SW_ZZ, REG_SP | INDIRECT, .Lrff_jump
+        .word   SW_ZZ, REG_SP | INDIRECT, .Lrff_kjump
 
-.Lrff_jump:
+.Lrff_kjump:
         /* Jump to kernel_thread_helper */
         .word   SW_ZZ, SW_ZZ, kernel_thread_helper
 
+.Lrff_user_thread:
+        /*
+         * USER THREAD PATH
+         * Call ret_to_user_prep(prev) which will:
+         * 1. Call schedule_tail(prev)
+         * 2. Return with R20 = pc, R21 = sp (userspace entry point and stack)
+         * Then we set SP and jump to PC.
+         */
+        /* Push return address for ret_to_user_prep */
+        .word   .Lrff_const4, REG_SP, .Lrff_upush1  /* SP -= 4 */
+
+.Lrff_upush1:
+        /* Clear [SP] using indirect addressing */
+        .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .Lrff_upush2
+
+.Lrff_upush2:
+        /* Store .Lrff_user_return to [SP] */
+        .word   SW_ZZ, SW_ZZ, .Lrff_upush3
+.Lrff_upush3:
+        .word   .Lrff_user_ret_addr, SW_ZZ, .Lrff_upush4  /* SW_ZZ = -return_addr */
+.Lrff_upush4:
+        /* [SP] -= SW_ZZ => [SP] = return_addr */
+        .word   SW_ZZ, REG_SP | INDIRECT, .Lrff_ujump
+
+.Lrff_ujump:
+        /* Jump to ret_to_user_prep */
+        .word   SW_ZZ, SW_ZZ, ret_to_user_prep
+
+.Lrff_user_return:
+        /*
+         * ret_to_user_prep has returned.
+         * R20 = pc (userspace entry point)
+         * R21 = sp (userspace stack pointer)
+         *
+         * Now we need to:
+         * 1. Set hardware SP (memory location 16) to R21
+         * 2. Jump to R20
+         */
+
+        /* Step 1: SP = R21 */
+        /* Clear SP */
+        .word   REG_SP, REG_SP, .Lrff_set_sp1
+.Lrff_set_sp1:
+        /* Get -R21 into SW_ZZ */
+        .word   SW_ZZ, SW_ZZ, .Lrff_set_sp2
+.Lrff_set_sp2:
+        .word   REG_R21, SW_ZZ, .Lrff_set_sp3  /* SW_ZZ = -R21 */
+.Lrff_set_sp3:
+        /* SP -= SW_ZZ => SP = R21 */
+        .word   SW_ZZ, REG_SP, .Lrff_jump_user
+
+        /* Step 2: Jump to R20 using indirect addressing */
+.Lrff_jump_user:
+        .word   SW_ZZ, SW_ZZ, .Lrff_jump_user2
+.Lrff_jump_user2:
+        /* Indirect jump: subleq(Z, Z, R20|I) jumps to m[R20] */
+        .word   SW_ZZ
+        .word   SW_ZZ
+        .word   REG_R20 | INDIRECT
+
 .Lrff_loop:
-        /* Infinite loop - should never reach here */
+        /* Infinite loop - should never reach here for kernel threads */
         .word   SW_ZZ, SW_ZZ, .Lrff_loop
 
 .Lrff_loop_addr:
         .word   .Lrff_loop
+.Lrff_user_ret_addr:
+        .word   .Lrff_user_return
 .Lrff_const4:
         .word   4
 
 .size ret_from_fork, .-ret_from_fork
+
+/*
+ * jump_to_userspace - Jump to userspace WITHOUT using the C calling convention
+ *
+ * This function is called from kernel_thread_helper when a kernel thread
+ * has called kernel_execve() and needs to transition to userspace.
+ *
+ * Unlike a normal C function call, this does NOT push a return address,
+ * which would corrupt the user stack that has been set up with argc/argv/envp.
+ *
+ * Arguments (C calling convention - they were pushed by caller):
+ *   R21 = pc (userspace entry point)
+ *   R22 = sp (userspace stack pointer)
+ *
+ * This function never returns.
+ */
+.globl jump_to_userspace
+.type jump_to_userspace, @function
+jump_to_userspace:
+        /*
+         * On entry, the caller has pushed a return address to the stack.
+         * We don't need it since we're jumping to userspace.
+         * First, pop and discard it: SP += 4
+         */
+        .word   .Ljtu_neg4, REG_SP, .Ljtu_set_ra
+
+        /*
+         * Set RA to a halt loop as a safety backstop.
+         * If the user binary returns (which it shouldn't), it will
+         * jump to this loop instead of crashing on RA=0.
+         */
+.Ljtu_set_ra:
+        .word   REG_RA, REG_RA, .Ljtu_set_ra1
+.Ljtu_set_ra1:
+        .word   SW_ZZ, SW_ZZ, .Ljtu_set_ra2
+.Ljtu_set_ra2:
+        .word   .Ljtu_halt_addr, SW_ZZ, .Ljtu_set_ra3  /* SW_ZZ = -halt_loop_addr */
+.Ljtu_set_ra3:
+        .word   SW_ZZ, REG_RA, .Ljtu_set_sp  /* RA = halt_loop_addr */
+
+        /*
+         * Set SP = R22 (the user stack pointer)
+         */
+.Ljtu_set_sp:
+        /* Clear SP */
+        .word   REG_SP, REG_SP, .Ljtu_set_sp1
+.Ljtu_set_sp1:
+        /* Get -R22 into SW_ZZ */
+        .word   SW_ZZ, SW_ZZ, .Ljtu_set_sp2
+.Ljtu_set_sp2:
+        .word   REG_R22, SW_ZZ, .Ljtu_set_sp3  /* SW_ZZ = -R22 */
+.Ljtu_set_sp3:
+        /* SP -= SW_ZZ => SP = R22 */
+        .word   SW_ZZ, REG_SP, .Ljtu_jump
+
+        /*
+         * Jump to R21 (the user entry point) using indirect addressing.
+         * This is a RAW JUMP - no return address is pushed!
+         */
+.Ljtu_jump:
+        .word   SW_ZZ, SW_ZZ, .Ljtu_jump2
+.Ljtu_jump2:
+        /* Indirect jump: subleq(Z, Z, R21|I) jumps to m[R21] */
+        .word   SW_ZZ
+        .word   SW_ZZ
+        .word   REG_R21 | INDIRECT
+
+        /*
+         * Halt loop - if user binary returns, it will end up here
+         */
+.Ljtu_halt_loop:
+        .word   SW_ZZ, SW_ZZ, .Ljtu_halt_loop
+
+.Ljtu_halt_addr:
+        .word   .Ljtu_halt_loop
+.Ljtu_neg4:
+        .word   -4
+
+.size jump_to_userspace, .-jump_to_userspace

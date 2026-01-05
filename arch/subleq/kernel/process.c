@@ -49,7 +49,7 @@ extern asmlinkage void schedule_tail(struct task_struct *prev);
 void kernel_thread_helper(struct task_struct *prev)
 {
 	struct pt_regs *regs = task_pt_regs(current);
-	int (*fn)(void *) = (int (*)(void *))regs->pc;
+	int (*fn)(void *) = (int (*)(void *))regs->r3;
 	void *arg = (void *)regs->r21;
 
 	/*
@@ -63,17 +63,105 @@ void kernel_thread_helper(struct task_struct *prev)
 	/* Call the kernel thread function */
 	fn(arg);
 
-	/* Thread function returned - call do_exit */
+	/*
+	 * The kernel thread function has returned. There are two cases:
+	 *
+	 * 1. Normal kernel thread completion: The thread did its work and is done.
+	 *    In this case, we should call do_exit(0).
+	 *
+	 * 2. kernel_execve() was called: The thread called kernel_execve() to
+	 *    transform into a user process (e.g., init). In this case, start_thread()
+	 *    was called which set regs->r3 = 0 (user thread marker), and we should
+	 *    NOT call do_exit(). Instead, we should return to userspace by setting
+	 *    SP and jumping to PC.
+	 *
+	 * We check regs->r3: if it's 0, this is now a user thread and we should
+	 * transition to userspace. Otherwise, it's a completed kernel thread.
+	 */
+	regs = task_pt_regs(current); /* Re-read in case it changed */
+
+	if (regs->r3 == 0) {
+		/*
+		 * This thread called kernel_execve() and is now a user thread.
+		 * Jump to userspace using an assembly helper that does a RAW jump
+		 * without pushing a return address (which would corrupt the user stack).
+		 */
+		pr_info("kernel_thread_helper: transitioning to userspace pc=0x%lx sp=0x%lx\n",
+			regs->pc, regs->sp);
+
+		/*
+		 * Call the assembly helper which will:
+		 * 1. Set SP to regs->sp
+		 * 2. Jump to regs->pc WITHOUT pushing a return address
+		 *
+		 * We pass pc in R21 (first arg) and sp in R22 (second arg).
+		 */
+		extern void __noreturn jump_to_userspace(unsigned long pc,
+							 unsigned long sp);
+		jump_to_userspace(regs->pc, regs->sp);
+	}
+
+	/* Normal kernel thread completion - call do_exit */
 	do_exit(0);
 }
 
 /*
- * Start a new thread
+ * ret_to_user_prep - Prepare for return to userspace (called from ret_from_fork in asm)
+ *
+ * This is called when a user thread is scheduled for the first time after
+ * fork or execve. It calls schedule_tail to complete the context switch,
+ * then stores pc and sp in R20/R21 for the assembly code to use.
+ *
+ * Arguments:
+ *   prev (R21) - previous task pointer (for schedule_tail)
+ *
+ * On return:
+ *   R20 (memory location 96) = pc (userspace entry point)
+ *   R21 (memory location 100) = sp (userspace stack pointer)
+ *
+ * In Subleq, "registers" are just fixed memory locations, so we write directly
+ * to addresses 96 (R20) and 100 (R21).
+ */
+void ret_to_user_prep(struct task_struct *prev)
+{
+	struct pt_regs *regs = task_pt_regs(current);
+	volatile unsigned long *r20 = (volatile unsigned long *)96;
+	volatile unsigned long *r21 = (volatile unsigned long *)100;
+
+	/*
+	 * CRITICAL: Must call schedule_tail() first!
+	 * This calls finish_task_switch(prev) which clears prev->on_cpu.
+	 */
+	schedule_tail(prev);
+
+	/*
+	 * Store user pc and sp directly into the Subleq register memory locations.
+	 * After this function returns, the assembly code in ret_from_fork
+	 * will read R20 (pc) and R21 (sp), set the stack pointer, and jump to pc.
+	 */
+	*r20 = regs->pc;
+	*r21 = regs->sp;
+}
+
+/*
+ * Start a new thread (called after execve)
+ *
+ * This is called by the binary format handlers (e.g., binfmt_flat) after
+ * loading a new executable. It sets up the registers for the new program.
+ *
+ * IMPORTANT: We must set r3 = 0 to mark this as a user thread!
+ * When a kernel thread calls kernel_execve(), the old kernel thread had
+ * r3 = fn (non-zero). We need to clear it so ret_from_fork knows this is
+ * now a user thread that should return to userspace.
  */
 void start_thread(struct pt_regs *regs, unsigned long pc, unsigned long sp)
 {
+	/* Clear all registers to start with a clean slate */
+	memset(regs, 0, sizeof(*regs));
+
 	regs->pc = pc;
 	regs->sp = sp;
+	/* r3 = 0 is already set by memset, marking this as a user thread */
 }
 
 /*
@@ -82,9 +170,14 @@ void start_thread(struct pt_regs *regs, unsigned long pc, unsigned long sp)
  * For kernel threads, we set up the stack so that when __switch_to
  * switches to this thread for the first time:
  *   1. It pops the "return address" which is ret_from_fork
- *   2. ret_from_fork calls kernel_thread_helper
- *   3. kernel_thread_helper reads pt_regs.pc (the fn) and pt_regs.r21 (the arg)
- *   4. kernel_thread_helper calls fn(arg)
+ *   2. ret_from_fork checks r3: if non-zero, it's a kernel thread
+ *   3. For kernel threads: ret_from_fork calls kernel_thread_helper
+ *      which reads pt_regs.r3 (the fn) and pt_regs.r21 (the arg)
+ *   4. For user threads: ret_from_fork restores regs and jumps to pc
+ *
+ * r3 serves as the kernel/user thread flag:
+ *   - r3 != 0: kernel thread (r3 = thread function pointer)
+ *   - r3 == 0: user thread (should return to userspace via pc)
  */
 int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
 {
@@ -98,9 +191,14 @@ int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
 		/* Kernel thread */
 		memset(childregs, 0, sizeof(struct pt_regs));
 
-		/* Store thread function and arg in pt_regs for kernel_thread_helper */
-		childregs->pc = (unsigned long)args->fn;
+		/*
+		 * Store thread function in r3 (kernel thread marker)
+		 * and arg in r21 for kernel_thread_helper.
+		 * pc is set to 0 (unused for kernel threads since we call fn directly).
+		 */
+		childregs->r3 = (unsigned long)args->fn;
 		childregs->r21 = (unsigned long)args->fn_arg;
+		childregs->pc = 0;
 
 		/*
 		 * Set up the stack for __switch_to:
@@ -125,11 +223,12 @@ int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
 	if (usp)
 		childregs->sp = usp;
 	childregs->r20 = 0; /* Return 0 in child */
+	childregs->r3 = 0; /* Mark as user thread (ret_from_fork checks this) */
 
 	/*
 	 * For user forks, set up stack similarly.
 	 * The return address should be ret_from_fork which will
-	 * eventually return to userspace.
+	 * restore pt_regs and return to userspace.
 	 */
 	stack_ptr = (unsigned long *)childregs;
 	stack_ptr--;

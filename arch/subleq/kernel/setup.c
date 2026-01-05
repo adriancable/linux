@@ -32,30 +32,6 @@ static char __initdata builtin_cmdline[COMMAND_LINE_SIZE] = CONFIG_CMDLINE;
 extern void __subleq_putchar(int c);
 
 /*
- * Very early debug output - bypasses printk entirely
- */
-static void early_debug_puts(const char *s)
-{
-	while (*s) {
-		if (*s == '\n')
-			__subleq_putchar('\r');
-		__subleq_putchar(*s++);
-	}
-}
-
-static void early_debug_hex(unsigned long val)
-{
-	char buf[9];
-	int i;
-	for (i = 7; i >= 0; i--) {
-		int nibble = (val >> (i * 4)) & 0xf;
-		buf[7 - i] = nibble < 10 ? '0' + nibble : 'a' + nibble - 10;
-	}
-	buf[8] = '\0';
-	early_debug_puts(buf);
-}
-
-/*
  * Early console - uses Subleq's putchar instruction
  */
 static void subleq_early_write(struct console *con, const char *s, unsigned n)
@@ -113,16 +89,10 @@ extern void paging_init(void);
 
 void __init setup_arch(char **cmdline_p)
 {
-	/* BSS already cleared in head.S before start_kernel() */
-
-	/* Debug: Print before registering console */
-	early_debug_puts("DBG: Before register_console\n");
+	/* BSS already cleared in subleq_start() before start_kernel() */
 
 	/* Register early console */
 	register_console(&subleq_early_console);
-
-	/* Debug: Print after registering console */
-	early_debug_puts("DBG: After register_console\n");
 
 	pr_info("Subleq Linux %s\n", UTS_RELEASE);
 	pr_info("Memory: 0x%08lx - 0x%08lx (%lu MB)\n", subleq_memory_start,

@@ -30,9 +30,19 @@ typedef unsigned long elf_fpregset_t;
 #define ELF_DATA ELFDATA2LSB
 
 /*
- * ELF machine type - use EM_NONE for now (custom arch)
+ * ELF machine type
+ * 
+ * The Subleq LLVM backend uses EM_386 (Intel x86) for LLD linker
+ * compatibility. We check for this machine type in our ELF binaries.
  */
-#define ELF_ARCH EM_NONE
+#define ELF_ARCH EM_386
+
+/*
+ * Check if this is a Subleq ELF binary.
+ * We accept EM_386 since the Subleq LLVM backend uses it for LLD compatibility.
+ */
+#define elf_check_arch(x) \
+	((x)->e_machine == EM_386 && (x)->e_ident[EI_CLASS] == ELFCLASS32)
 
 /*
  * Memory map for this architecture

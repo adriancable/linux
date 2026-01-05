@@ -49,8 +49,11 @@
 	} while (0)
 #endif
 
-/* Path to the shared runtime library */
-#define LIBSRT_PATH "/lib/libsrt"
+/* Maximum length of library path */
+#define MAX_LIB_PATH 256
+
+/* Maximum number of DT_NEEDED libraries */
+#define MAX_NEEDED_LIBS 8
 
 /* Information about a loaded ELF segment */
 struct elf_load_info {
@@ -60,25 +63,91 @@ struct elf_load_info {
 	unsigned long total_size; /* Total memory size needed */
 };
 
-/* Symbol table entry from libsrt */
+/* Symbol table entry for runtime symbols */
 struct libsrt_symbol {
 	char name[64];
 	unsigned long addr;
 };
 
-/* Global libsrt symbol table (populated when libsrt is loaded) */
+/*
+ * Kernel runtime symbols - these are built into the kernel and can be
+ * resolved directly without loading a shared library.
+ */
+extern void __ashldi3(void);
+extern void __ashrdi3(void);
+extern void __divdi3(void);
+extern void __lshrdi3(void);
+extern void __moddi3(void);
+extern void __subleq_and(void);
+extern void __subleq_lb(void);
+extern void __subleq_lh(void);
+extern void __subleq_mul(void);
+extern void __subleq_or(void);
+extern void __subleq_sb(void);
+extern void __subleq_sdivrem(void);
+extern void __subleq_sdivrem64(void);
+extern void __subleq_sh(void);
+extern void __subleq_shl(void);
+extern void __subleq_sra(void);
+extern void __subleq_srl(void);
+extern void __subleq_udivrem(void);
+extern void __subleq_udivrem64(void);
+extern void __subleq_xor(void);
+extern void __udivdi3(void);
+extern void __umoddi3(void);
+
+/* Hardcoded table of kernel runtime symbols */
+static const struct {
+	const char *name;
+	void *addr;
+} kernel_runtime_symbols[] = { { "__ashldi3", &__ashldi3 },
+			       { "__ashrdi3", &__ashrdi3 },
+			       { "__divdi3", &__divdi3 },
+			       { "__lshrdi3", &__lshrdi3 },
+			       { "__moddi3", &__moddi3 },
+			       { "__subleq_and", &__subleq_and },
+			       { "__subleq_lb", &__subleq_lb },
+			       { "__subleq_lh", &__subleq_lh },
+			       { "__subleq_mul", &__subleq_mul },
+			       { "__subleq_or", &__subleq_or },
+			       { "__subleq_sb", &__subleq_sb },
+			       { "__subleq_sdivrem", &__subleq_sdivrem },
+			       { "__subleq_sdivrem64", &__subleq_sdivrem64 },
+			       { "__subleq_sh", &__subleq_sh },
+			       { "__subleq_shl", &__subleq_shl },
+			       { "__subleq_sra", &__subleq_sra },
+			       { "__subleq_srl", &__subleq_srl },
+			       { "__subleq_udivrem", &__subleq_udivrem },
+			       { "__subleq_udivrem64", &__subleq_udivrem64 },
+			       { "__subleq_xor", &__subleq_xor },
+			       { "__udivdi3", &__udivdi3 },
+			       { "__umoddi3", &__umoddi3 },
+			       { "memcpy", &memcpy },
+			       { "memmove", &memmove },
+			       { "memset", &memset },
+			       { NULL, NULL } };
+
+/* Dynamic symbol table (populated from loaded libraries) */
 #define MAX_LIBSRT_SYMBOLS 256
 static struct libsrt_symbol libsrt_symbols[MAX_LIBSRT_SYMBOLS];
 static int libsrt_symbol_count = 0;
 static unsigned long libsrt_load_addr = 0;
 
 /*
- * Look up a symbol in libsrt's symbol table
+ * Look up a symbol - first check kernel runtime symbols, then loaded libraries
  * Returns the address or 0 if not found
  */
 static unsigned long lookup_libsrt_symbol(const char *name)
 {
 	int i;
+
+	/* First, check kernel runtime symbols */
+	for (i = 0; kernel_runtime_symbols[i].name != NULL; i++) {
+		if (strcmp(kernel_runtime_symbols[i].name, name) == 0)
+			return (unsigned long)kernel_runtime_symbols[i].addr;
+	}
+
+	/* Then check dynamically loaded library symbols */
 	for (i = 0; i < libsrt_symbol_count; i++) {
 		if (strcmp(libsrt_symbols[i].name, name) == 0)
 			return libsrt_symbols[i].addr;
@@ -109,6 +178,150 @@ static int is_subleq_elf(struct elfhdr *hdr, struct file *file)
 	if (hdr->e_machine != EM_386)
 		return 0;
 	return 1;
+}
+
+/*
+ * Structure to hold library name extracted from DT_NEEDED
+ */
+struct needed_lib {
+	char name[64];
+};
+
+/*
+ * Extract DT_NEEDED library names from PT_DYNAMIC segment
+ * Returns the number of libraries found (stored in libs array)
+ */
+static int get_elf_needed_libs(struct file *file, struct elfhdr *hdr,
+			       struct needed_lib *libs, int max_libs)
+{
+	struct elf_phdr *phdrs = NULL, *phdr;
+	Elf32_Dyn *dyns = NULL, *dyn;
+	char *strtab = NULL;
+	unsigned long strtab_addr = 0;
+	unsigned long strtab_size = 0;
+	unsigned long strtab_file_offset = 0;
+	unsigned long dyn_offset = 0;
+	unsigned long dyn_size = 0;
+	unsigned long load_vaddr = 0;
+	unsigned long load_offset = 0;
+	loff_t pos;
+	ssize_t ret;
+	int i, nlibs = 0;
+	int ndyns;
+
+	/* Read program headers */
+	if (hdr->e_phentsize != sizeof(struct elf_phdr))
+		return 0;
+	if (hdr->e_phnum > 65536 / sizeof(struct elf_phdr))
+		return 0;
+
+	phdrs = kmalloc_array(hdr->e_phnum, sizeof(struct elf_phdr),
+			      GFP_KERNEL);
+	if (!phdrs)
+		return 0;
+
+	pos = hdr->e_phoff;
+	ret = kernel_read(file, phdrs, hdr->e_phnum * sizeof(struct elf_phdr),
+			  &pos);
+	if (ret != hdr->e_phnum * sizeof(struct elf_phdr)) {
+		kfree(phdrs);
+		return 0;
+	}
+
+	/* Find PT_DYNAMIC and PT_LOAD segments */
+	for (i = 0, phdr = phdrs; i < hdr->e_phnum; i++, phdr++) {
+		if (phdr->p_type == PT_DYNAMIC) {
+			dyn_offset = phdr->p_offset;
+			dyn_size = phdr->p_filesz;
+		}
+		if (phdr->p_type == PT_LOAD && load_offset == 0) {
+			/* First PT_LOAD segment - use for vaddr to file offset conversion */
+			load_vaddr = phdr->p_vaddr;
+			load_offset = phdr->p_offset;
+		}
+	}
+
+	kfree(phdrs);
+
+	if (dyn_size == 0) {
+		subleq_elf_debug("No PT_DYNAMIC segment found");
+		return 0; /* No dynamic section */
+	}
+
+	/* Read dynamic section */
+	if (dyn_size > 4096) /* Sanity check */
+		dyn_size = 4096;
+
+	dyns = kmalloc(dyn_size, GFP_KERNEL);
+	if (!dyns)
+		return 0;
+
+	pos = dyn_offset;
+	ret = kernel_read(file, dyns, dyn_size, &pos);
+	if (ret != dyn_size) {
+		kfree(dyns);
+		return 0;
+	}
+
+	ndyns = dyn_size / sizeof(Elf32_Dyn);
+
+	/* First pass: find DT_STRTAB and DT_STRSZ */
+	for (i = 0, dyn = dyns; i < ndyns; i++, dyn++) {
+		if (dyn->d_tag == DT_NULL)
+			break;
+		if (dyn->d_tag == DT_STRTAB)
+			strtab_addr = dyn->d_un.d_ptr;
+		if (dyn->d_tag == DT_STRSZ)
+			strtab_size = dyn->d_un.d_val;
+	}
+
+	if (strtab_size == 0 || strtab_size > 4096) {
+		kfree(dyns);
+		subleq_elf_debug("No DT_STRTAB or invalid size");
+		return 0;
+	}
+
+	/* Convert virtual address to file offset using PT_LOAD segment info
+	 * file_offset = vaddr - p_vaddr + p_offset
+	 */
+	strtab_file_offset = strtab_addr - load_vaddr + load_offset;
+	subleq_elf_debug("DT_STRTAB vaddr=0x%lx -> file offset=0x%lx",
+			 strtab_addr, strtab_file_offset);
+
+	/* Read string table */
+	strtab = kmalloc(strtab_size, GFP_KERNEL);
+	if (!strtab) {
+		kfree(dyns);
+		return 0;
+	}
+
+	pos = strtab_file_offset;
+	ret = kernel_read(file, strtab, strtab_size, &pos);
+	if (ret != strtab_size) {
+		kfree(strtab);
+		kfree(dyns);
+		return 0;
+	}
+
+	/* Second pass: extract DT_NEEDED library names */
+	for (i = 0, dyn = dyns; i < ndyns && nlibs < max_libs; i++, dyn++) {
+		if (dyn->d_tag == DT_NULL)
+			break;
+		if (dyn->d_tag == DT_NEEDED) {
+			unsigned long name_offset = dyn->d_un.d_val;
+			if (name_offset < strtab_size) {
+				strscpy(libs[nlibs].name, strtab + name_offset,
+					sizeof(libs[0].name));
+				subleq_elf_debug("DT_NEEDED: %s",
+						 libs[nlibs].name);
+				nlibs++;
+			}
+		}
+	}
+
+	kfree(strtab);
+	kfree(dyns);
+	return nlibs;
 }
 
 /*
@@ -505,11 +718,12 @@ static int resolve_external_symbols(struct file *file, struct elfhdr *hdr,
 }
 
 /*
- * Build symbol table from libsrt's ELF file
- * Finds __subleq_* symbols and stores their addresses for later lookup
+ * Build symbol table from the library's ELF file
+ * Adds all global function symbols to the shared symbol table
+ * (appends to existing symbols - does NOT reset)
  */
-static int build_libsrt_symbol_table(struct file *file, struct elfhdr *hdr,
-				     unsigned long load_addr)
+static int build_lib_symbol_table(struct file *file, struct elfhdr *hdr,
+				  unsigned long load_addr)
 {
 	struct elf_shdr *shdrs = NULL;
 	struct elf_shdr *shdr;
@@ -520,8 +734,8 @@ static int build_libsrt_symbol_table(struct file *file, struct elfhdr *hdr,
 	loff_t pos;
 	ssize_t ret;
 	int i, nsyms;
+	int symbols_added = 0;
 
-	libsrt_symbol_count = 0;
 	libsrt_load_addr = load_addr;
 
 	/* Read section headers */
@@ -588,26 +802,28 @@ static int build_libsrt_symbol_table(struct file *file, struct elfhdr *hdr,
 		return ret < 0 ? ret : -ENOEXEC;
 	}
 
-	/* Extract __subleq_* symbols */
+	/* Extract all global function symbols */
 	for (i = 0; i < nsyms && libsrt_symbol_count < MAX_LIBSRT_SYMBOLS;
 	     i++) {
 		struct elf32_sym *sym = &syms[i];
 		const char *name;
 
-		/* Skip undefined or non-function symbols */
+		/* Skip undefined symbols */
 		if (sym->st_shndx == SHN_UNDEF)
 			continue;
+		/* Skip non-function symbols */
 		if (ELF32_ST_TYPE(sym->st_info) != STT_FUNC &&
 		    ELF32_ST_TYPE(sym->st_info) != STT_NOTYPE)
 			continue;
+		/* Only include global symbols (not local) */
+		if (ELF32_ST_BIND(sym->st_info) == STB_LOCAL)
+			continue;
 		if (sym->st_name >= strtab_shdr->sh_size)
+			continue;
+		if (sym->st_name == 0) /* Skip empty names */
 			continue;
 
 		name = strtab + sym->st_name;
-
-		/* Only store __subleq_* symbols */
-		if (strncmp(name, "__subleq_", 9) != 0)
-			continue;
 
 		/* Store symbol with adjusted address */
 		strscpy(libsrt_symbols[libsrt_symbol_count].name, name,
@@ -615,9 +831,10 @@ static int build_libsrt_symbol_table(struct file *file, struct elfhdr *hdr,
 		libsrt_symbols[libsrt_symbol_count].addr =
 			load_addr + sym->st_value;
 		libsrt_symbol_count++;
+		symbols_added++;
 	}
 
-	subleq_elf_debug("Built libsrt symbol table: %d symbols",
+	subleq_elf_debug("Added %d symbols (total: %d)", symbols_added,
 			 libsrt_symbol_count);
 
 	kfree(syms);
@@ -628,17 +845,24 @@ static int build_libsrt_symbol_table(struct file *file, struct elfhdr *hdr,
 
 /*
  * Load the shared runtime library if present
+ * lib_path is the path to load (from PT_INTERP), or NULL to skip
  */
-static int load_libsrt(struct elf_load_info *lib_info)
+static int load_libsrt(const char *lib_path, struct elf_load_info *lib_info)
 {
 	struct file *lib_file;
 	struct elfhdr lib_hdr;
 	loff_t pos = 0;
 	ssize_t ret;
 
-	lib_file = filp_open(LIBSRT_PATH, O_RDONLY, 0);
+	if (!lib_path || lib_path[0] == '\0') {
+		/* No library path specified - binary might not need it */
+		return 0;
+	}
+
+	lib_file = filp_open(lib_path, O_RDONLY, 0);
 	if (IS_ERR(lib_file)) {
 		/* Library not found - this is OK, binary might not need it */
+		subleq_elf_debug("Shared library not found: %s", lib_path);
 		return 0;
 	}
 
@@ -651,25 +875,27 @@ static int load_libsrt(struct elf_load_info *lib_info)
 
 	if (!is_subleq_elf(&lib_hdr, lib_file)) {
 		fput(lib_file);
-		pr_err("libsrt: Not a valid Subleq ELF\n");
+		pr_err("SUBLEQ_ELF: %s is not a valid Subleq ELF\n", lib_path);
 		return -ENOEXEC;
 	}
 
-	subleq_elf_debug("Loading libsrt from %s", LIBSRT_PATH);
+	subleq_elf_debug("Loading shared library from %s", lib_path);
 
 	ret = load_elf_segments(lib_file, &lib_hdr, lib_info);
 	if (ret < 0) {
 		fput(lib_file);
-		pr_err("libsrt: Failed to load: %d\n", (int)ret);
+		pr_err("SUBLEQ_ELF: Failed to load %s: %d\n", lib_path,
+		       (int)ret);
 		return ret;
 	}
 
-	/* Apply relocations to libsrt itself */
+	/* Apply relocations to the library itself */
 	ret = process_elf_relocations(lib_file, &lib_hdr, lib_info->load_addr,
 				      0);
 	if (ret < 0) {
 		fput(lib_file);
-		pr_err("libsrt: Failed to process relocations: %d\n", (int)ret);
+		pr_err("SUBLEQ_ELF: Failed to process relocations for %s: %d\n",
+		       lib_path, (int)ret);
 		return ret;
 	}
 
@@ -677,13 +903,16 @@ static int load_libsrt(struct elf_load_info *lib_info)
 	pos = 0;
 	ret = kernel_read(lib_file, &lib_hdr, sizeof(lib_hdr), &pos);
 	if (ret == sizeof(lib_hdr)) {
-		build_libsrt_symbol_table(lib_file, &lib_hdr,
-					  lib_info->load_addr);
+		build_lib_symbol_table(lib_file, &lib_hdr, lib_info->load_addr);
+
+		/* Resolve external symbols in this library against already loaded symbols */
+		resolve_external_symbols(lib_file, &lib_hdr,
+					 lib_info->load_addr);
 	}
 
 	fput(lib_file);
 
-	subleq_elf_debug("libsrt loaded at 0x%lx", lib_info->load_addr);
+	subleq_elf_debug("Shared library loaded at 0x%lx", lib_info->load_addr);
 	return 1; /* Library loaded successfully */
 }
 
@@ -730,10 +959,13 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 	struct pt_regs *regs = task_pt_regs(current);
 	struct elf_load_info exec_info = { 0 };
 	struct elf_load_info lib_info = { 0 };
+	struct needed_lib needed_libs[MAX_NEEDED_LIBS];
+	char lib_path[MAX_LIB_PATH];
 	unsigned long stack_size;
 	unsigned long stack_base;
 	int ret;
 	int has_libsrt = 0;
+	int nlibs, i;
 
 	subleq_elf_debug("Checking ELF binary: %s", bprm->filename);
 
@@ -743,6 +975,11 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 
 	subleq_elf_debug("Valid Subleq ELF, entry=0x%lx",
 			 (unsigned long)hdr->e_entry);
+
+	/* Extract DT_NEEDED library names before point of no return */
+	nlibs = get_elf_needed_libs(bprm->file, hdr, needed_libs,
+				    MAX_NEEDED_LIBS);
+	subleq_elf_debug("Found %d DT_NEEDED libraries", nlibs);
 
 	/* Flush old executable */
 	ret = begin_new_exec(bprm);
@@ -754,11 +991,21 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 	setup_new_exec(bprm);
 	set_binfmt(&elf_subleq_format);
 
-	/* Load the shared runtime library first (if present) */
-	ret = load_libsrt(&lib_info);
-	if (ret < 0)
-		return ret;
-	has_libsrt = (ret > 0);
+	/* Reset symbol table for new process */
+	libsrt_symbol_count = 0;
+
+	/* Load each DT_NEEDED library from /lib/ */
+	for (i = 0; i < nlibs; i++) {
+		/* Build full path: /lib/<libname> */
+		snprintf(lib_path, sizeof(lib_path), "/lib/%s",
+			 needed_libs[i].name);
+
+		ret = load_libsrt(lib_path, &lib_info);
+		if (ret < 0)
+			return ret;
+		if (ret > 0)
+			has_libsrt = 1;
+	}
 
 	/* Load the main executable */
 	ret = load_elf_segments(bprm->file, hdr, &exec_info);

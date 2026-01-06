@@ -11,6 +11,7 @@ obj-y += signal.o
 obj-y += traps.o
 obj-y += ptrace.o
 obj-y += syscalls.o
+obj-y += syscall_entry.o
 obj-y += tty.o
 obj-y += binfmt_elf_subleq.o
 

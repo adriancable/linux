@@ -623,8 +623,9 @@ static int resolve_external_symbols(struct file *file, struct elfhdr *hdr,
 	int i, nsyms;
 	int symbols_resolved = 0;
 
-	if (libsrt_symbol_count == 0)
-		return 0; /* No libsrt symbols to resolve */
+	/* Note: We always try to resolve symbols because kernel_runtime_symbols
+	 * (like __subleq_udivrem, __subleq_lb, etc.) are checked first,
+	 * even if no shared library symbols were loaded */
 
 	/* Read section headers */
 	if (hdr->e_shentsize != sizeof(struct elf_shdr) || hdr->e_shnum == 0)
@@ -643,15 +644,25 @@ static int resolve_external_symbols(struct file *file, struct elfhdr *hdr,
 		return ret < 0 ? ret : -ENOEXEC;
 	}
 
-	/* Find .symtab and .strtab sections */
+	/* Find .symtab section first */
 	for (i = 0, shdr = shdrs; i < hdr->e_shnum; i++, shdr++) {
-		if (shdr->sh_type == SHT_SYMTAB)
+		if (shdr->sh_type == SHT_SYMTAB) {
 			symtab_shdr = shdr;
-		else if (shdr->sh_type == SHT_STRTAB && i != hdr->e_shstrndx)
-			strtab_shdr = shdr;
+			break;
+		}
 	}
 
-	if (!symtab_shdr || !strtab_shdr) {
+	if (!symtab_shdr) {
+		kfree(shdrs);
+		return 0;
+	}
+
+	/* Use symtab's sh_link to find the correct string table */
+	if (symtab_shdr->sh_link < hdr->e_shnum) {
+		strtab_shdr = &shdrs[symtab_shdr->sh_link];
+	}
+
+	if (!strtab_shdr || strtab_shdr->sh_type != SHT_STRTAB) {
 		kfree(shdrs);
 		return 0;
 	}
@@ -805,16 +816,27 @@ static int build_lib_symbol_table(struct file *file, struct elfhdr *hdr,
 		return ret < 0 ? ret : -ENOEXEC;
 	}
 
-	/* Find .symtab and .strtab sections */
+	/* Find .symtab section first */
 	for (i = 0, shdr = shdrs; i < hdr->e_shnum; i++, shdr++) {
-		if (shdr->sh_type == SHT_SYMTAB)
+		if (shdr->sh_type == SHT_SYMTAB) {
 			symtab_shdr = shdr;
-		else if (shdr->sh_type == SHT_STRTAB && i != hdr->e_shstrndx)
-			strtab_shdr = shdr;
+			break;
+		}
 	}
 
-	if (!symtab_shdr || !strtab_shdr) {
+	if (!symtab_shdr) {
 		subleq_elf_debug("libsrt: No symbol table found");
+		kfree(shdrs);
+		return 0;
+	}
+
+	/* Use symtab's sh_link to find the correct string table */
+	if (symtab_shdr->sh_link < hdr->e_shnum) {
+		strtab_shdr = &shdrs[symtab_shdr->sh_link];
+	}
+
+	if (!strtab_shdr || strtab_shdr->sh_type != SHT_STRTAB) {
+		subleq_elf_debug("libsrt: No string table found");
 		kfree(shdrs);
 		return 0;
 	}

@@ -9,7 +9,10 @@
 /* Use generic system call table */
 #include <uapi/asm-generic/unistd.h>
 
+/* Enable 32-bit syscall variants for Subleq */
 #define __ARCH_WANT_NEW_STAT
+#define __ARCH_WANT_STAT64
+#define __ARCH_WANT_TIME32_SYSCALLS
 #define __ARCH_WANT_SYS_CLONE
 #define __ARCH_WANT_SYS_CLONE3
 

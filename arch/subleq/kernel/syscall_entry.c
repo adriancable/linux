@@ -36,12 +36,17 @@ long __subleq_syscall(long nr, long a1, long a2, long a3, long a4, long a5, long
 {
 	syscall_fn_t fn;
 
-	if (nr < 0 || nr >= __NR_syscalls)
+	if (nr < 0 || nr >= __NR_syscalls) {
+		pr_warn("SUBLEQ_SYSCALL: nr=%ld out of range (max=%d)\n",
+			nr, __NR_syscalls);
 		return -ENOSYS;
+	}
 
 	fn = (syscall_fn_t)sys_call_table[nr];
-	if (!fn || fn == (syscall_fn_t)sys_ni_syscall)
+	if (!fn || fn == (syscall_fn_t)sys_ni_syscall) {
+		pr_warn("SUBLEQ_SYSCALL: syscall %ld not implemented\n", nr);
 		return -ENOSYS;
+	}
 
 	return fn(a1, a2, a3, a4, a5, a6);
 }

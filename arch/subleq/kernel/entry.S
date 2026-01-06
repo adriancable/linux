@@ -56,6 +56,7 @@
 .set REG_R29, 132
 .set REG_R30, 136
 .set REG_R31, 140
+.set REG_FP, 148         /* Frame pointer at word 37 */
 .set REG_T0, 160
 .set REG_T1, 164
 .set REG_T2, 168
@@ -127,10 +128,12 @@
 .set SAVE_SCRATCH, 420
 .set SAVE_JMPTGT, 424
 
+.set SAVE_FP, 436        /* Save slot for frame pointer */
+
 /* Context switch scratch registers - separate from INT_ZZ to avoid conflicts
  * when context switch runs with interrupts enabled */
-.set SW_ZZ, 428   /* Scratch for __switch_to / ret_from_fork */
-.set SW_ZZ2, 432  /* Second scratch if needed */
+.set SW_ZZ, 440   /* Scratch for __switch_to / ret_from_fork */
+.set SW_ZZ2, 444  /* Second scratch if needed */
 
 /* Save/restore macros */
 .macro SAVE_REG reg_addr, save_addr, next_label
@@ -262,7 +265,9 @@ subleq_irq_entry:
 .Lsave_t14:
         SAVE_REG REG_T14, SAVE_T14, .Lsave_t15
 .Lsave_t15:
-        SAVE_REG REG_T15, SAVE_T15, .Lsave_done
+        SAVE_REG REG_T15, SAVE_T15, .Lsave_fp
+.Lsave_fp:
+        SAVE_REG REG_FP, SAVE_FP, .Lsave_done
 
 .Lsave_done:
         /* DEBUG: Print 'C' (67) - after save */
@@ -314,8 +319,10 @@ subleq_irq_entry:
         /* PHASE 3: RESTORE ALL REGISTERS */
 .Lirq_returned:
         /* DEBUG: Print 'E' (69) - after C call */
-        /* .word   -4, .Lchar_E, .Lrestore_t15 */
+        /* .word   -4, .Lchar_E, .Lrestore_fp */
 
+.Lrestore_fp:
+        RESTORE_REG SAVE_FP, REG_FP, .Lrestore_t15
 .Lrestore_t15:
         RESTORE_REG SAVE_T15, REG_T15, .Lrestore_t14
 .Lrestore_t14:
@@ -571,6 +578,8 @@ test_return:
 
 /* Offset of thread.sp in task_struct (TASK_THREAD + THREAD_SP = 1180 + 0) */
 .set TASK_THREAD_SP, 1180
+/* Offset of thread.fp in task_struct (TASK_THREAD + THREAD_FP = 1180 + 4) */
+.set TASK_THREAD_FP, 1184
 
 /* Subleq+ indirect addressing flag (bit 1) */
 .set INDIRECT, 2
@@ -619,6 +628,34 @@ __switch_to:
         .word   REG_SP, SW_ZZ, .Lsw_save_sp8
 .Lsw_save_sp8:
         /* [SW_ZZ2] -= SW_ZZ => prev->thread.sp = SP */
+        .word   SW_ZZ, SW_ZZ2 | INDIRECT, .Lsw_save_fp
+
+        /*
+         * Step 2b: Save FP to prev->thread.fp
+         */
+.Lsw_save_fp:
+        /* Calculate &prev->thread.fp into SW_ZZ2 */
+        .word   SW_ZZ, SW_ZZ, .Lsw_save_fp1
+.Lsw_save_fp1:
+        .word   REG_R21, SW_ZZ, .Lsw_save_fp2
+.Lsw_save_fp2:
+        .word   SW_ZZ2, SW_ZZ2, .Lsw_save_fp3
+.Lsw_save_fp3:
+        .word   SW_ZZ, SW_ZZ2, .Lsw_save_fp4         /* SW_ZZ2 = R21 */
+.Lsw_save_fp4:
+        .word   .Loffset_fp_neg, SW_ZZ2, .Lsw_save_fp5  /* SW_ZZ2 = R21 + 1184 = &prev->thread.fp */
+
+.Lsw_save_fp5:
+        /* Clear [SW_ZZ2] */
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ2 | INDIRECT, .Lsw_save_fp6
+
+.Lsw_save_fp6:
+        /* Store FP: get -FP into SW_ZZ */
+        .word   SW_ZZ, SW_ZZ, .Lsw_save_fp7
+.Lsw_save_fp7:
+        .word   REG_FP, SW_ZZ, .Lsw_save_fp8
+.Lsw_save_fp8:
+        /* [SW_ZZ2] -= SW_ZZ => prev->thread.fp = FP */
         .word   SW_ZZ, SW_ZZ2 | INDIRECT, .Lsw_update_current
 
         /*
@@ -659,7 +696,34 @@ __switch_to:
         /* SP = -SW_ZZ = next->thread.sp */
         .word   REG_SP, REG_SP, .Lsw_load_sp8
 .Lsw_load_sp8:
-        .word   SW_ZZ, REG_SP, .Lsw_set_retval
+        .word   SW_ZZ, REG_SP, .Lsw_load_fp
+
+        /*
+         * Step 4b: Load FP from next->thread.fp
+         */
+.Lsw_load_fp:
+        /* Calculate &next->thread.fp into SW_ZZ2 */
+        .word   SW_ZZ, SW_ZZ, .Lsw_load_fp1
+.Lsw_load_fp1:
+        .word   REG_R22, SW_ZZ, .Lsw_load_fp2
+.Lsw_load_fp2:
+        .word   SW_ZZ2, SW_ZZ2, .Lsw_load_fp3
+.Lsw_load_fp3:
+        .word   SW_ZZ, SW_ZZ2, .Lsw_load_fp4         /* SW_ZZ2 = R22 */
+.Lsw_load_fp4:
+        .word   .Loffset_fp_neg, SW_ZZ2, .Lsw_load_fp5  /* SW_ZZ2 = R22 + 1184 = &next->thread.fp */
+
+.Lsw_load_fp5:
+        /* Load [SW_ZZ2] into SW_ZZ */
+        .word   SW_ZZ, SW_ZZ, .Lsw_load_fp6
+.Lsw_load_fp6:
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ, .Lsw_load_fp7
+
+.Lsw_load_fp7:
+        /* FP = -SW_ZZ = next->thread.fp */
+        .word   REG_FP, REG_FP, .Lsw_load_fp8
+.Lsw_load_fp8:
+        .word   SW_ZZ, REG_FP, .Lsw_set_retval
 
         /*
          * Step 5: Set return value R20 = prev (R21)
@@ -712,6 +776,8 @@ __switch_to:
 /* Data for __switch_to */
 .Loffset_neg:
         .word   -1180           /* Negative of TASK_THREAD_SP offset */
+.Loffset_fp_neg:
+        .word   -1184           /* Negative of TASK_THREAD_FP offset */
 .Lconst_neg4:
         .word   -4
 /* Note: .Lconst_4 is defined earlier in the file (in irq handler section) */

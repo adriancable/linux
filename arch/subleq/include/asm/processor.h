@@ -19,15 +19,18 @@
 
 /*
  * Thread state structure - minimal for Subleq
- * Only need to save stack pointer for context switch
+ * Need to save both stack pointer and frame pointer for context switch.
+ * Frame pointer is now always enabled by the LLVM backend.
  */
 struct thread_struct {
 	unsigned long sp; /* Saved stack pointer */
+	unsigned long fp; /* Saved frame pointer */
 };
 
 #define INIT_THREAD      \
 	{                \
 		.sp = 0, \
+		.fp = 0, \
 	}
 
 /*

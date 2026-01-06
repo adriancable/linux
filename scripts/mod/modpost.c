@@ -1291,6 +1291,10 @@ static Elf_Addr addend_mips_rel(uint32_t *location, unsigned int r_type)
 #define EM_LOONGARCH		258
 #endif
 
+#ifndef EM_SUBLEQ
+#define EM_SUBLEQ		0xb124
+#endif
+
 #ifndef R_LARCH_SUB32
 #define R_LARCH_SUB32		55
 #endif
@@ -1395,6 +1399,7 @@ static void section_rel(struct module *mod, struct elf_info *elf,
 
 		switch (elf->hdr->e_machine) {
 		case EM_386:
+		case EM_SUBLEQ:
 			taddr = addend_386_rel(loc, r_type);
 			break;
 		case EM_ARM:

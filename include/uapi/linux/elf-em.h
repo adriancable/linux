@@ -52,6 +52,7 @@
 #define EM_BPF		247	/* Linux BPF - in-kernel virtual machine */
 #define EM_CSKY		252	/* C-SKY */
 #define EM_LOONGARCH	258	/* LoongArch */
+#define EM_SUBLEQ	0xb124	/* Subleq One Instruction Set Computer */
 #define EM_FRV		0x5441	/* Fujitsu FR-V */
 
 /*

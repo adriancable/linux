@@ -209,8 +209,8 @@ static int is_subleq_elf(struct elfhdr *hdr, struct file *file)
 	/* Accept both ET_EXEC and ET_DYN (PIE) */
 	if (hdr->e_type != ET_EXEC && hdr->e_type != ET_DYN)
 		return 0;
-	/* We use EM_386 for Subleq since that's what the LLVM backend emits */
-	if (hdr->e_machine != EM_386)
+	/* Subleq ELF binaries use EM_SUBLEQ */
+	if (hdr->e_machine != EM_SUBLEQ)
 		return 0;
 	return 1;
 }

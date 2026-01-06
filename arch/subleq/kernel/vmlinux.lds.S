@@ -27,7 +27,7 @@
  * Use i386 output format since Subleq uses 32-bit words and this is
  * what the LLVM backend generates.
  */
-OUTPUT_FORMAT("elf32-i386", "elf32-i386", "elf32-i386")
+OUTPUT_FORMAT("elf32-subleq", "elf32-subleq", "elf32-subleq")
 OUTPUT_ARCH(i386)
 ENTRY(_start)
 

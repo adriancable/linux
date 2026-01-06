@@ -17,4 +17,10 @@ extern void __init subleq_early_console_init(void);
 extern unsigned long subleq_memory_start;
 extern unsigned long subleq_memory_end;
 
+/* Early boot entry point (called from head.S before start_kernel) */
+asmlinkage void __init __noreturn subleq_start(void);
+
+/* Memory zone initialization */
+extern void __init paging_init(void);
+
 #endif /* _ASM_SUBLEQ_SETUP_H */

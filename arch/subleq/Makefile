@@ -25,6 +25,10 @@ KBUILD_CFLAGS += '-DOPTIMIZER_HIDE_VAR(var)=barrier()'
 # Subleq-specific: disable features that generate problematic code
 KBUILD_CFLAGS += -fno-optimize-sibling-calls
 
+# Suppress false positive array-bounds warnings from signal.h macros
+# (switch-based code with compile-time constant _NSIG_WORDS=2)
+KBUILD_CFLAGS += -Wno-array-bounds
+
 # Stack size for the kernel (near top of 1GB address space)
 # 0x3F000000 = 1008MB, leaving ~16MB for stack
 SUBLEQ_STACK_SIZE := 0x3F000000

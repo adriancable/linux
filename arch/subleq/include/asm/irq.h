@@ -13,6 +13,9 @@
 /* Timer interrupt handler (called from entry.S via subleq_do_IRQ) */
 extern void subleq_timer_interrupt(void);
 
+/* C-level interrupt handler (called from assembly) */
+extern void subleq_do_IRQ(void);
+
 #include <asm-generic/irq.h>
 
 #endif /* _ASM_SUBLEQ_IRQ_H */

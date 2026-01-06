@@ -62,6 +62,15 @@ extern void start_thread(struct pt_regs *regs, unsigned long pc,
 /* Default I/O bitmap */
 #define INIT_THREAD_FLAGS 0
 
+/* Process management functions */
+extern void kernel_thread_helper(struct task_struct *prev);
+extern void ret_to_user_prep(struct task_struct *prev);
+
+/* Machine power management */
+extern void machine_halt(void);
+extern void machine_power_off(void);
+extern void machine_restart(char *cmd);
+
 #endif /* !__ASSEMBLY__ */
 
 #endif /* _ASM_SUBLEQ_PROCESSOR_H */

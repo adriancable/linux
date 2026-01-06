@@ -85,8 +85,6 @@ asmlinkage void __init __noreturn subleq_start(void)
  *
  * Called early in boot by start_kernel()
  */
-extern void paging_init(void);
-
 void __init setup_arch(char **cmdline_p)
 {
 	/* BSS already cleared in subleq_start() before start_kernel() */

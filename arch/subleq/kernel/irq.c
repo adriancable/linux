@@ -80,11 +80,3 @@ void __init init_IRQ(void)
 	pr_info("Subleq IRQ: handler installed at 0x%lx\n",
 		(unsigned long)subleq_irq_entry);
 }
-
-/*
- * Architecture-specific IRQ setup stub
- */
-int arch_setup_irq_generic(unsigned int irq)
-{
-	return 0;
-}

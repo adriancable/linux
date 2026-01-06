@@ -8,6 +8,7 @@
 #include <linux/sched/task.h>
 #include <linux/sched/task_stack.h>
 #include <linux/ptrace.h>
+#include <linux/cpu.h>
 
 #include <asm/processor.h>
 #include <asm/ptrace.h>

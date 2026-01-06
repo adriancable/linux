@@ -9,6 +9,7 @@
 #include <linux/sched/debug.h>
 #include <linux/bug.h>
 #include <linux/stacktrace.h>
+#include <linux/cpu.h>
 #include <asm/ptrace.h>
 
 /*

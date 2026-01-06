@@ -33,9 +33,12 @@
 #include <asm/processor.h>
 #include <asm/current.h>
 
-/* ELF relocation type - R_386_32 is absolute 32-bit */
+/* ELF relocation types for i386 */
 #ifndef R_386_32
-#define R_386_32 1
+#define R_386_32 1 /* Absolute 32-bit address */
+#endif
+#ifndef R_386_RELATIVE
+#define R_386_RELATIVE 8 /* Adjust by load base (for shared libs) */
 #endif
 
 #define SUBLEQ_ELF_DEBUG 1
@@ -58,6 +61,8 @@
 /* Information about a loaded ELF segment */
 struct elf_load_info {
 	unsigned long load_addr; /* Where the ELF was loaded */
+	unsigned long
+		base_vaddr; /* Original link address (first PT_LOAD vaddr) */
 	unsigned long entry_addr; /* Entry point address */
 	unsigned long stack_size; /* Requested stack size */
 	unsigned long total_size; /* Total memory size needed */
@@ -133,6 +138,36 @@ static struct libsrt_symbol libsrt_symbols[MAX_LIBSRT_SYMBOLS];
 static int libsrt_symbol_count = 0;
 static unsigned long libsrt_load_addr = 0;
 
+/* Track which libraries have been loaded to avoid duplicates */
+#define MAX_LOADED_LIBS 16
+static struct {
+	char name[64];
+	unsigned long load_addr;
+} loaded_libs[MAX_LOADED_LIBS];
+static int loaded_lib_count = 0;
+
+/* Check if a library has already been loaded. Returns load_addr or 0 if not. */
+static unsigned long find_loaded_lib(const char *name)
+{
+	int i;
+	for (i = 0; i < loaded_lib_count; i++) {
+		if (strcmp(loaded_libs[i].name, name) == 0)
+			return loaded_libs[i].load_addr;
+	}
+	return 0;
+}
+
+/* Record that a library has been loaded */
+static void record_loaded_lib(const char *name, unsigned long load_addr)
+{
+	if (loaded_lib_count < MAX_LOADED_LIBS) {
+		strscpy(loaded_libs[loaded_lib_count].name, name,
+			sizeof(loaded_libs[0].name));
+		loaded_libs[loaded_lib_count].load_addr = load_addr;
+		loaded_lib_count++;
+	}
+}
+
 /*
  * Look up a symbol - first check kernel runtime symbols, then loaded libraries
  * Returns the address or 0 if not found
@@ -182,9 +217,11 @@ static int is_subleq_elf(struct elfhdr *hdr, struct file *file)
 
 /*
  * Structure to hold library name extracted from DT_NEEDED
+ * and the load address after loading
  */
 struct needed_lib {
 	char name[64];
+	unsigned long load_addr; /* Filled in after loading */
 };
 
 /*
@@ -229,15 +266,17 @@ static int get_elf_needed_libs(struct file *file, struct elfhdr *hdr,
 	}
 
 	/* Find PT_DYNAMIC and PT_LOAD segments */
+	int found_load = 0;
 	for (i = 0, phdr = phdrs; i < hdr->e_phnum; i++, phdr++) {
 		if (phdr->p_type == PT_DYNAMIC) {
 			dyn_offset = phdr->p_offset;
 			dyn_size = phdr->p_filesz;
 		}
-		if (phdr->p_type == PT_LOAD && load_offset == 0) {
+		if (phdr->p_type == PT_LOAD && !found_load) {
 			/* First PT_LOAD segment - use for vaddr to file offset conversion */
 			load_vaddr = phdr->p_vaddr;
 			load_offset = phdr->p_offset;
+			found_load = 1;
 		}
 	}
 
@@ -430,6 +469,7 @@ static long load_elf_segments(struct file *file, struct elfhdr *hdr,
 
 	/* Calculate entry point */
 	info->load_addr = load_addr;
+	info->base_vaddr = min_addr; /* Original link address */
 	info->entry_addr = load_addr + (hdr->e_entry - min_addr);
 	info->total_size = total_size;
 
@@ -525,7 +565,14 @@ static int process_elf_relocations(struct file *file, struct elfhdr *hdr,
 			u32 *patch_addr;
 			u32 value;
 
-			/* We only handle R_386_32 (absolute 32-bit) */
+			/*
+			 * Only process R_386_32 relocations.
+			 * Skip R_386_RELATIVE to avoid double-relocating offsets that
+			 * appear in both .rel.dyn (R_386_RELATIVE from -shared) and
+			 * .rel.text (R_386_32 from --emit-relocs).
+			 * R_386_32 is preferred because it includes symbol references
+			 * for undefined external symbols.
+			 */
 			if (type != R_386_32)
 				continue;
 
@@ -560,7 +607,8 @@ static int process_elf_relocations(struct file *file, struct elfhdr *hdr,
  * them to point to the correct addresses in libsrt.
  */
 static int resolve_external_symbols(struct file *file, struct elfhdr *hdr,
-				    unsigned long load_addr)
+				    unsigned long load_addr,
+				    unsigned long base_vaddr)
 {
 	struct elf_shdr *shdrs = NULL;
 	struct elf_shdr *shdr;
@@ -697,7 +745,7 @@ static int resolve_external_symbols(struct file *file, struct elfhdr *hdr,
 				continue; /* Symbol not found in libsrt */
 
 			/* Patch the relocation to point to libsrt */
-			reloc_addr = load_addr + rel->r_offset;
+			reloc_addr = load_addr + (rel->r_offset - base_vaddr);
 			patch_addr = (u32 *)reloc_addr;
 			*patch_addr = sym_addr;
 
@@ -846,6 +894,7 @@ static int build_lib_symbol_table(struct file *file, struct elfhdr *hdr,
 /*
  * Load the shared runtime library if present
  * lib_path is the path to load (from PT_INTERP), or NULL to skip
+ * This function handles recursive loading of DT_NEEDED dependencies.
  */
 static int load_libsrt(const char *lib_path, struct elf_load_info *lib_info)
 {
@@ -853,10 +902,26 @@ static int load_libsrt(const char *lib_path, struct elf_load_info *lib_info)
 	struct elfhdr lib_hdr;
 	loff_t pos = 0;
 	ssize_t ret;
+	const char *lib_name;
+	struct needed_lib lib_deps[MAX_NEEDED_LIBS];
+	int ndeps, i;
+	char dep_path[MAX_LIB_PATH];
 
 	if (!lib_path || lib_path[0] == '\0') {
 		/* No library path specified - binary might not need it */
 		return 0;
+	}
+
+	/* Extract just the library name from the path */
+	lib_name = strrchr(lib_path, '/');
+	lib_name = lib_name ? lib_name + 1 : lib_path;
+
+	/* Check if already loaded */
+	if (find_loaded_lib(lib_name)) {
+		subleq_elf_debug("Library %s already loaded, skipping",
+				 lib_name);
+		lib_info->load_addr = find_loaded_lib(lib_name);
+		return 1; /* Already loaded */
 	}
 
 	lib_file = filp_open(lib_path, O_RDONLY, 0);
@@ -889,9 +954,13 @@ static int load_libsrt(const char *lib_path, struct elf_load_info *lib_info)
 		return ret;
 	}
 
+	/* Record this library as loaded BEFORE processing dependencies
+	 * to handle circular dependencies */
+	record_loaded_lib(lib_name, lib_info->load_addr);
+
 	/* Apply relocations to the library itself */
 	ret = process_elf_relocations(lib_file, &lib_hdr, lib_info->load_addr,
-				      0);
+				      lib_info->base_vaddr);
 	if (ret < 0) {
 		fput(lib_file);
 		pr_err("SUBLEQ_ELF: Failed to process relocations for %s: %d\n",
@@ -904,10 +973,21 @@ static int load_libsrt(const char *lib_path, struct elf_load_info *lib_info)
 	ret = kernel_read(lib_file, &lib_hdr, sizeof(lib_hdr), &pos);
 	if (ret == sizeof(lib_hdr)) {
 		build_lib_symbol_table(lib_file, &lib_hdr, lib_info->load_addr);
+	}
 
-		/* Resolve external symbols in this library against already loaded symbols */
-		resolve_external_symbols(lib_file, &lib_hdr,
-					 lib_info->load_addr);
+	/* Check for DT_NEEDED dependencies in this library and load them */
+	pos = 0;
+	ret = kernel_read(lib_file, &lib_hdr, sizeof(lib_hdr), &pos);
+	if (ret == sizeof(lib_hdr)) {
+		ndeps = get_elf_needed_libs(lib_file, &lib_hdr, lib_deps,
+					    MAX_NEEDED_LIBS);
+		for (i = 0; i < ndeps; i++) {
+			struct elf_load_info dep_info = { 0 };
+			snprintf(dep_path, sizeof(dep_path), "/lib/%s",
+				 lib_deps[i].name);
+			/* Recursive call - will skip if already loaded */
+			load_libsrt(dep_path, &dep_info);
+		}
 	}
 
 	fput(lib_file);
@@ -991,10 +1071,11 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 	setup_new_exec(bprm);
 	set_binfmt(&elf_subleq_format);
 
-	/* Reset symbol table for new process */
+	/* Reset symbol table and loaded library list for new process */
 	libsrt_symbol_count = 0;
+	loaded_lib_count = 0;
 
-	/* Load each DT_NEEDED library from /lib/ */
+	/* Phase 1: Load each DT_NEEDED library from /lib/ and collect symbols */
 	for (i = 0; i < nlibs; i++) {
 		/* Build full path: /lib/<libname> */
 		snprintf(lib_path, sizeof(lib_path), "/lib/%s",
@@ -1003,8 +1084,35 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 		ret = load_libsrt(lib_path, &lib_info);
 		if (ret < 0)
 			return ret;
-		if (ret > 0)
+		if (ret > 0) {
 			has_libsrt = 1;
+			/* Store load address for second pass */
+			needed_libs[i].load_addr = lib_info.load_addr;
+		}
+	}
+
+	/* Phase 2: Now that all libraries are loaded and symbols collected,
+	 * resolve external symbols in each library. This iterates over ALL
+	 * loaded libraries (including recursively loaded dependencies). */
+	for (i = 0; i < loaded_lib_count; i++) {
+		struct file *lib_file;
+		struct elfhdr lib_hdr;
+		loff_t pos = 0;
+
+		snprintf(lib_path, sizeof(lib_path), "/lib/%s",
+			 loaded_libs[i].name);
+
+		lib_file = filp_open(lib_path, O_RDONLY, 0);
+		if (IS_ERR(lib_file))
+			continue;
+
+		ret = kernel_read(lib_file, &lib_hdr, sizeof(lib_hdr), &pos);
+		if (ret == sizeof(lib_hdr)) {
+			/* Shared libs are linked at 0, so base_vaddr = 0 */
+			resolve_external_symbols(lib_file, &lib_hdr,
+						 loaded_libs[i].load_addr, 0);
+		}
+		fput(lib_file);
 	}
 
 	/* Load the main executable */
@@ -1015,8 +1123,9 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 	subleq_elf_debug("Executable loaded at 0x%lx, entry=0x%lx",
 			 exec_info.load_addr, exec_info.entry_addr);
 
-	/* Apply relocations - binary is linked at 0, loaded elsewhere */
-	ret = process_elf_relocations(bprm->file, hdr, exec_info.load_addr, 0);
+	/* Apply relocations - adjust for difference between link and load address */
+	ret = process_elf_relocations(bprm->file, hdr, exec_info.load_addr,
+				      exec_info.base_vaddr);
 	if (ret < 0) {
 		pr_err("SUBLEQ_ELF: Failed to process relocations: %d\n", ret);
 		return ret;
@@ -1025,7 +1134,8 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 	/* Resolve external symbols against libsrt */
 	if (has_libsrt) {
 		ret = resolve_external_symbols(bprm->file, hdr,
-					       exec_info.load_addr);
+					       exec_info.load_addr,
+					       exec_info.base_vaddr);
 		if (ret < 0) {
 			pr_err("SUBLEQ_ELF: Failed to resolve symbols: %d\n",
 			       ret);

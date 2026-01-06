@@ -100,6 +100,7 @@ extern void __subleq_udivrem64(void);
 extern void __subleq_xor(void);
 extern void __udivdi3(void);
 extern void __umoddi3(void);
+extern long __subleq_syscall(long, long, long, long, long, long, long);
 
 /* Hardcoded table of kernel runtime symbols */
 static const struct {
@@ -130,6 +131,7 @@ static const struct {
 			       { "memcpy", &memcpy },
 			       { "memmove", &memmove },
 			       { "memset", &memset },
+			       { "__subleq_syscall", &__subleq_syscall },
 			       { NULL, NULL } };
 
 /* Dynamic symbol table (populated from loaded libraries) */

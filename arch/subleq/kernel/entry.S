@@ -148,12 +148,57 @@
 
 /*
  * Interrupt entry point
+ *
+ * CRITICAL: We must save SP and switch to the dedicated interrupt stack
+ * IMMEDIATELY, before doing anything else. This is because an interrupt
+ * can fire at any time, including when SP is in an invalid state (e.g.,
+ * being cleared in preparation for reloading a new value).
+ *
+ * The dedicated interrupt stack pointer is at subleq_irq_stack_top.
  */
 subleq_irq_entry:
         /* DEBUG disabled - was printing 'A' */
-        /* .word   -4, .Lchar_A, .Ldisable0 */
+        /* .word   -4, .Lchar_A, .Lsave_sp_first */
 
-        /* PHASE 0: DISABLE INTERRUPTS */
+        /*
+         * PHASE 0a: SAVE SP IMMEDIATELY - before anything else!
+         *
+         * The caller's SP might be garbage (e.g., mid-reload), so we must
+         * save it to SAVE_SP using only INT_ZZ as scratch before touching
+         * any stack operations.
+         *
+         * IMPORTANT: SAVE_REG/RESTORE_REG store values as NEGATIVE.
+         * We must follow the same convention: SAVE_SP = -SP
+         *
+         * Pattern: SAVE_SP = -SP (matching SAVE_REG convention)
+         *   1. SAVE_SP = SAVE_SP - SAVE_SP = 0
+         *   2. SAVE_SP = SAVE_SP - SP = -SP
+         */
+.Lsave_sp_first:
+        .word   SAVE_SP, SAVE_SP, .Lsave_sp_first1    /* SAVE_SP = 0 */
+.Lsave_sp_first1:
+        .word   REG_SP, SAVE_SP, .Lload_irq_stack     /* SAVE_SP = -SP */
+
+        /*
+         * PHASE 0b: SWITCH TO DEDICATED INTERRUPT STACK
+         *
+         * Load the IRQ stack top pointer into SP.
+         * Pattern: SP = subleq_irq_stack_top
+         *   1. SP = SP - SP = 0
+         *   2. INT_ZZ = INT_ZZ - INT_ZZ = 0
+         *   3. INT_ZZ = INT_ZZ - [subleq_irq_stack_top] = -stack_top
+         *   4. SP = SP - INT_ZZ = -(-stack_top) = stack_top
+         */
+.Lload_irq_stack:
+        .word   REG_SP, REG_SP, .Lload_irq_stack1     /* SP = 0 */
+.Lload_irq_stack1:
+        .word   INT_ZZ, INT_ZZ, .Lload_irq_stack2     /* INT_ZZ = 0 */
+.Lload_irq_stack2:
+        .word   subleq_irq_stack_top, INT_ZZ, .Lload_irq_stack3  /* INT_ZZ = -stack_top */
+.Lload_irq_stack3:
+        .word   INT_ZZ, REG_SP, .Ldisable0            /* SP = stack_top */
+
+        /* PHASE 0c: DISABLE INTERRUPTS */
 .Ldisable0:
         .word   INT_ZZ, INT_ZZ, .Ldisable1
 .Ldisable1:
@@ -169,11 +214,14 @@ subleq_irq_entry:
         /* DEBUG: Print 'B' (66) - after disable */
         /* .word   -4, .Lchar_B, .Lsave_z */
 
-        /* PHASE 1: SAVE ALL REGISTERS */
+        /*
+         * PHASE 1: SAVE ALL OTHER REGISTERS
+         *
+         * Note: SP was already saved in PHASE 0a above.
+         * We skip saving SP here and proceed directly to save Z, RA, etc.
+         */
 .Lsave_z:
-        SAVE_REG REG_Z, SAVE_Z, .Lsave_sp
-.Lsave_sp:
-        SAVE_REG REG_SP, SAVE_SP, .Lsave_ra
+        SAVE_REG REG_Z, SAVE_Z, .Lsave_ra
 .Lsave_ra:
         SAVE_REG REG_RA, SAVE_RA, .Lsave_r3
 .Lsave_r3:

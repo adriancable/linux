@@ -67,16 +67,28 @@ static void __init clear_bss(void)
  * Entry point from head.S
  *
  * This function is called by head.S instead of start_kernel() directly.
- * It clears BSS first, then calls start_kernel().
+ * It clears BSS first, initializes critical early systems, then calls
+ * start_kernel().
  *
  * This ensures BSS is cleared before any C code (including printk)
  * tries to use BSS-resident data structures like the printk ring buffer.
  */
 extern asmlinkage void __noreturn start_kernel(void);
 
+/* Early IRQ stack initialization - defined in irq.c */
+extern void early_irq_stack_init(void);
+
 asmlinkage void __init __noreturn subleq_start(void)
 {
 	clear_bss();
+
+	/*
+	 * Initialize the IRQ stack IMMEDIATELY after BSS is cleared.
+	 * This must happen before start_kernel() because interrupts
+	 * can fire at any point during kernel initialization.
+	 */
+	early_irq_stack_init();
+
 	start_kernel();
 }
 

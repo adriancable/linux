@@ -77899,20 +77899,20 @@ __ashrdi3:
         .word   -536870912
         .size   __ashrdi3, . - __ashrdi3
 
-        .globl  memcpy
-        .type   memcpy,@function
-# memcpy(dest=R21, src=R22, n=R23) returns R20=dest
-# Implemented as alias to memmove
-memcpy:
-        .word 12, 12, memmove
+        .globl  __subleq_memcpy
+        .type   __subleq_memcpy,@function
+# __subleq_memcpy(dest=R21, src=R22, n=R23) returns R20=dest
+# Implemented as alias to __subleq_memmove
+__subleq_memcpy:
+        .word 12, 12, __subleq_memmove
 
-        .size memcpy, . - memcpy
+        .size __subleq_memcpy, . - __subleq_memcpy
 
-        .globl  memset
-        .type   memset,@function
-# memset(dest=R21, c=R22, n=R23) returns R20=dest
+        .globl  __subleq_memset
+        .type   __subleq_memset,@function
+# __subleq_memset(dest=R21, c=R22, n=R23) returns R20=dest
 # Optimized 3-phase: head (byte), body (word), tail (byte)
-memset:
+__subleq_memset:
         .word 96, 96, .+4
         .word 12, 12, .+4
         .word 100, 12, .+4
@@ -78112,13 +78112,13 @@ memset:
 .Lmemset_tail_sb_ret_const:
         .word .Lmemset_tail_sb_ret
 
-        .size memset, . - memset
+        .size __subleq_memset, . - __subleq_memset
 
-        .globl  memmove
-        .type   memmove,@function
-# memmove(dest=R21, src=R22, n=R23) returns R20=dest
+        .globl  __subleq_memmove
+        .type   __subleq_memmove,@function
+# __subleq_memmove(dest=R21, src=R22, n=R23) returns R20=dest
 # Optimized 3-phase when (src&3)==(dst&3), handles overlap
-memmove:
+__subleq_memmove:
         .word 96, 96, .+4
         .word 12, 12, .+4
         .word 100, 12, .+4
@@ -78627,4 +78627,4 @@ memmove:
 .Lmemmove_fwd_sb_ret_const:
         .word .Lmemmove_fwd_sb_ret
 
-        .size memmove, . - memmove
+        .size __subleq_memmove, . - __subleq_memmove

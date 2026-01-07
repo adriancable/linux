@@ -624,6 +624,7 @@ static int resolve_external_symbols(struct file *file, struct elfhdr *hdr,
 	struct elf_shdr *strtab_shdr = NULL;
 	struct elf32_sym *syms = NULL;
 	char *strtab = NULL;
+	unsigned long *sym_cache = NULL; /* Cache for resolved symbol addresses */
 	loff_t pos;
 	ssize_t ret;
 	int i, nsyms;
@@ -706,6 +707,17 @@ static int resolve_external_symbols(struct file *file, struct elfhdr *hdr,
 		return ret < 0 ? ret : -ENOEXEC;
 	}
 
+	/*
+	 * Allocate a cache for resolved symbol addresses.
+	 * Cache values:
+	 *   0        = not yet looked up (uncached)
+	 *   1        = looked up but not found (sentinel)
+	 *   other    = resolved address
+	 * Note: We use 1 as sentinel since no valid symbol can be at address 1.
+	 */
+	sym_cache = kzalloc(nsyms * sizeof(unsigned long), GFP_KERNEL);
+	/* If allocation fails, we continue without caching (slower but correct) */
+
 	/* Now find relocation sections and resolve undefined symbols */
 	for (i = 0, shdr = shdrs; i < hdr->e_shnum; i++, shdr++) {
 		struct elf32_rel *rels = NULL;
@@ -742,6 +754,7 @@ static int resolve_external_symbols(struct file *file, struct elfhdr *hdr,
 			unsigned long sym_addr;
 			unsigned long reloc_addr;
 			u32 *patch_addr;
+			int first_resolution = 0;
 
 			if (type != R_386_32)
 				continue;
@@ -756,20 +769,45 @@ static int resolve_external_symbols(struct file *file, struct elfhdr *hdr,
 			if (sym->st_name >= strtab_shdr->sh_size)
 				continue;
 
-			name = strtab + sym->st_name;
+			/* Check the cache first */
+			if (sym_cache) {
+				if (sym_cache[sym_idx] == 1) {
+					/* Previously looked up and not found */
+					continue;
+				}
+				if (sym_cache[sym_idx] != 0) {
+					/* Use cached address */
+					sym_addr = sym_cache[sym_idx];
+					goto apply_reloc;
+				}
+			}
 
-			/* Look up in libsrt */
+			/* Cache miss - look up the symbol */
+			name = strtab + sym->st_name;
 			sym_addr = lookup_libsrt_symbol(name);
+
+			if (sym_cache) {
+				/* Store result in cache (use 1 for not found) */
+				sym_cache[sym_idx] = sym_addr ? sym_addr : 1;
+			}
+
 			if (sym_addr == 0)
 				continue; /* Symbol not found in libsrt */
 
+			first_resolution = 1;
+
+apply_reloc:
 			/* Patch the relocation to point to libsrt */
 			reloc_addr = load_addr + (rel->r_offset - base_vaddr);
 			patch_addr = (u32 *)reloc_addr;
 			*patch_addr = sym_addr;
 
-			subleq_elf_debug("Resolved %s -> 0x%lx", name,
-					 sym_addr);
+			/* Only log the first time we resolve each symbol */
+			if (first_resolution) {
+				name = strtab + sym->st_name;
+				subleq_elf_debug("Resolved %s -> 0x%lx", name,
+						 sym_addr);
+			}
 			symbols_resolved++;
 		}
 
@@ -778,6 +816,7 @@ static int resolve_external_symbols(struct file *file, struct elfhdr *hdr,
 
 	subleq_elf_debug("Resolved %d external symbols", symbols_resolved);
 
+	kfree(sym_cache);
 	kfree(syms);
 	kfree(strtab);
 	kfree(shdrs);

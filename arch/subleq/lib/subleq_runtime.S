@@ -52327,15 +52327,9 @@ __umoddi3:
         .globl  __subleq_mul
         .type   __subleq_mul,@function
 
-# __subleq_mul: R3 = R3 * R4 (signed multiplication) - O(32) optimized
-# Input: R3 = multiplier, R4 = multiplicand
-# Output: R3 = product
-# Algorithm: Extract bits once (high to low), then accumulate (low to high)
-# Uses stack-based return: pop [SP] and jump to it
+# __subleq_mul: R3 = R3 * R4 (signed multiplication) - O(32) single-phase
+# Algorithm: reverse accumulation (double result, add R4 if bit set)
 __subleq_mul:
-        # Allocate 128 bytes on stack for bit flags
-        .word   .Lmul_stack128, 16, .Lmul_alloc_done
-.Lmul_alloc_done:
         .word   172, 172, .Lmul_chk_r3_sign
 .Lmul_chk_r3_sign:
         .word   164, 164, .Lmul_r3_cp1
@@ -52408,7 +52402,7 @@ __subleq_mul:
         .word   12, 164, .Lmul_r4_step1
 .Lmul_r4_step1:
         .word   24, 164, .Lmul_r4_le0
-        .word   12, 12, .Lmul_phase1_init
+        .word   12, 12, .Lmul_main_init
 .Lmul_r4_le0:
         .word   164, 164, .Lmul_r4_le0_1
 .Lmul_r4_le0_1:
@@ -52443,7 +52437,7 @@ __subleq_mul:
 .Lmul_r4_amb8:
         .word   .Lmul_one, 168, .Lmul_r4_amb9
 .Lmul_r4_amb9:
-        .word   24, 168, .Lmul_phase1_init
+        .word   24, 168, .Lmul_main_init
         .word   12, 12, .Lmul_r4_neg
 .Lmul_r4_neg:
         .word   .Lmul_neg1, 172, .Lmul_neg_r4_1
@@ -52458,2637 +52452,977 @@ __subleq_mul:
 .Lmul_neg_r4_5:
         .word   164, 12, .Lmul_neg_r4_6
 .Lmul_neg_r4_6:
-        .word   12, 32, .Lmul_phase1_init
-.Lmul_phase1_init:
-        .word   164, 164, .Lmul_p1_init1
-.Lmul_p1_init1:
-        .word   12, 12, .Lmul_p1_init2
-.Lmul_p1_init2:
-        .word   28, 12, .Lmul_p1_init3
-.Lmul_p1_init3:
-        .word   12, 164, .Lmul_p1_bit31
-.Lmul_p1_bit31:
-.Lmul_p1_31_clr_st1:
-        .word   184, 184, .Lmul_p1_31_clr_st2
-.Lmul_p1_31_clr_st2:
-        .word   12, 12, .Lmul_p1_31_clr_st3
-.Lmul_p1_31_clr_st3:
-        .word   16, 12, .Lmul_p1_31_clr_st4
-.Lmul_p1_31_clr_st4:
-        .word   12, 184, .Lmul_p1_31_clr_st5
-.Lmul_p1_31_clr_st5:
-        .word   .Lmul_noff124, 184, .Lmul_p1_31_clr_st6
-.Lmul_p1_31_clr_st6:
-        .word   186, 186, .Lmul_p1_31_clr_st7
-.Lmul_p1_31_clr_st7:
-        .word   12, 12, .Lmul_p1_31_test
-.Lmul_p1_31_test:
-        .word   168, 168, .Lmul_p1_31_t1
-.Lmul_p1_31_t1:
-        .word   12, 12, .Lmul_p1_31_t2
-.Lmul_p1_31_t2:
-        .word   164, 12, .Lmul_p1_31_t3
-.Lmul_p1_31_t3:
-        .word   12, 168, .Lmul_p1_31_t4
-.Lmul_p1_31_t4:
-        .word   24, 168, .Lmul_p1_31_le0
-        .word   12, 12, .Lmul_p1_bit30
-.Lmul_p1_31_le0:
-        .word   168, 168, .Lmul_p1_31_l1
-.Lmul_p1_31_l1:
-        .word   12, 12, .Lmul_p1_31_l2
-.Lmul_p1_31_l2:
-        .word   164, 12, .Lmul_p1_31_l3
-.Lmul_p1_31_l3:
-        .word   12, 168, .Lmul_p1_31_l4
-.Lmul_p1_31_l4:
-        .word   180, 180, .Lmul_p1_31_l5
-.Lmul_p1_31_l5:
-        .word   168, 180, .Lmul_p1_31_l6
-.Lmul_p1_31_l6:
-        .word   24, 180, .Lmul_p1_31_ambig
-        .word   12, 12, .Lmul_p1_31_set
-.Lmul_p1_31_ambig:
-        .word   180, 180, .Lmul_p1_31_a1
-.Lmul_p1_31_a1:
-        .word   12, 12, .Lmul_p1_31_a2
-.Lmul_p1_31_a2:
-        .word   164, 12, .Lmul_p1_31_a3
-.Lmul_p1_31_a3:
-        .word   12, 180, .Lmul_p1_31_a4
-.Lmul_p1_31_a4:
-        .word   12, 12, .Lmul_p1_31_a5
-.Lmul_p1_31_a5:
-        .word   180, 12, .Lmul_p1_31_a6
-.Lmul_p1_31_a6:
-        .word   180, 180, .Lmul_p1_31_a7
-.Lmul_p1_31_a7:
-        .word   12, 180, .Lmul_p1_31_a8
-.Lmul_p1_31_a8:
-        .word   .Lmul_one, 180, .Lmul_p1_31_a9
-.Lmul_p1_31_a9:
-        .word   24, 180, .Lmul_p1_bit30
-        .word   12, 12, .Lmul_p1_31_set
-.Lmul_p1_31_set:
-.Lmul_p1_31_store_st1:
-        .word   184, 184, .Lmul_p1_31_store_st2
-.Lmul_p1_31_store_st2:
-        .word   12, 12, .Lmul_p1_31_store_st3
-.Lmul_p1_31_store_st3:
-        .word   16, 12, .Lmul_p1_31_store_st4
-.Lmul_p1_31_store_st4:
-        .word   12, 184, .Lmul_p1_31_store_st5
-.Lmul_p1_31_store_st5:
-        .word   .Lmul_noff124, 184, .Lmul_p1_31_store_st6
-.Lmul_p1_31_store_st6:
-        .word   186, 186, .Lmul_p1_31_store_st7
-.Lmul_p1_31_store_st7:
-        .word   .Lmul_neg1, 186, .Lmul_p1_31_sub
-.Lmul_p1_31_sub:
-        .word   .Lmul_n2147483648, 164, .Lmul_p1_bit30
-.Lmul_p1_bit30:
-.Lmul_p1_30_clr_st1:
-        .word   184, 184, .Lmul_p1_30_clr_st2
-.Lmul_p1_30_clr_st2:
-        .word   12, 12, .Lmul_p1_30_clr_st3
-.Lmul_p1_30_clr_st3:
-        .word   16, 12, .Lmul_p1_30_clr_st4
-.Lmul_p1_30_clr_st4:
-        .word   12, 184, .Lmul_p1_30_clr_st5
-.Lmul_p1_30_clr_st5:
-        .word   .Lmul_noff120, 184, .Lmul_p1_30_clr_st6
-.Lmul_p1_30_clr_st6:
-        .word   186, 186, .Lmul_p1_30_clr_st7
-.Lmul_p1_30_clr_st7:
-        .word   12, 12, .Lmul_p1_30_test
-.Lmul_p1_30_test:
-        .word   168, 168, .Lmul_p1_30_t1
-.Lmul_p1_30_t1:
-        .word   12, 12, .Lmul_p1_30_t2
-.Lmul_p1_30_t2:
-        .word   164, 12, .Lmul_p1_30_t3
-.Lmul_p1_30_t3:
-        .word   12, 168, .Lmul_p1_30_t4
-.Lmul_p1_30_t4:
-        .word   .Lmul_c1073741824, 168, .Lmul_p1_30_t5
-.Lmul_p1_30_t5:
-        .word   180, 180, .Lmul_p1_30_t6
-.Lmul_p1_30_t6:
-        .word   168, 180, .Lmul_p1_30_set
-        .word   12, 12, .Lmul_p1_bit29
-.Lmul_p1_30_set:
-.Lmul_p1_30_st1_st1:
-        .word   184, 184, .Lmul_p1_30_st1_st2
-.Lmul_p1_30_st1_st2:
-        .word   12, 12, .Lmul_p1_30_st1_st3
-.Lmul_p1_30_st1_st3:
-        .word   16, 12, .Lmul_p1_30_st1_st4
-.Lmul_p1_30_st1_st4:
-        .word   12, 184, .Lmul_p1_30_st1_st5
-.Lmul_p1_30_st1_st5:
-        .word   .Lmul_noff120, 184, .Lmul_p1_30_st1_st6
-.Lmul_p1_30_st1_st6:
-        .word   186, 186, .Lmul_p1_30_st1_st7
-.Lmul_p1_30_st1_st7:
-        .word   .Lmul_neg1, 186, .Lmul_p1_30_sub
-.Lmul_p1_30_sub:
-        .word   .Lmul_c1073741824, 164, .Lmul_p1_bit29
-.Lmul_p1_bit29:
-.Lmul_p1_29_clr_st1:
-        .word   184, 184, .Lmul_p1_29_clr_st2
-.Lmul_p1_29_clr_st2:
-        .word   12, 12, .Lmul_p1_29_clr_st3
-.Lmul_p1_29_clr_st3:
-        .word   16, 12, .Lmul_p1_29_clr_st4
-.Lmul_p1_29_clr_st4:
-        .word   12, 184, .Lmul_p1_29_clr_st5
-.Lmul_p1_29_clr_st5:
-        .word   .Lmul_noff116, 184, .Lmul_p1_29_clr_st6
-.Lmul_p1_29_clr_st6:
-        .word   186, 186, .Lmul_p1_29_clr_st7
-.Lmul_p1_29_clr_st7:
-        .word   12, 12, .Lmul_p1_29_test
-.Lmul_p1_29_test:
-        .word   168, 168, .Lmul_p1_29_t1
-.Lmul_p1_29_t1:
-        .word   12, 12, .Lmul_p1_29_t2
-.Lmul_p1_29_t2:
-        .word   164, 12, .Lmul_p1_29_t3
-.Lmul_p1_29_t3:
-        .word   12, 168, .Lmul_p1_29_t4
-.Lmul_p1_29_t4:
-        .word   .Lmul_c536870912, 168, .Lmul_p1_29_t5
-.Lmul_p1_29_t5:
-        .word   180, 180, .Lmul_p1_29_t6
-.Lmul_p1_29_t6:
-        .word   168, 180, .Lmul_p1_29_set
-        .word   12, 12, .Lmul_p1_bit28
-.Lmul_p1_29_set:
-.Lmul_p1_29_st1_st1:
-        .word   184, 184, .Lmul_p1_29_st1_st2
-.Lmul_p1_29_st1_st2:
-        .word   12, 12, .Lmul_p1_29_st1_st3
-.Lmul_p1_29_st1_st3:
-        .word   16, 12, .Lmul_p1_29_st1_st4
-.Lmul_p1_29_st1_st4:
-        .word   12, 184, .Lmul_p1_29_st1_st5
-.Lmul_p1_29_st1_st5:
-        .word   .Lmul_noff116, 184, .Lmul_p1_29_st1_st6
-.Lmul_p1_29_st1_st6:
-        .word   186, 186, .Lmul_p1_29_st1_st7
-.Lmul_p1_29_st1_st7:
-        .word   .Lmul_neg1, 186, .Lmul_p1_29_sub
-.Lmul_p1_29_sub:
-        .word   .Lmul_c536870912, 164, .Lmul_p1_bit28
-.Lmul_p1_bit28:
-.Lmul_p1_28_clr_st1:
-        .word   184, 184, .Lmul_p1_28_clr_st2
-.Lmul_p1_28_clr_st2:
-        .word   12, 12, .Lmul_p1_28_clr_st3
-.Lmul_p1_28_clr_st3:
-        .word   16, 12, .Lmul_p1_28_clr_st4
-.Lmul_p1_28_clr_st4:
-        .word   12, 184, .Lmul_p1_28_clr_st5
-.Lmul_p1_28_clr_st5:
-        .word   .Lmul_noff112, 184, .Lmul_p1_28_clr_st6
-.Lmul_p1_28_clr_st6:
-        .word   186, 186, .Lmul_p1_28_clr_st7
-.Lmul_p1_28_clr_st7:
-        .word   12, 12, .Lmul_p1_28_test
-.Lmul_p1_28_test:
-        .word   168, 168, .Lmul_p1_28_t1
-.Lmul_p1_28_t1:
-        .word   12, 12, .Lmul_p1_28_t2
-.Lmul_p1_28_t2:
-        .word   164, 12, .Lmul_p1_28_t3
-.Lmul_p1_28_t3:
-        .word   12, 168, .Lmul_p1_28_t4
-.Lmul_p1_28_t4:
-        .word   .Lmul_c268435456, 168, .Lmul_p1_28_t5
-.Lmul_p1_28_t5:
-        .word   180, 180, .Lmul_p1_28_t6
-.Lmul_p1_28_t6:
-        .word   168, 180, .Lmul_p1_28_set
-        .word   12, 12, .Lmul_p1_bit27
-.Lmul_p1_28_set:
-.Lmul_p1_28_st1_st1:
-        .word   184, 184, .Lmul_p1_28_st1_st2
-.Lmul_p1_28_st1_st2:
-        .word   12, 12, .Lmul_p1_28_st1_st3
-.Lmul_p1_28_st1_st3:
-        .word   16, 12, .Lmul_p1_28_st1_st4
-.Lmul_p1_28_st1_st4:
-        .word   12, 184, .Lmul_p1_28_st1_st5
-.Lmul_p1_28_st1_st5:
-        .word   .Lmul_noff112, 184, .Lmul_p1_28_st1_st6
-.Lmul_p1_28_st1_st6:
-        .word   186, 186, .Lmul_p1_28_st1_st7
-.Lmul_p1_28_st1_st7:
-        .word   .Lmul_neg1, 186, .Lmul_p1_28_sub
-.Lmul_p1_28_sub:
-        .word   .Lmul_c268435456, 164, .Lmul_p1_bit27
-.Lmul_p1_bit27:
-.Lmul_p1_27_clr_st1:
-        .word   184, 184, .Lmul_p1_27_clr_st2
-.Lmul_p1_27_clr_st2:
-        .word   12, 12, .Lmul_p1_27_clr_st3
-.Lmul_p1_27_clr_st3:
-        .word   16, 12, .Lmul_p1_27_clr_st4
-.Lmul_p1_27_clr_st4:
-        .word   12, 184, .Lmul_p1_27_clr_st5
-.Lmul_p1_27_clr_st5:
-        .word   .Lmul_noff108, 184, .Lmul_p1_27_clr_st6
-.Lmul_p1_27_clr_st6:
-        .word   186, 186, .Lmul_p1_27_clr_st7
-.Lmul_p1_27_clr_st7:
-        .word   12, 12, .Lmul_p1_27_test
-.Lmul_p1_27_test:
-        .word   168, 168, .Lmul_p1_27_t1
-.Lmul_p1_27_t1:
-        .word   12, 12, .Lmul_p1_27_t2
-.Lmul_p1_27_t2:
-        .word   164, 12, .Lmul_p1_27_t3
-.Lmul_p1_27_t3:
-        .word   12, 168, .Lmul_p1_27_t4
-.Lmul_p1_27_t4:
-        .word   .Lmul_c134217728, 168, .Lmul_p1_27_t5
-.Lmul_p1_27_t5:
-        .word   180, 180, .Lmul_p1_27_t6
-.Lmul_p1_27_t6:
-        .word   168, 180, .Lmul_p1_27_set
-        .word   12, 12, .Lmul_p1_bit26
-.Lmul_p1_27_set:
-.Lmul_p1_27_st1_st1:
-        .word   184, 184, .Lmul_p1_27_st1_st2
-.Lmul_p1_27_st1_st2:
-        .word   12, 12, .Lmul_p1_27_st1_st3
-.Lmul_p1_27_st1_st3:
-        .word   16, 12, .Lmul_p1_27_st1_st4
-.Lmul_p1_27_st1_st4:
-        .word   12, 184, .Lmul_p1_27_st1_st5
-.Lmul_p1_27_st1_st5:
-        .word   .Lmul_noff108, 184, .Lmul_p1_27_st1_st6
-.Lmul_p1_27_st1_st6:
-        .word   186, 186, .Lmul_p1_27_st1_st7
-.Lmul_p1_27_st1_st7:
-        .word   .Lmul_neg1, 186, .Lmul_p1_27_sub
-.Lmul_p1_27_sub:
-        .word   .Lmul_c134217728, 164, .Lmul_p1_bit26
-.Lmul_p1_bit26:
-.Lmul_p1_26_clr_st1:
-        .word   184, 184, .Lmul_p1_26_clr_st2
-.Lmul_p1_26_clr_st2:
-        .word   12, 12, .Lmul_p1_26_clr_st3
-.Lmul_p1_26_clr_st3:
-        .word   16, 12, .Lmul_p1_26_clr_st4
-.Lmul_p1_26_clr_st4:
-        .word   12, 184, .Lmul_p1_26_clr_st5
-.Lmul_p1_26_clr_st5:
-        .word   .Lmul_noff104, 184, .Lmul_p1_26_clr_st6
-.Lmul_p1_26_clr_st6:
-        .word   186, 186, .Lmul_p1_26_clr_st7
-.Lmul_p1_26_clr_st7:
-        .word   12, 12, .Lmul_p1_26_test
-.Lmul_p1_26_test:
-        .word   168, 168, .Lmul_p1_26_t1
-.Lmul_p1_26_t1:
-        .word   12, 12, .Lmul_p1_26_t2
-.Lmul_p1_26_t2:
-        .word   164, 12, .Lmul_p1_26_t3
-.Lmul_p1_26_t3:
-        .word   12, 168, .Lmul_p1_26_t4
-.Lmul_p1_26_t4:
-        .word   .Lmul_c67108864, 168, .Lmul_p1_26_t5
-.Lmul_p1_26_t5:
-        .word   180, 180, .Lmul_p1_26_t6
-.Lmul_p1_26_t6:
-        .word   168, 180, .Lmul_p1_26_set
-        .word   12, 12, .Lmul_p1_bit25
-.Lmul_p1_26_set:
-.Lmul_p1_26_st1_st1:
-        .word   184, 184, .Lmul_p1_26_st1_st2
-.Lmul_p1_26_st1_st2:
-        .word   12, 12, .Lmul_p1_26_st1_st3
-.Lmul_p1_26_st1_st3:
-        .word   16, 12, .Lmul_p1_26_st1_st4
-.Lmul_p1_26_st1_st4:
-        .word   12, 184, .Lmul_p1_26_st1_st5
-.Lmul_p1_26_st1_st5:
-        .word   .Lmul_noff104, 184, .Lmul_p1_26_st1_st6
-.Lmul_p1_26_st1_st6:
-        .word   186, 186, .Lmul_p1_26_st1_st7
-.Lmul_p1_26_st1_st7:
-        .word   .Lmul_neg1, 186, .Lmul_p1_26_sub
-.Lmul_p1_26_sub:
-        .word   .Lmul_c67108864, 164, .Lmul_p1_bit25
-.Lmul_p1_bit25:
-.Lmul_p1_25_clr_st1:
-        .word   184, 184, .Lmul_p1_25_clr_st2
-.Lmul_p1_25_clr_st2:
-        .word   12, 12, .Lmul_p1_25_clr_st3
-.Lmul_p1_25_clr_st3:
-        .word   16, 12, .Lmul_p1_25_clr_st4
-.Lmul_p1_25_clr_st4:
-        .word   12, 184, .Lmul_p1_25_clr_st5
-.Lmul_p1_25_clr_st5:
-        .word   .Lmul_noff100, 184, .Lmul_p1_25_clr_st6
-.Lmul_p1_25_clr_st6:
-        .word   186, 186, .Lmul_p1_25_clr_st7
-.Lmul_p1_25_clr_st7:
-        .word   12, 12, .Lmul_p1_25_test
-.Lmul_p1_25_test:
-        .word   168, 168, .Lmul_p1_25_t1
-.Lmul_p1_25_t1:
-        .word   12, 12, .Lmul_p1_25_t2
-.Lmul_p1_25_t2:
-        .word   164, 12, .Lmul_p1_25_t3
-.Lmul_p1_25_t3:
-        .word   12, 168, .Lmul_p1_25_t4
-.Lmul_p1_25_t4:
-        .word   .Lmul_c33554432, 168, .Lmul_p1_25_t5
-.Lmul_p1_25_t5:
-        .word   180, 180, .Lmul_p1_25_t6
-.Lmul_p1_25_t6:
-        .word   168, 180, .Lmul_p1_25_set
-        .word   12, 12, .Lmul_p1_bit24
-.Lmul_p1_25_set:
-.Lmul_p1_25_st1_st1:
-        .word   184, 184, .Lmul_p1_25_st1_st2
-.Lmul_p1_25_st1_st2:
-        .word   12, 12, .Lmul_p1_25_st1_st3
-.Lmul_p1_25_st1_st3:
-        .word   16, 12, .Lmul_p1_25_st1_st4
-.Lmul_p1_25_st1_st4:
-        .word   12, 184, .Lmul_p1_25_st1_st5
-.Lmul_p1_25_st1_st5:
-        .word   .Lmul_noff100, 184, .Lmul_p1_25_st1_st6
-.Lmul_p1_25_st1_st6:
-        .word   186, 186, .Lmul_p1_25_st1_st7
-.Lmul_p1_25_st1_st7:
-        .word   .Lmul_neg1, 186, .Lmul_p1_25_sub
-.Lmul_p1_25_sub:
-        .word   .Lmul_c33554432, 164, .Lmul_p1_bit24
-.Lmul_p1_bit24:
-.Lmul_p1_24_clr_st1:
-        .word   184, 184, .Lmul_p1_24_clr_st2
-.Lmul_p1_24_clr_st2:
-        .word   12, 12, .Lmul_p1_24_clr_st3
-.Lmul_p1_24_clr_st3:
-        .word   16, 12, .Lmul_p1_24_clr_st4
-.Lmul_p1_24_clr_st4:
-        .word   12, 184, .Lmul_p1_24_clr_st5
-.Lmul_p1_24_clr_st5:
-        .word   .Lmul_noff96, 184, .Lmul_p1_24_clr_st6
-.Lmul_p1_24_clr_st6:
-        .word   186, 186, .Lmul_p1_24_clr_st7
-.Lmul_p1_24_clr_st7:
-        .word   12, 12, .Lmul_p1_24_test
-.Lmul_p1_24_test:
-        .word   168, 168, .Lmul_p1_24_t1
-.Lmul_p1_24_t1:
-        .word   12, 12, .Lmul_p1_24_t2
-.Lmul_p1_24_t2:
-        .word   164, 12, .Lmul_p1_24_t3
-.Lmul_p1_24_t3:
-        .word   12, 168, .Lmul_p1_24_t4
-.Lmul_p1_24_t4:
-        .word   .Lmul_c16777216, 168, .Lmul_p1_24_t5
-.Lmul_p1_24_t5:
-        .word   180, 180, .Lmul_p1_24_t6
-.Lmul_p1_24_t6:
-        .word   168, 180, .Lmul_p1_24_set
-        .word   12, 12, .Lmul_p1_bit23
-.Lmul_p1_24_set:
-.Lmul_p1_24_st1_st1:
-        .word   184, 184, .Lmul_p1_24_st1_st2
-.Lmul_p1_24_st1_st2:
-        .word   12, 12, .Lmul_p1_24_st1_st3
-.Lmul_p1_24_st1_st3:
-        .word   16, 12, .Lmul_p1_24_st1_st4
-.Lmul_p1_24_st1_st4:
-        .word   12, 184, .Lmul_p1_24_st1_st5
-.Lmul_p1_24_st1_st5:
-        .word   .Lmul_noff96, 184, .Lmul_p1_24_st1_st6
-.Lmul_p1_24_st1_st6:
-        .word   186, 186, .Lmul_p1_24_st1_st7
-.Lmul_p1_24_st1_st7:
-        .word   .Lmul_neg1, 186, .Lmul_p1_24_sub
-.Lmul_p1_24_sub:
-        .word   .Lmul_c16777216, 164, .Lmul_p1_bit23
-.Lmul_p1_bit23:
-.Lmul_p1_23_clr_st1:
-        .word   184, 184, .Lmul_p1_23_clr_st2
-.Lmul_p1_23_clr_st2:
-        .word   12, 12, .Lmul_p1_23_clr_st3
-.Lmul_p1_23_clr_st3:
-        .word   16, 12, .Lmul_p1_23_clr_st4
-.Lmul_p1_23_clr_st4:
-        .word   12, 184, .Lmul_p1_23_clr_st5
-.Lmul_p1_23_clr_st5:
-        .word   .Lmul_noff92, 184, .Lmul_p1_23_clr_st6
-.Lmul_p1_23_clr_st6:
-        .word   186, 186, .Lmul_p1_23_clr_st7
-.Lmul_p1_23_clr_st7:
-        .word   12, 12, .Lmul_p1_23_test
-.Lmul_p1_23_test:
-        .word   168, 168, .Lmul_p1_23_t1
-.Lmul_p1_23_t1:
-        .word   12, 12, .Lmul_p1_23_t2
-.Lmul_p1_23_t2:
-        .word   164, 12, .Lmul_p1_23_t3
-.Lmul_p1_23_t3:
-        .word   12, 168, .Lmul_p1_23_t4
-.Lmul_p1_23_t4:
-        .word   .Lmul_c8388608, 168, .Lmul_p1_23_t5
-.Lmul_p1_23_t5:
-        .word   180, 180, .Lmul_p1_23_t6
-.Lmul_p1_23_t6:
-        .word   168, 180, .Lmul_p1_23_set
-        .word   12, 12, .Lmul_p1_bit22
-.Lmul_p1_23_set:
-.Lmul_p1_23_st1_st1:
-        .word   184, 184, .Lmul_p1_23_st1_st2
-.Lmul_p1_23_st1_st2:
-        .word   12, 12, .Lmul_p1_23_st1_st3
-.Lmul_p1_23_st1_st3:
-        .word   16, 12, .Lmul_p1_23_st1_st4
-.Lmul_p1_23_st1_st4:
-        .word   12, 184, .Lmul_p1_23_st1_st5
-.Lmul_p1_23_st1_st5:
-        .word   .Lmul_noff92, 184, .Lmul_p1_23_st1_st6
-.Lmul_p1_23_st1_st6:
-        .word   186, 186, .Lmul_p1_23_st1_st7
-.Lmul_p1_23_st1_st7:
-        .word   .Lmul_neg1, 186, .Lmul_p1_23_sub
-.Lmul_p1_23_sub:
-        .word   .Lmul_c8388608, 164, .Lmul_p1_bit22
-.Lmul_p1_bit22:
-.Lmul_p1_22_clr_st1:
-        .word   184, 184, .Lmul_p1_22_clr_st2
-.Lmul_p1_22_clr_st2:
-        .word   12, 12, .Lmul_p1_22_clr_st3
-.Lmul_p1_22_clr_st3:
-        .word   16, 12, .Lmul_p1_22_clr_st4
-.Lmul_p1_22_clr_st4:
-        .word   12, 184, .Lmul_p1_22_clr_st5
-.Lmul_p1_22_clr_st5:
-        .word   .Lmul_noff88, 184, .Lmul_p1_22_clr_st6
-.Lmul_p1_22_clr_st6:
-        .word   186, 186, .Lmul_p1_22_clr_st7
-.Lmul_p1_22_clr_st7:
-        .word   12, 12, .Lmul_p1_22_test
-.Lmul_p1_22_test:
-        .word   168, 168, .Lmul_p1_22_t1
-.Lmul_p1_22_t1:
-        .word   12, 12, .Lmul_p1_22_t2
-.Lmul_p1_22_t2:
-        .word   164, 12, .Lmul_p1_22_t3
-.Lmul_p1_22_t3:
-        .word   12, 168, .Lmul_p1_22_t4
-.Lmul_p1_22_t4:
-        .word   .Lmul_c4194304, 168, .Lmul_p1_22_t5
-.Lmul_p1_22_t5:
-        .word   180, 180, .Lmul_p1_22_t6
-.Lmul_p1_22_t6:
-        .word   168, 180, .Lmul_p1_22_set
-        .word   12, 12, .Lmul_p1_bit21
-.Lmul_p1_22_set:
-.Lmul_p1_22_st1_st1:
-        .word   184, 184, .Lmul_p1_22_st1_st2
-.Lmul_p1_22_st1_st2:
-        .word   12, 12, .Lmul_p1_22_st1_st3
-.Lmul_p1_22_st1_st3:
-        .word   16, 12, .Lmul_p1_22_st1_st4
-.Lmul_p1_22_st1_st4:
-        .word   12, 184, .Lmul_p1_22_st1_st5
-.Lmul_p1_22_st1_st5:
-        .word   .Lmul_noff88, 184, .Lmul_p1_22_st1_st6
-.Lmul_p1_22_st1_st6:
-        .word   186, 186, .Lmul_p1_22_st1_st7
-.Lmul_p1_22_st1_st7:
-        .word   .Lmul_neg1, 186, .Lmul_p1_22_sub
-.Lmul_p1_22_sub:
-        .word   .Lmul_c4194304, 164, .Lmul_p1_bit21
-.Lmul_p1_bit21:
-.Lmul_p1_21_clr_st1:
-        .word   184, 184, .Lmul_p1_21_clr_st2
-.Lmul_p1_21_clr_st2:
-        .word   12, 12, .Lmul_p1_21_clr_st3
-.Lmul_p1_21_clr_st3:
-        .word   16, 12, .Lmul_p1_21_clr_st4
-.Lmul_p1_21_clr_st4:
-        .word   12, 184, .Lmul_p1_21_clr_st5
-.Lmul_p1_21_clr_st5:
-        .word   .Lmul_noff84, 184, .Lmul_p1_21_clr_st6
-.Lmul_p1_21_clr_st6:
-        .word   186, 186, .Lmul_p1_21_clr_st7
-.Lmul_p1_21_clr_st7:
-        .word   12, 12, .Lmul_p1_21_test
-.Lmul_p1_21_test:
-        .word   168, 168, .Lmul_p1_21_t1
-.Lmul_p1_21_t1:
-        .word   12, 12, .Lmul_p1_21_t2
-.Lmul_p1_21_t2:
-        .word   164, 12, .Lmul_p1_21_t3
-.Lmul_p1_21_t3:
-        .word   12, 168, .Lmul_p1_21_t4
-.Lmul_p1_21_t4:
-        .word   .Lmul_c2097152, 168, .Lmul_p1_21_t5
-.Lmul_p1_21_t5:
-        .word   180, 180, .Lmul_p1_21_t6
-.Lmul_p1_21_t6:
-        .word   168, 180, .Lmul_p1_21_set
-        .word   12, 12, .Lmul_p1_bit20
-.Lmul_p1_21_set:
-.Lmul_p1_21_st1_st1:
-        .word   184, 184, .Lmul_p1_21_st1_st2
-.Lmul_p1_21_st1_st2:
-        .word   12, 12, .Lmul_p1_21_st1_st3
-.Lmul_p1_21_st1_st3:
-        .word   16, 12, .Lmul_p1_21_st1_st4
-.Lmul_p1_21_st1_st4:
-        .word   12, 184, .Lmul_p1_21_st1_st5
-.Lmul_p1_21_st1_st5:
-        .word   .Lmul_noff84, 184, .Lmul_p1_21_st1_st6
-.Lmul_p1_21_st1_st6:
-        .word   186, 186, .Lmul_p1_21_st1_st7
-.Lmul_p1_21_st1_st7:
-        .word   .Lmul_neg1, 186, .Lmul_p1_21_sub
-.Lmul_p1_21_sub:
-        .word   .Lmul_c2097152, 164, .Lmul_p1_bit20
-.Lmul_p1_bit20:
-.Lmul_p1_20_clr_st1:
-        .word   184, 184, .Lmul_p1_20_clr_st2
-.Lmul_p1_20_clr_st2:
-        .word   12, 12, .Lmul_p1_20_clr_st3
-.Lmul_p1_20_clr_st3:
-        .word   16, 12, .Lmul_p1_20_clr_st4
-.Lmul_p1_20_clr_st4:
-        .word   12, 184, .Lmul_p1_20_clr_st5
-.Lmul_p1_20_clr_st5:
-        .word   .Lmul_noff80, 184, .Lmul_p1_20_clr_st6
-.Lmul_p1_20_clr_st6:
-        .word   186, 186, .Lmul_p1_20_clr_st7
-.Lmul_p1_20_clr_st7:
-        .word   12, 12, .Lmul_p1_20_test
-.Lmul_p1_20_test:
-        .word   168, 168, .Lmul_p1_20_t1
-.Lmul_p1_20_t1:
-        .word   12, 12, .Lmul_p1_20_t2
-.Lmul_p1_20_t2:
-        .word   164, 12, .Lmul_p1_20_t3
-.Lmul_p1_20_t3:
-        .word   12, 168, .Lmul_p1_20_t4
-.Lmul_p1_20_t4:
-        .word   .Lmul_c1048576, 168, .Lmul_p1_20_t5
-.Lmul_p1_20_t5:
-        .word   180, 180, .Lmul_p1_20_t6
-.Lmul_p1_20_t6:
-        .word   168, 180, .Lmul_p1_20_set
-        .word   12, 12, .Lmul_p1_bit19
-.Lmul_p1_20_set:
-.Lmul_p1_20_st1_st1:
-        .word   184, 184, .Lmul_p1_20_st1_st2
-.Lmul_p1_20_st1_st2:
-        .word   12, 12, .Lmul_p1_20_st1_st3
-.Lmul_p1_20_st1_st3:
-        .word   16, 12, .Lmul_p1_20_st1_st4
-.Lmul_p1_20_st1_st4:
-        .word   12, 184, .Lmul_p1_20_st1_st5
-.Lmul_p1_20_st1_st5:
-        .word   .Lmul_noff80, 184, .Lmul_p1_20_st1_st6
-.Lmul_p1_20_st1_st6:
-        .word   186, 186, .Lmul_p1_20_st1_st7
-.Lmul_p1_20_st1_st7:
-        .word   .Lmul_neg1, 186, .Lmul_p1_20_sub
-.Lmul_p1_20_sub:
-        .word   .Lmul_c1048576, 164, .Lmul_p1_bit19
-.Lmul_p1_bit19:
-.Lmul_p1_19_clr_st1:
-        .word   184, 184, .Lmul_p1_19_clr_st2
-.Lmul_p1_19_clr_st2:
-        .word   12, 12, .Lmul_p1_19_clr_st3
-.Lmul_p1_19_clr_st3:
-        .word   16, 12, .Lmul_p1_19_clr_st4
-.Lmul_p1_19_clr_st4:
-        .word   12, 184, .Lmul_p1_19_clr_st5
-.Lmul_p1_19_clr_st5:
-        .word   .Lmul_noff76, 184, .Lmul_p1_19_clr_st6
-.Lmul_p1_19_clr_st6:
-        .word   186, 186, .Lmul_p1_19_clr_st7
-.Lmul_p1_19_clr_st7:
-        .word   12, 12, .Lmul_p1_19_test
-.Lmul_p1_19_test:
-        .word   168, 168, .Lmul_p1_19_t1
-.Lmul_p1_19_t1:
-        .word   12, 12, .Lmul_p1_19_t2
-.Lmul_p1_19_t2:
-        .word   164, 12, .Lmul_p1_19_t3
-.Lmul_p1_19_t3:
-        .word   12, 168, .Lmul_p1_19_t4
-.Lmul_p1_19_t4:
-        .word   .Lmul_c524288, 168, .Lmul_p1_19_t5
-.Lmul_p1_19_t5:
-        .word   180, 180, .Lmul_p1_19_t6
-.Lmul_p1_19_t6:
-        .word   168, 180, .Lmul_p1_19_set
-        .word   12, 12, .Lmul_p1_bit18
-.Lmul_p1_19_set:
-.Lmul_p1_19_st1_st1:
-        .word   184, 184, .Lmul_p1_19_st1_st2
-.Lmul_p1_19_st1_st2:
-        .word   12, 12, .Lmul_p1_19_st1_st3
-.Lmul_p1_19_st1_st3:
-        .word   16, 12, .Lmul_p1_19_st1_st4
-.Lmul_p1_19_st1_st4:
-        .word   12, 184, .Lmul_p1_19_st1_st5
-.Lmul_p1_19_st1_st5:
-        .word   .Lmul_noff76, 184, .Lmul_p1_19_st1_st6
-.Lmul_p1_19_st1_st6:
-        .word   186, 186, .Lmul_p1_19_st1_st7
-.Lmul_p1_19_st1_st7:
-        .word   .Lmul_neg1, 186, .Lmul_p1_19_sub
-.Lmul_p1_19_sub:
-        .word   .Lmul_c524288, 164, .Lmul_p1_bit18
-.Lmul_p1_bit18:
-.Lmul_p1_18_clr_st1:
-        .word   184, 184, .Lmul_p1_18_clr_st2
-.Lmul_p1_18_clr_st2:
-        .word   12, 12, .Lmul_p1_18_clr_st3
-.Lmul_p1_18_clr_st3:
-        .word   16, 12, .Lmul_p1_18_clr_st4
-.Lmul_p1_18_clr_st4:
-        .word   12, 184, .Lmul_p1_18_clr_st5
-.Lmul_p1_18_clr_st5:
-        .word   .Lmul_noff72, 184, .Lmul_p1_18_clr_st6
-.Lmul_p1_18_clr_st6:
-        .word   186, 186, .Lmul_p1_18_clr_st7
-.Lmul_p1_18_clr_st7:
-        .word   12, 12, .Lmul_p1_18_test
-.Lmul_p1_18_test:
-        .word   168, 168, .Lmul_p1_18_t1
-.Lmul_p1_18_t1:
-        .word   12, 12, .Lmul_p1_18_t2
-.Lmul_p1_18_t2:
-        .word   164, 12, .Lmul_p1_18_t3
-.Lmul_p1_18_t3:
-        .word   12, 168, .Lmul_p1_18_t4
-.Lmul_p1_18_t4:
-        .word   .Lmul_c262144, 168, .Lmul_p1_18_t5
-.Lmul_p1_18_t5:
-        .word   180, 180, .Lmul_p1_18_t6
-.Lmul_p1_18_t6:
-        .word   168, 180, .Lmul_p1_18_set
-        .word   12, 12, .Lmul_p1_bit17
-.Lmul_p1_18_set:
-.Lmul_p1_18_st1_st1:
-        .word   184, 184, .Lmul_p1_18_st1_st2
-.Lmul_p1_18_st1_st2:
-        .word   12, 12, .Lmul_p1_18_st1_st3
-.Lmul_p1_18_st1_st3:
-        .word   16, 12, .Lmul_p1_18_st1_st4
-.Lmul_p1_18_st1_st4:
-        .word   12, 184, .Lmul_p1_18_st1_st5
-.Lmul_p1_18_st1_st5:
-        .word   .Lmul_noff72, 184, .Lmul_p1_18_st1_st6
-.Lmul_p1_18_st1_st6:
-        .word   186, 186, .Lmul_p1_18_st1_st7
-.Lmul_p1_18_st1_st7:
-        .word   .Lmul_neg1, 186, .Lmul_p1_18_sub
-.Lmul_p1_18_sub:
-        .word   .Lmul_c262144, 164, .Lmul_p1_bit17
-.Lmul_p1_bit17:
-.Lmul_p1_17_clr_st1:
-        .word   184, 184, .Lmul_p1_17_clr_st2
-.Lmul_p1_17_clr_st2:
-        .word   12, 12, .Lmul_p1_17_clr_st3
-.Lmul_p1_17_clr_st3:
-        .word   16, 12, .Lmul_p1_17_clr_st4
-.Lmul_p1_17_clr_st4:
-        .word   12, 184, .Lmul_p1_17_clr_st5
-.Lmul_p1_17_clr_st5:
-        .word   .Lmul_noff68, 184, .Lmul_p1_17_clr_st6
-.Lmul_p1_17_clr_st6:
-        .word   186, 186, .Lmul_p1_17_clr_st7
-.Lmul_p1_17_clr_st7:
-        .word   12, 12, .Lmul_p1_17_test
-.Lmul_p1_17_test:
-        .word   168, 168, .Lmul_p1_17_t1
-.Lmul_p1_17_t1:
-        .word   12, 12, .Lmul_p1_17_t2
-.Lmul_p1_17_t2:
-        .word   164, 12, .Lmul_p1_17_t3
-.Lmul_p1_17_t3:
-        .word   12, 168, .Lmul_p1_17_t4
-.Lmul_p1_17_t4:
-        .word   .Lmul_c131072, 168, .Lmul_p1_17_t5
-.Lmul_p1_17_t5:
-        .word   180, 180, .Lmul_p1_17_t6
-.Lmul_p1_17_t6:
-        .word   168, 180, .Lmul_p1_17_set
-        .word   12, 12, .Lmul_p1_bit16
-.Lmul_p1_17_set:
-.Lmul_p1_17_st1_st1:
-        .word   184, 184, .Lmul_p1_17_st1_st2
-.Lmul_p1_17_st1_st2:
-        .word   12, 12, .Lmul_p1_17_st1_st3
-.Lmul_p1_17_st1_st3:
-        .word   16, 12, .Lmul_p1_17_st1_st4
-.Lmul_p1_17_st1_st4:
-        .word   12, 184, .Lmul_p1_17_st1_st5
-.Lmul_p1_17_st1_st5:
-        .word   .Lmul_noff68, 184, .Lmul_p1_17_st1_st6
-.Lmul_p1_17_st1_st6:
-        .word   186, 186, .Lmul_p1_17_st1_st7
-.Lmul_p1_17_st1_st7:
-        .word   .Lmul_neg1, 186, .Lmul_p1_17_sub
-.Lmul_p1_17_sub:
-        .word   .Lmul_c131072, 164, .Lmul_p1_bit16
-.Lmul_p1_bit16:
-.Lmul_p1_16_clr_st1:
-        .word   184, 184, .Lmul_p1_16_clr_st2
-.Lmul_p1_16_clr_st2:
-        .word   12, 12, .Lmul_p1_16_clr_st3
-.Lmul_p1_16_clr_st3:
-        .word   16, 12, .Lmul_p1_16_clr_st4
-.Lmul_p1_16_clr_st4:
-        .word   12, 184, .Lmul_p1_16_clr_st5
-.Lmul_p1_16_clr_st5:
-        .word   .Lmul_noff64, 184, .Lmul_p1_16_clr_st6
-.Lmul_p1_16_clr_st6:
-        .word   186, 186, .Lmul_p1_16_clr_st7
-.Lmul_p1_16_clr_st7:
-        .word   12, 12, .Lmul_p1_16_test
-.Lmul_p1_16_test:
-        .word   168, 168, .Lmul_p1_16_t1
-.Lmul_p1_16_t1:
-        .word   12, 12, .Lmul_p1_16_t2
-.Lmul_p1_16_t2:
-        .word   164, 12, .Lmul_p1_16_t3
-.Lmul_p1_16_t3:
-        .word   12, 168, .Lmul_p1_16_t4
-.Lmul_p1_16_t4:
-        .word   .Lmul_c65536, 168, .Lmul_p1_16_t5
-.Lmul_p1_16_t5:
-        .word   180, 180, .Lmul_p1_16_t6
-.Lmul_p1_16_t6:
-        .word   168, 180, .Lmul_p1_16_set
-        .word   12, 12, .Lmul_p1_bit15
-.Lmul_p1_16_set:
-.Lmul_p1_16_st1_st1:
-        .word   184, 184, .Lmul_p1_16_st1_st2
-.Lmul_p1_16_st1_st2:
-        .word   12, 12, .Lmul_p1_16_st1_st3
-.Lmul_p1_16_st1_st3:
-        .word   16, 12, .Lmul_p1_16_st1_st4
-.Lmul_p1_16_st1_st4:
-        .word   12, 184, .Lmul_p1_16_st1_st5
-.Lmul_p1_16_st1_st5:
-        .word   .Lmul_noff64, 184, .Lmul_p1_16_st1_st6
-.Lmul_p1_16_st1_st6:
-        .word   186, 186, .Lmul_p1_16_st1_st7
-.Lmul_p1_16_st1_st7:
-        .word   .Lmul_neg1, 186, .Lmul_p1_16_sub
-.Lmul_p1_16_sub:
-        .word   .Lmul_c65536, 164, .Lmul_p1_bit15
-.Lmul_p1_bit15:
-.Lmul_p1_15_clr_st1:
-        .word   184, 184, .Lmul_p1_15_clr_st2
-.Lmul_p1_15_clr_st2:
-        .word   12, 12, .Lmul_p1_15_clr_st3
-.Lmul_p1_15_clr_st3:
-        .word   16, 12, .Lmul_p1_15_clr_st4
-.Lmul_p1_15_clr_st4:
-        .word   12, 184, .Lmul_p1_15_clr_st5
-.Lmul_p1_15_clr_st5:
-        .word   .Lmul_noff60, 184, .Lmul_p1_15_clr_st6
-.Lmul_p1_15_clr_st6:
-        .word   186, 186, .Lmul_p1_15_clr_st7
-.Lmul_p1_15_clr_st7:
-        .word   12, 12, .Lmul_p1_15_test
-.Lmul_p1_15_test:
-        .word   168, 168, .Lmul_p1_15_t1
-.Lmul_p1_15_t1:
-        .word   12, 12, .Lmul_p1_15_t2
-.Lmul_p1_15_t2:
-        .word   164, 12, .Lmul_p1_15_t3
-.Lmul_p1_15_t3:
-        .word   12, 168, .Lmul_p1_15_t4
-.Lmul_p1_15_t4:
-        .word   .Lmul_c32768, 168, .Lmul_p1_15_t5
-.Lmul_p1_15_t5:
-        .word   180, 180, .Lmul_p1_15_t6
-.Lmul_p1_15_t6:
-        .word   168, 180, .Lmul_p1_15_set
-        .word   12, 12, .Lmul_p1_bit14
-.Lmul_p1_15_set:
-.Lmul_p1_15_st1_st1:
-        .word   184, 184, .Lmul_p1_15_st1_st2
-.Lmul_p1_15_st1_st2:
-        .word   12, 12, .Lmul_p1_15_st1_st3
-.Lmul_p1_15_st1_st3:
-        .word   16, 12, .Lmul_p1_15_st1_st4
-.Lmul_p1_15_st1_st4:
-        .word   12, 184, .Lmul_p1_15_st1_st5
-.Lmul_p1_15_st1_st5:
-        .word   .Lmul_noff60, 184, .Lmul_p1_15_st1_st6
-.Lmul_p1_15_st1_st6:
-        .word   186, 186, .Lmul_p1_15_st1_st7
-.Lmul_p1_15_st1_st7:
-        .word   .Lmul_neg1, 186, .Lmul_p1_15_sub
-.Lmul_p1_15_sub:
-        .word   .Lmul_c32768, 164, .Lmul_p1_bit14
-.Lmul_p1_bit14:
-.Lmul_p1_14_clr_st1:
-        .word   184, 184, .Lmul_p1_14_clr_st2
-.Lmul_p1_14_clr_st2:
-        .word   12, 12, .Lmul_p1_14_clr_st3
-.Lmul_p1_14_clr_st3:
-        .word   16, 12, .Lmul_p1_14_clr_st4
-.Lmul_p1_14_clr_st4:
-        .word   12, 184, .Lmul_p1_14_clr_st5
-.Lmul_p1_14_clr_st5:
-        .word   .Lmul_noff56, 184, .Lmul_p1_14_clr_st6
-.Lmul_p1_14_clr_st6:
-        .word   186, 186, .Lmul_p1_14_clr_st7
-.Lmul_p1_14_clr_st7:
-        .word   12, 12, .Lmul_p1_14_test
-.Lmul_p1_14_test:
-        .word   168, 168, .Lmul_p1_14_t1
-.Lmul_p1_14_t1:
-        .word   12, 12, .Lmul_p1_14_t2
-.Lmul_p1_14_t2:
-        .word   164, 12, .Lmul_p1_14_t3
-.Lmul_p1_14_t3:
-        .word   12, 168, .Lmul_p1_14_t4
-.Lmul_p1_14_t4:
-        .word   .Lmul_c16384, 168, .Lmul_p1_14_t5
-.Lmul_p1_14_t5:
-        .word   180, 180, .Lmul_p1_14_t6
-.Lmul_p1_14_t6:
-        .word   168, 180, .Lmul_p1_14_set
-        .word   12, 12, .Lmul_p1_bit13
-.Lmul_p1_14_set:
-.Lmul_p1_14_st1_st1:
-        .word   184, 184, .Lmul_p1_14_st1_st2
-.Lmul_p1_14_st1_st2:
-        .word   12, 12, .Lmul_p1_14_st1_st3
-.Lmul_p1_14_st1_st3:
-        .word   16, 12, .Lmul_p1_14_st1_st4
-.Lmul_p1_14_st1_st4:
-        .word   12, 184, .Lmul_p1_14_st1_st5
-.Lmul_p1_14_st1_st5:
-        .word   .Lmul_noff56, 184, .Lmul_p1_14_st1_st6
-.Lmul_p1_14_st1_st6:
-        .word   186, 186, .Lmul_p1_14_st1_st7
-.Lmul_p1_14_st1_st7:
-        .word   .Lmul_neg1, 186, .Lmul_p1_14_sub
-.Lmul_p1_14_sub:
-        .word   .Lmul_c16384, 164, .Lmul_p1_bit13
-.Lmul_p1_bit13:
-.Lmul_p1_13_clr_st1:
-        .word   184, 184, .Lmul_p1_13_clr_st2
-.Lmul_p1_13_clr_st2:
-        .word   12, 12, .Lmul_p1_13_clr_st3
-.Lmul_p1_13_clr_st3:
-        .word   16, 12, .Lmul_p1_13_clr_st4
-.Lmul_p1_13_clr_st4:
-        .word   12, 184, .Lmul_p1_13_clr_st5
-.Lmul_p1_13_clr_st5:
-        .word   .Lmul_noff52, 184, .Lmul_p1_13_clr_st6
-.Lmul_p1_13_clr_st6:
-        .word   186, 186, .Lmul_p1_13_clr_st7
-.Lmul_p1_13_clr_st7:
-        .word   12, 12, .Lmul_p1_13_test
-.Lmul_p1_13_test:
-        .word   168, 168, .Lmul_p1_13_t1
-.Lmul_p1_13_t1:
-        .word   12, 12, .Lmul_p1_13_t2
-.Lmul_p1_13_t2:
-        .word   164, 12, .Lmul_p1_13_t3
-.Lmul_p1_13_t3:
-        .word   12, 168, .Lmul_p1_13_t4
-.Lmul_p1_13_t4:
-        .word   .Lmul_c8192, 168, .Lmul_p1_13_t5
-.Lmul_p1_13_t5:
-        .word   180, 180, .Lmul_p1_13_t6
-.Lmul_p1_13_t6:
-        .word   168, 180, .Lmul_p1_13_set
-        .word   12, 12, .Lmul_p1_bit12
-.Lmul_p1_13_set:
-.Lmul_p1_13_st1_st1:
-        .word   184, 184, .Lmul_p1_13_st1_st2
-.Lmul_p1_13_st1_st2:
-        .word   12, 12, .Lmul_p1_13_st1_st3
-.Lmul_p1_13_st1_st3:
-        .word   16, 12, .Lmul_p1_13_st1_st4
-.Lmul_p1_13_st1_st4:
-        .word   12, 184, .Lmul_p1_13_st1_st5
-.Lmul_p1_13_st1_st5:
-        .word   .Lmul_noff52, 184, .Lmul_p1_13_st1_st6
-.Lmul_p1_13_st1_st6:
-        .word   186, 186, .Lmul_p1_13_st1_st7
-.Lmul_p1_13_st1_st7:
-        .word   .Lmul_neg1, 186, .Lmul_p1_13_sub
-.Lmul_p1_13_sub:
-        .word   .Lmul_c8192, 164, .Lmul_p1_bit12
-.Lmul_p1_bit12:
-.Lmul_p1_12_clr_st1:
-        .word   184, 184, .Lmul_p1_12_clr_st2
-.Lmul_p1_12_clr_st2:
-        .word   12, 12, .Lmul_p1_12_clr_st3
-.Lmul_p1_12_clr_st3:
-        .word   16, 12, .Lmul_p1_12_clr_st4
-.Lmul_p1_12_clr_st4:
-        .word   12, 184, .Lmul_p1_12_clr_st5
-.Lmul_p1_12_clr_st5:
-        .word   .Lmul_noff48, 184, .Lmul_p1_12_clr_st6
-.Lmul_p1_12_clr_st6:
-        .word   186, 186, .Lmul_p1_12_clr_st7
-.Lmul_p1_12_clr_st7:
-        .word   12, 12, .Lmul_p1_12_test
-.Lmul_p1_12_test:
-        .word   168, 168, .Lmul_p1_12_t1
-.Lmul_p1_12_t1:
-        .word   12, 12, .Lmul_p1_12_t2
-.Lmul_p1_12_t2:
-        .word   164, 12, .Lmul_p1_12_t3
-.Lmul_p1_12_t3:
-        .word   12, 168, .Lmul_p1_12_t4
-.Lmul_p1_12_t4:
-        .word   .Lmul_c4096, 168, .Lmul_p1_12_t5
-.Lmul_p1_12_t5:
-        .word   180, 180, .Lmul_p1_12_t6
-.Lmul_p1_12_t6:
-        .word   168, 180, .Lmul_p1_12_set
-        .word   12, 12, .Lmul_p1_bit11
-.Lmul_p1_12_set:
-.Lmul_p1_12_st1_st1:
-        .word   184, 184, .Lmul_p1_12_st1_st2
-.Lmul_p1_12_st1_st2:
-        .word   12, 12, .Lmul_p1_12_st1_st3
-.Lmul_p1_12_st1_st3:
-        .word   16, 12, .Lmul_p1_12_st1_st4
-.Lmul_p1_12_st1_st4:
-        .word   12, 184, .Lmul_p1_12_st1_st5
-.Lmul_p1_12_st1_st5:
-        .word   .Lmul_noff48, 184, .Lmul_p1_12_st1_st6
-.Lmul_p1_12_st1_st6:
-        .word   186, 186, .Lmul_p1_12_st1_st7
-.Lmul_p1_12_st1_st7:
-        .word   .Lmul_neg1, 186, .Lmul_p1_12_sub
-.Lmul_p1_12_sub:
-        .word   .Lmul_c4096, 164, .Lmul_p1_bit11
-.Lmul_p1_bit11:
-.Lmul_p1_11_clr_st1:
-        .word   184, 184, .Lmul_p1_11_clr_st2
-.Lmul_p1_11_clr_st2:
-        .word   12, 12, .Lmul_p1_11_clr_st3
-.Lmul_p1_11_clr_st3:
-        .word   16, 12, .Lmul_p1_11_clr_st4
-.Lmul_p1_11_clr_st4:
-        .word   12, 184, .Lmul_p1_11_clr_st5
-.Lmul_p1_11_clr_st5:
-        .word   .Lmul_noff44, 184, .Lmul_p1_11_clr_st6
-.Lmul_p1_11_clr_st6:
-        .word   186, 186, .Lmul_p1_11_clr_st7
-.Lmul_p1_11_clr_st7:
-        .word   12, 12, .Lmul_p1_11_test
-.Lmul_p1_11_test:
-        .word   168, 168, .Lmul_p1_11_t1
-.Lmul_p1_11_t1:
-        .word   12, 12, .Lmul_p1_11_t2
-.Lmul_p1_11_t2:
-        .word   164, 12, .Lmul_p1_11_t3
-.Lmul_p1_11_t3:
-        .word   12, 168, .Lmul_p1_11_t4
-.Lmul_p1_11_t4:
-        .word   .Lmul_c2048, 168, .Lmul_p1_11_t5
-.Lmul_p1_11_t5:
-        .word   180, 180, .Lmul_p1_11_t6
-.Lmul_p1_11_t6:
-        .word   168, 180, .Lmul_p1_11_set
-        .word   12, 12, .Lmul_p1_bit10
-.Lmul_p1_11_set:
-.Lmul_p1_11_st1_st1:
-        .word   184, 184, .Lmul_p1_11_st1_st2
-.Lmul_p1_11_st1_st2:
-        .word   12, 12, .Lmul_p1_11_st1_st3
-.Lmul_p1_11_st1_st3:
-        .word   16, 12, .Lmul_p1_11_st1_st4
-.Lmul_p1_11_st1_st4:
-        .word   12, 184, .Lmul_p1_11_st1_st5
-.Lmul_p1_11_st1_st5:
-        .word   .Lmul_noff44, 184, .Lmul_p1_11_st1_st6
-.Lmul_p1_11_st1_st6:
-        .word   186, 186, .Lmul_p1_11_st1_st7
-.Lmul_p1_11_st1_st7:
-        .word   .Lmul_neg1, 186, .Lmul_p1_11_sub
-.Lmul_p1_11_sub:
-        .word   .Lmul_c2048, 164, .Lmul_p1_bit10
-.Lmul_p1_bit10:
-.Lmul_p1_10_clr_st1:
-        .word   184, 184, .Lmul_p1_10_clr_st2
-.Lmul_p1_10_clr_st2:
-        .word   12, 12, .Lmul_p1_10_clr_st3
-.Lmul_p1_10_clr_st3:
-        .word   16, 12, .Lmul_p1_10_clr_st4
-.Lmul_p1_10_clr_st4:
-        .word   12, 184, .Lmul_p1_10_clr_st5
-.Lmul_p1_10_clr_st5:
-        .word   .Lmul_noff40, 184, .Lmul_p1_10_clr_st6
-.Lmul_p1_10_clr_st6:
-        .word   186, 186, .Lmul_p1_10_clr_st7
-.Lmul_p1_10_clr_st7:
-        .word   12, 12, .Lmul_p1_10_test
-.Lmul_p1_10_test:
-        .word   168, 168, .Lmul_p1_10_t1
-.Lmul_p1_10_t1:
-        .word   12, 12, .Lmul_p1_10_t2
-.Lmul_p1_10_t2:
-        .word   164, 12, .Lmul_p1_10_t3
-.Lmul_p1_10_t3:
-        .word   12, 168, .Lmul_p1_10_t4
-.Lmul_p1_10_t4:
-        .word   .Lmul_c1024, 168, .Lmul_p1_10_t5
-.Lmul_p1_10_t5:
-        .word   180, 180, .Lmul_p1_10_t6
-.Lmul_p1_10_t6:
-        .word   168, 180, .Lmul_p1_10_set
-        .word   12, 12, .Lmul_p1_bit9
-.Lmul_p1_10_set:
-.Lmul_p1_10_st1_st1:
-        .word   184, 184, .Lmul_p1_10_st1_st2
-.Lmul_p1_10_st1_st2:
-        .word   12, 12, .Lmul_p1_10_st1_st3
-.Lmul_p1_10_st1_st3:
-        .word   16, 12, .Lmul_p1_10_st1_st4
-.Lmul_p1_10_st1_st4:
-        .word   12, 184, .Lmul_p1_10_st1_st5
-.Lmul_p1_10_st1_st5:
-        .word   .Lmul_noff40, 184, .Lmul_p1_10_st1_st6
-.Lmul_p1_10_st1_st6:
-        .word   186, 186, .Lmul_p1_10_st1_st7
-.Lmul_p1_10_st1_st7:
-        .word   .Lmul_neg1, 186, .Lmul_p1_10_sub
-.Lmul_p1_10_sub:
-        .word   .Lmul_c1024, 164, .Lmul_p1_bit9
-.Lmul_p1_bit9:
-.Lmul_p1_9_clr_st1:
-        .word   184, 184, .Lmul_p1_9_clr_st2
-.Lmul_p1_9_clr_st2:
-        .word   12, 12, .Lmul_p1_9_clr_st3
-.Lmul_p1_9_clr_st3:
-        .word   16, 12, .Lmul_p1_9_clr_st4
-.Lmul_p1_9_clr_st4:
-        .word   12, 184, .Lmul_p1_9_clr_st5
-.Lmul_p1_9_clr_st5:
-        .word   .Lmul_noff36, 184, .Lmul_p1_9_clr_st6
-.Lmul_p1_9_clr_st6:
-        .word   186, 186, .Lmul_p1_9_clr_st7
-.Lmul_p1_9_clr_st7:
-        .word   12, 12, .Lmul_p1_9_test
-.Lmul_p1_9_test:
-        .word   168, 168, .Lmul_p1_9_t1
-.Lmul_p1_9_t1:
-        .word   12, 12, .Lmul_p1_9_t2
-.Lmul_p1_9_t2:
-        .word   164, 12, .Lmul_p1_9_t3
-.Lmul_p1_9_t3:
-        .word   12, 168, .Lmul_p1_9_t4
-.Lmul_p1_9_t4:
-        .word   .Lmul_c512, 168, .Lmul_p1_9_t5
-.Lmul_p1_9_t5:
-        .word   180, 180, .Lmul_p1_9_t6
-.Lmul_p1_9_t6:
-        .word   168, 180, .Lmul_p1_9_set
-        .word   12, 12, .Lmul_p1_bit8
-.Lmul_p1_9_set:
-.Lmul_p1_9_st1_st1:
-        .word   184, 184, .Lmul_p1_9_st1_st2
-.Lmul_p1_9_st1_st2:
-        .word   12, 12, .Lmul_p1_9_st1_st3
-.Lmul_p1_9_st1_st3:
-        .word   16, 12, .Lmul_p1_9_st1_st4
-.Lmul_p1_9_st1_st4:
-        .word   12, 184, .Lmul_p1_9_st1_st5
-.Lmul_p1_9_st1_st5:
-        .word   .Lmul_noff36, 184, .Lmul_p1_9_st1_st6
-.Lmul_p1_9_st1_st6:
-        .word   186, 186, .Lmul_p1_9_st1_st7
-.Lmul_p1_9_st1_st7:
-        .word   .Lmul_neg1, 186, .Lmul_p1_9_sub
-.Lmul_p1_9_sub:
-        .word   .Lmul_c512, 164, .Lmul_p1_bit8
-.Lmul_p1_bit8:
-.Lmul_p1_8_clr_st1:
-        .word   184, 184, .Lmul_p1_8_clr_st2
-.Lmul_p1_8_clr_st2:
-        .word   12, 12, .Lmul_p1_8_clr_st3
-.Lmul_p1_8_clr_st3:
-        .word   16, 12, .Lmul_p1_8_clr_st4
-.Lmul_p1_8_clr_st4:
-        .word   12, 184, .Lmul_p1_8_clr_st5
-.Lmul_p1_8_clr_st5:
-        .word   .Lmul_noff32, 184, .Lmul_p1_8_clr_st6
-.Lmul_p1_8_clr_st6:
-        .word   186, 186, .Lmul_p1_8_clr_st7
-.Lmul_p1_8_clr_st7:
-        .word   12, 12, .Lmul_p1_8_test
-.Lmul_p1_8_test:
-        .word   168, 168, .Lmul_p1_8_t1
-.Lmul_p1_8_t1:
-        .word   12, 12, .Lmul_p1_8_t2
-.Lmul_p1_8_t2:
-        .word   164, 12, .Lmul_p1_8_t3
-.Lmul_p1_8_t3:
-        .word   12, 168, .Lmul_p1_8_t4
-.Lmul_p1_8_t4:
-        .word   .Lmul_c256, 168, .Lmul_p1_8_t5
-.Lmul_p1_8_t5:
-        .word   180, 180, .Lmul_p1_8_t6
-.Lmul_p1_8_t6:
-        .word   168, 180, .Lmul_p1_8_set
-        .word   12, 12, .Lmul_p1_bit7
-.Lmul_p1_8_set:
-.Lmul_p1_8_st1_st1:
-        .word   184, 184, .Lmul_p1_8_st1_st2
-.Lmul_p1_8_st1_st2:
-        .word   12, 12, .Lmul_p1_8_st1_st3
-.Lmul_p1_8_st1_st3:
-        .word   16, 12, .Lmul_p1_8_st1_st4
-.Lmul_p1_8_st1_st4:
-        .word   12, 184, .Lmul_p1_8_st1_st5
-.Lmul_p1_8_st1_st5:
-        .word   .Lmul_noff32, 184, .Lmul_p1_8_st1_st6
-.Lmul_p1_8_st1_st6:
-        .word   186, 186, .Lmul_p1_8_st1_st7
-.Lmul_p1_8_st1_st7:
-        .word   .Lmul_neg1, 186, .Lmul_p1_8_sub
-.Lmul_p1_8_sub:
-        .word   .Lmul_c256, 164, .Lmul_p1_bit7
-.Lmul_p1_bit7:
-.Lmul_p1_7_clr_st1:
-        .word   184, 184, .Lmul_p1_7_clr_st2
-.Lmul_p1_7_clr_st2:
-        .word   12, 12, .Lmul_p1_7_clr_st3
-.Lmul_p1_7_clr_st3:
-        .word   16, 12, .Lmul_p1_7_clr_st4
-.Lmul_p1_7_clr_st4:
-        .word   12, 184, .Lmul_p1_7_clr_st5
-.Lmul_p1_7_clr_st5:
-        .word   .Lmul_noff28, 184, .Lmul_p1_7_clr_st6
-.Lmul_p1_7_clr_st6:
-        .word   186, 186, .Lmul_p1_7_clr_st7
-.Lmul_p1_7_clr_st7:
-        .word   12, 12, .Lmul_p1_7_test
-.Lmul_p1_7_test:
-        .word   168, 168, .Lmul_p1_7_t1
-.Lmul_p1_7_t1:
-        .word   12, 12, .Lmul_p1_7_t2
-.Lmul_p1_7_t2:
-        .word   164, 12, .Lmul_p1_7_t3
-.Lmul_p1_7_t3:
-        .word   12, 168, .Lmul_p1_7_t4
-.Lmul_p1_7_t4:
-        .word   .Lmul_c128, 168, .Lmul_p1_7_t5
-.Lmul_p1_7_t5:
-        .word   180, 180, .Lmul_p1_7_t6
-.Lmul_p1_7_t6:
-        .word   168, 180, .Lmul_p1_7_set
-        .word   12, 12, .Lmul_p1_bit6
-.Lmul_p1_7_set:
-.Lmul_p1_7_st1_st1:
-        .word   184, 184, .Lmul_p1_7_st1_st2
-.Lmul_p1_7_st1_st2:
-        .word   12, 12, .Lmul_p1_7_st1_st3
-.Lmul_p1_7_st1_st3:
-        .word   16, 12, .Lmul_p1_7_st1_st4
-.Lmul_p1_7_st1_st4:
-        .word   12, 184, .Lmul_p1_7_st1_st5
-.Lmul_p1_7_st1_st5:
-        .word   .Lmul_noff28, 184, .Lmul_p1_7_st1_st6
-.Lmul_p1_7_st1_st6:
-        .word   186, 186, .Lmul_p1_7_st1_st7
-.Lmul_p1_7_st1_st7:
-        .word   .Lmul_neg1, 186, .Lmul_p1_7_sub
-.Lmul_p1_7_sub:
-        .word   .Lmul_c128, 164, .Lmul_p1_bit6
-.Lmul_p1_bit6:
-.Lmul_p1_6_clr_st1:
-        .word   184, 184, .Lmul_p1_6_clr_st2
-.Lmul_p1_6_clr_st2:
-        .word   12, 12, .Lmul_p1_6_clr_st3
-.Lmul_p1_6_clr_st3:
-        .word   16, 12, .Lmul_p1_6_clr_st4
-.Lmul_p1_6_clr_st4:
-        .word   12, 184, .Lmul_p1_6_clr_st5
-.Lmul_p1_6_clr_st5:
-        .word   .Lmul_noff24, 184, .Lmul_p1_6_clr_st6
-.Lmul_p1_6_clr_st6:
-        .word   186, 186, .Lmul_p1_6_clr_st7
-.Lmul_p1_6_clr_st7:
-        .word   12, 12, .Lmul_p1_6_test
-.Lmul_p1_6_test:
-        .word   168, 168, .Lmul_p1_6_t1
-.Lmul_p1_6_t1:
-        .word   12, 12, .Lmul_p1_6_t2
-.Lmul_p1_6_t2:
-        .word   164, 12, .Lmul_p1_6_t3
-.Lmul_p1_6_t3:
-        .word   12, 168, .Lmul_p1_6_t4
-.Lmul_p1_6_t4:
-        .word   .Lmul_c64, 168, .Lmul_p1_6_t5
-.Lmul_p1_6_t5:
-        .word   180, 180, .Lmul_p1_6_t6
-.Lmul_p1_6_t6:
-        .word   168, 180, .Lmul_p1_6_set
-        .word   12, 12, .Lmul_p1_bit5
-.Lmul_p1_6_set:
-.Lmul_p1_6_st1_st1:
-        .word   184, 184, .Lmul_p1_6_st1_st2
-.Lmul_p1_6_st1_st2:
-        .word   12, 12, .Lmul_p1_6_st1_st3
-.Lmul_p1_6_st1_st3:
-        .word   16, 12, .Lmul_p1_6_st1_st4
-.Lmul_p1_6_st1_st4:
-        .word   12, 184, .Lmul_p1_6_st1_st5
-.Lmul_p1_6_st1_st5:
-        .word   .Lmul_noff24, 184, .Lmul_p1_6_st1_st6
-.Lmul_p1_6_st1_st6:
-        .word   186, 186, .Lmul_p1_6_st1_st7
-.Lmul_p1_6_st1_st7:
-        .word   .Lmul_neg1, 186, .Lmul_p1_6_sub
-.Lmul_p1_6_sub:
-        .word   .Lmul_c64, 164, .Lmul_p1_bit5
-.Lmul_p1_bit5:
-.Lmul_p1_5_clr_st1:
-        .word   184, 184, .Lmul_p1_5_clr_st2
-.Lmul_p1_5_clr_st2:
-        .word   12, 12, .Lmul_p1_5_clr_st3
-.Lmul_p1_5_clr_st3:
-        .word   16, 12, .Lmul_p1_5_clr_st4
-.Lmul_p1_5_clr_st4:
-        .word   12, 184, .Lmul_p1_5_clr_st5
-.Lmul_p1_5_clr_st5:
-        .word   .Lmul_noff20, 184, .Lmul_p1_5_clr_st6
-.Lmul_p1_5_clr_st6:
-        .word   186, 186, .Lmul_p1_5_clr_st7
-.Lmul_p1_5_clr_st7:
-        .word   12, 12, .Lmul_p1_5_test
-.Lmul_p1_5_test:
-        .word   168, 168, .Lmul_p1_5_t1
-.Lmul_p1_5_t1:
-        .word   12, 12, .Lmul_p1_5_t2
-.Lmul_p1_5_t2:
-        .word   164, 12, .Lmul_p1_5_t3
-.Lmul_p1_5_t3:
-        .word   12, 168, .Lmul_p1_5_t4
-.Lmul_p1_5_t4:
-        .word   .Lmul_c32, 168, .Lmul_p1_5_t5
-.Lmul_p1_5_t5:
-        .word   180, 180, .Lmul_p1_5_t6
-.Lmul_p1_5_t6:
-        .word   168, 180, .Lmul_p1_5_set
-        .word   12, 12, .Lmul_p1_bit4
-.Lmul_p1_5_set:
-.Lmul_p1_5_st1_st1:
-        .word   184, 184, .Lmul_p1_5_st1_st2
-.Lmul_p1_5_st1_st2:
-        .word   12, 12, .Lmul_p1_5_st1_st3
-.Lmul_p1_5_st1_st3:
-        .word   16, 12, .Lmul_p1_5_st1_st4
-.Lmul_p1_5_st1_st4:
-        .word   12, 184, .Lmul_p1_5_st1_st5
-.Lmul_p1_5_st1_st5:
-        .word   .Lmul_noff20, 184, .Lmul_p1_5_st1_st6
-.Lmul_p1_5_st1_st6:
-        .word   186, 186, .Lmul_p1_5_st1_st7
-.Lmul_p1_5_st1_st7:
-        .word   .Lmul_neg1, 186, .Lmul_p1_5_sub
-.Lmul_p1_5_sub:
-        .word   .Lmul_c32, 164, .Lmul_p1_bit4
-.Lmul_p1_bit4:
-.Lmul_p1_4_clr_st1:
-        .word   184, 184, .Lmul_p1_4_clr_st2
-.Lmul_p1_4_clr_st2:
-        .word   12, 12, .Lmul_p1_4_clr_st3
-.Lmul_p1_4_clr_st3:
-        .word   16, 12, .Lmul_p1_4_clr_st4
-.Lmul_p1_4_clr_st4:
-        .word   12, 184, .Lmul_p1_4_clr_st5
-.Lmul_p1_4_clr_st5:
-        .word   .Lmul_noff16, 184, .Lmul_p1_4_clr_st6
-.Lmul_p1_4_clr_st6:
-        .word   186, 186, .Lmul_p1_4_clr_st7
-.Lmul_p1_4_clr_st7:
-        .word   12, 12, .Lmul_p1_4_test
-.Lmul_p1_4_test:
-        .word   168, 168, .Lmul_p1_4_t1
-.Lmul_p1_4_t1:
-        .word   12, 12, .Lmul_p1_4_t2
-.Lmul_p1_4_t2:
-        .word   164, 12, .Lmul_p1_4_t3
-.Lmul_p1_4_t3:
-        .word   12, 168, .Lmul_p1_4_t4
-.Lmul_p1_4_t4:
-        .word   .Lmul_c16, 168, .Lmul_p1_4_t5
-.Lmul_p1_4_t5:
-        .word   180, 180, .Lmul_p1_4_t6
-.Lmul_p1_4_t6:
-        .word   168, 180, .Lmul_p1_4_set
-        .word   12, 12, .Lmul_p1_bit3
-.Lmul_p1_4_set:
-.Lmul_p1_4_st1_st1:
-        .word   184, 184, .Lmul_p1_4_st1_st2
-.Lmul_p1_4_st1_st2:
-        .word   12, 12, .Lmul_p1_4_st1_st3
-.Lmul_p1_4_st1_st3:
-        .word   16, 12, .Lmul_p1_4_st1_st4
-.Lmul_p1_4_st1_st4:
-        .word   12, 184, .Lmul_p1_4_st1_st5
-.Lmul_p1_4_st1_st5:
-        .word   .Lmul_noff16, 184, .Lmul_p1_4_st1_st6
-.Lmul_p1_4_st1_st6:
-        .word   186, 186, .Lmul_p1_4_st1_st7
-.Lmul_p1_4_st1_st7:
-        .word   .Lmul_neg1, 186, .Lmul_p1_4_sub
-.Lmul_p1_4_sub:
-        .word   .Lmul_c16, 164, .Lmul_p1_bit3
-.Lmul_p1_bit3:
-.Lmul_p1_3_clr_st1:
-        .word   184, 184, .Lmul_p1_3_clr_st2
-.Lmul_p1_3_clr_st2:
-        .word   12, 12, .Lmul_p1_3_clr_st3
-.Lmul_p1_3_clr_st3:
-        .word   16, 12, .Lmul_p1_3_clr_st4
-.Lmul_p1_3_clr_st4:
-        .word   12, 184, .Lmul_p1_3_clr_st5
-.Lmul_p1_3_clr_st5:
-        .word   .Lmul_noff12, 184, .Lmul_p1_3_clr_st6
-.Lmul_p1_3_clr_st6:
-        .word   186, 186, .Lmul_p1_3_clr_st7
-.Lmul_p1_3_clr_st7:
-        .word   12, 12, .Lmul_p1_3_test
-.Lmul_p1_3_test:
-        .word   168, 168, .Lmul_p1_3_t1
-.Lmul_p1_3_t1:
-        .word   12, 12, .Lmul_p1_3_t2
-.Lmul_p1_3_t2:
-        .word   164, 12, .Lmul_p1_3_t3
-.Lmul_p1_3_t3:
-        .word   12, 168, .Lmul_p1_3_t4
-.Lmul_p1_3_t4:
-        .word   .Lmul_c8, 168, .Lmul_p1_3_t5
-.Lmul_p1_3_t5:
-        .word   180, 180, .Lmul_p1_3_t6
-.Lmul_p1_3_t6:
-        .word   168, 180, .Lmul_p1_3_set
-        .word   12, 12, .Lmul_p1_bit2
-.Lmul_p1_3_set:
-.Lmul_p1_3_st1_st1:
-        .word   184, 184, .Lmul_p1_3_st1_st2
-.Lmul_p1_3_st1_st2:
-        .word   12, 12, .Lmul_p1_3_st1_st3
-.Lmul_p1_3_st1_st3:
-        .word   16, 12, .Lmul_p1_3_st1_st4
-.Lmul_p1_3_st1_st4:
-        .word   12, 184, .Lmul_p1_3_st1_st5
-.Lmul_p1_3_st1_st5:
-        .word   .Lmul_noff12, 184, .Lmul_p1_3_st1_st6
-.Lmul_p1_3_st1_st6:
-        .word   186, 186, .Lmul_p1_3_st1_st7
-.Lmul_p1_3_st1_st7:
-        .word   .Lmul_neg1, 186, .Lmul_p1_3_sub
-.Lmul_p1_3_sub:
-        .word   .Lmul_c8, 164, .Lmul_p1_bit2
-.Lmul_p1_bit2:
-.Lmul_p1_2_clr_st1:
-        .word   184, 184, .Lmul_p1_2_clr_st2
-.Lmul_p1_2_clr_st2:
-        .word   12, 12, .Lmul_p1_2_clr_st3
-.Lmul_p1_2_clr_st3:
-        .word   16, 12, .Lmul_p1_2_clr_st4
-.Lmul_p1_2_clr_st4:
-        .word   12, 184, .Lmul_p1_2_clr_st5
-.Lmul_p1_2_clr_st5:
-        .word   .Lmul_noff8, 184, .Lmul_p1_2_clr_st6
-.Lmul_p1_2_clr_st6:
-        .word   186, 186, .Lmul_p1_2_clr_st7
-.Lmul_p1_2_clr_st7:
-        .word   12, 12, .Lmul_p1_2_test
-.Lmul_p1_2_test:
-        .word   168, 168, .Lmul_p1_2_t1
-.Lmul_p1_2_t1:
-        .word   12, 12, .Lmul_p1_2_t2
-.Lmul_p1_2_t2:
-        .word   164, 12, .Lmul_p1_2_t3
-.Lmul_p1_2_t3:
-        .word   12, 168, .Lmul_p1_2_t4
-.Lmul_p1_2_t4:
-        .word   .Lmul_c4, 168, .Lmul_p1_2_t5
-.Lmul_p1_2_t5:
-        .word   180, 180, .Lmul_p1_2_t6
-.Lmul_p1_2_t6:
-        .word   168, 180, .Lmul_p1_2_set
-        .word   12, 12, .Lmul_p1_bit1
-.Lmul_p1_2_set:
-.Lmul_p1_2_st1_st1:
-        .word   184, 184, .Lmul_p1_2_st1_st2
-.Lmul_p1_2_st1_st2:
-        .word   12, 12, .Lmul_p1_2_st1_st3
-.Lmul_p1_2_st1_st3:
-        .word   16, 12, .Lmul_p1_2_st1_st4
-.Lmul_p1_2_st1_st4:
-        .word   12, 184, .Lmul_p1_2_st1_st5
-.Lmul_p1_2_st1_st5:
-        .word   .Lmul_noff8, 184, .Lmul_p1_2_st1_st6
-.Lmul_p1_2_st1_st6:
-        .word   186, 186, .Lmul_p1_2_st1_st7
-.Lmul_p1_2_st1_st7:
-        .word   .Lmul_neg1, 186, .Lmul_p1_2_sub
-.Lmul_p1_2_sub:
-        .word   .Lmul_c4, 164, .Lmul_p1_bit1
-.Lmul_p1_bit1:
-.Lmul_p1_1_clr_st1:
-        .word   184, 184, .Lmul_p1_1_clr_st2
-.Lmul_p1_1_clr_st2:
-        .word   12, 12, .Lmul_p1_1_clr_st3
-.Lmul_p1_1_clr_st3:
-        .word   16, 12, .Lmul_p1_1_clr_st4
-.Lmul_p1_1_clr_st4:
-        .word   12, 184, .Lmul_p1_1_clr_st5
-.Lmul_p1_1_clr_st5:
-        .word   .Lmul_noff4, 184, .Lmul_p1_1_clr_st6
-.Lmul_p1_1_clr_st6:
-        .word   186, 186, .Lmul_p1_1_clr_st7
-.Lmul_p1_1_clr_st7:
-        .word   12, 12, .Lmul_p1_1_test
-.Lmul_p1_1_test:
-        .word   168, 168, .Lmul_p1_1_t1
-.Lmul_p1_1_t1:
-        .word   12, 12, .Lmul_p1_1_t2
-.Lmul_p1_1_t2:
-        .word   164, 12, .Lmul_p1_1_t3
-.Lmul_p1_1_t3:
-        .word   12, 168, .Lmul_p1_1_t4
-.Lmul_p1_1_t4:
-        .word   .Lmul_c2, 168, .Lmul_p1_1_t5
-.Lmul_p1_1_t5:
-        .word   180, 180, .Lmul_p1_1_t6
-.Lmul_p1_1_t6:
-        .word   168, 180, .Lmul_p1_1_set
-        .word   12, 12, .Lmul_p1_bit0
-.Lmul_p1_1_set:
-.Lmul_p1_1_st1_st1:
-        .word   184, 184, .Lmul_p1_1_st1_st2
-.Lmul_p1_1_st1_st2:
-        .word   12, 12, .Lmul_p1_1_st1_st3
-.Lmul_p1_1_st1_st3:
-        .word   16, 12, .Lmul_p1_1_st1_st4
-.Lmul_p1_1_st1_st4:
-        .word   12, 184, .Lmul_p1_1_st1_st5
-.Lmul_p1_1_st1_st5:
-        .word   .Lmul_noff4, 184, .Lmul_p1_1_st1_st6
-.Lmul_p1_1_st1_st6:
-        .word   186, 186, .Lmul_p1_1_st1_st7
-.Lmul_p1_1_st1_st7:
-        .word   .Lmul_neg1, 186, .Lmul_p1_1_sub
-.Lmul_p1_1_sub:
-        .word   .Lmul_c2, 164, .Lmul_p1_bit0
-.Lmul_p1_bit0:
-.Lmul_p1_0_clr_st1:
-        .word   184, 184, .Lmul_p1_0_clr_st2
-.Lmul_p1_0_clr_st2:
-        .word   12, 12, .Lmul_p1_0_clr_st3
-.Lmul_p1_0_clr_st3:
-        .word   16, 12, .Lmul_p1_0_clr_st4
-.Lmul_p1_0_clr_st4:
-        .word   12, 184, .Lmul_p1_0_clr_st5
-.Lmul_p1_0_clr_st5:
-        .word   .Lmul_noff0, 184, .Lmul_p1_0_clr_st6
-.Lmul_p1_0_clr_st6:
-        .word   186, 186, .Lmul_p1_0_clr_st7
-.Lmul_p1_0_clr_st7:
-        .word   12, 12, .Lmul_p1_0_test
-.Lmul_p1_0_test:
-        .word   168, 168, .Lmul_p1_0_t1
-.Lmul_p1_0_t1:
-        .word   12, 12, .Lmul_p1_0_t2
-.Lmul_p1_0_t2:
-        .word   164, 12, .Lmul_p1_0_t3
-.Lmul_p1_0_t3:
-        .word   12, 168, .Lmul_p1_0_t4
-.Lmul_p1_0_t4:
-        .word   .Lmul_c1, 168, .Lmul_p1_0_t5
-.Lmul_p1_0_t5:
-        .word   180, 180, .Lmul_p1_0_t6
-.Lmul_p1_0_t6:
-        .word   168, 180, .Lmul_p1_0_set
-        .word   12, 12, .Lmul_phase2_init
-.Lmul_p1_0_set:
-.Lmul_p1_0_st1_st1:
-        .word   184, 184, .Lmul_p1_0_st1_st2
-.Lmul_p1_0_st1_st2:
-        .word   12, 12, .Lmul_p1_0_st1_st3
-.Lmul_p1_0_st1_st3:
-        .word   16, 12, .Lmul_p1_0_st1_st4
-.Lmul_p1_0_st1_st4:
-        .word   12, 184, .Lmul_p1_0_st1_st5
-.Lmul_p1_0_st1_st5:
-        .word   .Lmul_noff0, 184, .Lmul_p1_0_st1_st6
-.Lmul_p1_0_st1_st6:
-        .word   186, 186, .Lmul_p1_0_st1_st7
-.Lmul_p1_0_st1_st7:
-        .word   .Lmul_neg1, 186, .Lmul_p1_0_sub
-.Lmul_p1_0_sub:
-        .word   .Lmul_c1, 164, .Lmul_phase2_init
-.Lmul_phase2_init:
-        .word   160, 160, .Lmul_p2_bit0
-.Lmul_p2_bit0:
-.Lmul_p2_0_ld_ld1:
-        .word   184, 184, .Lmul_p2_0_ld_ld2
-.Lmul_p2_0_ld_ld2:
-        .word   12, 12, .Lmul_p2_0_ld_ld3
-.Lmul_p2_0_ld_ld3:
-        .word   16, 12, .Lmul_p2_0_ld_ld4
-.Lmul_p2_0_ld_ld4:
-        .word   12, 184, .Lmul_p2_0_ld_ld5
-.Lmul_p2_0_ld_ld5:
-        .word   .Lmul_noff0, 184, .Lmul_p2_0_ld_ld6
-.Lmul_p2_0_ld_ld6:
-        .word   176, 176, .Lmul_p2_0_ld_ld7
-.Lmul_p2_0_ld_ld7:
-        .word   12, 12, .Lmul_p2_0_ld_ld8
-.Lmul_p2_0_ld_ld8:
-        .word   186, 12, .Lmul_p2_0_ld_ld9
-.Lmul_p2_0_ld_ld9:
-        .word   12, 176, .Lmul_p2_0_chk
-.Lmul_p2_0_chk:
-        .word   168, 168, .Lmul_p2_0_test
-.Lmul_p2_0_test:
-        .word   24, 176, .Lmul_p2_0_dbl
-        .word   12, 12, .Lmul_p2_0_add1
-.Lmul_p2_0_add1:
-        .word   32, 12, .Lmul_p2_0_add2
-.Lmul_p2_0_add2:
-        .word   12, 160, .Lmul_p2_0_dbl
-.Lmul_p2_0_dbl:
-        .word   12, 12, .Lmul_p2_0_d1
-.Lmul_p2_0_d1:
-        .word   32, 12, .Lmul_p2_0_d2
-.Lmul_p2_0_d2:
-        .word   12, 32, .Lmul_p2_bit1
-.Lmul_p2_bit1:
-.Lmul_p2_1_ld_ld1:
-        .word   184, 184, .Lmul_p2_1_ld_ld2
-.Lmul_p2_1_ld_ld2:
-        .word   12, 12, .Lmul_p2_1_ld_ld3
-.Lmul_p2_1_ld_ld3:
-        .word   16, 12, .Lmul_p2_1_ld_ld4
-.Lmul_p2_1_ld_ld4:
-        .word   12, 184, .Lmul_p2_1_ld_ld5
-.Lmul_p2_1_ld_ld5:
-        .word   .Lmul_noff4, 184, .Lmul_p2_1_ld_ld6
-.Lmul_p2_1_ld_ld6:
-        .word   176, 176, .Lmul_p2_1_ld_ld7
-.Lmul_p2_1_ld_ld7:
-        .word   12, 12, .Lmul_p2_1_ld_ld8
-.Lmul_p2_1_ld_ld8:
-        .word   186, 12, .Lmul_p2_1_ld_ld9
-.Lmul_p2_1_ld_ld9:
-        .word   12, 176, .Lmul_p2_1_chk
-.Lmul_p2_1_chk:
-        .word   168, 168, .Lmul_p2_1_test
-.Lmul_p2_1_test:
-        .word   24, 176, .Lmul_p2_1_dbl
-        .word   12, 12, .Lmul_p2_1_add1
-.Lmul_p2_1_add1:
-        .word   32, 12, .Lmul_p2_1_add2
-.Lmul_p2_1_add2:
-        .word   12, 160, .Lmul_p2_1_dbl
-.Lmul_p2_1_dbl:
-        .word   12, 12, .Lmul_p2_1_d1
-.Lmul_p2_1_d1:
-        .word   32, 12, .Lmul_p2_1_d2
-.Lmul_p2_1_d2:
-        .word   12, 32, .Lmul_p2_bit2
-.Lmul_p2_bit2:
-.Lmul_p2_2_ld_ld1:
-        .word   184, 184, .Lmul_p2_2_ld_ld2
-.Lmul_p2_2_ld_ld2:
-        .word   12, 12, .Lmul_p2_2_ld_ld3
-.Lmul_p2_2_ld_ld3:
-        .word   16, 12, .Lmul_p2_2_ld_ld4
-.Lmul_p2_2_ld_ld4:
-        .word   12, 184, .Lmul_p2_2_ld_ld5
-.Lmul_p2_2_ld_ld5:
-        .word   .Lmul_noff8, 184, .Lmul_p2_2_ld_ld6
-.Lmul_p2_2_ld_ld6:
-        .word   176, 176, .Lmul_p2_2_ld_ld7
-.Lmul_p2_2_ld_ld7:
-        .word   12, 12, .Lmul_p2_2_ld_ld8
-.Lmul_p2_2_ld_ld8:
-        .word   186, 12, .Lmul_p2_2_ld_ld9
-.Lmul_p2_2_ld_ld9:
-        .word   12, 176, .Lmul_p2_2_chk
-.Lmul_p2_2_chk:
-        .word   168, 168, .Lmul_p2_2_test
-.Lmul_p2_2_test:
-        .word   24, 176, .Lmul_p2_2_dbl
-        .word   12, 12, .Lmul_p2_2_add1
-.Lmul_p2_2_add1:
-        .word   32, 12, .Lmul_p2_2_add2
-.Lmul_p2_2_add2:
-        .word   12, 160, .Lmul_p2_2_dbl
-.Lmul_p2_2_dbl:
-        .word   12, 12, .Lmul_p2_2_d1
-.Lmul_p2_2_d1:
-        .word   32, 12, .Lmul_p2_2_d2
-.Lmul_p2_2_d2:
-        .word   12, 32, .Lmul_p2_bit3
-.Lmul_p2_bit3:
-.Lmul_p2_3_ld_ld1:
-        .word   184, 184, .Lmul_p2_3_ld_ld2
-.Lmul_p2_3_ld_ld2:
-        .word   12, 12, .Lmul_p2_3_ld_ld3
-.Lmul_p2_3_ld_ld3:
-        .word   16, 12, .Lmul_p2_3_ld_ld4
-.Lmul_p2_3_ld_ld4:
-        .word   12, 184, .Lmul_p2_3_ld_ld5
-.Lmul_p2_3_ld_ld5:
-        .word   .Lmul_noff12, 184, .Lmul_p2_3_ld_ld6
-.Lmul_p2_3_ld_ld6:
-        .word   176, 176, .Lmul_p2_3_ld_ld7
-.Lmul_p2_3_ld_ld7:
-        .word   12, 12, .Lmul_p2_3_ld_ld8
-.Lmul_p2_3_ld_ld8:
-        .word   186, 12, .Lmul_p2_3_ld_ld9
-.Lmul_p2_3_ld_ld9:
-        .word   12, 176, .Lmul_p2_3_chk
-.Lmul_p2_3_chk:
-        .word   168, 168, .Lmul_p2_3_test
-.Lmul_p2_3_test:
-        .word   24, 176, .Lmul_p2_3_dbl
-        .word   12, 12, .Lmul_p2_3_add1
-.Lmul_p2_3_add1:
-        .word   32, 12, .Lmul_p2_3_add2
-.Lmul_p2_3_add2:
-        .word   12, 160, .Lmul_p2_3_dbl
-.Lmul_p2_3_dbl:
-        .word   12, 12, .Lmul_p2_3_d1
-.Lmul_p2_3_d1:
-        .word   32, 12, .Lmul_p2_3_d2
-.Lmul_p2_3_d2:
-        .word   12, 32, .Lmul_p2_bit4
-.Lmul_p2_bit4:
-.Lmul_p2_4_ld_ld1:
-        .word   184, 184, .Lmul_p2_4_ld_ld2
-.Lmul_p2_4_ld_ld2:
-        .word   12, 12, .Lmul_p2_4_ld_ld3
-.Lmul_p2_4_ld_ld3:
-        .word   16, 12, .Lmul_p2_4_ld_ld4
-.Lmul_p2_4_ld_ld4:
-        .word   12, 184, .Lmul_p2_4_ld_ld5
-.Lmul_p2_4_ld_ld5:
-        .word   .Lmul_noff16, 184, .Lmul_p2_4_ld_ld6
-.Lmul_p2_4_ld_ld6:
-        .word   176, 176, .Lmul_p2_4_ld_ld7
-.Lmul_p2_4_ld_ld7:
-        .word   12, 12, .Lmul_p2_4_ld_ld8
-.Lmul_p2_4_ld_ld8:
-        .word   186, 12, .Lmul_p2_4_ld_ld9
-.Lmul_p2_4_ld_ld9:
-        .word   12, 176, .Lmul_p2_4_chk
-.Lmul_p2_4_chk:
-        .word   168, 168, .Lmul_p2_4_test
-.Lmul_p2_4_test:
-        .word   24, 176, .Lmul_p2_4_dbl
-        .word   12, 12, .Lmul_p2_4_add1
-.Lmul_p2_4_add1:
-        .word   32, 12, .Lmul_p2_4_add2
-.Lmul_p2_4_add2:
-        .word   12, 160, .Lmul_p2_4_dbl
-.Lmul_p2_4_dbl:
-        .word   12, 12, .Lmul_p2_4_d1
-.Lmul_p2_4_d1:
-        .word   32, 12, .Lmul_p2_4_d2
-.Lmul_p2_4_d2:
-        .word   12, 32, .Lmul_p2_bit5
-.Lmul_p2_bit5:
-.Lmul_p2_5_ld_ld1:
-        .word   184, 184, .Lmul_p2_5_ld_ld2
-.Lmul_p2_5_ld_ld2:
-        .word   12, 12, .Lmul_p2_5_ld_ld3
-.Lmul_p2_5_ld_ld3:
-        .word   16, 12, .Lmul_p2_5_ld_ld4
-.Lmul_p2_5_ld_ld4:
-        .word   12, 184, .Lmul_p2_5_ld_ld5
-.Lmul_p2_5_ld_ld5:
-        .word   .Lmul_noff20, 184, .Lmul_p2_5_ld_ld6
-.Lmul_p2_5_ld_ld6:
-        .word   176, 176, .Lmul_p2_5_ld_ld7
-.Lmul_p2_5_ld_ld7:
-        .word   12, 12, .Lmul_p2_5_ld_ld8
-.Lmul_p2_5_ld_ld8:
-        .word   186, 12, .Lmul_p2_5_ld_ld9
-.Lmul_p2_5_ld_ld9:
-        .word   12, 176, .Lmul_p2_5_chk
-.Lmul_p2_5_chk:
-        .word   168, 168, .Lmul_p2_5_test
-.Lmul_p2_5_test:
-        .word   24, 176, .Lmul_p2_5_dbl
-        .word   12, 12, .Lmul_p2_5_add1
-.Lmul_p2_5_add1:
-        .word   32, 12, .Lmul_p2_5_add2
-.Lmul_p2_5_add2:
-        .word   12, 160, .Lmul_p2_5_dbl
-.Lmul_p2_5_dbl:
-        .word   12, 12, .Lmul_p2_5_d1
-.Lmul_p2_5_d1:
-        .word   32, 12, .Lmul_p2_5_d2
-.Lmul_p2_5_d2:
-        .word   12, 32, .Lmul_p2_bit6
-.Lmul_p2_bit6:
-.Lmul_p2_6_ld_ld1:
-        .word   184, 184, .Lmul_p2_6_ld_ld2
-.Lmul_p2_6_ld_ld2:
-        .word   12, 12, .Lmul_p2_6_ld_ld3
-.Lmul_p2_6_ld_ld3:
-        .word   16, 12, .Lmul_p2_6_ld_ld4
-.Lmul_p2_6_ld_ld4:
-        .word   12, 184, .Lmul_p2_6_ld_ld5
-.Lmul_p2_6_ld_ld5:
-        .word   .Lmul_noff24, 184, .Lmul_p2_6_ld_ld6
-.Lmul_p2_6_ld_ld6:
-        .word   176, 176, .Lmul_p2_6_ld_ld7
-.Lmul_p2_6_ld_ld7:
-        .word   12, 12, .Lmul_p2_6_ld_ld8
-.Lmul_p2_6_ld_ld8:
-        .word   186, 12, .Lmul_p2_6_ld_ld9
-.Lmul_p2_6_ld_ld9:
-        .word   12, 176, .Lmul_p2_6_chk
-.Lmul_p2_6_chk:
-        .word   168, 168, .Lmul_p2_6_test
-.Lmul_p2_6_test:
-        .word   24, 176, .Lmul_p2_6_dbl
-        .word   12, 12, .Lmul_p2_6_add1
-.Lmul_p2_6_add1:
-        .word   32, 12, .Lmul_p2_6_add2
-.Lmul_p2_6_add2:
-        .word   12, 160, .Lmul_p2_6_dbl
-.Lmul_p2_6_dbl:
-        .word   12, 12, .Lmul_p2_6_d1
-.Lmul_p2_6_d1:
-        .word   32, 12, .Lmul_p2_6_d2
-.Lmul_p2_6_d2:
-        .word   12, 32, .Lmul_p2_bit7
-.Lmul_p2_bit7:
-.Lmul_p2_7_ld_ld1:
-        .word   184, 184, .Lmul_p2_7_ld_ld2
-.Lmul_p2_7_ld_ld2:
-        .word   12, 12, .Lmul_p2_7_ld_ld3
-.Lmul_p2_7_ld_ld3:
-        .word   16, 12, .Lmul_p2_7_ld_ld4
-.Lmul_p2_7_ld_ld4:
-        .word   12, 184, .Lmul_p2_7_ld_ld5
-.Lmul_p2_7_ld_ld5:
-        .word   .Lmul_noff28, 184, .Lmul_p2_7_ld_ld6
-.Lmul_p2_7_ld_ld6:
-        .word   176, 176, .Lmul_p2_7_ld_ld7
-.Lmul_p2_7_ld_ld7:
-        .word   12, 12, .Lmul_p2_7_ld_ld8
-.Lmul_p2_7_ld_ld8:
-        .word   186, 12, .Lmul_p2_7_ld_ld9
-.Lmul_p2_7_ld_ld9:
-        .word   12, 176, .Lmul_p2_7_chk
-.Lmul_p2_7_chk:
-        .word   168, 168, .Lmul_p2_7_test
-.Lmul_p2_7_test:
-        .word   24, 176, .Lmul_p2_7_dbl
-        .word   12, 12, .Lmul_p2_7_add1
-.Lmul_p2_7_add1:
-        .word   32, 12, .Lmul_p2_7_add2
-.Lmul_p2_7_add2:
-        .word   12, 160, .Lmul_p2_7_dbl
-.Lmul_p2_7_dbl:
-        .word   12, 12, .Lmul_p2_7_d1
-.Lmul_p2_7_d1:
-        .word   32, 12, .Lmul_p2_7_d2
-.Lmul_p2_7_d2:
-        .word   12, 32, .Lmul_p2_bit8
-.Lmul_p2_bit8:
-.Lmul_p2_8_ld_ld1:
-        .word   184, 184, .Lmul_p2_8_ld_ld2
-.Lmul_p2_8_ld_ld2:
-        .word   12, 12, .Lmul_p2_8_ld_ld3
-.Lmul_p2_8_ld_ld3:
-        .word   16, 12, .Lmul_p2_8_ld_ld4
-.Lmul_p2_8_ld_ld4:
-        .word   12, 184, .Lmul_p2_8_ld_ld5
-.Lmul_p2_8_ld_ld5:
-        .word   .Lmul_noff32, 184, .Lmul_p2_8_ld_ld6
-.Lmul_p2_8_ld_ld6:
-        .word   176, 176, .Lmul_p2_8_ld_ld7
-.Lmul_p2_8_ld_ld7:
-        .word   12, 12, .Lmul_p2_8_ld_ld8
-.Lmul_p2_8_ld_ld8:
-        .word   186, 12, .Lmul_p2_8_ld_ld9
-.Lmul_p2_8_ld_ld9:
-        .word   12, 176, .Lmul_p2_8_chk
-.Lmul_p2_8_chk:
-        .word   168, 168, .Lmul_p2_8_test
-.Lmul_p2_8_test:
-        .word   24, 176, .Lmul_p2_8_dbl
-        .word   12, 12, .Lmul_p2_8_add1
-.Lmul_p2_8_add1:
-        .word   32, 12, .Lmul_p2_8_add2
-.Lmul_p2_8_add2:
-        .word   12, 160, .Lmul_p2_8_dbl
-.Lmul_p2_8_dbl:
-        .word   12, 12, .Lmul_p2_8_d1
-.Lmul_p2_8_d1:
-        .word   32, 12, .Lmul_p2_8_d2
-.Lmul_p2_8_d2:
-        .word   12, 32, .Lmul_p2_bit9
-.Lmul_p2_bit9:
-.Lmul_p2_9_ld_ld1:
-        .word   184, 184, .Lmul_p2_9_ld_ld2
-.Lmul_p2_9_ld_ld2:
-        .word   12, 12, .Lmul_p2_9_ld_ld3
-.Lmul_p2_9_ld_ld3:
-        .word   16, 12, .Lmul_p2_9_ld_ld4
-.Lmul_p2_9_ld_ld4:
-        .word   12, 184, .Lmul_p2_9_ld_ld5
-.Lmul_p2_9_ld_ld5:
-        .word   .Lmul_noff36, 184, .Lmul_p2_9_ld_ld6
-.Lmul_p2_9_ld_ld6:
-        .word   176, 176, .Lmul_p2_9_ld_ld7
-.Lmul_p2_9_ld_ld7:
-        .word   12, 12, .Lmul_p2_9_ld_ld8
-.Lmul_p2_9_ld_ld8:
-        .word   186, 12, .Lmul_p2_9_ld_ld9
-.Lmul_p2_9_ld_ld9:
-        .word   12, 176, .Lmul_p2_9_chk
-.Lmul_p2_9_chk:
-        .word   168, 168, .Lmul_p2_9_test
-.Lmul_p2_9_test:
-        .word   24, 176, .Lmul_p2_9_dbl
-        .word   12, 12, .Lmul_p2_9_add1
-.Lmul_p2_9_add1:
-        .word   32, 12, .Lmul_p2_9_add2
-.Lmul_p2_9_add2:
-        .word   12, 160, .Lmul_p2_9_dbl
-.Lmul_p2_9_dbl:
-        .word   12, 12, .Lmul_p2_9_d1
-.Lmul_p2_9_d1:
-        .word   32, 12, .Lmul_p2_9_d2
-.Lmul_p2_9_d2:
-        .word   12, 32, .Lmul_p2_bit10
-.Lmul_p2_bit10:
-.Lmul_p2_10_ld_ld1:
-        .word   184, 184, .Lmul_p2_10_ld_ld2
-.Lmul_p2_10_ld_ld2:
-        .word   12, 12, .Lmul_p2_10_ld_ld3
-.Lmul_p2_10_ld_ld3:
-        .word   16, 12, .Lmul_p2_10_ld_ld4
-.Lmul_p2_10_ld_ld4:
-        .word   12, 184, .Lmul_p2_10_ld_ld5
-.Lmul_p2_10_ld_ld5:
-        .word   .Lmul_noff40, 184, .Lmul_p2_10_ld_ld6
-.Lmul_p2_10_ld_ld6:
-        .word   176, 176, .Lmul_p2_10_ld_ld7
-.Lmul_p2_10_ld_ld7:
-        .word   12, 12, .Lmul_p2_10_ld_ld8
-.Lmul_p2_10_ld_ld8:
-        .word   186, 12, .Lmul_p2_10_ld_ld9
-.Lmul_p2_10_ld_ld9:
-        .word   12, 176, .Lmul_p2_10_chk
-.Lmul_p2_10_chk:
-        .word   168, 168, .Lmul_p2_10_test
-.Lmul_p2_10_test:
-        .word   24, 176, .Lmul_p2_10_dbl
-        .word   12, 12, .Lmul_p2_10_add1
-.Lmul_p2_10_add1:
-        .word   32, 12, .Lmul_p2_10_add2
-.Lmul_p2_10_add2:
-        .word   12, 160, .Lmul_p2_10_dbl
-.Lmul_p2_10_dbl:
-        .word   12, 12, .Lmul_p2_10_d1
-.Lmul_p2_10_d1:
-        .word   32, 12, .Lmul_p2_10_d2
-.Lmul_p2_10_d2:
-        .word   12, 32, .Lmul_p2_bit11
-.Lmul_p2_bit11:
-.Lmul_p2_11_ld_ld1:
-        .word   184, 184, .Lmul_p2_11_ld_ld2
-.Lmul_p2_11_ld_ld2:
-        .word   12, 12, .Lmul_p2_11_ld_ld3
-.Lmul_p2_11_ld_ld3:
-        .word   16, 12, .Lmul_p2_11_ld_ld4
-.Lmul_p2_11_ld_ld4:
-        .word   12, 184, .Lmul_p2_11_ld_ld5
-.Lmul_p2_11_ld_ld5:
-        .word   .Lmul_noff44, 184, .Lmul_p2_11_ld_ld6
-.Lmul_p2_11_ld_ld6:
-        .word   176, 176, .Lmul_p2_11_ld_ld7
-.Lmul_p2_11_ld_ld7:
-        .word   12, 12, .Lmul_p2_11_ld_ld8
-.Lmul_p2_11_ld_ld8:
-        .word   186, 12, .Lmul_p2_11_ld_ld9
-.Lmul_p2_11_ld_ld9:
-        .word   12, 176, .Lmul_p2_11_chk
-.Lmul_p2_11_chk:
-        .word   168, 168, .Lmul_p2_11_test
-.Lmul_p2_11_test:
-        .word   24, 176, .Lmul_p2_11_dbl
-        .word   12, 12, .Lmul_p2_11_add1
-.Lmul_p2_11_add1:
-        .word   32, 12, .Lmul_p2_11_add2
-.Lmul_p2_11_add2:
-        .word   12, 160, .Lmul_p2_11_dbl
-.Lmul_p2_11_dbl:
-        .word   12, 12, .Lmul_p2_11_d1
-.Lmul_p2_11_d1:
-        .word   32, 12, .Lmul_p2_11_d2
-.Lmul_p2_11_d2:
-        .word   12, 32, .Lmul_p2_bit12
-.Lmul_p2_bit12:
-.Lmul_p2_12_ld_ld1:
-        .word   184, 184, .Lmul_p2_12_ld_ld2
-.Lmul_p2_12_ld_ld2:
-        .word   12, 12, .Lmul_p2_12_ld_ld3
-.Lmul_p2_12_ld_ld3:
-        .word   16, 12, .Lmul_p2_12_ld_ld4
-.Lmul_p2_12_ld_ld4:
-        .word   12, 184, .Lmul_p2_12_ld_ld5
-.Lmul_p2_12_ld_ld5:
-        .word   .Lmul_noff48, 184, .Lmul_p2_12_ld_ld6
-.Lmul_p2_12_ld_ld6:
-        .word   176, 176, .Lmul_p2_12_ld_ld7
-.Lmul_p2_12_ld_ld7:
-        .word   12, 12, .Lmul_p2_12_ld_ld8
-.Lmul_p2_12_ld_ld8:
-        .word   186, 12, .Lmul_p2_12_ld_ld9
-.Lmul_p2_12_ld_ld9:
-        .word   12, 176, .Lmul_p2_12_chk
-.Lmul_p2_12_chk:
-        .word   168, 168, .Lmul_p2_12_test
-.Lmul_p2_12_test:
-        .word   24, 176, .Lmul_p2_12_dbl
-        .word   12, 12, .Lmul_p2_12_add1
-.Lmul_p2_12_add1:
-        .word   32, 12, .Lmul_p2_12_add2
-.Lmul_p2_12_add2:
-        .word   12, 160, .Lmul_p2_12_dbl
-.Lmul_p2_12_dbl:
-        .word   12, 12, .Lmul_p2_12_d1
-.Lmul_p2_12_d1:
-        .word   32, 12, .Lmul_p2_12_d2
-.Lmul_p2_12_d2:
-        .word   12, 32, .Lmul_p2_bit13
-.Lmul_p2_bit13:
-.Lmul_p2_13_ld_ld1:
-        .word   184, 184, .Lmul_p2_13_ld_ld2
-.Lmul_p2_13_ld_ld2:
-        .word   12, 12, .Lmul_p2_13_ld_ld3
-.Lmul_p2_13_ld_ld3:
-        .word   16, 12, .Lmul_p2_13_ld_ld4
-.Lmul_p2_13_ld_ld4:
-        .word   12, 184, .Lmul_p2_13_ld_ld5
-.Lmul_p2_13_ld_ld5:
-        .word   .Lmul_noff52, 184, .Lmul_p2_13_ld_ld6
-.Lmul_p2_13_ld_ld6:
-        .word   176, 176, .Lmul_p2_13_ld_ld7
-.Lmul_p2_13_ld_ld7:
-        .word   12, 12, .Lmul_p2_13_ld_ld8
-.Lmul_p2_13_ld_ld8:
-        .word   186, 12, .Lmul_p2_13_ld_ld9
-.Lmul_p2_13_ld_ld9:
-        .word   12, 176, .Lmul_p2_13_chk
-.Lmul_p2_13_chk:
-        .word   168, 168, .Lmul_p2_13_test
-.Lmul_p2_13_test:
-        .word   24, 176, .Lmul_p2_13_dbl
-        .word   12, 12, .Lmul_p2_13_add1
-.Lmul_p2_13_add1:
-        .word   32, 12, .Lmul_p2_13_add2
-.Lmul_p2_13_add2:
-        .word   12, 160, .Lmul_p2_13_dbl
-.Lmul_p2_13_dbl:
-        .word   12, 12, .Lmul_p2_13_d1
-.Lmul_p2_13_d1:
-        .word   32, 12, .Lmul_p2_13_d2
-.Lmul_p2_13_d2:
-        .word   12, 32, .Lmul_p2_bit14
-.Lmul_p2_bit14:
-.Lmul_p2_14_ld_ld1:
-        .word   184, 184, .Lmul_p2_14_ld_ld2
-.Lmul_p2_14_ld_ld2:
-        .word   12, 12, .Lmul_p2_14_ld_ld3
-.Lmul_p2_14_ld_ld3:
-        .word   16, 12, .Lmul_p2_14_ld_ld4
-.Lmul_p2_14_ld_ld4:
-        .word   12, 184, .Lmul_p2_14_ld_ld5
-.Lmul_p2_14_ld_ld5:
-        .word   .Lmul_noff56, 184, .Lmul_p2_14_ld_ld6
-.Lmul_p2_14_ld_ld6:
-        .word   176, 176, .Lmul_p2_14_ld_ld7
-.Lmul_p2_14_ld_ld7:
-        .word   12, 12, .Lmul_p2_14_ld_ld8
-.Lmul_p2_14_ld_ld8:
-        .word   186, 12, .Lmul_p2_14_ld_ld9
-.Lmul_p2_14_ld_ld9:
-        .word   12, 176, .Lmul_p2_14_chk
-.Lmul_p2_14_chk:
-        .word   168, 168, .Lmul_p2_14_test
-.Lmul_p2_14_test:
-        .word   24, 176, .Lmul_p2_14_dbl
-        .word   12, 12, .Lmul_p2_14_add1
-.Lmul_p2_14_add1:
-        .word   32, 12, .Lmul_p2_14_add2
-.Lmul_p2_14_add2:
-        .word   12, 160, .Lmul_p2_14_dbl
-.Lmul_p2_14_dbl:
-        .word   12, 12, .Lmul_p2_14_d1
-.Lmul_p2_14_d1:
-        .word   32, 12, .Lmul_p2_14_d2
-.Lmul_p2_14_d2:
-        .word   12, 32, .Lmul_p2_bit15
-.Lmul_p2_bit15:
-.Lmul_p2_15_ld_ld1:
-        .word   184, 184, .Lmul_p2_15_ld_ld2
-.Lmul_p2_15_ld_ld2:
-        .word   12, 12, .Lmul_p2_15_ld_ld3
-.Lmul_p2_15_ld_ld3:
-        .word   16, 12, .Lmul_p2_15_ld_ld4
-.Lmul_p2_15_ld_ld4:
-        .word   12, 184, .Lmul_p2_15_ld_ld5
-.Lmul_p2_15_ld_ld5:
-        .word   .Lmul_noff60, 184, .Lmul_p2_15_ld_ld6
-.Lmul_p2_15_ld_ld6:
-        .word   176, 176, .Lmul_p2_15_ld_ld7
-.Lmul_p2_15_ld_ld7:
-        .word   12, 12, .Lmul_p2_15_ld_ld8
-.Lmul_p2_15_ld_ld8:
-        .word   186, 12, .Lmul_p2_15_ld_ld9
-.Lmul_p2_15_ld_ld9:
-        .word   12, 176, .Lmul_p2_15_chk
-.Lmul_p2_15_chk:
-        .word   168, 168, .Lmul_p2_15_test
-.Lmul_p2_15_test:
-        .word   24, 176, .Lmul_p2_15_dbl
-        .word   12, 12, .Lmul_p2_15_add1
-.Lmul_p2_15_add1:
-        .word   32, 12, .Lmul_p2_15_add2
-.Lmul_p2_15_add2:
-        .word   12, 160, .Lmul_p2_15_dbl
-.Lmul_p2_15_dbl:
-        .word   12, 12, .Lmul_p2_15_d1
-.Lmul_p2_15_d1:
-        .word   32, 12, .Lmul_p2_15_d2
-.Lmul_p2_15_d2:
-        .word   12, 32, .Lmul_p2_bit16
-.Lmul_p2_bit16:
-.Lmul_p2_16_ld_ld1:
-        .word   184, 184, .Lmul_p2_16_ld_ld2
-.Lmul_p2_16_ld_ld2:
-        .word   12, 12, .Lmul_p2_16_ld_ld3
-.Lmul_p2_16_ld_ld3:
-        .word   16, 12, .Lmul_p2_16_ld_ld4
-.Lmul_p2_16_ld_ld4:
-        .word   12, 184, .Lmul_p2_16_ld_ld5
-.Lmul_p2_16_ld_ld5:
-        .word   .Lmul_noff64, 184, .Lmul_p2_16_ld_ld6
-.Lmul_p2_16_ld_ld6:
-        .word   176, 176, .Lmul_p2_16_ld_ld7
-.Lmul_p2_16_ld_ld7:
-        .word   12, 12, .Lmul_p2_16_ld_ld8
-.Lmul_p2_16_ld_ld8:
-        .word   186, 12, .Lmul_p2_16_ld_ld9
-.Lmul_p2_16_ld_ld9:
-        .word   12, 176, .Lmul_p2_16_chk
-.Lmul_p2_16_chk:
-        .word   168, 168, .Lmul_p2_16_test
-.Lmul_p2_16_test:
-        .word   24, 176, .Lmul_p2_16_dbl
-        .word   12, 12, .Lmul_p2_16_add1
-.Lmul_p2_16_add1:
-        .word   32, 12, .Lmul_p2_16_add2
-.Lmul_p2_16_add2:
-        .word   12, 160, .Lmul_p2_16_dbl
-.Lmul_p2_16_dbl:
-        .word   12, 12, .Lmul_p2_16_d1
-.Lmul_p2_16_d1:
-        .word   32, 12, .Lmul_p2_16_d2
-.Lmul_p2_16_d2:
-        .word   12, 32, .Lmul_p2_bit17
-.Lmul_p2_bit17:
-.Lmul_p2_17_ld_ld1:
-        .word   184, 184, .Lmul_p2_17_ld_ld2
-.Lmul_p2_17_ld_ld2:
-        .word   12, 12, .Lmul_p2_17_ld_ld3
-.Lmul_p2_17_ld_ld3:
-        .word   16, 12, .Lmul_p2_17_ld_ld4
-.Lmul_p2_17_ld_ld4:
-        .word   12, 184, .Lmul_p2_17_ld_ld5
-.Lmul_p2_17_ld_ld5:
-        .word   .Lmul_noff68, 184, .Lmul_p2_17_ld_ld6
-.Lmul_p2_17_ld_ld6:
-        .word   176, 176, .Lmul_p2_17_ld_ld7
-.Lmul_p2_17_ld_ld7:
-        .word   12, 12, .Lmul_p2_17_ld_ld8
-.Lmul_p2_17_ld_ld8:
-        .word   186, 12, .Lmul_p2_17_ld_ld9
-.Lmul_p2_17_ld_ld9:
-        .word   12, 176, .Lmul_p2_17_chk
-.Lmul_p2_17_chk:
-        .word   168, 168, .Lmul_p2_17_test
-.Lmul_p2_17_test:
-        .word   24, 176, .Lmul_p2_17_dbl
-        .word   12, 12, .Lmul_p2_17_add1
-.Lmul_p2_17_add1:
-        .word   32, 12, .Lmul_p2_17_add2
-.Lmul_p2_17_add2:
-        .word   12, 160, .Lmul_p2_17_dbl
-.Lmul_p2_17_dbl:
-        .word   12, 12, .Lmul_p2_17_d1
-.Lmul_p2_17_d1:
-        .word   32, 12, .Lmul_p2_17_d2
-.Lmul_p2_17_d2:
-        .word   12, 32, .Lmul_p2_bit18
-.Lmul_p2_bit18:
-.Lmul_p2_18_ld_ld1:
-        .word   184, 184, .Lmul_p2_18_ld_ld2
-.Lmul_p2_18_ld_ld2:
-        .word   12, 12, .Lmul_p2_18_ld_ld3
-.Lmul_p2_18_ld_ld3:
-        .word   16, 12, .Lmul_p2_18_ld_ld4
-.Lmul_p2_18_ld_ld4:
-        .word   12, 184, .Lmul_p2_18_ld_ld5
-.Lmul_p2_18_ld_ld5:
-        .word   .Lmul_noff72, 184, .Lmul_p2_18_ld_ld6
-.Lmul_p2_18_ld_ld6:
-        .word   176, 176, .Lmul_p2_18_ld_ld7
-.Lmul_p2_18_ld_ld7:
-        .word   12, 12, .Lmul_p2_18_ld_ld8
-.Lmul_p2_18_ld_ld8:
-        .word   186, 12, .Lmul_p2_18_ld_ld9
-.Lmul_p2_18_ld_ld9:
-        .word   12, 176, .Lmul_p2_18_chk
-.Lmul_p2_18_chk:
-        .word   168, 168, .Lmul_p2_18_test
-.Lmul_p2_18_test:
-        .word   24, 176, .Lmul_p2_18_dbl
-        .word   12, 12, .Lmul_p2_18_add1
-.Lmul_p2_18_add1:
-        .word   32, 12, .Lmul_p2_18_add2
-.Lmul_p2_18_add2:
-        .word   12, 160, .Lmul_p2_18_dbl
-.Lmul_p2_18_dbl:
-        .word   12, 12, .Lmul_p2_18_d1
-.Lmul_p2_18_d1:
-        .word   32, 12, .Lmul_p2_18_d2
-.Lmul_p2_18_d2:
-        .word   12, 32, .Lmul_p2_bit19
-.Lmul_p2_bit19:
-.Lmul_p2_19_ld_ld1:
-        .word   184, 184, .Lmul_p2_19_ld_ld2
-.Lmul_p2_19_ld_ld2:
-        .word   12, 12, .Lmul_p2_19_ld_ld3
-.Lmul_p2_19_ld_ld3:
-        .word   16, 12, .Lmul_p2_19_ld_ld4
-.Lmul_p2_19_ld_ld4:
-        .word   12, 184, .Lmul_p2_19_ld_ld5
-.Lmul_p2_19_ld_ld5:
-        .word   .Lmul_noff76, 184, .Lmul_p2_19_ld_ld6
-.Lmul_p2_19_ld_ld6:
-        .word   176, 176, .Lmul_p2_19_ld_ld7
-.Lmul_p2_19_ld_ld7:
-        .word   12, 12, .Lmul_p2_19_ld_ld8
-.Lmul_p2_19_ld_ld8:
-        .word   186, 12, .Lmul_p2_19_ld_ld9
-.Lmul_p2_19_ld_ld9:
-        .word   12, 176, .Lmul_p2_19_chk
-.Lmul_p2_19_chk:
-        .word   168, 168, .Lmul_p2_19_test
-.Lmul_p2_19_test:
-        .word   24, 176, .Lmul_p2_19_dbl
-        .word   12, 12, .Lmul_p2_19_add1
-.Lmul_p2_19_add1:
-        .word   32, 12, .Lmul_p2_19_add2
-.Lmul_p2_19_add2:
-        .word   12, 160, .Lmul_p2_19_dbl
-.Lmul_p2_19_dbl:
-        .word   12, 12, .Lmul_p2_19_d1
-.Lmul_p2_19_d1:
-        .word   32, 12, .Lmul_p2_19_d2
-.Lmul_p2_19_d2:
-        .word   12, 32, .Lmul_p2_bit20
-.Lmul_p2_bit20:
-.Lmul_p2_20_ld_ld1:
-        .word   184, 184, .Lmul_p2_20_ld_ld2
-.Lmul_p2_20_ld_ld2:
-        .word   12, 12, .Lmul_p2_20_ld_ld3
-.Lmul_p2_20_ld_ld3:
-        .word   16, 12, .Lmul_p2_20_ld_ld4
-.Lmul_p2_20_ld_ld4:
-        .word   12, 184, .Lmul_p2_20_ld_ld5
-.Lmul_p2_20_ld_ld5:
-        .word   .Lmul_noff80, 184, .Lmul_p2_20_ld_ld6
-.Lmul_p2_20_ld_ld6:
-        .word   176, 176, .Lmul_p2_20_ld_ld7
-.Lmul_p2_20_ld_ld7:
-        .word   12, 12, .Lmul_p2_20_ld_ld8
-.Lmul_p2_20_ld_ld8:
-        .word   186, 12, .Lmul_p2_20_ld_ld9
-.Lmul_p2_20_ld_ld9:
-        .word   12, 176, .Lmul_p2_20_chk
-.Lmul_p2_20_chk:
-        .word   168, 168, .Lmul_p2_20_test
-.Lmul_p2_20_test:
-        .word   24, 176, .Lmul_p2_20_dbl
-        .word   12, 12, .Lmul_p2_20_add1
-.Lmul_p2_20_add1:
-        .word   32, 12, .Lmul_p2_20_add2
-.Lmul_p2_20_add2:
-        .word   12, 160, .Lmul_p2_20_dbl
-.Lmul_p2_20_dbl:
-        .word   12, 12, .Lmul_p2_20_d1
-.Lmul_p2_20_d1:
-        .word   32, 12, .Lmul_p2_20_d2
-.Lmul_p2_20_d2:
-        .word   12, 32, .Lmul_p2_bit21
-.Lmul_p2_bit21:
-.Lmul_p2_21_ld_ld1:
-        .word   184, 184, .Lmul_p2_21_ld_ld2
-.Lmul_p2_21_ld_ld2:
-        .word   12, 12, .Lmul_p2_21_ld_ld3
-.Lmul_p2_21_ld_ld3:
-        .word   16, 12, .Lmul_p2_21_ld_ld4
-.Lmul_p2_21_ld_ld4:
-        .word   12, 184, .Lmul_p2_21_ld_ld5
-.Lmul_p2_21_ld_ld5:
-        .word   .Lmul_noff84, 184, .Lmul_p2_21_ld_ld6
-.Lmul_p2_21_ld_ld6:
-        .word   176, 176, .Lmul_p2_21_ld_ld7
-.Lmul_p2_21_ld_ld7:
-        .word   12, 12, .Lmul_p2_21_ld_ld8
-.Lmul_p2_21_ld_ld8:
-        .word   186, 12, .Lmul_p2_21_ld_ld9
-.Lmul_p2_21_ld_ld9:
-        .word   12, 176, .Lmul_p2_21_chk
-.Lmul_p2_21_chk:
-        .word   168, 168, .Lmul_p2_21_test
-.Lmul_p2_21_test:
-        .word   24, 176, .Lmul_p2_21_dbl
-        .word   12, 12, .Lmul_p2_21_add1
-.Lmul_p2_21_add1:
-        .word   32, 12, .Lmul_p2_21_add2
-.Lmul_p2_21_add2:
-        .word   12, 160, .Lmul_p2_21_dbl
-.Lmul_p2_21_dbl:
-        .word   12, 12, .Lmul_p2_21_d1
-.Lmul_p2_21_d1:
-        .word   32, 12, .Lmul_p2_21_d2
-.Lmul_p2_21_d2:
-        .word   12, 32, .Lmul_p2_bit22
-.Lmul_p2_bit22:
-.Lmul_p2_22_ld_ld1:
-        .word   184, 184, .Lmul_p2_22_ld_ld2
-.Lmul_p2_22_ld_ld2:
-        .word   12, 12, .Lmul_p2_22_ld_ld3
-.Lmul_p2_22_ld_ld3:
-        .word   16, 12, .Lmul_p2_22_ld_ld4
-.Lmul_p2_22_ld_ld4:
-        .word   12, 184, .Lmul_p2_22_ld_ld5
-.Lmul_p2_22_ld_ld5:
-        .word   .Lmul_noff88, 184, .Lmul_p2_22_ld_ld6
-.Lmul_p2_22_ld_ld6:
-        .word   176, 176, .Lmul_p2_22_ld_ld7
-.Lmul_p2_22_ld_ld7:
-        .word   12, 12, .Lmul_p2_22_ld_ld8
-.Lmul_p2_22_ld_ld8:
-        .word   186, 12, .Lmul_p2_22_ld_ld9
-.Lmul_p2_22_ld_ld9:
-        .word   12, 176, .Lmul_p2_22_chk
-.Lmul_p2_22_chk:
-        .word   168, 168, .Lmul_p2_22_test
-.Lmul_p2_22_test:
-        .word   24, 176, .Lmul_p2_22_dbl
-        .word   12, 12, .Lmul_p2_22_add1
-.Lmul_p2_22_add1:
-        .word   32, 12, .Lmul_p2_22_add2
-.Lmul_p2_22_add2:
-        .word   12, 160, .Lmul_p2_22_dbl
-.Lmul_p2_22_dbl:
-        .word   12, 12, .Lmul_p2_22_d1
-.Lmul_p2_22_d1:
-        .word   32, 12, .Lmul_p2_22_d2
-.Lmul_p2_22_d2:
-        .word   12, 32, .Lmul_p2_bit23
-.Lmul_p2_bit23:
-.Lmul_p2_23_ld_ld1:
-        .word   184, 184, .Lmul_p2_23_ld_ld2
-.Lmul_p2_23_ld_ld2:
-        .word   12, 12, .Lmul_p2_23_ld_ld3
-.Lmul_p2_23_ld_ld3:
-        .word   16, 12, .Lmul_p2_23_ld_ld4
-.Lmul_p2_23_ld_ld4:
-        .word   12, 184, .Lmul_p2_23_ld_ld5
-.Lmul_p2_23_ld_ld5:
-        .word   .Lmul_noff92, 184, .Lmul_p2_23_ld_ld6
-.Lmul_p2_23_ld_ld6:
-        .word   176, 176, .Lmul_p2_23_ld_ld7
-.Lmul_p2_23_ld_ld7:
-        .word   12, 12, .Lmul_p2_23_ld_ld8
-.Lmul_p2_23_ld_ld8:
-        .word   186, 12, .Lmul_p2_23_ld_ld9
-.Lmul_p2_23_ld_ld9:
-        .word   12, 176, .Lmul_p2_23_chk
-.Lmul_p2_23_chk:
-        .word   168, 168, .Lmul_p2_23_test
-.Lmul_p2_23_test:
-        .word   24, 176, .Lmul_p2_23_dbl
-        .word   12, 12, .Lmul_p2_23_add1
-.Lmul_p2_23_add1:
-        .word   32, 12, .Lmul_p2_23_add2
-.Lmul_p2_23_add2:
-        .word   12, 160, .Lmul_p2_23_dbl
-.Lmul_p2_23_dbl:
-        .word   12, 12, .Lmul_p2_23_d1
-.Lmul_p2_23_d1:
-        .word   32, 12, .Lmul_p2_23_d2
-.Lmul_p2_23_d2:
-        .word   12, 32, .Lmul_p2_bit24
-.Lmul_p2_bit24:
-.Lmul_p2_24_ld_ld1:
-        .word   184, 184, .Lmul_p2_24_ld_ld2
-.Lmul_p2_24_ld_ld2:
-        .word   12, 12, .Lmul_p2_24_ld_ld3
-.Lmul_p2_24_ld_ld3:
-        .word   16, 12, .Lmul_p2_24_ld_ld4
-.Lmul_p2_24_ld_ld4:
-        .word   12, 184, .Lmul_p2_24_ld_ld5
-.Lmul_p2_24_ld_ld5:
-        .word   .Lmul_noff96, 184, .Lmul_p2_24_ld_ld6
-.Lmul_p2_24_ld_ld6:
-        .word   176, 176, .Lmul_p2_24_ld_ld7
-.Lmul_p2_24_ld_ld7:
-        .word   12, 12, .Lmul_p2_24_ld_ld8
-.Lmul_p2_24_ld_ld8:
-        .word   186, 12, .Lmul_p2_24_ld_ld9
-.Lmul_p2_24_ld_ld9:
-        .word   12, 176, .Lmul_p2_24_chk
-.Lmul_p2_24_chk:
-        .word   168, 168, .Lmul_p2_24_test
-.Lmul_p2_24_test:
-        .word   24, 176, .Lmul_p2_24_dbl
-        .word   12, 12, .Lmul_p2_24_add1
-.Lmul_p2_24_add1:
-        .word   32, 12, .Lmul_p2_24_add2
-.Lmul_p2_24_add2:
-        .word   12, 160, .Lmul_p2_24_dbl
-.Lmul_p2_24_dbl:
-        .word   12, 12, .Lmul_p2_24_d1
-.Lmul_p2_24_d1:
-        .word   32, 12, .Lmul_p2_24_d2
-.Lmul_p2_24_d2:
-        .word   12, 32, .Lmul_p2_bit25
-.Lmul_p2_bit25:
-.Lmul_p2_25_ld_ld1:
-        .word   184, 184, .Lmul_p2_25_ld_ld2
-.Lmul_p2_25_ld_ld2:
-        .word   12, 12, .Lmul_p2_25_ld_ld3
-.Lmul_p2_25_ld_ld3:
-        .word   16, 12, .Lmul_p2_25_ld_ld4
-.Lmul_p2_25_ld_ld4:
-        .word   12, 184, .Lmul_p2_25_ld_ld5
-.Lmul_p2_25_ld_ld5:
-        .word   .Lmul_noff100, 184, .Lmul_p2_25_ld_ld6
-.Lmul_p2_25_ld_ld6:
-        .word   176, 176, .Lmul_p2_25_ld_ld7
-.Lmul_p2_25_ld_ld7:
-        .word   12, 12, .Lmul_p2_25_ld_ld8
-.Lmul_p2_25_ld_ld8:
-        .word   186, 12, .Lmul_p2_25_ld_ld9
-.Lmul_p2_25_ld_ld9:
-        .word   12, 176, .Lmul_p2_25_chk
-.Lmul_p2_25_chk:
-        .word   168, 168, .Lmul_p2_25_test
-.Lmul_p2_25_test:
-        .word   24, 176, .Lmul_p2_25_dbl
-        .word   12, 12, .Lmul_p2_25_add1
-.Lmul_p2_25_add1:
-        .word   32, 12, .Lmul_p2_25_add2
-.Lmul_p2_25_add2:
-        .word   12, 160, .Lmul_p2_25_dbl
-.Lmul_p2_25_dbl:
-        .word   12, 12, .Lmul_p2_25_d1
-.Lmul_p2_25_d1:
-        .word   32, 12, .Lmul_p2_25_d2
-.Lmul_p2_25_d2:
-        .word   12, 32, .Lmul_p2_bit26
-.Lmul_p2_bit26:
-.Lmul_p2_26_ld_ld1:
-        .word   184, 184, .Lmul_p2_26_ld_ld2
-.Lmul_p2_26_ld_ld2:
-        .word   12, 12, .Lmul_p2_26_ld_ld3
-.Lmul_p2_26_ld_ld3:
-        .word   16, 12, .Lmul_p2_26_ld_ld4
-.Lmul_p2_26_ld_ld4:
-        .word   12, 184, .Lmul_p2_26_ld_ld5
-.Lmul_p2_26_ld_ld5:
-        .word   .Lmul_noff104, 184, .Lmul_p2_26_ld_ld6
-.Lmul_p2_26_ld_ld6:
-        .word   176, 176, .Lmul_p2_26_ld_ld7
-.Lmul_p2_26_ld_ld7:
-        .word   12, 12, .Lmul_p2_26_ld_ld8
-.Lmul_p2_26_ld_ld8:
-        .word   186, 12, .Lmul_p2_26_ld_ld9
-.Lmul_p2_26_ld_ld9:
-        .word   12, 176, .Lmul_p2_26_chk
-.Lmul_p2_26_chk:
-        .word   168, 168, .Lmul_p2_26_test
-.Lmul_p2_26_test:
-        .word   24, 176, .Lmul_p2_26_dbl
-        .word   12, 12, .Lmul_p2_26_add1
-.Lmul_p2_26_add1:
-        .word   32, 12, .Lmul_p2_26_add2
-.Lmul_p2_26_add2:
-        .word   12, 160, .Lmul_p2_26_dbl
-.Lmul_p2_26_dbl:
-        .word   12, 12, .Lmul_p2_26_d1
-.Lmul_p2_26_d1:
-        .word   32, 12, .Lmul_p2_26_d2
-.Lmul_p2_26_d2:
-        .word   12, 32, .Lmul_p2_bit27
-.Lmul_p2_bit27:
-.Lmul_p2_27_ld_ld1:
-        .word   184, 184, .Lmul_p2_27_ld_ld2
-.Lmul_p2_27_ld_ld2:
-        .word   12, 12, .Lmul_p2_27_ld_ld3
-.Lmul_p2_27_ld_ld3:
-        .word   16, 12, .Lmul_p2_27_ld_ld4
-.Lmul_p2_27_ld_ld4:
-        .word   12, 184, .Lmul_p2_27_ld_ld5
-.Lmul_p2_27_ld_ld5:
-        .word   .Lmul_noff108, 184, .Lmul_p2_27_ld_ld6
-.Lmul_p2_27_ld_ld6:
-        .word   176, 176, .Lmul_p2_27_ld_ld7
-.Lmul_p2_27_ld_ld7:
-        .word   12, 12, .Lmul_p2_27_ld_ld8
-.Lmul_p2_27_ld_ld8:
-        .word   186, 12, .Lmul_p2_27_ld_ld9
-.Lmul_p2_27_ld_ld9:
-        .word   12, 176, .Lmul_p2_27_chk
-.Lmul_p2_27_chk:
-        .word   168, 168, .Lmul_p2_27_test
-.Lmul_p2_27_test:
-        .word   24, 176, .Lmul_p2_27_dbl
-        .word   12, 12, .Lmul_p2_27_add1
-.Lmul_p2_27_add1:
-        .word   32, 12, .Lmul_p2_27_add2
-.Lmul_p2_27_add2:
-        .word   12, 160, .Lmul_p2_27_dbl
-.Lmul_p2_27_dbl:
-        .word   12, 12, .Lmul_p2_27_d1
-.Lmul_p2_27_d1:
-        .word   32, 12, .Lmul_p2_27_d2
-.Lmul_p2_27_d2:
-        .word   12, 32, .Lmul_p2_bit28
-.Lmul_p2_bit28:
-.Lmul_p2_28_ld_ld1:
-        .word   184, 184, .Lmul_p2_28_ld_ld2
-.Lmul_p2_28_ld_ld2:
-        .word   12, 12, .Lmul_p2_28_ld_ld3
-.Lmul_p2_28_ld_ld3:
-        .word   16, 12, .Lmul_p2_28_ld_ld4
-.Lmul_p2_28_ld_ld4:
-        .word   12, 184, .Lmul_p2_28_ld_ld5
-.Lmul_p2_28_ld_ld5:
-        .word   .Lmul_noff112, 184, .Lmul_p2_28_ld_ld6
-.Lmul_p2_28_ld_ld6:
-        .word   176, 176, .Lmul_p2_28_ld_ld7
-.Lmul_p2_28_ld_ld7:
-        .word   12, 12, .Lmul_p2_28_ld_ld8
-.Lmul_p2_28_ld_ld8:
-        .word   186, 12, .Lmul_p2_28_ld_ld9
-.Lmul_p2_28_ld_ld9:
-        .word   12, 176, .Lmul_p2_28_chk
-.Lmul_p2_28_chk:
-        .word   168, 168, .Lmul_p2_28_test
-.Lmul_p2_28_test:
-        .word   24, 176, .Lmul_p2_28_dbl
-        .word   12, 12, .Lmul_p2_28_add1
-.Lmul_p2_28_add1:
-        .word   32, 12, .Lmul_p2_28_add2
-.Lmul_p2_28_add2:
-        .word   12, 160, .Lmul_p2_28_dbl
-.Lmul_p2_28_dbl:
-        .word   12, 12, .Lmul_p2_28_d1
-.Lmul_p2_28_d1:
-        .word   32, 12, .Lmul_p2_28_d2
-.Lmul_p2_28_d2:
-        .word   12, 32, .Lmul_p2_bit29
-.Lmul_p2_bit29:
-.Lmul_p2_29_ld_ld1:
-        .word   184, 184, .Lmul_p2_29_ld_ld2
-.Lmul_p2_29_ld_ld2:
-        .word   12, 12, .Lmul_p2_29_ld_ld3
-.Lmul_p2_29_ld_ld3:
-        .word   16, 12, .Lmul_p2_29_ld_ld4
-.Lmul_p2_29_ld_ld4:
-        .word   12, 184, .Lmul_p2_29_ld_ld5
-.Lmul_p2_29_ld_ld5:
-        .word   .Lmul_noff116, 184, .Lmul_p2_29_ld_ld6
-.Lmul_p2_29_ld_ld6:
-        .word   176, 176, .Lmul_p2_29_ld_ld7
-.Lmul_p2_29_ld_ld7:
-        .word   12, 12, .Lmul_p2_29_ld_ld8
-.Lmul_p2_29_ld_ld8:
-        .word   186, 12, .Lmul_p2_29_ld_ld9
-.Lmul_p2_29_ld_ld9:
-        .word   12, 176, .Lmul_p2_29_chk
-.Lmul_p2_29_chk:
-        .word   168, 168, .Lmul_p2_29_test
-.Lmul_p2_29_test:
-        .word   24, 176, .Lmul_p2_29_dbl
-        .word   12, 12, .Lmul_p2_29_add1
-.Lmul_p2_29_add1:
-        .word   32, 12, .Lmul_p2_29_add2
-.Lmul_p2_29_add2:
-        .word   12, 160, .Lmul_p2_29_dbl
-.Lmul_p2_29_dbl:
-        .word   12, 12, .Lmul_p2_29_d1
-.Lmul_p2_29_d1:
-        .word   32, 12, .Lmul_p2_29_d2
-.Lmul_p2_29_d2:
-        .word   12, 32, .Lmul_p2_bit30
-.Lmul_p2_bit30:
-.Lmul_p2_30_ld_ld1:
-        .word   184, 184, .Lmul_p2_30_ld_ld2
-.Lmul_p2_30_ld_ld2:
-        .word   12, 12, .Lmul_p2_30_ld_ld3
-.Lmul_p2_30_ld_ld3:
-        .word   16, 12, .Lmul_p2_30_ld_ld4
-.Lmul_p2_30_ld_ld4:
-        .word   12, 184, .Lmul_p2_30_ld_ld5
-.Lmul_p2_30_ld_ld5:
-        .word   .Lmul_noff120, 184, .Lmul_p2_30_ld_ld6
-.Lmul_p2_30_ld_ld6:
-        .word   176, 176, .Lmul_p2_30_ld_ld7
-.Lmul_p2_30_ld_ld7:
-        .word   12, 12, .Lmul_p2_30_ld_ld8
-.Lmul_p2_30_ld_ld8:
-        .word   186, 12, .Lmul_p2_30_ld_ld9
-.Lmul_p2_30_ld_ld9:
-        .word   12, 176, .Lmul_p2_30_chk
-.Lmul_p2_30_chk:
-        .word   168, 168, .Lmul_p2_30_test
-.Lmul_p2_30_test:
-        .word   24, 176, .Lmul_p2_30_dbl
-        .word   12, 12, .Lmul_p2_30_add1
-.Lmul_p2_30_add1:
-        .word   32, 12, .Lmul_p2_30_add2
-.Lmul_p2_30_add2:
-        .word   12, 160, .Lmul_p2_30_dbl
-.Lmul_p2_30_dbl:
-        .word   12, 12, .Lmul_p2_30_d1
-.Lmul_p2_30_d1:
-        .word   32, 12, .Lmul_p2_30_d2
-.Lmul_p2_30_d2:
-        .word   12, 32, .Lmul_p2_bit31
-.Lmul_p2_bit31:
-.Lmul_p2_31_ld_ld1:
-        .word   184, 184, .Lmul_p2_31_ld_ld2
-.Lmul_p2_31_ld_ld2:
-        .word   12, 12, .Lmul_p2_31_ld_ld3
-.Lmul_p2_31_ld_ld3:
-        .word   16, 12, .Lmul_p2_31_ld_ld4
-.Lmul_p2_31_ld_ld4:
-        .word   12, 184, .Lmul_p2_31_ld_ld5
-.Lmul_p2_31_ld_ld5:
-        .word   .Lmul_noff124, 184, .Lmul_p2_31_ld_ld6
-.Lmul_p2_31_ld_ld6:
-        .word   176, 176, .Lmul_p2_31_ld_ld7
-.Lmul_p2_31_ld_ld7:
-        .word   12, 12, .Lmul_p2_31_ld_ld8
-.Lmul_p2_31_ld_ld8:
-        .word   186, 12, .Lmul_p2_31_ld_ld9
-.Lmul_p2_31_ld_ld9:
-        .word   12, 176, .Lmul_p2_31_chk
-.Lmul_p2_31_chk:
-        .word   168, 168, .Lmul_p2_31_test
-.Lmul_p2_31_test:
-        .word   24, 176, .Lmul_p2_31_dbl
-        .word   12, 12, .Lmul_p2_31_add1
-.Lmul_p2_31_add1:
-        .word   32, 12, .Lmul_p2_31_add2
-.Lmul_p2_31_add2:
-        .word   12, 160, .Lmul_p2_31_dbl
-.Lmul_p2_31_dbl:
+        .word   12, 32, .Lmul_main_init
+.Lmul_main_init:
+        .word   164, 164, .Lmul_main1
+.Lmul_main1:
+        .word   12, 12, .Lmul_main2
+.Lmul_main2:
+        .word   28, 12, .Lmul_main3
+.Lmul_main3:
+        .word   12, 164, .Lmul_main4
+.Lmul_main4:
+        .word   160, 160, .Lmul_bit31
+.Lmul_bit31:
+        .word   12, 12, .Lmul_b31_dbl1
+.Lmul_b31_dbl1:
+        .word   160, 12, .Lmul_b31_dbl2
+.Lmul_b31_dbl2:
+        .word   12, 160, .Lmul_b31_chk
+.Lmul_b31_chk:
+        .word   168, 168, .Lmul_b31_c1
+.Lmul_b31_c1:
+        .word   12, 12, .Lmul_b31_c2
+.Lmul_b31_c2:
+        .word   164, 12, .Lmul_b31_c3
+.Lmul_b31_c3:
+        .word   12, 168, .Lmul_b31_c4
+.Lmul_b31_c4:
+        .word   24, 168, .Lmul_b31_le0
+        .word   12, 12, .Lmul_bit30
+.Lmul_b31_le0:
+        .word   168, 168, .Lmul_b31_l1
+.Lmul_b31_l1:
+        .word   12, 12, .Lmul_b31_l2
+.Lmul_b31_l2:
+        .word   164, 12, .Lmul_b31_l3
+.Lmul_b31_l3:
+        .word   12, 168, .Lmul_b31_l4
+.Lmul_b31_l4:
+        .word   176, 176, .Lmul_b31_l5
+.Lmul_b31_l5:
+        .word   168, 176, .Lmul_b31_l6
+.Lmul_b31_l6:
+        .word   24, 176, .Lmul_b31_amb
+        .word   12, 12, .Lmul_b31_set
+.Lmul_b31_amb:
+        .word   176, 176, .Lmul_b31_a1
+.Lmul_b31_a1:
+        .word   12, 12, .Lmul_b31_a2
+.Lmul_b31_a2:
+        .word   164, 12, .Lmul_b31_a3
+.Lmul_b31_a3:
+        .word   12, 176, .Lmul_b31_a4
+.Lmul_b31_a4:
+        .word   12, 12, .Lmul_b31_a5
+.Lmul_b31_a5:
+        .word   176, 12, .Lmul_b31_a6
+.Lmul_b31_a6:
+        .word   176, 176, .Lmul_b31_a7
+.Lmul_b31_a7:
+        .word   12, 176, .Lmul_b31_a8
+.Lmul_b31_a8:
+        .word   .Lmul_one, 176, .Lmul_b31_a9
+.Lmul_b31_a9:
+        .word   24, 176, .Lmul_bit30
+        .word   12, 12, .Lmul_b31_set
+.Lmul_b31_set:
+        .word   12, 12, .Lmul_b31_add1
+.Lmul_b31_add1:
+        .word   32, 12, .Lmul_b31_add2
+.Lmul_b31_add2:
+        .word   12, 160, .Lmul_b31_sub
+.Lmul_b31_sub:
+        .word   .Lmul_n2g, 164, .Lmul_bit30
+.Lmul_bit30:
+        .word   12, 12, .Lmul_b30_d1
+.Lmul_b30_d1:
+        .word   160, 12, .Lmul_b30_d2
+.Lmul_b30_d2:
+        .word   12, 160, .Lmul_b30_chk
+.Lmul_b30_chk:
+        .word   168, 168, .Lmul_b30_c1
+.Lmul_b30_c1:
+        .word   12, 12, .Lmul_b30_c2
+.Lmul_b30_c2:
+        .word   164, 12, .Lmul_b30_c3
+.Lmul_b30_c3:
+        .word   12, 168, .Lmul_b30_c4
+.Lmul_b30_c4:
+        .word   .Lmul_c1073741824, 168, .Lmul_b30_c5
+.Lmul_b30_c5:
+        .word   176, 176, .Lmul_b30_c6
+.Lmul_b30_c6:
+        .word   168, 176, .Lmul_b30_set
+        .word   12, 12, .Lmul_bit29
+.Lmul_b30_set:
+        .word   .Lmul_c1073741824, 164, .Lmul_b30_add1
+.Lmul_b30_add1:
+        .word   12, 12, .Lmul_b30_add2
+.Lmul_b30_add2:
+        .word   32, 12, .Lmul_b30_add3
+.Lmul_b30_add3:
+        .word   12, 160, .Lmul_bit29
+.Lmul_bit29:
+        .word   12, 12, .Lmul_b29_d1
+.Lmul_b29_d1:
+        .word   160, 12, .Lmul_b29_d2
+.Lmul_b29_d2:
+        .word   12, 160, .Lmul_b29_chk
+.Lmul_b29_chk:
+        .word   168, 168, .Lmul_b29_c1
+.Lmul_b29_c1:
+        .word   12, 12, .Lmul_b29_c2
+.Lmul_b29_c2:
+        .word   164, 12, .Lmul_b29_c3
+.Lmul_b29_c3:
+        .word   12, 168, .Lmul_b29_c4
+.Lmul_b29_c4:
+        .word   .Lmul_c536870912, 168, .Lmul_b29_c5
+.Lmul_b29_c5:
+        .word   176, 176, .Lmul_b29_c6
+.Lmul_b29_c6:
+        .word   168, 176, .Lmul_b29_set
+        .word   12, 12, .Lmul_bit28
+.Lmul_b29_set:
+        .word   .Lmul_c536870912, 164, .Lmul_b29_add1
+.Lmul_b29_add1:
+        .word   12, 12, .Lmul_b29_add2
+.Lmul_b29_add2:
+        .word   32, 12, .Lmul_b29_add3
+.Lmul_b29_add3:
+        .word   12, 160, .Lmul_bit28
+.Lmul_bit28:
+        .word   12, 12, .Lmul_b28_d1
+.Lmul_b28_d1:
+        .word   160, 12, .Lmul_b28_d2
+.Lmul_b28_d2:
+        .word   12, 160, .Lmul_b28_chk
+.Lmul_b28_chk:
+        .word   168, 168, .Lmul_b28_c1
+.Lmul_b28_c1:
+        .word   12, 12, .Lmul_b28_c2
+.Lmul_b28_c2:
+        .word   164, 12, .Lmul_b28_c3
+.Lmul_b28_c3:
+        .word   12, 168, .Lmul_b28_c4
+.Lmul_b28_c4:
+        .word   .Lmul_c268435456, 168, .Lmul_b28_c5
+.Lmul_b28_c5:
+        .word   176, 176, .Lmul_b28_c6
+.Lmul_b28_c6:
+        .word   168, 176, .Lmul_b28_set
+        .word   12, 12, .Lmul_bit27
+.Lmul_b28_set:
+        .word   .Lmul_c268435456, 164, .Lmul_b28_add1
+.Lmul_b28_add1:
+        .word   12, 12, .Lmul_b28_add2
+.Lmul_b28_add2:
+        .word   32, 12, .Lmul_b28_add3
+.Lmul_b28_add3:
+        .word   12, 160, .Lmul_bit27
+.Lmul_bit27:
+        .word   12, 12, .Lmul_b27_d1
+.Lmul_b27_d1:
+        .word   160, 12, .Lmul_b27_d2
+.Lmul_b27_d2:
+        .word   12, 160, .Lmul_b27_chk
+.Lmul_b27_chk:
+        .word   168, 168, .Lmul_b27_c1
+.Lmul_b27_c1:
+        .word   12, 12, .Lmul_b27_c2
+.Lmul_b27_c2:
+        .word   164, 12, .Lmul_b27_c3
+.Lmul_b27_c3:
+        .word   12, 168, .Lmul_b27_c4
+.Lmul_b27_c4:
+        .word   .Lmul_c134217728, 168, .Lmul_b27_c5
+.Lmul_b27_c5:
+        .word   176, 176, .Lmul_b27_c6
+.Lmul_b27_c6:
+        .word   168, 176, .Lmul_b27_set
+        .word   12, 12, .Lmul_bit26
+.Lmul_b27_set:
+        .word   .Lmul_c134217728, 164, .Lmul_b27_add1
+.Lmul_b27_add1:
+        .word   12, 12, .Lmul_b27_add2
+.Lmul_b27_add2:
+        .word   32, 12, .Lmul_b27_add3
+.Lmul_b27_add3:
+        .word   12, 160, .Lmul_bit26
+.Lmul_bit26:
+        .word   12, 12, .Lmul_b26_d1
+.Lmul_b26_d1:
+        .word   160, 12, .Lmul_b26_d2
+.Lmul_b26_d2:
+        .word   12, 160, .Lmul_b26_chk
+.Lmul_b26_chk:
+        .word   168, 168, .Lmul_b26_c1
+.Lmul_b26_c1:
+        .word   12, 12, .Lmul_b26_c2
+.Lmul_b26_c2:
+        .word   164, 12, .Lmul_b26_c3
+.Lmul_b26_c3:
+        .word   12, 168, .Lmul_b26_c4
+.Lmul_b26_c4:
+        .word   .Lmul_c67108864, 168, .Lmul_b26_c5
+.Lmul_b26_c5:
+        .word   176, 176, .Lmul_b26_c6
+.Lmul_b26_c6:
+        .word   168, 176, .Lmul_b26_set
+        .word   12, 12, .Lmul_bit25
+.Lmul_b26_set:
+        .word   .Lmul_c67108864, 164, .Lmul_b26_add1
+.Lmul_b26_add1:
+        .word   12, 12, .Lmul_b26_add2
+.Lmul_b26_add2:
+        .word   32, 12, .Lmul_b26_add3
+.Lmul_b26_add3:
+        .word   12, 160, .Lmul_bit25
+.Lmul_bit25:
+        .word   12, 12, .Lmul_b25_d1
+.Lmul_b25_d1:
+        .word   160, 12, .Lmul_b25_d2
+.Lmul_b25_d2:
+        .word   12, 160, .Lmul_b25_chk
+.Lmul_b25_chk:
+        .word   168, 168, .Lmul_b25_c1
+.Lmul_b25_c1:
+        .word   12, 12, .Lmul_b25_c2
+.Lmul_b25_c2:
+        .word   164, 12, .Lmul_b25_c3
+.Lmul_b25_c3:
+        .word   12, 168, .Lmul_b25_c4
+.Lmul_b25_c4:
+        .word   .Lmul_c33554432, 168, .Lmul_b25_c5
+.Lmul_b25_c5:
+        .word   176, 176, .Lmul_b25_c6
+.Lmul_b25_c6:
+        .word   168, 176, .Lmul_b25_set
+        .word   12, 12, .Lmul_bit24
+.Lmul_b25_set:
+        .word   .Lmul_c33554432, 164, .Lmul_b25_add1
+.Lmul_b25_add1:
+        .word   12, 12, .Lmul_b25_add2
+.Lmul_b25_add2:
+        .word   32, 12, .Lmul_b25_add3
+.Lmul_b25_add3:
+        .word   12, 160, .Lmul_bit24
+.Lmul_bit24:
+        .word   12, 12, .Lmul_b24_d1
+.Lmul_b24_d1:
+        .word   160, 12, .Lmul_b24_d2
+.Lmul_b24_d2:
+        .word   12, 160, .Lmul_b24_chk
+.Lmul_b24_chk:
+        .word   168, 168, .Lmul_b24_c1
+.Lmul_b24_c1:
+        .word   12, 12, .Lmul_b24_c2
+.Lmul_b24_c2:
+        .word   164, 12, .Lmul_b24_c3
+.Lmul_b24_c3:
+        .word   12, 168, .Lmul_b24_c4
+.Lmul_b24_c4:
+        .word   .Lmul_c16777216, 168, .Lmul_b24_c5
+.Lmul_b24_c5:
+        .word   176, 176, .Lmul_b24_c6
+.Lmul_b24_c6:
+        .word   168, 176, .Lmul_b24_set
+        .word   12, 12, .Lmul_bit23
+.Lmul_b24_set:
+        .word   .Lmul_c16777216, 164, .Lmul_b24_add1
+.Lmul_b24_add1:
+        .word   12, 12, .Lmul_b24_add2
+.Lmul_b24_add2:
+        .word   32, 12, .Lmul_b24_add3
+.Lmul_b24_add3:
+        .word   12, 160, .Lmul_bit23
+.Lmul_bit23:
+        .word   12, 12, .Lmul_b23_d1
+.Lmul_b23_d1:
+        .word   160, 12, .Lmul_b23_d2
+.Lmul_b23_d2:
+        .word   12, 160, .Lmul_b23_chk
+.Lmul_b23_chk:
+        .word   168, 168, .Lmul_b23_c1
+.Lmul_b23_c1:
+        .word   12, 12, .Lmul_b23_c2
+.Lmul_b23_c2:
+        .word   164, 12, .Lmul_b23_c3
+.Lmul_b23_c3:
+        .word   12, 168, .Lmul_b23_c4
+.Lmul_b23_c4:
+        .word   .Lmul_c8388608, 168, .Lmul_b23_c5
+.Lmul_b23_c5:
+        .word   176, 176, .Lmul_b23_c6
+.Lmul_b23_c6:
+        .word   168, 176, .Lmul_b23_set
+        .word   12, 12, .Lmul_bit22
+.Lmul_b23_set:
+        .word   .Lmul_c8388608, 164, .Lmul_b23_add1
+.Lmul_b23_add1:
+        .word   12, 12, .Lmul_b23_add2
+.Lmul_b23_add2:
+        .word   32, 12, .Lmul_b23_add3
+.Lmul_b23_add3:
+        .word   12, 160, .Lmul_bit22
+.Lmul_bit22:
+        .word   12, 12, .Lmul_b22_d1
+.Lmul_b22_d1:
+        .word   160, 12, .Lmul_b22_d2
+.Lmul_b22_d2:
+        .word   12, 160, .Lmul_b22_chk
+.Lmul_b22_chk:
+        .word   168, 168, .Lmul_b22_c1
+.Lmul_b22_c1:
+        .word   12, 12, .Lmul_b22_c2
+.Lmul_b22_c2:
+        .word   164, 12, .Lmul_b22_c3
+.Lmul_b22_c3:
+        .word   12, 168, .Lmul_b22_c4
+.Lmul_b22_c4:
+        .word   .Lmul_c4194304, 168, .Lmul_b22_c5
+.Lmul_b22_c5:
+        .word   176, 176, .Lmul_b22_c6
+.Lmul_b22_c6:
+        .word   168, 176, .Lmul_b22_set
+        .word   12, 12, .Lmul_bit21
+.Lmul_b22_set:
+        .word   .Lmul_c4194304, 164, .Lmul_b22_add1
+.Lmul_b22_add1:
+        .word   12, 12, .Lmul_b22_add2
+.Lmul_b22_add2:
+        .word   32, 12, .Lmul_b22_add3
+.Lmul_b22_add3:
+        .word   12, 160, .Lmul_bit21
+.Lmul_bit21:
+        .word   12, 12, .Lmul_b21_d1
+.Lmul_b21_d1:
+        .word   160, 12, .Lmul_b21_d2
+.Lmul_b21_d2:
+        .word   12, 160, .Lmul_b21_chk
+.Lmul_b21_chk:
+        .word   168, 168, .Lmul_b21_c1
+.Lmul_b21_c1:
+        .word   12, 12, .Lmul_b21_c2
+.Lmul_b21_c2:
+        .word   164, 12, .Lmul_b21_c3
+.Lmul_b21_c3:
+        .word   12, 168, .Lmul_b21_c4
+.Lmul_b21_c4:
+        .word   .Lmul_c2097152, 168, .Lmul_b21_c5
+.Lmul_b21_c5:
+        .word   176, 176, .Lmul_b21_c6
+.Lmul_b21_c6:
+        .word   168, 176, .Lmul_b21_set
+        .word   12, 12, .Lmul_bit20
+.Lmul_b21_set:
+        .word   .Lmul_c2097152, 164, .Lmul_b21_add1
+.Lmul_b21_add1:
+        .word   12, 12, .Lmul_b21_add2
+.Lmul_b21_add2:
+        .word   32, 12, .Lmul_b21_add3
+.Lmul_b21_add3:
+        .word   12, 160, .Lmul_bit20
+.Lmul_bit20:
+        .word   12, 12, .Lmul_b20_d1
+.Lmul_b20_d1:
+        .word   160, 12, .Lmul_b20_d2
+.Lmul_b20_d2:
+        .word   12, 160, .Lmul_b20_chk
+.Lmul_b20_chk:
+        .word   168, 168, .Lmul_b20_c1
+.Lmul_b20_c1:
+        .word   12, 12, .Lmul_b20_c2
+.Lmul_b20_c2:
+        .word   164, 12, .Lmul_b20_c3
+.Lmul_b20_c3:
+        .word   12, 168, .Lmul_b20_c4
+.Lmul_b20_c4:
+        .word   .Lmul_c1048576, 168, .Lmul_b20_c5
+.Lmul_b20_c5:
+        .word   176, 176, .Lmul_b20_c6
+.Lmul_b20_c6:
+        .word   168, 176, .Lmul_b20_set
+        .word   12, 12, .Lmul_bit19
+.Lmul_b20_set:
+        .word   .Lmul_c1048576, 164, .Lmul_b20_add1
+.Lmul_b20_add1:
+        .word   12, 12, .Lmul_b20_add2
+.Lmul_b20_add2:
+        .word   32, 12, .Lmul_b20_add3
+.Lmul_b20_add3:
+        .word   12, 160, .Lmul_bit19
+.Lmul_bit19:
+        .word   12, 12, .Lmul_b19_d1
+.Lmul_b19_d1:
+        .word   160, 12, .Lmul_b19_d2
+.Lmul_b19_d2:
+        .word   12, 160, .Lmul_b19_chk
+.Lmul_b19_chk:
+        .word   168, 168, .Lmul_b19_c1
+.Lmul_b19_c1:
+        .word   12, 12, .Lmul_b19_c2
+.Lmul_b19_c2:
+        .word   164, 12, .Lmul_b19_c3
+.Lmul_b19_c3:
+        .word   12, 168, .Lmul_b19_c4
+.Lmul_b19_c4:
+        .word   .Lmul_c524288, 168, .Lmul_b19_c5
+.Lmul_b19_c5:
+        .word   176, 176, .Lmul_b19_c6
+.Lmul_b19_c6:
+        .word   168, 176, .Lmul_b19_set
+        .word   12, 12, .Lmul_bit18
+.Lmul_b19_set:
+        .word   .Lmul_c524288, 164, .Lmul_b19_add1
+.Lmul_b19_add1:
+        .word   12, 12, .Lmul_b19_add2
+.Lmul_b19_add2:
+        .word   32, 12, .Lmul_b19_add3
+.Lmul_b19_add3:
+        .word   12, 160, .Lmul_bit18
+.Lmul_bit18:
+        .word   12, 12, .Lmul_b18_d1
+.Lmul_b18_d1:
+        .word   160, 12, .Lmul_b18_d2
+.Lmul_b18_d2:
+        .word   12, 160, .Lmul_b18_chk
+.Lmul_b18_chk:
+        .word   168, 168, .Lmul_b18_c1
+.Lmul_b18_c1:
+        .word   12, 12, .Lmul_b18_c2
+.Lmul_b18_c2:
+        .word   164, 12, .Lmul_b18_c3
+.Lmul_b18_c3:
+        .word   12, 168, .Lmul_b18_c4
+.Lmul_b18_c4:
+        .word   .Lmul_c262144, 168, .Lmul_b18_c5
+.Lmul_b18_c5:
+        .word   176, 176, .Lmul_b18_c6
+.Lmul_b18_c6:
+        .word   168, 176, .Lmul_b18_set
+        .word   12, 12, .Lmul_bit17
+.Lmul_b18_set:
+        .word   .Lmul_c262144, 164, .Lmul_b18_add1
+.Lmul_b18_add1:
+        .word   12, 12, .Lmul_b18_add2
+.Lmul_b18_add2:
+        .word   32, 12, .Lmul_b18_add3
+.Lmul_b18_add3:
+        .word   12, 160, .Lmul_bit17
+.Lmul_bit17:
+        .word   12, 12, .Lmul_b17_d1
+.Lmul_b17_d1:
+        .word   160, 12, .Lmul_b17_d2
+.Lmul_b17_d2:
+        .word   12, 160, .Lmul_b17_chk
+.Lmul_b17_chk:
+        .word   168, 168, .Lmul_b17_c1
+.Lmul_b17_c1:
+        .word   12, 12, .Lmul_b17_c2
+.Lmul_b17_c2:
+        .word   164, 12, .Lmul_b17_c3
+.Lmul_b17_c3:
+        .word   12, 168, .Lmul_b17_c4
+.Lmul_b17_c4:
+        .word   .Lmul_c131072, 168, .Lmul_b17_c5
+.Lmul_b17_c5:
+        .word   176, 176, .Lmul_b17_c6
+.Lmul_b17_c6:
+        .word   168, 176, .Lmul_b17_set
+        .word   12, 12, .Lmul_bit16
+.Lmul_b17_set:
+        .word   .Lmul_c131072, 164, .Lmul_b17_add1
+.Lmul_b17_add1:
+        .word   12, 12, .Lmul_b17_add2
+.Lmul_b17_add2:
+        .word   32, 12, .Lmul_b17_add3
+.Lmul_b17_add3:
+        .word   12, 160, .Lmul_bit16
+.Lmul_bit16:
+        .word   12, 12, .Lmul_b16_d1
+.Lmul_b16_d1:
+        .word   160, 12, .Lmul_b16_d2
+.Lmul_b16_d2:
+        .word   12, 160, .Lmul_b16_chk
+.Lmul_b16_chk:
+        .word   168, 168, .Lmul_b16_c1
+.Lmul_b16_c1:
+        .word   12, 12, .Lmul_b16_c2
+.Lmul_b16_c2:
+        .word   164, 12, .Lmul_b16_c3
+.Lmul_b16_c3:
+        .word   12, 168, .Lmul_b16_c4
+.Lmul_b16_c4:
+        .word   .Lmul_c65536, 168, .Lmul_b16_c5
+.Lmul_b16_c5:
+        .word   176, 176, .Lmul_b16_c6
+.Lmul_b16_c6:
+        .word   168, 176, .Lmul_b16_set
+        .word   12, 12, .Lmul_bit15
+.Lmul_b16_set:
+        .word   .Lmul_c65536, 164, .Lmul_b16_add1
+.Lmul_b16_add1:
+        .word   12, 12, .Lmul_b16_add2
+.Lmul_b16_add2:
+        .word   32, 12, .Lmul_b16_add3
+.Lmul_b16_add3:
+        .word   12, 160, .Lmul_bit15
+.Lmul_bit15:
+        .word   12, 12, .Lmul_b15_d1
+.Lmul_b15_d1:
+        .word   160, 12, .Lmul_b15_d2
+.Lmul_b15_d2:
+        .word   12, 160, .Lmul_b15_chk
+.Lmul_b15_chk:
+        .word   168, 168, .Lmul_b15_c1
+.Lmul_b15_c1:
+        .word   12, 12, .Lmul_b15_c2
+.Lmul_b15_c2:
+        .word   164, 12, .Lmul_b15_c3
+.Lmul_b15_c3:
+        .word   12, 168, .Lmul_b15_c4
+.Lmul_b15_c4:
+        .word   .Lmul_c32768, 168, .Lmul_b15_c5
+.Lmul_b15_c5:
+        .word   176, 176, .Lmul_b15_c6
+.Lmul_b15_c6:
+        .word   168, 176, .Lmul_b15_set
+        .word   12, 12, .Lmul_bit14
+.Lmul_b15_set:
+        .word   .Lmul_c32768, 164, .Lmul_b15_add1
+.Lmul_b15_add1:
+        .word   12, 12, .Lmul_b15_add2
+.Lmul_b15_add2:
+        .word   32, 12, .Lmul_b15_add3
+.Lmul_b15_add3:
+        .word   12, 160, .Lmul_bit14
+.Lmul_bit14:
+        .word   12, 12, .Lmul_b14_d1
+.Lmul_b14_d1:
+        .word   160, 12, .Lmul_b14_d2
+.Lmul_b14_d2:
+        .word   12, 160, .Lmul_b14_chk
+.Lmul_b14_chk:
+        .word   168, 168, .Lmul_b14_c1
+.Lmul_b14_c1:
+        .word   12, 12, .Lmul_b14_c2
+.Lmul_b14_c2:
+        .word   164, 12, .Lmul_b14_c3
+.Lmul_b14_c3:
+        .word   12, 168, .Lmul_b14_c4
+.Lmul_b14_c4:
+        .word   .Lmul_c16384, 168, .Lmul_b14_c5
+.Lmul_b14_c5:
+        .word   176, 176, .Lmul_b14_c6
+.Lmul_b14_c6:
+        .word   168, 176, .Lmul_b14_set
+        .word   12, 12, .Lmul_bit13
+.Lmul_b14_set:
+        .word   .Lmul_c16384, 164, .Lmul_b14_add1
+.Lmul_b14_add1:
+        .word   12, 12, .Lmul_b14_add2
+.Lmul_b14_add2:
+        .word   32, 12, .Lmul_b14_add3
+.Lmul_b14_add3:
+        .word   12, 160, .Lmul_bit13
+.Lmul_bit13:
+        .word   12, 12, .Lmul_b13_d1
+.Lmul_b13_d1:
+        .word   160, 12, .Lmul_b13_d2
+.Lmul_b13_d2:
+        .word   12, 160, .Lmul_b13_chk
+.Lmul_b13_chk:
+        .word   168, 168, .Lmul_b13_c1
+.Lmul_b13_c1:
+        .word   12, 12, .Lmul_b13_c2
+.Lmul_b13_c2:
+        .word   164, 12, .Lmul_b13_c3
+.Lmul_b13_c3:
+        .word   12, 168, .Lmul_b13_c4
+.Lmul_b13_c4:
+        .word   .Lmul_c8192, 168, .Lmul_b13_c5
+.Lmul_b13_c5:
+        .word   176, 176, .Lmul_b13_c6
+.Lmul_b13_c6:
+        .word   168, 176, .Lmul_b13_set
+        .word   12, 12, .Lmul_bit12
+.Lmul_b13_set:
+        .word   .Lmul_c8192, 164, .Lmul_b13_add1
+.Lmul_b13_add1:
+        .word   12, 12, .Lmul_b13_add2
+.Lmul_b13_add2:
+        .word   32, 12, .Lmul_b13_add3
+.Lmul_b13_add3:
+        .word   12, 160, .Lmul_bit12
+.Lmul_bit12:
+        .word   12, 12, .Lmul_b12_d1
+.Lmul_b12_d1:
+        .word   160, 12, .Lmul_b12_d2
+.Lmul_b12_d2:
+        .word   12, 160, .Lmul_b12_chk
+.Lmul_b12_chk:
+        .word   168, 168, .Lmul_b12_c1
+.Lmul_b12_c1:
+        .word   12, 12, .Lmul_b12_c2
+.Lmul_b12_c2:
+        .word   164, 12, .Lmul_b12_c3
+.Lmul_b12_c3:
+        .word   12, 168, .Lmul_b12_c4
+.Lmul_b12_c4:
+        .word   .Lmul_c4096, 168, .Lmul_b12_c5
+.Lmul_b12_c5:
+        .word   176, 176, .Lmul_b12_c6
+.Lmul_b12_c6:
+        .word   168, 176, .Lmul_b12_set
+        .word   12, 12, .Lmul_bit11
+.Lmul_b12_set:
+        .word   .Lmul_c4096, 164, .Lmul_b12_add1
+.Lmul_b12_add1:
+        .word   12, 12, .Lmul_b12_add2
+.Lmul_b12_add2:
+        .word   32, 12, .Lmul_b12_add3
+.Lmul_b12_add3:
+        .word   12, 160, .Lmul_bit11
+.Lmul_bit11:
+        .word   12, 12, .Lmul_b11_d1
+.Lmul_b11_d1:
+        .word   160, 12, .Lmul_b11_d2
+.Lmul_b11_d2:
+        .word   12, 160, .Lmul_b11_chk
+.Lmul_b11_chk:
+        .word   168, 168, .Lmul_b11_c1
+.Lmul_b11_c1:
+        .word   12, 12, .Lmul_b11_c2
+.Lmul_b11_c2:
+        .word   164, 12, .Lmul_b11_c3
+.Lmul_b11_c3:
+        .word   12, 168, .Lmul_b11_c4
+.Lmul_b11_c4:
+        .word   .Lmul_c2048, 168, .Lmul_b11_c5
+.Lmul_b11_c5:
+        .word   176, 176, .Lmul_b11_c6
+.Lmul_b11_c6:
+        .word   168, 176, .Lmul_b11_set
+        .word   12, 12, .Lmul_bit10
+.Lmul_b11_set:
+        .word   .Lmul_c2048, 164, .Lmul_b11_add1
+.Lmul_b11_add1:
+        .word   12, 12, .Lmul_b11_add2
+.Lmul_b11_add2:
+        .word   32, 12, .Lmul_b11_add3
+.Lmul_b11_add3:
+        .word   12, 160, .Lmul_bit10
+.Lmul_bit10:
+        .word   12, 12, .Lmul_b10_d1
+.Lmul_b10_d1:
+        .word   160, 12, .Lmul_b10_d2
+.Lmul_b10_d2:
+        .word   12, 160, .Lmul_b10_chk
+.Lmul_b10_chk:
+        .word   168, 168, .Lmul_b10_c1
+.Lmul_b10_c1:
+        .word   12, 12, .Lmul_b10_c2
+.Lmul_b10_c2:
+        .word   164, 12, .Lmul_b10_c3
+.Lmul_b10_c3:
+        .word   12, 168, .Lmul_b10_c4
+.Lmul_b10_c4:
+        .word   .Lmul_c1024, 168, .Lmul_b10_c5
+.Lmul_b10_c5:
+        .word   176, 176, .Lmul_b10_c6
+.Lmul_b10_c6:
+        .word   168, 176, .Lmul_b10_set
+        .word   12, 12, .Lmul_bit9
+.Lmul_b10_set:
+        .word   .Lmul_c1024, 164, .Lmul_b10_add1
+.Lmul_b10_add1:
+        .word   12, 12, .Lmul_b10_add2
+.Lmul_b10_add2:
+        .word   32, 12, .Lmul_b10_add3
+.Lmul_b10_add3:
+        .word   12, 160, .Lmul_bit9
+.Lmul_bit9:
+        .word   12, 12, .Lmul_b9_d1
+.Lmul_b9_d1:
+        .word   160, 12, .Lmul_b9_d2
+.Lmul_b9_d2:
+        .word   12, 160, .Lmul_b9_chk
+.Lmul_b9_chk:
+        .word   168, 168, .Lmul_b9_c1
+.Lmul_b9_c1:
+        .word   12, 12, .Lmul_b9_c2
+.Lmul_b9_c2:
+        .word   164, 12, .Lmul_b9_c3
+.Lmul_b9_c3:
+        .word   12, 168, .Lmul_b9_c4
+.Lmul_b9_c4:
+        .word   .Lmul_c512, 168, .Lmul_b9_c5
+.Lmul_b9_c5:
+        .word   176, 176, .Lmul_b9_c6
+.Lmul_b9_c6:
+        .word   168, 176, .Lmul_b9_set
+        .word   12, 12, .Lmul_bit8
+.Lmul_b9_set:
+        .word   .Lmul_c512, 164, .Lmul_b9_add1
+.Lmul_b9_add1:
+        .word   12, 12, .Lmul_b9_add2
+.Lmul_b9_add2:
+        .word   32, 12, .Lmul_b9_add3
+.Lmul_b9_add3:
+        .word   12, 160, .Lmul_bit8
+.Lmul_bit8:
+        .word   12, 12, .Lmul_b8_d1
+.Lmul_b8_d1:
+        .word   160, 12, .Lmul_b8_d2
+.Lmul_b8_d2:
+        .word   12, 160, .Lmul_b8_chk
+.Lmul_b8_chk:
+        .word   168, 168, .Lmul_b8_c1
+.Lmul_b8_c1:
+        .word   12, 12, .Lmul_b8_c2
+.Lmul_b8_c2:
+        .word   164, 12, .Lmul_b8_c3
+.Lmul_b8_c3:
+        .word   12, 168, .Lmul_b8_c4
+.Lmul_b8_c4:
+        .word   .Lmul_c256, 168, .Lmul_b8_c5
+.Lmul_b8_c5:
+        .word   176, 176, .Lmul_b8_c6
+.Lmul_b8_c6:
+        .word   168, 176, .Lmul_b8_set
+        .word   12, 12, .Lmul_bit7
+.Lmul_b8_set:
+        .word   .Lmul_c256, 164, .Lmul_b8_add1
+.Lmul_b8_add1:
+        .word   12, 12, .Lmul_b8_add2
+.Lmul_b8_add2:
+        .word   32, 12, .Lmul_b8_add3
+.Lmul_b8_add3:
+        .word   12, 160, .Lmul_bit7
+.Lmul_bit7:
+        .word   12, 12, .Lmul_b7_d1
+.Lmul_b7_d1:
+        .word   160, 12, .Lmul_b7_d2
+.Lmul_b7_d2:
+        .word   12, 160, .Lmul_b7_chk
+.Lmul_b7_chk:
+        .word   168, 168, .Lmul_b7_c1
+.Lmul_b7_c1:
+        .word   12, 12, .Lmul_b7_c2
+.Lmul_b7_c2:
+        .word   164, 12, .Lmul_b7_c3
+.Lmul_b7_c3:
+        .word   12, 168, .Lmul_b7_c4
+.Lmul_b7_c4:
+        .word   .Lmul_c128, 168, .Lmul_b7_c5
+.Lmul_b7_c5:
+        .word   176, 176, .Lmul_b7_c6
+.Lmul_b7_c6:
+        .word   168, 176, .Lmul_b7_set
+        .word   12, 12, .Lmul_bit6
+.Lmul_b7_set:
+        .word   .Lmul_c128, 164, .Lmul_b7_add1
+.Lmul_b7_add1:
+        .word   12, 12, .Lmul_b7_add2
+.Lmul_b7_add2:
+        .word   32, 12, .Lmul_b7_add3
+.Lmul_b7_add3:
+        .word   12, 160, .Lmul_bit6
+.Lmul_bit6:
+        .word   12, 12, .Lmul_b6_d1
+.Lmul_b6_d1:
+        .word   160, 12, .Lmul_b6_d2
+.Lmul_b6_d2:
+        .word   12, 160, .Lmul_b6_chk
+.Lmul_b6_chk:
+        .word   168, 168, .Lmul_b6_c1
+.Lmul_b6_c1:
+        .word   12, 12, .Lmul_b6_c2
+.Lmul_b6_c2:
+        .word   164, 12, .Lmul_b6_c3
+.Lmul_b6_c3:
+        .word   12, 168, .Lmul_b6_c4
+.Lmul_b6_c4:
+        .word   .Lmul_c64, 168, .Lmul_b6_c5
+.Lmul_b6_c5:
+        .word   176, 176, .Lmul_b6_c6
+.Lmul_b6_c6:
+        .word   168, 176, .Lmul_b6_set
+        .word   12, 12, .Lmul_bit5
+.Lmul_b6_set:
+        .word   .Lmul_c64, 164, .Lmul_b6_add1
+.Lmul_b6_add1:
+        .word   12, 12, .Lmul_b6_add2
+.Lmul_b6_add2:
+        .word   32, 12, .Lmul_b6_add3
+.Lmul_b6_add3:
+        .word   12, 160, .Lmul_bit5
+.Lmul_bit5:
+        .word   12, 12, .Lmul_b5_d1
+.Lmul_b5_d1:
+        .word   160, 12, .Lmul_b5_d2
+.Lmul_b5_d2:
+        .word   12, 160, .Lmul_b5_chk
+.Lmul_b5_chk:
+        .word   168, 168, .Lmul_b5_c1
+.Lmul_b5_c1:
+        .word   12, 12, .Lmul_b5_c2
+.Lmul_b5_c2:
+        .word   164, 12, .Lmul_b5_c3
+.Lmul_b5_c3:
+        .word   12, 168, .Lmul_b5_c4
+.Lmul_b5_c4:
+        .word   .Lmul_c32, 168, .Lmul_b5_c5
+.Lmul_b5_c5:
+        .word   176, 176, .Lmul_b5_c6
+.Lmul_b5_c6:
+        .word   168, 176, .Lmul_b5_set
+        .word   12, 12, .Lmul_bit4
+.Lmul_b5_set:
+        .word   .Lmul_c32, 164, .Lmul_b5_add1
+.Lmul_b5_add1:
+        .word   12, 12, .Lmul_b5_add2
+.Lmul_b5_add2:
+        .word   32, 12, .Lmul_b5_add3
+.Lmul_b5_add3:
+        .word   12, 160, .Lmul_bit4
+.Lmul_bit4:
+        .word   12, 12, .Lmul_b4_d1
+.Lmul_b4_d1:
+        .word   160, 12, .Lmul_b4_d2
+.Lmul_b4_d2:
+        .word   12, 160, .Lmul_b4_chk
+.Lmul_b4_chk:
+        .word   168, 168, .Lmul_b4_c1
+.Lmul_b4_c1:
+        .word   12, 12, .Lmul_b4_c2
+.Lmul_b4_c2:
+        .word   164, 12, .Lmul_b4_c3
+.Lmul_b4_c3:
+        .word   12, 168, .Lmul_b4_c4
+.Lmul_b4_c4:
+        .word   .Lmul_c16, 168, .Lmul_b4_c5
+.Lmul_b4_c5:
+        .word   176, 176, .Lmul_b4_c6
+.Lmul_b4_c6:
+        .word   168, 176, .Lmul_b4_set
+        .word   12, 12, .Lmul_bit3
+.Lmul_b4_set:
+        .word   .Lmul_c16, 164, .Lmul_b4_add1
+.Lmul_b4_add1:
+        .word   12, 12, .Lmul_b4_add2
+.Lmul_b4_add2:
+        .word   32, 12, .Lmul_b4_add3
+.Lmul_b4_add3:
+        .word   12, 160, .Lmul_bit3
+.Lmul_bit3:
+        .word   12, 12, .Lmul_b3_d1
+.Lmul_b3_d1:
+        .word   160, 12, .Lmul_b3_d2
+.Lmul_b3_d2:
+        .word   12, 160, .Lmul_b3_chk
+.Lmul_b3_chk:
+        .word   168, 168, .Lmul_b3_c1
+.Lmul_b3_c1:
+        .word   12, 12, .Lmul_b3_c2
+.Lmul_b3_c2:
+        .word   164, 12, .Lmul_b3_c3
+.Lmul_b3_c3:
+        .word   12, 168, .Lmul_b3_c4
+.Lmul_b3_c4:
+        .word   .Lmul_c8, 168, .Lmul_b3_c5
+.Lmul_b3_c5:
+        .word   176, 176, .Lmul_b3_c6
+.Lmul_b3_c6:
+        .word   168, 176, .Lmul_b3_set
+        .word   12, 12, .Lmul_bit2
+.Lmul_b3_set:
+        .word   .Lmul_c8, 164, .Lmul_b3_add1
+.Lmul_b3_add1:
+        .word   12, 12, .Lmul_b3_add2
+.Lmul_b3_add2:
+        .word   32, 12, .Lmul_b3_add3
+.Lmul_b3_add3:
+        .word   12, 160, .Lmul_bit2
+.Lmul_bit2:
+        .word   12, 12, .Lmul_b2_d1
+.Lmul_b2_d1:
+        .word   160, 12, .Lmul_b2_d2
+.Lmul_b2_d2:
+        .word   12, 160, .Lmul_b2_chk
+.Lmul_b2_chk:
+        .word   168, 168, .Lmul_b2_c1
+.Lmul_b2_c1:
+        .word   12, 12, .Lmul_b2_c2
+.Lmul_b2_c2:
+        .word   164, 12, .Lmul_b2_c3
+.Lmul_b2_c3:
+        .word   12, 168, .Lmul_b2_c4
+.Lmul_b2_c4:
+        .word   .Lmul_c4, 168, .Lmul_b2_c5
+.Lmul_b2_c5:
+        .word   176, 176, .Lmul_b2_c6
+.Lmul_b2_c6:
+        .word   168, 176, .Lmul_b2_set
+        .word   12, 12, .Lmul_bit1
+.Lmul_b2_set:
+        .word   .Lmul_c4, 164, .Lmul_b2_add1
+.Lmul_b2_add1:
+        .word   12, 12, .Lmul_b2_add2
+.Lmul_b2_add2:
+        .word   32, 12, .Lmul_b2_add3
+.Lmul_b2_add3:
+        .word   12, 160, .Lmul_bit1
+.Lmul_bit1:
+        .word   12, 12, .Lmul_b1_d1
+.Lmul_b1_d1:
+        .word   160, 12, .Lmul_b1_d2
+.Lmul_b1_d2:
+        .word   12, 160, .Lmul_b1_chk
+.Lmul_b1_chk:
+        .word   168, 168, .Lmul_b1_c1
+.Lmul_b1_c1:
+        .word   12, 12, .Lmul_b1_c2
+.Lmul_b1_c2:
+        .word   164, 12, .Lmul_b1_c3
+.Lmul_b1_c3:
+        .word   12, 168, .Lmul_b1_c4
+.Lmul_b1_c4:
+        .word   .Lmul_c2, 168, .Lmul_b1_c5
+.Lmul_b1_c5:
+        .word   176, 176, .Lmul_b1_c6
+.Lmul_b1_c6:
+        .word   168, 176, .Lmul_b1_set
+        .word   12, 12, .Lmul_bit0
+.Lmul_b1_set:
+        .word   .Lmul_c2, 164, .Lmul_b1_add1
+.Lmul_b1_add1:
+        .word   12, 12, .Lmul_b1_add2
+.Lmul_b1_add2:
+        .word   32, 12, .Lmul_b1_add3
+.Lmul_b1_add3:
+        .word   12, 160, .Lmul_bit0
+.Lmul_bit0:
+        .word   12, 12, .Lmul_b0_d1
+.Lmul_b0_d1:
+        .word   160, 12, .Lmul_b0_d2
+.Lmul_b0_d2:
+        .word   12, 160, .Lmul_b0_chk
+.Lmul_b0_chk:
+        .word   168, 168, .Lmul_b0_c1
+.Lmul_b0_c1:
+        .word   12, 12, .Lmul_b0_c2
+.Lmul_b0_c2:
+        .word   164, 12, .Lmul_b0_c3
+.Lmul_b0_c3:
+        .word   12, 168, .Lmul_b0_c4
+.Lmul_b0_c4:
+        .word   .Lmul_c1, 168, .Lmul_b0_c5
+.Lmul_b0_c5:
+        .word   176, 176, .Lmul_b0_c6
+.Lmul_b0_c6:
+        .word   168, 176, .Lmul_b0_set
         .word   12, 12, .Lmul_done
+.Lmul_b0_set:
+        .word   .Lmul_c1, 164, .Lmul_b0_add1
+.Lmul_b0_add1:
+        .word   12, 12, .Lmul_b0_add2
+.Lmul_b0_add2:
+        .word   32, 12, .Lmul_b0_add3
+.Lmul_b0_add3:
+        .word   12, 160, .Lmul_done
 .Lmul_done:
         .word   28, 28, .Lmul_ret1
 .Lmul_ret1:
@@ -55108,16 +53442,14 @@ __subleq_mul:
 .Lmul_chk_neg4:
         .word   .Lmul_one, 164, .Lmul_chk_neg5
 .Lmul_chk_neg5:
-        .word   168, 168, .Lmul_chk_neg6
-.Lmul_chk_neg6:
         .word   24, 164, .Lmul_maybe_neg
-        .word   12, 12, .Lmul_dealloc
+        .word   12, 12, .Lmul_exit
 .Lmul_maybe_neg:
         .word   168, 168, .Lmul_maybe_neg2
 .Lmul_maybe_neg2:
-        .word   164, 168, .Lmul_negate_result
-        .word   12, 12, .Lmul_dealloc
-.Lmul_negate_result:
+        .word   164, 168, .Lmul_negate
+        .word   12, 12, .Lmul_exit
+.Lmul_negate:
         .word   160, 160, .Lmul_negate_1
 .Lmul_negate_1:
         .word   28, 160, .Lmul_negate_2
@@ -55128,9 +53460,8 @@ __subleq_mul:
 .Lmul_negate_4:
         .word   160, 12, .Lmul_negate_5
 .Lmul_negate_5:
-        .word   12, 28, .Lmul_dealloc
-.Lmul_dealloc:
-        .word   .Lmul_n128, 16, .Lmul_pop
+        .word   12, 28, .Lmul_exit
+.Lmul_exit:
 .Lmul_pop:
         .word   12, 12, .Lmul_pop1
 .Lmul_pop1:
@@ -55153,12 +53484,8 @@ __subleq_mul:
         .word   -4
 .Lmul_one:
         .word   1
-.Lmul_n2147483648:
+.Lmul_n2g:
         .word   -2147483648
-.Lmul_stack128:
-        .word   128
-.Lmul_n128:
-        .word   -128
 .Lmul_c1:
         .word   1
 .Lmul_c2:
@@ -55221,70 +53548,6 @@ __subleq_mul:
         .word   536870912
 .Lmul_c1073741824:
         .word   1073741824
-.Lmul_noff0:
-        .word   0
-.Lmul_noff4:
-        .word   -4
-.Lmul_noff8:
-        .word   -8
-.Lmul_noff12:
-        .word   -12
-.Lmul_noff16:
-        .word   -16
-.Lmul_noff20:
-        .word   -20
-.Lmul_noff24:
-        .word   -24
-.Lmul_noff28:
-        .word   -28
-.Lmul_noff32:
-        .word   -32
-.Lmul_noff36:
-        .word   -36
-.Lmul_noff40:
-        .word   -40
-.Lmul_noff44:
-        .word   -44
-.Lmul_noff48:
-        .word   -48
-.Lmul_noff52:
-        .word   -52
-.Lmul_noff56:
-        .word   -56
-.Lmul_noff60:
-        .word   -60
-.Lmul_noff64:
-        .word   -64
-.Lmul_noff68:
-        .word   -68
-.Lmul_noff72:
-        .word   -72
-.Lmul_noff76:
-        .word   -76
-.Lmul_noff80:
-        .word   -80
-.Lmul_noff84:
-        .word   -84
-.Lmul_noff88:
-        .word   -88
-.Lmul_noff92:
-        .word   -92
-.Lmul_noff96:
-        .word   -96
-.Lmul_noff100:
-        .word   -100
-.Lmul_noff104:
-        .word   -104
-.Lmul_noff108:
-        .word   -108
-.Lmul_noff112:
-        .word   -112
-.Lmul_noff116:
-        .word   -116
-.Lmul_noff120:
-        .word   -120
-.Lmul_noff124:
-        .word   -124
 
         .size   __subleq_mul, . - __subleq_mul
 
@@ -55460,8 +53723,6 @@ __subleq_and:
         .word   12, 12, .Land_loop_init
 .Land_loop_init:
 .Land_b30_a:
-        .word   164, 164, .Land_b30_a0
-.Land_b30_a0:
         .word   168, 168, .Land_b30_a1
 .Land_b30_a1:
         .word   12, 12, .Land_b30_a2
@@ -55474,37 +53735,49 @@ __subleq_and:
 .Land_b30_a5:
         .word   172, 172, .Land_b30_a6
 .Land_b30_a6:
-        .word   168, 172, .Land_b30_a_set
-        .word   12, 12, .Land_b30_b
-.Land_b30_a_set:
-        .word   .Land_b30_pow, 28, .Land_b30_a_flag
-.Land_b30_a_flag:
-        .word   .Land_m1, 164, .Land_b30_b
-.Land_b30_b:
-        .word   168, 168, .Land_b30_b1
-.Land_b30_b1:
-        .word   12, 12, .Land_b30_b2
-.Land_b30_b2:
-        .word   32, 12, .Land_b30_b3
-.Land_b30_b3:
-        .word   12, 168, .Land_b30_b4
-.Land_b30_b4:
-        .word   .Land_b30_pow, 168, .Land_b30_b5
-.Land_b30_b5:
-        .word   172, 172, .Land_b30_b6
-.Land_b30_b6:
-        .word   168, 172, .Land_b30_b_set
+        .word   168, 172, .Land_b30_r3set
+        .word   12, 12, .Land_b30_r4only
+.Land_b30_r3set:
+        .word   .Land_b30_pow, 28, .Land_b30_r3done
+.Land_b30_r3done:
+        .word   168, 168, .Land_b30_r4a1
+.Land_b30_r4a1:
+        .word   12, 12, .Land_b30_r4a2
+.Land_b30_r4a2:
+        .word   32, 12, .Land_b30_r4a3
+.Land_b30_r4a3:
+        .word   12, 168, .Land_b30_r4a4
+.Land_b30_r4a4:
+        .word   .Land_b30_pow, 168, .Land_b30_r4a5
+.Land_b30_r4a5:
+        .word   172, 172, .Land_b30_r4a6
+.Land_b30_r4a6:
+        .word   168, 172, .Land_b30_both
         .word   12, 12, .Land_b29_a
-.Land_b30_b_set:
-        .word   .Land_b30_pow, 32, .Land_b30_chk
-.Land_b30_chk:
-        .word   172, 172, .Land_b30_chk1
-.Land_b30_chk1:
-        .word   172, 164, .Land_b29_a
-        .word   .Land_b30_npow, 160, .Land_b29_a
+.Land_b30_both:
+        .word   .Land_b30_pow, 32, .Land_b30_add1
+.Land_b30_add1:
+        .word   .Land_b30_npow, 160, .Land_b30_add2
+.Land_b30_add2:
+        .word   12, 12, .Land_b29_a
+.Land_b30_r4only:
+        .word   168, 168, .Land_b30_r4o1
+.Land_b30_r4o1:
+        .word   12, 12, .Land_b30_r4o2
+.Land_b30_r4o2:
+        .word   32, 12, .Land_b30_r4o3
+.Land_b30_r4o3:
+        .word   12, 168, .Land_b30_r4o4
+.Land_b30_r4o4:
+        .word   .Land_b30_pow, 168, .Land_b30_r4o5
+.Land_b30_r4o5:
+        .word   172, 172, .Land_b30_r4o6
+.Land_b30_r4o6:
+        .word   168, 172, .Land_b30_r4oclr
+        .word   12, 12, .Land_b29_a
+.Land_b30_r4oclr:
+        .word   .Land_b30_pow, 32, .Land_b29_a
 .Land_b29_a:
-        .word   164, 164, .Land_b29_a0
-.Land_b29_a0:
         .word   168, 168, .Land_b29_a1
 .Land_b29_a1:
         .word   12, 12, .Land_b29_a2
@@ -55517,37 +53790,49 @@ __subleq_and:
 .Land_b29_a5:
         .word   172, 172, .Land_b29_a6
 .Land_b29_a6:
-        .word   168, 172, .Land_b29_a_set
-        .word   12, 12, .Land_b29_b
-.Land_b29_a_set:
-        .word   .Land_b29_pow, 28, .Land_b29_a_flag
-.Land_b29_a_flag:
-        .word   .Land_m1, 164, .Land_b29_b
-.Land_b29_b:
-        .word   168, 168, .Land_b29_b1
-.Land_b29_b1:
-        .word   12, 12, .Land_b29_b2
-.Land_b29_b2:
-        .word   32, 12, .Land_b29_b3
-.Land_b29_b3:
-        .word   12, 168, .Land_b29_b4
-.Land_b29_b4:
-        .word   .Land_b29_pow, 168, .Land_b29_b5
-.Land_b29_b5:
-        .word   172, 172, .Land_b29_b6
-.Land_b29_b6:
-        .word   168, 172, .Land_b29_b_set
+        .word   168, 172, .Land_b29_r3set
+        .word   12, 12, .Land_b29_r4only
+.Land_b29_r3set:
+        .word   .Land_b29_pow, 28, .Land_b29_r3done
+.Land_b29_r3done:
+        .word   168, 168, .Land_b29_r4a1
+.Land_b29_r4a1:
+        .word   12, 12, .Land_b29_r4a2
+.Land_b29_r4a2:
+        .word   32, 12, .Land_b29_r4a3
+.Land_b29_r4a3:
+        .word   12, 168, .Land_b29_r4a4
+.Land_b29_r4a4:
+        .word   .Land_b29_pow, 168, .Land_b29_r4a5
+.Land_b29_r4a5:
+        .word   172, 172, .Land_b29_r4a6
+.Land_b29_r4a6:
+        .word   168, 172, .Land_b29_both
         .word   12, 12, .Land_b28_a
-.Land_b29_b_set:
-        .word   .Land_b29_pow, 32, .Land_b29_chk
-.Land_b29_chk:
-        .word   172, 172, .Land_b29_chk1
-.Land_b29_chk1:
-        .word   172, 164, .Land_b28_a
-        .word   .Land_b29_npow, 160, .Land_b28_a
+.Land_b29_both:
+        .word   .Land_b29_pow, 32, .Land_b29_add1
+.Land_b29_add1:
+        .word   .Land_b29_npow, 160, .Land_b29_add2
+.Land_b29_add2:
+        .word   12, 12, .Land_b28_a
+.Land_b29_r4only:
+        .word   168, 168, .Land_b29_r4o1
+.Land_b29_r4o1:
+        .word   12, 12, .Land_b29_r4o2
+.Land_b29_r4o2:
+        .word   32, 12, .Land_b29_r4o3
+.Land_b29_r4o3:
+        .word   12, 168, .Land_b29_r4o4
+.Land_b29_r4o4:
+        .word   .Land_b29_pow, 168, .Land_b29_r4o5
+.Land_b29_r4o5:
+        .word   172, 172, .Land_b29_r4o6
+.Land_b29_r4o6:
+        .word   168, 172, .Land_b29_r4oclr
+        .word   12, 12, .Land_b28_a
+.Land_b29_r4oclr:
+        .word   .Land_b29_pow, 32, .Land_b28_a
 .Land_b28_a:
-        .word   164, 164, .Land_b28_a0
-.Land_b28_a0:
         .word   168, 168, .Land_b28_a1
 .Land_b28_a1:
         .word   12, 12, .Land_b28_a2
@@ -55560,37 +53845,49 @@ __subleq_and:
 .Land_b28_a5:
         .word   172, 172, .Land_b28_a6
 .Land_b28_a6:
-        .word   168, 172, .Land_b28_a_set
-        .word   12, 12, .Land_b28_b
-.Land_b28_a_set:
-        .word   .Land_b28_pow, 28, .Land_b28_a_flag
-.Land_b28_a_flag:
-        .word   .Land_m1, 164, .Land_b28_b
-.Land_b28_b:
-        .word   168, 168, .Land_b28_b1
-.Land_b28_b1:
-        .word   12, 12, .Land_b28_b2
-.Land_b28_b2:
-        .word   32, 12, .Land_b28_b3
-.Land_b28_b3:
-        .word   12, 168, .Land_b28_b4
-.Land_b28_b4:
-        .word   .Land_b28_pow, 168, .Land_b28_b5
-.Land_b28_b5:
-        .word   172, 172, .Land_b28_b6
-.Land_b28_b6:
-        .word   168, 172, .Land_b28_b_set
+        .word   168, 172, .Land_b28_r3set
+        .word   12, 12, .Land_b28_r4only
+.Land_b28_r3set:
+        .word   .Land_b28_pow, 28, .Land_b28_r3done
+.Land_b28_r3done:
+        .word   168, 168, .Land_b28_r4a1
+.Land_b28_r4a1:
+        .word   12, 12, .Land_b28_r4a2
+.Land_b28_r4a2:
+        .word   32, 12, .Land_b28_r4a3
+.Land_b28_r4a3:
+        .word   12, 168, .Land_b28_r4a4
+.Land_b28_r4a4:
+        .word   .Land_b28_pow, 168, .Land_b28_r4a5
+.Land_b28_r4a5:
+        .word   172, 172, .Land_b28_r4a6
+.Land_b28_r4a6:
+        .word   168, 172, .Land_b28_both
         .word   12, 12, .Land_b27_a
-.Land_b28_b_set:
-        .word   .Land_b28_pow, 32, .Land_b28_chk
-.Land_b28_chk:
-        .word   172, 172, .Land_b28_chk1
-.Land_b28_chk1:
-        .word   172, 164, .Land_b27_a
-        .word   .Land_b28_npow, 160, .Land_b27_a
+.Land_b28_both:
+        .word   .Land_b28_pow, 32, .Land_b28_add1
+.Land_b28_add1:
+        .word   .Land_b28_npow, 160, .Land_b28_add2
+.Land_b28_add2:
+        .word   12, 12, .Land_b27_a
+.Land_b28_r4only:
+        .word   168, 168, .Land_b28_r4o1
+.Land_b28_r4o1:
+        .word   12, 12, .Land_b28_r4o2
+.Land_b28_r4o2:
+        .word   32, 12, .Land_b28_r4o3
+.Land_b28_r4o3:
+        .word   12, 168, .Land_b28_r4o4
+.Land_b28_r4o4:
+        .word   .Land_b28_pow, 168, .Land_b28_r4o5
+.Land_b28_r4o5:
+        .word   172, 172, .Land_b28_r4o6
+.Land_b28_r4o6:
+        .word   168, 172, .Land_b28_r4oclr
+        .word   12, 12, .Land_b27_a
+.Land_b28_r4oclr:
+        .word   .Land_b28_pow, 32, .Land_b27_a
 .Land_b27_a:
-        .word   164, 164, .Land_b27_a0
-.Land_b27_a0:
         .word   168, 168, .Land_b27_a1
 .Land_b27_a1:
         .word   12, 12, .Land_b27_a2
@@ -55603,37 +53900,49 @@ __subleq_and:
 .Land_b27_a5:
         .word   172, 172, .Land_b27_a6
 .Land_b27_a6:
-        .word   168, 172, .Land_b27_a_set
-        .word   12, 12, .Land_b27_b
-.Land_b27_a_set:
-        .word   .Land_b27_pow, 28, .Land_b27_a_flag
-.Land_b27_a_flag:
-        .word   .Land_m1, 164, .Land_b27_b
-.Land_b27_b:
-        .word   168, 168, .Land_b27_b1
-.Land_b27_b1:
-        .word   12, 12, .Land_b27_b2
-.Land_b27_b2:
-        .word   32, 12, .Land_b27_b3
-.Land_b27_b3:
-        .word   12, 168, .Land_b27_b4
-.Land_b27_b4:
-        .word   .Land_b27_pow, 168, .Land_b27_b5
-.Land_b27_b5:
-        .word   172, 172, .Land_b27_b6
-.Land_b27_b6:
-        .word   168, 172, .Land_b27_b_set
+        .word   168, 172, .Land_b27_r3set
+        .word   12, 12, .Land_b27_r4only
+.Land_b27_r3set:
+        .word   .Land_b27_pow, 28, .Land_b27_r3done
+.Land_b27_r3done:
+        .word   168, 168, .Land_b27_r4a1
+.Land_b27_r4a1:
+        .word   12, 12, .Land_b27_r4a2
+.Land_b27_r4a2:
+        .word   32, 12, .Land_b27_r4a3
+.Land_b27_r4a3:
+        .word   12, 168, .Land_b27_r4a4
+.Land_b27_r4a4:
+        .word   .Land_b27_pow, 168, .Land_b27_r4a5
+.Land_b27_r4a5:
+        .word   172, 172, .Land_b27_r4a6
+.Land_b27_r4a6:
+        .word   168, 172, .Land_b27_both
         .word   12, 12, .Land_b26_a
-.Land_b27_b_set:
-        .word   .Land_b27_pow, 32, .Land_b27_chk
-.Land_b27_chk:
-        .word   172, 172, .Land_b27_chk1
-.Land_b27_chk1:
-        .word   172, 164, .Land_b26_a
-        .word   .Land_b27_npow, 160, .Land_b26_a
+.Land_b27_both:
+        .word   .Land_b27_pow, 32, .Land_b27_add1
+.Land_b27_add1:
+        .word   .Land_b27_npow, 160, .Land_b27_add2
+.Land_b27_add2:
+        .word   12, 12, .Land_b26_a
+.Land_b27_r4only:
+        .word   168, 168, .Land_b27_r4o1
+.Land_b27_r4o1:
+        .word   12, 12, .Land_b27_r4o2
+.Land_b27_r4o2:
+        .word   32, 12, .Land_b27_r4o3
+.Land_b27_r4o3:
+        .word   12, 168, .Land_b27_r4o4
+.Land_b27_r4o4:
+        .word   .Land_b27_pow, 168, .Land_b27_r4o5
+.Land_b27_r4o5:
+        .word   172, 172, .Land_b27_r4o6
+.Land_b27_r4o6:
+        .word   168, 172, .Land_b27_r4oclr
+        .word   12, 12, .Land_b26_a
+.Land_b27_r4oclr:
+        .word   .Land_b27_pow, 32, .Land_b26_a
 .Land_b26_a:
-        .word   164, 164, .Land_b26_a0
-.Land_b26_a0:
         .word   168, 168, .Land_b26_a1
 .Land_b26_a1:
         .word   12, 12, .Land_b26_a2
@@ -55646,37 +53955,49 @@ __subleq_and:
 .Land_b26_a5:
         .word   172, 172, .Land_b26_a6
 .Land_b26_a6:
-        .word   168, 172, .Land_b26_a_set
-        .word   12, 12, .Land_b26_b
-.Land_b26_a_set:
-        .word   .Land_b26_pow, 28, .Land_b26_a_flag
-.Land_b26_a_flag:
-        .word   .Land_m1, 164, .Land_b26_b
-.Land_b26_b:
-        .word   168, 168, .Land_b26_b1
-.Land_b26_b1:
-        .word   12, 12, .Land_b26_b2
-.Land_b26_b2:
-        .word   32, 12, .Land_b26_b3
-.Land_b26_b3:
-        .word   12, 168, .Land_b26_b4
-.Land_b26_b4:
-        .word   .Land_b26_pow, 168, .Land_b26_b5
-.Land_b26_b5:
-        .word   172, 172, .Land_b26_b6
-.Land_b26_b6:
-        .word   168, 172, .Land_b26_b_set
+        .word   168, 172, .Land_b26_r3set
+        .word   12, 12, .Land_b26_r4only
+.Land_b26_r3set:
+        .word   .Land_b26_pow, 28, .Land_b26_r3done
+.Land_b26_r3done:
+        .word   168, 168, .Land_b26_r4a1
+.Land_b26_r4a1:
+        .word   12, 12, .Land_b26_r4a2
+.Land_b26_r4a2:
+        .word   32, 12, .Land_b26_r4a3
+.Land_b26_r4a3:
+        .word   12, 168, .Land_b26_r4a4
+.Land_b26_r4a4:
+        .word   .Land_b26_pow, 168, .Land_b26_r4a5
+.Land_b26_r4a5:
+        .word   172, 172, .Land_b26_r4a6
+.Land_b26_r4a6:
+        .word   168, 172, .Land_b26_both
         .word   12, 12, .Land_b25_a
-.Land_b26_b_set:
-        .word   .Land_b26_pow, 32, .Land_b26_chk
-.Land_b26_chk:
-        .word   172, 172, .Land_b26_chk1
-.Land_b26_chk1:
-        .word   172, 164, .Land_b25_a
-        .word   .Land_b26_npow, 160, .Land_b25_a
+.Land_b26_both:
+        .word   .Land_b26_pow, 32, .Land_b26_add1
+.Land_b26_add1:
+        .word   .Land_b26_npow, 160, .Land_b26_add2
+.Land_b26_add2:
+        .word   12, 12, .Land_b25_a
+.Land_b26_r4only:
+        .word   168, 168, .Land_b26_r4o1
+.Land_b26_r4o1:
+        .word   12, 12, .Land_b26_r4o2
+.Land_b26_r4o2:
+        .word   32, 12, .Land_b26_r4o3
+.Land_b26_r4o3:
+        .word   12, 168, .Land_b26_r4o4
+.Land_b26_r4o4:
+        .word   .Land_b26_pow, 168, .Land_b26_r4o5
+.Land_b26_r4o5:
+        .word   172, 172, .Land_b26_r4o6
+.Land_b26_r4o6:
+        .word   168, 172, .Land_b26_r4oclr
+        .word   12, 12, .Land_b25_a
+.Land_b26_r4oclr:
+        .word   .Land_b26_pow, 32, .Land_b25_a
 .Land_b25_a:
-        .word   164, 164, .Land_b25_a0
-.Land_b25_a0:
         .word   168, 168, .Land_b25_a1
 .Land_b25_a1:
         .word   12, 12, .Land_b25_a2
@@ -55689,37 +54010,49 @@ __subleq_and:
 .Land_b25_a5:
         .word   172, 172, .Land_b25_a6
 .Land_b25_a6:
-        .word   168, 172, .Land_b25_a_set
-        .word   12, 12, .Land_b25_b
-.Land_b25_a_set:
-        .word   .Land_b25_pow, 28, .Land_b25_a_flag
-.Land_b25_a_flag:
-        .word   .Land_m1, 164, .Land_b25_b
-.Land_b25_b:
-        .word   168, 168, .Land_b25_b1
-.Land_b25_b1:
-        .word   12, 12, .Land_b25_b2
-.Land_b25_b2:
-        .word   32, 12, .Land_b25_b3
-.Land_b25_b3:
-        .word   12, 168, .Land_b25_b4
-.Land_b25_b4:
-        .word   .Land_b25_pow, 168, .Land_b25_b5
-.Land_b25_b5:
-        .word   172, 172, .Land_b25_b6
-.Land_b25_b6:
-        .word   168, 172, .Land_b25_b_set
+        .word   168, 172, .Land_b25_r3set
+        .word   12, 12, .Land_b25_r4only
+.Land_b25_r3set:
+        .word   .Land_b25_pow, 28, .Land_b25_r3done
+.Land_b25_r3done:
+        .word   168, 168, .Land_b25_r4a1
+.Land_b25_r4a1:
+        .word   12, 12, .Land_b25_r4a2
+.Land_b25_r4a2:
+        .word   32, 12, .Land_b25_r4a3
+.Land_b25_r4a3:
+        .word   12, 168, .Land_b25_r4a4
+.Land_b25_r4a4:
+        .word   .Land_b25_pow, 168, .Land_b25_r4a5
+.Land_b25_r4a5:
+        .word   172, 172, .Land_b25_r4a6
+.Land_b25_r4a6:
+        .word   168, 172, .Land_b25_both
         .word   12, 12, .Land_b24_a
-.Land_b25_b_set:
-        .word   .Land_b25_pow, 32, .Land_b25_chk
-.Land_b25_chk:
-        .word   172, 172, .Land_b25_chk1
-.Land_b25_chk1:
-        .word   172, 164, .Land_b24_a
-        .word   .Land_b25_npow, 160, .Land_b24_a
+.Land_b25_both:
+        .word   .Land_b25_pow, 32, .Land_b25_add1
+.Land_b25_add1:
+        .word   .Land_b25_npow, 160, .Land_b25_add2
+.Land_b25_add2:
+        .word   12, 12, .Land_b24_a
+.Land_b25_r4only:
+        .word   168, 168, .Land_b25_r4o1
+.Land_b25_r4o1:
+        .word   12, 12, .Land_b25_r4o2
+.Land_b25_r4o2:
+        .word   32, 12, .Land_b25_r4o3
+.Land_b25_r4o3:
+        .word   12, 168, .Land_b25_r4o4
+.Land_b25_r4o4:
+        .word   .Land_b25_pow, 168, .Land_b25_r4o5
+.Land_b25_r4o5:
+        .word   172, 172, .Land_b25_r4o6
+.Land_b25_r4o6:
+        .word   168, 172, .Land_b25_r4oclr
+        .word   12, 12, .Land_b24_a
+.Land_b25_r4oclr:
+        .word   .Land_b25_pow, 32, .Land_b24_a
 .Land_b24_a:
-        .word   164, 164, .Land_b24_a0
-.Land_b24_a0:
         .word   168, 168, .Land_b24_a1
 .Land_b24_a1:
         .word   12, 12, .Land_b24_a2
@@ -55732,37 +54065,49 @@ __subleq_and:
 .Land_b24_a5:
         .word   172, 172, .Land_b24_a6
 .Land_b24_a6:
-        .word   168, 172, .Land_b24_a_set
-        .word   12, 12, .Land_b24_b
-.Land_b24_a_set:
-        .word   .Land_b24_pow, 28, .Land_b24_a_flag
-.Land_b24_a_flag:
-        .word   .Land_m1, 164, .Land_b24_b
-.Land_b24_b:
-        .word   168, 168, .Land_b24_b1
-.Land_b24_b1:
-        .word   12, 12, .Land_b24_b2
-.Land_b24_b2:
-        .word   32, 12, .Land_b24_b3
-.Land_b24_b3:
-        .word   12, 168, .Land_b24_b4
-.Land_b24_b4:
-        .word   .Land_b24_pow, 168, .Land_b24_b5
-.Land_b24_b5:
-        .word   172, 172, .Land_b24_b6
-.Land_b24_b6:
-        .word   168, 172, .Land_b24_b_set
+        .word   168, 172, .Land_b24_r3set
+        .word   12, 12, .Land_b24_r4only
+.Land_b24_r3set:
+        .word   .Land_b24_pow, 28, .Land_b24_r3done
+.Land_b24_r3done:
+        .word   168, 168, .Land_b24_r4a1
+.Land_b24_r4a1:
+        .word   12, 12, .Land_b24_r4a2
+.Land_b24_r4a2:
+        .word   32, 12, .Land_b24_r4a3
+.Land_b24_r4a3:
+        .word   12, 168, .Land_b24_r4a4
+.Land_b24_r4a4:
+        .word   .Land_b24_pow, 168, .Land_b24_r4a5
+.Land_b24_r4a5:
+        .word   172, 172, .Land_b24_r4a6
+.Land_b24_r4a6:
+        .word   168, 172, .Land_b24_both
         .word   12, 12, .Land_b23_a
-.Land_b24_b_set:
-        .word   .Land_b24_pow, 32, .Land_b24_chk
-.Land_b24_chk:
-        .word   172, 172, .Land_b24_chk1
-.Land_b24_chk1:
-        .word   172, 164, .Land_b23_a
-        .word   .Land_b24_npow, 160, .Land_b23_a
+.Land_b24_both:
+        .word   .Land_b24_pow, 32, .Land_b24_add1
+.Land_b24_add1:
+        .word   .Land_b24_npow, 160, .Land_b24_add2
+.Land_b24_add2:
+        .word   12, 12, .Land_b23_a
+.Land_b24_r4only:
+        .word   168, 168, .Land_b24_r4o1
+.Land_b24_r4o1:
+        .word   12, 12, .Land_b24_r4o2
+.Land_b24_r4o2:
+        .word   32, 12, .Land_b24_r4o3
+.Land_b24_r4o3:
+        .word   12, 168, .Land_b24_r4o4
+.Land_b24_r4o4:
+        .word   .Land_b24_pow, 168, .Land_b24_r4o5
+.Land_b24_r4o5:
+        .word   172, 172, .Land_b24_r4o6
+.Land_b24_r4o6:
+        .word   168, 172, .Land_b24_r4oclr
+        .word   12, 12, .Land_b23_a
+.Land_b24_r4oclr:
+        .word   .Land_b24_pow, 32, .Land_b23_a
 .Land_b23_a:
-        .word   164, 164, .Land_b23_a0
-.Land_b23_a0:
         .word   168, 168, .Land_b23_a1
 .Land_b23_a1:
         .word   12, 12, .Land_b23_a2
@@ -55775,37 +54120,49 @@ __subleq_and:
 .Land_b23_a5:
         .word   172, 172, .Land_b23_a6
 .Land_b23_a6:
-        .word   168, 172, .Land_b23_a_set
-        .word   12, 12, .Land_b23_b
-.Land_b23_a_set:
-        .word   .Land_b23_pow, 28, .Land_b23_a_flag
-.Land_b23_a_flag:
-        .word   .Land_m1, 164, .Land_b23_b
-.Land_b23_b:
-        .word   168, 168, .Land_b23_b1
-.Land_b23_b1:
-        .word   12, 12, .Land_b23_b2
-.Land_b23_b2:
-        .word   32, 12, .Land_b23_b3
-.Land_b23_b3:
-        .word   12, 168, .Land_b23_b4
-.Land_b23_b4:
-        .word   .Land_b23_pow, 168, .Land_b23_b5
-.Land_b23_b5:
-        .word   172, 172, .Land_b23_b6
-.Land_b23_b6:
-        .word   168, 172, .Land_b23_b_set
+        .word   168, 172, .Land_b23_r3set
+        .word   12, 12, .Land_b23_r4only
+.Land_b23_r3set:
+        .word   .Land_b23_pow, 28, .Land_b23_r3done
+.Land_b23_r3done:
+        .word   168, 168, .Land_b23_r4a1
+.Land_b23_r4a1:
+        .word   12, 12, .Land_b23_r4a2
+.Land_b23_r4a2:
+        .word   32, 12, .Land_b23_r4a3
+.Land_b23_r4a3:
+        .word   12, 168, .Land_b23_r4a4
+.Land_b23_r4a4:
+        .word   .Land_b23_pow, 168, .Land_b23_r4a5
+.Land_b23_r4a5:
+        .word   172, 172, .Land_b23_r4a6
+.Land_b23_r4a6:
+        .word   168, 172, .Land_b23_both
         .word   12, 12, .Land_b22_a
-.Land_b23_b_set:
-        .word   .Land_b23_pow, 32, .Land_b23_chk
-.Land_b23_chk:
-        .word   172, 172, .Land_b23_chk1
-.Land_b23_chk1:
-        .word   172, 164, .Land_b22_a
-        .word   .Land_b23_npow, 160, .Land_b22_a
+.Land_b23_both:
+        .word   .Land_b23_pow, 32, .Land_b23_add1
+.Land_b23_add1:
+        .word   .Land_b23_npow, 160, .Land_b23_add2
+.Land_b23_add2:
+        .word   12, 12, .Land_b22_a
+.Land_b23_r4only:
+        .word   168, 168, .Land_b23_r4o1
+.Land_b23_r4o1:
+        .word   12, 12, .Land_b23_r4o2
+.Land_b23_r4o2:
+        .word   32, 12, .Land_b23_r4o3
+.Land_b23_r4o3:
+        .word   12, 168, .Land_b23_r4o4
+.Land_b23_r4o4:
+        .word   .Land_b23_pow, 168, .Land_b23_r4o5
+.Land_b23_r4o5:
+        .word   172, 172, .Land_b23_r4o6
+.Land_b23_r4o6:
+        .word   168, 172, .Land_b23_r4oclr
+        .word   12, 12, .Land_b22_a
+.Land_b23_r4oclr:
+        .word   .Land_b23_pow, 32, .Land_b22_a
 .Land_b22_a:
-        .word   164, 164, .Land_b22_a0
-.Land_b22_a0:
         .word   168, 168, .Land_b22_a1
 .Land_b22_a1:
         .word   12, 12, .Land_b22_a2
@@ -55818,37 +54175,49 @@ __subleq_and:
 .Land_b22_a5:
         .word   172, 172, .Land_b22_a6
 .Land_b22_a6:
-        .word   168, 172, .Land_b22_a_set
-        .word   12, 12, .Land_b22_b
-.Land_b22_a_set:
-        .word   .Land_b22_pow, 28, .Land_b22_a_flag
-.Land_b22_a_flag:
-        .word   .Land_m1, 164, .Land_b22_b
-.Land_b22_b:
-        .word   168, 168, .Land_b22_b1
-.Land_b22_b1:
-        .word   12, 12, .Land_b22_b2
-.Land_b22_b2:
-        .word   32, 12, .Land_b22_b3
-.Land_b22_b3:
-        .word   12, 168, .Land_b22_b4
-.Land_b22_b4:
-        .word   .Land_b22_pow, 168, .Land_b22_b5
-.Land_b22_b5:
-        .word   172, 172, .Land_b22_b6
-.Land_b22_b6:
-        .word   168, 172, .Land_b22_b_set
+        .word   168, 172, .Land_b22_r3set
+        .word   12, 12, .Land_b22_r4only
+.Land_b22_r3set:
+        .word   .Land_b22_pow, 28, .Land_b22_r3done
+.Land_b22_r3done:
+        .word   168, 168, .Land_b22_r4a1
+.Land_b22_r4a1:
+        .word   12, 12, .Land_b22_r4a2
+.Land_b22_r4a2:
+        .word   32, 12, .Land_b22_r4a3
+.Land_b22_r4a3:
+        .word   12, 168, .Land_b22_r4a4
+.Land_b22_r4a4:
+        .word   .Land_b22_pow, 168, .Land_b22_r4a5
+.Land_b22_r4a5:
+        .word   172, 172, .Land_b22_r4a6
+.Land_b22_r4a6:
+        .word   168, 172, .Land_b22_both
         .word   12, 12, .Land_b21_a
-.Land_b22_b_set:
-        .word   .Land_b22_pow, 32, .Land_b22_chk
-.Land_b22_chk:
-        .word   172, 172, .Land_b22_chk1
-.Land_b22_chk1:
-        .word   172, 164, .Land_b21_a
-        .word   .Land_b22_npow, 160, .Land_b21_a
+.Land_b22_both:
+        .word   .Land_b22_pow, 32, .Land_b22_add1
+.Land_b22_add1:
+        .word   .Land_b22_npow, 160, .Land_b22_add2
+.Land_b22_add2:
+        .word   12, 12, .Land_b21_a
+.Land_b22_r4only:
+        .word   168, 168, .Land_b22_r4o1
+.Land_b22_r4o1:
+        .word   12, 12, .Land_b22_r4o2
+.Land_b22_r4o2:
+        .word   32, 12, .Land_b22_r4o3
+.Land_b22_r4o3:
+        .word   12, 168, .Land_b22_r4o4
+.Land_b22_r4o4:
+        .word   .Land_b22_pow, 168, .Land_b22_r4o5
+.Land_b22_r4o5:
+        .word   172, 172, .Land_b22_r4o6
+.Land_b22_r4o6:
+        .word   168, 172, .Land_b22_r4oclr
+        .word   12, 12, .Land_b21_a
+.Land_b22_r4oclr:
+        .word   .Land_b22_pow, 32, .Land_b21_a
 .Land_b21_a:
-        .word   164, 164, .Land_b21_a0
-.Land_b21_a0:
         .word   168, 168, .Land_b21_a1
 .Land_b21_a1:
         .word   12, 12, .Land_b21_a2
@@ -55861,37 +54230,49 @@ __subleq_and:
 .Land_b21_a5:
         .word   172, 172, .Land_b21_a6
 .Land_b21_a6:
-        .word   168, 172, .Land_b21_a_set
-        .word   12, 12, .Land_b21_b
-.Land_b21_a_set:
-        .word   .Land_b21_pow, 28, .Land_b21_a_flag
-.Land_b21_a_flag:
-        .word   .Land_m1, 164, .Land_b21_b
-.Land_b21_b:
-        .word   168, 168, .Land_b21_b1
-.Land_b21_b1:
-        .word   12, 12, .Land_b21_b2
-.Land_b21_b2:
-        .word   32, 12, .Land_b21_b3
-.Land_b21_b3:
-        .word   12, 168, .Land_b21_b4
-.Land_b21_b4:
-        .word   .Land_b21_pow, 168, .Land_b21_b5
-.Land_b21_b5:
-        .word   172, 172, .Land_b21_b6
-.Land_b21_b6:
-        .word   168, 172, .Land_b21_b_set
+        .word   168, 172, .Land_b21_r3set
+        .word   12, 12, .Land_b21_r4only
+.Land_b21_r3set:
+        .word   .Land_b21_pow, 28, .Land_b21_r3done
+.Land_b21_r3done:
+        .word   168, 168, .Land_b21_r4a1
+.Land_b21_r4a1:
+        .word   12, 12, .Land_b21_r4a2
+.Land_b21_r4a2:
+        .word   32, 12, .Land_b21_r4a3
+.Land_b21_r4a3:
+        .word   12, 168, .Land_b21_r4a4
+.Land_b21_r4a4:
+        .word   .Land_b21_pow, 168, .Land_b21_r4a5
+.Land_b21_r4a5:
+        .word   172, 172, .Land_b21_r4a6
+.Land_b21_r4a6:
+        .word   168, 172, .Land_b21_both
         .word   12, 12, .Land_b20_a
-.Land_b21_b_set:
-        .word   .Land_b21_pow, 32, .Land_b21_chk
-.Land_b21_chk:
-        .word   172, 172, .Land_b21_chk1
-.Land_b21_chk1:
-        .word   172, 164, .Land_b20_a
-        .word   .Land_b21_npow, 160, .Land_b20_a
+.Land_b21_both:
+        .word   .Land_b21_pow, 32, .Land_b21_add1
+.Land_b21_add1:
+        .word   .Land_b21_npow, 160, .Land_b21_add2
+.Land_b21_add2:
+        .word   12, 12, .Land_b20_a
+.Land_b21_r4only:
+        .word   168, 168, .Land_b21_r4o1
+.Land_b21_r4o1:
+        .word   12, 12, .Land_b21_r4o2
+.Land_b21_r4o2:
+        .word   32, 12, .Land_b21_r4o3
+.Land_b21_r4o3:
+        .word   12, 168, .Land_b21_r4o4
+.Land_b21_r4o4:
+        .word   .Land_b21_pow, 168, .Land_b21_r4o5
+.Land_b21_r4o5:
+        .word   172, 172, .Land_b21_r4o6
+.Land_b21_r4o6:
+        .word   168, 172, .Land_b21_r4oclr
+        .word   12, 12, .Land_b20_a
+.Land_b21_r4oclr:
+        .word   .Land_b21_pow, 32, .Land_b20_a
 .Land_b20_a:
-        .word   164, 164, .Land_b20_a0
-.Land_b20_a0:
         .word   168, 168, .Land_b20_a1
 .Land_b20_a1:
         .word   12, 12, .Land_b20_a2
@@ -55904,37 +54285,49 @@ __subleq_and:
 .Land_b20_a5:
         .word   172, 172, .Land_b20_a6
 .Land_b20_a6:
-        .word   168, 172, .Land_b20_a_set
-        .word   12, 12, .Land_b20_b
-.Land_b20_a_set:
-        .word   .Land_b20_pow, 28, .Land_b20_a_flag
-.Land_b20_a_flag:
-        .word   .Land_m1, 164, .Land_b20_b
-.Land_b20_b:
-        .word   168, 168, .Land_b20_b1
-.Land_b20_b1:
-        .word   12, 12, .Land_b20_b2
-.Land_b20_b2:
-        .word   32, 12, .Land_b20_b3
-.Land_b20_b3:
-        .word   12, 168, .Land_b20_b4
-.Land_b20_b4:
-        .word   .Land_b20_pow, 168, .Land_b20_b5
-.Land_b20_b5:
-        .word   172, 172, .Land_b20_b6
-.Land_b20_b6:
-        .word   168, 172, .Land_b20_b_set
+        .word   168, 172, .Land_b20_r3set
+        .word   12, 12, .Land_b20_r4only
+.Land_b20_r3set:
+        .word   .Land_b20_pow, 28, .Land_b20_r3done
+.Land_b20_r3done:
+        .word   168, 168, .Land_b20_r4a1
+.Land_b20_r4a1:
+        .word   12, 12, .Land_b20_r4a2
+.Land_b20_r4a2:
+        .word   32, 12, .Land_b20_r4a3
+.Land_b20_r4a3:
+        .word   12, 168, .Land_b20_r4a4
+.Land_b20_r4a4:
+        .word   .Land_b20_pow, 168, .Land_b20_r4a5
+.Land_b20_r4a5:
+        .word   172, 172, .Land_b20_r4a6
+.Land_b20_r4a6:
+        .word   168, 172, .Land_b20_both
         .word   12, 12, .Land_b19_a
-.Land_b20_b_set:
-        .word   .Land_b20_pow, 32, .Land_b20_chk
-.Land_b20_chk:
-        .word   172, 172, .Land_b20_chk1
-.Land_b20_chk1:
-        .word   172, 164, .Land_b19_a
-        .word   .Land_b20_npow, 160, .Land_b19_a
+.Land_b20_both:
+        .word   .Land_b20_pow, 32, .Land_b20_add1
+.Land_b20_add1:
+        .word   .Land_b20_npow, 160, .Land_b20_add2
+.Land_b20_add2:
+        .word   12, 12, .Land_b19_a
+.Land_b20_r4only:
+        .word   168, 168, .Land_b20_r4o1
+.Land_b20_r4o1:
+        .word   12, 12, .Land_b20_r4o2
+.Land_b20_r4o2:
+        .word   32, 12, .Land_b20_r4o3
+.Land_b20_r4o3:
+        .word   12, 168, .Land_b20_r4o4
+.Land_b20_r4o4:
+        .word   .Land_b20_pow, 168, .Land_b20_r4o5
+.Land_b20_r4o5:
+        .word   172, 172, .Land_b20_r4o6
+.Land_b20_r4o6:
+        .word   168, 172, .Land_b20_r4oclr
+        .word   12, 12, .Land_b19_a
+.Land_b20_r4oclr:
+        .word   .Land_b20_pow, 32, .Land_b19_a
 .Land_b19_a:
-        .word   164, 164, .Land_b19_a0
-.Land_b19_a0:
         .word   168, 168, .Land_b19_a1
 .Land_b19_a1:
         .word   12, 12, .Land_b19_a2
@@ -55947,37 +54340,49 @@ __subleq_and:
 .Land_b19_a5:
         .word   172, 172, .Land_b19_a6
 .Land_b19_a6:
-        .word   168, 172, .Land_b19_a_set
-        .word   12, 12, .Land_b19_b
-.Land_b19_a_set:
-        .word   .Land_b19_pow, 28, .Land_b19_a_flag
-.Land_b19_a_flag:
-        .word   .Land_m1, 164, .Land_b19_b
-.Land_b19_b:
-        .word   168, 168, .Land_b19_b1
-.Land_b19_b1:
-        .word   12, 12, .Land_b19_b2
-.Land_b19_b2:
-        .word   32, 12, .Land_b19_b3
-.Land_b19_b3:
-        .word   12, 168, .Land_b19_b4
-.Land_b19_b4:
-        .word   .Land_b19_pow, 168, .Land_b19_b5
-.Land_b19_b5:
-        .word   172, 172, .Land_b19_b6
-.Land_b19_b6:
-        .word   168, 172, .Land_b19_b_set
+        .word   168, 172, .Land_b19_r3set
+        .word   12, 12, .Land_b19_r4only
+.Land_b19_r3set:
+        .word   .Land_b19_pow, 28, .Land_b19_r3done
+.Land_b19_r3done:
+        .word   168, 168, .Land_b19_r4a1
+.Land_b19_r4a1:
+        .word   12, 12, .Land_b19_r4a2
+.Land_b19_r4a2:
+        .word   32, 12, .Land_b19_r4a3
+.Land_b19_r4a3:
+        .word   12, 168, .Land_b19_r4a4
+.Land_b19_r4a4:
+        .word   .Land_b19_pow, 168, .Land_b19_r4a5
+.Land_b19_r4a5:
+        .word   172, 172, .Land_b19_r4a6
+.Land_b19_r4a6:
+        .word   168, 172, .Land_b19_both
         .word   12, 12, .Land_b18_a
-.Land_b19_b_set:
-        .word   .Land_b19_pow, 32, .Land_b19_chk
-.Land_b19_chk:
-        .word   172, 172, .Land_b19_chk1
-.Land_b19_chk1:
-        .word   172, 164, .Land_b18_a
-        .word   .Land_b19_npow, 160, .Land_b18_a
+.Land_b19_both:
+        .word   .Land_b19_pow, 32, .Land_b19_add1
+.Land_b19_add1:
+        .word   .Land_b19_npow, 160, .Land_b19_add2
+.Land_b19_add2:
+        .word   12, 12, .Land_b18_a
+.Land_b19_r4only:
+        .word   168, 168, .Land_b19_r4o1
+.Land_b19_r4o1:
+        .word   12, 12, .Land_b19_r4o2
+.Land_b19_r4o2:
+        .word   32, 12, .Land_b19_r4o3
+.Land_b19_r4o3:
+        .word   12, 168, .Land_b19_r4o4
+.Land_b19_r4o4:
+        .word   .Land_b19_pow, 168, .Land_b19_r4o5
+.Land_b19_r4o5:
+        .word   172, 172, .Land_b19_r4o6
+.Land_b19_r4o6:
+        .word   168, 172, .Land_b19_r4oclr
+        .word   12, 12, .Land_b18_a
+.Land_b19_r4oclr:
+        .word   .Land_b19_pow, 32, .Land_b18_a
 .Land_b18_a:
-        .word   164, 164, .Land_b18_a0
-.Land_b18_a0:
         .word   168, 168, .Land_b18_a1
 .Land_b18_a1:
         .word   12, 12, .Land_b18_a2
@@ -55990,37 +54395,49 @@ __subleq_and:
 .Land_b18_a5:
         .word   172, 172, .Land_b18_a6
 .Land_b18_a6:
-        .word   168, 172, .Land_b18_a_set
-        .word   12, 12, .Land_b18_b
-.Land_b18_a_set:
-        .word   .Land_b18_pow, 28, .Land_b18_a_flag
-.Land_b18_a_flag:
-        .word   .Land_m1, 164, .Land_b18_b
-.Land_b18_b:
-        .word   168, 168, .Land_b18_b1
-.Land_b18_b1:
-        .word   12, 12, .Land_b18_b2
-.Land_b18_b2:
-        .word   32, 12, .Land_b18_b3
-.Land_b18_b3:
-        .word   12, 168, .Land_b18_b4
-.Land_b18_b4:
-        .word   .Land_b18_pow, 168, .Land_b18_b5
-.Land_b18_b5:
-        .word   172, 172, .Land_b18_b6
-.Land_b18_b6:
-        .word   168, 172, .Land_b18_b_set
+        .word   168, 172, .Land_b18_r3set
+        .word   12, 12, .Land_b18_r4only
+.Land_b18_r3set:
+        .word   .Land_b18_pow, 28, .Land_b18_r3done
+.Land_b18_r3done:
+        .word   168, 168, .Land_b18_r4a1
+.Land_b18_r4a1:
+        .word   12, 12, .Land_b18_r4a2
+.Land_b18_r4a2:
+        .word   32, 12, .Land_b18_r4a3
+.Land_b18_r4a3:
+        .word   12, 168, .Land_b18_r4a4
+.Land_b18_r4a4:
+        .word   .Land_b18_pow, 168, .Land_b18_r4a5
+.Land_b18_r4a5:
+        .word   172, 172, .Land_b18_r4a6
+.Land_b18_r4a6:
+        .word   168, 172, .Land_b18_both
         .word   12, 12, .Land_b17_a
-.Land_b18_b_set:
-        .word   .Land_b18_pow, 32, .Land_b18_chk
-.Land_b18_chk:
-        .word   172, 172, .Land_b18_chk1
-.Land_b18_chk1:
-        .word   172, 164, .Land_b17_a
-        .word   .Land_b18_npow, 160, .Land_b17_a
+.Land_b18_both:
+        .word   .Land_b18_pow, 32, .Land_b18_add1
+.Land_b18_add1:
+        .word   .Land_b18_npow, 160, .Land_b18_add2
+.Land_b18_add2:
+        .word   12, 12, .Land_b17_a
+.Land_b18_r4only:
+        .word   168, 168, .Land_b18_r4o1
+.Land_b18_r4o1:
+        .word   12, 12, .Land_b18_r4o2
+.Land_b18_r4o2:
+        .word   32, 12, .Land_b18_r4o3
+.Land_b18_r4o3:
+        .word   12, 168, .Land_b18_r4o4
+.Land_b18_r4o4:
+        .word   .Land_b18_pow, 168, .Land_b18_r4o5
+.Land_b18_r4o5:
+        .word   172, 172, .Land_b18_r4o6
+.Land_b18_r4o6:
+        .word   168, 172, .Land_b18_r4oclr
+        .word   12, 12, .Land_b17_a
+.Land_b18_r4oclr:
+        .word   .Land_b18_pow, 32, .Land_b17_a
 .Land_b17_a:
-        .word   164, 164, .Land_b17_a0
-.Land_b17_a0:
         .word   168, 168, .Land_b17_a1
 .Land_b17_a1:
         .word   12, 12, .Land_b17_a2
@@ -56033,37 +54450,49 @@ __subleq_and:
 .Land_b17_a5:
         .word   172, 172, .Land_b17_a6
 .Land_b17_a6:
-        .word   168, 172, .Land_b17_a_set
-        .word   12, 12, .Land_b17_b
-.Land_b17_a_set:
-        .word   .Land_b17_pow, 28, .Land_b17_a_flag
-.Land_b17_a_flag:
-        .word   .Land_m1, 164, .Land_b17_b
-.Land_b17_b:
-        .word   168, 168, .Land_b17_b1
-.Land_b17_b1:
-        .word   12, 12, .Land_b17_b2
-.Land_b17_b2:
-        .word   32, 12, .Land_b17_b3
-.Land_b17_b3:
-        .word   12, 168, .Land_b17_b4
-.Land_b17_b4:
-        .word   .Land_b17_pow, 168, .Land_b17_b5
-.Land_b17_b5:
-        .word   172, 172, .Land_b17_b6
-.Land_b17_b6:
-        .word   168, 172, .Land_b17_b_set
+        .word   168, 172, .Land_b17_r3set
+        .word   12, 12, .Land_b17_r4only
+.Land_b17_r3set:
+        .word   .Land_b17_pow, 28, .Land_b17_r3done
+.Land_b17_r3done:
+        .word   168, 168, .Land_b17_r4a1
+.Land_b17_r4a1:
+        .word   12, 12, .Land_b17_r4a2
+.Land_b17_r4a2:
+        .word   32, 12, .Land_b17_r4a3
+.Land_b17_r4a3:
+        .word   12, 168, .Land_b17_r4a4
+.Land_b17_r4a4:
+        .word   .Land_b17_pow, 168, .Land_b17_r4a5
+.Land_b17_r4a5:
+        .word   172, 172, .Land_b17_r4a6
+.Land_b17_r4a6:
+        .word   168, 172, .Land_b17_both
         .word   12, 12, .Land_b16_a
-.Land_b17_b_set:
-        .word   .Land_b17_pow, 32, .Land_b17_chk
-.Land_b17_chk:
-        .word   172, 172, .Land_b17_chk1
-.Land_b17_chk1:
-        .word   172, 164, .Land_b16_a
-        .word   .Land_b17_npow, 160, .Land_b16_a
+.Land_b17_both:
+        .word   .Land_b17_pow, 32, .Land_b17_add1
+.Land_b17_add1:
+        .word   .Land_b17_npow, 160, .Land_b17_add2
+.Land_b17_add2:
+        .word   12, 12, .Land_b16_a
+.Land_b17_r4only:
+        .word   168, 168, .Land_b17_r4o1
+.Land_b17_r4o1:
+        .word   12, 12, .Land_b17_r4o2
+.Land_b17_r4o2:
+        .word   32, 12, .Land_b17_r4o3
+.Land_b17_r4o3:
+        .word   12, 168, .Land_b17_r4o4
+.Land_b17_r4o4:
+        .word   .Land_b17_pow, 168, .Land_b17_r4o5
+.Land_b17_r4o5:
+        .word   172, 172, .Land_b17_r4o6
+.Land_b17_r4o6:
+        .word   168, 172, .Land_b17_r4oclr
+        .word   12, 12, .Land_b16_a
+.Land_b17_r4oclr:
+        .word   .Land_b17_pow, 32, .Land_b16_a
 .Land_b16_a:
-        .word   164, 164, .Land_b16_a0
-.Land_b16_a0:
         .word   168, 168, .Land_b16_a1
 .Land_b16_a1:
         .word   12, 12, .Land_b16_a2
@@ -56076,37 +54505,49 @@ __subleq_and:
 .Land_b16_a5:
         .word   172, 172, .Land_b16_a6
 .Land_b16_a6:
-        .word   168, 172, .Land_b16_a_set
-        .word   12, 12, .Land_b16_b
-.Land_b16_a_set:
-        .word   .Land_b16_pow, 28, .Land_b16_a_flag
-.Land_b16_a_flag:
-        .word   .Land_m1, 164, .Land_b16_b
-.Land_b16_b:
-        .word   168, 168, .Land_b16_b1
-.Land_b16_b1:
-        .word   12, 12, .Land_b16_b2
-.Land_b16_b2:
-        .word   32, 12, .Land_b16_b3
-.Land_b16_b3:
-        .word   12, 168, .Land_b16_b4
-.Land_b16_b4:
-        .word   .Land_b16_pow, 168, .Land_b16_b5
-.Land_b16_b5:
-        .word   172, 172, .Land_b16_b6
-.Land_b16_b6:
-        .word   168, 172, .Land_b16_b_set
+        .word   168, 172, .Land_b16_r3set
+        .word   12, 12, .Land_b16_r4only
+.Land_b16_r3set:
+        .word   .Land_b16_pow, 28, .Land_b16_r3done
+.Land_b16_r3done:
+        .word   168, 168, .Land_b16_r4a1
+.Land_b16_r4a1:
+        .word   12, 12, .Land_b16_r4a2
+.Land_b16_r4a2:
+        .word   32, 12, .Land_b16_r4a3
+.Land_b16_r4a3:
+        .word   12, 168, .Land_b16_r4a4
+.Land_b16_r4a4:
+        .word   .Land_b16_pow, 168, .Land_b16_r4a5
+.Land_b16_r4a5:
+        .word   172, 172, .Land_b16_r4a6
+.Land_b16_r4a6:
+        .word   168, 172, .Land_b16_both
         .word   12, 12, .Land_b15_a
-.Land_b16_b_set:
-        .word   .Land_b16_pow, 32, .Land_b16_chk
-.Land_b16_chk:
-        .word   172, 172, .Land_b16_chk1
-.Land_b16_chk1:
-        .word   172, 164, .Land_b15_a
-        .word   .Land_b16_npow, 160, .Land_b15_a
+.Land_b16_both:
+        .word   .Land_b16_pow, 32, .Land_b16_add1
+.Land_b16_add1:
+        .word   .Land_b16_npow, 160, .Land_b16_add2
+.Land_b16_add2:
+        .word   12, 12, .Land_b15_a
+.Land_b16_r4only:
+        .word   168, 168, .Land_b16_r4o1
+.Land_b16_r4o1:
+        .word   12, 12, .Land_b16_r4o2
+.Land_b16_r4o2:
+        .word   32, 12, .Land_b16_r4o3
+.Land_b16_r4o3:
+        .word   12, 168, .Land_b16_r4o4
+.Land_b16_r4o4:
+        .word   .Land_b16_pow, 168, .Land_b16_r4o5
+.Land_b16_r4o5:
+        .word   172, 172, .Land_b16_r4o6
+.Land_b16_r4o6:
+        .word   168, 172, .Land_b16_r4oclr
+        .word   12, 12, .Land_b15_a
+.Land_b16_r4oclr:
+        .word   .Land_b16_pow, 32, .Land_b15_a
 .Land_b15_a:
-        .word   164, 164, .Land_b15_a0
-.Land_b15_a0:
         .word   168, 168, .Land_b15_a1
 .Land_b15_a1:
         .word   12, 12, .Land_b15_a2
@@ -56119,37 +54560,49 @@ __subleq_and:
 .Land_b15_a5:
         .word   172, 172, .Land_b15_a6
 .Land_b15_a6:
-        .word   168, 172, .Land_b15_a_set
-        .word   12, 12, .Land_b15_b
-.Land_b15_a_set:
-        .word   .Land_b15_pow, 28, .Land_b15_a_flag
-.Land_b15_a_flag:
-        .word   .Land_m1, 164, .Land_b15_b
-.Land_b15_b:
-        .word   168, 168, .Land_b15_b1
-.Land_b15_b1:
-        .word   12, 12, .Land_b15_b2
-.Land_b15_b2:
-        .word   32, 12, .Land_b15_b3
-.Land_b15_b3:
-        .word   12, 168, .Land_b15_b4
-.Land_b15_b4:
-        .word   .Land_b15_pow, 168, .Land_b15_b5
-.Land_b15_b5:
-        .word   172, 172, .Land_b15_b6
-.Land_b15_b6:
-        .word   168, 172, .Land_b15_b_set
+        .word   168, 172, .Land_b15_r3set
+        .word   12, 12, .Land_b15_r4only
+.Land_b15_r3set:
+        .word   .Land_b15_pow, 28, .Land_b15_r3done
+.Land_b15_r3done:
+        .word   168, 168, .Land_b15_r4a1
+.Land_b15_r4a1:
+        .word   12, 12, .Land_b15_r4a2
+.Land_b15_r4a2:
+        .word   32, 12, .Land_b15_r4a3
+.Land_b15_r4a3:
+        .word   12, 168, .Land_b15_r4a4
+.Land_b15_r4a4:
+        .word   .Land_b15_pow, 168, .Land_b15_r4a5
+.Land_b15_r4a5:
+        .word   172, 172, .Land_b15_r4a6
+.Land_b15_r4a6:
+        .word   168, 172, .Land_b15_both
         .word   12, 12, .Land_b14_a
-.Land_b15_b_set:
-        .word   .Land_b15_pow, 32, .Land_b15_chk
-.Land_b15_chk:
-        .word   172, 172, .Land_b15_chk1
-.Land_b15_chk1:
-        .word   172, 164, .Land_b14_a
-        .word   .Land_b15_npow, 160, .Land_b14_a
+.Land_b15_both:
+        .word   .Land_b15_pow, 32, .Land_b15_add1
+.Land_b15_add1:
+        .word   .Land_b15_npow, 160, .Land_b15_add2
+.Land_b15_add2:
+        .word   12, 12, .Land_b14_a
+.Land_b15_r4only:
+        .word   168, 168, .Land_b15_r4o1
+.Land_b15_r4o1:
+        .word   12, 12, .Land_b15_r4o2
+.Land_b15_r4o2:
+        .word   32, 12, .Land_b15_r4o3
+.Land_b15_r4o3:
+        .word   12, 168, .Land_b15_r4o4
+.Land_b15_r4o4:
+        .word   .Land_b15_pow, 168, .Land_b15_r4o5
+.Land_b15_r4o5:
+        .word   172, 172, .Land_b15_r4o6
+.Land_b15_r4o6:
+        .word   168, 172, .Land_b15_r4oclr
+        .word   12, 12, .Land_b14_a
+.Land_b15_r4oclr:
+        .word   .Land_b15_pow, 32, .Land_b14_a
 .Land_b14_a:
-        .word   164, 164, .Land_b14_a0
-.Land_b14_a0:
         .word   168, 168, .Land_b14_a1
 .Land_b14_a1:
         .word   12, 12, .Land_b14_a2
@@ -56162,37 +54615,49 @@ __subleq_and:
 .Land_b14_a5:
         .word   172, 172, .Land_b14_a6
 .Land_b14_a6:
-        .word   168, 172, .Land_b14_a_set
-        .word   12, 12, .Land_b14_b
-.Land_b14_a_set:
-        .word   .Land_b14_pow, 28, .Land_b14_a_flag
-.Land_b14_a_flag:
-        .word   .Land_m1, 164, .Land_b14_b
-.Land_b14_b:
-        .word   168, 168, .Land_b14_b1
-.Land_b14_b1:
-        .word   12, 12, .Land_b14_b2
-.Land_b14_b2:
-        .word   32, 12, .Land_b14_b3
-.Land_b14_b3:
-        .word   12, 168, .Land_b14_b4
-.Land_b14_b4:
-        .word   .Land_b14_pow, 168, .Land_b14_b5
-.Land_b14_b5:
-        .word   172, 172, .Land_b14_b6
-.Land_b14_b6:
-        .word   168, 172, .Land_b14_b_set
+        .word   168, 172, .Land_b14_r3set
+        .word   12, 12, .Land_b14_r4only
+.Land_b14_r3set:
+        .word   .Land_b14_pow, 28, .Land_b14_r3done
+.Land_b14_r3done:
+        .word   168, 168, .Land_b14_r4a1
+.Land_b14_r4a1:
+        .word   12, 12, .Land_b14_r4a2
+.Land_b14_r4a2:
+        .word   32, 12, .Land_b14_r4a3
+.Land_b14_r4a3:
+        .word   12, 168, .Land_b14_r4a4
+.Land_b14_r4a4:
+        .word   .Land_b14_pow, 168, .Land_b14_r4a5
+.Land_b14_r4a5:
+        .word   172, 172, .Land_b14_r4a6
+.Land_b14_r4a6:
+        .word   168, 172, .Land_b14_both
         .word   12, 12, .Land_b13_a
-.Land_b14_b_set:
-        .word   .Land_b14_pow, 32, .Land_b14_chk
-.Land_b14_chk:
-        .word   172, 172, .Land_b14_chk1
-.Land_b14_chk1:
-        .word   172, 164, .Land_b13_a
-        .word   .Land_b14_npow, 160, .Land_b13_a
+.Land_b14_both:
+        .word   .Land_b14_pow, 32, .Land_b14_add1
+.Land_b14_add1:
+        .word   .Land_b14_npow, 160, .Land_b14_add2
+.Land_b14_add2:
+        .word   12, 12, .Land_b13_a
+.Land_b14_r4only:
+        .word   168, 168, .Land_b14_r4o1
+.Land_b14_r4o1:
+        .word   12, 12, .Land_b14_r4o2
+.Land_b14_r4o2:
+        .word   32, 12, .Land_b14_r4o3
+.Land_b14_r4o3:
+        .word   12, 168, .Land_b14_r4o4
+.Land_b14_r4o4:
+        .word   .Land_b14_pow, 168, .Land_b14_r4o5
+.Land_b14_r4o5:
+        .word   172, 172, .Land_b14_r4o6
+.Land_b14_r4o6:
+        .word   168, 172, .Land_b14_r4oclr
+        .word   12, 12, .Land_b13_a
+.Land_b14_r4oclr:
+        .word   .Land_b14_pow, 32, .Land_b13_a
 .Land_b13_a:
-        .word   164, 164, .Land_b13_a0
-.Land_b13_a0:
         .word   168, 168, .Land_b13_a1
 .Land_b13_a1:
         .word   12, 12, .Land_b13_a2
@@ -56205,37 +54670,49 @@ __subleq_and:
 .Land_b13_a5:
         .word   172, 172, .Land_b13_a6
 .Land_b13_a6:
-        .word   168, 172, .Land_b13_a_set
-        .word   12, 12, .Land_b13_b
-.Land_b13_a_set:
-        .word   .Land_b13_pow, 28, .Land_b13_a_flag
-.Land_b13_a_flag:
-        .word   .Land_m1, 164, .Land_b13_b
-.Land_b13_b:
-        .word   168, 168, .Land_b13_b1
-.Land_b13_b1:
-        .word   12, 12, .Land_b13_b2
-.Land_b13_b2:
-        .word   32, 12, .Land_b13_b3
-.Land_b13_b3:
-        .word   12, 168, .Land_b13_b4
-.Land_b13_b4:
-        .word   .Land_b13_pow, 168, .Land_b13_b5
-.Land_b13_b5:
-        .word   172, 172, .Land_b13_b6
-.Land_b13_b6:
-        .word   168, 172, .Land_b13_b_set
+        .word   168, 172, .Land_b13_r3set
+        .word   12, 12, .Land_b13_r4only
+.Land_b13_r3set:
+        .word   .Land_b13_pow, 28, .Land_b13_r3done
+.Land_b13_r3done:
+        .word   168, 168, .Land_b13_r4a1
+.Land_b13_r4a1:
+        .word   12, 12, .Land_b13_r4a2
+.Land_b13_r4a2:
+        .word   32, 12, .Land_b13_r4a3
+.Land_b13_r4a3:
+        .word   12, 168, .Land_b13_r4a4
+.Land_b13_r4a4:
+        .word   .Land_b13_pow, 168, .Land_b13_r4a5
+.Land_b13_r4a5:
+        .word   172, 172, .Land_b13_r4a6
+.Land_b13_r4a6:
+        .word   168, 172, .Land_b13_both
         .word   12, 12, .Land_b12_a
-.Land_b13_b_set:
-        .word   .Land_b13_pow, 32, .Land_b13_chk
-.Land_b13_chk:
-        .word   172, 172, .Land_b13_chk1
-.Land_b13_chk1:
-        .word   172, 164, .Land_b12_a
-        .word   .Land_b13_npow, 160, .Land_b12_a
+.Land_b13_both:
+        .word   .Land_b13_pow, 32, .Land_b13_add1
+.Land_b13_add1:
+        .word   .Land_b13_npow, 160, .Land_b13_add2
+.Land_b13_add2:
+        .word   12, 12, .Land_b12_a
+.Land_b13_r4only:
+        .word   168, 168, .Land_b13_r4o1
+.Land_b13_r4o1:
+        .word   12, 12, .Land_b13_r4o2
+.Land_b13_r4o2:
+        .word   32, 12, .Land_b13_r4o3
+.Land_b13_r4o3:
+        .word   12, 168, .Land_b13_r4o4
+.Land_b13_r4o4:
+        .word   .Land_b13_pow, 168, .Land_b13_r4o5
+.Land_b13_r4o5:
+        .word   172, 172, .Land_b13_r4o6
+.Land_b13_r4o6:
+        .word   168, 172, .Land_b13_r4oclr
+        .word   12, 12, .Land_b12_a
+.Land_b13_r4oclr:
+        .word   .Land_b13_pow, 32, .Land_b12_a
 .Land_b12_a:
-        .word   164, 164, .Land_b12_a0
-.Land_b12_a0:
         .word   168, 168, .Land_b12_a1
 .Land_b12_a1:
         .word   12, 12, .Land_b12_a2
@@ -56248,37 +54725,49 @@ __subleq_and:
 .Land_b12_a5:
         .word   172, 172, .Land_b12_a6
 .Land_b12_a6:
-        .word   168, 172, .Land_b12_a_set
-        .word   12, 12, .Land_b12_b
-.Land_b12_a_set:
-        .word   .Land_b12_pow, 28, .Land_b12_a_flag
-.Land_b12_a_flag:
-        .word   .Land_m1, 164, .Land_b12_b
-.Land_b12_b:
-        .word   168, 168, .Land_b12_b1
-.Land_b12_b1:
-        .word   12, 12, .Land_b12_b2
-.Land_b12_b2:
-        .word   32, 12, .Land_b12_b3
-.Land_b12_b3:
-        .word   12, 168, .Land_b12_b4
-.Land_b12_b4:
-        .word   .Land_b12_pow, 168, .Land_b12_b5
-.Land_b12_b5:
-        .word   172, 172, .Land_b12_b6
-.Land_b12_b6:
-        .word   168, 172, .Land_b12_b_set
+        .word   168, 172, .Land_b12_r3set
+        .word   12, 12, .Land_b12_r4only
+.Land_b12_r3set:
+        .word   .Land_b12_pow, 28, .Land_b12_r3done
+.Land_b12_r3done:
+        .word   168, 168, .Land_b12_r4a1
+.Land_b12_r4a1:
+        .word   12, 12, .Land_b12_r4a2
+.Land_b12_r4a2:
+        .word   32, 12, .Land_b12_r4a3
+.Land_b12_r4a3:
+        .word   12, 168, .Land_b12_r4a4
+.Land_b12_r4a4:
+        .word   .Land_b12_pow, 168, .Land_b12_r4a5
+.Land_b12_r4a5:
+        .word   172, 172, .Land_b12_r4a6
+.Land_b12_r4a6:
+        .word   168, 172, .Land_b12_both
         .word   12, 12, .Land_b11_a
-.Land_b12_b_set:
-        .word   .Land_b12_pow, 32, .Land_b12_chk
-.Land_b12_chk:
-        .word   172, 172, .Land_b12_chk1
-.Land_b12_chk1:
-        .word   172, 164, .Land_b11_a
-        .word   .Land_b12_npow, 160, .Land_b11_a
+.Land_b12_both:
+        .word   .Land_b12_pow, 32, .Land_b12_add1
+.Land_b12_add1:
+        .word   .Land_b12_npow, 160, .Land_b12_add2
+.Land_b12_add2:
+        .word   12, 12, .Land_b11_a
+.Land_b12_r4only:
+        .word   168, 168, .Land_b12_r4o1
+.Land_b12_r4o1:
+        .word   12, 12, .Land_b12_r4o2
+.Land_b12_r4o2:
+        .word   32, 12, .Land_b12_r4o3
+.Land_b12_r4o3:
+        .word   12, 168, .Land_b12_r4o4
+.Land_b12_r4o4:
+        .word   .Land_b12_pow, 168, .Land_b12_r4o5
+.Land_b12_r4o5:
+        .word   172, 172, .Land_b12_r4o6
+.Land_b12_r4o6:
+        .word   168, 172, .Land_b12_r4oclr
+        .word   12, 12, .Land_b11_a
+.Land_b12_r4oclr:
+        .word   .Land_b12_pow, 32, .Land_b11_a
 .Land_b11_a:
-        .word   164, 164, .Land_b11_a0
-.Land_b11_a0:
         .word   168, 168, .Land_b11_a1
 .Land_b11_a1:
         .word   12, 12, .Land_b11_a2
@@ -56291,37 +54780,49 @@ __subleq_and:
 .Land_b11_a5:
         .word   172, 172, .Land_b11_a6
 .Land_b11_a6:
-        .word   168, 172, .Land_b11_a_set
-        .word   12, 12, .Land_b11_b
-.Land_b11_a_set:
-        .word   .Land_b11_pow, 28, .Land_b11_a_flag
-.Land_b11_a_flag:
-        .word   .Land_m1, 164, .Land_b11_b
-.Land_b11_b:
-        .word   168, 168, .Land_b11_b1
-.Land_b11_b1:
-        .word   12, 12, .Land_b11_b2
-.Land_b11_b2:
-        .word   32, 12, .Land_b11_b3
-.Land_b11_b3:
-        .word   12, 168, .Land_b11_b4
-.Land_b11_b4:
-        .word   .Land_b11_pow, 168, .Land_b11_b5
-.Land_b11_b5:
-        .word   172, 172, .Land_b11_b6
-.Land_b11_b6:
-        .word   168, 172, .Land_b11_b_set
+        .word   168, 172, .Land_b11_r3set
+        .word   12, 12, .Land_b11_r4only
+.Land_b11_r3set:
+        .word   .Land_b11_pow, 28, .Land_b11_r3done
+.Land_b11_r3done:
+        .word   168, 168, .Land_b11_r4a1
+.Land_b11_r4a1:
+        .word   12, 12, .Land_b11_r4a2
+.Land_b11_r4a2:
+        .word   32, 12, .Land_b11_r4a3
+.Land_b11_r4a3:
+        .word   12, 168, .Land_b11_r4a4
+.Land_b11_r4a4:
+        .word   .Land_b11_pow, 168, .Land_b11_r4a5
+.Land_b11_r4a5:
+        .word   172, 172, .Land_b11_r4a6
+.Land_b11_r4a6:
+        .word   168, 172, .Land_b11_both
         .word   12, 12, .Land_b10_a
-.Land_b11_b_set:
-        .word   .Land_b11_pow, 32, .Land_b11_chk
-.Land_b11_chk:
-        .word   172, 172, .Land_b11_chk1
-.Land_b11_chk1:
-        .word   172, 164, .Land_b10_a
-        .word   .Land_b11_npow, 160, .Land_b10_a
+.Land_b11_both:
+        .word   .Land_b11_pow, 32, .Land_b11_add1
+.Land_b11_add1:
+        .word   .Land_b11_npow, 160, .Land_b11_add2
+.Land_b11_add2:
+        .word   12, 12, .Land_b10_a
+.Land_b11_r4only:
+        .word   168, 168, .Land_b11_r4o1
+.Land_b11_r4o1:
+        .word   12, 12, .Land_b11_r4o2
+.Land_b11_r4o2:
+        .word   32, 12, .Land_b11_r4o3
+.Land_b11_r4o3:
+        .word   12, 168, .Land_b11_r4o4
+.Land_b11_r4o4:
+        .word   .Land_b11_pow, 168, .Land_b11_r4o5
+.Land_b11_r4o5:
+        .word   172, 172, .Land_b11_r4o6
+.Land_b11_r4o6:
+        .word   168, 172, .Land_b11_r4oclr
+        .word   12, 12, .Land_b10_a
+.Land_b11_r4oclr:
+        .word   .Land_b11_pow, 32, .Land_b10_a
 .Land_b10_a:
-        .word   164, 164, .Land_b10_a0
-.Land_b10_a0:
         .word   168, 168, .Land_b10_a1
 .Land_b10_a1:
         .word   12, 12, .Land_b10_a2
@@ -56334,37 +54835,49 @@ __subleq_and:
 .Land_b10_a5:
         .word   172, 172, .Land_b10_a6
 .Land_b10_a6:
-        .word   168, 172, .Land_b10_a_set
-        .word   12, 12, .Land_b10_b
-.Land_b10_a_set:
-        .word   .Land_b10_pow, 28, .Land_b10_a_flag
-.Land_b10_a_flag:
-        .word   .Land_m1, 164, .Land_b10_b
-.Land_b10_b:
-        .word   168, 168, .Land_b10_b1
-.Land_b10_b1:
-        .word   12, 12, .Land_b10_b2
-.Land_b10_b2:
-        .word   32, 12, .Land_b10_b3
-.Land_b10_b3:
-        .word   12, 168, .Land_b10_b4
-.Land_b10_b4:
-        .word   .Land_b10_pow, 168, .Land_b10_b5
-.Land_b10_b5:
-        .word   172, 172, .Land_b10_b6
-.Land_b10_b6:
-        .word   168, 172, .Land_b10_b_set
+        .word   168, 172, .Land_b10_r3set
+        .word   12, 12, .Land_b10_r4only
+.Land_b10_r3set:
+        .word   .Land_b10_pow, 28, .Land_b10_r3done
+.Land_b10_r3done:
+        .word   168, 168, .Land_b10_r4a1
+.Land_b10_r4a1:
+        .word   12, 12, .Land_b10_r4a2
+.Land_b10_r4a2:
+        .word   32, 12, .Land_b10_r4a3
+.Land_b10_r4a3:
+        .word   12, 168, .Land_b10_r4a4
+.Land_b10_r4a4:
+        .word   .Land_b10_pow, 168, .Land_b10_r4a5
+.Land_b10_r4a5:
+        .word   172, 172, .Land_b10_r4a6
+.Land_b10_r4a6:
+        .word   168, 172, .Land_b10_both
         .word   12, 12, .Land_b9_a
-.Land_b10_b_set:
-        .word   .Land_b10_pow, 32, .Land_b10_chk
-.Land_b10_chk:
-        .word   172, 172, .Land_b10_chk1
-.Land_b10_chk1:
-        .word   172, 164, .Land_b9_a
-        .word   .Land_b10_npow, 160, .Land_b9_a
+.Land_b10_both:
+        .word   .Land_b10_pow, 32, .Land_b10_add1
+.Land_b10_add1:
+        .word   .Land_b10_npow, 160, .Land_b10_add2
+.Land_b10_add2:
+        .word   12, 12, .Land_b9_a
+.Land_b10_r4only:
+        .word   168, 168, .Land_b10_r4o1
+.Land_b10_r4o1:
+        .word   12, 12, .Land_b10_r4o2
+.Land_b10_r4o2:
+        .word   32, 12, .Land_b10_r4o3
+.Land_b10_r4o3:
+        .word   12, 168, .Land_b10_r4o4
+.Land_b10_r4o4:
+        .word   .Land_b10_pow, 168, .Land_b10_r4o5
+.Land_b10_r4o5:
+        .word   172, 172, .Land_b10_r4o6
+.Land_b10_r4o6:
+        .word   168, 172, .Land_b10_r4oclr
+        .word   12, 12, .Land_b9_a
+.Land_b10_r4oclr:
+        .word   .Land_b10_pow, 32, .Land_b9_a
 .Land_b9_a:
-        .word   164, 164, .Land_b9_a0
-.Land_b9_a0:
         .word   168, 168, .Land_b9_a1
 .Land_b9_a1:
         .word   12, 12, .Land_b9_a2
@@ -56377,37 +54890,49 @@ __subleq_and:
 .Land_b9_a5:
         .word   172, 172, .Land_b9_a6
 .Land_b9_a6:
-        .word   168, 172, .Land_b9_a_set
-        .word   12, 12, .Land_b9_b
-.Land_b9_a_set:
-        .word   .Land_b9_pow, 28, .Land_b9_a_flag
-.Land_b9_a_flag:
-        .word   .Land_m1, 164, .Land_b9_b
-.Land_b9_b:
-        .word   168, 168, .Land_b9_b1
-.Land_b9_b1:
-        .word   12, 12, .Land_b9_b2
-.Land_b9_b2:
-        .word   32, 12, .Land_b9_b3
-.Land_b9_b3:
-        .word   12, 168, .Land_b9_b4
-.Land_b9_b4:
-        .word   .Land_b9_pow, 168, .Land_b9_b5
-.Land_b9_b5:
-        .word   172, 172, .Land_b9_b6
-.Land_b9_b6:
-        .word   168, 172, .Land_b9_b_set
+        .word   168, 172, .Land_b9_r3set
+        .word   12, 12, .Land_b9_r4only
+.Land_b9_r3set:
+        .word   .Land_b9_pow, 28, .Land_b9_r3done
+.Land_b9_r3done:
+        .word   168, 168, .Land_b9_r4a1
+.Land_b9_r4a1:
+        .word   12, 12, .Land_b9_r4a2
+.Land_b9_r4a2:
+        .word   32, 12, .Land_b9_r4a3
+.Land_b9_r4a3:
+        .word   12, 168, .Land_b9_r4a4
+.Land_b9_r4a4:
+        .word   .Land_b9_pow, 168, .Land_b9_r4a5
+.Land_b9_r4a5:
+        .word   172, 172, .Land_b9_r4a6
+.Land_b9_r4a6:
+        .word   168, 172, .Land_b9_both
         .word   12, 12, .Land_b8_a
-.Land_b9_b_set:
-        .word   .Land_b9_pow, 32, .Land_b9_chk
-.Land_b9_chk:
-        .word   172, 172, .Land_b9_chk1
-.Land_b9_chk1:
-        .word   172, 164, .Land_b8_a
-        .word   .Land_b9_npow, 160, .Land_b8_a
+.Land_b9_both:
+        .word   .Land_b9_pow, 32, .Land_b9_add1
+.Land_b9_add1:
+        .word   .Land_b9_npow, 160, .Land_b9_add2
+.Land_b9_add2:
+        .word   12, 12, .Land_b8_a
+.Land_b9_r4only:
+        .word   168, 168, .Land_b9_r4o1
+.Land_b9_r4o1:
+        .word   12, 12, .Land_b9_r4o2
+.Land_b9_r4o2:
+        .word   32, 12, .Land_b9_r4o3
+.Land_b9_r4o3:
+        .word   12, 168, .Land_b9_r4o4
+.Land_b9_r4o4:
+        .word   .Land_b9_pow, 168, .Land_b9_r4o5
+.Land_b9_r4o5:
+        .word   172, 172, .Land_b9_r4o6
+.Land_b9_r4o6:
+        .word   168, 172, .Land_b9_r4oclr
+        .word   12, 12, .Land_b8_a
+.Land_b9_r4oclr:
+        .word   .Land_b9_pow, 32, .Land_b8_a
 .Land_b8_a:
-        .word   164, 164, .Land_b8_a0
-.Land_b8_a0:
         .word   168, 168, .Land_b8_a1
 .Land_b8_a1:
         .word   12, 12, .Land_b8_a2
@@ -56420,37 +54945,49 @@ __subleq_and:
 .Land_b8_a5:
         .word   172, 172, .Land_b8_a6
 .Land_b8_a6:
-        .word   168, 172, .Land_b8_a_set
-        .word   12, 12, .Land_b8_b
-.Land_b8_a_set:
-        .word   .Land_b8_pow, 28, .Land_b8_a_flag
-.Land_b8_a_flag:
-        .word   .Land_m1, 164, .Land_b8_b
-.Land_b8_b:
-        .word   168, 168, .Land_b8_b1
-.Land_b8_b1:
-        .word   12, 12, .Land_b8_b2
-.Land_b8_b2:
-        .word   32, 12, .Land_b8_b3
-.Land_b8_b3:
-        .word   12, 168, .Land_b8_b4
-.Land_b8_b4:
-        .word   .Land_b8_pow, 168, .Land_b8_b5
-.Land_b8_b5:
-        .word   172, 172, .Land_b8_b6
-.Land_b8_b6:
-        .word   168, 172, .Land_b8_b_set
+        .word   168, 172, .Land_b8_r3set
+        .word   12, 12, .Land_b8_r4only
+.Land_b8_r3set:
+        .word   .Land_b8_pow, 28, .Land_b8_r3done
+.Land_b8_r3done:
+        .word   168, 168, .Land_b8_r4a1
+.Land_b8_r4a1:
+        .word   12, 12, .Land_b8_r4a2
+.Land_b8_r4a2:
+        .word   32, 12, .Land_b8_r4a3
+.Land_b8_r4a3:
+        .word   12, 168, .Land_b8_r4a4
+.Land_b8_r4a4:
+        .word   .Land_b8_pow, 168, .Land_b8_r4a5
+.Land_b8_r4a5:
+        .word   172, 172, .Land_b8_r4a6
+.Land_b8_r4a6:
+        .word   168, 172, .Land_b8_both
         .word   12, 12, .Land_b7_a
-.Land_b8_b_set:
-        .word   .Land_b8_pow, 32, .Land_b8_chk
-.Land_b8_chk:
-        .word   172, 172, .Land_b8_chk1
-.Land_b8_chk1:
-        .word   172, 164, .Land_b7_a
-        .word   .Land_b8_npow, 160, .Land_b7_a
+.Land_b8_both:
+        .word   .Land_b8_pow, 32, .Land_b8_add1
+.Land_b8_add1:
+        .word   .Land_b8_npow, 160, .Land_b8_add2
+.Land_b8_add2:
+        .word   12, 12, .Land_b7_a
+.Land_b8_r4only:
+        .word   168, 168, .Land_b8_r4o1
+.Land_b8_r4o1:
+        .word   12, 12, .Land_b8_r4o2
+.Land_b8_r4o2:
+        .word   32, 12, .Land_b8_r4o3
+.Land_b8_r4o3:
+        .word   12, 168, .Land_b8_r4o4
+.Land_b8_r4o4:
+        .word   .Land_b8_pow, 168, .Land_b8_r4o5
+.Land_b8_r4o5:
+        .word   172, 172, .Land_b8_r4o6
+.Land_b8_r4o6:
+        .word   168, 172, .Land_b8_r4oclr
+        .word   12, 12, .Land_b7_a
+.Land_b8_r4oclr:
+        .word   .Land_b8_pow, 32, .Land_b7_a
 .Land_b7_a:
-        .word   164, 164, .Land_b7_a0
-.Land_b7_a0:
         .word   168, 168, .Land_b7_a1
 .Land_b7_a1:
         .word   12, 12, .Land_b7_a2
@@ -56463,37 +55000,49 @@ __subleq_and:
 .Land_b7_a5:
         .word   172, 172, .Land_b7_a6
 .Land_b7_a6:
-        .word   168, 172, .Land_b7_a_set
-        .word   12, 12, .Land_b7_b
-.Land_b7_a_set:
-        .word   .Land_b7_pow, 28, .Land_b7_a_flag
-.Land_b7_a_flag:
-        .word   .Land_m1, 164, .Land_b7_b
-.Land_b7_b:
-        .word   168, 168, .Land_b7_b1
-.Land_b7_b1:
-        .word   12, 12, .Land_b7_b2
-.Land_b7_b2:
-        .word   32, 12, .Land_b7_b3
-.Land_b7_b3:
-        .word   12, 168, .Land_b7_b4
-.Land_b7_b4:
-        .word   .Land_b7_pow, 168, .Land_b7_b5
-.Land_b7_b5:
-        .word   172, 172, .Land_b7_b6
-.Land_b7_b6:
-        .word   168, 172, .Land_b7_b_set
+        .word   168, 172, .Land_b7_r3set
+        .word   12, 12, .Land_b7_r4only
+.Land_b7_r3set:
+        .word   .Land_b7_pow, 28, .Land_b7_r3done
+.Land_b7_r3done:
+        .word   168, 168, .Land_b7_r4a1
+.Land_b7_r4a1:
+        .word   12, 12, .Land_b7_r4a2
+.Land_b7_r4a2:
+        .word   32, 12, .Land_b7_r4a3
+.Land_b7_r4a3:
+        .word   12, 168, .Land_b7_r4a4
+.Land_b7_r4a4:
+        .word   .Land_b7_pow, 168, .Land_b7_r4a5
+.Land_b7_r4a5:
+        .word   172, 172, .Land_b7_r4a6
+.Land_b7_r4a6:
+        .word   168, 172, .Land_b7_both
         .word   12, 12, .Land_b6_a
-.Land_b7_b_set:
-        .word   .Land_b7_pow, 32, .Land_b7_chk
-.Land_b7_chk:
-        .word   172, 172, .Land_b7_chk1
-.Land_b7_chk1:
-        .word   172, 164, .Land_b6_a
-        .word   .Land_b7_npow, 160, .Land_b6_a
+.Land_b7_both:
+        .word   .Land_b7_pow, 32, .Land_b7_add1
+.Land_b7_add1:
+        .word   .Land_b7_npow, 160, .Land_b7_add2
+.Land_b7_add2:
+        .word   12, 12, .Land_b6_a
+.Land_b7_r4only:
+        .word   168, 168, .Land_b7_r4o1
+.Land_b7_r4o1:
+        .word   12, 12, .Land_b7_r4o2
+.Land_b7_r4o2:
+        .word   32, 12, .Land_b7_r4o3
+.Land_b7_r4o3:
+        .word   12, 168, .Land_b7_r4o4
+.Land_b7_r4o4:
+        .word   .Land_b7_pow, 168, .Land_b7_r4o5
+.Land_b7_r4o5:
+        .word   172, 172, .Land_b7_r4o6
+.Land_b7_r4o6:
+        .word   168, 172, .Land_b7_r4oclr
+        .word   12, 12, .Land_b6_a
+.Land_b7_r4oclr:
+        .word   .Land_b7_pow, 32, .Land_b6_a
 .Land_b6_a:
-        .word   164, 164, .Land_b6_a0
-.Land_b6_a0:
         .word   168, 168, .Land_b6_a1
 .Land_b6_a1:
         .word   12, 12, .Land_b6_a2
@@ -56506,37 +55055,49 @@ __subleq_and:
 .Land_b6_a5:
         .word   172, 172, .Land_b6_a6
 .Land_b6_a6:
-        .word   168, 172, .Land_b6_a_set
-        .word   12, 12, .Land_b6_b
-.Land_b6_a_set:
-        .word   .Land_b6_pow, 28, .Land_b6_a_flag
-.Land_b6_a_flag:
-        .word   .Land_m1, 164, .Land_b6_b
-.Land_b6_b:
-        .word   168, 168, .Land_b6_b1
-.Land_b6_b1:
-        .word   12, 12, .Land_b6_b2
-.Land_b6_b2:
-        .word   32, 12, .Land_b6_b3
-.Land_b6_b3:
-        .word   12, 168, .Land_b6_b4
-.Land_b6_b4:
-        .word   .Land_b6_pow, 168, .Land_b6_b5
-.Land_b6_b5:
-        .word   172, 172, .Land_b6_b6
-.Land_b6_b6:
-        .word   168, 172, .Land_b6_b_set
+        .word   168, 172, .Land_b6_r3set
+        .word   12, 12, .Land_b6_r4only
+.Land_b6_r3set:
+        .word   .Land_b6_pow, 28, .Land_b6_r3done
+.Land_b6_r3done:
+        .word   168, 168, .Land_b6_r4a1
+.Land_b6_r4a1:
+        .word   12, 12, .Land_b6_r4a2
+.Land_b6_r4a2:
+        .word   32, 12, .Land_b6_r4a3
+.Land_b6_r4a3:
+        .word   12, 168, .Land_b6_r4a4
+.Land_b6_r4a4:
+        .word   .Land_b6_pow, 168, .Land_b6_r4a5
+.Land_b6_r4a5:
+        .word   172, 172, .Land_b6_r4a6
+.Land_b6_r4a6:
+        .word   168, 172, .Land_b6_both
         .word   12, 12, .Land_b5_a
-.Land_b6_b_set:
-        .word   .Land_b6_pow, 32, .Land_b6_chk
-.Land_b6_chk:
-        .word   172, 172, .Land_b6_chk1
-.Land_b6_chk1:
-        .word   172, 164, .Land_b5_a
-        .word   .Land_b6_npow, 160, .Land_b5_a
+.Land_b6_both:
+        .word   .Land_b6_pow, 32, .Land_b6_add1
+.Land_b6_add1:
+        .word   .Land_b6_npow, 160, .Land_b6_add2
+.Land_b6_add2:
+        .word   12, 12, .Land_b5_a
+.Land_b6_r4only:
+        .word   168, 168, .Land_b6_r4o1
+.Land_b6_r4o1:
+        .word   12, 12, .Land_b6_r4o2
+.Land_b6_r4o2:
+        .word   32, 12, .Land_b6_r4o3
+.Land_b6_r4o3:
+        .word   12, 168, .Land_b6_r4o4
+.Land_b6_r4o4:
+        .word   .Land_b6_pow, 168, .Land_b6_r4o5
+.Land_b6_r4o5:
+        .word   172, 172, .Land_b6_r4o6
+.Land_b6_r4o6:
+        .word   168, 172, .Land_b6_r4oclr
+        .word   12, 12, .Land_b5_a
+.Land_b6_r4oclr:
+        .word   .Land_b6_pow, 32, .Land_b5_a
 .Land_b5_a:
-        .word   164, 164, .Land_b5_a0
-.Land_b5_a0:
         .word   168, 168, .Land_b5_a1
 .Land_b5_a1:
         .word   12, 12, .Land_b5_a2
@@ -56549,37 +55110,49 @@ __subleq_and:
 .Land_b5_a5:
         .word   172, 172, .Land_b5_a6
 .Land_b5_a6:
-        .word   168, 172, .Land_b5_a_set
-        .word   12, 12, .Land_b5_b
-.Land_b5_a_set:
-        .word   .Land_b5_pow, 28, .Land_b5_a_flag
-.Land_b5_a_flag:
-        .word   .Land_m1, 164, .Land_b5_b
-.Land_b5_b:
-        .word   168, 168, .Land_b5_b1
-.Land_b5_b1:
-        .word   12, 12, .Land_b5_b2
-.Land_b5_b2:
-        .word   32, 12, .Land_b5_b3
-.Land_b5_b3:
-        .word   12, 168, .Land_b5_b4
-.Land_b5_b4:
-        .word   .Land_b5_pow, 168, .Land_b5_b5
-.Land_b5_b5:
-        .word   172, 172, .Land_b5_b6
-.Land_b5_b6:
-        .word   168, 172, .Land_b5_b_set
+        .word   168, 172, .Land_b5_r3set
+        .word   12, 12, .Land_b5_r4only
+.Land_b5_r3set:
+        .word   .Land_b5_pow, 28, .Land_b5_r3done
+.Land_b5_r3done:
+        .word   168, 168, .Land_b5_r4a1
+.Land_b5_r4a1:
+        .word   12, 12, .Land_b5_r4a2
+.Land_b5_r4a2:
+        .word   32, 12, .Land_b5_r4a3
+.Land_b5_r4a3:
+        .word   12, 168, .Land_b5_r4a4
+.Land_b5_r4a4:
+        .word   .Land_b5_pow, 168, .Land_b5_r4a5
+.Land_b5_r4a5:
+        .word   172, 172, .Land_b5_r4a6
+.Land_b5_r4a6:
+        .word   168, 172, .Land_b5_both
         .word   12, 12, .Land_b4_a
-.Land_b5_b_set:
-        .word   .Land_b5_pow, 32, .Land_b5_chk
-.Land_b5_chk:
-        .word   172, 172, .Land_b5_chk1
-.Land_b5_chk1:
-        .word   172, 164, .Land_b4_a
-        .word   .Land_b5_npow, 160, .Land_b4_a
+.Land_b5_both:
+        .word   .Land_b5_pow, 32, .Land_b5_add1
+.Land_b5_add1:
+        .word   .Land_b5_npow, 160, .Land_b5_add2
+.Land_b5_add2:
+        .word   12, 12, .Land_b4_a
+.Land_b5_r4only:
+        .word   168, 168, .Land_b5_r4o1
+.Land_b5_r4o1:
+        .word   12, 12, .Land_b5_r4o2
+.Land_b5_r4o2:
+        .word   32, 12, .Land_b5_r4o3
+.Land_b5_r4o3:
+        .word   12, 168, .Land_b5_r4o4
+.Land_b5_r4o4:
+        .word   .Land_b5_pow, 168, .Land_b5_r4o5
+.Land_b5_r4o5:
+        .word   172, 172, .Land_b5_r4o6
+.Land_b5_r4o6:
+        .word   168, 172, .Land_b5_r4oclr
+        .word   12, 12, .Land_b4_a
+.Land_b5_r4oclr:
+        .word   .Land_b5_pow, 32, .Land_b4_a
 .Land_b4_a:
-        .word   164, 164, .Land_b4_a0
-.Land_b4_a0:
         .word   168, 168, .Land_b4_a1
 .Land_b4_a1:
         .word   12, 12, .Land_b4_a2
@@ -56592,37 +55165,49 @@ __subleq_and:
 .Land_b4_a5:
         .word   172, 172, .Land_b4_a6
 .Land_b4_a6:
-        .word   168, 172, .Land_b4_a_set
-        .word   12, 12, .Land_b4_b
-.Land_b4_a_set:
-        .word   .Land_b4_pow, 28, .Land_b4_a_flag
-.Land_b4_a_flag:
-        .word   .Land_m1, 164, .Land_b4_b
-.Land_b4_b:
-        .word   168, 168, .Land_b4_b1
-.Land_b4_b1:
-        .word   12, 12, .Land_b4_b2
-.Land_b4_b2:
-        .word   32, 12, .Land_b4_b3
-.Land_b4_b3:
-        .word   12, 168, .Land_b4_b4
-.Land_b4_b4:
-        .word   .Land_b4_pow, 168, .Land_b4_b5
-.Land_b4_b5:
-        .word   172, 172, .Land_b4_b6
-.Land_b4_b6:
-        .word   168, 172, .Land_b4_b_set
+        .word   168, 172, .Land_b4_r3set
+        .word   12, 12, .Land_b4_r4only
+.Land_b4_r3set:
+        .word   .Land_b4_pow, 28, .Land_b4_r3done
+.Land_b4_r3done:
+        .word   168, 168, .Land_b4_r4a1
+.Land_b4_r4a1:
+        .word   12, 12, .Land_b4_r4a2
+.Land_b4_r4a2:
+        .word   32, 12, .Land_b4_r4a3
+.Land_b4_r4a3:
+        .word   12, 168, .Land_b4_r4a4
+.Land_b4_r4a4:
+        .word   .Land_b4_pow, 168, .Land_b4_r4a5
+.Land_b4_r4a5:
+        .word   172, 172, .Land_b4_r4a6
+.Land_b4_r4a6:
+        .word   168, 172, .Land_b4_both
         .word   12, 12, .Land_b3_a
-.Land_b4_b_set:
-        .word   .Land_b4_pow, 32, .Land_b4_chk
-.Land_b4_chk:
-        .word   172, 172, .Land_b4_chk1
-.Land_b4_chk1:
-        .word   172, 164, .Land_b3_a
-        .word   .Land_b4_npow, 160, .Land_b3_a
+.Land_b4_both:
+        .word   .Land_b4_pow, 32, .Land_b4_add1
+.Land_b4_add1:
+        .word   .Land_b4_npow, 160, .Land_b4_add2
+.Land_b4_add2:
+        .word   12, 12, .Land_b3_a
+.Land_b4_r4only:
+        .word   168, 168, .Land_b4_r4o1
+.Land_b4_r4o1:
+        .word   12, 12, .Land_b4_r4o2
+.Land_b4_r4o2:
+        .word   32, 12, .Land_b4_r4o3
+.Land_b4_r4o3:
+        .word   12, 168, .Land_b4_r4o4
+.Land_b4_r4o4:
+        .word   .Land_b4_pow, 168, .Land_b4_r4o5
+.Land_b4_r4o5:
+        .word   172, 172, .Land_b4_r4o6
+.Land_b4_r4o6:
+        .word   168, 172, .Land_b4_r4oclr
+        .word   12, 12, .Land_b3_a
+.Land_b4_r4oclr:
+        .word   .Land_b4_pow, 32, .Land_b3_a
 .Land_b3_a:
-        .word   164, 164, .Land_b3_a0
-.Land_b3_a0:
         .word   168, 168, .Land_b3_a1
 .Land_b3_a1:
         .word   12, 12, .Land_b3_a2
@@ -56635,37 +55220,49 @@ __subleq_and:
 .Land_b3_a5:
         .word   172, 172, .Land_b3_a6
 .Land_b3_a6:
-        .word   168, 172, .Land_b3_a_set
-        .word   12, 12, .Land_b3_b
-.Land_b3_a_set:
-        .word   .Land_b3_pow, 28, .Land_b3_a_flag
-.Land_b3_a_flag:
-        .word   .Land_m1, 164, .Land_b3_b
-.Land_b3_b:
-        .word   168, 168, .Land_b3_b1
-.Land_b3_b1:
-        .word   12, 12, .Land_b3_b2
-.Land_b3_b2:
-        .word   32, 12, .Land_b3_b3
-.Land_b3_b3:
-        .word   12, 168, .Land_b3_b4
-.Land_b3_b4:
-        .word   .Land_b3_pow, 168, .Land_b3_b5
-.Land_b3_b5:
-        .word   172, 172, .Land_b3_b6
-.Land_b3_b6:
-        .word   168, 172, .Land_b3_b_set
+        .word   168, 172, .Land_b3_r3set
+        .word   12, 12, .Land_b3_r4only
+.Land_b3_r3set:
+        .word   .Land_b3_pow, 28, .Land_b3_r3done
+.Land_b3_r3done:
+        .word   168, 168, .Land_b3_r4a1
+.Land_b3_r4a1:
+        .word   12, 12, .Land_b3_r4a2
+.Land_b3_r4a2:
+        .word   32, 12, .Land_b3_r4a3
+.Land_b3_r4a3:
+        .word   12, 168, .Land_b3_r4a4
+.Land_b3_r4a4:
+        .word   .Land_b3_pow, 168, .Land_b3_r4a5
+.Land_b3_r4a5:
+        .word   172, 172, .Land_b3_r4a6
+.Land_b3_r4a6:
+        .word   168, 172, .Land_b3_both
         .word   12, 12, .Land_b2_a
-.Land_b3_b_set:
-        .word   .Land_b3_pow, 32, .Land_b3_chk
-.Land_b3_chk:
-        .word   172, 172, .Land_b3_chk1
-.Land_b3_chk1:
-        .word   172, 164, .Land_b2_a
-        .word   .Land_b3_npow, 160, .Land_b2_a
+.Land_b3_both:
+        .word   .Land_b3_pow, 32, .Land_b3_add1
+.Land_b3_add1:
+        .word   .Land_b3_npow, 160, .Land_b3_add2
+.Land_b3_add2:
+        .word   12, 12, .Land_b2_a
+.Land_b3_r4only:
+        .word   168, 168, .Land_b3_r4o1
+.Land_b3_r4o1:
+        .word   12, 12, .Land_b3_r4o2
+.Land_b3_r4o2:
+        .word   32, 12, .Land_b3_r4o3
+.Land_b3_r4o3:
+        .word   12, 168, .Land_b3_r4o4
+.Land_b3_r4o4:
+        .word   .Land_b3_pow, 168, .Land_b3_r4o5
+.Land_b3_r4o5:
+        .word   172, 172, .Land_b3_r4o6
+.Land_b3_r4o6:
+        .word   168, 172, .Land_b3_r4oclr
+        .word   12, 12, .Land_b2_a
+.Land_b3_r4oclr:
+        .word   .Land_b3_pow, 32, .Land_b2_a
 .Land_b2_a:
-        .word   164, 164, .Land_b2_a0
-.Land_b2_a0:
         .word   168, 168, .Land_b2_a1
 .Land_b2_a1:
         .word   12, 12, .Land_b2_a2
@@ -56678,37 +55275,49 @@ __subleq_and:
 .Land_b2_a5:
         .word   172, 172, .Land_b2_a6
 .Land_b2_a6:
-        .word   168, 172, .Land_b2_a_set
-        .word   12, 12, .Land_b2_b
-.Land_b2_a_set:
-        .word   .Land_b2_pow, 28, .Land_b2_a_flag
-.Land_b2_a_flag:
-        .word   .Land_m1, 164, .Land_b2_b
-.Land_b2_b:
-        .word   168, 168, .Land_b2_b1
-.Land_b2_b1:
-        .word   12, 12, .Land_b2_b2
-.Land_b2_b2:
-        .word   32, 12, .Land_b2_b3
-.Land_b2_b3:
-        .word   12, 168, .Land_b2_b4
-.Land_b2_b4:
-        .word   .Land_b2_pow, 168, .Land_b2_b5
-.Land_b2_b5:
-        .word   172, 172, .Land_b2_b6
-.Land_b2_b6:
-        .word   168, 172, .Land_b2_b_set
+        .word   168, 172, .Land_b2_r3set
+        .word   12, 12, .Land_b2_r4only
+.Land_b2_r3set:
+        .word   .Land_b2_pow, 28, .Land_b2_r3done
+.Land_b2_r3done:
+        .word   168, 168, .Land_b2_r4a1
+.Land_b2_r4a1:
+        .word   12, 12, .Land_b2_r4a2
+.Land_b2_r4a2:
+        .word   32, 12, .Land_b2_r4a3
+.Land_b2_r4a3:
+        .word   12, 168, .Land_b2_r4a4
+.Land_b2_r4a4:
+        .word   .Land_b2_pow, 168, .Land_b2_r4a5
+.Land_b2_r4a5:
+        .word   172, 172, .Land_b2_r4a6
+.Land_b2_r4a6:
+        .word   168, 172, .Land_b2_both
         .word   12, 12, .Land_b1_a
-.Land_b2_b_set:
-        .word   .Land_b2_pow, 32, .Land_b2_chk
-.Land_b2_chk:
-        .word   172, 172, .Land_b2_chk1
-.Land_b2_chk1:
-        .word   172, 164, .Land_b1_a
-        .word   .Land_b2_npow, 160, .Land_b1_a
+.Land_b2_both:
+        .word   .Land_b2_pow, 32, .Land_b2_add1
+.Land_b2_add1:
+        .word   .Land_b2_npow, 160, .Land_b2_add2
+.Land_b2_add2:
+        .word   12, 12, .Land_b1_a
+.Land_b2_r4only:
+        .word   168, 168, .Land_b2_r4o1
+.Land_b2_r4o1:
+        .word   12, 12, .Land_b2_r4o2
+.Land_b2_r4o2:
+        .word   32, 12, .Land_b2_r4o3
+.Land_b2_r4o3:
+        .word   12, 168, .Land_b2_r4o4
+.Land_b2_r4o4:
+        .word   .Land_b2_pow, 168, .Land_b2_r4o5
+.Land_b2_r4o5:
+        .word   172, 172, .Land_b2_r4o6
+.Land_b2_r4o6:
+        .word   168, 172, .Land_b2_r4oclr
+        .word   12, 12, .Land_b1_a
+.Land_b2_r4oclr:
+        .word   .Land_b2_pow, 32, .Land_b1_a
 .Land_b1_a:
-        .word   164, 164, .Land_b1_a0
-.Land_b1_a0:
         .word   168, 168, .Land_b1_a1
 .Land_b1_a1:
         .word   12, 12, .Land_b1_a2
@@ -56721,37 +55330,49 @@ __subleq_and:
 .Land_b1_a5:
         .word   172, 172, .Land_b1_a6
 .Land_b1_a6:
-        .word   168, 172, .Land_b1_a_set
-        .word   12, 12, .Land_b1_b
-.Land_b1_a_set:
-        .word   .Land_b1_pow, 28, .Land_b1_a_flag
-.Land_b1_a_flag:
-        .word   .Land_m1, 164, .Land_b1_b
-.Land_b1_b:
-        .word   168, 168, .Land_b1_b1
-.Land_b1_b1:
-        .word   12, 12, .Land_b1_b2
-.Land_b1_b2:
-        .word   32, 12, .Land_b1_b3
-.Land_b1_b3:
-        .word   12, 168, .Land_b1_b4
-.Land_b1_b4:
-        .word   .Land_b1_pow, 168, .Land_b1_b5
-.Land_b1_b5:
-        .word   172, 172, .Land_b1_b6
-.Land_b1_b6:
-        .word   168, 172, .Land_b1_b_set
+        .word   168, 172, .Land_b1_r3set
+        .word   12, 12, .Land_b1_r4only
+.Land_b1_r3set:
+        .word   .Land_b1_pow, 28, .Land_b1_r3done
+.Land_b1_r3done:
+        .word   168, 168, .Land_b1_r4a1
+.Land_b1_r4a1:
+        .word   12, 12, .Land_b1_r4a2
+.Land_b1_r4a2:
+        .word   32, 12, .Land_b1_r4a3
+.Land_b1_r4a3:
+        .word   12, 168, .Land_b1_r4a4
+.Land_b1_r4a4:
+        .word   .Land_b1_pow, 168, .Land_b1_r4a5
+.Land_b1_r4a5:
+        .word   172, 172, .Land_b1_r4a6
+.Land_b1_r4a6:
+        .word   168, 172, .Land_b1_both
         .word   12, 12, .Land_b0_a
-.Land_b1_b_set:
-        .word   .Land_b1_pow, 32, .Land_b1_chk
-.Land_b1_chk:
-        .word   172, 172, .Land_b1_chk1
-.Land_b1_chk1:
-        .word   172, 164, .Land_b0_a
-        .word   .Land_b1_npow, 160, .Land_b0_a
+.Land_b1_both:
+        .word   .Land_b1_pow, 32, .Land_b1_add1
+.Land_b1_add1:
+        .word   .Land_b1_npow, 160, .Land_b1_add2
+.Land_b1_add2:
+        .word   12, 12, .Land_b0_a
+.Land_b1_r4only:
+        .word   168, 168, .Land_b1_r4o1
+.Land_b1_r4o1:
+        .word   12, 12, .Land_b1_r4o2
+.Land_b1_r4o2:
+        .word   32, 12, .Land_b1_r4o3
+.Land_b1_r4o3:
+        .word   12, 168, .Land_b1_r4o4
+.Land_b1_r4o4:
+        .word   .Land_b1_pow, 168, .Land_b1_r4o5
+.Land_b1_r4o5:
+        .word   172, 172, .Land_b1_r4o6
+.Land_b1_r4o6:
+        .word   168, 172, .Land_b1_r4oclr
+        .word   12, 12, .Land_b0_a
+.Land_b1_r4oclr:
+        .word   .Land_b1_pow, 32, .Land_b0_a
 .Land_b0_a:
-        .word   164, 164, .Land_b0_a0
-.Land_b0_a0:
         .word   168, 168, .Land_b0_a1
 .Land_b0_a1:
         .word   12, 12, .Land_b0_a2
@@ -56764,34 +55385,48 @@ __subleq_and:
 .Land_b0_a5:
         .word   172, 172, .Land_b0_a6
 .Land_b0_a6:
-        .word   168, 172, .Land_b0_a_set
-        .word   12, 12, .Land_b0_b
-.Land_b0_a_set:
-        .word   .Land_b0_pow, 28, .Land_b0_a_flag
-.Land_b0_a_flag:
-        .word   .Land_m1, 164, .Land_b0_b
-.Land_b0_b:
-        .word   168, 168, .Land_b0_b1
-.Land_b0_b1:
-        .word   12, 12, .Land_b0_b2
-.Land_b0_b2:
-        .word   32, 12, .Land_b0_b3
-.Land_b0_b3:
-        .word   12, 168, .Land_b0_b4
-.Land_b0_b4:
-        .word   .Land_b0_pow, 168, .Land_b0_b5
-.Land_b0_b5:
-        .word   172, 172, .Land_b0_b6
-.Land_b0_b6:
-        .word   168, 172, .Land_b0_b_set
+        .word   168, 172, .Land_b0_r3set
+        .word   12, 12, .Land_b0_r4only
+.Land_b0_r3set:
+        .word   .Land_b0_pow, 28, .Land_b0_r3done
+.Land_b0_r3done:
+        .word   168, 168, .Land_b0_r4a1
+.Land_b0_r4a1:
+        .word   12, 12, .Land_b0_r4a2
+.Land_b0_r4a2:
+        .word   32, 12, .Land_b0_r4a3
+.Land_b0_r4a3:
+        .word   12, 168, .Land_b0_r4a4
+.Land_b0_r4a4:
+        .word   .Land_b0_pow, 168, .Land_b0_r4a5
+.Land_b0_r4a5:
+        .word   172, 172, .Land_b0_r4a6
+.Land_b0_r4a6:
+        .word   168, 172, .Land_b0_both
         .word   12, 12, .Land_done
-.Land_b0_b_set:
-        .word   .Land_b0_pow, 32, .Land_b0_chk
-.Land_b0_chk:
-        .word   172, 172, .Land_b0_chk1
-.Land_b0_chk1:
-        .word   172, 164, .Land_done
-        .word   .Land_b0_npow, 160, .Land_done
+.Land_b0_both:
+        .word   .Land_b0_pow, 32, .Land_b0_add1
+.Land_b0_add1:
+        .word   .Land_b0_npow, 160, .Land_b0_add2
+.Land_b0_add2:
+        .word   12, 12, .Land_done
+.Land_b0_r4only:
+        .word   168, 168, .Land_b0_r4o1
+.Land_b0_r4o1:
+        .word   12, 12, .Land_b0_r4o2
+.Land_b0_r4o2:
+        .word   32, 12, .Land_b0_r4o3
+.Land_b0_r4o3:
+        .word   12, 168, .Land_b0_r4o4
+.Land_b0_r4o4:
+        .word   .Land_b0_pow, 168, .Land_b0_r4o5
+.Land_b0_r4o5:
+        .word   172, 172, .Land_b0_r4o6
+.Land_b0_r4o6:
+        .word   168, 172, .Land_b0_r4oclr
+        .word   12, 12, .Land_done
+.Land_b0_r4oclr:
+        .word   .Land_b0_pow, 32, .Land_done
 .Land_done:
         .word   28, 28, .Land_ret1
 .Land_ret1:
@@ -57125,8 +55760,6 @@ __subleq_or:
         .word   12, 12, .Lor_loop_init
 .Lor_loop_init:
 .Lor_b30_a:
-        .word   164, 164, .Lor_b30_a0
-.Lor_b30_a0:
         .word   168, 168, .Lor_b30_a1
 .Lor_b30_a1:
         .word   12, 12, .Lor_b30_a2
@@ -57139,39 +55772,51 @@ __subleq_or:
 .Lor_b30_a5:
         .word   172, 172, .Lor_b30_a6
 .Lor_b30_a6:
-        .word   168, 172, .Lor_b30_a_set
-        .word   12, 12, .Lor_b30_b
-.Lor_b30_a_set:
-        .word   .Lor_b30_pow, 28, .Lor_b30_a_flag
-.Lor_b30_a_flag:
-        .word   .Lor_m1, 164, .Lor_b30_b
-.Lor_b30_b:
-        .word   168, 168, .Lor_b30_b1
-.Lor_b30_b1:
-        .word   12, 12, .Lor_b30_b2
-.Lor_b30_b2:
-        .word   32, 12, .Lor_b30_b3
-.Lor_b30_b3:
-        .word   12, 168, .Lor_b30_b4
-.Lor_b30_b4:
-        .word   .Lor_b30_pow, 168, .Lor_b30_b5
-.Lor_b30_b5:
-        .word   172, 172, .Lor_b30_b6
-.Lor_b30_b6:
-        .word   168, 172, .Lor_b30_b_set
-        .word   12, 12, .Lor_b30_chk
-.Lor_b30_b_set:
-        .word   .Lor_b30_pow, 32, .Lor_b30_b_flag
-.Lor_b30_b_flag:
-        .word   .Lor_m1, 164, .Lor_b30_chk
-.Lor_b30_chk:
-        .word   172, 172, .Lor_b30_chk1
-.Lor_b30_chk1:
-        .word   172, 164, .Lor_b29_a
-        .word   .Lor_b30_npow, 160, .Lor_b29_a
+        .word   168, 172, .Lor_b30_r3set
+        .word   12, 12, .Lor_b30_r4only
+.Lor_b30_r3set:
+        .word   .Lor_b30_pow, 28, .Lor_b30_add1
+.Lor_b30_add1:
+        .word   .Lor_b30_npow, 160, .Lor_b30_clr4
+.Lor_b30_clr4:
+        .word   168, 168, .Lor_b30_c1
+.Lor_b30_c1:
+        .word   12, 12, .Lor_b30_c2
+.Lor_b30_c2:
+        .word   32, 12, .Lor_b30_c3
+.Lor_b30_c3:
+        .word   12, 168, .Lor_b30_c4
+.Lor_b30_c4:
+        .word   .Lor_b30_pow, 168, .Lor_b30_c5
+.Lor_b30_c5:
+        .word   172, 172, .Lor_b30_c6
+.Lor_b30_c6:
+        .word   168, 172, .Lor_b30_c_clr
+        .word   12, 12, .Lor_b29_a
+.Lor_b30_c_clr:
+        .word   .Lor_b30_pow, 32, .Lor_b29_a
+.Lor_b30_r4only:
+        .word   168, 168, .Lor_b30_r4o1
+.Lor_b30_r4o1:
+        .word   12, 12, .Lor_b30_r4o2
+.Lor_b30_r4o2:
+        .word   32, 12, .Lor_b30_r4o3
+.Lor_b30_r4o3:
+        .word   12, 168, .Lor_b30_r4o4
+.Lor_b30_r4o4:
+        .word   .Lor_b30_pow, 168, .Lor_b30_r4o5
+.Lor_b30_r4o5:
+        .word   172, 172, .Lor_b30_r4o6
+.Lor_b30_r4o6:
+        .word   168, 172, .Lor_b30_r4set
+        .word   12, 12, .Lor_b29_a
+.Lor_b30_r4set:
+        .word   .Lor_b30_pow, 32, .Lor_b30_r4add1
+.Lor_b30_r4add1:
+        .word   .Lor_b30_npow, 160, .Lor_b30_r4add2
+.Lor_b30_r4add2:
+        .word   12, 12, .Lor_b29_a
 .Lor_b29_a:
-        .word   164, 164, .Lor_b29_a0
-.Lor_b29_a0:
         .word   168, 168, .Lor_b29_a1
 .Lor_b29_a1:
         .word   12, 12, .Lor_b29_a2
@@ -57184,39 +55829,51 @@ __subleq_or:
 .Lor_b29_a5:
         .word   172, 172, .Lor_b29_a6
 .Lor_b29_a6:
-        .word   168, 172, .Lor_b29_a_set
-        .word   12, 12, .Lor_b29_b
-.Lor_b29_a_set:
-        .word   .Lor_b29_pow, 28, .Lor_b29_a_flag
-.Lor_b29_a_flag:
-        .word   .Lor_m1, 164, .Lor_b29_b
-.Lor_b29_b:
-        .word   168, 168, .Lor_b29_b1
-.Lor_b29_b1:
-        .word   12, 12, .Lor_b29_b2
-.Lor_b29_b2:
-        .word   32, 12, .Lor_b29_b3
-.Lor_b29_b3:
-        .word   12, 168, .Lor_b29_b4
-.Lor_b29_b4:
-        .word   .Lor_b29_pow, 168, .Lor_b29_b5
-.Lor_b29_b5:
-        .word   172, 172, .Lor_b29_b6
-.Lor_b29_b6:
-        .word   168, 172, .Lor_b29_b_set
-        .word   12, 12, .Lor_b29_chk
-.Lor_b29_b_set:
-        .word   .Lor_b29_pow, 32, .Lor_b29_b_flag
-.Lor_b29_b_flag:
-        .word   .Lor_m1, 164, .Lor_b29_chk
-.Lor_b29_chk:
-        .word   172, 172, .Lor_b29_chk1
-.Lor_b29_chk1:
-        .word   172, 164, .Lor_b28_a
-        .word   .Lor_b29_npow, 160, .Lor_b28_a
+        .word   168, 172, .Lor_b29_r3set
+        .word   12, 12, .Lor_b29_r4only
+.Lor_b29_r3set:
+        .word   .Lor_b29_pow, 28, .Lor_b29_add1
+.Lor_b29_add1:
+        .word   .Lor_b29_npow, 160, .Lor_b29_clr4
+.Lor_b29_clr4:
+        .word   168, 168, .Lor_b29_c1
+.Lor_b29_c1:
+        .word   12, 12, .Lor_b29_c2
+.Lor_b29_c2:
+        .word   32, 12, .Lor_b29_c3
+.Lor_b29_c3:
+        .word   12, 168, .Lor_b29_c4
+.Lor_b29_c4:
+        .word   .Lor_b29_pow, 168, .Lor_b29_c5
+.Lor_b29_c5:
+        .word   172, 172, .Lor_b29_c6
+.Lor_b29_c6:
+        .word   168, 172, .Lor_b29_c_clr
+        .word   12, 12, .Lor_b28_a
+.Lor_b29_c_clr:
+        .word   .Lor_b29_pow, 32, .Lor_b28_a
+.Lor_b29_r4only:
+        .word   168, 168, .Lor_b29_r4o1
+.Lor_b29_r4o1:
+        .word   12, 12, .Lor_b29_r4o2
+.Lor_b29_r4o2:
+        .word   32, 12, .Lor_b29_r4o3
+.Lor_b29_r4o3:
+        .word   12, 168, .Lor_b29_r4o4
+.Lor_b29_r4o4:
+        .word   .Lor_b29_pow, 168, .Lor_b29_r4o5
+.Lor_b29_r4o5:
+        .word   172, 172, .Lor_b29_r4o6
+.Lor_b29_r4o6:
+        .word   168, 172, .Lor_b29_r4set
+        .word   12, 12, .Lor_b28_a
+.Lor_b29_r4set:
+        .word   .Lor_b29_pow, 32, .Lor_b29_r4add1
+.Lor_b29_r4add1:
+        .word   .Lor_b29_npow, 160, .Lor_b29_r4add2
+.Lor_b29_r4add2:
+        .word   12, 12, .Lor_b28_a
 .Lor_b28_a:
-        .word   164, 164, .Lor_b28_a0
-.Lor_b28_a0:
         .word   168, 168, .Lor_b28_a1
 .Lor_b28_a1:
         .word   12, 12, .Lor_b28_a2
@@ -57229,39 +55886,51 @@ __subleq_or:
 .Lor_b28_a5:
         .word   172, 172, .Lor_b28_a6
 .Lor_b28_a6:
-        .word   168, 172, .Lor_b28_a_set
-        .word   12, 12, .Lor_b28_b
-.Lor_b28_a_set:
-        .word   .Lor_b28_pow, 28, .Lor_b28_a_flag
-.Lor_b28_a_flag:
-        .word   .Lor_m1, 164, .Lor_b28_b
-.Lor_b28_b:
-        .word   168, 168, .Lor_b28_b1
-.Lor_b28_b1:
-        .word   12, 12, .Lor_b28_b2
-.Lor_b28_b2:
-        .word   32, 12, .Lor_b28_b3
-.Lor_b28_b3:
-        .word   12, 168, .Lor_b28_b4
-.Lor_b28_b4:
-        .word   .Lor_b28_pow, 168, .Lor_b28_b5
-.Lor_b28_b5:
-        .word   172, 172, .Lor_b28_b6
-.Lor_b28_b6:
-        .word   168, 172, .Lor_b28_b_set
-        .word   12, 12, .Lor_b28_chk
-.Lor_b28_b_set:
-        .word   .Lor_b28_pow, 32, .Lor_b28_b_flag
-.Lor_b28_b_flag:
-        .word   .Lor_m1, 164, .Lor_b28_chk
-.Lor_b28_chk:
-        .word   172, 172, .Lor_b28_chk1
-.Lor_b28_chk1:
-        .word   172, 164, .Lor_b27_a
-        .word   .Lor_b28_npow, 160, .Lor_b27_a
+        .word   168, 172, .Lor_b28_r3set
+        .word   12, 12, .Lor_b28_r4only
+.Lor_b28_r3set:
+        .word   .Lor_b28_pow, 28, .Lor_b28_add1
+.Lor_b28_add1:
+        .word   .Lor_b28_npow, 160, .Lor_b28_clr4
+.Lor_b28_clr4:
+        .word   168, 168, .Lor_b28_c1
+.Lor_b28_c1:
+        .word   12, 12, .Lor_b28_c2
+.Lor_b28_c2:
+        .word   32, 12, .Lor_b28_c3
+.Lor_b28_c3:
+        .word   12, 168, .Lor_b28_c4
+.Lor_b28_c4:
+        .word   .Lor_b28_pow, 168, .Lor_b28_c5
+.Lor_b28_c5:
+        .word   172, 172, .Lor_b28_c6
+.Lor_b28_c6:
+        .word   168, 172, .Lor_b28_c_clr
+        .word   12, 12, .Lor_b27_a
+.Lor_b28_c_clr:
+        .word   .Lor_b28_pow, 32, .Lor_b27_a
+.Lor_b28_r4only:
+        .word   168, 168, .Lor_b28_r4o1
+.Lor_b28_r4o1:
+        .word   12, 12, .Lor_b28_r4o2
+.Lor_b28_r4o2:
+        .word   32, 12, .Lor_b28_r4o3
+.Lor_b28_r4o3:
+        .word   12, 168, .Lor_b28_r4o4
+.Lor_b28_r4o4:
+        .word   .Lor_b28_pow, 168, .Lor_b28_r4o5
+.Lor_b28_r4o5:
+        .word   172, 172, .Lor_b28_r4o6
+.Lor_b28_r4o6:
+        .word   168, 172, .Lor_b28_r4set
+        .word   12, 12, .Lor_b27_a
+.Lor_b28_r4set:
+        .word   .Lor_b28_pow, 32, .Lor_b28_r4add1
+.Lor_b28_r4add1:
+        .word   .Lor_b28_npow, 160, .Lor_b28_r4add2
+.Lor_b28_r4add2:
+        .word   12, 12, .Lor_b27_a
 .Lor_b27_a:
-        .word   164, 164, .Lor_b27_a0
-.Lor_b27_a0:
         .word   168, 168, .Lor_b27_a1
 .Lor_b27_a1:
         .word   12, 12, .Lor_b27_a2
@@ -57274,39 +55943,51 @@ __subleq_or:
 .Lor_b27_a5:
         .word   172, 172, .Lor_b27_a6
 .Lor_b27_a6:
-        .word   168, 172, .Lor_b27_a_set
-        .word   12, 12, .Lor_b27_b
-.Lor_b27_a_set:
-        .word   .Lor_b27_pow, 28, .Lor_b27_a_flag
-.Lor_b27_a_flag:
-        .word   .Lor_m1, 164, .Lor_b27_b
-.Lor_b27_b:
-        .word   168, 168, .Lor_b27_b1
-.Lor_b27_b1:
-        .word   12, 12, .Lor_b27_b2
-.Lor_b27_b2:
-        .word   32, 12, .Lor_b27_b3
-.Lor_b27_b3:
-        .word   12, 168, .Lor_b27_b4
-.Lor_b27_b4:
-        .word   .Lor_b27_pow, 168, .Lor_b27_b5
-.Lor_b27_b5:
-        .word   172, 172, .Lor_b27_b6
-.Lor_b27_b6:
-        .word   168, 172, .Lor_b27_b_set
-        .word   12, 12, .Lor_b27_chk
-.Lor_b27_b_set:
-        .word   .Lor_b27_pow, 32, .Lor_b27_b_flag
-.Lor_b27_b_flag:
-        .word   .Lor_m1, 164, .Lor_b27_chk
-.Lor_b27_chk:
-        .word   172, 172, .Lor_b27_chk1
-.Lor_b27_chk1:
-        .word   172, 164, .Lor_b26_a
-        .word   .Lor_b27_npow, 160, .Lor_b26_a
+        .word   168, 172, .Lor_b27_r3set
+        .word   12, 12, .Lor_b27_r4only
+.Lor_b27_r3set:
+        .word   .Lor_b27_pow, 28, .Lor_b27_add1
+.Lor_b27_add1:
+        .word   .Lor_b27_npow, 160, .Lor_b27_clr4
+.Lor_b27_clr4:
+        .word   168, 168, .Lor_b27_c1
+.Lor_b27_c1:
+        .word   12, 12, .Lor_b27_c2
+.Lor_b27_c2:
+        .word   32, 12, .Lor_b27_c3
+.Lor_b27_c3:
+        .word   12, 168, .Lor_b27_c4
+.Lor_b27_c4:
+        .word   .Lor_b27_pow, 168, .Lor_b27_c5
+.Lor_b27_c5:
+        .word   172, 172, .Lor_b27_c6
+.Lor_b27_c6:
+        .word   168, 172, .Lor_b27_c_clr
+        .word   12, 12, .Lor_b26_a
+.Lor_b27_c_clr:
+        .word   .Lor_b27_pow, 32, .Lor_b26_a
+.Lor_b27_r4only:
+        .word   168, 168, .Lor_b27_r4o1
+.Lor_b27_r4o1:
+        .word   12, 12, .Lor_b27_r4o2
+.Lor_b27_r4o2:
+        .word   32, 12, .Lor_b27_r4o3
+.Lor_b27_r4o3:
+        .word   12, 168, .Lor_b27_r4o4
+.Lor_b27_r4o4:
+        .word   .Lor_b27_pow, 168, .Lor_b27_r4o5
+.Lor_b27_r4o5:
+        .word   172, 172, .Lor_b27_r4o6
+.Lor_b27_r4o6:
+        .word   168, 172, .Lor_b27_r4set
+        .word   12, 12, .Lor_b26_a
+.Lor_b27_r4set:
+        .word   .Lor_b27_pow, 32, .Lor_b27_r4add1
+.Lor_b27_r4add1:
+        .word   .Lor_b27_npow, 160, .Lor_b27_r4add2
+.Lor_b27_r4add2:
+        .word   12, 12, .Lor_b26_a
 .Lor_b26_a:
-        .word   164, 164, .Lor_b26_a0
-.Lor_b26_a0:
         .word   168, 168, .Lor_b26_a1
 .Lor_b26_a1:
         .word   12, 12, .Lor_b26_a2
@@ -57319,39 +56000,51 @@ __subleq_or:
 .Lor_b26_a5:
         .word   172, 172, .Lor_b26_a6
 .Lor_b26_a6:
-        .word   168, 172, .Lor_b26_a_set
-        .word   12, 12, .Lor_b26_b
-.Lor_b26_a_set:
-        .word   .Lor_b26_pow, 28, .Lor_b26_a_flag
-.Lor_b26_a_flag:
-        .word   .Lor_m1, 164, .Lor_b26_b
-.Lor_b26_b:
-        .word   168, 168, .Lor_b26_b1
-.Lor_b26_b1:
-        .word   12, 12, .Lor_b26_b2
-.Lor_b26_b2:
-        .word   32, 12, .Lor_b26_b3
-.Lor_b26_b3:
-        .word   12, 168, .Lor_b26_b4
-.Lor_b26_b4:
-        .word   .Lor_b26_pow, 168, .Lor_b26_b5
-.Lor_b26_b5:
-        .word   172, 172, .Lor_b26_b6
-.Lor_b26_b6:
-        .word   168, 172, .Lor_b26_b_set
-        .word   12, 12, .Lor_b26_chk
-.Lor_b26_b_set:
-        .word   .Lor_b26_pow, 32, .Lor_b26_b_flag
-.Lor_b26_b_flag:
-        .word   .Lor_m1, 164, .Lor_b26_chk
-.Lor_b26_chk:
-        .word   172, 172, .Lor_b26_chk1
-.Lor_b26_chk1:
-        .word   172, 164, .Lor_b25_a
-        .word   .Lor_b26_npow, 160, .Lor_b25_a
+        .word   168, 172, .Lor_b26_r3set
+        .word   12, 12, .Lor_b26_r4only
+.Lor_b26_r3set:
+        .word   .Lor_b26_pow, 28, .Lor_b26_add1
+.Lor_b26_add1:
+        .word   .Lor_b26_npow, 160, .Lor_b26_clr4
+.Lor_b26_clr4:
+        .word   168, 168, .Lor_b26_c1
+.Lor_b26_c1:
+        .word   12, 12, .Lor_b26_c2
+.Lor_b26_c2:
+        .word   32, 12, .Lor_b26_c3
+.Lor_b26_c3:
+        .word   12, 168, .Lor_b26_c4
+.Lor_b26_c4:
+        .word   .Lor_b26_pow, 168, .Lor_b26_c5
+.Lor_b26_c5:
+        .word   172, 172, .Lor_b26_c6
+.Lor_b26_c6:
+        .word   168, 172, .Lor_b26_c_clr
+        .word   12, 12, .Lor_b25_a
+.Lor_b26_c_clr:
+        .word   .Lor_b26_pow, 32, .Lor_b25_a
+.Lor_b26_r4only:
+        .word   168, 168, .Lor_b26_r4o1
+.Lor_b26_r4o1:
+        .word   12, 12, .Lor_b26_r4o2
+.Lor_b26_r4o2:
+        .word   32, 12, .Lor_b26_r4o3
+.Lor_b26_r4o3:
+        .word   12, 168, .Lor_b26_r4o4
+.Lor_b26_r4o4:
+        .word   .Lor_b26_pow, 168, .Lor_b26_r4o5
+.Lor_b26_r4o5:
+        .word   172, 172, .Lor_b26_r4o6
+.Lor_b26_r4o6:
+        .word   168, 172, .Lor_b26_r4set
+        .word   12, 12, .Lor_b25_a
+.Lor_b26_r4set:
+        .word   .Lor_b26_pow, 32, .Lor_b26_r4add1
+.Lor_b26_r4add1:
+        .word   .Lor_b26_npow, 160, .Lor_b26_r4add2
+.Lor_b26_r4add2:
+        .word   12, 12, .Lor_b25_a
 .Lor_b25_a:
-        .word   164, 164, .Lor_b25_a0
-.Lor_b25_a0:
         .word   168, 168, .Lor_b25_a1
 .Lor_b25_a1:
         .word   12, 12, .Lor_b25_a2
@@ -57364,39 +56057,51 @@ __subleq_or:
 .Lor_b25_a5:
         .word   172, 172, .Lor_b25_a6
 .Lor_b25_a6:
-        .word   168, 172, .Lor_b25_a_set
-        .word   12, 12, .Lor_b25_b
-.Lor_b25_a_set:
-        .word   .Lor_b25_pow, 28, .Lor_b25_a_flag
-.Lor_b25_a_flag:
-        .word   .Lor_m1, 164, .Lor_b25_b
-.Lor_b25_b:
-        .word   168, 168, .Lor_b25_b1
-.Lor_b25_b1:
-        .word   12, 12, .Lor_b25_b2
-.Lor_b25_b2:
-        .word   32, 12, .Lor_b25_b3
-.Lor_b25_b3:
-        .word   12, 168, .Lor_b25_b4
-.Lor_b25_b4:
-        .word   .Lor_b25_pow, 168, .Lor_b25_b5
-.Lor_b25_b5:
-        .word   172, 172, .Lor_b25_b6
-.Lor_b25_b6:
-        .word   168, 172, .Lor_b25_b_set
-        .word   12, 12, .Lor_b25_chk
-.Lor_b25_b_set:
-        .word   .Lor_b25_pow, 32, .Lor_b25_b_flag
-.Lor_b25_b_flag:
-        .word   .Lor_m1, 164, .Lor_b25_chk
-.Lor_b25_chk:
-        .word   172, 172, .Lor_b25_chk1
-.Lor_b25_chk1:
-        .word   172, 164, .Lor_b24_a
-        .word   .Lor_b25_npow, 160, .Lor_b24_a
+        .word   168, 172, .Lor_b25_r3set
+        .word   12, 12, .Lor_b25_r4only
+.Lor_b25_r3set:
+        .word   .Lor_b25_pow, 28, .Lor_b25_add1
+.Lor_b25_add1:
+        .word   .Lor_b25_npow, 160, .Lor_b25_clr4
+.Lor_b25_clr4:
+        .word   168, 168, .Lor_b25_c1
+.Lor_b25_c1:
+        .word   12, 12, .Lor_b25_c2
+.Lor_b25_c2:
+        .word   32, 12, .Lor_b25_c3
+.Lor_b25_c3:
+        .word   12, 168, .Lor_b25_c4
+.Lor_b25_c4:
+        .word   .Lor_b25_pow, 168, .Lor_b25_c5
+.Lor_b25_c5:
+        .word   172, 172, .Lor_b25_c6
+.Lor_b25_c6:
+        .word   168, 172, .Lor_b25_c_clr
+        .word   12, 12, .Lor_b24_a
+.Lor_b25_c_clr:
+        .word   .Lor_b25_pow, 32, .Lor_b24_a
+.Lor_b25_r4only:
+        .word   168, 168, .Lor_b25_r4o1
+.Lor_b25_r4o1:
+        .word   12, 12, .Lor_b25_r4o2
+.Lor_b25_r4o2:
+        .word   32, 12, .Lor_b25_r4o3
+.Lor_b25_r4o3:
+        .word   12, 168, .Lor_b25_r4o4
+.Lor_b25_r4o4:
+        .word   .Lor_b25_pow, 168, .Lor_b25_r4o5
+.Lor_b25_r4o5:
+        .word   172, 172, .Lor_b25_r4o6
+.Lor_b25_r4o6:
+        .word   168, 172, .Lor_b25_r4set
+        .word   12, 12, .Lor_b24_a
+.Lor_b25_r4set:
+        .word   .Lor_b25_pow, 32, .Lor_b25_r4add1
+.Lor_b25_r4add1:
+        .word   .Lor_b25_npow, 160, .Lor_b25_r4add2
+.Lor_b25_r4add2:
+        .word   12, 12, .Lor_b24_a
 .Lor_b24_a:
-        .word   164, 164, .Lor_b24_a0
-.Lor_b24_a0:
         .word   168, 168, .Lor_b24_a1
 .Lor_b24_a1:
         .word   12, 12, .Lor_b24_a2
@@ -57409,39 +56114,51 @@ __subleq_or:
 .Lor_b24_a5:
         .word   172, 172, .Lor_b24_a6
 .Lor_b24_a6:
-        .word   168, 172, .Lor_b24_a_set
-        .word   12, 12, .Lor_b24_b
-.Lor_b24_a_set:
-        .word   .Lor_b24_pow, 28, .Lor_b24_a_flag
-.Lor_b24_a_flag:
-        .word   .Lor_m1, 164, .Lor_b24_b
-.Lor_b24_b:
-        .word   168, 168, .Lor_b24_b1
-.Lor_b24_b1:
-        .word   12, 12, .Lor_b24_b2
-.Lor_b24_b2:
-        .word   32, 12, .Lor_b24_b3
-.Lor_b24_b3:
-        .word   12, 168, .Lor_b24_b4
-.Lor_b24_b4:
-        .word   .Lor_b24_pow, 168, .Lor_b24_b5
-.Lor_b24_b5:
-        .word   172, 172, .Lor_b24_b6
-.Lor_b24_b6:
-        .word   168, 172, .Lor_b24_b_set
-        .word   12, 12, .Lor_b24_chk
-.Lor_b24_b_set:
-        .word   .Lor_b24_pow, 32, .Lor_b24_b_flag
-.Lor_b24_b_flag:
-        .word   .Lor_m1, 164, .Lor_b24_chk
-.Lor_b24_chk:
-        .word   172, 172, .Lor_b24_chk1
-.Lor_b24_chk1:
-        .word   172, 164, .Lor_b23_a
-        .word   .Lor_b24_npow, 160, .Lor_b23_a
+        .word   168, 172, .Lor_b24_r3set
+        .word   12, 12, .Lor_b24_r4only
+.Lor_b24_r3set:
+        .word   .Lor_b24_pow, 28, .Lor_b24_add1
+.Lor_b24_add1:
+        .word   .Lor_b24_npow, 160, .Lor_b24_clr4
+.Lor_b24_clr4:
+        .word   168, 168, .Lor_b24_c1
+.Lor_b24_c1:
+        .word   12, 12, .Lor_b24_c2
+.Lor_b24_c2:
+        .word   32, 12, .Lor_b24_c3
+.Lor_b24_c3:
+        .word   12, 168, .Lor_b24_c4
+.Lor_b24_c4:
+        .word   .Lor_b24_pow, 168, .Lor_b24_c5
+.Lor_b24_c5:
+        .word   172, 172, .Lor_b24_c6
+.Lor_b24_c6:
+        .word   168, 172, .Lor_b24_c_clr
+        .word   12, 12, .Lor_b23_a
+.Lor_b24_c_clr:
+        .word   .Lor_b24_pow, 32, .Lor_b23_a
+.Lor_b24_r4only:
+        .word   168, 168, .Lor_b24_r4o1
+.Lor_b24_r4o1:
+        .word   12, 12, .Lor_b24_r4o2
+.Lor_b24_r4o2:
+        .word   32, 12, .Lor_b24_r4o3
+.Lor_b24_r4o3:
+        .word   12, 168, .Lor_b24_r4o4
+.Lor_b24_r4o4:
+        .word   .Lor_b24_pow, 168, .Lor_b24_r4o5
+.Lor_b24_r4o5:
+        .word   172, 172, .Lor_b24_r4o6
+.Lor_b24_r4o6:
+        .word   168, 172, .Lor_b24_r4set
+        .word   12, 12, .Lor_b23_a
+.Lor_b24_r4set:
+        .word   .Lor_b24_pow, 32, .Lor_b24_r4add1
+.Lor_b24_r4add1:
+        .word   .Lor_b24_npow, 160, .Lor_b24_r4add2
+.Lor_b24_r4add2:
+        .word   12, 12, .Lor_b23_a
 .Lor_b23_a:
-        .word   164, 164, .Lor_b23_a0
-.Lor_b23_a0:
         .word   168, 168, .Lor_b23_a1
 .Lor_b23_a1:
         .word   12, 12, .Lor_b23_a2
@@ -57454,39 +56171,51 @@ __subleq_or:
 .Lor_b23_a5:
         .word   172, 172, .Lor_b23_a6
 .Lor_b23_a6:
-        .word   168, 172, .Lor_b23_a_set
-        .word   12, 12, .Lor_b23_b
-.Lor_b23_a_set:
-        .word   .Lor_b23_pow, 28, .Lor_b23_a_flag
-.Lor_b23_a_flag:
-        .word   .Lor_m1, 164, .Lor_b23_b
-.Lor_b23_b:
-        .word   168, 168, .Lor_b23_b1
-.Lor_b23_b1:
-        .word   12, 12, .Lor_b23_b2
-.Lor_b23_b2:
-        .word   32, 12, .Lor_b23_b3
-.Lor_b23_b3:
-        .word   12, 168, .Lor_b23_b4
-.Lor_b23_b4:
-        .word   .Lor_b23_pow, 168, .Lor_b23_b5
-.Lor_b23_b5:
-        .word   172, 172, .Lor_b23_b6
-.Lor_b23_b6:
-        .word   168, 172, .Lor_b23_b_set
-        .word   12, 12, .Lor_b23_chk
-.Lor_b23_b_set:
-        .word   .Lor_b23_pow, 32, .Lor_b23_b_flag
-.Lor_b23_b_flag:
-        .word   .Lor_m1, 164, .Lor_b23_chk
-.Lor_b23_chk:
-        .word   172, 172, .Lor_b23_chk1
-.Lor_b23_chk1:
-        .word   172, 164, .Lor_b22_a
-        .word   .Lor_b23_npow, 160, .Lor_b22_a
+        .word   168, 172, .Lor_b23_r3set
+        .word   12, 12, .Lor_b23_r4only
+.Lor_b23_r3set:
+        .word   .Lor_b23_pow, 28, .Lor_b23_add1
+.Lor_b23_add1:
+        .word   .Lor_b23_npow, 160, .Lor_b23_clr4
+.Lor_b23_clr4:
+        .word   168, 168, .Lor_b23_c1
+.Lor_b23_c1:
+        .word   12, 12, .Lor_b23_c2
+.Lor_b23_c2:
+        .word   32, 12, .Lor_b23_c3
+.Lor_b23_c3:
+        .word   12, 168, .Lor_b23_c4
+.Lor_b23_c4:
+        .word   .Lor_b23_pow, 168, .Lor_b23_c5
+.Lor_b23_c5:
+        .word   172, 172, .Lor_b23_c6
+.Lor_b23_c6:
+        .word   168, 172, .Lor_b23_c_clr
+        .word   12, 12, .Lor_b22_a
+.Lor_b23_c_clr:
+        .word   .Lor_b23_pow, 32, .Lor_b22_a
+.Lor_b23_r4only:
+        .word   168, 168, .Lor_b23_r4o1
+.Lor_b23_r4o1:
+        .word   12, 12, .Lor_b23_r4o2
+.Lor_b23_r4o2:
+        .word   32, 12, .Lor_b23_r4o3
+.Lor_b23_r4o3:
+        .word   12, 168, .Lor_b23_r4o4
+.Lor_b23_r4o4:
+        .word   .Lor_b23_pow, 168, .Lor_b23_r4o5
+.Lor_b23_r4o5:
+        .word   172, 172, .Lor_b23_r4o6
+.Lor_b23_r4o6:
+        .word   168, 172, .Lor_b23_r4set
+        .word   12, 12, .Lor_b22_a
+.Lor_b23_r4set:
+        .word   .Lor_b23_pow, 32, .Lor_b23_r4add1
+.Lor_b23_r4add1:
+        .word   .Lor_b23_npow, 160, .Lor_b23_r4add2
+.Lor_b23_r4add2:
+        .word   12, 12, .Lor_b22_a
 .Lor_b22_a:
-        .word   164, 164, .Lor_b22_a0
-.Lor_b22_a0:
         .word   168, 168, .Lor_b22_a1
 .Lor_b22_a1:
         .word   12, 12, .Lor_b22_a2
@@ -57499,39 +56228,51 @@ __subleq_or:
 .Lor_b22_a5:
         .word   172, 172, .Lor_b22_a6
 .Lor_b22_a6:
-        .word   168, 172, .Lor_b22_a_set
-        .word   12, 12, .Lor_b22_b
-.Lor_b22_a_set:
-        .word   .Lor_b22_pow, 28, .Lor_b22_a_flag
-.Lor_b22_a_flag:
-        .word   .Lor_m1, 164, .Lor_b22_b
-.Lor_b22_b:
-        .word   168, 168, .Lor_b22_b1
-.Lor_b22_b1:
-        .word   12, 12, .Lor_b22_b2
-.Lor_b22_b2:
-        .word   32, 12, .Lor_b22_b3
-.Lor_b22_b3:
-        .word   12, 168, .Lor_b22_b4
-.Lor_b22_b4:
-        .word   .Lor_b22_pow, 168, .Lor_b22_b5
-.Lor_b22_b5:
-        .word   172, 172, .Lor_b22_b6
-.Lor_b22_b6:
-        .word   168, 172, .Lor_b22_b_set
-        .word   12, 12, .Lor_b22_chk
-.Lor_b22_b_set:
-        .word   .Lor_b22_pow, 32, .Lor_b22_b_flag
-.Lor_b22_b_flag:
-        .word   .Lor_m1, 164, .Lor_b22_chk
-.Lor_b22_chk:
-        .word   172, 172, .Lor_b22_chk1
-.Lor_b22_chk1:
-        .word   172, 164, .Lor_b21_a
-        .word   .Lor_b22_npow, 160, .Lor_b21_a
+        .word   168, 172, .Lor_b22_r3set
+        .word   12, 12, .Lor_b22_r4only
+.Lor_b22_r3set:
+        .word   .Lor_b22_pow, 28, .Lor_b22_add1
+.Lor_b22_add1:
+        .word   .Lor_b22_npow, 160, .Lor_b22_clr4
+.Lor_b22_clr4:
+        .word   168, 168, .Lor_b22_c1
+.Lor_b22_c1:
+        .word   12, 12, .Lor_b22_c2
+.Lor_b22_c2:
+        .word   32, 12, .Lor_b22_c3
+.Lor_b22_c3:
+        .word   12, 168, .Lor_b22_c4
+.Lor_b22_c4:
+        .word   .Lor_b22_pow, 168, .Lor_b22_c5
+.Lor_b22_c5:
+        .word   172, 172, .Lor_b22_c6
+.Lor_b22_c6:
+        .word   168, 172, .Lor_b22_c_clr
+        .word   12, 12, .Lor_b21_a
+.Lor_b22_c_clr:
+        .word   .Lor_b22_pow, 32, .Lor_b21_a
+.Lor_b22_r4only:
+        .word   168, 168, .Lor_b22_r4o1
+.Lor_b22_r4o1:
+        .word   12, 12, .Lor_b22_r4o2
+.Lor_b22_r4o2:
+        .word   32, 12, .Lor_b22_r4o3
+.Lor_b22_r4o3:
+        .word   12, 168, .Lor_b22_r4o4
+.Lor_b22_r4o4:
+        .word   .Lor_b22_pow, 168, .Lor_b22_r4o5
+.Lor_b22_r4o5:
+        .word   172, 172, .Lor_b22_r4o6
+.Lor_b22_r4o6:
+        .word   168, 172, .Lor_b22_r4set
+        .word   12, 12, .Lor_b21_a
+.Lor_b22_r4set:
+        .word   .Lor_b22_pow, 32, .Lor_b22_r4add1
+.Lor_b22_r4add1:
+        .word   .Lor_b22_npow, 160, .Lor_b22_r4add2
+.Lor_b22_r4add2:
+        .word   12, 12, .Lor_b21_a
 .Lor_b21_a:
-        .word   164, 164, .Lor_b21_a0
-.Lor_b21_a0:
         .word   168, 168, .Lor_b21_a1
 .Lor_b21_a1:
         .word   12, 12, .Lor_b21_a2
@@ -57544,39 +56285,51 @@ __subleq_or:
 .Lor_b21_a5:
         .word   172, 172, .Lor_b21_a6
 .Lor_b21_a6:
-        .word   168, 172, .Lor_b21_a_set
-        .word   12, 12, .Lor_b21_b
-.Lor_b21_a_set:
-        .word   .Lor_b21_pow, 28, .Lor_b21_a_flag
-.Lor_b21_a_flag:
-        .word   .Lor_m1, 164, .Lor_b21_b
-.Lor_b21_b:
-        .word   168, 168, .Lor_b21_b1
-.Lor_b21_b1:
-        .word   12, 12, .Lor_b21_b2
-.Lor_b21_b2:
-        .word   32, 12, .Lor_b21_b3
-.Lor_b21_b3:
-        .word   12, 168, .Lor_b21_b4
-.Lor_b21_b4:
-        .word   .Lor_b21_pow, 168, .Lor_b21_b5
-.Lor_b21_b5:
-        .word   172, 172, .Lor_b21_b6
-.Lor_b21_b6:
-        .word   168, 172, .Lor_b21_b_set
-        .word   12, 12, .Lor_b21_chk
-.Lor_b21_b_set:
-        .word   .Lor_b21_pow, 32, .Lor_b21_b_flag
-.Lor_b21_b_flag:
-        .word   .Lor_m1, 164, .Lor_b21_chk
-.Lor_b21_chk:
-        .word   172, 172, .Lor_b21_chk1
-.Lor_b21_chk1:
-        .word   172, 164, .Lor_b20_a
-        .word   .Lor_b21_npow, 160, .Lor_b20_a
+        .word   168, 172, .Lor_b21_r3set
+        .word   12, 12, .Lor_b21_r4only
+.Lor_b21_r3set:
+        .word   .Lor_b21_pow, 28, .Lor_b21_add1
+.Lor_b21_add1:
+        .word   .Lor_b21_npow, 160, .Lor_b21_clr4
+.Lor_b21_clr4:
+        .word   168, 168, .Lor_b21_c1
+.Lor_b21_c1:
+        .word   12, 12, .Lor_b21_c2
+.Lor_b21_c2:
+        .word   32, 12, .Lor_b21_c3
+.Lor_b21_c3:
+        .word   12, 168, .Lor_b21_c4
+.Lor_b21_c4:
+        .word   .Lor_b21_pow, 168, .Lor_b21_c5
+.Lor_b21_c5:
+        .word   172, 172, .Lor_b21_c6
+.Lor_b21_c6:
+        .word   168, 172, .Lor_b21_c_clr
+        .word   12, 12, .Lor_b20_a
+.Lor_b21_c_clr:
+        .word   .Lor_b21_pow, 32, .Lor_b20_a
+.Lor_b21_r4only:
+        .word   168, 168, .Lor_b21_r4o1
+.Lor_b21_r4o1:
+        .word   12, 12, .Lor_b21_r4o2
+.Lor_b21_r4o2:
+        .word   32, 12, .Lor_b21_r4o3
+.Lor_b21_r4o3:
+        .word   12, 168, .Lor_b21_r4o4
+.Lor_b21_r4o4:
+        .word   .Lor_b21_pow, 168, .Lor_b21_r4o5
+.Lor_b21_r4o5:
+        .word   172, 172, .Lor_b21_r4o6
+.Lor_b21_r4o6:
+        .word   168, 172, .Lor_b21_r4set
+        .word   12, 12, .Lor_b20_a
+.Lor_b21_r4set:
+        .word   .Lor_b21_pow, 32, .Lor_b21_r4add1
+.Lor_b21_r4add1:
+        .word   .Lor_b21_npow, 160, .Lor_b21_r4add2
+.Lor_b21_r4add2:
+        .word   12, 12, .Lor_b20_a
 .Lor_b20_a:
-        .word   164, 164, .Lor_b20_a0
-.Lor_b20_a0:
         .word   168, 168, .Lor_b20_a1
 .Lor_b20_a1:
         .word   12, 12, .Lor_b20_a2
@@ -57589,39 +56342,51 @@ __subleq_or:
 .Lor_b20_a5:
         .word   172, 172, .Lor_b20_a6
 .Lor_b20_a6:
-        .word   168, 172, .Lor_b20_a_set
-        .word   12, 12, .Lor_b20_b
-.Lor_b20_a_set:
-        .word   .Lor_b20_pow, 28, .Lor_b20_a_flag
-.Lor_b20_a_flag:
-        .word   .Lor_m1, 164, .Lor_b20_b
-.Lor_b20_b:
-        .word   168, 168, .Lor_b20_b1
-.Lor_b20_b1:
-        .word   12, 12, .Lor_b20_b2
-.Lor_b20_b2:
-        .word   32, 12, .Lor_b20_b3
-.Lor_b20_b3:
-        .word   12, 168, .Lor_b20_b4
-.Lor_b20_b4:
-        .word   .Lor_b20_pow, 168, .Lor_b20_b5
-.Lor_b20_b5:
-        .word   172, 172, .Lor_b20_b6
-.Lor_b20_b6:
-        .word   168, 172, .Lor_b20_b_set
-        .word   12, 12, .Lor_b20_chk
-.Lor_b20_b_set:
-        .word   .Lor_b20_pow, 32, .Lor_b20_b_flag
-.Lor_b20_b_flag:
-        .word   .Lor_m1, 164, .Lor_b20_chk
-.Lor_b20_chk:
-        .word   172, 172, .Lor_b20_chk1
-.Lor_b20_chk1:
-        .word   172, 164, .Lor_b19_a
-        .word   .Lor_b20_npow, 160, .Lor_b19_a
+        .word   168, 172, .Lor_b20_r3set
+        .word   12, 12, .Lor_b20_r4only
+.Lor_b20_r3set:
+        .word   .Lor_b20_pow, 28, .Lor_b20_add1
+.Lor_b20_add1:
+        .word   .Lor_b20_npow, 160, .Lor_b20_clr4
+.Lor_b20_clr4:
+        .word   168, 168, .Lor_b20_c1
+.Lor_b20_c1:
+        .word   12, 12, .Lor_b20_c2
+.Lor_b20_c2:
+        .word   32, 12, .Lor_b20_c3
+.Lor_b20_c3:
+        .word   12, 168, .Lor_b20_c4
+.Lor_b20_c4:
+        .word   .Lor_b20_pow, 168, .Lor_b20_c5
+.Lor_b20_c5:
+        .word   172, 172, .Lor_b20_c6
+.Lor_b20_c6:
+        .word   168, 172, .Lor_b20_c_clr
+        .word   12, 12, .Lor_b19_a
+.Lor_b20_c_clr:
+        .word   .Lor_b20_pow, 32, .Lor_b19_a
+.Lor_b20_r4only:
+        .word   168, 168, .Lor_b20_r4o1
+.Lor_b20_r4o1:
+        .word   12, 12, .Lor_b20_r4o2
+.Lor_b20_r4o2:
+        .word   32, 12, .Lor_b20_r4o3
+.Lor_b20_r4o3:
+        .word   12, 168, .Lor_b20_r4o4
+.Lor_b20_r4o4:
+        .word   .Lor_b20_pow, 168, .Lor_b20_r4o5
+.Lor_b20_r4o5:
+        .word   172, 172, .Lor_b20_r4o6
+.Lor_b20_r4o6:
+        .word   168, 172, .Lor_b20_r4set
+        .word   12, 12, .Lor_b19_a
+.Lor_b20_r4set:
+        .word   .Lor_b20_pow, 32, .Lor_b20_r4add1
+.Lor_b20_r4add1:
+        .word   .Lor_b20_npow, 160, .Lor_b20_r4add2
+.Lor_b20_r4add2:
+        .word   12, 12, .Lor_b19_a
 .Lor_b19_a:
-        .word   164, 164, .Lor_b19_a0
-.Lor_b19_a0:
         .word   168, 168, .Lor_b19_a1
 .Lor_b19_a1:
         .word   12, 12, .Lor_b19_a2
@@ -57634,39 +56399,51 @@ __subleq_or:
 .Lor_b19_a5:
         .word   172, 172, .Lor_b19_a6
 .Lor_b19_a6:
-        .word   168, 172, .Lor_b19_a_set
-        .word   12, 12, .Lor_b19_b
-.Lor_b19_a_set:
-        .word   .Lor_b19_pow, 28, .Lor_b19_a_flag
-.Lor_b19_a_flag:
-        .word   .Lor_m1, 164, .Lor_b19_b
-.Lor_b19_b:
-        .word   168, 168, .Lor_b19_b1
-.Lor_b19_b1:
-        .word   12, 12, .Lor_b19_b2
-.Lor_b19_b2:
-        .word   32, 12, .Lor_b19_b3
-.Lor_b19_b3:
-        .word   12, 168, .Lor_b19_b4
-.Lor_b19_b4:
-        .word   .Lor_b19_pow, 168, .Lor_b19_b5
-.Lor_b19_b5:
-        .word   172, 172, .Lor_b19_b6
-.Lor_b19_b6:
-        .word   168, 172, .Lor_b19_b_set
-        .word   12, 12, .Lor_b19_chk
-.Lor_b19_b_set:
-        .word   .Lor_b19_pow, 32, .Lor_b19_b_flag
-.Lor_b19_b_flag:
-        .word   .Lor_m1, 164, .Lor_b19_chk
-.Lor_b19_chk:
-        .word   172, 172, .Lor_b19_chk1
-.Lor_b19_chk1:
-        .word   172, 164, .Lor_b18_a
-        .word   .Lor_b19_npow, 160, .Lor_b18_a
+        .word   168, 172, .Lor_b19_r3set
+        .word   12, 12, .Lor_b19_r4only
+.Lor_b19_r3set:
+        .word   .Lor_b19_pow, 28, .Lor_b19_add1
+.Lor_b19_add1:
+        .word   .Lor_b19_npow, 160, .Lor_b19_clr4
+.Lor_b19_clr4:
+        .word   168, 168, .Lor_b19_c1
+.Lor_b19_c1:
+        .word   12, 12, .Lor_b19_c2
+.Lor_b19_c2:
+        .word   32, 12, .Lor_b19_c3
+.Lor_b19_c3:
+        .word   12, 168, .Lor_b19_c4
+.Lor_b19_c4:
+        .word   .Lor_b19_pow, 168, .Lor_b19_c5
+.Lor_b19_c5:
+        .word   172, 172, .Lor_b19_c6
+.Lor_b19_c6:
+        .word   168, 172, .Lor_b19_c_clr
+        .word   12, 12, .Lor_b18_a
+.Lor_b19_c_clr:
+        .word   .Lor_b19_pow, 32, .Lor_b18_a
+.Lor_b19_r4only:
+        .word   168, 168, .Lor_b19_r4o1
+.Lor_b19_r4o1:
+        .word   12, 12, .Lor_b19_r4o2
+.Lor_b19_r4o2:
+        .word   32, 12, .Lor_b19_r4o3
+.Lor_b19_r4o3:
+        .word   12, 168, .Lor_b19_r4o4
+.Lor_b19_r4o4:
+        .word   .Lor_b19_pow, 168, .Lor_b19_r4o5
+.Lor_b19_r4o5:
+        .word   172, 172, .Lor_b19_r4o6
+.Lor_b19_r4o6:
+        .word   168, 172, .Lor_b19_r4set
+        .word   12, 12, .Lor_b18_a
+.Lor_b19_r4set:
+        .word   .Lor_b19_pow, 32, .Lor_b19_r4add1
+.Lor_b19_r4add1:
+        .word   .Lor_b19_npow, 160, .Lor_b19_r4add2
+.Lor_b19_r4add2:
+        .word   12, 12, .Lor_b18_a
 .Lor_b18_a:
-        .word   164, 164, .Lor_b18_a0
-.Lor_b18_a0:
         .word   168, 168, .Lor_b18_a1
 .Lor_b18_a1:
         .word   12, 12, .Lor_b18_a2
@@ -57679,39 +56456,51 @@ __subleq_or:
 .Lor_b18_a5:
         .word   172, 172, .Lor_b18_a6
 .Lor_b18_a6:
-        .word   168, 172, .Lor_b18_a_set
-        .word   12, 12, .Lor_b18_b
-.Lor_b18_a_set:
-        .word   .Lor_b18_pow, 28, .Lor_b18_a_flag
-.Lor_b18_a_flag:
-        .word   .Lor_m1, 164, .Lor_b18_b
-.Lor_b18_b:
-        .word   168, 168, .Lor_b18_b1
-.Lor_b18_b1:
-        .word   12, 12, .Lor_b18_b2
-.Lor_b18_b2:
-        .word   32, 12, .Lor_b18_b3
-.Lor_b18_b3:
-        .word   12, 168, .Lor_b18_b4
-.Lor_b18_b4:
-        .word   .Lor_b18_pow, 168, .Lor_b18_b5
-.Lor_b18_b5:
-        .word   172, 172, .Lor_b18_b6
-.Lor_b18_b6:
-        .word   168, 172, .Lor_b18_b_set
-        .word   12, 12, .Lor_b18_chk
-.Lor_b18_b_set:
-        .word   .Lor_b18_pow, 32, .Lor_b18_b_flag
-.Lor_b18_b_flag:
-        .word   .Lor_m1, 164, .Lor_b18_chk
-.Lor_b18_chk:
-        .word   172, 172, .Lor_b18_chk1
-.Lor_b18_chk1:
-        .word   172, 164, .Lor_b17_a
-        .word   .Lor_b18_npow, 160, .Lor_b17_a
+        .word   168, 172, .Lor_b18_r3set
+        .word   12, 12, .Lor_b18_r4only
+.Lor_b18_r3set:
+        .word   .Lor_b18_pow, 28, .Lor_b18_add1
+.Lor_b18_add1:
+        .word   .Lor_b18_npow, 160, .Lor_b18_clr4
+.Lor_b18_clr4:
+        .word   168, 168, .Lor_b18_c1
+.Lor_b18_c1:
+        .word   12, 12, .Lor_b18_c2
+.Lor_b18_c2:
+        .word   32, 12, .Lor_b18_c3
+.Lor_b18_c3:
+        .word   12, 168, .Lor_b18_c4
+.Lor_b18_c4:
+        .word   .Lor_b18_pow, 168, .Lor_b18_c5
+.Lor_b18_c5:
+        .word   172, 172, .Lor_b18_c6
+.Lor_b18_c6:
+        .word   168, 172, .Lor_b18_c_clr
+        .word   12, 12, .Lor_b17_a
+.Lor_b18_c_clr:
+        .word   .Lor_b18_pow, 32, .Lor_b17_a
+.Lor_b18_r4only:
+        .word   168, 168, .Lor_b18_r4o1
+.Lor_b18_r4o1:
+        .word   12, 12, .Lor_b18_r4o2
+.Lor_b18_r4o2:
+        .word   32, 12, .Lor_b18_r4o3
+.Lor_b18_r4o3:
+        .word   12, 168, .Lor_b18_r4o4
+.Lor_b18_r4o4:
+        .word   .Lor_b18_pow, 168, .Lor_b18_r4o5
+.Lor_b18_r4o5:
+        .word   172, 172, .Lor_b18_r4o6
+.Lor_b18_r4o6:
+        .word   168, 172, .Lor_b18_r4set
+        .word   12, 12, .Lor_b17_a
+.Lor_b18_r4set:
+        .word   .Lor_b18_pow, 32, .Lor_b18_r4add1
+.Lor_b18_r4add1:
+        .word   .Lor_b18_npow, 160, .Lor_b18_r4add2
+.Lor_b18_r4add2:
+        .word   12, 12, .Lor_b17_a
 .Lor_b17_a:
-        .word   164, 164, .Lor_b17_a0
-.Lor_b17_a0:
         .word   168, 168, .Lor_b17_a1
 .Lor_b17_a1:
         .word   12, 12, .Lor_b17_a2
@@ -57724,39 +56513,51 @@ __subleq_or:
 .Lor_b17_a5:
         .word   172, 172, .Lor_b17_a6
 .Lor_b17_a6:
-        .word   168, 172, .Lor_b17_a_set
-        .word   12, 12, .Lor_b17_b
-.Lor_b17_a_set:
-        .word   .Lor_b17_pow, 28, .Lor_b17_a_flag
-.Lor_b17_a_flag:
-        .word   .Lor_m1, 164, .Lor_b17_b
-.Lor_b17_b:
-        .word   168, 168, .Lor_b17_b1
-.Lor_b17_b1:
-        .word   12, 12, .Lor_b17_b2
-.Lor_b17_b2:
-        .word   32, 12, .Lor_b17_b3
-.Lor_b17_b3:
-        .word   12, 168, .Lor_b17_b4
-.Lor_b17_b4:
-        .word   .Lor_b17_pow, 168, .Lor_b17_b5
-.Lor_b17_b5:
-        .word   172, 172, .Lor_b17_b6
-.Lor_b17_b6:
-        .word   168, 172, .Lor_b17_b_set
-        .word   12, 12, .Lor_b17_chk
-.Lor_b17_b_set:
-        .word   .Lor_b17_pow, 32, .Lor_b17_b_flag
-.Lor_b17_b_flag:
-        .word   .Lor_m1, 164, .Lor_b17_chk
-.Lor_b17_chk:
-        .word   172, 172, .Lor_b17_chk1
-.Lor_b17_chk1:
-        .word   172, 164, .Lor_b16_a
-        .word   .Lor_b17_npow, 160, .Lor_b16_a
+        .word   168, 172, .Lor_b17_r3set
+        .word   12, 12, .Lor_b17_r4only
+.Lor_b17_r3set:
+        .word   .Lor_b17_pow, 28, .Lor_b17_add1
+.Lor_b17_add1:
+        .word   .Lor_b17_npow, 160, .Lor_b17_clr4
+.Lor_b17_clr4:
+        .word   168, 168, .Lor_b17_c1
+.Lor_b17_c1:
+        .word   12, 12, .Lor_b17_c2
+.Lor_b17_c2:
+        .word   32, 12, .Lor_b17_c3
+.Lor_b17_c3:
+        .word   12, 168, .Lor_b17_c4
+.Lor_b17_c4:
+        .word   .Lor_b17_pow, 168, .Lor_b17_c5
+.Lor_b17_c5:
+        .word   172, 172, .Lor_b17_c6
+.Lor_b17_c6:
+        .word   168, 172, .Lor_b17_c_clr
+        .word   12, 12, .Lor_b16_a
+.Lor_b17_c_clr:
+        .word   .Lor_b17_pow, 32, .Lor_b16_a
+.Lor_b17_r4only:
+        .word   168, 168, .Lor_b17_r4o1
+.Lor_b17_r4o1:
+        .word   12, 12, .Lor_b17_r4o2
+.Lor_b17_r4o2:
+        .word   32, 12, .Lor_b17_r4o3
+.Lor_b17_r4o3:
+        .word   12, 168, .Lor_b17_r4o4
+.Lor_b17_r4o4:
+        .word   .Lor_b17_pow, 168, .Lor_b17_r4o5
+.Lor_b17_r4o5:
+        .word   172, 172, .Lor_b17_r4o6
+.Lor_b17_r4o6:
+        .word   168, 172, .Lor_b17_r4set
+        .word   12, 12, .Lor_b16_a
+.Lor_b17_r4set:
+        .word   .Lor_b17_pow, 32, .Lor_b17_r4add1
+.Lor_b17_r4add1:
+        .word   .Lor_b17_npow, 160, .Lor_b17_r4add2
+.Lor_b17_r4add2:
+        .word   12, 12, .Lor_b16_a
 .Lor_b16_a:
-        .word   164, 164, .Lor_b16_a0
-.Lor_b16_a0:
         .word   168, 168, .Lor_b16_a1
 .Lor_b16_a1:
         .word   12, 12, .Lor_b16_a2
@@ -57769,39 +56570,51 @@ __subleq_or:
 .Lor_b16_a5:
         .word   172, 172, .Lor_b16_a6
 .Lor_b16_a6:
-        .word   168, 172, .Lor_b16_a_set
-        .word   12, 12, .Lor_b16_b
-.Lor_b16_a_set:
-        .word   .Lor_b16_pow, 28, .Lor_b16_a_flag
-.Lor_b16_a_flag:
-        .word   .Lor_m1, 164, .Lor_b16_b
-.Lor_b16_b:
-        .word   168, 168, .Lor_b16_b1
-.Lor_b16_b1:
-        .word   12, 12, .Lor_b16_b2
-.Lor_b16_b2:
-        .word   32, 12, .Lor_b16_b3
-.Lor_b16_b3:
-        .word   12, 168, .Lor_b16_b4
-.Lor_b16_b4:
-        .word   .Lor_b16_pow, 168, .Lor_b16_b5
-.Lor_b16_b5:
-        .word   172, 172, .Lor_b16_b6
-.Lor_b16_b6:
-        .word   168, 172, .Lor_b16_b_set
-        .word   12, 12, .Lor_b16_chk
-.Lor_b16_b_set:
-        .word   .Lor_b16_pow, 32, .Lor_b16_b_flag
-.Lor_b16_b_flag:
-        .word   .Lor_m1, 164, .Lor_b16_chk
-.Lor_b16_chk:
-        .word   172, 172, .Lor_b16_chk1
-.Lor_b16_chk1:
-        .word   172, 164, .Lor_b15_a
-        .word   .Lor_b16_npow, 160, .Lor_b15_a
+        .word   168, 172, .Lor_b16_r3set
+        .word   12, 12, .Lor_b16_r4only
+.Lor_b16_r3set:
+        .word   .Lor_b16_pow, 28, .Lor_b16_add1
+.Lor_b16_add1:
+        .word   .Lor_b16_npow, 160, .Lor_b16_clr4
+.Lor_b16_clr4:
+        .word   168, 168, .Lor_b16_c1
+.Lor_b16_c1:
+        .word   12, 12, .Lor_b16_c2
+.Lor_b16_c2:
+        .word   32, 12, .Lor_b16_c3
+.Lor_b16_c3:
+        .word   12, 168, .Lor_b16_c4
+.Lor_b16_c4:
+        .word   .Lor_b16_pow, 168, .Lor_b16_c5
+.Lor_b16_c5:
+        .word   172, 172, .Lor_b16_c6
+.Lor_b16_c6:
+        .word   168, 172, .Lor_b16_c_clr
+        .word   12, 12, .Lor_b15_a
+.Lor_b16_c_clr:
+        .word   .Lor_b16_pow, 32, .Lor_b15_a
+.Lor_b16_r4only:
+        .word   168, 168, .Lor_b16_r4o1
+.Lor_b16_r4o1:
+        .word   12, 12, .Lor_b16_r4o2
+.Lor_b16_r4o2:
+        .word   32, 12, .Lor_b16_r4o3
+.Lor_b16_r4o3:
+        .word   12, 168, .Lor_b16_r4o4
+.Lor_b16_r4o4:
+        .word   .Lor_b16_pow, 168, .Lor_b16_r4o5
+.Lor_b16_r4o5:
+        .word   172, 172, .Lor_b16_r4o6
+.Lor_b16_r4o6:
+        .word   168, 172, .Lor_b16_r4set
+        .word   12, 12, .Lor_b15_a
+.Lor_b16_r4set:
+        .word   .Lor_b16_pow, 32, .Lor_b16_r4add1
+.Lor_b16_r4add1:
+        .word   .Lor_b16_npow, 160, .Lor_b16_r4add2
+.Lor_b16_r4add2:
+        .word   12, 12, .Lor_b15_a
 .Lor_b15_a:
-        .word   164, 164, .Lor_b15_a0
-.Lor_b15_a0:
         .word   168, 168, .Lor_b15_a1
 .Lor_b15_a1:
         .word   12, 12, .Lor_b15_a2
@@ -57814,39 +56627,51 @@ __subleq_or:
 .Lor_b15_a5:
         .word   172, 172, .Lor_b15_a6
 .Lor_b15_a6:
-        .word   168, 172, .Lor_b15_a_set
-        .word   12, 12, .Lor_b15_b
-.Lor_b15_a_set:
-        .word   .Lor_b15_pow, 28, .Lor_b15_a_flag
-.Lor_b15_a_flag:
-        .word   .Lor_m1, 164, .Lor_b15_b
-.Lor_b15_b:
-        .word   168, 168, .Lor_b15_b1
-.Lor_b15_b1:
-        .word   12, 12, .Lor_b15_b2
-.Lor_b15_b2:
-        .word   32, 12, .Lor_b15_b3
-.Lor_b15_b3:
-        .word   12, 168, .Lor_b15_b4
-.Lor_b15_b4:
-        .word   .Lor_b15_pow, 168, .Lor_b15_b5
-.Lor_b15_b5:
-        .word   172, 172, .Lor_b15_b6
-.Lor_b15_b6:
-        .word   168, 172, .Lor_b15_b_set
-        .word   12, 12, .Lor_b15_chk
-.Lor_b15_b_set:
-        .word   .Lor_b15_pow, 32, .Lor_b15_b_flag
-.Lor_b15_b_flag:
-        .word   .Lor_m1, 164, .Lor_b15_chk
-.Lor_b15_chk:
-        .word   172, 172, .Lor_b15_chk1
-.Lor_b15_chk1:
-        .word   172, 164, .Lor_b14_a
-        .word   .Lor_b15_npow, 160, .Lor_b14_a
+        .word   168, 172, .Lor_b15_r3set
+        .word   12, 12, .Lor_b15_r4only
+.Lor_b15_r3set:
+        .word   .Lor_b15_pow, 28, .Lor_b15_add1
+.Lor_b15_add1:
+        .word   .Lor_b15_npow, 160, .Lor_b15_clr4
+.Lor_b15_clr4:
+        .word   168, 168, .Lor_b15_c1
+.Lor_b15_c1:
+        .word   12, 12, .Lor_b15_c2
+.Lor_b15_c2:
+        .word   32, 12, .Lor_b15_c3
+.Lor_b15_c3:
+        .word   12, 168, .Lor_b15_c4
+.Lor_b15_c4:
+        .word   .Lor_b15_pow, 168, .Lor_b15_c5
+.Lor_b15_c5:
+        .word   172, 172, .Lor_b15_c6
+.Lor_b15_c6:
+        .word   168, 172, .Lor_b15_c_clr
+        .word   12, 12, .Lor_b14_a
+.Lor_b15_c_clr:
+        .word   .Lor_b15_pow, 32, .Lor_b14_a
+.Lor_b15_r4only:
+        .word   168, 168, .Lor_b15_r4o1
+.Lor_b15_r4o1:
+        .word   12, 12, .Lor_b15_r4o2
+.Lor_b15_r4o2:
+        .word   32, 12, .Lor_b15_r4o3
+.Lor_b15_r4o3:
+        .word   12, 168, .Lor_b15_r4o4
+.Lor_b15_r4o4:
+        .word   .Lor_b15_pow, 168, .Lor_b15_r4o5
+.Lor_b15_r4o5:
+        .word   172, 172, .Lor_b15_r4o6
+.Lor_b15_r4o6:
+        .word   168, 172, .Lor_b15_r4set
+        .word   12, 12, .Lor_b14_a
+.Lor_b15_r4set:
+        .word   .Lor_b15_pow, 32, .Lor_b15_r4add1
+.Lor_b15_r4add1:
+        .word   .Lor_b15_npow, 160, .Lor_b15_r4add2
+.Lor_b15_r4add2:
+        .word   12, 12, .Lor_b14_a
 .Lor_b14_a:
-        .word   164, 164, .Lor_b14_a0
-.Lor_b14_a0:
         .word   168, 168, .Lor_b14_a1
 .Lor_b14_a1:
         .word   12, 12, .Lor_b14_a2
@@ -57859,39 +56684,51 @@ __subleq_or:
 .Lor_b14_a5:
         .word   172, 172, .Lor_b14_a6
 .Lor_b14_a6:
-        .word   168, 172, .Lor_b14_a_set
-        .word   12, 12, .Lor_b14_b
-.Lor_b14_a_set:
-        .word   .Lor_b14_pow, 28, .Lor_b14_a_flag
-.Lor_b14_a_flag:
-        .word   .Lor_m1, 164, .Lor_b14_b
-.Lor_b14_b:
-        .word   168, 168, .Lor_b14_b1
-.Lor_b14_b1:
-        .word   12, 12, .Lor_b14_b2
-.Lor_b14_b2:
-        .word   32, 12, .Lor_b14_b3
-.Lor_b14_b3:
-        .word   12, 168, .Lor_b14_b4
-.Lor_b14_b4:
-        .word   .Lor_b14_pow, 168, .Lor_b14_b5
-.Lor_b14_b5:
-        .word   172, 172, .Lor_b14_b6
-.Lor_b14_b6:
-        .word   168, 172, .Lor_b14_b_set
-        .word   12, 12, .Lor_b14_chk
-.Lor_b14_b_set:
-        .word   .Lor_b14_pow, 32, .Lor_b14_b_flag
-.Lor_b14_b_flag:
-        .word   .Lor_m1, 164, .Lor_b14_chk
-.Lor_b14_chk:
-        .word   172, 172, .Lor_b14_chk1
-.Lor_b14_chk1:
-        .word   172, 164, .Lor_b13_a
-        .word   .Lor_b14_npow, 160, .Lor_b13_a
+        .word   168, 172, .Lor_b14_r3set
+        .word   12, 12, .Lor_b14_r4only
+.Lor_b14_r3set:
+        .word   .Lor_b14_pow, 28, .Lor_b14_add1
+.Lor_b14_add1:
+        .word   .Lor_b14_npow, 160, .Lor_b14_clr4
+.Lor_b14_clr4:
+        .word   168, 168, .Lor_b14_c1
+.Lor_b14_c1:
+        .word   12, 12, .Lor_b14_c2
+.Lor_b14_c2:
+        .word   32, 12, .Lor_b14_c3
+.Lor_b14_c3:
+        .word   12, 168, .Lor_b14_c4
+.Lor_b14_c4:
+        .word   .Lor_b14_pow, 168, .Lor_b14_c5
+.Lor_b14_c5:
+        .word   172, 172, .Lor_b14_c6
+.Lor_b14_c6:
+        .word   168, 172, .Lor_b14_c_clr
+        .word   12, 12, .Lor_b13_a
+.Lor_b14_c_clr:
+        .word   .Lor_b14_pow, 32, .Lor_b13_a
+.Lor_b14_r4only:
+        .word   168, 168, .Lor_b14_r4o1
+.Lor_b14_r4o1:
+        .word   12, 12, .Lor_b14_r4o2
+.Lor_b14_r4o2:
+        .word   32, 12, .Lor_b14_r4o3
+.Lor_b14_r4o3:
+        .word   12, 168, .Lor_b14_r4o4
+.Lor_b14_r4o4:
+        .word   .Lor_b14_pow, 168, .Lor_b14_r4o5
+.Lor_b14_r4o5:
+        .word   172, 172, .Lor_b14_r4o6
+.Lor_b14_r4o6:
+        .word   168, 172, .Lor_b14_r4set
+        .word   12, 12, .Lor_b13_a
+.Lor_b14_r4set:
+        .word   .Lor_b14_pow, 32, .Lor_b14_r4add1
+.Lor_b14_r4add1:
+        .word   .Lor_b14_npow, 160, .Lor_b14_r4add2
+.Lor_b14_r4add2:
+        .word   12, 12, .Lor_b13_a
 .Lor_b13_a:
-        .word   164, 164, .Lor_b13_a0
-.Lor_b13_a0:
         .word   168, 168, .Lor_b13_a1
 .Lor_b13_a1:
         .word   12, 12, .Lor_b13_a2
@@ -57904,39 +56741,51 @@ __subleq_or:
 .Lor_b13_a5:
         .word   172, 172, .Lor_b13_a6
 .Lor_b13_a6:
-        .word   168, 172, .Lor_b13_a_set
-        .word   12, 12, .Lor_b13_b
-.Lor_b13_a_set:
-        .word   .Lor_b13_pow, 28, .Lor_b13_a_flag
-.Lor_b13_a_flag:
-        .word   .Lor_m1, 164, .Lor_b13_b
-.Lor_b13_b:
-        .word   168, 168, .Lor_b13_b1
-.Lor_b13_b1:
-        .word   12, 12, .Lor_b13_b2
-.Lor_b13_b2:
-        .word   32, 12, .Lor_b13_b3
-.Lor_b13_b3:
-        .word   12, 168, .Lor_b13_b4
-.Lor_b13_b4:
-        .word   .Lor_b13_pow, 168, .Lor_b13_b5
-.Lor_b13_b5:
-        .word   172, 172, .Lor_b13_b6
-.Lor_b13_b6:
-        .word   168, 172, .Lor_b13_b_set
-        .word   12, 12, .Lor_b13_chk
-.Lor_b13_b_set:
-        .word   .Lor_b13_pow, 32, .Lor_b13_b_flag
-.Lor_b13_b_flag:
-        .word   .Lor_m1, 164, .Lor_b13_chk
-.Lor_b13_chk:
-        .word   172, 172, .Lor_b13_chk1
-.Lor_b13_chk1:
-        .word   172, 164, .Lor_b12_a
-        .word   .Lor_b13_npow, 160, .Lor_b12_a
+        .word   168, 172, .Lor_b13_r3set
+        .word   12, 12, .Lor_b13_r4only
+.Lor_b13_r3set:
+        .word   .Lor_b13_pow, 28, .Lor_b13_add1
+.Lor_b13_add1:
+        .word   .Lor_b13_npow, 160, .Lor_b13_clr4
+.Lor_b13_clr4:
+        .word   168, 168, .Lor_b13_c1
+.Lor_b13_c1:
+        .word   12, 12, .Lor_b13_c2
+.Lor_b13_c2:
+        .word   32, 12, .Lor_b13_c3
+.Lor_b13_c3:
+        .word   12, 168, .Lor_b13_c4
+.Lor_b13_c4:
+        .word   .Lor_b13_pow, 168, .Lor_b13_c5
+.Lor_b13_c5:
+        .word   172, 172, .Lor_b13_c6
+.Lor_b13_c6:
+        .word   168, 172, .Lor_b13_c_clr
+        .word   12, 12, .Lor_b12_a
+.Lor_b13_c_clr:
+        .word   .Lor_b13_pow, 32, .Lor_b12_a
+.Lor_b13_r4only:
+        .word   168, 168, .Lor_b13_r4o1
+.Lor_b13_r4o1:
+        .word   12, 12, .Lor_b13_r4o2
+.Lor_b13_r4o2:
+        .word   32, 12, .Lor_b13_r4o3
+.Lor_b13_r4o3:
+        .word   12, 168, .Lor_b13_r4o4
+.Lor_b13_r4o4:
+        .word   .Lor_b13_pow, 168, .Lor_b13_r4o5
+.Lor_b13_r4o5:
+        .word   172, 172, .Lor_b13_r4o6
+.Lor_b13_r4o6:
+        .word   168, 172, .Lor_b13_r4set
+        .word   12, 12, .Lor_b12_a
+.Lor_b13_r4set:
+        .word   .Lor_b13_pow, 32, .Lor_b13_r4add1
+.Lor_b13_r4add1:
+        .word   .Lor_b13_npow, 160, .Lor_b13_r4add2
+.Lor_b13_r4add2:
+        .word   12, 12, .Lor_b12_a
 .Lor_b12_a:
-        .word   164, 164, .Lor_b12_a0
-.Lor_b12_a0:
         .word   168, 168, .Lor_b12_a1
 .Lor_b12_a1:
         .word   12, 12, .Lor_b12_a2
@@ -57949,39 +56798,51 @@ __subleq_or:
 .Lor_b12_a5:
         .word   172, 172, .Lor_b12_a6
 .Lor_b12_a6:
-        .word   168, 172, .Lor_b12_a_set
-        .word   12, 12, .Lor_b12_b
-.Lor_b12_a_set:
-        .word   .Lor_b12_pow, 28, .Lor_b12_a_flag
-.Lor_b12_a_flag:
-        .word   .Lor_m1, 164, .Lor_b12_b
-.Lor_b12_b:
-        .word   168, 168, .Lor_b12_b1
-.Lor_b12_b1:
-        .word   12, 12, .Lor_b12_b2
-.Lor_b12_b2:
-        .word   32, 12, .Lor_b12_b3
-.Lor_b12_b3:
-        .word   12, 168, .Lor_b12_b4
-.Lor_b12_b4:
-        .word   .Lor_b12_pow, 168, .Lor_b12_b5
-.Lor_b12_b5:
-        .word   172, 172, .Lor_b12_b6
-.Lor_b12_b6:
-        .word   168, 172, .Lor_b12_b_set
-        .word   12, 12, .Lor_b12_chk
-.Lor_b12_b_set:
-        .word   .Lor_b12_pow, 32, .Lor_b12_b_flag
-.Lor_b12_b_flag:
-        .word   .Lor_m1, 164, .Lor_b12_chk
-.Lor_b12_chk:
-        .word   172, 172, .Lor_b12_chk1
-.Lor_b12_chk1:
-        .word   172, 164, .Lor_b11_a
-        .word   .Lor_b12_npow, 160, .Lor_b11_a
+        .word   168, 172, .Lor_b12_r3set
+        .word   12, 12, .Lor_b12_r4only
+.Lor_b12_r3set:
+        .word   .Lor_b12_pow, 28, .Lor_b12_add1
+.Lor_b12_add1:
+        .word   .Lor_b12_npow, 160, .Lor_b12_clr4
+.Lor_b12_clr4:
+        .word   168, 168, .Lor_b12_c1
+.Lor_b12_c1:
+        .word   12, 12, .Lor_b12_c2
+.Lor_b12_c2:
+        .word   32, 12, .Lor_b12_c3
+.Lor_b12_c3:
+        .word   12, 168, .Lor_b12_c4
+.Lor_b12_c4:
+        .word   .Lor_b12_pow, 168, .Lor_b12_c5
+.Lor_b12_c5:
+        .word   172, 172, .Lor_b12_c6
+.Lor_b12_c6:
+        .word   168, 172, .Lor_b12_c_clr
+        .word   12, 12, .Lor_b11_a
+.Lor_b12_c_clr:
+        .word   .Lor_b12_pow, 32, .Lor_b11_a
+.Lor_b12_r4only:
+        .word   168, 168, .Lor_b12_r4o1
+.Lor_b12_r4o1:
+        .word   12, 12, .Lor_b12_r4o2
+.Lor_b12_r4o2:
+        .word   32, 12, .Lor_b12_r4o3
+.Lor_b12_r4o3:
+        .word   12, 168, .Lor_b12_r4o4
+.Lor_b12_r4o4:
+        .word   .Lor_b12_pow, 168, .Lor_b12_r4o5
+.Lor_b12_r4o5:
+        .word   172, 172, .Lor_b12_r4o6
+.Lor_b12_r4o6:
+        .word   168, 172, .Lor_b12_r4set
+        .word   12, 12, .Lor_b11_a
+.Lor_b12_r4set:
+        .word   .Lor_b12_pow, 32, .Lor_b12_r4add1
+.Lor_b12_r4add1:
+        .word   .Lor_b12_npow, 160, .Lor_b12_r4add2
+.Lor_b12_r4add2:
+        .word   12, 12, .Lor_b11_a
 .Lor_b11_a:
-        .word   164, 164, .Lor_b11_a0
-.Lor_b11_a0:
         .word   168, 168, .Lor_b11_a1
 .Lor_b11_a1:
         .word   12, 12, .Lor_b11_a2
@@ -57994,39 +56855,51 @@ __subleq_or:
 .Lor_b11_a5:
         .word   172, 172, .Lor_b11_a6
 .Lor_b11_a6:
-        .word   168, 172, .Lor_b11_a_set
-        .word   12, 12, .Lor_b11_b
-.Lor_b11_a_set:
-        .word   .Lor_b11_pow, 28, .Lor_b11_a_flag
-.Lor_b11_a_flag:
-        .word   .Lor_m1, 164, .Lor_b11_b
-.Lor_b11_b:
-        .word   168, 168, .Lor_b11_b1
-.Lor_b11_b1:
-        .word   12, 12, .Lor_b11_b2
-.Lor_b11_b2:
-        .word   32, 12, .Lor_b11_b3
-.Lor_b11_b3:
-        .word   12, 168, .Lor_b11_b4
-.Lor_b11_b4:
-        .word   .Lor_b11_pow, 168, .Lor_b11_b5
-.Lor_b11_b5:
-        .word   172, 172, .Lor_b11_b6
-.Lor_b11_b6:
-        .word   168, 172, .Lor_b11_b_set
-        .word   12, 12, .Lor_b11_chk
-.Lor_b11_b_set:
-        .word   .Lor_b11_pow, 32, .Lor_b11_b_flag
-.Lor_b11_b_flag:
-        .word   .Lor_m1, 164, .Lor_b11_chk
-.Lor_b11_chk:
-        .word   172, 172, .Lor_b11_chk1
-.Lor_b11_chk1:
-        .word   172, 164, .Lor_b10_a
-        .word   .Lor_b11_npow, 160, .Lor_b10_a
+        .word   168, 172, .Lor_b11_r3set
+        .word   12, 12, .Lor_b11_r4only
+.Lor_b11_r3set:
+        .word   .Lor_b11_pow, 28, .Lor_b11_add1
+.Lor_b11_add1:
+        .word   .Lor_b11_npow, 160, .Lor_b11_clr4
+.Lor_b11_clr4:
+        .word   168, 168, .Lor_b11_c1
+.Lor_b11_c1:
+        .word   12, 12, .Lor_b11_c2
+.Lor_b11_c2:
+        .word   32, 12, .Lor_b11_c3
+.Lor_b11_c3:
+        .word   12, 168, .Lor_b11_c4
+.Lor_b11_c4:
+        .word   .Lor_b11_pow, 168, .Lor_b11_c5
+.Lor_b11_c5:
+        .word   172, 172, .Lor_b11_c6
+.Lor_b11_c6:
+        .word   168, 172, .Lor_b11_c_clr
+        .word   12, 12, .Lor_b10_a
+.Lor_b11_c_clr:
+        .word   .Lor_b11_pow, 32, .Lor_b10_a
+.Lor_b11_r4only:
+        .word   168, 168, .Lor_b11_r4o1
+.Lor_b11_r4o1:
+        .word   12, 12, .Lor_b11_r4o2
+.Lor_b11_r4o2:
+        .word   32, 12, .Lor_b11_r4o3
+.Lor_b11_r4o3:
+        .word   12, 168, .Lor_b11_r4o4
+.Lor_b11_r4o4:
+        .word   .Lor_b11_pow, 168, .Lor_b11_r4o5
+.Lor_b11_r4o5:
+        .word   172, 172, .Lor_b11_r4o6
+.Lor_b11_r4o6:
+        .word   168, 172, .Lor_b11_r4set
+        .word   12, 12, .Lor_b10_a
+.Lor_b11_r4set:
+        .word   .Lor_b11_pow, 32, .Lor_b11_r4add1
+.Lor_b11_r4add1:
+        .word   .Lor_b11_npow, 160, .Lor_b11_r4add2
+.Lor_b11_r4add2:
+        .word   12, 12, .Lor_b10_a
 .Lor_b10_a:
-        .word   164, 164, .Lor_b10_a0
-.Lor_b10_a0:
         .word   168, 168, .Lor_b10_a1
 .Lor_b10_a1:
         .word   12, 12, .Lor_b10_a2
@@ -58039,39 +56912,51 @@ __subleq_or:
 .Lor_b10_a5:
         .word   172, 172, .Lor_b10_a6
 .Lor_b10_a6:
-        .word   168, 172, .Lor_b10_a_set
-        .word   12, 12, .Lor_b10_b
-.Lor_b10_a_set:
-        .word   .Lor_b10_pow, 28, .Lor_b10_a_flag
-.Lor_b10_a_flag:
-        .word   .Lor_m1, 164, .Lor_b10_b
-.Lor_b10_b:
-        .word   168, 168, .Lor_b10_b1
-.Lor_b10_b1:
-        .word   12, 12, .Lor_b10_b2
-.Lor_b10_b2:
-        .word   32, 12, .Lor_b10_b3
-.Lor_b10_b3:
-        .word   12, 168, .Lor_b10_b4
-.Lor_b10_b4:
-        .word   .Lor_b10_pow, 168, .Lor_b10_b5
-.Lor_b10_b5:
-        .word   172, 172, .Lor_b10_b6
-.Lor_b10_b6:
-        .word   168, 172, .Lor_b10_b_set
-        .word   12, 12, .Lor_b10_chk
-.Lor_b10_b_set:
-        .word   .Lor_b10_pow, 32, .Lor_b10_b_flag
-.Lor_b10_b_flag:
-        .word   .Lor_m1, 164, .Lor_b10_chk
-.Lor_b10_chk:
-        .word   172, 172, .Lor_b10_chk1
-.Lor_b10_chk1:
-        .word   172, 164, .Lor_b9_a
-        .word   .Lor_b10_npow, 160, .Lor_b9_a
+        .word   168, 172, .Lor_b10_r3set
+        .word   12, 12, .Lor_b10_r4only
+.Lor_b10_r3set:
+        .word   .Lor_b10_pow, 28, .Lor_b10_add1
+.Lor_b10_add1:
+        .word   .Lor_b10_npow, 160, .Lor_b10_clr4
+.Lor_b10_clr4:
+        .word   168, 168, .Lor_b10_c1
+.Lor_b10_c1:
+        .word   12, 12, .Lor_b10_c2
+.Lor_b10_c2:
+        .word   32, 12, .Lor_b10_c3
+.Lor_b10_c3:
+        .word   12, 168, .Lor_b10_c4
+.Lor_b10_c4:
+        .word   .Lor_b10_pow, 168, .Lor_b10_c5
+.Lor_b10_c5:
+        .word   172, 172, .Lor_b10_c6
+.Lor_b10_c6:
+        .word   168, 172, .Lor_b10_c_clr
+        .word   12, 12, .Lor_b9_a
+.Lor_b10_c_clr:
+        .word   .Lor_b10_pow, 32, .Lor_b9_a
+.Lor_b10_r4only:
+        .word   168, 168, .Lor_b10_r4o1
+.Lor_b10_r4o1:
+        .word   12, 12, .Lor_b10_r4o2
+.Lor_b10_r4o2:
+        .word   32, 12, .Lor_b10_r4o3
+.Lor_b10_r4o3:
+        .word   12, 168, .Lor_b10_r4o4
+.Lor_b10_r4o4:
+        .word   .Lor_b10_pow, 168, .Lor_b10_r4o5
+.Lor_b10_r4o5:
+        .word   172, 172, .Lor_b10_r4o6
+.Lor_b10_r4o6:
+        .word   168, 172, .Lor_b10_r4set
+        .word   12, 12, .Lor_b9_a
+.Lor_b10_r4set:
+        .word   .Lor_b10_pow, 32, .Lor_b10_r4add1
+.Lor_b10_r4add1:
+        .word   .Lor_b10_npow, 160, .Lor_b10_r4add2
+.Lor_b10_r4add2:
+        .word   12, 12, .Lor_b9_a
 .Lor_b9_a:
-        .word   164, 164, .Lor_b9_a0
-.Lor_b9_a0:
         .word   168, 168, .Lor_b9_a1
 .Lor_b9_a1:
         .word   12, 12, .Lor_b9_a2
@@ -58084,39 +56969,51 @@ __subleq_or:
 .Lor_b9_a5:
         .word   172, 172, .Lor_b9_a6
 .Lor_b9_a6:
-        .word   168, 172, .Lor_b9_a_set
-        .word   12, 12, .Lor_b9_b
-.Lor_b9_a_set:
-        .word   .Lor_b9_pow, 28, .Lor_b9_a_flag
-.Lor_b9_a_flag:
-        .word   .Lor_m1, 164, .Lor_b9_b
-.Lor_b9_b:
-        .word   168, 168, .Lor_b9_b1
-.Lor_b9_b1:
-        .word   12, 12, .Lor_b9_b2
-.Lor_b9_b2:
-        .word   32, 12, .Lor_b9_b3
-.Lor_b9_b3:
-        .word   12, 168, .Lor_b9_b4
-.Lor_b9_b4:
-        .word   .Lor_b9_pow, 168, .Lor_b9_b5
-.Lor_b9_b5:
-        .word   172, 172, .Lor_b9_b6
-.Lor_b9_b6:
-        .word   168, 172, .Lor_b9_b_set
-        .word   12, 12, .Lor_b9_chk
-.Lor_b9_b_set:
-        .word   .Lor_b9_pow, 32, .Lor_b9_b_flag
-.Lor_b9_b_flag:
-        .word   .Lor_m1, 164, .Lor_b9_chk
-.Lor_b9_chk:
-        .word   172, 172, .Lor_b9_chk1
-.Lor_b9_chk1:
-        .word   172, 164, .Lor_b8_a
-        .word   .Lor_b9_npow, 160, .Lor_b8_a
+        .word   168, 172, .Lor_b9_r3set
+        .word   12, 12, .Lor_b9_r4only
+.Lor_b9_r3set:
+        .word   .Lor_b9_pow, 28, .Lor_b9_add1
+.Lor_b9_add1:
+        .word   .Lor_b9_npow, 160, .Lor_b9_clr4
+.Lor_b9_clr4:
+        .word   168, 168, .Lor_b9_c1
+.Lor_b9_c1:
+        .word   12, 12, .Lor_b9_c2
+.Lor_b9_c2:
+        .word   32, 12, .Lor_b9_c3
+.Lor_b9_c3:
+        .word   12, 168, .Lor_b9_c4
+.Lor_b9_c4:
+        .word   .Lor_b9_pow, 168, .Lor_b9_c5
+.Lor_b9_c5:
+        .word   172, 172, .Lor_b9_c6
+.Lor_b9_c6:
+        .word   168, 172, .Lor_b9_c_clr
+        .word   12, 12, .Lor_b8_a
+.Lor_b9_c_clr:
+        .word   .Lor_b9_pow, 32, .Lor_b8_a
+.Lor_b9_r4only:
+        .word   168, 168, .Lor_b9_r4o1
+.Lor_b9_r4o1:
+        .word   12, 12, .Lor_b9_r4o2
+.Lor_b9_r4o2:
+        .word   32, 12, .Lor_b9_r4o3
+.Lor_b9_r4o3:
+        .word   12, 168, .Lor_b9_r4o4
+.Lor_b9_r4o4:
+        .word   .Lor_b9_pow, 168, .Lor_b9_r4o5
+.Lor_b9_r4o5:
+        .word   172, 172, .Lor_b9_r4o6
+.Lor_b9_r4o6:
+        .word   168, 172, .Lor_b9_r4set
+        .word   12, 12, .Lor_b8_a
+.Lor_b9_r4set:
+        .word   .Lor_b9_pow, 32, .Lor_b9_r4add1
+.Lor_b9_r4add1:
+        .word   .Lor_b9_npow, 160, .Lor_b9_r4add2
+.Lor_b9_r4add2:
+        .word   12, 12, .Lor_b8_a
 .Lor_b8_a:
-        .word   164, 164, .Lor_b8_a0
-.Lor_b8_a0:
         .word   168, 168, .Lor_b8_a1
 .Lor_b8_a1:
         .word   12, 12, .Lor_b8_a2
@@ -58129,39 +57026,51 @@ __subleq_or:
 .Lor_b8_a5:
         .word   172, 172, .Lor_b8_a6
 .Lor_b8_a6:
-        .word   168, 172, .Lor_b8_a_set
-        .word   12, 12, .Lor_b8_b
-.Lor_b8_a_set:
-        .word   .Lor_b8_pow, 28, .Lor_b8_a_flag
-.Lor_b8_a_flag:
-        .word   .Lor_m1, 164, .Lor_b8_b
-.Lor_b8_b:
-        .word   168, 168, .Lor_b8_b1
-.Lor_b8_b1:
-        .word   12, 12, .Lor_b8_b2
-.Lor_b8_b2:
-        .word   32, 12, .Lor_b8_b3
-.Lor_b8_b3:
-        .word   12, 168, .Lor_b8_b4
-.Lor_b8_b4:
-        .word   .Lor_b8_pow, 168, .Lor_b8_b5
-.Lor_b8_b5:
-        .word   172, 172, .Lor_b8_b6
-.Lor_b8_b6:
-        .word   168, 172, .Lor_b8_b_set
-        .word   12, 12, .Lor_b8_chk
-.Lor_b8_b_set:
-        .word   .Lor_b8_pow, 32, .Lor_b8_b_flag
-.Lor_b8_b_flag:
-        .word   .Lor_m1, 164, .Lor_b8_chk
-.Lor_b8_chk:
-        .word   172, 172, .Lor_b8_chk1
-.Lor_b8_chk1:
-        .word   172, 164, .Lor_b7_a
-        .word   .Lor_b8_npow, 160, .Lor_b7_a
+        .word   168, 172, .Lor_b8_r3set
+        .word   12, 12, .Lor_b8_r4only
+.Lor_b8_r3set:
+        .word   .Lor_b8_pow, 28, .Lor_b8_add1
+.Lor_b8_add1:
+        .word   .Lor_b8_npow, 160, .Lor_b8_clr4
+.Lor_b8_clr4:
+        .word   168, 168, .Lor_b8_c1
+.Lor_b8_c1:
+        .word   12, 12, .Lor_b8_c2
+.Lor_b8_c2:
+        .word   32, 12, .Lor_b8_c3
+.Lor_b8_c3:
+        .word   12, 168, .Lor_b8_c4
+.Lor_b8_c4:
+        .word   .Lor_b8_pow, 168, .Lor_b8_c5
+.Lor_b8_c5:
+        .word   172, 172, .Lor_b8_c6
+.Lor_b8_c6:
+        .word   168, 172, .Lor_b8_c_clr
+        .word   12, 12, .Lor_b7_a
+.Lor_b8_c_clr:
+        .word   .Lor_b8_pow, 32, .Lor_b7_a
+.Lor_b8_r4only:
+        .word   168, 168, .Lor_b8_r4o1
+.Lor_b8_r4o1:
+        .word   12, 12, .Lor_b8_r4o2
+.Lor_b8_r4o2:
+        .word   32, 12, .Lor_b8_r4o3
+.Lor_b8_r4o3:
+        .word   12, 168, .Lor_b8_r4o4
+.Lor_b8_r4o4:
+        .word   .Lor_b8_pow, 168, .Lor_b8_r4o5
+.Lor_b8_r4o5:
+        .word   172, 172, .Lor_b8_r4o6
+.Lor_b8_r4o6:
+        .word   168, 172, .Lor_b8_r4set
+        .word   12, 12, .Lor_b7_a
+.Lor_b8_r4set:
+        .word   .Lor_b8_pow, 32, .Lor_b8_r4add1
+.Lor_b8_r4add1:
+        .word   .Lor_b8_npow, 160, .Lor_b8_r4add2
+.Lor_b8_r4add2:
+        .word   12, 12, .Lor_b7_a
 .Lor_b7_a:
-        .word   164, 164, .Lor_b7_a0
-.Lor_b7_a0:
         .word   168, 168, .Lor_b7_a1
 .Lor_b7_a1:
         .word   12, 12, .Lor_b7_a2
@@ -58174,39 +57083,51 @@ __subleq_or:
 .Lor_b7_a5:
         .word   172, 172, .Lor_b7_a6
 .Lor_b7_a6:
-        .word   168, 172, .Lor_b7_a_set
-        .word   12, 12, .Lor_b7_b
-.Lor_b7_a_set:
-        .word   .Lor_b7_pow, 28, .Lor_b7_a_flag
-.Lor_b7_a_flag:
-        .word   .Lor_m1, 164, .Lor_b7_b
-.Lor_b7_b:
-        .word   168, 168, .Lor_b7_b1
-.Lor_b7_b1:
-        .word   12, 12, .Lor_b7_b2
-.Lor_b7_b2:
-        .word   32, 12, .Lor_b7_b3
-.Lor_b7_b3:
-        .word   12, 168, .Lor_b7_b4
-.Lor_b7_b4:
-        .word   .Lor_b7_pow, 168, .Lor_b7_b5
-.Lor_b7_b5:
-        .word   172, 172, .Lor_b7_b6
-.Lor_b7_b6:
-        .word   168, 172, .Lor_b7_b_set
-        .word   12, 12, .Lor_b7_chk
-.Lor_b7_b_set:
-        .word   .Lor_b7_pow, 32, .Lor_b7_b_flag
-.Lor_b7_b_flag:
-        .word   .Lor_m1, 164, .Lor_b7_chk
-.Lor_b7_chk:
-        .word   172, 172, .Lor_b7_chk1
-.Lor_b7_chk1:
-        .word   172, 164, .Lor_b6_a
-        .word   .Lor_b7_npow, 160, .Lor_b6_a
+        .word   168, 172, .Lor_b7_r3set
+        .word   12, 12, .Lor_b7_r4only
+.Lor_b7_r3set:
+        .word   .Lor_b7_pow, 28, .Lor_b7_add1
+.Lor_b7_add1:
+        .word   .Lor_b7_npow, 160, .Lor_b7_clr4
+.Lor_b7_clr4:
+        .word   168, 168, .Lor_b7_c1
+.Lor_b7_c1:
+        .word   12, 12, .Lor_b7_c2
+.Lor_b7_c2:
+        .word   32, 12, .Lor_b7_c3
+.Lor_b7_c3:
+        .word   12, 168, .Lor_b7_c4
+.Lor_b7_c4:
+        .word   .Lor_b7_pow, 168, .Lor_b7_c5
+.Lor_b7_c5:
+        .word   172, 172, .Lor_b7_c6
+.Lor_b7_c6:
+        .word   168, 172, .Lor_b7_c_clr
+        .word   12, 12, .Lor_b6_a
+.Lor_b7_c_clr:
+        .word   .Lor_b7_pow, 32, .Lor_b6_a
+.Lor_b7_r4only:
+        .word   168, 168, .Lor_b7_r4o1
+.Lor_b7_r4o1:
+        .word   12, 12, .Lor_b7_r4o2
+.Lor_b7_r4o2:
+        .word   32, 12, .Lor_b7_r4o3
+.Lor_b7_r4o3:
+        .word   12, 168, .Lor_b7_r4o4
+.Lor_b7_r4o4:
+        .word   .Lor_b7_pow, 168, .Lor_b7_r4o5
+.Lor_b7_r4o5:
+        .word   172, 172, .Lor_b7_r4o6
+.Lor_b7_r4o6:
+        .word   168, 172, .Lor_b7_r4set
+        .word   12, 12, .Lor_b6_a
+.Lor_b7_r4set:
+        .word   .Lor_b7_pow, 32, .Lor_b7_r4add1
+.Lor_b7_r4add1:
+        .word   .Lor_b7_npow, 160, .Lor_b7_r4add2
+.Lor_b7_r4add2:
+        .word   12, 12, .Lor_b6_a
 .Lor_b6_a:
-        .word   164, 164, .Lor_b6_a0
-.Lor_b6_a0:
         .word   168, 168, .Lor_b6_a1
 .Lor_b6_a1:
         .word   12, 12, .Lor_b6_a2
@@ -58219,39 +57140,51 @@ __subleq_or:
 .Lor_b6_a5:
         .word   172, 172, .Lor_b6_a6
 .Lor_b6_a6:
-        .word   168, 172, .Lor_b6_a_set
-        .word   12, 12, .Lor_b6_b
-.Lor_b6_a_set:
-        .word   .Lor_b6_pow, 28, .Lor_b6_a_flag
-.Lor_b6_a_flag:
-        .word   .Lor_m1, 164, .Lor_b6_b
-.Lor_b6_b:
-        .word   168, 168, .Lor_b6_b1
-.Lor_b6_b1:
-        .word   12, 12, .Lor_b6_b2
-.Lor_b6_b2:
-        .word   32, 12, .Lor_b6_b3
-.Lor_b6_b3:
-        .word   12, 168, .Lor_b6_b4
-.Lor_b6_b4:
-        .word   .Lor_b6_pow, 168, .Lor_b6_b5
-.Lor_b6_b5:
-        .word   172, 172, .Lor_b6_b6
-.Lor_b6_b6:
-        .word   168, 172, .Lor_b6_b_set
-        .word   12, 12, .Lor_b6_chk
-.Lor_b6_b_set:
-        .word   .Lor_b6_pow, 32, .Lor_b6_b_flag
-.Lor_b6_b_flag:
-        .word   .Lor_m1, 164, .Lor_b6_chk
-.Lor_b6_chk:
-        .word   172, 172, .Lor_b6_chk1
-.Lor_b6_chk1:
-        .word   172, 164, .Lor_b5_a
-        .word   .Lor_b6_npow, 160, .Lor_b5_a
+        .word   168, 172, .Lor_b6_r3set
+        .word   12, 12, .Lor_b6_r4only
+.Lor_b6_r3set:
+        .word   .Lor_b6_pow, 28, .Lor_b6_add1
+.Lor_b6_add1:
+        .word   .Lor_b6_npow, 160, .Lor_b6_clr4
+.Lor_b6_clr4:
+        .word   168, 168, .Lor_b6_c1
+.Lor_b6_c1:
+        .word   12, 12, .Lor_b6_c2
+.Lor_b6_c2:
+        .word   32, 12, .Lor_b6_c3
+.Lor_b6_c3:
+        .word   12, 168, .Lor_b6_c4
+.Lor_b6_c4:
+        .word   .Lor_b6_pow, 168, .Lor_b6_c5
+.Lor_b6_c5:
+        .word   172, 172, .Lor_b6_c6
+.Lor_b6_c6:
+        .word   168, 172, .Lor_b6_c_clr
+        .word   12, 12, .Lor_b5_a
+.Lor_b6_c_clr:
+        .word   .Lor_b6_pow, 32, .Lor_b5_a
+.Lor_b6_r4only:
+        .word   168, 168, .Lor_b6_r4o1
+.Lor_b6_r4o1:
+        .word   12, 12, .Lor_b6_r4o2
+.Lor_b6_r4o2:
+        .word   32, 12, .Lor_b6_r4o3
+.Lor_b6_r4o3:
+        .word   12, 168, .Lor_b6_r4o4
+.Lor_b6_r4o4:
+        .word   .Lor_b6_pow, 168, .Lor_b6_r4o5
+.Lor_b6_r4o5:
+        .word   172, 172, .Lor_b6_r4o6
+.Lor_b6_r4o6:
+        .word   168, 172, .Lor_b6_r4set
+        .word   12, 12, .Lor_b5_a
+.Lor_b6_r4set:
+        .word   .Lor_b6_pow, 32, .Lor_b6_r4add1
+.Lor_b6_r4add1:
+        .word   .Lor_b6_npow, 160, .Lor_b6_r4add2
+.Lor_b6_r4add2:
+        .word   12, 12, .Lor_b5_a
 .Lor_b5_a:
-        .word   164, 164, .Lor_b5_a0
-.Lor_b5_a0:
         .word   168, 168, .Lor_b5_a1
 .Lor_b5_a1:
         .word   12, 12, .Lor_b5_a2
@@ -58264,39 +57197,51 @@ __subleq_or:
 .Lor_b5_a5:
         .word   172, 172, .Lor_b5_a6
 .Lor_b5_a6:
-        .word   168, 172, .Lor_b5_a_set
-        .word   12, 12, .Lor_b5_b
-.Lor_b5_a_set:
-        .word   .Lor_b5_pow, 28, .Lor_b5_a_flag
-.Lor_b5_a_flag:
-        .word   .Lor_m1, 164, .Lor_b5_b
-.Lor_b5_b:
-        .word   168, 168, .Lor_b5_b1
-.Lor_b5_b1:
-        .word   12, 12, .Lor_b5_b2
-.Lor_b5_b2:
-        .word   32, 12, .Lor_b5_b3
-.Lor_b5_b3:
-        .word   12, 168, .Lor_b5_b4
-.Lor_b5_b4:
-        .word   .Lor_b5_pow, 168, .Lor_b5_b5
-.Lor_b5_b5:
-        .word   172, 172, .Lor_b5_b6
-.Lor_b5_b6:
-        .word   168, 172, .Lor_b5_b_set
-        .word   12, 12, .Lor_b5_chk
-.Lor_b5_b_set:
-        .word   .Lor_b5_pow, 32, .Lor_b5_b_flag
-.Lor_b5_b_flag:
-        .word   .Lor_m1, 164, .Lor_b5_chk
-.Lor_b5_chk:
-        .word   172, 172, .Lor_b5_chk1
-.Lor_b5_chk1:
-        .word   172, 164, .Lor_b4_a
-        .word   .Lor_b5_npow, 160, .Lor_b4_a
+        .word   168, 172, .Lor_b5_r3set
+        .word   12, 12, .Lor_b5_r4only
+.Lor_b5_r3set:
+        .word   .Lor_b5_pow, 28, .Lor_b5_add1
+.Lor_b5_add1:
+        .word   .Lor_b5_npow, 160, .Lor_b5_clr4
+.Lor_b5_clr4:
+        .word   168, 168, .Lor_b5_c1
+.Lor_b5_c1:
+        .word   12, 12, .Lor_b5_c2
+.Lor_b5_c2:
+        .word   32, 12, .Lor_b5_c3
+.Lor_b5_c3:
+        .word   12, 168, .Lor_b5_c4
+.Lor_b5_c4:
+        .word   .Lor_b5_pow, 168, .Lor_b5_c5
+.Lor_b5_c5:
+        .word   172, 172, .Lor_b5_c6
+.Lor_b5_c6:
+        .word   168, 172, .Lor_b5_c_clr
+        .word   12, 12, .Lor_b4_a
+.Lor_b5_c_clr:
+        .word   .Lor_b5_pow, 32, .Lor_b4_a
+.Lor_b5_r4only:
+        .word   168, 168, .Lor_b5_r4o1
+.Lor_b5_r4o1:
+        .word   12, 12, .Lor_b5_r4o2
+.Lor_b5_r4o2:
+        .word   32, 12, .Lor_b5_r4o3
+.Lor_b5_r4o3:
+        .word   12, 168, .Lor_b5_r4o4
+.Lor_b5_r4o4:
+        .word   .Lor_b5_pow, 168, .Lor_b5_r4o5
+.Lor_b5_r4o5:
+        .word   172, 172, .Lor_b5_r4o6
+.Lor_b5_r4o6:
+        .word   168, 172, .Lor_b5_r4set
+        .word   12, 12, .Lor_b4_a
+.Lor_b5_r4set:
+        .word   .Lor_b5_pow, 32, .Lor_b5_r4add1
+.Lor_b5_r4add1:
+        .word   .Lor_b5_npow, 160, .Lor_b5_r4add2
+.Lor_b5_r4add2:
+        .word   12, 12, .Lor_b4_a
 .Lor_b4_a:
-        .word   164, 164, .Lor_b4_a0
-.Lor_b4_a0:
         .word   168, 168, .Lor_b4_a1
 .Lor_b4_a1:
         .word   12, 12, .Lor_b4_a2
@@ -58309,39 +57254,51 @@ __subleq_or:
 .Lor_b4_a5:
         .word   172, 172, .Lor_b4_a6
 .Lor_b4_a6:
-        .word   168, 172, .Lor_b4_a_set
-        .word   12, 12, .Lor_b4_b
-.Lor_b4_a_set:
-        .word   .Lor_b4_pow, 28, .Lor_b4_a_flag
-.Lor_b4_a_flag:
-        .word   .Lor_m1, 164, .Lor_b4_b
-.Lor_b4_b:
-        .word   168, 168, .Lor_b4_b1
-.Lor_b4_b1:
-        .word   12, 12, .Lor_b4_b2
-.Lor_b4_b2:
-        .word   32, 12, .Lor_b4_b3
-.Lor_b4_b3:
-        .word   12, 168, .Lor_b4_b4
-.Lor_b4_b4:
-        .word   .Lor_b4_pow, 168, .Lor_b4_b5
-.Lor_b4_b5:
-        .word   172, 172, .Lor_b4_b6
-.Lor_b4_b6:
-        .word   168, 172, .Lor_b4_b_set
-        .word   12, 12, .Lor_b4_chk
-.Lor_b4_b_set:
-        .word   .Lor_b4_pow, 32, .Lor_b4_b_flag
-.Lor_b4_b_flag:
-        .word   .Lor_m1, 164, .Lor_b4_chk
-.Lor_b4_chk:
-        .word   172, 172, .Lor_b4_chk1
-.Lor_b4_chk1:
-        .word   172, 164, .Lor_b3_a
-        .word   .Lor_b4_npow, 160, .Lor_b3_a
+        .word   168, 172, .Lor_b4_r3set
+        .word   12, 12, .Lor_b4_r4only
+.Lor_b4_r3set:
+        .word   .Lor_b4_pow, 28, .Lor_b4_add1
+.Lor_b4_add1:
+        .word   .Lor_b4_npow, 160, .Lor_b4_clr4
+.Lor_b4_clr4:
+        .word   168, 168, .Lor_b4_c1
+.Lor_b4_c1:
+        .word   12, 12, .Lor_b4_c2
+.Lor_b4_c2:
+        .word   32, 12, .Lor_b4_c3
+.Lor_b4_c3:
+        .word   12, 168, .Lor_b4_c4
+.Lor_b4_c4:
+        .word   .Lor_b4_pow, 168, .Lor_b4_c5
+.Lor_b4_c5:
+        .word   172, 172, .Lor_b4_c6
+.Lor_b4_c6:
+        .word   168, 172, .Lor_b4_c_clr
+        .word   12, 12, .Lor_b3_a
+.Lor_b4_c_clr:
+        .word   .Lor_b4_pow, 32, .Lor_b3_a
+.Lor_b4_r4only:
+        .word   168, 168, .Lor_b4_r4o1
+.Lor_b4_r4o1:
+        .word   12, 12, .Lor_b4_r4o2
+.Lor_b4_r4o2:
+        .word   32, 12, .Lor_b4_r4o3
+.Lor_b4_r4o3:
+        .word   12, 168, .Lor_b4_r4o4
+.Lor_b4_r4o4:
+        .word   .Lor_b4_pow, 168, .Lor_b4_r4o5
+.Lor_b4_r4o5:
+        .word   172, 172, .Lor_b4_r4o6
+.Lor_b4_r4o6:
+        .word   168, 172, .Lor_b4_r4set
+        .word   12, 12, .Lor_b3_a
+.Lor_b4_r4set:
+        .word   .Lor_b4_pow, 32, .Lor_b4_r4add1
+.Lor_b4_r4add1:
+        .word   .Lor_b4_npow, 160, .Lor_b4_r4add2
+.Lor_b4_r4add2:
+        .word   12, 12, .Lor_b3_a
 .Lor_b3_a:
-        .word   164, 164, .Lor_b3_a0
-.Lor_b3_a0:
         .word   168, 168, .Lor_b3_a1
 .Lor_b3_a1:
         .word   12, 12, .Lor_b3_a2
@@ -58354,39 +57311,51 @@ __subleq_or:
 .Lor_b3_a5:
         .word   172, 172, .Lor_b3_a6
 .Lor_b3_a6:
-        .word   168, 172, .Lor_b3_a_set
-        .word   12, 12, .Lor_b3_b
-.Lor_b3_a_set:
-        .word   .Lor_b3_pow, 28, .Lor_b3_a_flag
-.Lor_b3_a_flag:
-        .word   .Lor_m1, 164, .Lor_b3_b
-.Lor_b3_b:
-        .word   168, 168, .Lor_b3_b1
-.Lor_b3_b1:
-        .word   12, 12, .Lor_b3_b2
-.Lor_b3_b2:
-        .word   32, 12, .Lor_b3_b3
-.Lor_b3_b3:
-        .word   12, 168, .Lor_b3_b4
-.Lor_b3_b4:
-        .word   .Lor_b3_pow, 168, .Lor_b3_b5
-.Lor_b3_b5:
-        .word   172, 172, .Lor_b3_b6
-.Lor_b3_b6:
-        .word   168, 172, .Lor_b3_b_set
-        .word   12, 12, .Lor_b3_chk
-.Lor_b3_b_set:
-        .word   .Lor_b3_pow, 32, .Lor_b3_b_flag
-.Lor_b3_b_flag:
-        .word   .Lor_m1, 164, .Lor_b3_chk
-.Lor_b3_chk:
-        .word   172, 172, .Lor_b3_chk1
-.Lor_b3_chk1:
-        .word   172, 164, .Lor_b2_a
-        .word   .Lor_b3_npow, 160, .Lor_b2_a
+        .word   168, 172, .Lor_b3_r3set
+        .word   12, 12, .Lor_b3_r4only
+.Lor_b3_r3set:
+        .word   .Lor_b3_pow, 28, .Lor_b3_add1
+.Lor_b3_add1:
+        .word   .Lor_b3_npow, 160, .Lor_b3_clr4
+.Lor_b3_clr4:
+        .word   168, 168, .Lor_b3_c1
+.Lor_b3_c1:
+        .word   12, 12, .Lor_b3_c2
+.Lor_b3_c2:
+        .word   32, 12, .Lor_b3_c3
+.Lor_b3_c3:
+        .word   12, 168, .Lor_b3_c4
+.Lor_b3_c4:
+        .word   .Lor_b3_pow, 168, .Lor_b3_c5
+.Lor_b3_c5:
+        .word   172, 172, .Lor_b3_c6
+.Lor_b3_c6:
+        .word   168, 172, .Lor_b3_c_clr
+        .word   12, 12, .Lor_b2_a
+.Lor_b3_c_clr:
+        .word   .Lor_b3_pow, 32, .Lor_b2_a
+.Lor_b3_r4only:
+        .word   168, 168, .Lor_b3_r4o1
+.Lor_b3_r4o1:
+        .word   12, 12, .Lor_b3_r4o2
+.Lor_b3_r4o2:
+        .word   32, 12, .Lor_b3_r4o3
+.Lor_b3_r4o3:
+        .word   12, 168, .Lor_b3_r4o4
+.Lor_b3_r4o4:
+        .word   .Lor_b3_pow, 168, .Lor_b3_r4o5
+.Lor_b3_r4o5:
+        .word   172, 172, .Lor_b3_r4o6
+.Lor_b3_r4o6:
+        .word   168, 172, .Lor_b3_r4set
+        .word   12, 12, .Lor_b2_a
+.Lor_b3_r4set:
+        .word   .Lor_b3_pow, 32, .Lor_b3_r4add1
+.Lor_b3_r4add1:
+        .word   .Lor_b3_npow, 160, .Lor_b3_r4add2
+.Lor_b3_r4add2:
+        .word   12, 12, .Lor_b2_a
 .Lor_b2_a:
-        .word   164, 164, .Lor_b2_a0
-.Lor_b2_a0:
         .word   168, 168, .Lor_b2_a1
 .Lor_b2_a1:
         .word   12, 12, .Lor_b2_a2
@@ -58399,39 +57368,51 @@ __subleq_or:
 .Lor_b2_a5:
         .word   172, 172, .Lor_b2_a6
 .Lor_b2_a6:
-        .word   168, 172, .Lor_b2_a_set
-        .word   12, 12, .Lor_b2_b
-.Lor_b2_a_set:
-        .word   .Lor_b2_pow, 28, .Lor_b2_a_flag
-.Lor_b2_a_flag:
-        .word   .Lor_m1, 164, .Lor_b2_b
-.Lor_b2_b:
-        .word   168, 168, .Lor_b2_b1
-.Lor_b2_b1:
-        .word   12, 12, .Lor_b2_b2
-.Lor_b2_b2:
-        .word   32, 12, .Lor_b2_b3
-.Lor_b2_b3:
-        .word   12, 168, .Lor_b2_b4
-.Lor_b2_b4:
-        .word   .Lor_b2_pow, 168, .Lor_b2_b5
-.Lor_b2_b5:
-        .word   172, 172, .Lor_b2_b6
-.Lor_b2_b6:
-        .word   168, 172, .Lor_b2_b_set
-        .word   12, 12, .Lor_b2_chk
-.Lor_b2_b_set:
-        .word   .Lor_b2_pow, 32, .Lor_b2_b_flag
-.Lor_b2_b_flag:
-        .word   .Lor_m1, 164, .Lor_b2_chk
-.Lor_b2_chk:
-        .word   172, 172, .Lor_b2_chk1
-.Lor_b2_chk1:
-        .word   172, 164, .Lor_b1_a
-        .word   .Lor_b2_npow, 160, .Lor_b1_a
+        .word   168, 172, .Lor_b2_r3set
+        .word   12, 12, .Lor_b2_r4only
+.Lor_b2_r3set:
+        .word   .Lor_b2_pow, 28, .Lor_b2_add1
+.Lor_b2_add1:
+        .word   .Lor_b2_npow, 160, .Lor_b2_clr4
+.Lor_b2_clr4:
+        .word   168, 168, .Lor_b2_c1
+.Lor_b2_c1:
+        .word   12, 12, .Lor_b2_c2
+.Lor_b2_c2:
+        .word   32, 12, .Lor_b2_c3
+.Lor_b2_c3:
+        .word   12, 168, .Lor_b2_c4
+.Lor_b2_c4:
+        .word   .Lor_b2_pow, 168, .Lor_b2_c5
+.Lor_b2_c5:
+        .word   172, 172, .Lor_b2_c6
+.Lor_b2_c6:
+        .word   168, 172, .Lor_b2_c_clr
+        .word   12, 12, .Lor_b1_a
+.Lor_b2_c_clr:
+        .word   .Lor_b2_pow, 32, .Lor_b1_a
+.Lor_b2_r4only:
+        .word   168, 168, .Lor_b2_r4o1
+.Lor_b2_r4o1:
+        .word   12, 12, .Lor_b2_r4o2
+.Lor_b2_r4o2:
+        .word   32, 12, .Lor_b2_r4o3
+.Lor_b2_r4o3:
+        .word   12, 168, .Lor_b2_r4o4
+.Lor_b2_r4o4:
+        .word   .Lor_b2_pow, 168, .Lor_b2_r4o5
+.Lor_b2_r4o5:
+        .word   172, 172, .Lor_b2_r4o6
+.Lor_b2_r4o6:
+        .word   168, 172, .Lor_b2_r4set
+        .word   12, 12, .Lor_b1_a
+.Lor_b2_r4set:
+        .word   .Lor_b2_pow, 32, .Lor_b2_r4add1
+.Lor_b2_r4add1:
+        .word   .Lor_b2_npow, 160, .Lor_b2_r4add2
+.Lor_b2_r4add2:
+        .word   12, 12, .Lor_b1_a
 .Lor_b1_a:
-        .word   164, 164, .Lor_b1_a0
-.Lor_b1_a0:
         .word   168, 168, .Lor_b1_a1
 .Lor_b1_a1:
         .word   12, 12, .Lor_b1_a2
@@ -58444,39 +57425,51 @@ __subleq_or:
 .Lor_b1_a5:
         .word   172, 172, .Lor_b1_a6
 .Lor_b1_a6:
-        .word   168, 172, .Lor_b1_a_set
-        .word   12, 12, .Lor_b1_b
-.Lor_b1_a_set:
-        .word   .Lor_b1_pow, 28, .Lor_b1_a_flag
-.Lor_b1_a_flag:
-        .word   .Lor_m1, 164, .Lor_b1_b
-.Lor_b1_b:
-        .word   168, 168, .Lor_b1_b1
-.Lor_b1_b1:
-        .word   12, 12, .Lor_b1_b2
-.Lor_b1_b2:
-        .word   32, 12, .Lor_b1_b3
-.Lor_b1_b3:
-        .word   12, 168, .Lor_b1_b4
-.Lor_b1_b4:
-        .word   .Lor_b1_pow, 168, .Lor_b1_b5
-.Lor_b1_b5:
-        .word   172, 172, .Lor_b1_b6
-.Lor_b1_b6:
-        .word   168, 172, .Lor_b1_b_set
-        .word   12, 12, .Lor_b1_chk
-.Lor_b1_b_set:
-        .word   .Lor_b1_pow, 32, .Lor_b1_b_flag
-.Lor_b1_b_flag:
-        .word   .Lor_m1, 164, .Lor_b1_chk
-.Lor_b1_chk:
-        .word   172, 172, .Lor_b1_chk1
-.Lor_b1_chk1:
-        .word   172, 164, .Lor_b0_a
-        .word   .Lor_b1_npow, 160, .Lor_b0_a
+        .word   168, 172, .Lor_b1_r3set
+        .word   12, 12, .Lor_b1_r4only
+.Lor_b1_r3set:
+        .word   .Lor_b1_pow, 28, .Lor_b1_add1
+.Lor_b1_add1:
+        .word   .Lor_b1_npow, 160, .Lor_b1_clr4
+.Lor_b1_clr4:
+        .word   168, 168, .Lor_b1_c1
+.Lor_b1_c1:
+        .word   12, 12, .Lor_b1_c2
+.Lor_b1_c2:
+        .word   32, 12, .Lor_b1_c3
+.Lor_b1_c3:
+        .word   12, 168, .Lor_b1_c4
+.Lor_b1_c4:
+        .word   .Lor_b1_pow, 168, .Lor_b1_c5
+.Lor_b1_c5:
+        .word   172, 172, .Lor_b1_c6
+.Lor_b1_c6:
+        .word   168, 172, .Lor_b1_c_clr
+        .word   12, 12, .Lor_b0_a
+.Lor_b1_c_clr:
+        .word   .Lor_b1_pow, 32, .Lor_b0_a
+.Lor_b1_r4only:
+        .word   168, 168, .Lor_b1_r4o1
+.Lor_b1_r4o1:
+        .word   12, 12, .Lor_b1_r4o2
+.Lor_b1_r4o2:
+        .word   32, 12, .Lor_b1_r4o3
+.Lor_b1_r4o3:
+        .word   12, 168, .Lor_b1_r4o4
+.Lor_b1_r4o4:
+        .word   .Lor_b1_pow, 168, .Lor_b1_r4o5
+.Lor_b1_r4o5:
+        .word   172, 172, .Lor_b1_r4o6
+.Lor_b1_r4o6:
+        .word   168, 172, .Lor_b1_r4set
+        .word   12, 12, .Lor_b0_a
+.Lor_b1_r4set:
+        .word   .Lor_b1_pow, 32, .Lor_b1_r4add1
+.Lor_b1_r4add1:
+        .word   .Lor_b1_npow, 160, .Lor_b1_r4add2
+.Lor_b1_r4add2:
+        .word   12, 12, .Lor_b0_a
 .Lor_b0_a:
-        .word   164, 164, .Lor_b0_a0
-.Lor_b0_a0:
         .word   168, 168, .Lor_b0_a1
 .Lor_b0_a1:
         .word   12, 12, .Lor_b0_a2
@@ -58489,36 +57482,50 @@ __subleq_or:
 .Lor_b0_a5:
         .word   172, 172, .Lor_b0_a6
 .Lor_b0_a6:
-        .word   168, 172, .Lor_b0_a_set
-        .word   12, 12, .Lor_b0_b
-.Lor_b0_a_set:
-        .word   .Lor_b0_pow, 28, .Lor_b0_a_flag
-.Lor_b0_a_flag:
-        .word   .Lor_m1, 164, .Lor_b0_b
-.Lor_b0_b:
-        .word   168, 168, .Lor_b0_b1
-.Lor_b0_b1:
-        .word   12, 12, .Lor_b0_b2
-.Lor_b0_b2:
-        .word   32, 12, .Lor_b0_b3
-.Lor_b0_b3:
-        .word   12, 168, .Lor_b0_b4
-.Lor_b0_b4:
-        .word   .Lor_b0_pow, 168, .Lor_b0_b5
-.Lor_b0_b5:
-        .word   172, 172, .Lor_b0_b6
-.Lor_b0_b6:
-        .word   168, 172, .Lor_b0_b_set
-        .word   12, 12, .Lor_b0_chk
-.Lor_b0_b_set:
-        .word   .Lor_b0_pow, 32, .Lor_b0_b_flag
-.Lor_b0_b_flag:
-        .word   .Lor_m1, 164, .Lor_b0_chk
-.Lor_b0_chk:
-        .word   172, 172, .Lor_b0_chk1
-.Lor_b0_chk1:
-        .word   172, 164, .Lor_done
-        .word   .Lor_b0_npow, 160, .Lor_done
+        .word   168, 172, .Lor_b0_r3set
+        .word   12, 12, .Lor_b0_r4only
+.Lor_b0_r3set:
+        .word   .Lor_b0_pow, 28, .Lor_b0_add1
+.Lor_b0_add1:
+        .word   .Lor_b0_npow, 160, .Lor_b0_clr4
+.Lor_b0_clr4:
+        .word   168, 168, .Lor_b0_c1
+.Lor_b0_c1:
+        .word   12, 12, .Lor_b0_c2
+.Lor_b0_c2:
+        .word   32, 12, .Lor_b0_c3
+.Lor_b0_c3:
+        .word   12, 168, .Lor_b0_c4
+.Lor_b0_c4:
+        .word   .Lor_b0_pow, 168, .Lor_b0_c5
+.Lor_b0_c5:
+        .word   172, 172, .Lor_b0_c6
+.Lor_b0_c6:
+        .word   168, 172, .Lor_b0_c_clr
+        .word   12, 12, .Lor_done
+.Lor_b0_c_clr:
+        .word   .Lor_b0_pow, 32, .Lor_done
+.Lor_b0_r4only:
+        .word   168, 168, .Lor_b0_r4o1
+.Lor_b0_r4o1:
+        .word   12, 12, .Lor_b0_r4o2
+.Lor_b0_r4o2:
+        .word   32, 12, .Lor_b0_r4o3
+.Lor_b0_r4o3:
+        .word   12, 168, .Lor_b0_r4o4
+.Lor_b0_r4o4:
+        .word   .Lor_b0_pow, 168, .Lor_b0_r4o5
+.Lor_b0_r4o5:
+        .word   172, 172, .Lor_b0_r4o6
+.Lor_b0_r4o6:
+        .word   168, 172, .Lor_b0_r4set
+        .word   12, 12, .Lor_done
+.Lor_b0_r4set:
+        .word   .Lor_b0_pow, 32, .Lor_b0_r4add1
+.Lor_b0_r4add1:
+        .word   .Lor_b0_npow, 160, .Lor_b0_r4add2
+.Lor_b0_r4add2:
+        .word   12, 12, .Lor_done
 .Lor_done:
         .word   28, 28, .Lor_ret1
 .Lor_ret1:
@@ -58815,8 +57822,6 @@ __subleq_xor:
         .word   12, 12, .Lxor_loop_init
 .Lxor_loop_init:
 .Lxor_b30_a:
-        .word   164, 164, .Lxor_b30_a0
-.Lxor_b30_a0:
         .word   168, 168, .Lxor_b30_a1
 .Lxor_b30_a1:
         .word   12, 12, .Lxor_b30_a2
@@ -58829,50 +57834,51 @@ __subleq_xor:
 .Lxor_b30_a5:
         .word   172, 172, .Lxor_b30_a6
 .Lxor_b30_a6:
-        .word   168, 172, .Lxor_b30_a_set
-        .word   12, 12, .Lxor_b30_b
-.Lxor_b30_a_set:
-        .word   .Lxor_b30_pow, 28, .Lxor_b30_a_flag
-.Lxor_b30_a_flag:
-        .word   .Lxor_m1, 164, .Lxor_b30_b
-.Lxor_b30_b:
-        .word   168, 168, .Lxor_b30_b1
-.Lxor_b30_b1:
-        .word   12, 12, .Lxor_b30_b2
-.Lxor_b30_b2:
-        .word   32, 12, .Lxor_b30_b3
-.Lxor_b30_b3:
-        .word   12, 168, .Lxor_b30_b4
-.Lxor_b30_b4:
-        .word   .Lxor_b30_pow, 168, .Lxor_b30_b5
-.Lxor_b30_b5:
-        .word   172, 172, .Lxor_b30_b6
-.Lxor_b30_b6:
-        .word   168, 172, .Lxor_b30_b_set
-        .word   12, 12, .Lxor_b30_chk
-.Lxor_b30_b_set:
-        .word   .Lxor_b30_pow, 32, .Lxor_b30_b_flag
-.Lxor_b30_b_flag:
-        .word   .Lxor_m1, 164, .Lxor_b30_chk
-.Lxor_b30_chk:
-        .word   .Lxor_one, 164, .Lxor_b30_chk1
-.Lxor_b30_chk1:
-        .word   172, 172, .Lxor_b30_chk2
-.Lxor_b30_chk2:
-        .word   172, 164, .Lxor_b30_chk3
-        .word   12, 12, .Lxor_b30_skip
-.Lxor_b30_chk3:
-        .word   172, 172, .Lxor_b30_chk4
+        .word   168, 172, .Lxor_b30_r3set
+        .word   12, 12, .Lxor_b30_r4only
+.Lxor_b30_r3set:
+        .word   .Lxor_b30_pow, 28, .Lxor_b30_chk4
 .Lxor_b30_chk4:
-        .word   164, 172, .Lxor_b30_add
-        .word   12, 12, .Lxor_b30_skip
-.Lxor_b30_add:
-        .word   .Lxor_b30_npow, 160, .Lxor_b29_a
-.Lxor_b30_skip:
+        .word   168, 168, .Lxor_b30_c1
+.Lxor_b30_c1:
+        .word   12, 12, .Lxor_b30_c2
+.Lxor_b30_c2:
+        .word   32, 12, .Lxor_b30_c3
+.Lxor_b30_c3:
+        .word   12, 168, .Lxor_b30_c4
+.Lxor_b30_c4:
+        .word   .Lxor_b30_pow, 168, .Lxor_b30_c5
+.Lxor_b30_c5:
+        .word   172, 172, .Lxor_b30_c6
+.Lxor_b30_c6:
+        .word   168, 172, .Lxor_b30_c_set
+        .word   .Lxor_b30_npow, 160, .Lxor_b30_c_add1
+.Lxor_b30_c_add1:
+        .word   12, 12, .Lxor_b29_a
+.Lxor_b30_c_set:
+        .word   .Lxor_b30_pow, 32, .Lxor_b29_a
+.Lxor_b30_r4only:
+        .word   168, 168, .Lxor_b30_r4o1
+.Lxor_b30_r4o1:
+        .word   12, 12, .Lxor_b30_r4o2
+.Lxor_b30_r4o2:
+        .word   32, 12, .Lxor_b30_r4o3
+.Lxor_b30_r4o3:
+        .word   12, 168, .Lxor_b30_r4o4
+.Lxor_b30_r4o4:
+        .word   .Lxor_b30_pow, 168, .Lxor_b30_r4o5
+.Lxor_b30_r4o5:
+        .word   172, 172, .Lxor_b30_r4o6
+.Lxor_b30_r4o6:
+        .word   168, 172, .Lxor_b30_r4set
+        .word   12, 12, .Lxor_b29_a
+.Lxor_b30_r4set:
+        .word   .Lxor_b30_pow, 32, .Lxor_b30_r4add1
+.Lxor_b30_r4add1:
+        .word   .Lxor_b30_npow, 160, .Lxor_b30_r4add2
+.Lxor_b30_r4add2:
         .word   12, 12, .Lxor_b29_a
 .Lxor_b29_a:
-        .word   164, 164, .Lxor_b29_a0
-.Lxor_b29_a0:
         .word   168, 168, .Lxor_b29_a1
 .Lxor_b29_a1:
         .word   12, 12, .Lxor_b29_a2
@@ -58885,50 +57891,51 @@ __subleq_xor:
 .Lxor_b29_a5:
         .word   172, 172, .Lxor_b29_a6
 .Lxor_b29_a6:
-        .word   168, 172, .Lxor_b29_a_set
-        .word   12, 12, .Lxor_b29_b
-.Lxor_b29_a_set:
-        .word   .Lxor_b29_pow, 28, .Lxor_b29_a_flag
-.Lxor_b29_a_flag:
-        .word   .Lxor_m1, 164, .Lxor_b29_b
-.Lxor_b29_b:
-        .word   168, 168, .Lxor_b29_b1
-.Lxor_b29_b1:
-        .word   12, 12, .Lxor_b29_b2
-.Lxor_b29_b2:
-        .word   32, 12, .Lxor_b29_b3
-.Lxor_b29_b3:
-        .word   12, 168, .Lxor_b29_b4
-.Lxor_b29_b4:
-        .word   .Lxor_b29_pow, 168, .Lxor_b29_b5
-.Lxor_b29_b5:
-        .word   172, 172, .Lxor_b29_b6
-.Lxor_b29_b6:
-        .word   168, 172, .Lxor_b29_b_set
-        .word   12, 12, .Lxor_b29_chk
-.Lxor_b29_b_set:
-        .word   .Lxor_b29_pow, 32, .Lxor_b29_b_flag
-.Lxor_b29_b_flag:
-        .word   .Lxor_m1, 164, .Lxor_b29_chk
-.Lxor_b29_chk:
-        .word   .Lxor_one, 164, .Lxor_b29_chk1
-.Lxor_b29_chk1:
-        .word   172, 172, .Lxor_b29_chk2
-.Lxor_b29_chk2:
-        .word   172, 164, .Lxor_b29_chk3
-        .word   12, 12, .Lxor_b29_skip
-.Lxor_b29_chk3:
-        .word   172, 172, .Lxor_b29_chk4
+        .word   168, 172, .Lxor_b29_r3set
+        .word   12, 12, .Lxor_b29_r4only
+.Lxor_b29_r3set:
+        .word   .Lxor_b29_pow, 28, .Lxor_b29_chk4
 .Lxor_b29_chk4:
-        .word   164, 172, .Lxor_b29_add
-        .word   12, 12, .Lxor_b29_skip
-.Lxor_b29_add:
-        .word   .Lxor_b29_npow, 160, .Lxor_b28_a
-.Lxor_b29_skip:
+        .word   168, 168, .Lxor_b29_c1
+.Lxor_b29_c1:
+        .word   12, 12, .Lxor_b29_c2
+.Lxor_b29_c2:
+        .word   32, 12, .Lxor_b29_c3
+.Lxor_b29_c3:
+        .word   12, 168, .Lxor_b29_c4
+.Lxor_b29_c4:
+        .word   .Lxor_b29_pow, 168, .Lxor_b29_c5
+.Lxor_b29_c5:
+        .word   172, 172, .Lxor_b29_c6
+.Lxor_b29_c6:
+        .word   168, 172, .Lxor_b29_c_set
+        .word   .Lxor_b29_npow, 160, .Lxor_b29_c_add1
+.Lxor_b29_c_add1:
+        .word   12, 12, .Lxor_b28_a
+.Lxor_b29_c_set:
+        .word   .Lxor_b29_pow, 32, .Lxor_b28_a
+.Lxor_b29_r4only:
+        .word   168, 168, .Lxor_b29_r4o1
+.Lxor_b29_r4o1:
+        .word   12, 12, .Lxor_b29_r4o2
+.Lxor_b29_r4o2:
+        .word   32, 12, .Lxor_b29_r4o3
+.Lxor_b29_r4o3:
+        .word   12, 168, .Lxor_b29_r4o4
+.Lxor_b29_r4o4:
+        .word   .Lxor_b29_pow, 168, .Lxor_b29_r4o5
+.Lxor_b29_r4o5:
+        .word   172, 172, .Lxor_b29_r4o6
+.Lxor_b29_r4o6:
+        .word   168, 172, .Lxor_b29_r4set
+        .word   12, 12, .Lxor_b28_a
+.Lxor_b29_r4set:
+        .word   .Lxor_b29_pow, 32, .Lxor_b29_r4add1
+.Lxor_b29_r4add1:
+        .word   .Lxor_b29_npow, 160, .Lxor_b29_r4add2
+.Lxor_b29_r4add2:
         .word   12, 12, .Lxor_b28_a
 .Lxor_b28_a:
-        .word   164, 164, .Lxor_b28_a0
-.Lxor_b28_a0:
         .word   168, 168, .Lxor_b28_a1
 .Lxor_b28_a1:
         .word   12, 12, .Lxor_b28_a2
@@ -58941,50 +57948,51 @@ __subleq_xor:
 .Lxor_b28_a5:
         .word   172, 172, .Lxor_b28_a6
 .Lxor_b28_a6:
-        .word   168, 172, .Lxor_b28_a_set
-        .word   12, 12, .Lxor_b28_b
-.Lxor_b28_a_set:
-        .word   .Lxor_b28_pow, 28, .Lxor_b28_a_flag
-.Lxor_b28_a_flag:
-        .word   .Lxor_m1, 164, .Lxor_b28_b
-.Lxor_b28_b:
-        .word   168, 168, .Lxor_b28_b1
-.Lxor_b28_b1:
-        .word   12, 12, .Lxor_b28_b2
-.Lxor_b28_b2:
-        .word   32, 12, .Lxor_b28_b3
-.Lxor_b28_b3:
-        .word   12, 168, .Lxor_b28_b4
-.Lxor_b28_b4:
-        .word   .Lxor_b28_pow, 168, .Lxor_b28_b5
-.Lxor_b28_b5:
-        .word   172, 172, .Lxor_b28_b6
-.Lxor_b28_b6:
-        .word   168, 172, .Lxor_b28_b_set
-        .word   12, 12, .Lxor_b28_chk
-.Lxor_b28_b_set:
-        .word   .Lxor_b28_pow, 32, .Lxor_b28_b_flag
-.Lxor_b28_b_flag:
-        .word   .Lxor_m1, 164, .Lxor_b28_chk
-.Lxor_b28_chk:
-        .word   .Lxor_one, 164, .Lxor_b28_chk1
-.Lxor_b28_chk1:
-        .word   172, 172, .Lxor_b28_chk2
-.Lxor_b28_chk2:
-        .word   172, 164, .Lxor_b28_chk3
-        .word   12, 12, .Lxor_b28_skip
-.Lxor_b28_chk3:
-        .word   172, 172, .Lxor_b28_chk4
+        .word   168, 172, .Lxor_b28_r3set
+        .word   12, 12, .Lxor_b28_r4only
+.Lxor_b28_r3set:
+        .word   .Lxor_b28_pow, 28, .Lxor_b28_chk4
 .Lxor_b28_chk4:
-        .word   164, 172, .Lxor_b28_add
-        .word   12, 12, .Lxor_b28_skip
-.Lxor_b28_add:
-        .word   .Lxor_b28_npow, 160, .Lxor_b27_a
-.Lxor_b28_skip:
+        .word   168, 168, .Lxor_b28_c1
+.Lxor_b28_c1:
+        .word   12, 12, .Lxor_b28_c2
+.Lxor_b28_c2:
+        .word   32, 12, .Lxor_b28_c3
+.Lxor_b28_c3:
+        .word   12, 168, .Lxor_b28_c4
+.Lxor_b28_c4:
+        .word   .Lxor_b28_pow, 168, .Lxor_b28_c5
+.Lxor_b28_c5:
+        .word   172, 172, .Lxor_b28_c6
+.Lxor_b28_c6:
+        .word   168, 172, .Lxor_b28_c_set
+        .word   .Lxor_b28_npow, 160, .Lxor_b28_c_add1
+.Lxor_b28_c_add1:
+        .word   12, 12, .Lxor_b27_a
+.Lxor_b28_c_set:
+        .word   .Lxor_b28_pow, 32, .Lxor_b27_a
+.Lxor_b28_r4only:
+        .word   168, 168, .Lxor_b28_r4o1
+.Lxor_b28_r4o1:
+        .word   12, 12, .Lxor_b28_r4o2
+.Lxor_b28_r4o2:
+        .word   32, 12, .Lxor_b28_r4o3
+.Lxor_b28_r4o3:
+        .word   12, 168, .Lxor_b28_r4o4
+.Lxor_b28_r4o4:
+        .word   .Lxor_b28_pow, 168, .Lxor_b28_r4o5
+.Lxor_b28_r4o5:
+        .word   172, 172, .Lxor_b28_r4o6
+.Lxor_b28_r4o6:
+        .word   168, 172, .Lxor_b28_r4set
+        .word   12, 12, .Lxor_b27_a
+.Lxor_b28_r4set:
+        .word   .Lxor_b28_pow, 32, .Lxor_b28_r4add1
+.Lxor_b28_r4add1:
+        .word   .Lxor_b28_npow, 160, .Lxor_b28_r4add2
+.Lxor_b28_r4add2:
         .word   12, 12, .Lxor_b27_a
 .Lxor_b27_a:
-        .word   164, 164, .Lxor_b27_a0
-.Lxor_b27_a0:
         .word   168, 168, .Lxor_b27_a1
 .Lxor_b27_a1:
         .word   12, 12, .Lxor_b27_a2
@@ -58997,50 +58005,51 @@ __subleq_xor:
 .Lxor_b27_a5:
         .word   172, 172, .Lxor_b27_a6
 .Lxor_b27_a6:
-        .word   168, 172, .Lxor_b27_a_set
-        .word   12, 12, .Lxor_b27_b
-.Lxor_b27_a_set:
-        .word   .Lxor_b27_pow, 28, .Lxor_b27_a_flag
-.Lxor_b27_a_flag:
-        .word   .Lxor_m1, 164, .Lxor_b27_b
-.Lxor_b27_b:
-        .word   168, 168, .Lxor_b27_b1
-.Lxor_b27_b1:
-        .word   12, 12, .Lxor_b27_b2
-.Lxor_b27_b2:
-        .word   32, 12, .Lxor_b27_b3
-.Lxor_b27_b3:
-        .word   12, 168, .Lxor_b27_b4
-.Lxor_b27_b4:
-        .word   .Lxor_b27_pow, 168, .Lxor_b27_b5
-.Lxor_b27_b5:
-        .word   172, 172, .Lxor_b27_b6
-.Lxor_b27_b6:
-        .word   168, 172, .Lxor_b27_b_set
-        .word   12, 12, .Lxor_b27_chk
-.Lxor_b27_b_set:
-        .word   .Lxor_b27_pow, 32, .Lxor_b27_b_flag
-.Lxor_b27_b_flag:
-        .word   .Lxor_m1, 164, .Lxor_b27_chk
-.Lxor_b27_chk:
-        .word   .Lxor_one, 164, .Lxor_b27_chk1
-.Lxor_b27_chk1:
-        .word   172, 172, .Lxor_b27_chk2
-.Lxor_b27_chk2:
-        .word   172, 164, .Lxor_b27_chk3
-        .word   12, 12, .Lxor_b27_skip
-.Lxor_b27_chk3:
-        .word   172, 172, .Lxor_b27_chk4
+        .word   168, 172, .Lxor_b27_r3set
+        .word   12, 12, .Lxor_b27_r4only
+.Lxor_b27_r3set:
+        .word   .Lxor_b27_pow, 28, .Lxor_b27_chk4
 .Lxor_b27_chk4:
-        .word   164, 172, .Lxor_b27_add
-        .word   12, 12, .Lxor_b27_skip
-.Lxor_b27_add:
-        .word   .Lxor_b27_npow, 160, .Lxor_b26_a
-.Lxor_b27_skip:
+        .word   168, 168, .Lxor_b27_c1
+.Lxor_b27_c1:
+        .word   12, 12, .Lxor_b27_c2
+.Lxor_b27_c2:
+        .word   32, 12, .Lxor_b27_c3
+.Lxor_b27_c3:
+        .word   12, 168, .Lxor_b27_c4
+.Lxor_b27_c4:
+        .word   .Lxor_b27_pow, 168, .Lxor_b27_c5
+.Lxor_b27_c5:
+        .word   172, 172, .Lxor_b27_c6
+.Lxor_b27_c6:
+        .word   168, 172, .Lxor_b27_c_set
+        .word   .Lxor_b27_npow, 160, .Lxor_b27_c_add1
+.Lxor_b27_c_add1:
+        .word   12, 12, .Lxor_b26_a
+.Lxor_b27_c_set:
+        .word   .Lxor_b27_pow, 32, .Lxor_b26_a
+.Lxor_b27_r4only:
+        .word   168, 168, .Lxor_b27_r4o1
+.Lxor_b27_r4o1:
+        .word   12, 12, .Lxor_b27_r4o2
+.Lxor_b27_r4o2:
+        .word   32, 12, .Lxor_b27_r4o3
+.Lxor_b27_r4o3:
+        .word   12, 168, .Lxor_b27_r4o4
+.Lxor_b27_r4o4:
+        .word   .Lxor_b27_pow, 168, .Lxor_b27_r4o5
+.Lxor_b27_r4o5:
+        .word   172, 172, .Lxor_b27_r4o6
+.Lxor_b27_r4o6:
+        .word   168, 172, .Lxor_b27_r4set
+        .word   12, 12, .Lxor_b26_a
+.Lxor_b27_r4set:
+        .word   .Lxor_b27_pow, 32, .Lxor_b27_r4add1
+.Lxor_b27_r4add1:
+        .word   .Lxor_b27_npow, 160, .Lxor_b27_r4add2
+.Lxor_b27_r4add2:
         .word   12, 12, .Lxor_b26_a
 .Lxor_b26_a:
-        .word   164, 164, .Lxor_b26_a0
-.Lxor_b26_a0:
         .word   168, 168, .Lxor_b26_a1
 .Lxor_b26_a1:
         .word   12, 12, .Lxor_b26_a2
@@ -59053,50 +58062,51 @@ __subleq_xor:
 .Lxor_b26_a5:
         .word   172, 172, .Lxor_b26_a6
 .Lxor_b26_a6:
-        .word   168, 172, .Lxor_b26_a_set
-        .word   12, 12, .Lxor_b26_b
-.Lxor_b26_a_set:
-        .word   .Lxor_b26_pow, 28, .Lxor_b26_a_flag
-.Lxor_b26_a_flag:
-        .word   .Lxor_m1, 164, .Lxor_b26_b
-.Lxor_b26_b:
-        .word   168, 168, .Lxor_b26_b1
-.Lxor_b26_b1:
-        .word   12, 12, .Lxor_b26_b2
-.Lxor_b26_b2:
-        .word   32, 12, .Lxor_b26_b3
-.Lxor_b26_b3:
-        .word   12, 168, .Lxor_b26_b4
-.Lxor_b26_b4:
-        .word   .Lxor_b26_pow, 168, .Lxor_b26_b5
-.Lxor_b26_b5:
-        .word   172, 172, .Lxor_b26_b6
-.Lxor_b26_b6:
-        .word   168, 172, .Lxor_b26_b_set
-        .word   12, 12, .Lxor_b26_chk
-.Lxor_b26_b_set:
-        .word   .Lxor_b26_pow, 32, .Lxor_b26_b_flag
-.Lxor_b26_b_flag:
-        .word   .Lxor_m1, 164, .Lxor_b26_chk
-.Lxor_b26_chk:
-        .word   .Lxor_one, 164, .Lxor_b26_chk1
-.Lxor_b26_chk1:
-        .word   172, 172, .Lxor_b26_chk2
-.Lxor_b26_chk2:
-        .word   172, 164, .Lxor_b26_chk3
-        .word   12, 12, .Lxor_b26_skip
-.Lxor_b26_chk3:
-        .word   172, 172, .Lxor_b26_chk4
+        .word   168, 172, .Lxor_b26_r3set
+        .word   12, 12, .Lxor_b26_r4only
+.Lxor_b26_r3set:
+        .word   .Lxor_b26_pow, 28, .Lxor_b26_chk4
 .Lxor_b26_chk4:
-        .word   164, 172, .Lxor_b26_add
-        .word   12, 12, .Lxor_b26_skip
-.Lxor_b26_add:
-        .word   .Lxor_b26_npow, 160, .Lxor_b25_a
-.Lxor_b26_skip:
+        .word   168, 168, .Lxor_b26_c1
+.Lxor_b26_c1:
+        .word   12, 12, .Lxor_b26_c2
+.Lxor_b26_c2:
+        .word   32, 12, .Lxor_b26_c3
+.Lxor_b26_c3:
+        .word   12, 168, .Lxor_b26_c4
+.Lxor_b26_c4:
+        .word   .Lxor_b26_pow, 168, .Lxor_b26_c5
+.Lxor_b26_c5:
+        .word   172, 172, .Lxor_b26_c6
+.Lxor_b26_c6:
+        .word   168, 172, .Lxor_b26_c_set
+        .word   .Lxor_b26_npow, 160, .Lxor_b26_c_add1
+.Lxor_b26_c_add1:
+        .word   12, 12, .Lxor_b25_a
+.Lxor_b26_c_set:
+        .word   .Lxor_b26_pow, 32, .Lxor_b25_a
+.Lxor_b26_r4only:
+        .word   168, 168, .Lxor_b26_r4o1
+.Lxor_b26_r4o1:
+        .word   12, 12, .Lxor_b26_r4o2
+.Lxor_b26_r4o2:
+        .word   32, 12, .Lxor_b26_r4o3
+.Lxor_b26_r4o3:
+        .word   12, 168, .Lxor_b26_r4o4
+.Lxor_b26_r4o4:
+        .word   .Lxor_b26_pow, 168, .Lxor_b26_r4o5
+.Lxor_b26_r4o5:
+        .word   172, 172, .Lxor_b26_r4o6
+.Lxor_b26_r4o6:
+        .word   168, 172, .Lxor_b26_r4set
+        .word   12, 12, .Lxor_b25_a
+.Lxor_b26_r4set:
+        .word   .Lxor_b26_pow, 32, .Lxor_b26_r4add1
+.Lxor_b26_r4add1:
+        .word   .Lxor_b26_npow, 160, .Lxor_b26_r4add2
+.Lxor_b26_r4add2:
         .word   12, 12, .Lxor_b25_a
 .Lxor_b25_a:
-        .word   164, 164, .Lxor_b25_a0
-.Lxor_b25_a0:
         .word   168, 168, .Lxor_b25_a1
 .Lxor_b25_a1:
         .word   12, 12, .Lxor_b25_a2
@@ -59109,50 +58119,51 @@ __subleq_xor:
 .Lxor_b25_a5:
         .word   172, 172, .Lxor_b25_a6
 .Lxor_b25_a6:
-        .word   168, 172, .Lxor_b25_a_set
-        .word   12, 12, .Lxor_b25_b
-.Lxor_b25_a_set:
-        .word   .Lxor_b25_pow, 28, .Lxor_b25_a_flag
-.Lxor_b25_a_flag:
-        .word   .Lxor_m1, 164, .Lxor_b25_b
-.Lxor_b25_b:
-        .word   168, 168, .Lxor_b25_b1
-.Lxor_b25_b1:
-        .word   12, 12, .Lxor_b25_b2
-.Lxor_b25_b2:
-        .word   32, 12, .Lxor_b25_b3
-.Lxor_b25_b3:
-        .word   12, 168, .Lxor_b25_b4
-.Lxor_b25_b4:
-        .word   .Lxor_b25_pow, 168, .Lxor_b25_b5
-.Lxor_b25_b5:
-        .word   172, 172, .Lxor_b25_b6
-.Lxor_b25_b6:
-        .word   168, 172, .Lxor_b25_b_set
-        .word   12, 12, .Lxor_b25_chk
-.Lxor_b25_b_set:
-        .word   .Lxor_b25_pow, 32, .Lxor_b25_b_flag
-.Lxor_b25_b_flag:
-        .word   .Lxor_m1, 164, .Lxor_b25_chk
-.Lxor_b25_chk:
-        .word   .Lxor_one, 164, .Lxor_b25_chk1
-.Lxor_b25_chk1:
-        .word   172, 172, .Lxor_b25_chk2
-.Lxor_b25_chk2:
-        .word   172, 164, .Lxor_b25_chk3
-        .word   12, 12, .Lxor_b25_skip
-.Lxor_b25_chk3:
-        .word   172, 172, .Lxor_b25_chk4
+        .word   168, 172, .Lxor_b25_r3set
+        .word   12, 12, .Lxor_b25_r4only
+.Lxor_b25_r3set:
+        .word   .Lxor_b25_pow, 28, .Lxor_b25_chk4
 .Lxor_b25_chk4:
-        .word   164, 172, .Lxor_b25_add
-        .word   12, 12, .Lxor_b25_skip
-.Lxor_b25_add:
-        .word   .Lxor_b25_npow, 160, .Lxor_b24_a
-.Lxor_b25_skip:
+        .word   168, 168, .Lxor_b25_c1
+.Lxor_b25_c1:
+        .word   12, 12, .Lxor_b25_c2
+.Lxor_b25_c2:
+        .word   32, 12, .Lxor_b25_c3
+.Lxor_b25_c3:
+        .word   12, 168, .Lxor_b25_c4
+.Lxor_b25_c4:
+        .word   .Lxor_b25_pow, 168, .Lxor_b25_c5
+.Lxor_b25_c5:
+        .word   172, 172, .Lxor_b25_c6
+.Lxor_b25_c6:
+        .word   168, 172, .Lxor_b25_c_set
+        .word   .Lxor_b25_npow, 160, .Lxor_b25_c_add1
+.Lxor_b25_c_add1:
+        .word   12, 12, .Lxor_b24_a
+.Lxor_b25_c_set:
+        .word   .Lxor_b25_pow, 32, .Lxor_b24_a
+.Lxor_b25_r4only:
+        .word   168, 168, .Lxor_b25_r4o1
+.Lxor_b25_r4o1:
+        .word   12, 12, .Lxor_b25_r4o2
+.Lxor_b25_r4o2:
+        .word   32, 12, .Lxor_b25_r4o3
+.Lxor_b25_r4o3:
+        .word   12, 168, .Lxor_b25_r4o4
+.Lxor_b25_r4o4:
+        .word   .Lxor_b25_pow, 168, .Lxor_b25_r4o5
+.Lxor_b25_r4o5:
+        .word   172, 172, .Lxor_b25_r4o6
+.Lxor_b25_r4o6:
+        .word   168, 172, .Lxor_b25_r4set
+        .word   12, 12, .Lxor_b24_a
+.Lxor_b25_r4set:
+        .word   .Lxor_b25_pow, 32, .Lxor_b25_r4add1
+.Lxor_b25_r4add1:
+        .word   .Lxor_b25_npow, 160, .Lxor_b25_r4add2
+.Lxor_b25_r4add2:
         .word   12, 12, .Lxor_b24_a
 .Lxor_b24_a:
-        .word   164, 164, .Lxor_b24_a0
-.Lxor_b24_a0:
         .word   168, 168, .Lxor_b24_a1
 .Lxor_b24_a1:
         .word   12, 12, .Lxor_b24_a2
@@ -59165,50 +58176,51 @@ __subleq_xor:
 .Lxor_b24_a5:
         .word   172, 172, .Lxor_b24_a6
 .Lxor_b24_a6:
-        .word   168, 172, .Lxor_b24_a_set
-        .word   12, 12, .Lxor_b24_b
-.Lxor_b24_a_set:
-        .word   .Lxor_b24_pow, 28, .Lxor_b24_a_flag
-.Lxor_b24_a_flag:
-        .word   .Lxor_m1, 164, .Lxor_b24_b
-.Lxor_b24_b:
-        .word   168, 168, .Lxor_b24_b1
-.Lxor_b24_b1:
-        .word   12, 12, .Lxor_b24_b2
-.Lxor_b24_b2:
-        .word   32, 12, .Lxor_b24_b3
-.Lxor_b24_b3:
-        .word   12, 168, .Lxor_b24_b4
-.Lxor_b24_b4:
-        .word   .Lxor_b24_pow, 168, .Lxor_b24_b5
-.Lxor_b24_b5:
-        .word   172, 172, .Lxor_b24_b6
-.Lxor_b24_b6:
-        .word   168, 172, .Lxor_b24_b_set
-        .word   12, 12, .Lxor_b24_chk
-.Lxor_b24_b_set:
-        .word   .Lxor_b24_pow, 32, .Lxor_b24_b_flag
-.Lxor_b24_b_flag:
-        .word   .Lxor_m1, 164, .Lxor_b24_chk
-.Lxor_b24_chk:
-        .word   .Lxor_one, 164, .Lxor_b24_chk1
-.Lxor_b24_chk1:
-        .word   172, 172, .Lxor_b24_chk2
-.Lxor_b24_chk2:
-        .word   172, 164, .Lxor_b24_chk3
-        .word   12, 12, .Lxor_b24_skip
-.Lxor_b24_chk3:
-        .word   172, 172, .Lxor_b24_chk4
+        .word   168, 172, .Lxor_b24_r3set
+        .word   12, 12, .Lxor_b24_r4only
+.Lxor_b24_r3set:
+        .word   .Lxor_b24_pow, 28, .Lxor_b24_chk4
 .Lxor_b24_chk4:
-        .word   164, 172, .Lxor_b24_add
-        .word   12, 12, .Lxor_b24_skip
-.Lxor_b24_add:
-        .word   .Lxor_b24_npow, 160, .Lxor_b23_a
-.Lxor_b24_skip:
+        .word   168, 168, .Lxor_b24_c1
+.Lxor_b24_c1:
+        .word   12, 12, .Lxor_b24_c2
+.Lxor_b24_c2:
+        .word   32, 12, .Lxor_b24_c3
+.Lxor_b24_c3:
+        .word   12, 168, .Lxor_b24_c4
+.Lxor_b24_c4:
+        .word   .Lxor_b24_pow, 168, .Lxor_b24_c5
+.Lxor_b24_c5:
+        .word   172, 172, .Lxor_b24_c6
+.Lxor_b24_c6:
+        .word   168, 172, .Lxor_b24_c_set
+        .word   .Lxor_b24_npow, 160, .Lxor_b24_c_add1
+.Lxor_b24_c_add1:
+        .word   12, 12, .Lxor_b23_a
+.Lxor_b24_c_set:
+        .word   .Lxor_b24_pow, 32, .Lxor_b23_a
+.Lxor_b24_r4only:
+        .word   168, 168, .Lxor_b24_r4o1
+.Lxor_b24_r4o1:
+        .word   12, 12, .Lxor_b24_r4o2
+.Lxor_b24_r4o2:
+        .word   32, 12, .Lxor_b24_r4o3
+.Lxor_b24_r4o3:
+        .word   12, 168, .Lxor_b24_r4o4
+.Lxor_b24_r4o4:
+        .word   .Lxor_b24_pow, 168, .Lxor_b24_r4o5
+.Lxor_b24_r4o5:
+        .word   172, 172, .Lxor_b24_r4o6
+.Lxor_b24_r4o6:
+        .word   168, 172, .Lxor_b24_r4set
+        .word   12, 12, .Lxor_b23_a
+.Lxor_b24_r4set:
+        .word   .Lxor_b24_pow, 32, .Lxor_b24_r4add1
+.Lxor_b24_r4add1:
+        .word   .Lxor_b24_npow, 160, .Lxor_b24_r4add2
+.Lxor_b24_r4add2:
         .word   12, 12, .Lxor_b23_a
 .Lxor_b23_a:
-        .word   164, 164, .Lxor_b23_a0
-.Lxor_b23_a0:
         .word   168, 168, .Lxor_b23_a1
 .Lxor_b23_a1:
         .word   12, 12, .Lxor_b23_a2
@@ -59221,50 +58233,51 @@ __subleq_xor:
 .Lxor_b23_a5:
         .word   172, 172, .Lxor_b23_a6
 .Lxor_b23_a6:
-        .word   168, 172, .Lxor_b23_a_set
-        .word   12, 12, .Lxor_b23_b
-.Lxor_b23_a_set:
-        .word   .Lxor_b23_pow, 28, .Lxor_b23_a_flag
-.Lxor_b23_a_flag:
-        .word   .Lxor_m1, 164, .Lxor_b23_b
-.Lxor_b23_b:
-        .word   168, 168, .Lxor_b23_b1
-.Lxor_b23_b1:
-        .word   12, 12, .Lxor_b23_b2
-.Lxor_b23_b2:
-        .word   32, 12, .Lxor_b23_b3
-.Lxor_b23_b3:
-        .word   12, 168, .Lxor_b23_b4
-.Lxor_b23_b4:
-        .word   .Lxor_b23_pow, 168, .Lxor_b23_b5
-.Lxor_b23_b5:
-        .word   172, 172, .Lxor_b23_b6
-.Lxor_b23_b6:
-        .word   168, 172, .Lxor_b23_b_set
-        .word   12, 12, .Lxor_b23_chk
-.Lxor_b23_b_set:
-        .word   .Lxor_b23_pow, 32, .Lxor_b23_b_flag
-.Lxor_b23_b_flag:
-        .word   .Lxor_m1, 164, .Lxor_b23_chk
-.Lxor_b23_chk:
-        .word   .Lxor_one, 164, .Lxor_b23_chk1
-.Lxor_b23_chk1:
-        .word   172, 172, .Lxor_b23_chk2
-.Lxor_b23_chk2:
-        .word   172, 164, .Lxor_b23_chk3
-        .word   12, 12, .Lxor_b23_skip
-.Lxor_b23_chk3:
-        .word   172, 172, .Lxor_b23_chk4
+        .word   168, 172, .Lxor_b23_r3set
+        .word   12, 12, .Lxor_b23_r4only
+.Lxor_b23_r3set:
+        .word   .Lxor_b23_pow, 28, .Lxor_b23_chk4
 .Lxor_b23_chk4:
-        .word   164, 172, .Lxor_b23_add
-        .word   12, 12, .Lxor_b23_skip
-.Lxor_b23_add:
-        .word   .Lxor_b23_npow, 160, .Lxor_b22_a
-.Lxor_b23_skip:
+        .word   168, 168, .Lxor_b23_c1
+.Lxor_b23_c1:
+        .word   12, 12, .Lxor_b23_c2
+.Lxor_b23_c2:
+        .word   32, 12, .Lxor_b23_c3
+.Lxor_b23_c3:
+        .word   12, 168, .Lxor_b23_c4
+.Lxor_b23_c4:
+        .word   .Lxor_b23_pow, 168, .Lxor_b23_c5
+.Lxor_b23_c5:
+        .word   172, 172, .Lxor_b23_c6
+.Lxor_b23_c6:
+        .word   168, 172, .Lxor_b23_c_set
+        .word   .Lxor_b23_npow, 160, .Lxor_b23_c_add1
+.Lxor_b23_c_add1:
+        .word   12, 12, .Lxor_b22_a
+.Lxor_b23_c_set:
+        .word   .Lxor_b23_pow, 32, .Lxor_b22_a
+.Lxor_b23_r4only:
+        .word   168, 168, .Lxor_b23_r4o1
+.Lxor_b23_r4o1:
+        .word   12, 12, .Lxor_b23_r4o2
+.Lxor_b23_r4o2:
+        .word   32, 12, .Lxor_b23_r4o3
+.Lxor_b23_r4o3:
+        .word   12, 168, .Lxor_b23_r4o4
+.Lxor_b23_r4o4:
+        .word   .Lxor_b23_pow, 168, .Lxor_b23_r4o5
+.Lxor_b23_r4o5:
+        .word   172, 172, .Lxor_b23_r4o6
+.Lxor_b23_r4o6:
+        .word   168, 172, .Lxor_b23_r4set
+        .word   12, 12, .Lxor_b22_a
+.Lxor_b23_r4set:
+        .word   .Lxor_b23_pow, 32, .Lxor_b23_r4add1
+.Lxor_b23_r4add1:
+        .word   .Lxor_b23_npow, 160, .Lxor_b23_r4add2
+.Lxor_b23_r4add2:
         .word   12, 12, .Lxor_b22_a
 .Lxor_b22_a:
-        .word   164, 164, .Lxor_b22_a0
-.Lxor_b22_a0:
         .word   168, 168, .Lxor_b22_a1
 .Lxor_b22_a1:
         .word   12, 12, .Lxor_b22_a2
@@ -59277,50 +58290,51 @@ __subleq_xor:
 .Lxor_b22_a5:
         .word   172, 172, .Lxor_b22_a6
 .Lxor_b22_a6:
-        .word   168, 172, .Lxor_b22_a_set
-        .word   12, 12, .Lxor_b22_b
-.Lxor_b22_a_set:
-        .word   .Lxor_b22_pow, 28, .Lxor_b22_a_flag
-.Lxor_b22_a_flag:
-        .word   .Lxor_m1, 164, .Lxor_b22_b
-.Lxor_b22_b:
-        .word   168, 168, .Lxor_b22_b1
-.Lxor_b22_b1:
-        .word   12, 12, .Lxor_b22_b2
-.Lxor_b22_b2:
-        .word   32, 12, .Lxor_b22_b3
-.Lxor_b22_b3:
-        .word   12, 168, .Lxor_b22_b4
-.Lxor_b22_b4:
-        .word   .Lxor_b22_pow, 168, .Lxor_b22_b5
-.Lxor_b22_b5:
-        .word   172, 172, .Lxor_b22_b6
-.Lxor_b22_b6:
-        .word   168, 172, .Lxor_b22_b_set
-        .word   12, 12, .Lxor_b22_chk
-.Lxor_b22_b_set:
-        .word   .Lxor_b22_pow, 32, .Lxor_b22_b_flag
-.Lxor_b22_b_flag:
-        .word   .Lxor_m1, 164, .Lxor_b22_chk
-.Lxor_b22_chk:
-        .word   .Lxor_one, 164, .Lxor_b22_chk1
-.Lxor_b22_chk1:
-        .word   172, 172, .Lxor_b22_chk2
-.Lxor_b22_chk2:
-        .word   172, 164, .Lxor_b22_chk3
-        .word   12, 12, .Lxor_b22_skip
-.Lxor_b22_chk3:
-        .word   172, 172, .Lxor_b22_chk4
+        .word   168, 172, .Lxor_b22_r3set
+        .word   12, 12, .Lxor_b22_r4only
+.Lxor_b22_r3set:
+        .word   .Lxor_b22_pow, 28, .Lxor_b22_chk4
 .Lxor_b22_chk4:
-        .word   164, 172, .Lxor_b22_add
-        .word   12, 12, .Lxor_b22_skip
-.Lxor_b22_add:
-        .word   .Lxor_b22_npow, 160, .Lxor_b21_a
-.Lxor_b22_skip:
+        .word   168, 168, .Lxor_b22_c1
+.Lxor_b22_c1:
+        .word   12, 12, .Lxor_b22_c2
+.Lxor_b22_c2:
+        .word   32, 12, .Lxor_b22_c3
+.Lxor_b22_c3:
+        .word   12, 168, .Lxor_b22_c4
+.Lxor_b22_c4:
+        .word   .Lxor_b22_pow, 168, .Lxor_b22_c5
+.Lxor_b22_c5:
+        .word   172, 172, .Lxor_b22_c6
+.Lxor_b22_c6:
+        .word   168, 172, .Lxor_b22_c_set
+        .word   .Lxor_b22_npow, 160, .Lxor_b22_c_add1
+.Lxor_b22_c_add1:
+        .word   12, 12, .Lxor_b21_a
+.Lxor_b22_c_set:
+        .word   .Lxor_b22_pow, 32, .Lxor_b21_a
+.Lxor_b22_r4only:
+        .word   168, 168, .Lxor_b22_r4o1
+.Lxor_b22_r4o1:
+        .word   12, 12, .Lxor_b22_r4o2
+.Lxor_b22_r4o2:
+        .word   32, 12, .Lxor_b22_r4o3
+.Lxor_b22_r4o3:
+        .word   12, 168, .Lxor_b22_r4o4
+.Lxor_b22_r4o4:
+        .word   .Lxor_b22_pow, 168, .Lxor_b22_r4o5
+.Lxor_b22_r4o5:
+        .word   172, 172, .Lxor_b22_r4o6
+.Lxor_b22_r4o6:
+        .word   168, 172, .Lxor_b22_r4set
+        .word   12, 12, .Lxor_b21_a
+.Lxor_b22_r4set:
+        .word   .Lxor_b22_pow, 32, .Lxor_b22_r4add1
+.Lxor_b22_r4add1:
+        .word   .Lxor_b22_npow, 160, .Lxor_b22_r4add2
+.Lxor_b22_r4add2:
         .word   12, 12, .Lxor_b21_a
 .Lxor_b21_a:
-        .word   164, 164, .Lxor_b21_a0
-.Lxor_b21_a0:
         .word   168, 168, .Lxor_b21_a1
 .Lxor_b21_a1:
         .word   12, 12, .Lxor_b21_a2
@@ -59333,50 +58347,51 @@ __subleq_xor:
 .Lxor_b21_a5:
         .word   172, 172, .Lxor_b21_a6
 .Lxor_b21_a6:
-        .word   168, 172, .Lxor_b21_a_set
-        .word   12, 12, .Lxor_b21_b
-.Lxor_b21_a_set:
-        .word   .Lxor_b21_pow, 28, .Lxor_b21_a_flag
-.Lxor_b21_a_flag:
-        .word   .Lxor_m1, 164, .Lxor_b21_b
-.Lxor_b21_b:
-        .word   168, 168, .Lxor_b21_b1
-.Lxor_b21_b1:
-        .word   12, 12, .Lxor_b21_b2
-.Lxor_b21_b2:
-        .word   32, 12, .Lxor_b21_b3
-.Lxor_b21_b3:
-        .word   12, 168, .Lxor_b21_b4
-.Lxor_b21_b4:
-        .word   .Lxor_b21_pow, 168, .Lxor_b21_b5
-.Lxor_b21_b5:
-        .word   172, 172, .Lxor_b21_b6
-.Lxor_b21_b6:
-        .word   168, 172, .Lxor_b21_b_set
-        .word   12, 12, .Lxor_b21_chk
-.Lxor_b21_b_set:
-        .word   .Lxor_b21_pow, 32, .Lxor_b21_b_flag
-.Lxor_b21_b_flag:
-        .word   .Lxor_m1, 164, .Lxor_b21_chk
-.Lxor_b21_chk:
-        .word   .Lxor_one, 164, .Lxor_b21_chk1
-.Lxor_b21_chk1:
-        .word   172, 172, .Lxor_b21_chk2
-.Lxor_b21_chk2:
-        .word   172, 164, .Lxor_b21_chk3
-        .word   12, 12, .Lxor_b21_skip
-.Lxor_b21_chk3:
-        .word   172, 172, .Lxor_b21_chk4
+        .word   168, 172, .Lxor_b21_r3set
+        .word   12, 12, .Lxor_b21_r4only
+.Lxor_b21_r3set:
+        .word   .Lxor_b21_pow, 28, .Lxor_b21_chk4
 .Lxor_b21_chk4:
-        .word   164, 172, .Lxor_b21_add
-        .word   12, 12, .Lxor_b21_skip
-.Lxor_b21_add:
-        .word   .Lxor_b21_npow, 160, .Lxor_b20_a
-.Lxor_b21_skip:
+        .word   168, 168, .Lxor_b21_c1
+.Lxor_b21_c1:
+        .word   12, 12, .Lxor_b21_c2
+.Lxor_b21_c2:
+        .word   32, 12, .Lxor_b21_c3
+.Lxor_b21_c3:
+        .word   12, 168, .Lxor_b21_c4
+.Lxor_b21_c4:
+        .word   .Lxor_b21_pow, 168, .Lxor_b21_c5
+.Lxor_b21_c5:
+        .word   172, 172, .Lxor_b21_c6
+.Lxor_b21_c6:
+        .word   168, 172, .Lxor_b21_c_set
+        .word   .Lxor_b21_npow, 160, .Lxor_b21_c_add1
+.Lxor_b21_c_add1:
+        .word   12, 12, .Lxor_b20_a
+.Lxor_b21_c_set:
+        .word   .Lxor_b21_pow, 32, .Lxor_b20_a
+.Lxor_b21_r4only:
+        .word   168, 168, .Lxor_b21_r4o1
+.Lxor_b21_r4o1:
+        .word   12, 12, .Lxor_b21_r4o2
+.Lxor_b21_r4o2:
+        .word   32, 12, .Lxor_b21_r4o3
+.Lxor_b21_r4o3:
+        .word   12, 168, .Lxor_b21_r4o4
+.Lxor_b21_r4o4:
+        .word   .Lxor_b21_pow, 168, .Lxor_b21_r4o5
+.Lxor_b21_r4o5:
+        .word   172, 172, .Lxor_b21_r4o6
+.Lxor_b21_r4o6:
+        .word   168, 172, .Lxor_b21_r4set
+        .word   12, 12, .Lxor_b20_a
+.Lxor_b21_r4set:
+        .word   .Lxor_b21_pow, 32, .Lxor_b21_r4add1
+.Lxor_b21_r4add1:
+        .word   .Lxor_b21_npow, 160, .Lxor_b21_r4add2
+.Lxor_b21_r4add2:
         .word   12, 12, .Lxor_b20_a
 .Lxor_b20_a:
-        .word   164, 164, .Lxor_b20_a0
-.Lxor_b20_a0:
         .word   168, 168, .Lxor_b20_a1
 .Lxor_b20_a1:
         .word   12, 12, .Lxor_b20_a2
@@ -59389,50 +58404,51 @@ __subleq_xor:
 .Lxor_b20_a5:
         .word   172, 172, .Lxor_b20_a6
 .Lxor_b20_a6:
-        .word   168, 172, .Lxor_b20_a_set
-        .word   12, 12, .Lxor_b20_b
-.Lxor_b20_a_set:
-        .word   .Lxor_b20_pow, 28, .Lxor_b20_a_flag
-.Lxor_b20_a_flag:
-        .word   .Lxor_m1, 164, .Lxor_b20_b
-.Lxor_b20_b:
-        .word   168, 168, .Lxor_b20_b1
-.Lxor_b20_b1:
-        .word   12, 12, .Lxor_b20_b2
-.Lxor_b20_b2:
-        .word   32, 12, .Lxor_b20_b3
-.Lxor_b20_b3:
-        .word   12, 168, .Lxor_b20_b4
-.Lxor_b20_b4:
-        .word   .Lxor_b20_pow, 168, .Lxor_b20_b5
-.Lxor_b20_b5:
-        .word   172, 172, .Lxor_b20_b6
-.Lxor_b20_b6:
-        .word   168, 172, .Lxor_b20_b_set
-        .word   12, 12, .Lxor_b20_chk
-.Lxor_b20_b_set:
-        .word   .Lxor_b20_pow, 32, .Lxor_b20_b_flag
-.Lxor_b20_b_flag:
-        .word   .Lxor_m1, 164, .Lxor_b20_chk
-.Lxor_b20_chk:
-        .word   .Lxor_one, 164, .Lxor_b20_chk1
-.Lxor_b20_chk1:
-        .word   172, 172, .Lxor_b20_chk2
-.Lxor_b20_chk2:
-        .word   172, 164, .Lxor_b20_chk3
-        .word   12, 12, .Lxor_b20_skip
-.Lxor_b20_chk3:
-        .word   172, 172, .Lxor_b20_chk4
+        .word   168, 172, .Lxor_b20_r3set
+        .word   12, 12, .Lxor_b20_r4only
+.Lxor_b20_r3set:
+        .word   .Lxor_b20_pow, 28, .Lxor_b20_chk4
 .Lxor_b20_chk4:
-        .word   164, 172, .Lxor_b20_add
-        .word   12, 12, .Lxor_b20_skip
-.Lxor_b20_add:
-        .word   .Lxor_b20_npow, 160, .Lxor_b19_a
-.Lxor_b20_skip:
+        .word   168, 168, .Lxor_b20_c1
+.Lxor_b20_c1:
+        .word   12, 12, .Lxor_b20_c2
+.Lxor_b20_c2:
+        .word   32, 12, .Lxor_b20_c3
+.Lxor_b20_c3:
+        .word   12, 168, .Lxor_b20_c4
+.Lxor_b20_c4:
+        .word   .Lxor_b20_pow, 168, .Lxor_b20_c5
+.Lxor_b20_c5:
+        .word   172, 172, .Lxor_b20_c6
+.Lxor_b20_c6:
+        .word   168, 172, .Lxor_b20_c_set
+        .word   .Lxor_b20_npow, 160, .Lxor_b20_c_add1
+.Lxor_b20_c_add1:
+        .word   12, 12, .Lxor_b19_a
+.Lxor_b20_c_set:
+        .word   .Lxor_b20_pow, 32, .Lxor_b19_a
+.Lxor_b20_r4only:
+        .word   168, 168, .Lxor_b20_r4o1
+.Lxor_b20_r4o1:
+        .word   12, 12, .Lxor_b20_r4o2
+.Lxor_b20_r4o2:
+        .word   32, 12, .Lxor_b20_r4o3
+.Lxor_b20_r4o3:
+        .word   12, 168, .Lxor_b20_r4o4
+.Lxor_b20_r4o4:
+        .word   .Lxor_b20_pow, 168, .Lxor_b20_r4o5
+.Lxor_b20_r4o5:
+        .word   172, 172, .Lxor_b20_r4o6
+.Lxor_b20_r4o6:
+        .word   168, 172, .Lxor_b20_r4set
+        .word   12, 12, .Lxor_b19_a
+.Lxor_b20_r4set:
+        .word   .Lxor_b20_pow, 32, .Lxor_b20_r4add1
+.Lxor_b20_r4add1:
+        .word   .Lxor_b20_npow, 160, .Lxor_b20_r4add2
+.Lxor_b20_r4add2:
         .word   12, 12, .Lxor_b19_a
 .Lxor_b19_a:
-        .word   164, 164, .Lxor_b19_a0
-.Lxor_b19_a0:
         .word   168, 168, .Lxor_b19_a1
 .Lxor_b19_a1:
         .word   12, 12, .Lxor_b19_a2
@@ -59445,50 +58461,51 @@ __subleq_xor:
 .Lxor_b19_a5:
         .word   172, 172, .Lxor_b19_a6
 .Lxor_b19_a6:
-        .word   168, 172, .Lxor_b19_a_set
-        .word   12, 12, .Lxor_b19_b
-.Lxor_b19_a_set:
-        .word   .Lxor_b19_pow, 28, .Lxor_b19_a_flag
-.Lxor_b19_a_flag:
-        .word   .Lxor_m1, 164, .Lxor_b19_b
-.Lxor_b19_b:
-        .word   168, 168, .Lxor_b19_b1
-.Lxor_b19_b1:
-        .word   12, 12, .Lxor_b19_b2
-.Lxor_b19_b2:
-        .word   32, 12, .Lxor_b19_b3
-.Lxor_b19_b3:
-        .word   12, 168, .Lxor_b19_b4
-.Lxor_b19_b4:
-        .word   .Lxor_b19_pow, 168, .Lxor_b19_b5
-.Lxor_b19_b5:
-        .word   172, 172, .Lxor_b19_b6
-.Lxor_b19_b6:
-        .word   168, 172, .Lxor_b19_b_set
-        .word   12, 12, .Lxor_b19_chk
-.Lxor_b19_b_set:
-        .word   .Lxor_b19_pow, 32, .Lxor_b19_b_flag
-.Lxor_b19_b_flag:
-        .word   .Lxor_m1, 164, .Lxor_b19_chk
-.Lxor_b19_chk:
-        .word   .Lxor_one, 164, .Lxor_b19_chk1
-.Lxor_b19_chk1:
-        .word   172, 172, .Lxor_b19_chk2
-.Lxor_b19_chk2:
-        .word   172, 164, .Lxor_b19_chk3
-        .word   12, 12, .Lxor_b19_skip
-.Lxor_b19_chk3:
-        .word   172, 172, .Lxor_b19_chk4
+        .word   168, 172, .Lxor_b19_r3set
+        .word   12, 12, .Lxor_b19_r4only
+.Lxor_b19_r3set:
+        .word   .Lxor_b19_pow, 28, .Lxor_b19_chk4
 .Lxor_b19_chk4:
-        .word   164, 172, .Lxor_b19_add
-        .word   12, 12, .Lxor_b19_skip
-.Lxor_b19_add:
-        .word   .Lxor_b19_npow, 160, .Lxor_b18_a
-.Lxor_b19_skip:
+        .word   168, 168, .Lxor_b19_c1
+.Lxor_b19_c1:
+        .word   12, 12, .Lxor_b19_c2
+.Lxor_b19_c2:
+        .word   32, 12, .Lxor_b19_c3
+.Lxor_b19_c3:
+        .word   12, 168, .Lxor_b19_c4
+.Lxor_b19_c4:
+        .word   .Lxor_b19_pow, 168, .Lxor_b19_c5
+.Lxor_b19_c5:
+        .word   172, 172, .Lxor_b19_c6
+.Lxor_b19_c6:
+        .word   168, 172, .Lxor_b19_c_set
+        .word   .Lxor_b19_npow, 160, .Lxor_b19_c_add1
+.Lxor_b19_c_add1:
+        .word   12, 12, .Lxor_b18_a
+.Lxor_b19_c_set:
+        .word   .Lxor_b19_pow, 32, .Lxor_b18_a
+.Lxor_b19_r4only:
+        .word   168, 168, .Lxor_b19_r4o1
+.Lxor_b19_r4o1:
+        .word   12, 12, .Lxor_b19_r4o2
+.Lxor_b19_r4o2:
+        .word   32, 12, .Lxor_b19_r4o3
+.Lxor_b19_r4o3:
+        .word   12, 168, .Lxor_b19_r4o4
+.Lxor_b19_r4o4:
+        .word   .Lxor_b19_pow, 168, .Lxor_b19_r4o5
+.Lxor_b19_r4o5:
+        .word   172, 172, .Lxor_b19_r4o6
+.Lxor_b19_r4o6:
+        .word   168, 172, .Lxor_b19_r4set
+        .word   12, 12, .Lxor_b18_a
+.Lxor_b19_r4set:
+        .word   .Lxor_b19_pow, 32, .Lxor_b19_r4add1
+.Lxor_b19_r4add1:
+        .word   .Lxor_b19_npow, 160, .Lxor_b19_r4add2
+.Lxor_b19_r4add2:
         .word   12, 12, .Lxor_b18_a
 .Lxor_b18_a:
-        .word   164, 164, .Lxor_b18_a0
-.Lxor_b18_a0:
         .word   168, 168, .Lxor_b18_a1
 .Lxor_b18_a1:
         .word   12, 12, .Lxor_b18_a2
@@ -59501,50 +58518,51 @@ __subleq_xor:
 .Lxor_b18_a5:
         .word   172, 172, .Lxor_b18_a6
 .Lxor_b18_a6:
-        .word   168, 172, .Lxor_b18_a_set
-        .word   12, 12, .Lxor_b18_b
-.Lxor_b18_a_set:
-        .word   .Lxor_b18_pow, 28, .Lxor_b18_a_flag
-.Lxor_b18_a_flag:
-        .word   .Lxor_m1, 164, .Lxor_b18_b
-.Lxor_b18_b:
-        .word   168, 168, .Lxor_b18_b1
-.Lxor_b18_b1:
-        .word   12, 12, .Lxor_b18_b2
-.Lxor_b18_b2:
-        .word   32, 12, .Lxor_b18_b3
-.Lxor_b18_b3:
-        .word   12, 168, .Lxor_b18_b4
-.Lxor_b18_b4:
-        .word   .Lxor_b18_pow, 168, .Lxor_b18_b5
-.Lxor_b18_b5:
-        .word   172, 172, .Lxor_b18_b6
-.Lxor_b18_b6:
-        .word   168, 172, .Lxor_b18_b_set
-        .word   12, 12, .Lxor_b18_chk
-.Lxor_b18_b_set:
-        .word   .Lxor_b18_pow, 32, .Lxor_b18_b_flag
-.Lxor_b18_b_flag:
-        .word   .Lxor_m1, 164, .Lxor_b18_chk
-.Lxor_b18_chk:
-        .word   .Lxor_one, 164, .Lxor_b18_chk1
-.Lxor_b18_chk1:
-        .word   172, 172, .Lxor_b18_chk2
-.Lxor_b18_chk2:
-        .word   172, 164, .Lxor_b18_chk3
-        .word   12, 12, .Lxor_b18_skip
-.Lxor_b18_chk3:
-        .word   172, 172, .Lxor_b18_chk4
+        .word   168, 172, .Lxor_b18_r3set
+        .word   12, 12, .Lxor_b18_r4only
+.Lxor_b18_r3set:
+        .word   .Lxor_b18_pow, 28, .Lxor_b18_chk4
 .Lxor_b18_chk4:
-        .word   164, 172, .Lxor_b18_add
-        .word   12, 12, .Lxor_b18_skip
-.Lxor_b18_add:
-        .word   .Lxor_b18_npow, 160, .Lxor_b17_a
-.Lxor_b18_skip:
+        .word   168, 168, .Lxor_b18_c1
+.Lxor_b18_c1:
+        .word   12, 12, .Lxor_b18_c2
+.Lxor_b18_c2:
+        .word   32, 12, .Lxor_b18_c3
+.Lxor_b18_c3:
+        .word   12, 168, .Lxor_b18_c4
+.Lxor_b18_c4:
+        .word   .Lxor_b18_pow, 168, .Lxor_b18_c5
+.Lxor_b18_c5:
+        .word   172, 172, .Lxor_b18_c6
+.Lxor_b18_c6:
+        .word   168, 172, .Lxor_b18_c_set
+        .word   .Lxor_b18_npow, 160, .Lxor_b18_c_add1
+.Lxor_b18_c_add1:
+        .word   12, 12, .Lxor_b17_a
+.Lxor_b18_c_set:
+        .word   .Lxor_b18_pow, 32, .Lxor_b17_a
+.Lxor_b18_r4only:
+        .word   168, 168, .Lxor_b18_r4o1
+.Lxor_b18_r4o1:
+        .word   12, 12, .Lxor_b18_r4o2
+.Lxor_b18_r4o2:
+        .word   32, 12, .Lxor_b18_r4o3
+.Lxor_b18_r4o3:
+        .word   12, 168, .Lxor_b18_r4o4
+.Lxor_b18_r4o4:
+        .word   .Lxor_b18_pow, 168, .Lxor_b18_r4o5
+.Lxor_b18_r4o5:
+        .word   172, 172, .Lxor_b18_r4o6
+.Lxor_b18_r4o6:
+        .word   168, 172, .Lxor_b18_r4set
+        .word   12, 12, .Lxor_b17_a
+.Lxor_b18_r4set:
+        .word   .Lxor_b18_pow, 32, .Lxor_b18_r4add1
+.Lxor_b18_r4add1:
+        .word   .Lxor_b18_npow, 160, .Lxor_b18_r4add2
+.Lxor_b18_r4add2:
         .word   12, 12, .Lxor_b17_a
 .Lxor_b17_a:
-        .word   164, 164, .Lxor_b17_a0
-.Lxor_b17_a0:
         .word   168, 168, .Lxor_b17_a1
 .Lxor_b17_a1:
         .word   12, 12, .Lxor_b17_a2
@@ -59557,50 +58575,51 @@ __subleq_xor:
 .Lxor_b17_a5:
         .word   172, 172, .Lxor_b17_a6
 .Lxor_b17_a6:
-        .word   168, 172, .Lxor_b17_a_set
-        .word   12, 12, .Lxor_b17_b
-.Lxor_b17_a_set:
-        .word   .Lxor_b17_pow, 28, .Lxor_b17_a_flag
-.Lxor_b17_a_flag:
-        .word   .Lxor_m1, 164, .Lxor_b17_b
-.Lxor_b17_b:
-        .word   168, 168, .Lxor_b17_b1
-.Lxor_b17_b1:
-        .word   12, 12, .Lxor_b17_b2
-.Lxor_b17_b2:
-        .word   32, 12, .Lxor_b17_b3
-.Lxor_b17_b3:
-        .word   12, 168, .Lxor_b17_b4
-.Lxor_b17_b4:
-        .word   .Lxor_b17_pow, 168, .Lxor_b17_b5
-.Lxor_b17_b5:
-        .word   172, 172, .Lxor_b17_b6
-.Lxor_b17_b6:
-        .word   168, 172, .Lxor_b17_b_set
-        .word   12, 12, .Lxor_b17_chk
-.Lxor_b17_b_set:
-        .word   .Lxor_b17_pow, 32, .Lxor_b17_b_flag
-.Lxor_b17_b_flag:
-        .word   .Lxor_m1, 164, .Lxor_b17_chk
-.Lxor_b17_chk:
-        .word   .Lxor_one, 164, .Lxor_b17_chk1
-.Lxor_b17_chk1:
-        .word   172, 172, .Lxor_b17_chk2
-.Lxor_b17_chk2:
-        .word   172, 164, .Lxor_b17_chk3
-        .word   12, 12, .Lxor_b17_skip
-.Lxor_b17_chk3:
-        .word   172, 172, .Lxor_b17_chk4
+        .word   168, 172, .Lxor_b17_r3set
+        .word   12, 12, .Lxor_b17_r4only
+.Lxor_b17_r3set:
+        .word   .Lxor_b17_pow, 28, .Lxor_b17_chk4
 .Lxor_b17_chk4:
-        .word   164, 172, .Lxor_b17_add
-        .word   12, 12, .Lxor_b17_skip
-.Lxor_b17_add:
-        .word   .Lxor_b17_npow, 160, .Lxor_b16_a
-.Lxor_b17_skip:
+        .word   168, 168, .Lxor_b17_c1
+.Lxor_b17_c1:
+        .word   12, 12, .Lxor_b17_c2
+.Lxor_b17_c2:
+        .word   32, 12, .Lxor_b17_c3
+.Lxor_b17_c3:
+        .word   12, 168, .Lxor_b17_c4
+.Lxor_b17_c4:
+        .word   .Lxor_b17_pow, 168, .Lxor_b17_c5
+.Lxor_b17_c5:
+        .word   172, 172, .Lxor_b17_c6
+.Lxor_b17_c6:
+        .word   168, 172, .Lxor_b17_c_set
+        .word   .Lxor_b17_npow, 160, .Lxor_b17_c_add1
+.Lxor_b17_c_add1:
+        .word   12, 12, .Lxor_b16_a
+.Lxor_b17_c_set:
+        .word   .Lxor_b17_pow, 32, .Lxor_b16_a
+.Lxor_b17_r4only:
+        .word   168, 168, .Lxor_b17_r4o1
+.Lxor_b17_r4o1:
+        .word   12, 12, .Lxor_b17_r4o2
+.Lxor_b17_r4o2:
+        .word   32, 12, .Lxor_b17_r4o3
+.Lxor_b17_r4o3:
+        .word   12, 168, .Lxor_b17_r4o4
+.Lxor_b17_r4o4:
+        .word   .Lxor_b17_pow, 168, .Lxor_b17_r4o5
+.Lxor_b17_r4o5:
+        .word   172, 172, .Lxor_b17_r4o6
+.Lxor_b17_r4o6:
+        .word   168, 172, .Lxor_b17_r4set
+        .word   12, 12, .Lxor_b16_a
+.Lxor_b17_r4set:
+        .word   .Lxor_b17_pow, 32, .Lxor_b17_r4add1
+.Lxor_b17_r4add1:
+        .word   .Lxor_b17_npow, 160, .Lxor_b17_r4add2
+.Lxor_b17_r4add2:
         .word   12, 12, .Lxor_b16_a
 .Lxor_b16_a:
-        .word   164, 164, .Lxor_b16_a0
-.Lxor_b16_a0:
         .word   168, 168, .Lxor_b16_a1
 .Lxor_b16_a1:
         .word   12, 12, .Lxor_b16_a2
@@ -59613,50 +58632,51 @@ __subleq_xor:
 .Lxor_b16_a5:
         .word   172, 172, .Lxor_b16_a6
 .Lxor_b16_a6:
-        .word   168, 172, .Lxor_b16_a_set
-        .word   12, 12, .Lxor_b16_b
-.Lxor_b16_a_set:
-        .word   .Lxor_b16_pow, 28, .Lxor_b16_a_flag
-.Lxor_b16_a_flag:
-        .word   .Lxor_m1, 164, .Lxor_b16_b
-.Lxor_b16_b:
-        .word   168, 168, .Lxor_b16_b1
-.Lxor_b16_b1:
-        .word   12, 12, .Lxor_b16_b2
-.Lxor_b16_b2:
-        .word   32, 12, .Lxor_b16_b3
-.Lxor_b16_b3:
-        .word   12, 168, .Lxor_b16_b4
-.Lxor_b16_b4:
-        .word   .Lxor_b16_pow, 168, .Lxor_b16_b5
-.Lxor_b16_b5:
-        .word   172, 172, .Lxor_b16_b6
-.Lxor_b16_b6:
-        .word   168, 172, .Lxor_b16_b_set
-        .word   12, 12, .Lxor_b16_chk
-.Lxor_b16_b_set:
-        .word   .Lxor_b16_pow, 32, .Lxor_b16_b_flag
-.Lxor_b16_b_flag:
-        .word   .Lxor_m1, 164, .Lxor_b16_chk
-.Lxor_b16_chk:
-        .word   .Lxor_one, 164, .Lxor_b16_chk1
-.Lxor_b16_chk1:
-        .word   172, 172, .Lxor_b16_chk2
-.Lxor_b16_chk2:
-        .word   172, 164, .Lxor_b16_chk3
-        .word   12, 12, .Lxor_b16_skip
-.Lxor_b16_chk3:
-        .word   172, 172, .Lxor_b16_chk4
+        .word   168, 172, .Lxor_b16_r3set
+        .word   12, 12, .Lxor_b16_r4only
+.Lxor_b16_r3set:
+        .word   .Lxor_b16_pow, 28, .Lxor_b16_chk4
 .Lxor_b16_chk4:
-        .word   164, 172, .Lxor_b16_add
-        .word   12, 12, .Lxor_b16_skip
-.Lxor_b16_add:
-        .word   .Lxor_b16_npow, 160, .Lxor_b15_a
-.Lxor_b16_skip:
+        .word   168, 168, .Lxor_b16_c1
+.Lxor_b16_c1:
+        .word   12, 12, .Lxor_b16_c2
+.Lxor_b16_c2:
+        .word   32, 12, .Lxor_b16_c3
+.Lxor_b16_c3:
+        .word   12, 168, .Lxor_b16_c4
+.Lxor_b16_c4:
+        .word   .Lxor_b16_pow, 168, .Lxor_b16_c5
+.Lxor_b16_c5:
+        .word   172, 172, .Lxor_b16_c6
+.Lxor_b16_c6:
+        .word   168, 172, .Lxor_b16_c_set
+        .word   .Lxor_b16_npow, 160, .Lxor_b16_c_add1
+.Lxor_b16_c_add1:
+        .word   12, 12, .Lxor_b15_a
+.Lxor_b16_c_set:
+        .word   .Lxor_b16_pow, 32, .Lxor_b15_a
+.Lxor_b16_r4only:
+        .word   168, 168, .Lxor_b16_r4o1
+.Lxor_b16_r4o1:
+        .word   12, 12, .Lxor_b16_r4o2
+.Lxor_b16_r4o2:
+        .word   32, 12, .Lxor_b16_r4o3
+.Lxor_b16_r4o3:
+        .word   12, 168, .Lxor_b16_r4o4
+.Lxor_b16_r4o4:
+        .word   .Lxor_b16_pow, 168, .Lxor_b16_r4o5
+.Lxor_b16_r4o5:
+        .word   172, 172, .Lxor_b16_r4o6
+.Lxor_b16_r4o6:
+        .word   168, 172, .Lxor_b16_r4set
+        .word   12, 12, .Lxor_b15_a
+.Lxor_b16_r4set:
+        .word   .Lxor_b16_pow, 32, .Lxor_b16_r4add1
+.Lxor_b16_r4add1:
+        .word   .Lxor_b16_npow, 160, .Lxor_b16_r4add2
+.Lxor_b16_r4add2:
         .word   12, 12, .Lxor_b15_a
 .Lxor_b15_a:
-        .word   164, 164, .Lxor_b15_a0
-.Lxor_b15_a0:
         .word   168, 168, .Lxor_b15_a1
 .Lxor_b15_a1:
         .word   12, 12, .Lxor_b15_a2
@@ -59669,50 +58689,51 @@ __subleq_xor:
 .Lxor_b15_a5:
         .word   172, 172, .Lxor_b15_a6
 .Lxor_b15_a6:
-        .word   168, 172, .Lxor_b15_a_set
-        .word   12, 12, .Lxor_b15_b
-.Lxor_b15_a_set:
-        .word   .Lxor_b15_pow, 28, .Lxor_b15_a_flag
-.Lxor_b15_a_flag:
-        .word   .Lxor_m1, 164, .Lxor_b15_b
-.Lxor_b15_b:
-        .word   168, 168, .Lxor_b15_b1
-.Lxor_b15_b1:
-        .word   12, 12, .Lxor_b15_b2
-.Lxor_b15_b2:
-        .word   32, 12, .Lxor_b15_b3
-.Lxor_b15_b3:
-        .word   12, 168, .Lxor_b15_b4
-.Lxor_b15_b4:
-        .word   .Lxor_b15_pow, 168, .Lxor_b15_b5
-.Lxor_b15_b5:
-        .word   172, 172, .Lxor_b15_b6
-.Lxor_b15_b6:
-        .word   168, 172, .Lxor_b15_b_set
-        .word   12, 12, .Lxor_b15_chk
-.Lxor_b15_b_set:
-        .word   .Lxor_b15_pow, 32, .Lxor_b15_b_flag
-.Lxor_b15_b_flag:
-        .word   .Lxor_m1, 164, .Lxor_b15_chk
-.Lxor_b15_chk:
-        .word   .Lxor_one, 164, .Lxor_b15_chk1
-.Lxor_b15_chk1:
-        .word   172, 172, .Lxor_b15_chk2
-.Lxor_b15_chk2:
-        .word   172, 164, .Lxor_b15_chk3
-        .word   12, 12, .Lxor_b15_skip
-.Lxor_b15_chk3:
-        .word   172, 172, .Lxor_b15_chk4
+        .word   168, 172, .Lxor_b15_r3set
+        .word   12, 12, .Lxor_b15_r4only
+.Lxor_b15_r3set:
+        .word   .Lxor_b15_pow, 28, .Lxor_b15_chk4
 .Lxor_b15_chk4:
-        .word   164, 172, .Lxor_b15_add
-        .word   12, 12, .Lxor_b15_skip
-.Lxor_b15_add:
-        .word   .Lxor_b15_npow, 160, .Lxor_b14_a
-.Lxor_b15_skip:
+        .word   168, 168, .Lxor_b15_c1
+.Lxor_b15_c1:
+        .word   12, 12, .Lxor_b15_c2
+.Lxor_b15_c2:
+        .word   32, 12, .Lxor_b15_c3
+.Lxor_b15_c3:
+        .word   12, 168, .Lxor_b15_c4
+.Lxor_b15_c4:
+        .word   .Lxor_b15_pow, 168, .Lxor_b15_c5
+.Lxor_b15_c5:
+        .word   172, 172, .Lxor_b15_c6
+.Lxor_b15_c6:
+        .word   168, 172, .Lxor_b15_c_set
+        .word   .Lxor_b15_npow, 160, .Lxor_b15_c_add1
+.Lxor_b15_c_add1:
+        .word   12, 12, .Lxor_b14_a
+.Lxor_b15_c_set:
+        .word   .Lxor_b15_pow, 32, .Lxor_b14_a
+.Lxor_b15_r4only:
+        .word   168, 168, .Lxor_b15_r4o1
+.Lxor_b15_r4o1:
+        .word   12, 12, .Lxor_b15_r4o2
+.Lxor_b15_r4o2:
+        .word   32, 12, .Lxor_b15_r4o3
+.Lxor_b15_r4o3:
+        .word   12, 168, .Lxor_b15_r4o4
+.Lxor_b15_r4o4:
+        .word   .Lxor_b15_pow, 168, .Lxor_b15_r4o5
+.Lxor_b15_r4o5:
+        .word   172, 172, .Lxor_b15_r4o6
+.Lxor_b15_r4o6:
+        .word   168, 172, .Lxor_b15_r4set
+        .word   12, 12, .Lxor_b14_a
+.Lxor_b15_r4set:
+        .word   .Lxor_b15_pow, 32, .Lxor_b15_r4add1
+.Lxor_b15_r4add1:
+        .word   .Lxor_b15_npow, 160, .Lxor_b15_r4add2
+.Lxor_b15_r4add2:
         .word   12, 12, .Lxor_b14_a
 .Lxor_b14_a:
-        .word   164, 164, .Lxor_b14_a0
-.Lxor_b14_a0:
         .word   168, 168, .Lxor_b14_a1
 .Lxor_b14_a1:
         .word   12, 12, .Lxor_b14_a2
@@ -59725,50 +58746,51 @@ __subleq_xor:
 .Lxor_b14_a5:
         .word   172, 172, .Lxor_b14_a6
 .Lxor_b14_a6:
-        .word   168, 172, .Lxor_b14_a_set
-        .word   12, 12, .Lxor_b14_b
-.Lxor_b14_a_set:
-        .word   .Lxor_b14_pow, 28, .Lxor_b14_a_flag
-.Lxor_b14_a_flag:
-        .word   .Lxor_m1, 164, .Lxor_b14_b
-.Lxor_b14_b:
-        .word   168, 168, .Lxor_b14_b1
-.Lxor_b14_b1:
-        .word   12, 12, .Lxor_b14_b2
-.Lxor_b14_b2:
-        .word   32, 12, .Lxor_b14_b3
-.Lxor_b14_b3:
-        .word   12, 168, .Lxor_b14_b4
-.Lxor_b14_b4:
-        .word   .Lxor_b14_pow, 168, .Lxor_b14_b5
-.Lxor_b14_b5:
-        .word   172, 172, .Lxor_b14_b6
-.Lxor_b14_b6:
-        .word   168, 172, .Lxor_b14_b_set
-        .word   12, 12, .Lxor_b14_chk
-.Lxor_b14_b_set:
-        .word   .Lxor_b14_pow, 32, .Lxor_b14_b_flag
-.Lxor_b14_b_flag:
-        .word   .Lxor_m1, 164, .Lxor_b14_chk
-.Lxor_b14_chk:
-        .word   .Lxor_one, 164, .Lxor_b14_chk1
-.Lxor_b14_chk1:
-        .word   172, 172, .Lxor_b14_chk2
-.Lxor_b14_chk2:
-        .word   172, 164, .Lxor_b14_chk3
-        .word   12, 12, .Lxor_b14_skip
-.Lxor_b14_chk3:
-        .word   172, 172, .Lxor_b14_chk4
+        .word   168, 172, .Lxor_b14_r3set
+        .word   12, 12, .Lxor_b14_r4only
+.Lxor_b14_r3set:
+        .word   .Lxor_b14_pow, 28, .Lxor_b14_chk4
 .Lxor_b14_chk4:
-        .word   164, 172, .Lxor_b14_add
-        .word   12, 12, .Lxor_b14_skip
-.Lxor_b14_add:
-        .word   .Lxor_b14_npow, 160, .Lxor_b13_a
-.Lxor_b14_skip:
+        .word   168, 168, .Lxor_b14_c1
+.Lxor_b14_c1:
+        .word   12, 12, .Lxor_b14_c2
+.Lxor_b14_c2:
+        .word   32, 12, .Lxor_b14_c3
+.Lxor_b14_c3:
+        .word   12, 168, .Lxor_b14_c4
+.Lxor_b14_c4:
+        .word   .Lxor_b14_pow, 168, .Lxor_b14_c5
+.Lxor_b14_c5:
+        .word   172, 172, .Lxor_b14_c6
+.Lxor_b14_c6:
+        .word   168, 172, .Lxor_b14_c_set
+        .word   .Lxor_b14_npow, 160, .Lxor_b14_c_add1
+.Lxor_b14_c_add1:
+        .word   12, 12, .Lxor_b13_a
+.Lxor_b14_c_set:
+        .word   .Lxor_b14_pow, 32, .Lxor_b13_a
+.Lxor_b14_r4only:
+        .word   168, 168, .Lxor_b14_r4o1
+.Lxor_b14_r4o1:
+        .word   12, 12, .Lxor_b14_r4o2
+.Lxor_b14_r4o2:
+        .word   32, 12, .Lxor_b14_r4o3
+.Lxor_b14_r4o3:
+        .word   12, 168, .Lxor_b14_r4o4
+.Lxor_b14_r4o4:
+        .word   .Lxor_b14_pow, 168, .Lxor_b14_r4o5
+.Lxor_b14_r4o5:
+        .word   172, 172, .Lxor_b14_r4o6
+.Lxor_b14_r4o6:
+        .word   168, 172, .Lxor_b14_r4set
+        .word   12, 12, .Lxor_b13_a
+.Lxor_b14_r4set:
+        .word   .Lxor_b14_pow, 32, .Lxor_b14_r4add1
+.Lxor_b14_r4add1:
+        .word   .Lxor_b14_npow, 160, .Lxor_b14_r4add2
+.Lxor_b14_r4add2:
         .word   12, 12, .Lxor_b13_a
 .Lxor_b13_a:
-        .word   164, 164, .Lxor_b13_a0
-.Lxor_b13_a0:
         .word   168, 168, .Lxor_b13_a1
 .Lxor_b13_a1:
         .word   12, 12, .Lxor_b13_a2
@@ -59781,50 +58803,51 @@ __subleq_xor:
 .Lxor_b13_a5:
         .word   172, 172, .Lxor_b13_a6
 .Lxor_b13_a6:
-        .word   168, 172, .Lxor_b13_a_set
-        .word   12, 12, .Lxor_b13_b
-.Lxor_b13_a_set:
-        .word   .Lxor_b13_pow, 28, .Lxor_b13_a_flag
-.Lxor_b13_a_flag:
-        .word   .Lxor_m1, 164, .Lxor_b13_b
-.Lxor_b13_b:
-        .word   168, 168, .Lxor_b13_b1
-.Lxor_b13_b1:
-        .word   12, 12, .Lxor_b13_b2
-.Lxor_b13_b2:
-        .word   32, 12, .Lxor_b13_b3
-.Lxor_b13_b3:
-        .word   12, 168, .Lxor_b13_b4
-.Lxor_b13_b4:
-        .word   .Lxor_b13_pow, 168, .Lxor_b13_b5
-.Lxor_b13_b5:
-        .word   172, 172, .Lxor_b13_b6
-.Lxor_b13_b6:
-        .word   168, 172, .Lxor_b13_b_set
-        .word   12, 12, .Lxor_b13_chk
-.Lxor_b13_b_set:
-        .word   .Lxor_b13_pow, 32, .Lxor_b13_b_flag
-.Lxor_b13_b_flag:
-        .word   .Lxor_m1, 164, .Lxor_b13_chk
-.Lxor_b13_chk:
-        .word   .Lxor_one, 164, .Lxor_b13_chk1
-.Lxor_b13_chk1:
-        .word   172, 172, .Lxor_b13_chk2
-.Lxor_b13_chk2:
-        .word   172, 164, .Lxor_b13_chk3
-        .word   12, 12, .Lxor_b13_skip
-.Lxor_b13_chk3:
-        .word   172, 172, .Lxor_b13_chk4
+        .word   168, 172, .Lxor_b13_r3set
+        .word   12, 12, .Lxor_b13_r4only
+.Lxor_b13_r3set:
+        .word   .Lxor_b13_pow, 28, .Lxor_b13_chk4
 .Lxor_b13_chk4:
-        .word   164, 172, .Lxor_b13_add
-        .word   12, 12, .Lxor_b13_skip
-.Lxor_b13_add:
-        .word   .Lxor_b13_npow, 160, .Lxor_b12_a
-.Lxor_b13_skip:
+        .word   168, 168, .Lxor_b13_c1
+.Lxor_b13_c1:
+        .word   12, 12, .Lxor_b13_c2
+.Lxor_b13_c2:
+        .word   32, 12, .Lxor_b13_c3
+.Lxor_b13_c3:
+        .word   12, 168, .Lxor_b13_c4
+.Lxor_b13_c4:
+        .word   .Lxor_b13_pow, 168, .Lxor_b13_c5
+.Lxor_b13_c5:
+        .word   172, 172, .Lxor_b13_c6
+.Lxor_b13_c6:
+        .word   168, 172, .Lxor_b13_c_set
+        .word   .Lxor_b13_npow, 160, .Lxor_b13_c_add1
+.Lxor_b13_c_add1:
+        .word   12, 12, .Lxor_b12_a
+.Lxor_b13_c_set:
+        .word   .Lxor_b13_pow, 32, .Lxor_b12_a
+.Lxor_b13_r4only:
+        .word   168, 168, .Lxor_b13_r4o1
+.Lxor_b13_r4o1:
+        .word   12, 12, .Lxor_b13_r4o2
+.Lxor_b13_r4o2:
+        .word   32, 12, .Lxor_b13_r4o3
+.Lxor_b13_r4o3:
+        .word   12, 168, .Lxor_b13_r4o4
+.Lxor_b13_r4o4:
+        .word   .Lxor_b13_pow, 168, .Lxor_b13_r4o5
+.Lxor_b13_r4o5:
+        .word   172, 172, .Lxor_b13_r4o6
+.Lxor_b13_r4o6:
+        .word   168, 172, .Lxor_b13_r4set
+        .word   12, 12, .Lxor_b12_a
+.Lxor_b13_r4set:
+        .word   .Lxor_b13_pow, 32, .Lxor_b13_r4add1
+.Lxor_b13_r4add1:
+        .word   .Lxor_b13_npow, 160, .Lxor_b13_r4add2
+.Lxor_b13_r4add2:
         .word   12, 12, .Lxor_b12_a
 .Lxor_b12_a:
-        .word   164, 164, .Lxor_b12_a0
-.Lxor_b12_a0:
         .word   168, 168, .Lxor_b12_a1
 .Lxor_b12_a1:
         .word   12, 12, .Lxor_b12_a2
@@ -59837,50 +58860,51 @@ __subleq_xor:
 .Lxor_b12_a5:
         .word   172, 172, .Lxor_b12_a6
 .Lxor_b12_a6:
-        .word   168, 172, .Lxor_b12_a_set
-        .word   12, 12, .Lxor_b12_b
-.Lxor_b12_a_set:
-        .word   .Lxor_b12_pow, 28, .Lxor_b12_a_flag
-.Lxor_b12_a_flag:
-        .word   .Lxor_m1, 164, .Lxor_b12_b
-.Lxor_b12_b:
-        .word   168, 168, .Lxor_b12_b1
-.Lxor_b12_b1:
-        .word   12, 12, .Lxor_b12_b2
-.Lxor_b12_b2:
-        .word   32, 12, .Lxor_b12_b3
-.Lxor_b12_b3:
-        .word   12, 168, .Lxor_b12_b4
-.Lxor_b12_b4:
-        .word   .Lxor_b12_pow, 168, .Lxor_b12_b5
-.Lxor_b12_b5:
-        .word   172, 172, .Lxor_b12_b6
-.Lxor_b12_b6:
-        .word   168, 172, .Lxor_b12_b_set
-        .word   12, 12, .Lxor_b12_chk
-.Lxor_b12_b_set:
-        .word   .Lxor_b12_pow, 32, .Lxor_b12_b_flag
-.Lxor_b12_b_flag:
-        .word   .Lxor_m1, 164, .Lxor_b12_chk
-.Lxor_b12_chk:
-        .word   .Lxor_one, 164, .Lxor_b12_chk1
-.Lxor_b12_chk1:
-        .word   172, 172, .Lxor_b12_chk2
-.Lxor_b12_chk2:
-        .word   172, 164, .Lxor_b12_chk3
-        .word   12, 12, .Lxor_b12_skip
-.Lxor_b12_chk3:
-        .word   172, 172, .Lxor_b12_chk4
+        .word   168, 172, .Lxor_b12_r3set
+        .word   12, 12, .Lxor_b12_r4only
+.Lxor_b12_r3set:
+        .word   .Lxor_b12_pow, 28, .Lxor_b12_chk4
 .Lxor_b12_chk4:
-        .word   164, 172, .Lxor_b12_add
-        .word   12, 12, .Lxor_b12_skip
-.Lxor_b12_add:
-        .word   .Lxor_b12_npow, 160, .Lxor_b11_a
-.Lxor_b12_skip:
+        .word   168, 168, .Lxor_b12_c1
+.Lxor_b12_c1:
+        .word   12, 12, .Lxor_b12_c2
+.Lxor_b12_c2:
+        .word   32, 12, .Lxor_b12_c3
+.Lxor_b12_c3:
+        .word   12, 168, .Lxor_b12_c4
+.Lxor_b12_c4:
+        .word   .Lxor_b12_pow, 168, .Lxor_b12_c5
+.Lxor_b12_c5:
+        .word   172, 172, .Lxor_b12_c6
+.Lxor_b12_c6:
+        .word   168, 172, .Lxor_b12_c_set
+        .word   .Lxor_b12_npow, 160, .Lxor_b12_c_add1
+.Lxor_b12_c_add1:
+        .word   12, 12, .Lxor_b11_a
+.Lxor_b12_c_set:
+        .word   .Lxor_b12_pow, 32, .Lxor_b11_a
+.Lxor_b12_r4only:
+        .word   168, 168, .Lxor_b12_r4o1
+.Lxor_b12_r4o1:
+        .word   12, 12, .Lxor_b12_r4o2
+.Lxor_b12_r4o2:
+        .word   32, 12, .Lxor_b12_r4o3
+.Lxor_b12_r4o3:
+        .word   12, 168, .Lxor_b12_r4o4
+.Lxor_b12_r4o4:
+        .word   .Lxor_b12_pow, 168, .Lxor_b12_r4o5
+.Lxor_b12_r4o5:
+        .word   172, 172, .Lxor_b12_r4o6
+.Lxor_b12_r4o6:
+        .word   168, 172, .Lxor_b12_r4set
+        .word   12, 12, .Lxor_b11_a
+.Lxor_b12_r4set:
+        .word   .Lxor_b12_pow, 32, .Lxor_b12_r4add1
+.Lxor_b12_r4add1:
+        .word   .Lxor_b12_npow, 160, .Lxor_b12_r4add2
+.Lxor_b12_r4add2:
         .word   12, 12, .Lxor_b11_a
 .Lxor_b11_a:
-        .word   164, 164, .Lxor_b11_a0
-.Lxor_b11_a0:
         .word   168, 168, .Lxor_b11_a1
 .Lxor_b11_a1:
         .word   12, 12, .Lxor_b11_a2
@@ -59893,50 +58917,51 @@ __subleq_xor:
 .Lxor_b11_a5:
         .word   172, 172, .Lxor_b11_a6
 .Lxor_b11_a6:
-        .word   168, 172, .Lxor_b11_a_set
-        .word   12, 12, .Lxor_b11_b
-.Lxor_b11_a_set:
-        .word   .Lxor_b11_pow, 28, .Lxor_b11_a_flag
-.Lxor_b11_a_flag:
-        .word   .Lxor_m1, 164, .Lxor_b11_b
-.Lxor_b11_b:
-        .word   168, 168, .Lxor_b11_b1
-.Lxor_b11_b1:
-        .word   12, 12, .Lxor_b11_b2
-.Lxor_b11_b2:
-        .word   32, 12, .Lxor_b11_b3
-.Lxor_b11_b3:
-        .word   12, 168, .Lxor_b11_b4
-.Lxor_b11_b4:
-        .word   .Lxor_b11_pow, 168, .Lxor_b11_b5
-.Lxor_b11_b5:
-        .word   172, 172, .Lxor_b11_b6
-.Lxor_b11_b6:
-        .word   168, 172, .Lxor_b11_b_set
-        .word   12, 12, .Lxor_b11_chk
-.Lxor_b11_b_set:
-        .word   .Lxor_b11_pow, 32, .Lxor_b11_b_flag
-.Lxor_b11_b_flag:
-        .word   .Lxor_m1, 164, .Lxor_b11_chk
-.Lxor_b11_chk:
-        .word   .Lxor_one, 164, .Lxor_b11_chk1
-.Lxor_b11_chk1:
-        .word   172, 172, .Lxor_b11_chk2
-.Lxor_b11_chk2:
-        .word   172, 164, .Lxor_b11_chk3
-        .word   12, 12, .Lxor_b11_skip
-.Lxor_b11_chk3:
-        .word   172, 172, .Lxor_b11_chk4
+        .word   168, 172, .Lxor_b11_r3set
+        .word   12, 12, .Lxor_b11_r4only
+.Lxor_b11_r3set:
+        .word   .Lxor_b11_pow, 28, .Lxor_b11_chk4
 .Lxor_b11_chk4:
-        .word   164, 172, .Lxor_b11_add
-        .word   12, 12, .Lxor_b11_skip
-.Lxor_b11_add:
-        .word   .Lxor_b11_npow, 160, .Lxor_b10_a
-.Lxor_b11_skip:
+        .word   168, 168, .Lxor_b11_c1
+.Lxor_b11_c1:
+        .word   12, 12, .Lxor_b11_c2
+.Lxor_b11_c2:
+        .word   32, 12, .Lxor_b11_c3
+.Lxor_b11_c3:
+        .word   12, 168, .Lxor_b11_c4
+.Lxor_b11_c4:
+        .word   .Lxor_b11_pow, 168, .Lxor_b11_c5
+.Lxor_b11_c5:
+        .word   172, 172, .Lxor_b11_c6
+.Lxor_b11_c6:
+        .word   168, 172, .Lxor_b11_c_set
+        .word   .Lxor_b11_npow, 160, .Lxor_b11_c_add1
+.Lxor_b11_c_add1:
+        .word   12, 12, .Lxor_b10_a
+.Lxor_b11_c_set:
+        .word   .Lxor_b11_pow, 32, .Lxor_b10_a
+.Lxor_b11_r4only:
+        .word   168, 168, .Lxor_b11_r4o1
+.Lxor_b11_r4o1:
+        .word   12, 12, .Lxor_b11_r4o2
+.Lxor_b11_r4o2:
+        .word   32, 12, .Lxor_b11_r4o3
+.Lxor_b11_r4o3:
+        .word   12, 168, .Lxor_b11_r4o4
+.Lxor_b11_r4o4:
+        .word   .Lxor_b11_pow, 168, .Lxor_b11_r4o5
+.Lxor_b11_r4o5:
+        .word   172, 172, .Lxor_b11_r4o6
+.Lxor_b11_r4o6:
+        .word   168, 172, .Lxor_b11_r4set
+        .word   12, 12, .Lxor_b10_a
+.Lxor_b11_r4set:
+        .word   .Lxor_b11_pow, 32, .Lxor_b11_r4add1
+.Lxor_b11_r4add1:
+        .word   .Lxor_b11_npow, 160, .Lxor_b11_r4add2
+.Lxor_b11_r4add2:
         .word   12, 12, .Lxor_b10_a
 .Lxor_b10_a:
-        .word   164, 164, .Lxor_b10_a0
-.Lxor_b10_a0:
         .word   168, 168, .Lxor_b10_a1
 .Lxor_b10_a1:
         .word   12, 12, .Lxor_b10_a2
@@ -59949,50 +58974,51 @@ __subleq_xor:
 .Lxor_b10_a5:
         .word   172, 172, .Lxor_b10_a6
 .Lxor_b10_a6:
-        .word   168, 172, .Lxor_b10_a_set
-        .word   12, 12, .Lxor_b10_b
-.Lxor_b10_a_set:
-        .word   .Lxor_b10_pow, 28, .Lxor_b10_a_flag
-.Lxor_b10_a_flag:
-        .word   .Lxor_m1, 164, .Lxor_b10_b
-.Lxor_b10_b:
-        .word   168, 168, .Lxor_b10_b1
-.Lxor_b10_b1:
-        .word   12, 12, .Lxor_b10_b2
-.Lxor_b10_b2:
-        .word   32, 12, .Lxor_b10_b3
-.Lxor_b10_b3:
-        .word   12, 168, .Lxor_b10_b4
-.Lxor_b10_b4:
-        .word   .Lxor_b10_pow, 168, .Lxor_b10_b5
-.Lxor_b10_b5:
-        .word   172, 172, .Lxor_b10_b6
-.Lxor_b10_b6:
-        .word   168, 172, .Lxor_b10_b_set
-        .word   12, 12, .Lxor_b10_chk
-.Lxor_b10_b_set:
-        .word   .Lxor_b10_pow, 32, .Lxor_b10_b_flag
-.Lxor_b10_b_flag:
-        .word   .Lxor_m1, 164, .Lxor_b10_chk
-.Lxor_b10_chk:
-        .word   .Lxor_one, 164, .Lxor_b10_chk1
-.Lxor_b10_chk1:
-        .word   172, 172, .Lxor_b10_chk2
-.Lxor_b10_chk2:
-        .word   172, 164, .Lxor_b10_chk3
-        .word   12, 12, .Lxor_b10_skip
-.Lxor_b10_chk3:
-        .word   172, 172, .Lxor_b10_chk4
+        .word   168, 172, .Lxor_b10_r3set
+        .word   12, 12, .Lxor_b10_r4only
+.Lxor_b10_r3set:
+        .word   .Lxor_b10_pow, 28, .Lxor_b10_chk4
 .Lxor_b10_chk4:
-        .word   164, 172, .Lxor_b10_add
-        .word   12, 12, .Lxor_b10_skip
-.Lxor_b10_add:
-        .word   .Lxor_b10_npow, 160, .Lxor_b9_a
-.Lxor_b10_skip:
+        .word   168, 168, .Lxor_b10_c1
+.Lxor_b10_c1:
+        .word   12, 12, .Lxor_b10_c2
+.Lxor_b10_c2:
+        .word   32, 12, .Lxor_b10_c3
+.Lxor_b10_c3:
+        .word   12, 168, .Lxor_b10_c4
+.Lxor_b10_c4:
+        .word   .Lxor_b10_pow, 168, .Lxor_b10_c5
+.Lxor_b10_c5:
+        .word   172, 172, .Lxor_b10_c6
+.Lxor_b10_c6:
+        .word   168, 172, .Lxor_b10_c_set
+        .word   .Lxor_b10_npow, 160, .Lxor_b10_c_add1
+.Lxor_b10_c_add1:
+        .word   12, 12, .Lxor_b9_a
+.Lxor_b10_c_set:
+        .word   .Lxor_b10_pow, 32, .Lxor_b9_a
+.Lxor_b10_r4only:
+        .word   168, 168, .Lxor_b10_r4o1
+.Lxor_b10_r4o1:
+        .word   12, 12, .Lxor_b10_r4o2
+.Lxor_b10_r4o2:
+        .word   32, 12, .Lxor_b10_r4o3
+.Lxor_b10_r4o3:
+        .word   12, 168, .Lxor_b10_r4o4
+.Lxor_b10_r4o4:
+        .word   .Lxor_b10_pow, 168, .Lxor_b10_r4o5
+.Lxor_b10_r4o5:
+        .word   172, 172, .Lxor_b10_r4o6
+.Lxor_b10_r4o6:
+        .word   168, 172, .Lxor_b10_r4set
+        .word   12, 12, .Lxor_b9_a
+.Lxor_b10_r4set:
+        .word   .Lxor_b10_pow, 32, .Lxor_b10_r4add1
+.Lxor_b10_r4add1:
+        .word   .Lxor_b10_npow, 160, .Lxor_b10_r4add2
+.Lxor_b10_r4add2:
         .word   12, 12, .Lxor_b9_a
 .Lxor_b9_a:
-        .word   164, 164, .Lxor_b9_a0
-.Lxor_b9_a0:
         .word   168, 168, .Lxor_b9_a1
 .Lxor_b9_a1:
         .word   12, 12, .Lxor_b9_a2
@@ -60005,50 +59031,51 @@ __subleq_xor:
 .Lxor_b9_a5:
         .word   172, 172, .Lxor_b9_a6
 .Lxor_b9_a6:
-        .word   168, 172, .Lxor_b9_a_set
-        .word   12, 12, .Lxor_b9_b
-.Lxor_b9_a_set:
-        .word   .Lxor_b9_pow, 28, .Lxor_b9_a_flag
-.Lxor_b9_a_flag:
-        .word   .Lxor_m1, 164, .Lxor_b9_b
-.Lxor_b9_b:
-        .word   168, 168, .Lxor_b9_b1
-.Lxor_b9_b1:
-        .word   12, 12, .Lxor_b9_b2
-.Lxor_b9_b2:
-        .word   32, 12, .Lxor_b9_b3
-.Lxor_b9_b3:
-        .word   12, 168, .Lxor_b9_b4
-.Lxor_b9_b4:
-        .word   .Lxor_b9_pow, 168, .Lxor_b9_b5
-.Lxor_b9_b5:
-        .word   172, 172, .Lxor_b9_b6
-.Lxor_b9_b6:
-        .word   168, 172, .Lxor_b9_b_set
-        .word   12, 12, .Lxor_b9_chk
-.Lxor_b9_b_set:
-        .word   .Lxor_b9_pow, 32, .Lxor_b9_b_flag
-.Lxor_b9_b_flag:
-        .word   .Lxor_m1, 164, .Lxor_b9_chk
-.Lxor_b9_chk:
-        .word   .Lxor_one, 164, .Lxor_b9_chk1
-.Lxor_b9_chk1:
-        .word   172, 172, .Lxor_b9_chk2
-.Lxor_b9_chk2:
-        .word   172, 164, .Lxor_b9_chk3
-        .word   12, 12, .Lxor_b9_skip
-.Lxor_b9_chk3:
-        .word   172, 172, .Lxor_b9_chk4
+        .word   168, 172, .Lxor_b9_r3set
+        .word   12, 12, .Lxor_b9_r4only
+.Lxor_b9_r3set:
+        .word   .Lxor_b9_pow, 28, .Lxor_b9_chk4
 .Lxor_b9_chk4:
-        .word   164, 172, .Lxor_b9_add
-        .word   12, 12, .Lxor_b9_skip
-.Lxor_b9_add:
-        .word   .Lxor_b9_npow, 160, .Lxor_b8_a
-.Lxor_b9_skip:
+        .word   168, 168, .Lxor_b9_c1
+.Lxor_b9_c1:
+        .word   12, 12, .Lxor_b9_c2
+.Lxor_b9_c2:
+        .word   32, 12, .Lxor_b9_c3
+.Lxor_b9_c3:
+        .word   12, 168, .Lxor_b9_c4
+.Lxor_b9_c4:
+        .word   .Lxor_b9_pow, 168, .Lxor_b9_c5
+.Lxor_b9_c5:
+        .word   172, 172, .Lxor_b9_c6
+.Lxor_b9_c6:
+        .word   168, 172, .Lxor_b9_c_set
+        .word   .Lxor_b9_npow, 160, .Lxor_b9_c_add1
+.Lxor_b9_c_add1:
+        .word   12, 12, .Lxor_b8_a
+.Lxor_b9_c_set:
+        .word   .Lxor_b9_pow, 32, .Lxor_b8_a
+.Lxor_b9_r4only:
+        .word   168, 168, .Lxor_b9_r4o1
+.Lxor_b9_r4o1:
+        .word   12, 12, .Lxor_b9_r4o2
+.Lxor_b9_r4o2:
+        .word   32, 12, .Lxor_b9_r4o3
+.Lxor_b9_r4o3:
+        .word   12, 168, .Lxor_b9_r4o4
+.Lxor_b9_r4o4:
+        .word   .Lxor_b9_pow, 168, .Lxor_b9_r4o5
+.Lxor_b9_r4o5:
+        .word   172, 172, .Lxor_b9_r4o6
+.Lxor_b9_r4o6:
+        .word   168, 172, .Lxor_b9_r4set
+        .word   12, 12, .Lxor_b8_a
+.Lxor_b9_r4set:
+        .word   .Lxor_b9_pow, 32, .Lxor_b9_r4add1
+.Lxor_b9_r4add1:
+        .word   .Lxor_b9_npow, 160, .Lxor_b9_r4add2
+.Lxor_b9_r4add2:
         .word   12, 12, .Lxor_b8_a
 .Lxor_b8_a:
-        .word   164, 164, .Lxor_b8_a0
-.Lxor_b8_a0:
         .word   168, 168, .Lxor_b8_a1
 .Lxor_b8_a1:
         .word   12, 12, .Lxor_b8_a2
@@ -60061,50 +59088,51 @@ __subleq_xor:
 .Lxor_b8_a5:
         .word   172, 172, .Lxor_b8_a6
 .Lxor_b8_a6:
-        .word   168, 172, .Lxor_b8_a_set
-        .word   12, 12, .Lxor_b8_b
-.Lxor_b8_a_set:
-        .word   .Lxor_b8_pow, 28, .Lxor_b8_a_flag
-.Lxor_b8_a_flag:
-        .word   .Lxor_m1, 164, .Lxor_b8_b
-.Lxor_b8_b:
-        .word   168, 168, .Lxor_b8_b1
-.Lxor_b8_b1:
-        .word   12, 12, .Lxor_b8_b2
-.Lxor_b8_b2:
-        .word   32, 12, .Lxor_b8_b3
-.Lxor_b8_b3:
-        .word   12, 168, .Lxor_b8_b4
-.Lxor_b8_b4:
-        .word   .Lxor_b8_pow, 168, .Lxor_b8_b5
-.Lxor_b8_b5:
-        .word   172, 172, .Lxor_b8_b6
-.Lxor_b8_b6:
-        .word   168, 172, .Lxor_b8_b_set
-        .word   12, 12, .Lxor_b8_chk
-.Lxor_b8_b_set:
-        .word   .Lxor_b8_pow, 32, .Lxor_b8_b_flag
-.Lxor_b8_b_flag:
-        .word   .Lxor_m1, 164, .Lxor_b8_chk
-.Lxor_b8_chk:
-        .word   .Lxor_one, 164, .Lxor_b8_chk1
-.Lxor_b8_chk1:
-        .word   172, 172, .Lxor_b8_chk2
-.Lxor_b8_chk2:
-        .word   172, 164, .Lxor_b8_chk3
-        .word   12, 12, .Lxor_b8_skip
-.Lxor_b8_chk3:
-        .word   172, 172, .Lxor_b8_chk4
+        .word   168, 172, .Lxor_b8_r3set
+        .word   12, 12, .Lxor_b8_r4only
+.Lxor_b8_r3set:
+        .word   .Lxor_b8_pow, 28, .Lxor_b8_chk4
 .Lxor_b8_chk4:
-        .word   164, 172, .Lxor_b8_add
-        .word   12, 12, .Lxor_b8_skip
-.Lxor_b8_add:
-        .word   .Lxor_b8_npow, 160, .Lxor_b7_a
-.Lxor_b8_skip:
+        .word   168, 168, .Lxor_b8_c1
+.Lxor_b8_c1:
+        .word   12, 12, .Lxor_b8_c2
+.Lxor_b8_c2:
+        .word   32, 12, .Lxor_b8_c3
+.Lxor_b8_c3:
+        .word   12, 168, .Lxor_b8_c4
+.Lxor_b8_c4:
+        .word   .Lxor_b8_pow, 168, .Lxor_b8_c5
+.Lxor_b8_c5:
+        .word   172, 172, .Lxor_b8_c6
+.Lxor_b8_c6:
+        .word   168, 172, .Lxor_b8_c_set
+        .word   .Lxor_b8_npow, 160, .Lxor_b8_c_add1
+.Lxor_b8_c_add1:
+        .word   12, 12, .Lxor_b7_a
+.Lxor_b8_c_set:
+        .word   .Lxor_b8_pow, 32, .Lxor_b7_a
+.Lxor_b8_r4only:
+        .word   168, 168, .Lxor_b8_r4o1
+.Lxor_b8_r4o1:
+        .word   12, 12, .Lxor_b8_r4o2
+.Lxor_b8_r4o2:
+        .word   32, 12, .Lxor_b8_r4o3
+.Lxor_b8_r4o3:
+        .word   12, 168, .Lxor_b8_r4o4
+.Lxor_b8_r4o4:
+        .word   .Lxor_b8_pow, 168, .Lxor_b8_r4o5
+.Lxor_b8_r4o5:
+        .word   172, 172, .Lxor_b8_r4o6
+.Lxor_b8_r4o6:
+        .word   168, 172, .Lxor_b8_r4set
+        .word   12, 12, .Lxor_b7_a
+.Lxor_b8_r4set:
+        .word   .Lxor_b8_pow, 32, .Lxor_b8_r4add1
+.Lxor_b8_r4add1:
+        .word   .Lxor_b8_npow, 160, .Lxor_b8_r4add2
+.Lxor_b8_r4add2:
         .word   12, 12, .Lxor_b7_a
 .Lxor_b7_a:
-        .word   164, 164, .Lxor_b7_a0
-.Lxor_b7_a0:
         .word   168, 168, .Lxor_b7_a1
 .Lxor_b7_a1:
         .word   12, 12, .Lxor_b7_a2
@@ -60117,50 +59145,51 @@ __subleq_xor:
 .Lxor_b7_a5:
         .word   172, 172, .Lxor_b7_a6
 .Lxor_b7_a6:
-        .word   168, 172, .Lxor_b7_a_set
-        .word   12, 12, .Lxor_b7_b
-.Lxor_b7_a_set:
-        .word   .Lxor_b7_pow, 28, .Lxor_b7_a_flag
-.Lxor_b7_a_flag:
-        .word   .Lxor_m1, 164, .Lxor_b7_b
-.Lxor_b7_b:
-        .word   168, 168, .Lxor_b7_b1
-.Lxor_b7_b1:
-        .word   12, 12, .Lxor_b7_b2
-.Lxor_b7_b2:
-        .word   32, 12, .Lxor_b7_b3
-.Lxor_b7_b3:
-        .word   12, 168, .Lxor_b7_b4
-.Lxor_b7_b4:
-        .word   .Lxor_b7_pow, 168, .Lxor_b7_b5
-.Lxor_b7_b5:
-        .word   172, 172, .Lxor_b7_b6
-.Lxor_b7_b6:
-        .word   168, 172, .Lxor_b7_b_set
-        .word   12, 12, .Lxor_b7_chk
-.Lxor_b7_b_set:
-        .word   .Lxor_b7_pow, 32, .Lxor_b7_b_flag
-.Lxor_b7_b_flag:
-        .word   .Lxor_m1, 164, .Lxor_b7_chk
-.Lxor_b7_chk:
-        .word   .Lxor_one, 164, .Lxor_b7_chk1
-.Lxor_b7_chk1:
-        .word   172, 172, .Lxor_b7_chk2
-.Lxor_b7_chk2:
-        .word   172, 164, .Lxor_b7_chk3
-        .word   12, 12, .Lxor_b7_skip
-.Lxor_b7_chk3:
-        .word   172, 172, .Lxor_b7_chk4
+        .word   168, 172, .Lxor_b7_r3set
+        .word   12, 12, .Lxor_b7_r4only
+.Lxor_b7_r3set:
+        .word   .Lxor_b7_pow, 28, .Lxor_b7_chk4
 .Lxor_b7_chk4:
-        .word   164, 172, .Lxor_b7_add
-        .word   12, 12, .Lxor_b7_skip
-.Lxor_b7_add:
-        .word   .Lxor_b7_npow, 160, .Lxor_b6_a
-.Lxor_b7_skip:
+        .word   168, 168, .Lxor_b7_c1
+.Lxor_b7_c1:
+        .word   12, 12, .Lxor_b7_c2
+.Lxor_b7_c2:
+        .word   32, 12, .Lxor_b7_c3
+.Lxor_b7_c3:
+        .word   12, 168, .Lxor_b7_c4
+.Lxor_b7_c4:
+        .word   .Lxor_b7_pow, 168, .Lxor_b7_c5
+.Lxor_b7_c5:
+        .word   172, 172, .Lxor_b7_c6
+.Lxor_b7_c6:
+        .word   168, 172, .Lxor_b7_c_set
+        .word   .Lxor_b7_npow, 160, .Lxor_b7_c_add1
+.Lxor_b7_c_add1:
+        .word   12, 12, .Lxor_b6_a
+.Lxor_b7_c_set:
+        .word   .Lxor_b7_pow, 32, .Lxor_b6_a
+.Lxor_b7_r4only:
+        .word   168, 168, .Lxor_b7_r4o1
+.Lxor_b7_r4o1:
+        .word   12, 12, .Lxor_b7_r4o2
+.Lxor_b7_r4o2:
+        .word   32, 12, .Lxor_b7_r4o3
+.Lxor_b7_r4o3:
+        .word   12, 168, .Lxor_b7_r4o4
+.Lxor_b7_r4o4:
+        .word   .Lxor_b7_pow, 168, .Lxor_b7_r4o5
+.Lxor_b7_r4o5:
+        .word   172, 172, .Lxor_b7_r4o6
+.Lxor_b7_r4o6:
+        .word   168, 172, .Lxor_b7_r4set
+        .word   12, 12, .Lxor_b6_a
+.Lxor_b7_r4set:
+        .word   .Lxor_b7_pow, 32, .Lxor_b7_r4add1
+.Lxor_b7_r4add1:
+        .word   .Lxor_b7_npow, 160, .Lxor_b7_r4add2
+.Lxor_b7_r4add2:
         .word   12, 12, .Lxor_b6_a
 .Lxor_b6_a:
-        .word   164, 164, .Lxor_b6_a0
-.Lxor_b6_a0:
         .word   168, 168, .Lxor_b6_a1
 .Lxor_b6_a1:
         .word   12, 12, .Lxor_b6_a2
@@ -60173,50 +59202,51 @@ __subleq_xor:
 .Lxor_b6_a5:
         .word   172, 172, .Lxor_b6_a6
 .Lxor_b6_a6:
-        .word   168, 172, .Lxor_b6_a_set
-        .word   12, 12, .Lxor_b6_b
-.Lxor_b6_a_set:
-        .word   .Lxor_b6_pow, 28, .Lxor_b6_a_flag
-.Lxor_b6_a_flag:
-        .word   .Lxor_m1, 164, .Lxor_b6_b
-.Lxor_b6_b:
-        .word   168, 168, .Lxor_b6_b1
-.Lxor_b6_b1:
-        .word   12, 12, .Lxor_b6_b2
-.Lxor_b6_b2:
-        .word   32, 12, .Lxor_b6_b3
-.Lxor_b6_b3:
-        .word   12, 168, .Lxor_b6_b4
-.Lxor_b6_b4:
-        .word   .Lxor_b6_pow, 168, .Lxor_b6_b5
-.Lxor_b6_b5:
-        .word   172, 172, .Lxor_b6_b6
-.Lxor_b6_b6:
-        .word   168, 172, .Lxor_b6_b_set
-        .word   12, 12, .Lxor_b6_chk
-.Lxor_b6_b_set:
-        .word   .Lxor_b6_pow, 32, .Lxor_b6_b_flag
-.Lxor_b6_b_flag:
-        .word   .Lxor_m1, 164, .Lxor_b6_chk
-.Lxor_b6_chk:
-        .word   .Lxor_one, 164, .Lxor_b6_chk1
-.Lxor_b6_chk1:
-        .word   172, 172, .Lxor_b6_chk2
-.Lxor_b6_chk2:
-        .word   172, 164, .Lxor_b6_chk3
-        .word   12, 12, .Lxor_b6_skip
-.Lxor_b6_chk3:
-        .word   172, 172, .Lxor_b6_chk4
+        .word   168, 172, .Lxor_b6_r3set
+        .word   12, 12, .Lxor_b6_r4only
+.Lxor_b6_r3set:
+        .word   .Lxor_b6_pow, 28, .Lxor_b6_chk4
 .Lxor_b6_chk4:
-        .word   164, 172, .Lxor_b6_add
-        .word   12, 12, .Lxor_b6_skip
-.Lxor_b6_add:
-        .word   .Lxor_b6_npow, 160, .Lxor_b5_a
-.Lxor_b6_skip:
+        .word   168, 168, .Lxor_b6_c1
+.Lxor_b6_c1:
+        .word   12, 12, .Lxor_b6_c2
+.Lxor_b6_c2:
+        .word   32, 12, .Lxor_b6_c3
+.Lxor_b6_c3:
+        .word   12, 168, .Lxor_b6_c4
+.Lxor_b6_c4:
+        .word   .Lxor_b6_pow, 168, .Lxor_b6_c5
+.Lxor_b6_c5:
+        .word   172, 172, .Lxor_b6_c6
+.Lxor_b6_c6:
+        .word   168, 172, .Lxor_b6_c_set
+        .word   .Lxor_b6_npow, 160, .Lxor_b6_c_add1
+.Lxor_b6_c_add1:
+        .word   12, 12, .Lxor_b5_a
+.Lxor_b6_c_set:
+        .word   .Lxor_b6_pow, 32, .Lxor_b5_a
+.Lxor_b6_r4only:
+        .word   168, 168, .Lxor_b6_r4o1
+.Lxor_b6_r4o1:
+        .word   12, 12, .Lxor_b6_r4o2
+.Lxor_b6_r4o2:
+        .word   32, 12, .Lxor_b6_r4o3
+.Lxor_b6_r4o3:
+        .word   12, 168, .Lxor_b6_r4o4
+.Lxor_b6_r4o4:
+        .word   .Lxor_b6_pow, 168, .Lxor_b6_r4o5
+.Lxor_b6_r4o5:
+        .word   172, 172, .Lxor_b6_r4o6
+.Lxor_b6_r4o6:
+        .word   168, 172, .Lxor_b6_r4set
+        .word   12, 12, .Lxor_b5_a
+.Lxor_b6_r4set:
+        .word   .Lxor_b6_pow, 32, .Lxor_b6_r4add1
+.Lxor_b6_r4add1:
+        .word   .Lxor_b6_npow, 160, .Lxor_b6_r4add2
+.Lxor_b6_r4add2:
         .word   12, 12, .Lxor_b5_a
 .Lxor_b5_a:
-        .word   164, 164, .Lxor_b5_a0
-.Lxor_b5_a0:
         .word   168, 168, .Lxor_b5_a1
 .Lxor_b5_a1:
         .word   12, 12, .Lxor_b5_a2
@@ -60229,50 +59259,51 @@ __subleq_xor:
 .Lxor_b5_a5:
         .word   172, 172, .Lxor_b5_a6
 .Lxor_b5_a6:
-        .word   168, 172, .Lxor_b5_a_set
-        .word   12, 12, .Lxor_b5_b
-.Lxor_b5_a_set:
-        .word   .Lxor_b5_pow, 28, .Lxor_b5_a_flag
-.Lxor_b5_a_flag:
-        .word   .Lxor_m1, 164, .Lxor_b5_b
-.Lxor_b5_b:
-        .word   168, 168, .Lxor_b5_b1
-.Lxor_b5_b1:
-        .word   12, 12, .Lxor_b5_b2
-.Lxor_b5_b2:
-        .word   32, 12, .Lxor_b5_b3
-.Lxor_b5_b3:
-        .word   12, 168, .Lxor_b5_b4
-.Lxor_b5_b4:
-        .word   .Lxor_b5_pow, 168, .Lxor_b5_b5
-.Lxor_b5_b5:
-        .word   172, 172, .Lxor_b5_b6
-.Lxor_b5_b6:
-        .word   168, 172, .Lxor_b5_b_set
-        .word   12, 12, .Lxor_b5_chk
-.Lxor_b5_b_set:
-        .word   .Lxor_b5_pow, 32, .Lxor_b5_b_flag
-.Lxor_b5_b_flag:
-        .word   .Lxor_m1, 164, .Lxor_b5_chk
-.Lxor_b5_chk:
-        .word   .Lxor_one, 164, .Lxor_b5_chk1
-.Lxor_b5_chk1:
-        .word   172, 172, .Lxor_b5_chk2
-.Lxor_b5_chk2:
-        .word   172, 164, .Lxor_b5_chk3
-        .word   12, 12, .Lxor_b5_skip
-.Lxor_b5_chk3:
-        .word   172, 172, .Lxor_b5_chk4
+        .word   168, 172, .Lxor_b5_r3set
+        .word   12, 12, .Lxor_b5_r4only
+.Lxor_b5_r3set:
+        .word   .Lxor_b5_pow, 28, .Lxor_b5_chk4
 .Lxor_b5_chk4:
-        .word   164, 172, .Lxor_b5_add
-        .word   12, 12, .Lxor_b5_skip
-.Lxor_b5_add:
-        .word   .Lxor_b5_npow, 160, .Lxor_b4_a
-.Lxor_b5_skip:
+        .word   168, 168, .Lxor_b5_c1
+.Lxor_b5_c1:
+        .word   12, 12, .Lxor_b5_c2
+.Lxor_b5_c2:
+        .word   32, 12, .Lxor_b5_c3
+.Lxor_b5_c3:
+        .word   12, 168, .Lxor_b5_c4
+.Lxor_b5_c4:
+        .word   .Lxor_b5_pow, 168, .Lxor_b5_c5
+.Lxor_b5_c5:
+        .word   172, 172, .Lxor_b5_c6
+.Lxor_b5_c6:
+        .word   168, 172, .Lxor_b5_c_set
+        .word   .Lxor_b5_npow, 160, .Lxor_b5_c_add1
+.Lxor_b5_c_add1:
+        .word   12, 12, .Lxor_b4_a
+.Lxor_b5_c_set:
+        .word   .Lxor_b5_pow, 32, .Lxor_b4_a
+.Lxor_b5_r4only:
+        .word   168, 168, .Lxor_b5_r4o1
+.Lxor_b5_r4o1:
+        .word   12, 12, .Lxor_b5_r4o2
+.Lxor_b5_r4o2:
+        .word   32, 12, .Lxor_b5_r4o3
+.Lxor_b5_r4o3:
+        .word   12, 168, .Lxor_b5_r4o4
+.Lxor_b5_r4o4:
+        .word   .Lxor_b5_pow, 168, .Lxor_b5_r4o5
+.Lxor_b5_r4o5:
+        .word   172, 172, .Lxor_b5_r4o6
+.Lxor_b5_r4o6:
+        .word   168, 172, .Lxor_b5_r4set
+        .word   12, 12, .Lxor_b4_a
+.Lxor_b5_r4set:
+        .word   .Lxor_b5_pow, 32, .Lxor_b5_r4add1
+.Lxor_b5_r4add1:
+        .word   .Lxor_b5_npow, 160, .Lxor_b5_r4add2
+.Lxor_b5_r4add2:
         .word   12, 12, .Lxor_b4_a
 .Lxor_b4_a:
-        .word   164, 164, .Lxor_b4_a0
-.Lxor_b4_a0:
         .word   168, 168, .Lxor_b4_a1
 .Lxor_b4_a1:
         .word   12, 12, .Lxor_b4_a2
@@ -60285,50 +59316,51 @@ __subleq_xor:
 .Lxor_b4_a5:
         .word   172, 172, .Lxor_b4_a6
 .Lxor_b4_a6:
-        .word   168, 172, .Lxor_b4_a_set
-        .word   12, 12, .Lxor_b4_b
-.Lxor_b4_a_set:
-        .word   .Lxor_b4_pow, 28, .Lxor_b4_a_flag
-.Lxor_b4_a_flag:
-        .word   .Lxor_m1, 164, .Lxor_b4_b
-.Lxor_b4_b:
-        .word   168, 168, .Lxor_b4_b1
-.Lxor_b4_b1:
-        .word   12, 12, .Lxor_b4_b2
-.Lxor_b4_b2:
-        .word   32, 12, .Lxor_b4_b3
-.Lxor_b4_b3:
-        .word   12, 168, .Lxor_b4_b4
-.Lxor_b4_b4:
-        .word   .Lxor_b4_pow, 168, .Lxor_b4_b5
-.Lxor_b4_b5:
-        .word   172, 172, .Lxor_b4_b6
-.Lxor_b4_b6:
-        .word   168, 172, .Lxor_b4_b_set
-        .word   12, 12, .Lxor_b4_chk
-.Lxor_b4_b_set:
-        .word   .Lxor_b4_pow, 32, .Lxor_b4_b_flag
-.Lxor_b4_b_flag:
-        .word   .Lxor_m1, 164, .Lxor_b4_chk
-.Lxor_b4_chk:
-        .word   .Lxor_one, 164, .Lxor_b4_chk1
-.Lxor_b4_chk1:
-        .word   172, 172, .Lxor_b4_chk2
-.Lxor_b4_chk2:
-        .word   172, 164, .Lxor_b4_chk3
-        .word   12, 12, .Lxor_b4_skip
-.Lxor_b4_chk3:
-        .word   172, 172, .Lxor_b4_chk4
+        .word   168, 172, .Lxor_b4_r3set
+        .word   12, 12, .Lxor_b4_r4only
+.Lxor_b4_r3set:
+        .word   .Lxor_b4_pow, 28, .Lxor_b4_chk4
 .Lxor_b4_chk4:
-        .word   164, 172, .Lxor_b4_add
-        .word   12, 12, .Lxor_b4_skip
-.Lxor_b4_add:
-        .word   .Lxor_b4_npow, 160, .Lxor_b3_a
-.Lxor_b4_skip:
+        .word   168, 168, .Lxor_b4_c1
+.Lxor_b4_c1:
+        .word   12, 12, .Lxor_b4_c2
+.Lxor_b4_c2:
+        .word   32, 12, .Lxor_b4_c3
+.Lxor_b4_c3:
+        .word   12, 168, .Lxor_b4_c4
+.Lxor_b4_c4:
+        .word   .Lxor_b4_pow, 168, .Lxor_b4_c5
+.Lxor_b4_c5:
+        .word   172, 172, .Lxor_b4_c6
+.Lxor_b4_c6:
+        .word   168, 172, .Lxor_b4_c_set
+        .word   .Lxor_b4_npow, 160, .Lxor_b4_c_add1
+.Lxor_b4_c_add1:
+        .word   12, 12, .Lxor_b3_a
+.Lxor_b4_c_set:
+        .word   .Lxor_b4_pow, 32, .Lxor_b3_a
+.Lxor_b4_r4only:
+        .word   168, 168, .Lxor_b4_r4o1
+.Lxor_b4_r4o1:
+        .word   12, 12, .Lxor_b4_r4o2
+.Lxor_b4_r4o2:
+        .word   32, 12, .Lxor_b4_r4o3
+.Lxor_b4_r4o3:
+        .word   12, 168, .Lxor_b4_r4o4
+.Lxor_b4_r4o4:
+        .word   .Lxor_b4_pow, 168, .Lxor_b4_r4o5
+.Lxor_b4_r4o5:
+        .word   172, 172, .Lxor_b4_r4o6
+.Lxor_b4_r4o6:
+        .word   168, 172, .Lxor_b4_r4set
+        .word   12, 12, .Lxor_b3_a
+.Lxor_b4_r4set:
+        .word   .Lxor_b4_pow, 32, .Lxor_b4_r4add1
+.Lxor_b4_r4add1:
+        .word   .Lxor_b4_npow, 160, .Lxor_b4_r4add2
+.Lxor_b4_r4add2:
         .word   12, 12, .Lxor_b3_a
 .Lxor_b3_a:
-        .word   164, 164, .Lxor_b3_a0
-.Lxor_b3_a0:
         .word   168, 168, .Lxor_b3_a1
 .Lxor_b3_a1:
         .word   12, 12, .Lxor_b3_a2
@@ -60341,50 +59373,51 @@ __subleq_xor:
 .Lxor_b3_a5:
         .word   172, 172, .Lxor_b3_a6
 .Lxor_b3_a6:
-        .word   168, 172, .Lxor_b3_a_set
-        .word   12, 12, .Lxor_b3_b
-.Lxor_b3_a_set:
-        .word   .Lxor_b3_pow, 28, .Lxor_b3_a_flag
-.Lxor_b3_a_flag:
-        .word   .Lxor_m1, 164, .Lxor_b3_b
-.Lxor_b3_b:
-        .word   168, 168, .Lxor_b3_b1
-.Lxor_b3_b1:
-        .word   12, 12, .Lxor_b3_b2
-.Lxor_b3_b2:
-        .word   32, 12, .Lxor_b3_b3
-.Lxor_b3_b3:
-        .word   12, 168, .Lxor_b3_b4
-.Lxor_b3_b4:
-        .word   .Lxor_b3_pow, 168, .Lxor_b3_b5
-.Lxor_b3_b5:
-        .word   172, 172, .Lxor_b3_b6
-.Lxor_b3_b6:
-        .word   168, 172, .Lxor_b3_b_set
-        .word   12, 12, .Lxor_b3_chk
-.Lxor_b3_b_set:
-        .word   .Lxor_b3_pow, 32, .Lxor_b3_b_flag
-.Lxor_b3_b_flag:
-        .word   .Lxor_m1, 164, .Lxor_b3_chk
-.Lxor_b3_chk:
-        .word   .Lxor_one, 164, .Lxor_b3_chk1
-.Lxor_b3_chk1:
-        .word   172, 172, .Lxor_b3_chk2
-.Lxor_b3_chk2:
-        .word   172, 164, .Lxor_b3_chk3
-        .word   12, 12, .Lxor_b3_skip
-.Lxor_b3_chk3:
-        .word   172, 172, .Lxor_b3_chk4
+        .word   168, 172, .Lxor_b3_r3set
+        .word   12, 12, .Lxor_b3_r4only
+.Lxor_b3_r3set:
+        .word   .Lxor_b3_pow, 28, .Lxor_b3_chk4
 .Lxor_b3_chk4:
-        .word   164, 172, .Lxor_b3_add
-        .word   12, 12, .Lxor_b3_skip
-.Lxor_b3_add:
-        .word   .Lxor_b3_npow, 160, .Lxor_b2_a
-.Lxor_b3_skip:
+        .word   168, 168, .Lxor_b3_c1
+.Lxor_b3_c1:
+        .word   12, 12, .Lxor_b3_c2
+.Lxor_b3_c2:
+        .word   32, 12, .Lxor_b3_c3
+.Lxor_b3_c3:
+        .word   12, 168, .Lxor_b3_c4
+.Lxor_b3_c4:
+        .word   .Lxor_b3_pow, 168, .Lxor_b3_c5
+.Lxor_b3_c5:
+        .word   172, 172, .Lxor_b3_c6
+.Lxor_b3_c6:
+        .word   168, 172, .Lxor_b3_c_set
+        .word   .Lxor_b3_npow, 160, .Lxor_b3_c_add1
+.Lxor_b3_c_add1:
+        .word   12, 12, .Lxor_b2_a
+.Lxor_b3_c_set:
+        .word   .Lxor_b3_pow, 32, .Lxor_b2_a
+.Lxor_b3_r4only:
+        .word   168, 168, .Lxor_b3_r4o1
+.Lxor_b3_r4o1:
+        .word   12, 12, .Lxor_b3_r4o2
+.Lxor_b3_r4o2:
+        .word   32, 12, .Lxor_b3_r4o3
+.Lxor_b3_r4o3:
+        .word   12, 168, .Lxor_b3_r4o4
+.Lxor_b3_r4o4:
+        .word   .Lxor_b3_pow, 168, .Lxor_b3_r4o5
+.Lxor_b3_r4o5:
+        .word   172, 172, .Lxor_b3_r4o6
+.Lxor_b3_r4o6:
+        .word   168, 172, .Lxor_b3_r4set
+        .word   12, 12, .Lxor_b2_a
+.Lxor_b3_r4set:
+        .word   .Lxor_b3_pow, 32, .Lxor_b3_r4add1
+.Lxor_b3_r4add1:
+        .word   .Lxor_b3_npow, 160, .Lxor_b3_r4add2
+.Lxor_b3_r4add2:
         .word   12, 12, .Lxor_b2_a
 .Lxor_b2_a:
-        .word   164, 164, .Lxor_b2_a0
-.Lxor_b2_a0:
         .word   168, 168, .Lxor_b2_a1
 .Lxor_b2_a1:
         .word   12, 12, .Lxor_b2_a2
@@ -60397,50 +59430,51 @@ __subleq_xor:
 .Lxor_b2_a5:
         .word   172, 172, .Lxor_b2_a6
 .Lxor_b2_a6:
-        .word   168, 172, .Lxor_b2_a_set
-        .word   12, 12, .Lxor_b2_b
-.Lxor_b2_a_set:
-        .word   .Lxor_b2_pow, 28, .Lxor_b2_a_flag
-.Lxor_b2_a_flag:
-        .word   .Lxor_m1, 164, .Lxor_b2_b
-.Lxor_b2_b:
-        .word   168, 168, .Lxor_b2_b1
-.Lxor_b2_b1:
-        .word   12, 12, .Lxor_b2_b2
-.Lxor_b2_b2:
-        .word   32, 12, .Lxor_b2_b3
-.Lxor_b2_b3:
-        .word   12, 168, .Lxor_b2_b4
-.Lxor_b2_b4:
-        .word   .Lxor_b2_pow, 168, .Lxor_b2_b5
-.Lxor_b2_b5:
-        .word   172, 172, .Lxor_b2_b6
-.Lxor_b2_b6:
-        .word   168, 172, .Lxor_b2_b_set
-        .word   12, 12, .Lxor_b2_chk
-.Lxor_b2_b_set:
-        .word   .Lxor_b2_pow, 32, .Lxor_b2_b_flag
-.Lxor_b2_b_flag:
-        .word   .Lxor_m1, 164, .Lxor_b2_chk
-.Lxor_b2_chk:
-        .word   .Lxor_one, 164, .Lxor_b2_chk1
-.Lxor_b2_chk1:
-        .word   172, 172, .Lxor_b2_chk2
-.Lxor_b2_chk2:
-        .word   172, 164, .Lxor_b2_chk3
-        .word   12, 12, .Lxor_b2_skip
-.Lxor_b2_chk3:
-        .word   172, 172, .Lxor_b2_chk4
+        .word   168, 172, .Lxor_b2_r3set
+        .word   12, 12, .Lxor_b2_r4only
+.Lxor_b2_r3set:
+        .word   .Lxor_b2_pow, 28, .Lxor_b2_chk4
 .Lxor_b2_chk4:
-        .word   164, 172, .Lxor_b2_add
-        .word   12, 12, .Lxor_b2_skip
-.Lxor_b2_add:
-        .word   .Lxor_b2_npow, 160, .Lxor_b1_a
-.Lxor_b2_skip:
+        .word   168, 168, .Lxor_b2_c1
+.Lxor_b2_c1:
+        .word   12, 12, .Lxor_b2_c2
+.Lxor_b2_c2:
+        .word   32, 12, .Lxor_b2_c3
+.Lxor_b2_c3:
+        .word   12, 168, .Lxor_b2_c4
+.Lxor_b2_c4:
+        .word   .Lxor_b2_pow, 168, .Lxor_b2_c5
+.Lxor_b2_c5:
+        .word   172, 172, .Lxor_b2_c6
+.Lxor_b2_c6:
+        .word   168, 172, .Lxor_b2_c_set
+        .word   .Lxor_b2_npow, 160, .Lxor_b2_c_add1
+.Lxor_b2_c_add1:
+        .word   12, 12, .Lxor_b1_a
+.Lxor_b2_c_set:
+        .word   .Lxor_b2_pow, 32, .Lxor_b1_a
+.Lxor_b2_r4only:
+        .word   168, 168, .Lxor_b2_r4o1
+.Lxor_b2_r4o1:
+        .word   12, 12, .Lxor_b2_r4o2
+.Lxor_b2_r4o2:
+        .word   32, 12, .Lxor_b2_r4o3
+.Lxor_b2_r4o3:
+        .word   12, 168, .Lxor_b2_r4o4
+.Lxor_b2_r4o4:
+        .word   .Lxor_b2_pow, 168, .Lxor_b2_r4o5
+.Lxor_b2_r4o5:
+        .word   172, 172, .Lxor_b2_r4o6
+.Lxor_b2_r4o6:
+        .word   168, 172, .Lxor_b2_r4set
+        .word   12, 12, .Lxor_b1_a
+.Lxor_b2_r4set:
+        .word   .Lxor_b2_pow, 32, .Lxor_b2_r4add1
+.Lxor_b2_r4add1:
+        .word   .Lxor_b2_npow, 160, .Lxor_b2_r4add2
+.Lxor_b2_r4add2:
         .word   12, 12, .Lxor_b1_a
 .Lxor_b1_a:
-        .word   164, 164, .Lxor_b1_a0
-.Lxor_b1_a0:
         .word   168, 168, .Lxor_b1_a1
 .Lxor_b1_a1:
         .word   12, 12, .Lxor_b1_a2
@@ -60453,50 +59487,51 @@ __subleq_xor:
 .Lxor_b1_a5:
         .word   172, 172, .Lxor_b1_a6
 .Lxor_b1_a6:
-        .word   168, 172, .Lxor_b1_a_set
-        .word   12, 12, .Lxor_b1_b
-.Lxor_b1_a_set:
-        .word   .Lxor_b1_pow, 28, .Lxor_b1_a_flag
-.Lxor_b1_a_flag:
-        .word   .Lxor_m1, 164, .Lxor_b1_b
-.Lxor_b1_b:
-        .word   168, 168, .Lxor_b1_b1
-.Lxor_b1_b1:
-        .word   12, 12, .Lxor_b1_b2
-.Lxor_b1_b2:
-        .word   32, 12, .Lxor_b1_b3
-.Lxor_b1_b3:
-        .word   12, 168, .Lxor_b1_b4
-.Lxor_b1_b4:
-        .word   .Lxor_b1_pow, 168, .Lxor_b1_b5
-.Lxor_b1_b5:
-        .word   172, 172, .Lxor_b1_b6
-.Lxor_b1_b6:
-        .word   168, 172, .Lxor_b1_b_set
-        .word   12, 12, .Lxor_b1_chk
-.Lxor_b1_b_set:
-        .word   .Lxor_b1_pow, 32, .Lxor_b1_b_flag
-.Lxor_b1_b_flag:
-        .word   .Lxor_m1, 164, .Lxor_b1_chk
-.Lxor_b1_chk:
-        .word   .Lxor_one, 164, .Lxor_b1_chk1
-.Lxor_b1_chk1:
-        .word   172, 172, .Lxor_b1_chk2
-.Lxor_b1_chk2:
-        .word   172, 164, .Lxor_b1_chk3
-        .word   12, 12, .Lxor_b1_skip
-.Lxor_b1_chk3:
-        .word   172, 172, .Lxor_b1_chk4
+        .word   168, 172, .Lxor_b1_r3set
+        .word   12, 12, .Lxor_b1_r4only
+.Lxor_b1_r3set:
+        .word   .Lxor_b1_pow, 28, .Lxor_b1_chk4
 .Lxor_b1_chk4:
-        .word   164, 172, .Lxor_b1_add
-        .word   12, 12, .Lxor_b1_skip
-.Lxor_b1_add:
-        .word   .Lxor_b1_npow, 160, .Lxor_b0_a
-.Lxor_b1_skip:
+        .word   168, 168, .Lxor_b1_c1
+.Lxor_b1_c1:
+        .word   12, 12, .Lxor_b1_c2
+.Lxor_b1_c2:
+        .word   32, 12, .Lxor_b1_c3
+.Lxor_b1_c3:
+        .word   12, 168, .Lxor_b1_c4
+.Lxor_b1_c4:
+        .word   .Lxor_b1_pow, 168, .Lxor_b1_c5
+.Lxor_b1_c5:
+        .word   172, 172, .Lxor_b1_c6
+.Lxor_b1_c6:
+        .word   168, 172, .Lxor_b1_c_set
+        .word   .Lxor_b1_npow, 160, .Lxor_b1_c_add1
+.Lxor_b1_c_add1:
+        .word   12, 12, .Lxor_b0_a
+.Lxor_b1_c_set:
+        .word   .Lxor_b1_pow, 32, .Lxor_b0_a
+.Lxor_b1_r4only:
+        .word   168, 168, .Lxor_b1_r4o1
+.Lxor_b1_r4o1:
+        .word   12, 12, .Lxor_b1_r4o2
+.Lxor_b1_r4o2:
+        .word   32, 12, .Lxor_b1_r4o3
+.Lxor_b1_r4o3:
+        .word   12, 168, .Lxor_b1_r4o4
+.Lxor_b1_r4o4:
+        .word   .Lxor_b1_pow, 168, .Lxor_b1_r4o5
+.Lxor_b1_r4o5:
+        .word   172, 172, .Lxor_b1_r4o6
+.Lxor_b1_r4o6:
+        .word   168, 172, .Lxor_b1_r4set
+        .word   12, 12, .Lxor_b0_a
+.Lxor_b1_r4set:
+        .word   .Lxor_b1_pow, 32, .Lxor_b1_r4add1
+.Lxor_b1_r4add1:
+        .word   .Lxor_b1_npow, 160, .Lxor_b1_r4add2
+.Lxor_b1_r4add2:
         .word   12, 12, .Lxor_b0_a
 .Lxor_b0_a:
-        .word   164, 164, .Lxor_b0_a0
-.Lxor_b0_a0:
         .word   168, 168, .Lxor_b0_a1
 .Lxor_b0_a1:
         .word   12, 12, .Lxor_b0_a2
@@ -60509,46 +59544,49 @@ __subleq_xor:
 .Lxor_b0_a5:
         .word   172, 172, .Lxor_b0_a6
 .Lxor_b0_a6:
-        .word   168, 172, .Lxor_b0_a_set
-        .word   12, 12, .Lxor_b0_b
-.Lxor_b0_a_set:
-        .word   .Lxor_b0_pow, 28, .Lxor_b0_a_flag
-.Lxor_b0_a_flag:
-        .word   .Lxor_m1, 164, .Lxor_b0_b
-.Lxor_b0_b:
-        .word   168, 168, .Lxor_b0_b1
-.Lxor_b0_b1:
-        .word   12, 12, .Lxor_b0_b2
-.Lxor_b0_b2:
-        .word   32, 12, .Lxor_b0_b3
-.Lxor_b0_b3:
-        .word   12, 168, .Lxor_b0_b4
-.Lxor_b0_b4:
-        .word   .Lxor_b0_pow, 168, .Lxor_b0_b5
-.Lxor_b0_b5:
-        .word   172, 172, .Lxor_b0_b6
-.Lxor_b0_b6:
-        .word   168, 172, .Lxor_b0_b_set
-        .word   12, 12, .Lxor_b0_chk
-.Lxor_b0_b_set:
-        .word   .Lxor_b0_pow, 32, .Lxor_b0_b_flag
-.Lxor_b0_b_flag:
-        .word   .Lxor_m1, 164, .Lxor_b0_chk
-.Lxor_b0_chk:
-        .word   .Lxor_one, 164, .Lxor_b0_chk1
-.Lxor_b0_chk1:
-        .word   172, 172, .Lxor_b0_chk2
-.Lxor_b0_chk2:
-        .word   172, 164, .Lxor_b0_chk3
-        .word   12, 12, .Lxor_b0_skip
-.Lxor_b0_chk3:
-        .word   172, 172, .Lxor_b0_chk4
+        .word   168, 172, .Lxor_b0_r3set
+        .word   12, 12, .Lxor_b0_r4only
+.Lxor_b0_r3set:
+        .word   .Lxor_b0_pow, 28, .Lxor_b0_chk4
 .Lxor_b0_chk4:
-        .word   164, 172, .Lxor_b0_add
-        .word   12, 12, .Lxor_b0_skip
-.Lxor_b0_add:
-        .word   .Lxor_b0_npow, 160, .Lxor_done
-.Lxor_b0_skip:
+        .word   168, 168, .Lxor_b0_c1
+.Lxor_b0_c1:
+        .word   12, 12, .Lxor_b0_c2
+.Lxor_b0_c2:
+        .word   32, 12, .Lxor_b0_c3
+.Lxor_b0_c3:
+        .word   12, 168, .Lxor_b0_c4
+.Lxor_b0_c4:
+        .word   .Lxor_b0_pow, 168, .Lxor_b0_c5
+.Lxor_b0_c5:
+        .word   172, 172, .Lxor_b0_c6
+.Lxor_b0_c6:
+        .word   168, 172, .Lxor_b0_c_set
+        .word   .Lxor_b0_npow, 160, .Lxor_b0_c_add1
+.Lxor_b0_c_add1:
+        .word   12, 12, .Lxor_done
+.Lxor_b0_c_set:
+        .word   .Lxor_b0_pow, 32, .Lxor_done
+.Lxor_b0_r4only:
+        .word   168, 168, .Lxor_b0_r4o1
+.Lxor_b0_r4o1:
+        .word   12, 12, .Lxor_b0_r4o2
+.Lxor_b0_r4o2:
+        .word   32, 12, .Lxor_b0_r4o3
+.Lxor_b0_r4o3:
+        .word   12, 168, .Lxor_b0_r4o4
+.Lxor_b0_r4o4:
+        .word   .Lxor_b0_pow, 168, .Lxor_b0_r4o5
+.Lxor_b0_r4o5:
+        .word   172, 172, .Lxor_b0_r4o6
+.Lxor_b0_r4o6:
+        .word   168, 172, .Lxor_b0_r4set
+        .word   12, 12, .Lxor_done
+.Lxor_b0_r4set:
+        .word   .Lxor_b0_pow, 32, .Lxor_b0_r4add1
+.Lxor_b0_r4add1:
+        .word   .Lxor_b0_npow, 160, .Lxor_b0_r4add2
+.Lxor_b0_r4add2:
         .word   12, 12, .Lxor_done
 .Lxor_done:
         .word   28, 28, .Lxor_ret1

@@ -102,6 +102,10 @@ extern void __udivdi3(void);
 extern void __umoddi3(void);
 extern long __subleq_syscall(long, long, long, long, long, long, long);
 
+/* Stub _init and _fini for static binaries without crti.o/crtn.o */
+static void __used __subleq_init(void) { }
+static void __used __subleq_fini(void) { }
+
 /* Hardcoded table of kernel runtime symbols */
 static const struct {
 	const char *name;
@@ -132,6 +136,8 @@ static const struct {
 			       { "memmove", &memmove },
 			       { "memset", &memset },
 			       { "__subleq_syscall", &__subleq_syscall },
+			       { "_init", &__subleq_init },
+			       { "_fini", &__subleq_fini },
 			       { NULL, NULL } };
 
 /* Dynamic symbol table (populated from loaded libraries) */
@@ -1155,16 +1161,17 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 		return ret;
 	}
 
-	/* Resolve external symbols against libsrt */
-	if (has_libsrt) {
-		ret = resolve_external_symbols(bprm->file, hdr,
-					       exec_info.load_addr,
-					       exec_info.base_vaddr);
-		if (ret < 0) {
-			pr_err("SUBLEQ_ELF: Failed to resolve symbols: %d\n",
-			       ret);
-			return ret;
-		}
+	/* Resolve external symbols against kernel runtime and libsrt.
+	 * This is needed even for static binaries because they may have
+	 * undefined symbols like __subleq_syscall, __subleq_mul, etc.
+	 * that are provided by the kernel runtime. */
+	ret = resolve_external_symbols(bprm->file, hdr,
+				       exec_info.load_addr,
+				       exec_info.base_vaddr);
+	if (ret < 0) {
+		pr_err("SUBLEQ_ELF: Failed to resolve symbols: %d\n",
+		       ret);
+		return ret;
 	}
 
 	/* Set up stack */

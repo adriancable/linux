@@ -44,33 +44,29 @@ long __subleq_syscall_c(long nr, long a1, long a2, long a3, long a4, long a5, lo
 {
 	syscall_fn_t fn;
 	struct pt_regs *regs;
-	unsigned long *fp_ptr;
-	unsigned long ra_val;
-	int i;
 
-	/* Debug traces commented out - uncomment to trace syscall entry/exit
-	__subleq_putchar('@');
-	ra_val = subleq_syscall_saved_ra;
-	__subleq_putchar('[');
-	for (i = 28; i >= 0; i -= 4) {
-		int nibble = (ra_val >> i) & 0xF;
-		__subleq_putchar(nibble < 10 ? '0' + nibble : 'a' + nibble - 10);
-	}
-	__subleq_putchar(']');
-	*/
-	(void)ra_val;  /* Suppress unused variable warning */
-	(void)i;
+	/* DEBUG: Print syscall number to trace child execution */
+	__subleq_putchar('{');
+	/* Print syscall number as decimal (max 3 digits for common syscalls) */
+	if (nr >= 100) __subleq_putchar('0' + (nr / 100) % 10);
+	if (nr >= 10) __subleq_putchar('0' + (nr / 10) % 10);
+	__subleq_putchar('0' + nr % 10);
+	__subleq_putchar('}');
 
 	/*
 	 * Fill in pt_regs using the saved globals.
 	 * This is needed for fork/vfork to copy the correct return context.
+	 *
+	 * The child process (via ret_from_fork) should return to the exact
+	 * same state as the parent would after __subleq_syscall returns:
+	 *   - PC = saved_ra (instruction after syscall call)
+	 *   - FP = saved_fp (caller's frame pointer)
+	 *   - SP = saved_sp + 4 (caller's SP after popping RA)
 	 */
-	fp_ptr = (unsigned long *)subleq_syscall_saved_fp;
-	
 	regs = task_pt_regs(current);
-	regs->pc = subleq_syscall_saved_ra;   /* Return address */
-	regs->fp = fp_ptr[0];                  /* Caller's FP from [FP+0] */
-	regs->sp = subleq_syscall_saved_fp + 8; /* Caller's SP */
+	regs->pc = subleq_syscall_saved_ra;
+	regs->fp = subleq_syscall_saved_fp;
+	regs->sp = subleq_syscall_saved_sp + 4;  /* +4 to match SP after RA pop */
 
 	/* Dispatch the syscall */
 	if (nr < 0 || nr >= __NR_syscalls) {

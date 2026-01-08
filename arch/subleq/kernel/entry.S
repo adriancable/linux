@@ -1741,7 +1741,9 @@ ret_from_fork:
         .word   -4, REG_RA, .Lrff_do_jump
 
 .Lrff_do_jump:
+        /* Just jump to userspace - no extra debug (was crashing) */
         .word   SW_ZZ, SW_ZZ, .Lrff_jump_user2
+
 .Lrff_jump_user2:
         /* Indirect jump: subleq(Z, Z, SW_ZZ2|I) jumps to m[SW_ZZ2] */
         .word   SW_ZZ
@@ -1962,6 +1964,13 @@ __subleq_syscall:
         .word   SYSCALL_ZZ, SYSCALL_ZZ, .+4
         .word   subleq_syscall_saved_sp, SYSCALL_ZZ, .+4  /* ZZ = -saved_sp */
         .word   SYSCALL_ZZ, REG_SP, .+4   /* SP = saved_sp */
+
+        /*
+         * STEP 6b: Pop the return address from the stack
+         * The caller pushed RA before jumping here; we need to pop it.
+         * This balances the stack for the parent process.
+         */
+        .word   .Lsyscall_neg4, REG_SP, .+4   /* SP = SP + 4 (pop) */
 
         /*
          * STEP 7: Restore userspace FP from global

@@ -15,6 +15,10 @@
 #include <asm/current.h>
 #include <asm/switch_context.h>
 
+/* Forward declarations for debug output */
+extern void __subleq_putchar(int c);
+void debug_print_hex(unsigned long val);
+
 /*
  * The idle thread - just spin
  */
@@ -141,6 +145,8 @@ void kernel_thread_helper(struct task_struct *prev)
  */
 struct pt_regs *ret_to_user_prep(struct task_struct *prev)
 {
+	struct pt_regs *regs;
+	
 	/*
 	 * CRITICAL: Must call schedule_tail() first!
 	 * This calls finish_task_switch(prev) which clears prev->on_cpu.
@@ -148,7 +154,34 @@ struct pt_regs *ret_to_user_prep(struct task_struct *prev)
 	schedule_tail(prev);
 
 	/* Return pointer to pt_regs for assembly to use */
-	return task_pt_regs(current);
+	regs = task_pt_regs(current);
+	
+	/* DEBUG: Print where the child will jump to */
+	__subleq_putchar('<');
+	debug_print_hex(regs->pc);
+	__subleq_putchar(':');
+	debug_print_hex(regs->sp);
+	__subleq_putchar('>');
+	
+	return regs;
+}
+
+/*
+ * debug_print_hex - Print a value in hex (for assembly debugging)
+ *
+ * Called from assembly to print a 32-bit value as 8 hex digits.
+ */
+extern void __subleq_putchar(int c);
+
+void debug_print_hex(unsigned long val)
+{
+	int i;
+	__subleq_putchar('[');
+	for (i = 28; i >= 0; i -= 4) {
+		int nibble = (val >> i) & 0xF;
+		__subleq_putchar(nibble < 10 ? '0' + nibble : 'a' + nibble - 10);
+	}
+	__subleq_putchar(']');
 }
 
 /*

@@ -13,6 +13,7 @@
 #include <asm/processor.h>
 #include <asm/ptrace.h>
 #include <asm/current.h>
+#include <asm/switch_context.h>
 
 /*
  * The idle thread - just spin
@@ -53,6 +54,9 @@ void kernel_thread_helper(struct task_struct *prev)
 	int (*fn)(void *) = (int (*)(void *))regs->r3;
 	void *arg = (void *)regs->r21;
 
+	pr_info("kernel_thread_helper: entry, PID=%d current=%p prev=%p\n",
+		task_tgid_vnr(current), current, prev);
+
 	/*
 	 * CRITICAL: Must call schedule_tail() first!
 	 * This calls finish_task_switch(prev) which clears prev->on_cpu.
@@ -61,8 +65,14 @@ void kernel_thread_helper(struct task_struct *prev)
 	 */
 	schedule_tail(prev);
 
+	pr_info("kernel_thread_helper: after schedule_tail, PID=%d current=%p\n",
+		task_tgid_vnr(current), current);
+
 	/* Call the kernel thread function */
 	fn(arg);
+
+	pr_info("kernel_thread_helper: after fn(), PID=%d current=%p\n",
+		task_tgid_vnr(current), current);
 
 	/*
 	 * The kernel thread function has returned. There are two cases:
@@ -87,8 +97,8 @@ void kernel_thread_helper(struct task_struct *prev)
 		 * Jump to userspace using an assembly helper that does a RAW jump
 		 * without pushing a return address (which would corrupt the user stack).
 		 */
-		pr_info("kernel_thread_helper: transitioning to userspace pc=0x%lx sp=0x%lx\n",
-			regs->pc, regs->sp);
+		pr_info("kernel_thread_helper: transitioning to userspace PID=%d pc=0x%lx sp=0x%lx\n",
+			task_tgid_vnr(current), regs->pc, regs->sp);
 
 		/*
 		 * Call the assembly helper which will:
@@ -110,38 +120,28 @@ void kernel_thread_helper(struct task_struct *prev)
  * ret_to_user_prep - Prepare for return to userspace (called from ret_from_fork in asm)
  *
  * This is called when a user thread is scheduled for the first time after
- * fork or execve. It calls schedule_tail to complete the context switch,
- * then stores pc and sp in R20/R21 for the assembly code to use.
+ * fork or clone. It ONLY calls schedule_tail to complete the context switch.
  *
  * Arguments:
  *   prev (R21) - previous task pointer (for schedule_tail)
  *
- * On return:
- *   R20 (memory location 96) = pc (userspace entry point)
- *   R21 (memory location 100) = sp (userspace stack pointer)
+ * Returns:
+ *   R20 = pointer to current task's pt_regs
  *
- * In Subleq, "registers" are just fixed memory locations, so we write directly
- * to addresses 96 (R20) and 100 (R21).
+ * IMPORTANT: The assembly code in ret_from_fork will read pc, sp, and r20
+ * directly from pt_regs to set up the return to userspace. This ensures
+ * no registers are clobbered by C code.
  */
-void ret_to_user_prep(struct task_struct *prev)
+struct pt_regs *ret_to_user_prep(struct task_struct *prev)
 {
-	struct pt_regs *regs = task_pt_regs(current);
-	volatile unsigned long *r20 = (volatile unsigned long *)96;
-	volatile unsigned long *r21 = (volatile unsigned long *)100;
-
 	/*
 	 * CRITICAL: Must call schedule_tail() first!
 	 * This calls finish_task_switch(prev) which clears prev->on_cpu.
 	 */
 	schedule_tail(prev);
 
-	/*
-	 * Store user pc and sp directly into the Subleq register memory locations.
-	 * After this function returns, the assembly code in ret_from_fork
-	 * will read R20 (pc) and R21 (sp), set the stack pointer, and jump to pc.
-	 */
-	*r20 = regs->pc;
-	*r21 = regs->sp;
+	/* Return pointer to pt_regs for assembly to use */
+	return task_pt_regs(current);
 }
 
 /*
@@ -170,23 +170,65 @@ void start_thread(struct pt_regs *regs, unsigned long pc, unsigned long sp)
  *
  * For kernel threads, we set up the stack so that when __switch_to
  * switches to this thread for the first time:
- *   1. It pops the "return address" which is ret_from_fork
- *   2. ret_from_fork checks r3: if non-zero, it's a kernel thread
- *   3. For kernel threads: ret_from_fork calls kernel_thread_helper
+ *   1. It restores registers from switch_stack (initially zeroed)
+ *   2. It pops the "return address" (retpc) which is ret_from_fork
+ *   3. ret_from_fork checks r3: if non-zero, it's a kernel thread
+ *   4. For kernel threads: ret_from_fork calls kernel_thread_helper
  *      which reads pt_regs.r3 (the fn) and pt_regs.r21 (the arg)
- *   4. For user threads: ret_from_fork restores regs and jumps to pc
+ *   5. For user threads: ret_from_fork restores regs and jumps to pc
  *
  * r3 serves as the kernel/user thread flag:
  *   - r3 != 0: kernel thread (r3 = thread function pointer)
  *   - r3 == 0: user thread (should return to userspace via pc)
+ *
+ * Stack layout (growing down):
+ *   [high addr]  pt_regs structure
+ *   [mid addr]   switch_stack structure  <-- thread.sp points here
+ *   [low addr]   ... (more stack space)
  */
 int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
 {
 	unsigned long usp = args->stack;
 	struct pt_regs *childregs;
-	unsigned long *stack_ptr;
+	struct switch_stack *childstack;
+	unsigned long *retpc_slot;
+
+	/*
+	 * DEBUG: Verify parent and child have DIFFERENT kernel stacks.
+	 * If they are the same, this confirms the vfork stack overlap bug.
+	 */
+	pr_info("COPY_THREAD: parent=%px parent->stack=%px, child=%px child->stack=%px\n",
+		current, current->stack, p, p->stack);
+	pr_info("COPY_THREAD: parent stack range [%px - %px], child stack range [%px - %px]\n",
+		current->stack, (void *)((unsigned long)current->stack + THREAD_SIZE),
+		p->stack, (void *)((unsigned long)p->stack + THREAD_SIZE));
 
 	childregs = task_pt_regs(p);
+
+	/*
+	 * Set up stack for __switch_to:
+	 *
+	 * Stack layout (growing down):
+	 *   [high addr]  pt_regs structure
+	 *   [mid]        ret_from_fork (return address, 4 bytes)
+	 *   [low]        switch_stack (96 bytes)  <-- thread.sp points here
+	 *
+	 * When __switch_to restores this task:
+	 *   1. Restores registers from switch_stack
+	 *   2. SP += 96 (now points to retpc slot)
+	 *   3. Pops retpc, jumps to ret_from_fork
+	 */
+
+	/* First, push ret_from_fork as the "return address" */
+	retpc_slot = (unsigned long *)childregs - 1;
+	*retpc_slot = (unsigned long)ret_from_fork;
+
+	/* Then allocate switch_stack below the return address */
+	childstack = (struct switch_stack *)retpc_slot - 1;
+	memset(childstack, 0, sizeof(struct switch_stack));
+
+	/* thread.sp points to switch_stack */
+	p->thread.sp = (unsigned long)childstack;
 
 	if (unlikely(args->fn)) {
 		/* Kernel thread */
@@ -201,21 +243,6 @@ int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
 		childregs->r21 = (unsigned long)args->fn_arg;
 		childregs->pc = 0;
 
-		/*
-		 * Set up the stack for __switch_to:
-		 * The stack should have ret_from_fork as the "return address"
-		 * that __switch_to will pop.
-		 *
-		 * Stack layout (growing down):
-		 *   [high addr] childregs (pt_regs)
-		 *   [low addr]  ret_from_fork address <-- thread.sp points here
-		 */
-		stack_ptr = (unsigned long *)childregs;
-		stack_ptr--; /* Make room for return address */
-		*stack_ptr = (unsigned long)ret_from_fork;
-
-		p->thread.sp = (unsigned long)stack_ptr;
-
 		return 0;
 	}
 
@@ -226,19 +253,9 @@ int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
 	childregs->r20 = 0; /* Return 0 in child */
 	childregs->r3 = 0; /* Mark as user thread (ret_from_fork checks this) */
 
-	/*
-	 * For user forks, set up stack similarly.
-	 * The return address should be ret_from_fork which will
-	 * restore pt_regs and return to userspace.
-	 */
-	stack_ptr = (unsigned long *)childregs;
-	stack_ptr--;
-	*stack_ptr = (unsigned long)ret_from_fork;
-
-	p->thread.sp = (unsigned long)stack_ptr;
-
 	return 0;
 }
+
 
 /*
  * Get wait channel for sleeping task

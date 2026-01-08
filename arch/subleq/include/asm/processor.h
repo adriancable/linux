@@ -67,7 +67,7 @@ extern void start_thread(struct pt_regs *regs, unsigned long pc,
 
 /* Process management functions */
 extern void kernel_thread_helper(struct task_struct *prev);
-extern void ret_to_user_prep(struct task_struct *prev);
+extern struct pt_regs *ret_to_user_prep(struct task_struct *prev);
 
 /* Machine power management */
 extern void machine_halt(void);

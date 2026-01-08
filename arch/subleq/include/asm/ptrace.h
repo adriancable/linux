@@ -37,9 +37,10 @@ struct pt_regs {
 	unsigned long r22; /* Arg 2 */
 	unsigned long r23; /* Arg 3 */
 	unsigned long r24; /* Arg 4 */
-	unsigned long sp; /* Stack pointer */
-	unsigned long ra; /* Return address (link register) */
-	unsigned long pc; /* Program counter */
+	unsigned long fp;  /* Frame pointer - CRITICAL for fork! */
+	unsigned long sp;  /* Stack pointer */
+	unsigned long ra;  /* Return address (link register) */
+	unsigned long pc;  /* Program counter */
 	unsigned long orig_r20; /* Original R20 for syscall restart */
 };
 

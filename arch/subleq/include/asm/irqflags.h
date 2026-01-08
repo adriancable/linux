@@ -56,7 +56,7 @@ extern void __subleq_putchar(int c);
  *   Bits 16-19: hardirq count (HARDIRQ_MASK = 0x000f0000)
  *   Bits 20+:   NMI, etc
  */
-#define SUBLEQ_THREAD_SIZE 4096 /* PAGE_SIZE - must match asm/page.h */
+#define SUBLEQ_THREAD_SIZE 8192 /* 2*PAGE_SIZE - must match asm/thread_info.h */
 #define SUBLEQ_HARDIRQ_MASK 0x000f0000
 #define SUBLEQ_SOFTIRQ_MASK 0x0000ff00
 #define SUBLEQ_IRQMASK (SUBLEQ_HARDIRQ_MASK | SUBLEQ_SOFTIRQ_MASK)

@@ -135,6 +135,20 @@
 .set SW_ZZ, 440   /* Scratch for __switch_to / ret_from_fork */
 .set SW_ZZ2, 444  /* Second scratch if needed */
 
+/*
+ * SYSCALL STACK SWITCH SUPPORT
+ * Like ColdFire's sw_usp/sw_ksp for NOMMU systems without separate U/S stack pointers.
+ * 
+ * SUBLEQ_USP: Saves the userspace SP when entering a syscall.
+ *             Restored when returning to userspace.
+ *
+ * SUBLEQ_UFP: Saves the userspace FP when entering a syscall.
+ *             Restored when returning to userspace.
+ */
+.set SUBLEQ_USP, 448    /* Saved userspace stack pointer */
+.set SUBLEQ_UFP, 452    /* Saved userspace frame pointer */
+.set SYSCALL_ZZ, 456    /* Scratch for syscall trampoline */
+
 /* Save/restore macros */
 .macro SAVE_REG reg_addr, save_addr, next_label
         .word   \save_addr, \save_addr, .+4
@@ -636,199 +650,779 @@ test_return:
 .type __switch_to, @function
 __switch_to:
         /*
-         * NOTE: The caller has ALREADY pushed the return address to the stack
-         * before jumping here. This is the Subleq C calling convention:
-         *   Caller does: SP -= 4; [SP] = return_addr; jump function
+         * __switch_to(prev, next) - Context switch with full register save
          *
-         * So on entry, SP points to the return address on the stack.
-         * We do NOT push RA here - RA is a scratch register with garbage.
+         * Arguments: R21 = prev, R22 = next
+         * Returns: R20 = prev
          *
-         * We simply save SP (which points to the stacked return address),
-         * and later when we restore SP, we pop that return address.
+         * On entry, caller has pushed return address to stack at [SP].
+         *
+         * We allocate a switch_stack (96 bytes) BELOW the return address,
+         * save all 24 callee-saved registers there, then save SP.
+         *
+         * On restore, we load SP, restore registers, then pop and jump to
+         * the return address.
+         *
+         * Stack layout after save:
+         *   [SP+96] = return address (pushed by caller)
+         *   [SP+0..92] = switch_stack (24 registers)
          */
 
         /*
-         * Step 2: Save SP to prev->thread.sp
-         * prev is in R21, offset is TASK_THREAD_SP (1180)
+         * STEP 1: Allocate switch_stack: SP -= 96
+         */
+        .word   .Lsw_const_96, REG_SP, .Lsw_save_regs_start
+
+        /*
+         * STEP 2: Save callee-saved registers to switch_stack
          *
-         * Calculate address into SW_ZZ2, then use indirect store
+         * We save R3-R19 (17 regs) at offsets 0-64
+         * and R25-R31 (7 regs) at offsets 68-92
+         *
+         * For each register, we compute SP + offset into SW_ZZ2,
+         * then store the register value there using indirect addressing.
+         */
+.Lsw_save_regs_start:
+        /* Save R3 at [SP + 0] */
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4              /* SW_ZZ2 = SP + 0 */
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ2 | INDIRECT, .+4  /* clear [SP+0] */
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_R3, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2 | INDIRECT, .Lsw_save_r4
+
+        /* Save R4 at [SP + 4] */
+.Lsw_save_r4:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg4, SW_ZZ2, .+4          /* SW_ZZ2 = SP + 4 */
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ2 | INDIRECT, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_R4, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2 | INDIRECT, .Lsw_save_r5
+
+        /* Save R5 at [SP + 8] */
+.Lsw_save_r5:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg8, SW_ZZ2, .+4          /* SW_ZZ2 = SP + 8 */
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ2 | INDIRECT, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_R5, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2 | INDIRECT, .Lsw_save_r6
+
+        /* Save R6 at [SP + 12] */
+.Lsw_save_r6:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg12, SW_ZZ2, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ2 | INDIRECT, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_R6, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2 | INDIRECT, .Lsw_save_r7
+
+        /* Save R7 at [SP + 16] */
+.Lsw_save_r7:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg16, SW_ZZ2, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ2 | INDIRECT, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_R7, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2 | INDIRECT, .Lsw_save_r8
+
+        /* Save R8 at [SP + 20] */
+.Lsw_save_r8:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg20, SW_ZZ2, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ2 | INDIRECT, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_R8, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2 | INDIRECT, .Lsw_save_r9
+
+        /* Save R9 at [SP + 24] */
+.Lsw_save_r9:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg24, SW_ZZ2, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ2 | INDIRECT, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_R9, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2 | INDIRECT, .Lsw_save_r10
+
+        /* Save R10 at [SP + 28] */
+.Lsw_save_r10:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg28, SW_ZZ2, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ2 | INDIRECT, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_R10, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2 | INDIRECT, .Lsw_save_r11
+
+        /* Save R11 at [SP + 32] */
+.Lsw_save_r11:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg32, SW_ZZ2, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ2 | INDIRECT, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_R11, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2 | INDIRECT, .Lsw_save_r12
+
+        /* Save R12 at [SP + 36] */
+.Lsw_save_r12:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg36, SW_ZZ2, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ2 | INDIRECT, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_R12, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2 | INDIRECT, .Lsw_save_r13
+
+        /* Save R13 at [SP + 40] */
+.Lsw_save_r13:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg40, SW_ZZ2, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ2 | INDIRECT, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_R13, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2 | INDIRECT, .Lsw_save_r14
+
+        /* Save R14 at [SP + 44] */
+.Lsw_save_r14:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg44, SW_ZZ2, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ2 | INDIRECT, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_R14, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2 | INDIRECT, .Lsw_save_r15
+
+        /* Save R15 at [SP + 48] */
+.Lsw_save_r15:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg48, SW_ZZ2, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ2 | INDIRECT, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_R15, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2 | INDIRECT, .Lsw_save_r16
+
+        /* Save R16 at [SP + 52] */
+.Lsw_save_r16:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg52, SW_ZZ2, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ2 | INDIRECT, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_R16, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2 | INDIRECT, .Lsw_save_r17
+
+        /* Save R17 at [SP + 56] */
+.Lsw_save_r17:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg56, SW_ZZ2, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ2 | INDIRECT, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_R17, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2 | INDIRECT, .Lsw_save_r18
+
+        /* Save R18 at [SP + 60] */
+.Lsw_save_r18:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg60, SW_ZZ2, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ2 | INDIRECT, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_R18, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2 | INDIRECT, .Lsw_save_r19
+
+        /* Save R19 at [SP + 64] */
+.Lsw_save_r19:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg64, SW_ZZ2, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ2 | INDIRECT, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_R19, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2 | INDIRECT, .Lsw_save_r25
+
+        /* Save R25 at [SP + 68] */
+.Lsw_save_r25:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg68, SW_ZZ2, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ2 | INDIRECT, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_R25, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2 | INDIRECT, .Lsw_save_r26
+
+        /* Save R26 at [SP + 72] */
+.Lsw_save_r26:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg72, SW_ZZ2, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ2 | INDIRECT, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_R26, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2 | INDIRECT, .Lsw_save_r27
+
+        /* Save R27 at [SP + 76] */
+.Lsw_save_r27:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg76, SW_ZZ2, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ2 | INDIRECT, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_R27, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2 | INDIRECT, .Lsw_save_r28
+
+        /* Save R28 at [SP + 80] */
+.Lsw_save_r28:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg80, SW_ZZ2, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ2 | INDIRECT, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_R28, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2 | INDIRECT, .Lsw_save_r29
+
+        /* Save R29 at [SP + 84] */
+.Lsw_save_r29:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg84, SW_ZZ2, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ2 | INDIRECT, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_R29, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2 | INDIRECT, .Lsw_save_r30
+
+        /* Save R30 at [SP + 88] */
+.Lsw_save_r30:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg88, SW_ZZ2, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ2 | INDIRECT, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_R30, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2 | INDIRECT, .Lsw_save_r31
+
+        /* Save R31 at [SP + 92] */
+.Lsw_save_r31:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg92, SW_ZZ2, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ2 | INDIRECT, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_R31, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2 | INDIRECT, .Lsw_save_sp
+
+        /*
+         * STEP 3: Save SP to prev->thread.sp
          */
 .Lsw_save_sp:
-        /* SW_ZZ = R21 (prev) */
-        .word   SW_ZZ, SW_ZZ, .Lsw_save_sp1
-.Lsw_save_sp1:
-        .word   REG_R21, SW_ZZ, .Lsw_save_sp2
-.Lsw_save_sp2:
-        .word   SW_ZZ2, SW_ZZ2, .Lsw_save_sp3
-.Lsw_save_sp3:
-        .word   SW_ZZ, SW_ZZ2, .Lsw_save_sp4         /* SW_ZZ2 = R21 */
-.Lsw_save_sp4:
-        .word   .Loffset_neg, SW_ZZ2, .Lsw_save_sp5  /* SW_ZZ2 = R21 + 1180 = &prev->thread.sp */
-
-.Lsw_save_sp5:
-        /* Clear [SW_ZZ2] using indirect addressing */
-        .word   SW_ZZ2 | INDIRECT, SW_ZZ2 | INDIRECT, .Lsw_save_sp6
-
-.Lsw_save_sp6:
-        /* Store SP: first get -SP into SW_ZZ */
-        .word   SW_ZZ, SW_ZZ, .Lsw_save_sp7
-.Lsw_save_sp7:
-        .word   REG_SP, SW_ZZ, .Lsw_save_sp8
-.Lsw_save_sp8:
-        /* [SW_ZZ2] -= SW_ZZ => prev->thread.sp = SP */
+        /* Calculate &prev->thread.sp into SW_ZZ2 */
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_R21, SW_ZZ, .+4
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4              /* SW_ZZ2 = prev */
+        .word   .Loffset_neg, SW_ZZ2, .+4       /* SW_ZZ2 = &prev->thread.sp */
+        /* Clear and store SP */
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ2 | INDIRECT, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
         .word   SW_ZZ, SW_ZZ2 | INDIRECT, .Lsw_save_fp
 
         /*
-         * Step 2b: Save FP to prev->thread.fp
+         * STEP 3b: Save FP to prev->thread.fp
          */
 .Lsw_save_fp:
-        /* Calculate &prev->thread.fp into SW_ZZ2 */
-        .word   SW_ZZ, SW_ZZ, .Lsw_save_fp1
-.Lsw_save_fp1:
-        .word   REG_R21, SW_ZZ, .Lsw_save_fp2
-.Lsw_save_fp2:
-        .word   SW_ZZ2, SW_ZZ2, .Lsw_save_fp3
-.Lsw_save_fp3:
-        .word   SW_ZZ, SW_ZZ2, .Lsw_save_fp4         /* SW_ZZ2 = R21 */
-.Lsw_save_fp4:
-        .word   .Loffset_fp_neg, SW_ZZ2, .Lsw_save_fp5  /* SW_ZZ2 = R21 + 1184 = &prev->thread.fp */
-
-.Lsw_save_fp5:
-        /* Clear [SW_ZZ2] */
-        .word   SW_ZZ2 | INDIRECT, SW_ZZ2 | INDIRECT, .Lsw_save_fp6
-
-.Lsw_save_fp6:
-        /* Store FP: get -FP into SW_ZZ */
-        .word   SW_ZZ, SW_ZZ, .Lsw_save_fp7
-.Lsw_save_fp7:
-        .word   REG_FP, SW_ZZ, .Lsw_save_fp8
-.Lsw_save_fp8:
-        /* [SW_ZZ2] -= SW_ZZ => prev->thread.fp = FP */
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_R21, SW_ZZ, .+4
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Loffset_fp_neg, SW_ZZ2, .+4    /* SW_ZZ2 = &prev->thread.fp */
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ2 | INDIRECT, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_FP, SW_ZZ, .+4
         .word   SW_ZZ, SW_ZZ2 | INDIRECT, .Lsw_update_current
 
         /*
-         * Step 3: Update subleq_current_task = next
+         * STEP 4: Update subleq_current_task = next
          */
 .Lsw_update_current:
-        .word   SW_ZZ, SW_ZZ, .Lsw_update1
-.Lsw_update1:
-        .word   REG_R22, SW_ZZ, .Lsw_update2         /* SW_ZZ = -next */
-.Lsw_update2:
-        .word   subleq_current_task, subleq_current_task, .Lsw_update3
-.Lsw_update3:
-        .word   SW_ZZ, subleq_current_task, .Lsw_load_sp  /* current = next */
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_R22, SW_ZZ, .+4
+        .word   subleq_current_task, subleq_current_task, .+4
+        .word   SW_ZZ, subleq_current_task, .Lsw_load_sp
 
         /*
-         * Step 4: Load SP from next->thread.sp
+         * STEP 5: Load SP from next->thread.sp
          */
 .Lsw_load_sp:
-        /* Calculate &next->thread.sp into SW_ZZ2 */
-        .word   SW_ZZ, SW_ZZ, .Lsw_load_sp1
-.Lsw_load_sp1:
-        .word   REG_R22, SW_ZZ, .Lsw_load_sp2
-.Lsw_load_sp2:
-        .word   SW_ZZ2, SW_ZZ2, .Lsw_load_sp3
-.Lsw_load_sp3:
-        .word   SW_ZZ, SW_ZZ2, .Lsw_load_sp4         /* SW_ZZ2 = R22 */
-.Lsw_load_sp4:
-        .word   .Loffset_neg, SW_ZZ2, .Lsw_load_sp5  /* SW_ZZ2 = R22 + 1180 = &next->thread.sp */
-
-.Lsw_load_sp5:
-        /* Load [SW_ZZ2] into SW_ZZ using indirect addressing */
-        /* subleq(SW_ZZ2|I, SW_ZZ, next) does: SW_ZZ -= m[SW_ZZ2] => SW_ZZ = -next->thread.sp */
-        .word   SW_ZZ, SW_ZZ, .Lsw_load_sp6
-.Lsw_load_sp6:
-        .word   SW_ZZ2 | INDIRECT, SW_ZZ, .Lsw_load_sp7
-
-.Lsw_load_sp7:
-        /* SP = -SW_ZZ = next->thread.sp */
-        .word   REG_SP, REG_SP, .Lsw_load_sp8
-.Lsw_load_sp8:
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_R22, SW_ZZ, .+4
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Loffset_neg, SW_ZZ2, .+4       /* SW_ZZ2 = &next->thread.sp */
+        /* Load [SW_ZZ2] into SP */
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ, .+4
+        .word   REG_SP, REG_SP, .+4
         .word   SW_ZZ, REG_SP, .Lsw_load_fp
 
         /*
-         * Step 4b: Load FP from next->thread.fp
+         * STEP 5b: Load FP from next->thread.fp
          */
 .Lsw_load_fp:
-        /* Calculate &next->thread.fp into SW_ZZ2 */
-        .word   SW_ZZ, SW_ZZ, .Lsw_load_fp1
-.Lsw_load_fp1:
-        .word   REG_R22, SW_ZZ, .Lsw_load_fp2
-.Lsw_load_fp2:
-        .word   SW_ZZ2, SW_ZZ2, .Lsw_load_fp3
-.Lsw_load_fp3:
-        .word   SW_ZZ, SW_ZZ2, .Lsw_load_fp4         /* SW_ZZ2 = R22 */
-.Lsw_load_fp4:
-        .word   .Loffset_fp_neg, SW_ZZ2, .Lsw_load_fp5  /* SW_ZZ2 = R22 + 1184 = &next->thread.fp */
-
-.Lsw_load_fp5:
-        /* Load [SW_ZZ2] into SW_ZZ */
-        .word   SW_ZZ, SW_ZZ, .Lsw_load_fp6
-.Lsw_load_fp6:
-        .word   SW_ZZ2 | INDIRECT, SW_ZZ, .Lsw_load_fp7
-
-.Lsw_load_fp7:
-        /* FP = -SW_ZZ = next->thread.fp */
-        .word   REG_FP, REG_FP, .Lsw_load_fp8
-.Lsw_load_fp8:
-        .word   SW_ZZ, REG_FP, .Lsw_set_retval
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_R22, SW_ZZ, .+4
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Loffset_fp_neg, SW_ZZ2, .+4    /* SW_ZZ2 = &next->thread.fp */
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ, .+4
+        .word   REG_FP, REG_FP, .+4
+        .word   SW_ZZ, REG_FP, .Lsw_restore_regs_start
 
         /*
-         * Step 5: Set return value R20 = prev (R21)
+         * STEP 6: Restore callee-saved registers from switch_stack
+         *
+         * Similar to save, but loading from [SP + offset] into registers.
+         */
+.Lsw_restore_regs_start:
+        /* Restore R3 from [SP + 0] */
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4              /* SW_ZZ2 = SP */
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ, .+4   /* SW_ZZ = -[SP+0] */
+        .word   REG_R3, REG_R3, .+4
+        .word   SW_ZZ, REG_R3, .Lsw_restore_r4  /* R3 = [SP+0] */
+
+        /* Restore R4 from [SP + 4] */
+.Lsw_restore_r4:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg4, SW_ZZ2, .+4          /* SW_ZZ2 = SP + 4 */
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ, .+4
+        .word   REG_R4, REG_R4, .+4
+        .word   SW_ZZ, REG_R4, .Lsw_restore_r5
+
+        /* Restore R5 from [SP + 8] */
+.Lsw_restore_r5:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg8, SW_ZZ2, .+4          /* SW_ZZ2 = SP + 8 */
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ, .+4
+        .word   REG_R5, REG_R5, .+4
+        .word   SW_ZZ, REG_R5, .Lsw_restore_r6
+
+        /* Restore R6 from [SP + 12] */
+.Lsw_restore_r6:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg12, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ, .+4
+        .word   REG_R6, REG_R6, .+4
+        .word   SW_ZZ, REG_R6, .Lsw_restore_r7
+
+        /* Restore R7 from [SP + 16] */
+.Lsw_restore_r7:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg16, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ, .+4
+        .word   REG_R7, REG_R7, .+4
+        .word   SW_ZZ, REG_R7, .Lsw_restore_r8
+
+        /* Restore R8 from [SP + 20] */
+.Lsw_restore_r8:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg20, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ, .+4
+        .word   REG_R8, REG_R8, .+4
+        .word   SW_ZZ, REG_R8, .Lsw_restore_r9
+
+        /* Restore R9 from [SP + 24] */
+.Lsw_restore_r9:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg24, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ, .+4
+        .word   REG_R9, REG_R9, .+4
+        .word   SW_ZZ, REG_R9, .Lsw_restore_r10
+
+        /* Restore R10 from [SP + 28] */
+.Lsw_restore_r10:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg28, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ, .+4
+        .word   REG_R10, REG_R10, .+4
+        .word   SW_ZZ, REG_R10, .Lsw_restore_r11
+
+        /* Restore R11 from [SP + 32] */
+.Lsw_restore_r11:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg32, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ, .+4
+        .word   REG_R11, REG_R11, .+4
+        .word   SW_ZZ, REG_R11, .Lsw_restore_r12
+
+        /* Restore R12 from [SP + 36] */
+.Lsw_restore_r12:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg36, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ, .+4
+        .word   REG_R12, REG_R12, .+4
+        .word   SW_ZZ, REG_R12, .Lsw_restore_r13
+
+        /* Restore R13 from [SP + 40] */
+.Lsw_restore_r13:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg40, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ, .+4
+        .word   REG_R13, REG_R13, .+4
+        .word   SW_ZZ, REG_R13, .Lsw_restore_r14
+
+        /* Restore R14 from [SP + 44] */
+.Lsw_restore_r14:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg44, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ, .+4
+        .word   REG_R14, REG_R14, .+4
+        .word   SW_ZZ, REG_R14, .Lsw_restore_r15
+
+        /* Restore R15 from [SP + 48] */
+.Lsw_restore_r15:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg48, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ, .+4
+        .word   REG_R15, REG_R15, .+4
+        .word   SW_ZZ, REG_R15, .Lsw_restore_r16
+
+        /* Restore R16 from [SP + 52] */
+.Lsw_restore_r16:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg52, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ, .+4
+        .word   REG_R16, REG_R16, .+4
+        .word   SW_ZZ, REG_R16, .Lsw_restore_r17
+
+        /* Restore R17 from [SP + 56] */
+.Lsw_restore_r17:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg56, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ, .+4
+        .word   REG_R17, REG_R17, .+4
+        .word   SW_ZZ, REG_R17, .Lsw_restore_r18
+
+        /* Restore R18 from [SP + 60] */
+.Lsw_restore_r18:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg60, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ, .+4
+        .word   REG_R18, REG_R18, .+4
+        .word   SW_ZZ, REG_R18, .Lsw_restore_r19
+
+        /* Restore R19 from [SP + 64] */
+.Lsw_restore_r19:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg64, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ, .+4
+        .word   REG_R19, REG_R19, .+4
+        .word   SW_ZZ, REG_R19, .Lsw_restore_r25
+
+        /* Restore R25 from [SP + 68] */
+.Lsw_restore_r25:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg68, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ, .+4
+        .word   REG_R25, REG_R25, .+4
+        .word   SW_ZZ, REG_R25, .Lsw_restore_r26
+
+        /* Restore R26 from [SP + 72] */
+.Lsw_restore_r26:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg72, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ, .+4
+        .word   REG_R26, REG_R26, .+4
+        .word   SW_ZZ, REG_R26, .Lsw_restore_r27
+
+        /* Restore R27 from [SP + 76] */
+.Lsw_restore_r27:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg76, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ, .+4
+        .word   REG_R27, REG_R27, .+4
+        .word   SW_ZZ, REG_R27, .Lsw_restore_r28
+
+        /* Restore R28 from [SP + 80] */
+.Lsw_restore_r28:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg80, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ, .+4
+        .word   REG_R28, REG_R28, .+4
+        .word   SW_ZZ, REG_R28, .Lsw_restore_r29
+
+        /* Restore R29 from [SP + 84] */
+.Lsw_restore_r29:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg84, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ, .+4
+        .word   REG_R29, REG_R29, .+4
+        .word   SW_ZZ, REG_R29, .Lsw_restore_r30
+
+        /* Restore R30 from [SP + 88] */
+.Lsw_restore_r30:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg88, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ, .+4
+        .word   REG_R30, REG_R30, .+4
+        .word   SW_ZZ, REG_R30, .Lsw_restore_r31
+
+        /* Restore R31 from [SP + 92] */
+.Lsw_restore_r31:
+        .word   SW_ZZ2, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP, SW_ZZ, .+4
+        .word   SW_ZZ, SW_ZZ2, .+4
+        .word   .Lsw_neg92, SW_ZZ2, .+4
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ, .+4
+        .word   REG_R31, REG_R31, .+4
+        .word   SW_ZZ, REG_R31, .Lsw_restore_done
+
+.Lsw_restore_done:
+
+        /*
+         * STEP 7: Deallocate switch_stack: SP += 96
+         */
+        .word   .Lsw_neg96, REG_SP, .Lsw_set_retval
+
+        /*
+         * STEP 8: Set return value R20 = prev (R21)
          */
 .Lsw_set_retval:
-        .word   SW_ZZ, SW_ZZ, .Lsw_set_retval1
-.Lsw_set_retval1:
-        .word   REG_R21, SW_ZZ, .Lsw_set_retval2     /* SW_ZZ = -prev */
-.Lsw_set_retval2:
-        .word   REG_R20, REG_R20, .Lsw_set_retval3
-.Lsw_set_retval3:
-        .word   SW_ZZ, REG_R20, .Lsw_pop_ra          /* R20 = prev */
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_R21, SW_ZZ, .+4
+        .word   REG_R20, REG_R20, .+4
+        .word   SW_ZZ, REG_R20, .Lsw_pop_ra
 
         /*
-         * Step 6: Pop return address from stack and return
+         * STEP 9: Pop return address and return
          *
-         * The return address was pushed by the CALLER of __switch_to before
-         * jumping here. We saved SP (which points to that return address),
-         * and now we restore SP and pop that same return address.
+         * Now SP points to the return address (at old SP+96 = retpc slot).
          */
 .Lsw_pop_ra:
-        /* Load [SP] into SW_ZZ using indirect addressing */
-        .word   SW_ZZ, SW_ZZ, .Lsw_pop1
-.Lsw_pop1:
-        /* subleq(SP|I, SW_ZZ, next) does: SW_ZZ -= m[SP] => SW_ZZ = -return_addr */
-        .word   REG_SP | INDIRECT, SW_ZZ, .Lsw_pop2
-
-.Lsw_pop2:
-        /* RA = -SW_ZZ = return_addr */
-        .word   REG_RA, REG_RA, .Lsw_pop3
-.Lsw_pop3:
-        .word   SW_ZZ, REG_RA, .Lsw_pop4
-
-.Lsw_pop4:
-        /* SP += 4 (pop the return address) */
-        .word   .Lconst_neg4, REG_SP, .Lsw_return
+        .word   SW_ZZ, SW_ZZ, .+4
+        .word   REG_SP | INDIRECT, SW_ZZ, .+4   /* SW_ZZ = -[SP] */
+        .word   REG_RA, REG_RA, .+4
+        .word   SW_ZZ, REG_RA, .+4              /* RA = [SP] */
+        .word   .Lconst_neg4, REG_SP, .Lsw_return  /* SP += 4 */
 
         /*
-         * Step 7: Return via RA using indirect jump
+         * STEP 10: Jump to return address
          */
 .Lsw_return:
-        /* Clear SW_ZZ for the unconditional jump */
-        .word   SW_ZZ, SW_ZZ, .Lsw_do_ret1
-.Lsw_do_ret1:
-        /* Indirect jump: subleq(Z, Z, RA|I) jumps to m[RA] */
+        .word   SW_ZZ, SW_ZZ, .+4
         .word   SW_ZZ
         .word   SW_ZZ
         .word   REG_RA | INDIRECT
 
-/* Data for __switch_to */
+/* Constants for __switch_to */
 .Loffset_neg:
         .word   -1180           /* Negative of TASK_THREAD_SP offset */
 .Loffset_fp_neg:
         .word   -1184           /* Negative of TASK_THREAD_FP offset */
 .Lconst_neg4:
         .word   -4
-/* Note: .Lconst_4 is defined earlier in the file (in irq handler section) */
+.Lsw_const_96:
+        .word   96              /* switch_stack size */
+.Lsw_neg96:
+        .word   -96
+.Lsw_neg4:
+        .word   -4
+.Lsw_neg8:
+        .word   -8
+.Lsw_neg12:
+        .word   -12
+.Lsw_neg16:
+        .word   -16
+.Lsw_neg20:
+        .word   -20
+.Lsw_neg24:
+        .word   -24
+.Lsw_neg28:
+        .word   -28
+.Lsw_neg32:
+        .word   -32
+.Lsw_neg36:
+        .word   -36
+.Lsw_neg40:
+        .word   -40
+.Lsw_neg44:
+        .word   -44
+.Lsw_neg48:
+        .word   -48
+.Lsw_neg52:
+        .word   -52
+.Lsw_neg56:
+        .word   -56
+.Lsw_neg60:
+        .word   -60
+.Lsw_neg64:
+        .word   -64
+.Lsw_neg68:
+        .word   -68
+.Lsw_neg72:
+        .word   -72
+.Lsw_neg76:
+        .word   -76
+.Lsw_neg80:
+        .word   -80
+.Lsw_neg84:
+        .word   -84
+.Lsw_neg88:
+        .word   -88
+.Lsw_neg92:
+        .word   -92
 
 .size __switch_to, .-__switch_to
 
@@ -962,10 +1556,17 @@ ret_from_fork:
 .Lrff_user_thread:
         /*
          * USER THREAD PATH
+         *
          * Call ret_to_user_prep(prev) which will:
-         * 1. Call schedule_tail(prev)
-         * 2. Return with R20 = pc, R21 = sp (userspace entry point and stack)
-         * Then we set SP and jump to PC.
+         * 1. Call schedule_tail(prev) to finish context switch
+         * 2. Return pointer to pt_regs in R20
+         *
+         * Then we read directly from pt_regs:
+         *   pt_regs->r20 at offset 68 = syscall return value (0 for fork child)
+         *   pt_regs->sp  at offset 88 = user stack pointer  
+         *   pt_regs->pc  at offset 96 = user PC to return to
+         *
+         * This ensures no C code can clobber these critical values.
          */
         /* Push return address for ret_to_user_prep */
         .word   .Lrff_const4, REG_SP, .Lrff_upush1  /* SP -= 4 */
@@ -990,34 +1591,162 @@ ret_from_fork:
 .Lrff_user_return:
         /*
          * ret_to_user_prep has returned.
-         * R20 = pc (userspace entry point)
-         * R21 = sp (userspace stack pointer)
+         * R20 = pointer to pt_regs
          *
-         * Now we need to:
-         * 1. Set hardware SP (memory location 16) to R21
-         * 2. Jump to R20
+         * DEBUG: Print 'U' to show we got here
+         */
+        .word   -4, .Lrff_char_U, .Lrff_debug1
+.Lrff_debug1:
+        /*
+         * pt_regs layout (offsets from base):
+         *   r20: offset 68 (return value, 0 for fork child)
+         *   sp:  offset 88 (user stack pointer)
+         *   pc:  offset 96 (user PC to return to)
+         *
+         * We need to:
+         * 1. Load pt_regs->pc into SW_ZZ2 (we'll jump to this)
+         * 2. Load pt_regs->sp into hardware SP
+         * 3. Load pt_regs->fp into hardware FP
+         * 4. Load pt_regs->r20 into hardware R20
+         * 5. Jump to the saved PC
          */
 
-        /* Step 1: SP = R21 */
-        /* Clear SP */
-        .word   REG_SP, REG_SP, .Lrff_set_sp1
-.Lrff_set_sp1:
-        /* Get -R21 into SW_ZZ */
-        .word   SW_ZZ, SW_ZZ, .Lrff_set_sp2
-.Lrff_set_sp2:
-        .word   REG_R21, SW_ZZ, .Lrff_set_sp3  /* SW_ZZ = -R21 */
-.Lrff_set_sp3:
-        /* SP -= SW_ZZ => SP = R21 */
-        .word   SW_ZZ, REG_SP, .Lrff_jump_user
+        /*
+         * Step 1: Calculate &pt_regs->pc (R20 + 100) and load into SW_ZZ2
+         * SW_ZZ2 will hold the PC value
+         */
+        .word   SW_ZZ, SW_ZZ, .Lrff_load_pc1
+.Lrff_load_pc1:
+        .word   REG_R20, SW_ZZ, .Lrff_load_pc2        /* SW_ZZ = -R20 */
+.Lrff_load_pc2:
+        .word   SW_ZZ2, SW_ZZ2, .Lrff_load_pc3
+.Lrff_load_pc3:
+        .word   SW_ZZ, SW_ZZ2, .Lrff_load_pc4         /* SW_ZZ2 = R20 (pt_regs base) */
+.Lrff_load_pc4:
+        .word   .Lrff_neg100, SW_ZZ2, .Lrff_load_pc5  /* SW_ZZ2 = R20 + 100 = &pt_regs->pc */
+.Lrff_load_pc5:
+        /* Load [SW_ZZ2] into SW_ZZ using indirect addressing */
+        .word   SW_ZZ, SW_ZZ, .Lrff_load_pc6
+.Lrff_load_pc6:
+        .word   SW_ZZ2 | INDIRECT, SW_ZZ, .Lrff_load_pc7  /* SW_ZZ = -pc */
+.Lrff_load_pc7:
+        .word   SW_ZZ2, SW_ZZ2, .Lrff_load_pc8
+.Lrff_load_pc8:
+        .word   SW_ZZ, SW_ZZ2, .Lrff_load_sp          /* SW_ZZ2 = pc (user entry point) */
 
-        /* Step 2: Jump to R20 using indirect addressing */
+        /*
+         * Step 2: Load pt_regs->sp (R20 + 92) into hardware SP
+         */
+.Lrff_load_sp:
+        .word   SW_ZZ, SW_ZZ, .Lrff_load_sp1
+.Lrff_load_sp1:
+        .word   REG_R20, SW_ZZ, .Lrff_load_sp2        /* SW_ZZ = -R20 */
+.Lrff_load_sp2:
+        /* Calculate R20 + 92 into a temp location - reuse RA as scratch */
+        .word   REG_RA, REG_RA, .Lrff_load_sp3
+.Lrff_load_sp3:
+        .word   SW_ZZ, REG_RA, .Lrff_load_sp4         /* RA = R20 */
+.Lrff_load_sp4:
+        .word   .Lrff_neg92, REG_RA, .Lrff_load_sp5   /* RA = R20 + 92 = &pt_regs->sp */
+.Lrff_load_sp5:
+        /* Load [RA] into SW_ZZ */
+        .word   SW_ZZ, SW_ZZ, .Lrff_load_sp6
+.Lrff_load_sp6:
+        .word   REG_RA | INDIRECT, SW_ZZ, .Lrff_load_sp7  /* SW_ZZ = -sp */
+.Lrff_load_sp7:
+        /* Set hardware SP = -SW_ZZ = sp */
+        .word   REG_SP, REG_SP, .Lrff_load_sp8
+.Lrff_load_sp8:
+        .word   SW_ZZ, REG_SP, .Lrff_load_fp          /* SP = user sp */
+
+        /*
+         * Step 3: Load pt_regs->fp (R20 + 88) into hardware FP
+         * This is CRITICAL - the child needs the parent's frame pointer!
+         */
+.Lrff_load_fp:
+        .word   SW_ZZ, SW_ZZ, .Lrff_load_fp1
+.Lrff_load_fp1:
+        .word   REG_R20, SW_ZZ, .Lrff_load_fp2        /* SW_ZZ = -R20 */
+.Lrff_load_fp2:
+        .word   REG_RA, REG_RA, .Lrff_load_fp3
+.Lrff_load_fp3:
+        .word   SW_ZZ, REG_RA, .Lrff_load_fp4         /* RA = R20 */
+.Lrff_load_fp4:
+        .word   .Lrff_neg88, REG_RA, .Lrff_load_fp5   /* RA = R20 + 88 = &pt_regs->fp */
+.Lrff_load_fp5:
+        /* Load [RA] into SW_ZZ */
+        .word   SW_ZZ, SW_ZZ, .Lrff_load_fp6
+.Lrff_load_fp6:
+        .word   REG_RA | INDIRECT, SW_ZZ, .Lrff_load_fp7  /* SW_ZZ = -fp */
+.Lrff_load_fp7:
+        /* Set hardware FP = -SW_ZZ = fp */
+        .word   REG_FP, REG_FP, .Lrff_load_fp8
+.Lrff_load_fp8:
+        .word   SW_ZZ, REG_FP, .Lrff_load_r20         /* FP = user fp */
+
+        /*
+         * Step 4: Load pt_regs->r20 (R20 + 68) into hardware R20
+         * This is the fork return value (0 for child)
+         */
+.Lrff_load_r20:
+        /* First save the current R20 (pt_regs pointer) to SW_ZZ temporarily */
+        .word   SW_ZZ, SW_ZZ, .Lrff_load_r20_1
+.Lrff_load_r20_1:
+        .word   REG_R20, SW_ZZ, .Lrff_load_r20_2      /* SW_ZZ = -R20 (save pt_regs ptr) */
+.Lrff_load_r20_2:
+        /* Calculate &pt_regs->r20 using RA as scratch */
+        .word   REG_RA, REG_RA, .Lrff_load_r20_3
+.Lrff_load_r20_3:
+        .word   SW_ZZ, REG_RA, .Lrff_load_r20_4       /* RA = R20 (pt_regs base) */
+.Lrff_load_r20_4:
+        .word   .Lrff_neg68, REG_RA, .Lrff_load_r20_5 /* RA = R20 + 68 = &pt_regs->r20 */
+.Lrff_load_r20_5:
+        /* Load [RA] into SW_ZZ */
+        .word   SW_ZZ, SW_ZZ, .Lrff_load_r20_6
+.Lrff_load_r20_6:
+        .word   REG_RA | INDIRECT, SW_ZZ, .Lrff_load_r20_7  /* SW_ZZ = -r20_value */
+.Lrff_load_r20_7:
+        /* Set hardware R20 = -SW_ZZ = r20_value (0 for child) */
+        .word   REG_R20, REG_R20, .Lrff_load_r20_8
+.Lrff_load_r20_8:
+        .word   SW_ZZ, REG_R20, .Lrff_jump_user       /* R20 = fork return value */
+
+        /*
+         * Step 4: Jump to user PC (saved in SW_ZZ2)
+         * DEBUG: First print the R20 value + '0' to see what it is
+         *        If R20=0, prints '0'. If R20=1, prints '1'. etc.
+         */
 .Lrff_jump_user:
+        /* DEBUG: Print 'R' then R20 value as digit */
+        .word   -4, .Lrff_char_R, .Lrff_print_r20
+.Lrff_print_r20:
+        /* Calculate '0' + R20 and print it */
+        /* First load '0' into RA */
+        .word   REG_RA, REG_RA, .Lrff_print_r20_1
+.Lrff_print_r20_1:
+        .word   SW_ZZ, SW_ZZ, .Lrff_print_r20_2
+.Lrff_print_r20_2:
+        .word   .Lrff_char_zero, SW_ZZ, .Lrff_print_r20_3  /* SW_ZZ = -48 */
+.Lrff_print_r20_3:
+        .word   SW_ZZ, REG_RA, .Lrff_print_r20_4           /* RA = '0' = 48 */
+.Lrff_print_r20_4:
+        /* Add R20 to RA: RA = '0' + R20 */
+        .word   SW_ZZ, SW_ZZ, .Lrff_print_r20_5
+.Lrff_print_r20_5:
+        .word   REG_R20, SW_ZZ, .Lrff_print_r20_6          /* SW_ZZ = -R20 */
+.Lrff_print_r20_6:
+        .word   SW_ZZ, REG_RA, .Lrff_print_r20_7           /* RA = '0' + R20 */
+.Lrff_print_r20_7:
+        /* Print the character */
+        .word   -4, REG_RA, .Lrff_do_jump
+
+.Lrff_do_jump:
         .word   SW_ZZ, SW_ZZ, .Lrff_jump_user2
 .Lrff_jump_user2:
-        /* Indirect jump: subleq(Z, Z, R20|I) jumps to m[R20] */
+        /* Indirect jump: subleq(Z, Z, SW_ZZ2|I) jumps to m[SW_ZZ2] */
         .word   SW_ZZ
         .word   SW_ZZ
-        .word   REG_R20 | INDIRECT
+        .word   SW_ZZ2 | INDIRECT
 
 .Lrff_loop:
         /* Infinite loop - should never reach here for kernel threads */
@@ -1029,6 +1758,20 @@ ret_from_fork:
         .word   .Lrff_user_return
 .Lrff_const4:
         .word   4
+.Lrff_neg68:
+        .word   -68     /* Offset to pt_regs->r20 */
+.Lrff_neg88:
+        .word   -88     /* Offset to pt_regs->fp (NEW!) */
+.Lrff_neg92:
+        .word   -92     /* Offset to pt_regs->sp (was 88) */
+.Lrff_neg100:
+        .word   -100    /* Offset to pt_regs->pc (was 96) */
+.Lrff_char_U:
+        .word   85      /* 'U' */
+.Lrff_char_R:
+        .word   82      /* 'R' */
+.Lrff_char_zero:
+        .word   48      /* '0' */
 
 .size ret_from_fork, .-ret_from_fork
 
@@ -1110,3 +1853,184 @@ jump_to_userspace:
         .word   -4
 
 .size jump_to_userspace, .-jump_to_userspace
+
+
+/*
+ * __subleq_syscall - Frameless syscall entry point
+ *
+ * This is a FRAMELESS function - it does NOT create a stack frame on the
+ * userspace stack. This is critical because vfork children share the parent's
+ * userspace stack and would corrupt any frame we create.
+ *
+ * Instead, we:
+ *   1. Immediately save SP, FP, and return address to GLOBAL variables
+ *   2. Switch to the kernel stack
+ *   3. Call __subleq_syscall_c which runs entirely on kernel stack
+ *   4. Restore userspace SP and FP from globals
+ *   5. Jump to the saved return address (NOT from stack!)
+ *
+ * On entry (from userspace caller):
+ *   [SP] = return address (caller pushed this before jumping)
+ *   FP = caller's frame pointer
+ *   R21 = syscall number, R22-R24 = args 1-3
+ */
+.globl __subleq_syscall
+.type __subleq_syscall, @function
+__subleq_syscall:
+        /*
+         * STEP 1: Save SP to global subleq_syscall_saved_sp
+         */
+        .word   subleq_syscall_saved_sp, subleq_syscall_saved_sp, .+4  /* clear */
+        .word   SYSCALL_ZZ, SYSCALL_ZZ, .+4  /* ZZ = 0 */
+        .word   REG_SP, SYSCALL_ZZ, .+4       /* ZZ = -SP */
+        .word   SYSCALL_ZZ, subleq_syscall_saved_sp, .+4  /* saved_sp = SP */
+        
+        /*
+         * STEP 2: Save FP to global subleq_syscall_saved_fp
+         */
+        .word   subleq_syscall_saved_fp, subleq_syscall_saved_fp, .+4  /* clear */
+        .word   SYSCALL_ZZ, SYSCALL_ZZ, .+4  /* ZZ = 0 */
+        .word   REG_FP, SYSCALL_ZZ, .+4       /* ZZ = -FP */
+        .word   SYSCALL_ZZ, subleq_syscall_saved_fp, .+4  /* saved_fp = FP */
+
+        /*
+         * STEP 3: Save return address from [SP] to global subleq_syscall_saved_ra
+         *
+         * On entry, the CALLER has already pushed the return address to [SP].
+         * The calling convention is: caller does SP -= 4; [SP] = ret; jump func
+         *
+         * So [SP] contains the return address, NOT [FP+4]!
+         * [FP+4] was wrong - FP on entry is the caller's frame pointer.
+         */
+        /* Clear saved_ra */
+        .word   subleq_syscall_saved_ra, subleq_syscall_saved_ra, .+4
+        
+        /* Load [SP] into saved_ra using indirect addressing */
+        .word   .Lsyscall_tmp_addr, .Lsyscall_tmp_addr, .+4  /* tmp = 0 */
+        .word   REG_SP | INDIRECT, .Lsyscall_tmp_addr, .+4   /* tmp = -[SP] */
+        .word   .Lsyscall_tmp_addr, subleq_syscall_saved_ra, .+4  /* saved_ra = [SP] */
+
+        /*
+         * STEP 4: Switch to kernel stack
+         *
+         * Load subleq_kernel_sp (set by context switch) into hardware SP.
+         */
+        .word   REG_SP, REG_SP, .+4       /* SP = 0 */
+        .word   SYSCALL_ZZ, SYSCALL_ZZ, .+4
+        .word   subleq_kernel_sp, SYSCALL_ZZ, .+4  /* ZZ = -kernel_sp */
+        .word   SYSCALL_ZZ, REG_SP, .+4   /* SP = kernel_sp */
+
+        /*
+         * STEP 5: Set up call frame and call __subleq_syscall_c
+         *
+         * Using Subleq+ indirect addressing to push return address onto stack.
+         * This avoids SMC which was buggy in the previous implementation.
+         *
+         * Stack-based call sequence:
+         *   1. SP -= 4 (make room for return address)
+         *   2. Clear [SP] using indirect: subleq(SP|I, SP|I, next)
+         *   3. Load -return_addr into SYSCALL_ZZ
+         *   4. Store return_addr to [SP]: subleq(SYSCALL_ZZ, SP|I, next)
+         *   5. Jump to function
+         */
+        
+        /* Step 1: SP -= 4 */
+        .word   .Lsyscall_4, REG_SP, .+4  /* SP = SP - 4 */
+        
+        /* Step 2: Clear [SP] using indirect addressing */
+        /* subleq(SP|I, SP|I, next) does: m[m[SP]] -= m[m[SP]] => m[SP] = 0 */
+        .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .+4
+        
+        /* Step 3: Get -return_addr into SYSCALL_ZZ */
+        .word   SYSCALL_ZZ, SYSCALL_ZZ, .+4
+        .word   .Lsyscall_c_ret_addr, SYSCALL_ZZ, .+4  /* ZZ = -return_point */
+        
+        /* Step 4: Store return_addr to [SP] using indirect addressing */
+        /* subleq(SYSCALL_ZZ, SP|I, next) does: m[m[SP]] -= SYSCALL_ZZ => m[SP] = 0 - (-addr) = addr */
+        .word   SYSCALL_ZZ, REG_SP | INDIRECT, .+4
+
+        /* Step 5: Jump to C handler */
+        .word   SYSCALL_ZZ, SYSCALL_ZZ, __subleq_syscall_c
+
+
+        /* Return point from C handler */
+.Lsyscall_c_return:
+        /*
+         * STEP 6: Restore userspace SP from global
+         */
+        .word   REG_SP, REG_SP, .+4       /* SP = 0 */
+        .word   SYSCALL_ZZ, SYSCALL_ZZ, .+4
+        .word   subleq_syscall_saved_sp, SYSCALL_ZZ, .+4  /* ZZ = -saved_sp */
+        .word   SYSCALL_ZZ, REG_SP, .+4   /* SP = saved_sp */
+
+        /*
+         * STEP 7: Restore userspace FP from global
+         */
+        .word   REG_FP, REG_FP, .+4       /* FP = 0 */
+        .word   SYSCALL_ZZ, SYSCALL_ZZ, .+4
+        .word   subleq_syscall_saved_fp, SYSCALL_ZZ, .+4  /* ZZ = -saved_fp */
+        .word   SYSCALL_ZZ, REG_FP, .+4   /* FP = saved_fp */
+
+        /*
+         * STEP 8: Jump to saved return address
+         *
+         * We jump to subleq_syscall_saved_ra which we saved earlier,
+         * NOT to [FP+4] which may have been corrupted.
+         */
+        .word   SYSCALL_ZZ, SYSCALL_ZZ, .+4
+        /* Load saved_ra into RA - MUST clear RA first! */
+        .word   subleq_syscall_saved_ra, SYSCALL_ZZ, .+4  /* ZZ = -saved_ra */
+        .word   REG_RA, REG_RA, .+4       /* RA = 0 (clear first!) */
+        .word   SYSCALL_ZZ, REG_RA, .+4   /* RA = 0 - (-saved_ra) = saved_ra */
+        
+        /* Jump to RA using indirect addressing */
+        .word   SYSCALL_ZZ, SYSCALL_ZZ, REG_RA | INDIRECT
+
+/* Local data for __subleq_syscall */
+.Lsyscall_c_ret_addr:
+        .word   .Lsyscall_c_return
+
+.Lsyscall_tmp_addr:
+        .word   0
+
+.Lsyscall_neg4:
+        .word   -4
+
+.Lsyscall_neg2:
+        .word   -2
+
+.Lsyscall_4:
+        .word   4
+
+.Lsyscall_debug_char:
+        .word   0
+
+.Lsyscall_neg38:
+        .word   -38
+
+.size __subleq_syscall, .-__subleq_syscall
+
+
+/*
+ * Global variables for syscall entry
+ */
+.data
+
+/* Saved userspace context - survives vfork child corruption */
+.globl subleq_syscall_saved_sp
+subleq_syscall_saved_sp:
+        .word   0
+
+.globl subleq_syscall_saved_fp
+subleq_syscall_saved_fp:
+        .word   0
+
+.globl subleq_syscall_saved_ra
+subleq_syscall_saved_ra:
+        .word   0
+
+/* Kernel stack pointer for current task */
+.globl subleq_kernel_sp
+subleq_kernel_sp:
+        .word   0
+

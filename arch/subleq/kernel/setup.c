@@ -78,6 +78,9 @@ extern asmlinkage void __noreturn start_kernel(void);
 /* Early IRQ stack initialization - defined in irq.c */
 extern void early_irq_stack_init(void);
 
+/* Kernel stack pointer initialization - defined in syscall_entry.c */
+extern void subleq_init_kernel_sp(struct task_struct *tsk);
+
 asmlinkage void __init __noreturn subleq_start(void)
 {
 	clear_bss();
@@ -88,6 +91,13 @@ asmlinkage void __init __noreturn subleq_start(void)
 	 * can fire at any point during kernel initialization.
 	 */
 	early_irq_stack_init();
+
+	/*
+	 * Initialize the kernel stack pointer for the init task.
+	 * This is needed so the first syscall from userspace (before
+	 * any context switch happens) has a valid kernel stack.
+	 */
+	subleq_init_kernel_sp(&init_task);
 
 	start_kernel();
 }

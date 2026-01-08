@@ -1070,26 +1070,52 @@ static int load_libsrt(const char *lib_path, struct elf_load_info *lib_info)
 
 /*
  * Create the argument and environment tables on the stack
+ *
+ * Stack layout after this function (growing down):
+ *   [high addr]
+ *   strings: "arg0\0arg1\0...env0\0env1\0..."
+ *   padding for alignment
+ *   auxv[] (not implemented yet)
+ *   envp[envc] = NULL
+ *   envp[envc-1]
+ *   ...
+ *   envp[0]
+ *   argv[argc] = NULL
+ *   argv[argc-1]
+ *   ...
+ *   argv[0]
+ *   argc
+ *   [low addr / SP]
  */
 static int create_elf_tables(struct linux_binprm *bprm, struct mm_struct *mm,
 			     struct elf_load_info *exec_info)
 {
 	unsigned long sp = mm->start_stack;
 	unsigned long argc = bprm->argc;
-	int ret;
+	unsigned long envc = bprm->envc;
+	unsigned long __user *argv;
+	unsigned long __user *envp;
+	char __user *p;
+	size_t len;
+	int ret, i;
 
-	/* Transfer arguments to stack */
+	/* Transfer argument and environment strings to stack */
 	ret = transfer_args_to_stack(bprm, &sp);
 	if (ret < 0)
 		return ret;
 
+	/* Remember where the strings start */
+	mm->arg_start = mm->start_stack - (MAX_ARG_PAGES * PAGE_SIZE - bprm->p);
+
 	sp &= ~15UL; /* 16-byte alignment */
 
 	/* Space for envp[] pointers + NULL */
-	sp -= (bprm->envc + 1) * sizeof(unsigned long);
+	sp -= (envc + 1) * sizeof(unsigned long);
+	envp = (unsigned long __user *)sp;
 
 	/* Space for argv[] pointers + NULL */
-	sp -= (bprm->argc + 1) * sizeof(unsigned long);
+	sp -= (argc + 1) * sizeof(unsigned long);
+	argv = (unsigned long __user *)sp;
 
 	/* Space for argc */
 	sp -= sizeof(unsigned long);
@@ -1097,6 +1123,36 @@ static int create_elf_tables(struct linux_binprm *bprm, struct mm_struct *mm,
 	/* Store argc */
 	if (put_user(argc, (unsigned long __user *)sp))
 		return -EFAULT;
+
+	/* Fill in argv[] pointers */
+	p = (char __user *)mm->arg_start;
+	for (i = 0; i < argc; i++) {
+		if (put_user((unsigned long)p, argv++))
+			return -EFAULT;
+		len = strnlen_user(p, MAX_ARG_STRLEN);
+		if (!len || len > MAX_ARG_STRLEN)
+			return -EINVAL;
+		p += len;
+	}
+	/* NULL terminate argv[] */
+	if (put_user(0, argv))
+		return -EFAULT;
+	mm->arg_end = (unsigned long)p;
+
+	/* Fill in envp[] pointers */
+	mm->env_start = (unsigned long)p;
+	for (i = 0; i < envc; i++) {
+		if (put_user((unsigned long)p, envp++))
+			return -EFAULT;
+		len = strnlen_user(p, MAX_ARG_STRLEN);
+		if (!len || len > MAX_ARG_STRLEN)
+			return -EINVAL;
+		p += len;
+	}
+	/* NULL terminate envp[] */
+	if (put_user(0, envp))
+		return -EFAULT;
+	mm->env_end = (unsigned long)p;
 
 	mm->start_stack = sp;
 	return 0;
@@ -1115,6 +1171,8 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 	char lib_path[MAX_LIB_PATH];
 	unsigned long stack_size;
 	unsigned long stack_base;
+	unsigned long heap_size;
+	unsigned long heap_base;
 	int ret;
 	int has_libsrt = 0;
 	int nlibs, i;
@@ -1133,10 +1191,16 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 				    MAX_NEEDED_LIBS);
 	subleq_elf_debug("Found %d DT_NEEDED libraries", nlibs);
 
+	subleq_elf_debug("Before begin_new_exec: PID=%d comm=%s",
+			 task_tgid_vnr(current), current->comm);
+
 	/* Flush old executable */
 	ret = begin_new_exec(bprm);
 	if (ret)
 		return ret;
+
+	subleq_elf_debug("After begin_new_exec: PID=%d comm=%s",
+			 task_tgid_vnr(current), current->comm);
 
 	/* Point of no return */
 	set_personality(PER_LINUX_32BIT);
@@ -1216,6 +1280,26 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 		return ret;
 	}
 
+	/* Allocate heap region for brk/sbrk.
+	 * On NOMMU systems, brk() (in mm/nommu.c) just moves a pointer within
+	 * pre-allocated memory - it doesn't allocate. We must allocate the
+	 * heap region explicitly via vm_mmap.
+	 */
+	heap_size = 1 * 1024 * 1024; /* 1MB initial heap for small allocations.
+				      * Large allocations (>128KB) use mmap() which
+				      * allocates dynamically, so we don't need a huge
+				      * pre-allocated heap region here. */
+	heap_size = PAGE_ALIGN(heap_size);
+
+	heap_base = vm_mmap(NULL, 0, heap_size, PROT_READ | PROT_WRITE,
+			    MAP_PRIVATE | MAP_ANONYMOUS, 0);
+	if (IS_ERR_VALUE(heap_base)) {
+		subleq_elf_debug("Failed to allocate heap, using minimal");
+		/* Fallback: use a minimal heap at end of loaded binary */
+		heap_base = exec_info.load_addr + exec_info.total_size;
+		heap_size = PAGE_SIZE; /* Minimal, will likely fail */
+	}
+
 	/* Set up stack */
 	stack_size = exec_info.stack_size;
 	if (stack_size == 0)
@@ -1228,8 +1312,9 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 	if (IS_ERR_VALUE(stack_base))
 		return stack_base;
 
-	current->mm->start_brk = exec_info.load_addr + exec_info.total_size;
-	current->mm->brk = current->mm->start_brk;
+	current->mm->start_brk = heap_base;
+	current->mm->brk = heap_base;
+	current->mm->context.end_brk = heap_base + heap_size;
 	current->mm->start_stack = stack_base + stack_size;
 
 	/* Set up memory ranges */

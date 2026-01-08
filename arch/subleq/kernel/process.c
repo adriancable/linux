@@ -54,8 +54,10 @@ void kernel_thread_helper(struct task_struct *prev)
 	int (*fn)(void *) = (int (*)(void *))regs->r3;
 	void *arg = (void *)regs->r21;
 
+	/* Debug traces commented out
 	pr_info("kernel_thread_helper: entry, PID=%d current=%p prev=%p\n",
 		task_tgid_vnr(current), current, prev);
+	*/
 
 	/*
 	 * CRITICAL: Must call schedule_tail() first!
@@ -65,14 +67,17 @@ void kernel_thread_helper(struct task_struct *prev)
 	 */
 	schedule_tail(prev);
 
+	/* Debug traces commented out
 	pr_info("kernel_thread_helper: after schedule_tail, PID=%d current=%p\n",
 		task_tgid_vnr(current), current);
+	*/
 
 	/* Call the kernel thread function */
 	fn(arg);
 
+	/* Debug traces commented out
 	pr_info("kernel_thread_helper: after fn(), PID=%d current=%p\n",
-		task_tgid_vnr(current), current);
+		task_tgid_vnr(current), current); */
 
 	/*
 	 * The kernel thread function has returned. There are two cases:
@@ -97,8 +102,10 @@ void kernel_thread_helper(struct task_struct *prev)
 		 * Jump to userspace using an assembly helper that does a RAW jump
 		 * without pushing a return address (which would corrupt the user stack).
 		 */
+		/* Debug trace commented out
 		pr_info("kernel_thread_helper: transitioning to userspace PID=%d pc=0x%lx sp=0x%lx\n",
 			task_tgid_vnr(current), regs->pc, regs->sp);
+		*/
 
 		/*
 		 * Call the assembly helper which will:
@@ -193,15 +200,13 @@ int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
 	struct switch_stack *childstack;
 	unsigned long *retpc_slot;
 
-	/*
-	 * DEBUG: Verify parent and child have DIFFERENT kernel stacks.
-	 * If they are the same, this confirms the vfork stack overlap bug.
-	 */
+	/* Debug traces commented out
 	pr_info("COPY_THREAD: parent=%px parent->stack=%px, child=%px child->stack=%px\n",
 		current, current->stack, p, p->stack);
 	pr_info("COPY_THREAD: parent stack range [%px - %px], child stack range [%px - %px]\n",
 		current->stack, (void *)((unsigned long)current->stack + THREAD_SIZE),
 		p->stack, (void *)((unsigned long)p->stack + THREAD_SIZE));
+	*/
 
 	childregs = task_pt_regs(p);
 

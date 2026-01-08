@@ -48,10 +48,8 @@ long __subleq_syscall_c(long nr, long a1, long a2, long a3, long a4, long a5, lo
 	unsigned long ra_val;
 	int i;
 
-	/* Debug: Print '@' to show we entered __subleq_syscall_c */
+	/* Debug traces commented out - uncomment to trace syscall entry/exit
 	__subleq_putchar('@');
-	
-	/* Debug: Print saved_ra as hex */
 	ra_val = subleq_syscall_saved_ra;
 	__subleq_putchar('[');
 	for (i = 28; i >= 0; i -= 4) {
@@ -59,6 +57,9 @@ long __subleq_syscall_c(long nr, long a1, long a2, long a3, long a4, long a5, lo
 		__subleq_putchar(nibble < 10 ? '0' + nibble : 'a' + nibble - 10);
 	}
 	__subleq_putchar(']');
+	*/
+	(void)ra_val;  /* Suppress unused variable warning */
+	(void)i;
 
 	/*
 	 * Fill in pt_regs using the saved globals.
@@ -81,14 +82,12 @@ long __subleq_syscall_c(long nr, long a1, long a2, long a3, long a4, long a5, lo
 	fn = (syscall_fn_t)sys_call_table[nr];
 	if (!fn || fn == (syscall_fn_t)sys_ni_syscall) {
 		pr_warn("SUBLEQ_SYSCALL: syscall %ld not implemented\n", nr);
-		__subleq_putchar('!');  /* Debug: syscall exit (error path) */
 		return -ENOSYS;
 	}
 
-	long result = fn(a1, a2, a3, a4, a5, a6);
-	__subleq_putchar('!');  /* Debug: syscall exit (normal path) */
-	return result;
+	return fn(a1, a2, a3, a4, a5, a6);
 }
+
 
 /*
  * subleq_init_kernel_sp - Initialize kernel stack pointer for a task
@@ -102,6 +101,8 @@ void subleq_init_kernel_sp(struct task_struct *tsk)
 {
 	subleq_kernel_sp = (unsigned long)task_stack_page(tsk) + THREAD_SIZE 
 			   - sizeof(struct pt_regs) - 256;
+	/* Debug trace commented out
 	pr_info("INIT_KERNEL_SP: tsk=%px subleq_kernel_sp=0x%lx stack=%px THREAD_SIZE=0x%lx\n",
 		tsk, subleq_kernel_sp, task_stack_page(tsk), (unsigned long)THREAD_SIZE);
+	*/
 }

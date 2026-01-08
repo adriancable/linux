@@ -75,15 +75,28 @@ static inline unsigned long arch_local_save_flags(void)
 	return *SUBLEQ_INT_HANDLER;
 }
 
-/* Disable interrupts */
+/*
+ * Disable interrupts - ATOMICALLY
+ *
+ * CRITICAL: We must zero INT_HANDLER FIRST, then save to INT_SAVED_HANDLER.
+ * If we saved first then zeroed, an interrupt could fire between the two
+ * operations. The interrupt handler would overwrite our saved value, and
+ * upon return we'd have corrupted state.
+ *
+ * By zeroing first, we guarantee no interrupt can fire while we're
+ * updating INT_SAVED_HANDLER.
+ */
 static inline void arch_local_irq_disable(void)
 {
 	unsigned long handler = *SUBLEQ_INT_HANDLER;
 	if (handler) {
-		*SUBLEQ_INT_SAVED_HANDLER = handler;
+		/* FIRST: disable interrupts (atomic - no interrupt can fire after this) */
 		*SUBLEQ_INT_HANDLER = 0;
+		/* THEN: save the old handler value (safe now, interrupts are off) */
+		*SUBLEQ_INT_SAVED_HANDLER = handler;
 	}
 }
+
 
 /*
  * Enable interrupts - but ONLY if we're not inside ANY interrupt context.

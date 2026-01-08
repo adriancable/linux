@@ -15,23 +15,49 @@
 	.global _start
 	.type _start, @function
 
+/* Register addresses */
+.set REG_Z, 12
+.set REG_SP, 16
+
+/* Thread size - must match asm/thread_info.h */
+.set THREAD_SIZE, 8192
+
 _start:
 	/*
 	 * The boot sequence has already:
-	 * 1. Set up the stack pointer at word 4 (byte 16)
+	 * 1. Set up a temporary stack pointer at word 4 (byte 16)
 	 * 2. Jumped to our entry point
 	 *
 	 * We need to:
-	 * 1. Clear BSS (done in subleq_start)
-	 * 2. Call start_kernel() (done in subleq_start)
-	 * 3. Hang if we return (shouldn't happen)
+	 * 1. Switch to the init_task's kernel stack (CRITICAL!)
+	 * 2. Jump to subleq_start which then:
+	 *    a. Clears BSS
+	 *    b. Calls start_kernel()
 	 *
-	 * We jump to subleq_start() which is a simple C function that:
-	 * 1. Calls clear_bss()
-	 * 2. Calls start_kernel()
+	 * The boot stack from make_boot_image.py must NOT be used after this
+	 * point - it may overlap with kernel memory.
+	 */
+
+	/*
+	 * Switch SP to init_thread_union + THREAD_SIZE
+	 * This is the proper kernel stack for the init task.
 	 *
-	 * Since start_kernel() never returns, we don't need a proper
-	 * call/return setup - just a simple jump.
+	 * Algorithm:
+	 *   Z = 0
+	 *   Z = -(.Linit_stack_top)  ; load negated value
+	 *   SP = 0
+	 *   SP = SP - Z = init_stack_top
+	 */
+	.word   REG_Z, REG_Z, .Lsetup_sp1	/* Z = 0 */
+.Lsetup_sp1:
+	.word   .Linit_stack_top, REG_Z, .Lsetup_sp2	/* Z = -(init_stack_top) */
+.Lsetup_sp2:
+	.word   REG_SP, REG_SP, .Lsetup_sp3	/* SP = 0 */
+.Lsetup_sp3:
+	.word   REG_Z, REG_SP, .Ljump_start	/* SP = 0 - (-init_stack_top) = init_stack_top */
+
+	/*
+	 * Now jump to subleq_start with the proper kernel stack
 	 */
 	.extern subleq_start
 .Ljump_start:
@@ -44,6 +70,15 @@ _start:
 	.word -4, 24, -4	/* HALT with exit code 0 */
 
 	.size _start, . - _start
+
+/*
+ * Constant: address of top of init_task's kernel stack
+ * This is init_thread_union + THREAD_SIZE
+ */
+.Linit_stack_top:
+	.word init_thread_union + THREAD_SIZE
+
+
 
 /*
  * Note: empty_zero_page is allocated dynamically in arch/subleq/mm/init.c

@@ -3,7 +3,7 @@
  * Subleq TTY driver
  *
  * Minimal TTY driver that provides /dev/console support using
- * the Subleq VM's putchar intrinsic.
+ * the Subleq VM's putchar/getchar intrinsics.
  */
 
 #include <linux/init.h>
@@ -14,16 +14,50 @@
 #include <linux/tty_flip.h>
 #include <linux/console.h>
 #include <linux/serial_core.h>
+#include <linux/timer.h>
+#include <linux/jiffies.h>
 
 #define SUBLEQ_TTY_MAJOR 5 /* Same as /dev/console */
 #define SUBLEQ_TTY_MINOR 1
 #define SUBLEQ_TTY_NAME "console"
 
-/* External putchar intrinsic from compiler */
+/* Polling interval for keyboard input (in jiffies) */
+#define SUBLEQ_TTY_POLL_INTERVAL (HZ / 10) /* 100ms */
+
+/* External I/O intrinsics from compiler */
 extern void __subleq_putchar(int c);
+extern int __subleq_getchar(void);
 
 static struct tty_driver *subleq_tty_driver;
 static struct tty_port subleq_tty_port;
+static struct timer_list subleq_tty_timer;
+static struct tty_struct *subleq_tty_current;
+
+/*
+ * Timer callback to poll for keyboard input
+ */
+static void subleq_tty_poll(struct timer_list *t)
+{
+	int c;
+	int pushed = 0;
+
+	/* Poll for available characters */
+	while ((c = __subleq_getchar()) != 0) {
+		if (subleq_tty_current) {
+			/* Push character to TTY layer */
+			tty_insert_flip_char(&subleq_tty_port, c, TTY_NORMAL);
+			pushed = 1;
+		}
+	}
+
+	/* Flush buffer if we pushed any characters */
+	if (pushed && subleq_tty_current) {
+		tty_flip_buffer_push(&subleq_tty_port);
+	}
+
+	/* Re-arm timer */
+	mod_timer(&subleq_tty_timer, jiffies + SUBLEQ_TTY_POLL_INTERVAL);
+}
 
 /*
  * TTY operations
@@ -77,11 +111,22 @@ static const struct tty_operations subleq_tty_ops = {
 static int subleq_tty_port_activate(struct tty_port *port,
 				    struct tty_struct *tty)
 {
+	/* Save reference to current TTY for input polling */
+	subleq_tty_current = tty;
+
+	/* Start input polling timer */
+	mod_timer(&subleq_tty_timer, jiffies + SUBLEQ_TTY_POLL_INTERVAL);
+
 	return 0;
 }
 
 static void subleq_tty_port_shutdown(struct tty_port *port)
 {
+	/* Stop input polling timer */
+	timer_delete_sync(&subleq_tty_timer);
+
+	/* Clear TTY reference */
+	subleq_tty_current = NULL;
 }
 
 static const struct tty_port_operations subleq_tty_port_ops = {
@@ -142,6 +187,9 @@ static int __init subleq_tty_init(void)
 	/* Initialize TTY port */
 	tty_port_init(&subleq_tty_port);
 	subleq_tty_port.ops = &subleq_tty_port_ops;
+
+	/* Initialize input polling timer */
+	timer_setup(&subleq_tty_timer, subleq_tty_poll, 0);
 
 	/* Configure driver */
 	subleq_tty_driver->driver_name = "subleq_tty";

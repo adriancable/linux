@@ -2263,7 +2263,7 @@ __subleq_syscall:
          * Need to: push RA, set R21=SW_ZZ2, call debug_print_hex, restore.
          */
         /* Push return address */
-        .word   .Lsyscall_neg4, REG_SP, .+4           /* SP -= 4 */
+        .word   .Lsyscall_4, REG_SP, .+4           /* SP -= 4 */
         .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .+4  /* [SP] = 0 */
         .word   SYSCALL_ZZ, SYSCALL_ZZ, .+4
         .word   .Lsyscall_debug_ret_addr, SYSCALL_ZZ, .+4

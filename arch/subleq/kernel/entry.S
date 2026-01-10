@@ -2127,6 +2127,74 @@ __subleq_syscall:
         .word   SYSCALL_ZZ, REG_SP, .+4   /* SP = kernel_sp */
 
         /*
+         * STEP 4b: Push a6, a5, a4 from userspace stack onto kernel stack
+         *
+         * The userspace stack (saved in subleq_syscall_saved_sp) has:
+         *   [saved_sp]     = return address
+         *   [saved_sp+4]   = arg 5 (a4 in C function signature)
+         *   [saved_sp+8]   = arg 6 (a5)
+         *   [saved_sp+12]  = arg 7 (a6)
+         *
+         * We need to push these in reverse order (a6, a5, a4) so that
+         * when __subleq_syscall_c is called, the stack has:
+         *   [SP]    = return address
+         *   [SP+4]  = a4 (arg 5)
+         *   [SP+8]  = a5 (arg 6)
+         *   [SP+12] = a6 (arg 7)
+         *
+         * Pattern for loading [saved_sp + offset]:
+         *   1. Load saved_sp into scratch (.Lsyscall_ustack_addr)
+         *   2. Add offset
+         *   3. Use indirect addressing to read [scratch]
+         *   4. Push value onto kernel stack
+         */
+        
+        /* ---- Push a6 (from [saved_sp + 12]) ---- */
+        /* Compute saved_sp + 12 into REG_T8 for indirect access */
+        .word   REG_T8, REG_T8, .+4                                /* T8 = 0 */
+        .word   SYSCALL_ZZ, SYSCALL_ZZ, .+4
+        .word   subleq_syscall_saved_sp, SYSCALL_ZZ, .+4           /* ZZ = -saved_sp */
+        .word   SYSCALL_ZZ, REG_T8, .+4                            /* T8 = saved_sp */
+        .word   .Lsyscall_neg12, REG_T8, .+4                       /* T8 = saved_sp + 12 */
+        
+        /* Load [T8] into SYSCALL_ZZ using indirect addressing */
+        .word   SYSCALL_ZZ, SYSCALL_ZZ, .+4
+        .word   REG_T8 | INDIRECT, SYSCALL_ZZ, .+4                 /* ZZ = -[T8] = -a6 */
+        
+        /* Push -ZZ onto kernel stack */
+        .word   .Lsyscall_4, REG_SP, .+4                           /* SP -= 4 */
+        .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .+4          /* [SP] = 0 */
+        .word   SYSCALL_ZZ, REG_SP | INDIRECT, .+4                 /* [SP] = a6 */
+        
+        /* ---- Push a5 (from [saved_sp + 8]) ---- */
+        .word   REG_T8, REG_T8, .+4                                /* T8 = 0 */
+        .word   SYSCALL_ZZ, SYSCALL_ZZ, .+4
+        .word   subleq_syscall_saved_sp, SYSCALL_ZZ, .+4           /* ZZ = -saved_sp */
+        .word   SYSCALL_ZZ, REG_T8, .+4                            /* T8 = saved_sp */
+        .word   .Lsyscall_neg8, REG_T8, .+4                        /* T8 = saved_sp + 8 */
+        
+        .word   SYSCALL_ZZ, SYSCALL_ZZ, .+4
+        .word   REG_T8 | INDIRECT, SYSCALL_ZZ, .+4                 /* ZZ = -a5 */
+        
+        .word   .Lsyscall_4, REG_SP, .+4                           /* SP -= 4 */
+        .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .+4          /* [SP] = 0 */
+        .word   SYSCALL_ZZ, REG_SP | INDIRECT, .+4                 /* [SP] = a5 */
+        
+        /* ---- Push a4 (from [saved_sp + 4]) ---- */
+        .word   REG_T8, REG_T8, .+4                                /* T8 = 0 */
+        .word   SYSCALL_ZZ, SYSCALL_ZZ, .+4
+        .word   subleq_syscall_saved_sp, SYSCALL_ZZ, .+4           /* ZZ = -saved_sp */
+        .word   SYSCALL_ZZ, REG_T8, .+4                            /* T8 = saved_sp */
+        .word   .Lsyscall_neg4_for_usp, REG_T8, .+4                /* T8 = saved_sp + 4 */
+        
+        .word   SYSCALL_ZZ, SYSCALL_ZZ, .+4
+        .word   REG_T8 | INDIRECT, SYSCALL_ZZ, .+4                 /* ZZ = -a4 */
+        
+        .word   .Lsyscall_4, REG_SP, .+4                           /* SP -= 4 */
+        .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .+4          /* [SP] = 0 */
+        .word   SYSCALL_ZZ, REG_SP | INDIRECT, .+4                 /* [SP] = a4 */
+
+        /*
          * STEP 5: Set up call frame and call __subleq_syscall_c
          *
          * Using Subleq+ indirect addressing to push return address onto stack.
@@ -2325,6 +2393,19 @@ __subleq_syscall:
 
 .Lsyscall_neg100:
         .word   -100
+
+/* Constants for forwarding syscall args 5-7 from userspace stack */
+.Lsyscall_ustack_addr:
+        .word   0               /* scratch for userspace stack address calculation */
+
+.Lsyscall_neg4_for_usp:
+        .word   -4              /* for saved_sp + 4 (arg 5) */
+
+.Lsyscall_neg8:
+        .word   -8              /* for saved_sp + 8 (arg 6) */
+
+.Lsyscall_neg12:
+        .word   -12             /* for saved_sp + 12 (arg 7) */
 
 /* Debug character for syscall return tracing */
 .Lsyscall_char_X:

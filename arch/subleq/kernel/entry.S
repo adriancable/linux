@@ -586,26 +586,6 @@ subleq_irq_entry:
 /* Subleq+ indirect addressing flag */
 .set INDIRECT, 2
 
-/*
- * Trivial test function - just returns via RA using indirect jump
- * To call: set RA = return address, then jump here
- */
-.globl test_return
-.type test_return, @function
-test_return:
-        /* Print 'X' to show we got here */
-        .word   -4, .Lchar_X, .Ltest_do_return
-.Ltest_do_return:
-        /* Return via RA using Subleq+ indirect jump */
-        /* Clear INT_ZZ for unconditional jump */
-        .word   INT_ZZ, INT_ZZ, .Ltest_ret1
-.Ltest_ret1:
-        /* Indirect jump: subleq(Z, Z, RA|I) always jumps to m[RA] */
-        .word   INT_ZZ
-        .word   INT_ZZ
-        .word   REG_RA | INDIRECT
-.size test_return, .-test_return
-
 .size subleq_irq_entry, .-subleq_irq_entry
 
 /*
@@ -1385,161 +1365,21 @@ __switch_to:
         /*
          * STEP 10: Jump to return address
          *
-         * DEBUG: Print 'J[XXXXXX]' where XXXXXX is the return address in hex.
-         * This helps identify if we're returning to schedule() or .Lsyscall_c_return.
+         * DEBUG: Print 'J[XXXXXX]' - DISABLED for clean output
          */
 .Lsw_return:
-        .word   -4, .Lsw_char_J, .Lsw_print_hex
-.Lsw_print_hex:
-        .word   -4, .Lsw_char_lbracket, .Lsw_hex_start
-
-        /*
-         * Print RA as 6 hex digits (24 bits, covers kernel addresses)
-         * Algorithm: For each nibble from high to low:
-         *   1. Copy RA to temp
-         *   2. Shift right to get nibble in low 4 bits
-         *   3. AND with 0xF
-         *   4. Convert to hex char ('0'-'9' or 'a'-'f')
-         *   5. Print
-         *
-         * We'll use SW_ZZ and SW_ZZ2 as scratch.
-         * .Lsw_ra_copy holds a copy of RA for shifting.
-         */
-.Lsw_hex_start:
-        /* Copy RA to .Lsw_ra_copy */
-        .word   .Lsw_ra_copy, .Lsw_ra_copy, .+4         /* clear */
-        .word   SW_ZZ, SW_ZZ, .+4
-        .word   REG_RA, SW_ZZ, .+4                      /* SW_ZZ = -RA */
-        .word   SW_ZZ, .Lsw_ra_copy, .Lsw_hex_d5        /* ra_copy = RA */
-
-        /* Digit 5 (bits 20-23): RA >> 20, AND 0xF */
-.Lsw_hex_d5:
-        .word   SW_ZZ, SW_ZZ, .+4
-        .word   .Lsw_ra_copy, SW_ZZ, .+4                /* SW_ZZ = -RA */
-        .word   SW_ZZ2, SW_ZZ2, .+4
-        .word   SW_ZZ, SW_ZZ2, .+4                      /* SW_ZZ2 = RA */
-        /* Divide by 0x100000 (1048576) to get bits 20-23 */
-        /* For speed, shift right 20 times using __subleq_srl would be slow */
-        /* Instead, use a lookup table approach or hardcode for common cases */
-        /* SIMPLIFICATION: Just print the low 4 hex digits (16 bits) for now */
-        /* Bits 12-15: RA >> 12, AND 0xF */
-
-        /* For efficiency, let's print 4 hex digits (bits 0-15) */
-        /* This is enough to distinguish schedule() return vs .Lsyscall_c_return */
-
-        /* Digit 3 (bits 12-15) */
-        .word   SW_ZZ, SW_ZZ, .+4
-        .word   .Lsw_ra_copy, SW_ZZ, .+4
-        .word   SW_ZZ2, SW_ZZ2, .+4
-        .word   SW_ZZ, SW_ZZ2, .+4                      /* SW_ZZ2 = RA */
-        /* Shift right by 12: divide by 4096 */
-        /* This is complex in pure Subleq, let's use runtime function */
-        /* Actually, let's just print the raw RA value divided by powers of 16 */
-        /* We can compute RA / 4096 by repeated subtraction, but that's slow */
-        
-        /* ALTERNATIVE: Print RA in decimal-ish, or just print distinguishing bytes */
-        /* For now, print a marker that distinguishes the two addresses */
-        
-        /* Check if RA matches .Lsyscall_c_return (the BAD address) */
-        /* If RA == .Lsyscall_c_return, print 'BAD', otherwise print 'OK' */
-        /*
-         * To compare RA with the ADDRESS of .Lsyscall_c_return:
-         * Compute: diff = RA - target
-         * If diff == 0, they match
-         *
-         * Method: 
-         *   1. SW_ZZ = 0
-         *   2. SW_ZZ -= m[.Lsw_syscall_ret_addr]  => SW_ZZ = -target
-         *   3. SW_ZZ2 = 0
-         *   4. SW_ZZ2 -= SW_ZZ                    => SW_ZZ2 = target
-         *   5. SW_ZZ = 0
-         *   6. SW_ZZ -= RA                        => SW_ZZ = -RA
-         *   7. SW_ZZ2 -= SW_ZZ                    => SW_ZZ2 = target - (-RA) = target + RA
-         *   NO that's wrong... let me redo:
-         *
-         * We want: diff = RA - target
-         *   1. SW_ZZ = -RA
-         *   2. SW_ZZ2 = target (need to negate .Lsw_syscall_ret_addr)
-         *   3. diff = SW_ZZ2 + SW_ZZ = target + (-RA) = target - RA
-         *   4. If diff == 0, then target == RA
-         *
-         * Wait, that gives target - RA. If target == RA, diff = 0. OK that works!
-         */
-        .word   SW_ZZ, SW_ZZ, .+4
-        .word   REG_RA, SW_ZZ, .+4                      /* SW_ZZ = -RA */
-        .word   SW_ZZ2, SW_ZZ2, .+4                     /* SW_ZZ2 = 0 */
-        .word   .Lsw_syscall_ret_addr, SW_ZZ2, .+4      /* SW_ZZ2 = -target */
-        /* Now SW_ZZ = -RA, SW_ZZ2 = -target */
-        /* We want target - RA. That's -(-target) - RA = -SW_ZZ2 + SW_ZZ */
-        /* Or: compute SW_ZZ2 + SW_ZZ = -target + (-RA) = -(target + RA)... no */
-        /* Let's just compute: result = -RA - (-target) = -RA + target = target - RA */
-        /* SW_ZZ = SW_ZZ - SW_ZZ2 = -RA - (-target) = -RA + target = target - RA */
-        .word   SW_ZZ2, SW_ZZ, .+4                      /* SW_ZZ = target - RA */
-        /* If SW_ZZ == 0, they are equal (RA == target) */
-        /* Test: branch if SW_ZZ <= 0 */
-        .word   SW_ZZ2, SW_ZZ2, .+4                     /* SW_ZZ2 = 0 */
-        .word   SW_ZZ2, SW_ZZ, .Lsw_check_negative      /* Branch if SW_ZZ <= 0 */
-        /* SW_ZZ > 0 means target > RA, print 'OK' */
-        .word   SW_ZZ, SW_ZZ, .Lsw_print_ok
-
-.Lsw_check_negative:
-        /* SW_ZZ <= 0. If SW_ZZ == 0, they match (BAD). If SW_ZZ < 0, RA > target */
-        /* Test if SW_ZZ == 0 by checking if -SW_ZZ <= 0 too */
-        .word   SW_ZZ2, SW_ZZ2, .+4
-        .word   SW_ZZ, SW_ZZ2, .+4                      /* SW_ZZ2 = -SW_ZZ */
-        .word   SW_ZZ, SW_ZZ, .+4                       /* clear SW_ZZ for test */
-        .word   SW_ZZ, SW_ZZ2, .Lsw_print_bad           /* Branch if -SW_ZZ <= 0, i.e. SW_ZZ >= 0 */
-        /* SW_ZZ < 0 means RA > .Lsyscall_c_return, print 'K' */
-        .word   SW_ZZ, SW_ZZ, .Lsw_print_ok
-
-.Lsw_print_bad:
-        /* RA == .Lsyscall_c_return - THIS IS THE BUG! */
-        .word   -4, .Lsw_char_B, .+4
-        .word   -4, .Lsw_char_A, .+4
-        .word   -4, .Lsw_char_D, .Lsw_print_close
-
-.Lsw_print_ok:
-        /* RA != .Lsyscall_c_return - check if it equals ret_from_fork */
-        /* If parent returns to ret_from_fork, that's also wrong! */
-        /* Use same fixed comparison: compute target - RA */
-        .word   SW_ZZ, SW_ZZ, .+4
-        .word   REG_RA, SW_ZZ, .+4                      /* SW_ZZ = -RA */
-        .word   SW_ZZ2, SW_ZZ2, .+4                     /* SW_ZZ2 = 0 */
-        .word   .Lsw_ret_from_fork_addr, SW_ZZ2, .+4    /* SW_ZZ2 = -target */
-        .word   SW_ZZ2, SW_ZZ, .+4                      /* SW_ZZ = target - RA */
-        /* Check if SW_ZZ == 0 */
-        .word   SW_ZZ2, SW_ZZ2, .+4
-        .word   SW_ZZ2, SW_ZZ, .Lsw_check_rf_neg        /* Branch if SW_ZZ <= 0 */
-        /* SW_ZZ > 0, not ret_from_fork */
-        .word   SW_ZZ, SW_ZZ, .Lsw_really_ok
-
-.Lsw_check_rf_neg:
-        /* Check if SW_ZZ == 0 */
-        .word   SW_ZZ2, SW_ZZ2, .+4
-        .word   SW_ZZ, SW_ZZ2, .+4                      /* SW_ZZ2 = -SW_ZZ */
-        .word   SW_ZZ, SW_ZZ, .+4
-        .word   SW_ZZ, SW_ZZ2, .Lsw_print_rf            /* Branch if SW_ZZ >= 0 */
-        /* SW_ZZ < 0 means RA > ret_from_fork */
-        .word   SW_ZZ, SW_ZZ, .Lsw_really_ok
-
-.Lsw_print_rf:
-        /* RA == ret_from_fork - Parent returning to child path! */
-        .word   -4, .Lsw_char_R, .+4
-        .word   -4, .Lsw_char_F, .Lsw_print_close
-
-.Lsw_really_ok:
-        /* RA is truly a valid kernel address */
-        .word   -4, .Lsw_char_O, .+4
-        .word   -4, .Lsw_char_K, .Lsw_print_close
-
-.Lsw_print_close:
-        .word   -4, .Lsw_char_rbracket, .Lsw_do_jump
-
-.Lsw_do_jump:
+        /* Jump directly without debug output */
         .word   SW_ZZ, SW_ZZ, .+4
         .word   SW_ZZ
         .word   SW_ZZ
         .word   REG_RA | INDIRECT
+
+/* Disabled debug code for J[OK] printing:
+.Lsw_print_hex:
+        .word   -4, .Lsw_char_lbracket, .Lsw_hex_start
+        ... (hex printing code) ...
+        ... (OK/BAD/RF comparison code) ...
+*/
 
 .Lsw_char_J:
         .word   74      /* 'J' */
@@ -1797,9 +1637,9 @@ ret_from_fork:
          * ret_to_user_prep has returned.
          * R20 = pointer to pt_regs
          *
-         * DEBUG: Print 'U' to show we got here
+         * DEBUG: Print 'U' - DISABLED
+         * .word   -4, .Lrff_char_U, .Lrff_debug1
          */
-        .word   -4, .Lrff_char_U, .Lrff_debug1
 .Lrff_debug1:
         /*
          * pt_regs layout (offsets from base):
@@ -1916,33 +1756,31 @@ ret_from_fork:
         .word   SW_ZZ, REG_R20, .Lrff_jump_user       /* R20 = fork return value */
 
         /*
-         * Step 4: Jump to user PC (saved in SW_ZZ2)
-         * DEBUG: First print the R20 value + '0' to see what it is
-         *        If R20=0, prints '0'. If R20=1, prints '1'. etc.
+         * Step 5: Jump to user PC (saved in SW_ZZ2)
+         * DEBUG: Print 'R' and R20 - DISABLED, jump directly
          */
 .Lrff_jump_user:
-        /* DEBUG: Print 'R' then R20 value as digit */
-        .word   -4, .Lrff_char_R, .Lrff_print_r20
+        /* Jump directly without debug output */
+        .word   SW_ZZ, SW_ZZ, .Lrff_jump_user2
+
+/* Disabled debug code:
 .Lrff_print_r20:
-        /* Calculate '0' + R20 and print it */
-        /* First load '0' into RA */
         .word   REG_RA, REG_RA, .Lrff_print_r20_1
 .Lrff_print_r20_1:
         .word   SW_ZZ, SW_ZZ, .Lrff_print_r20_2
 .Lrff_print_r20_2:
-        .word   .Lrff_char_zero, SW_ZZ, .Lrff_print_r20_3  /* SW_ZZ = -48 */
+        .word   .Lrff_char_zero, SW_ZZ, .Lrff_print_r20_3
 .Lrff_print_r20_3:
-        .word   SW_ZZ, REG_RA, .Lrff_print_r20_4           /* RA = '0' = 48 */
+        .word   SW_ZZ, REG_RA, .Lrff_print_r20_4
 .Lrff_print_r20_4:
-        /* Add R20 to RA: RA = '0' + R20 */
         .word   SW_ZZ, SW_ZZ, .Lrff_print_r20_5
 .Lrff_print_r20_5:
-        .word   REG_R20, SW_ZZ, .Lrff_print_r20_6          /* SW_ZZ = -R20 */
+        .word   REG_R20, SW_ZZ, .Lrff_print_r20_6
 .Lrff_print_r20_6:
-        .word   SW_ZZ, REG_RA, .Lrff_print_r20_7           /* RA = '0' + R20 */
+        .word   SW_ZZ, REG_RA, .Lrff_print_r20_7
 .Lrff_print_r20_7:
-        /* Print the character */
         .word   -4, REG_RA, .Lrff_do_jump
+*/
 
 .Lrff_do_jump:
         /* Just jump to userspace - no extra debug (was crashing) */
@@ -2239,24 +2077,22 @@ __subleq_syscall:
          * Read userspace SP/FP/PC from pt_regs (which is per-task).
          */
 
-        /* DEBUG: Print 'X' to mark syscall return path entry */
+        /* DEBUG: Print 'X' to mark syscall return path entry - disabled
         .word   -4, .Lsyscall_char_X, .+4
+        */
         
-        /* DEBUG: Check if R20 > 0 (parent) or R20 <= 0 (child/error) */
-        /* Copy R20 to scratch for testing */
-        .word   .Lsyscall_r20_check, .Lsyscall_r20_check, .+4  /* scratch = 0 */
+        /* DEBUG: Check R20 - disabled
+        .word   .Lsyscall_r20_check, .Lsyscall_r20_check, .+4
         .word   SYSCALL_ZZ, SYSCALL_ZZ, .+4
-        .word   REG_R20, SYSCALL_ZZ, .+4                       /* ZZ = -R20 */
-        .word   SYSCALL_ZZ, .Lsyscall_r20_check, .+4           /* scratch = R20 */
-        /* Test: if scratch <= 0, branch to child path */
-        .word   SYSCALL_ZZ, SYSCALL_ZZ, .+4                    /* ZZ = 0 */
-        .word   SYSCALL_ZZ, .Lsyscall_r20_check, .Lsyscall_child_ret  /* branch if R20 <= 0 */
-        /* R20 > 0, parent return */
+        .word   REG_R20, SYSCALL_ZZ, .+4
+        .word   SYSCALL_ZZ, .Lsyscall_r20_check, .+4
+        .word   SYSCALL_ZZ, SYSCALL_ZZ, .+4
+        .word   SYSCALL_ZZ, .Lsyscall_r20_check, .Lsyscall_child_ret
         .word   -4, .Lsyscall_char_P, .+4
         .word   SYSCALL_ZZ, SYSCALL_ZZ, .Lsyscall_start_restore
 .Lsyscall_child_ret:
-        /* R20 <= 0, child return */
         .word   -4, .Lsyscall_char_C, .+4
+        */
         .word   SYSCALL_ZZ, SYSCALL_ZZ, .Lsyscall_start_restore
 
 .Lsyscall_r20_check:
@@ -2323,31 +2159,10 @@ __subleq_syscall:
         .word   SW_ZZ2, SW_ZZ2, .+4                   /* clear SW_ZZ2 */
         .word   SYSCALL_ZZ, SW_ZZ2, .+4               /* SW_ZZ2 = pc */
         
-        /* DEBUG: Print '>' then hex dump of PC */
+        /* DEBUG: Print '>' then hex dump of PC - DISABLED
         .word   -4, .Lsyscall_char_gt, .+4
-        
-        /* 
-         * Call debug_print_hex(SW_ZZ2) to print the PC we're about to jump to.
-         * Need to: push RA, set R21=SW_ZZ2, call debug_print_hex, restore.
-         */
-        /* Push return address */
-        .word   .Lsyscall_4, REG_SP, .+4           /* SP -= 4 */
-        .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .+4  /* [SP] = 0 */
-        .word   SYSCALL_ZZ, SYSCALL_ZZ, .+4
-        .word   .Lsyscall_debug_ret_addr, SYSCALL_ZZ, .+4
-        .word   SYSCALL_ZZ, REG_SP | INDIRECT, .+4    /* [SP] = ret_addr */
-        
-        /* R21 = SW_ZZ2 (the PC value) */
-        .word   REG_R21, REG_R21, .+4
-        .word   SYSCALL_ZZ, SYSCALL_ZZ, .+4
-        .word   SW_ZZ2, SYSCALL_ZZ, .+4               /* ZZ = -pc */
-        .word   SYSCALL_ZZ, REG_R21, .+4              /* R21 = pc */
-        
-        /* Jump to debug_print_hex */
-        .word   SYSCALL_ZZ, SYSCALL_ZZ, debug_print_hex
-        
-.Lsyscall_debug_ret:
-        /* Returned from debug_print_hex. Now do the actual jump. */
+        ... debug_print_hex call ...
+        */
         
         /* Jump to m[SW_ZZ2] = pc value */
         /* SW_ZZ2 | INDIRECT = 444 | 2 = 446 */
@@ -2415,8 +2230,10 @@ __subleq_syscall:
 .Lsyscall_char_C:
         .word   67  /* 'C' for child-like return (R20 <= 0) */
 
+/* Debug constants - disabled but kept for reference
 .Lsyscall_debug_ret_addr:
         .word   .Lsyscall_debug_ret
+*/
 
 .size __subleq_syscall, .-__subleq_syscall
 

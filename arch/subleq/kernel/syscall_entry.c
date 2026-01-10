@@ -20,8 +20,18 @@
 /* Import the syscall table */
 extern void *sys_call_table[];
 
+/* Signal handling - for syscall restart */
+extern void do_signal(struct pt_regs *regs);
+
 /* Syscall function type */
 typedef long (*syscall_fn_t)(long, long, long, long, long, long);
+
+/* Forward declarations for functions called from assembly */
+asmlinkage long __subleq_syscall_c(long nr, long a1, long a2, long a3, long a4, long a5, long a6);
+void subleq_init_kernel_sp(struct task_struct *tsk);
+
+/* sys_ni_syscall for unimplemented syscalls */
+extern long sys_ni_syscall(void);
 
 /*
  * Globals for saving userspace context - set by assembly trampoline.
@@ -40,18 +50,19 @@ extern unsigned long subleq_syscall_saved_ra;
  */
 extern void __subleq_putchar(int c);
 
-long __subleq_syscall_c(long nr, long a1, long a2, long a3, long a4, long a5, long a6)
+asmlinkage long __subleq_syscall_c(long nr, long a1, long a2, long a3, long a4, long a5, long a6)
 {
 	syscall_fn_t fn;
 	struct pt_regs *regs;
+	long ret;
 
-	/* DEBUG: Print syscall number to trace child execution */
+	/* DEBUG: Print syscall number - disabled to reduce noise
 	__subleq_putchar('{');
-	/* Print syscall number as decimal (max 3 digits for common syscalls) */
 	if (nr >= 100) __subleq_putchar('0' + (nr / 100) % 10);
 	if (nr >= 10) __subleq_putchar('0' + (nr / 10) % 10);
 	__subleq_putchar('0' + nr % 10);
 	__subleq_putchar('}');
+	*/
 
 	/*
 	 * Fill in pt_regs using the saved globals.
@@ -72,16 +83,34 @@ long __subleq_syscall_c(long nr, long a1, long a2, long a3, long a4, long a5, lo
 	if (nr < 0 || nr >= __NR_syscalls) {
 		pr_warn("SUBLEQ_SYSCALL: nr=%ld out of range (max=%d)\n",
 			nr, __NR_syscalls);
-		return -ENOSYS;
+		ret = -ENOSYS;
+		goto out;
 	}
 
 	fn = (syscall_fn_t)sys_call_table[nr];
-	if (!fn || fn == (syscall_fn_t)sys_ni_syscall) {
+	if (!fn || sys_call_table[nr] == (void *)sys_ni_syscall) {
 		pr_warn("SUBLEQ_SYSCALL: syscall %ld not implemented\n", nr);
-		return -ENOSYS;
+		ret = -ENOSYS;
+		goto out;
 	}
 
-	return fn(a1, a2, a3, a4, a5, a6);
+	ret = fn(a1, a2, a3, a4, a5, a6);
+
+out:
+	/*
+	 * Store return value in pt_regs for do_signal to potentially modify.
+	 * do_signal will convert ERESTARTSYS to EINTR if needed.
+	 */
+	regs->r20 = ret;
+
+	/*
+	 * Handle signal delivery and syscall restart.
+	 * This converts ERESTARTSYS/etc to EINTR.
+	 */
+	do_signal(regs);
+
+	/* Return the (possibly modified) value */
+	return regs->r20;
 }
 
 

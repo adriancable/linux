@@ -156,12 +156,13 @@ struct pt_regs *ret_to_user_prep(struct task_struct *prev)
 	/* Return pointer to pt_regs for assembly to use */
 	regs = task_pt_regs(current);
 	
-	/* DEBUG: Print where the child will jump to */
+	/* DEBUG: Print where the child will jump to - disabled to reduce noise
 	__subleq_putchar('<');
 	debug_print_hex(regs->pc);
 	__subleq_putchar(':');
 	debug_print_hex(regs->sp);
 	__subleq_putchar('>');
+	*/
 	
 	return regs;
 }

@@ -53723,1710 +53723,1028 @@ __subleq_and:
         .word   12, 12, .Land_loop_init
 .Land_loop_init:
 .Land_b30_a:
-        .word   168, 168, .Land_b30_a1
-.Land_b30_a1:
-        .word   12, 12, .Land_b30_a2
-.Land_b30_a2:
-        .word   28, 12, .Land_b30_a3
-.Land_b30_a3:
-        .word   12, 168, .Land_b30_a4
-.Land_b30_a4:
-        .word   .Land_b30_pow, 168, .Land_b30_a5
-.Land_b30_a5:
-        .word   172, 172, .Land_b30_a6
-.Land_b30_a6:
-        .word   168, 172, .Land_b30_r3set
+        .word   .Land_b30_pow, 28, .Land_b30_r3chk
+        .word   12, 12, .Land_b30_r3done
+.Land_b30_r3chk:
+        .word   168, 168, .Land_b30_r3chk1
+.Land_b30_r3chk1:
+        .word   28, 168, .Land_b30_r3set
+        .word   .Land_b30_npow, 28, .Land_b30_r3rest
+.Land_b30_r3rest:
         .word   12, 12, .Land_b30_r4only
 .Land_b30_r3set:
-        .word   .Land_b30_pow, 28, .Land_b30_r3done
 .Land_b30_r3done:
-        .word   168, 168, .Land_b30_r4a1
-.Land_b30_r4a1:
-        .word   12, 12, .Land_b30_r4a2
-.Land_b30_r4a2:
-        .word   32, 12, .Land_b30_r4a3
-.Land_b30_r4a3:
-        .word   12, 168, .Land_b30_r4a4
-.Land_b30_r4a4:
-        .word   .Land_b30_pow, 168, .Land_b30_r4a5
-.Land_b30_r4a5:
-        .word   172, 172, .Land_b30_r4a6
-.Land_b30_r4a6:
-        .word   168, 172, .Land_b30_both
+        .word   .Land_b30_pow, 32, .Land_b30_r4chk1
+        .word   12, 12, .Land_b30_both
+.Land_b30_r4chk1:
+        .word   168, 168, .Land_b30_r4chk2
+.Land_b30_r4chk2:
+        .word   32, 168, .Land_b30_both
+        .word   .Land_b30_npow, 32, .Land_b30_r4rest1
+.Land_b30_r4rest1:
         .word   12, 12, .Land_b29_a
 .Land_b30_both:
-        .word   .Land_b30_pow, 32, .Land_b30_add1
-.Land_b30_add1:
-        .word   .Land_b30_npow, 160, .Land_b30_add2
-.Land_b30_add2:
-        .word   12, 12, .Land_b29_a
+        .word   .Land_b30_npow, 160, .Land_b29_a
 .Land_b30_r4only:
-        .word   168, 168, .Land_b30_r4o1
-.Land_b30_r4o1:
-        .word   12, 12, .Land_b30_r4o2
-.Land_b30_r4o2:
-        .word   32, 12, .Land_b30_r4o3
-.Land_b30_r4o3:
-        .word   12, 168, .Land_b30_r4o4
-.Land_b30_r4o4:
-        .word   .Land_b30_pow, 168, .Land_b30_r4o5
-.Land_b30_r4o5:
-        .word   172, 172, .Land_b30_r4o6
-.Land_b30_r4o6:
-        .word   168, 172, .Land_b30_r4oclr
+        .word   .Land_b30_pow, 32, .Land_b30_r4onlychk1
         .word   12, 12, .Land_b29_a
-.Land_b30_r4oclr:
-        .word   .Land_b30_pow, 32, .Land_b29_a
+.Land_b30_r4onlychk1:
+        .word   168, 168, .Land_b30_r4onlychk2
+.Land_b30_r4onlychk2:
+        .word   32, 168, .Land_b29_a
+        .word   .Land_b30_npow, 32, .Land_b30_r4rest2
+.Land_b30_r4rest2:
+        .word   12, 12, .Land_b29_a
 .Land_b29_a:
-        .word   168, 168, .Land_b29_a1
-.Land_b29_a1:
-        .word   12, 12, .Land_b29_a2
-.Land_b29_a2:
-        .word   28, 12, .Land_b29_a3
-.Land_b29_a3:
-        .word   12, 168, .Land_b29_a4
-.Land_b29_a4:
-        .word   .Land_b29_pow, 168, .Land_b29_a5
-.Land_b29_a5:
-        .word   172, 172, .Land_b29_a6
-.Land_b29_a6:
-        .word   168, 172, .Land_b29_r3set
+        .word   .Land_b29_pow, 28, .Land_b29_r3chk
+        .word   12, 12, .Land_b29_r3done
+.Land_b29_r3chk:
+        .word   168, 168, .Land_b29_r3chk1
+.Land_b29_r3chk1:
+        .word   28, 168, .Land_b29_r3set
+        .word   .Land_b29_npow, 28, .Land_b29_r3rest
+.Land_b29_r3rest:
         .word   12, 12, .Land_b29_r4only
 .Land_b29_r3set:
-        .word   .Land_b29_pow, 28, .Land_b29_r3done
 .Land_b29_r3done:
-        .word   168, 168, .Land_b29_r4a1
-.Land_b29_r4a1:
-        .word   12, 12, .Land_b29_r4a2
-.Land_b29_r4a2:
-        .word   32, 12, .Land_b29_r4a3
-.Land_b29_r4a3:
-        .word   12, 168, .Land_b29_r4a4
-.Land_b29_r4a4:
-        .word   .Land_b29_pow, 168, .Land_b29_r4a5
-.Land_b29_r4a5:
-        .word   172, 172, .Land_b29_r4a6
-.Land_b29_r4a6:
-        .word   168, 172, .Land_b29_both
+        .word   .Land_b29_pow, 32, .Land_b29_r4chk1
+        .word   12, 12, .Land_b29_both
+.Land_b29_r4chk1:
+        .word   168, 168, .Land_b29_r4chk2
+.Land_b29_r4chk2:
+        .word   32, 168, .Land_b29_both
+        .word   .Land_b29_npow, 32, .Land_b29_r4rest1
+.Land_b29_r4rest1:
         .word   12, 12, .Land_b28_a
 .Land_b29_both:
-        .word   .Land_b29_pow, 32, .Land_b29_add1
-.Land_b29_add1:
-        .word   .Land_b29_npow, 160, .Land_b29_add2
-.Land_b29_add2:
-        .word   12, 12, .Land_b28_a
+        .word   .Land_b29_npow, 160, .Land_b28_a
 .Land_b29_r4only:
-        .word   168, 168, .Land_b29_r4o1
-.Land_b29_r4o1:
-        .word   12, 12, .Land_b29_r4o2
-.Land_b29_r4o2:
-        .word   32, 12, .Land_b29_r4o3
-.Land_b29_r4o3:
-        .word   12, 168, .Land_b29_r4o4
-.Land_b29_r4o4:
-        .word   .Land_b29_pow, 168, .Land_b29_r4o5
-.Land_b29_r4o5:
-        .word   172, 172, .Land_b29_r4o6
-.Land_b29_r4o6:
-        .word   168, 172, .Land_b29_r4oclr
+        .word   .Land_b29_pow, 32, .Land_b29_r4onlychk1
         .word   12, 12, .Land_b28_a
-.Land_b29_r4oclr:
-        .word   .Land_b29_pow, 32, .Land_b28_a
+.Land_b29_r4onlychk1:
+        .word   168, 168, .Land_b29_r4onlychk2
+.Land_b29_r4onlychk2:
+        .word   32, 168, .Land_b28_a
+        .word   .Land_b29_npow, 32, .Land_b29_r4rest2
+.Land_b29_r4rest2:
+        .word   12, 12, .Land_b28_a
 .Land_b28_a:
-        .word   168, 168, .Land_b28_a1
-.Land_b28_a1:
-        .word   12, 12, .Land_b28_a2
-.Land_b28_a2:
-        .word   28, 12, .Land_b28_a3
-.Land_b28_a3:
-        .word   12, 168, .Land_b28_a4
-.Land_b28_a4:
-        .word   .Land_b28_pow, 168, .Land_b28_a5
-.Land_b28_a5:
-        .word   172, 172, .Land_b28_a6
-.Land_b28_a6:
-        .word   168, 172, .Land_b28_r3set
+        .word   .Land_b28_pow, 28, .Land_b28_r3chk
+        .word   12, 12, .Land_b28_r3done
+.Land_b28_r3chk:
+        .word   168, 168, .Land_b28_r3chk1
+.Land_b28_r3chk1:
+        .word   28, 168, .Land_b28_r3set
+        .word   .Land_b28_npow, 28, .Land_b28_r3rest
+.Land_b28_r3rest:
         .word   12, 12, .Land_b28_r4only
 .Land_b28_r3set:
-        .word   .Land_b28_pow, 28, .Land_b28_r3done
 .Land_b28_r3done:
-        .word   168, 168, .Land_b28_r4a1
-.Land_b28_r4a1:
-        .word   12, 12, .Land_b28_r4a2
-.Land_b28_r4a2:
-        .word   32, 12, .Land_b28_r4a3
-.Land_b28_r4a3:
-        .word   12, 168, .Land_b28_r4a4
-.Land_b28_r4a4:
-        .word   .Land_b28_pow, 168, .Land_b28_r4a5
-.Land_b28_r4a5:
-        .word   172, 172, .Land_b28_r4a6
-.Land_b28_r4a6:
-        .word   168, 172, .Land_b28_both
+        .word   .Land_b28_pow, 32, .Land_b28_r4chk1
+        .word   12, 12, .Land_b28_both
+.Land_b28_r4chk1:
+        .word   168, 168, .Land_b28_r4chk2
+.Land_b28_r4chk2:
+        .word   32, 168, .Land_b28_both
+        .word   .Land_b28_npow, 32, .Land_b28_r4rest1
+.Land_b28_r4rest1:
         .word   12, 12, .Land_b27_a
 .Land_b28_both:
-        .word   .Land_b28_pow, 32, .Land_b28_add1
-.Land_b28_add1:
-        .word   .Land_b28_npow, 160, .Land_b28_add2
-.Land_b28_add2:
-        .word   12, 12, .Land_b27_a
+        .word   .Land_b28_npow, 160, .Land_b27_a
 .Land_b28_r4only:
-        .word   168, 168, .Land_b28_r4o1
-.Land_b28_r4o1:
-        .word   12, 12, .Land_b28_r4o2
-.Land_b28_r4o2:
-        .word   32, 12, .Land_b28_r4o3
-.Land_b28_r4o3:
-        .word   12, 168, .Land_b28_r4o4
-.Land_b28_r4o4:
-        .word   .Land_b28_pow, 168, .Land_b28_r4o5
-.Land_b28_r4o5:
-        .word   172, 172, .Land_b28_r4o6
-.Land_b28_r4o6:
-        .word   168, 172, .Land_b28_r4oclr
+        .word   .Land_b28_pow, 32, .Land_b28_r4onlychk1
         .word   12, 12, .Land_b27_a
-.Land_b28_r4oclr:
-        .word   .Land_b28_pow, 32, .Land_b27_a
+.Land_b28_r4onlychk1:
+        .word   168, 168, .Land_b28_r4onlychk2
+.Land_b28_r4onlychk2:
+        .word   32, 168, .Land_b27_a
+        .word   .Land_b28_npow, 32, .Land_b28_r4rest2
+.Land_b28_r4rest2:
+        .word   12, 12, .Land_b27_a
 .Land_b27_a:
-        .word   168, 168, .Land_b27_a1
-.Land_b27_a1:
-        .word   12, 12, .Land_b27_a2
-.Land_b27_a2:
-        .word   28, 12, .Land_b27_a3
-.Land_b27_a3:
-        .word   12, 168, .Land_b27_a4
-.Land_b27_a4:
-        .word   .Land_b27_pow, 168, .Land_b27_a5
-.Land_b27_a5:
-        .word   172, 172, .Land_b27_a6
-.Land_b27_a6:
-        .word   168, 172, .Land_b27_r3set
+        .word   .Land_b27_pow, 28, .Land_b27_r3chk
+        .word   12, 12, .Land_b27_r3done
+.Land_b27_r3chk:
+        .word   168, 168, .Land_b27_r3chk1
+.Land_b27_r3chk1:
+        .word   28, 168, .Land_b27_r3set
+        .word   .Land_b27_npow, 28, .Land_b27_r3rest
+.Land_b27_r3rest:
         .word   12, 12, .Land_b27_r4only
 .Land_b27_r3set:
-        .word   .Land_b27_pow, 28, .Land_b27_r3done
 .Land_b27_r3done:
-        .word   168, 168, .Land_b27_r4a1
-.Land_b27_r4a1:
-        .word   12, 12, .Land_b27_r4a2
-.Land_b27_r4a2:
-        .word   32, 12, .Land_b27_r4a3
-.Land_b27_r4a3:
-        .word   12, 168, .Land_b27_r4a4
-.Land_b27_r4a4:
-        .word   .Land_b27_pow, 168, .Land_b27_r4a5
-.Land_b27_r4a5:
-        .word   172, 172, .Land_b27_r4a6
-.Land_b27_r4a6:
-        .word   168, 172, .Land_b27_both
+        .word   .Land_b27_pow, 32, .Land_b27_r4chk1
+        .word   12, 12, .Land_b27_both
+.Land_b27_r4chk1:
+        .word   168, 168, .Land_b27_r4chk2
+.Land_b27_r4chk2:
+        .word   32, 168, .Land_b27_both
+        .word   .Land_b27_npow, 32, .Land_b27_r4rest1
+.Land_b27_r4rest1:
         .word   12, 12, .Land_b26_a
 .Land_b27_both:
-        .word   .Land_b27_pow, 32, .Land_b27_add1
-.Land_b27_add1:
-        .word   .Land_b27_npow, 160, .Land_b27_add2
-.Land_b27_add2:
-        .word   12, 12, .Land_b26_a
+        .word   .Land_b27_npow, 160, .Land_b26_a
 .Land_b27_r4only:
-        .word   168, 168, .Land_b27_r4o1
-.Land_b27_r4o1:
-        .word   12, 12, .Land_b27_r4o2
-.Land_b27_r4o2:
-        .word   32, 12, .Land_b27_r4o3
-.Land_b27_r4o3:
-        .word   12, 168, .Land_b27_r4o4
-.Land_b27_r4o4:
-        .word   .Land_b27_pow, 168, .Land_b27_r4o5
-.Land_b27_r4o5:
-        .word   172, 172, .Land_b27_r4o6
-.Land_b27_r4o6:
-        .word   168, 172, .Land_b27_r4oclr
+        .word   .Land_b27_pow, 32, .Land_b27_r4onlychk1
         .word   12, 12, .Land_b26_a
-.Land_b27_r4oclr:
-        .word   .Land_b27_pow, 32, .Land_b26_a
+.Land_b27_r4onlychk1:
+        .word   168, 168, .Land_b27_r4onlychk2
+.Land_b27_r4onlychk2:
+        .word   32, 168, .Land_b26_a
+        .word   .Land_b27_npow, 32, .Land_b27_r4rest2
+.Land_b27_r4rest2:
+        .word   12, 12, .Land_b26_a
 .Land_b26_a:
-        .word   168, 168, .Land_b26_a1
-.Land_b26_a1:
-        .word   12, 12, .Land_b26_a2
-.Land_b26_a2:
-        .word   28, 12, .Land_b26_a3
-.Land_b26_a3:
-        .word   12, 168, .Land_b26_a4
-.Land_b26_a4:
-        .word   .Land_b26_pow, 168, .Land_b26_a5
-.Land_b26_a5:
-        .word   172, 172, .Land_b26_a6
-.Land_b26_a6:
-        .word   168, 172, .Land_b26_r3set
+        .word   .Land_b26_pow, 28, .Land_b26_r3chk
+        .word   12, 12, .Land_b26_r3done
+.Land_b26_r3chk:
+        .word   168, 168, .Land_b26_r3chk1
+.Land_b26_r3chk1:
+        .word   28, 168, .Land_b26_r3set
+        .word   .Land_b26_npow, 28, .Land_b26_r3rest
+.Land_b26_r3rest:
         .word   12, 12, .Land_b26_r4only
 .Land_b26_r3set:
-        .word   .Land_b26_pow, 28, .Land_b26_r3done
 .Land_b26_r3done:
-        .word   168, 168, .Land_b26_r4a1
-.Land_b26_r4a1:
-        .word   12, 12, .Land_b26_r4a2
-.Land_b26_r4a2:
-        .word   32, 12, .Land_b26_r4a3
-.Land_b26_r4a3:
-        .word   12, 168, .Land_b26_r4a4
-.Land_b26_r4a4:
-        .word   .Land_b26_pow, 168, .Land_b26_r4a5
-.Land_b26_r4a5:
-        .word   172, 172, .Land_b26_r4a6
-.Land_b26_r4a6:
-        .word   168, 172, .Land_b26_both
+        .word   .Land_b26_pow, 32, .Land_b26_r4chk1
+        .word   12, 12, .Land_b26_both
+.Land_b26_r4chk1:
+        .word   168, 168, .Land_b26_r4chk2
+.Land_b26_r4chk2:
+        .word   32, 168, .Land_b26_both
+        .word   .Land_b26_npow, 32, .Land_b26_r4rest1
+.Land_b26_r4rest1:
         .word   12, 12, .Land_b25_a
 .Land_b26_both:
-        .word   .Land_b26_pow, 32, .Land_b26_add1
-.Land_b26_add1:
-        .word   .Land_b26_npow, 160, .Land_b26_add2
-.Land_b26_add2:
-        .word   12, 12, .Land_b25_a
+        .word   .Land_b26_npow, 160, .Land_b25_a
 .Land_b26_r4only:
-        .word   168, 168, .Land_b26_r4o1
-.Land_b26_r4o1:
-        .word   12, 12, .Land_b26_r4o2
-.Land_b26_r4o2:
-        .word   32, 12, .Land_b26_r4o3
-.Land_b26_r4o3:
-        .word   12, 168, .Land_b26_r4o4
-.Land_b26_r4o4:
-        .word   .Land_b26_pow, 168, .Land_b26_r4o5
-.Land_b26_r4o5:
-        .word   172, 172, .Land_b26_r4o6
-.Land_b26_r4o6:
-        .word   168, 172, .Land_b26_r4oclr
+        .word   .Land_b26_pow, 32, .Land_b26_r4onlychk1
         .word   12, 12, .Land_b25_a
-.Land_b26_r4oclr:
-        .word   .Land_b26_pow, 32, .Land_b25_a
+.Land_b26_r4onlychk1:
+        .word   168, 168, .Land_b26_r4onlychk2
+.Land_b26_r4onlychk2:
+        .word   32, 168, .Land_b25_a
+        .word   .Land_b26_npow, 32, .Land_b26_r4rest2
+.Land_b26_r4rest2:
+        .word   12, 12, .Land_b25_a
 .Land_b25_a:
-        .word   168, 168, .Land_b25_a1
-.Land_b25_a1:
-        .word   12, 12, .Land_b25_a2
-.Land_b25_a2:
-        .word   28, 12, .Land_b25_a3
-.Land_b25_a3:
-        .word   12, 168, .Land_b25_a4
-.Land_b25_a4:
-        .word   .Land_b25_pow, 168, .Land_b25_a5
-.Land_b25_a5:
-        .word   172, 172, .Land_b25_a6
-.Land_b25_a6:
-        .word   168, 172, .Land_b25_r3set
+        .word   .Land_b25_pow, 28, .Land_b25_r3chk
+        .word   12, 12, .Land_b25_r3done
+.Land_b25_r3chk:
+        .word   168, 168, .Land_b25_r3chk1
+.Land_b25_r3chk1:
+        .word   28, 168, .Land_b25_r3set
+        .word   .Land_b25_npow, 28, .Land_b25_r3rest
+.Land_b25_r3rest:
         .word   12, 12, .Land_b25_r4only
 .Land_b25_r3set:
-        .word   .Land_b25_pow, 28, .Land_b25_r3done
 .Land_b25_r3done:
-        .word   168, 168, .Land_b25_r4a1
-.Land_b25_r4a1:
-        .word   12, 12, .Land_b25_r4a2
-.Land_b25_r4a2:
-        .word   32, 12, .Land_b25_r4a3
-.Land_b25_r4a3:
-        .word   12, 168, .Land_b25_r4a4
-.Land_b25_r4a4:
-        .word   .Land_b25_pow, 168, .Land_b25_r4a5
-.Land_b25_r4a5:
-        .word   172, 172, .Land_b25_r4a6
-.Land_b25_r4a6:
-        .word   168, 172, .Land_b25_both
+        .word   .Land_b25_pow, 32, .Land_b25_r4chk1
+        .word   12, 12, .Land_b25_both
+.Land_b25_r4chk1:
+        .word   168, 168, .Land_b25_r4chk2
+.Land_b25_r4chk2:
+        .word   32, 168, .Land_b25_both
+        .word   .Land_b25_npow, 32, .Land_b25_r4rest1
+.Land_b25_r4rest1:
         .word   12, 12, .Land_b24_a
 .Land_b25_both:
-        .word   .Land_b25_pow, 32, .Land_b25_add1
-.Land_b25_add1:
-        .word   .Land_b25_npow, 160, .Land_b25_add2
-.Land_b25_add2:
-        .word   12, 12, .Land_b24_a
+        .word   .Land_b25_npow, 160, .Land_b24_a
 .Land_b25_r4only:
-        .word   168, 168, .Land_b25_r4o1
-.Land_b25_r4o1:
-        .word   12, 12, .Land_b25_r4o2
-.Land_b25_r4o2:
-        .word   32, 12, .Land_b25_r4o3
-.Land_b25_r4o3:
-        .word   12, 168, .Land_b25_r4o4
-.Land_b25_r4o4:
-        .word   .Land_b25_pow, 168, .Land_b25_r4o5
-.Land_b25_r4o5:
-        .word   172, 172, .Land_b25_r4o6
-.Land_b25_r4o6:
-        .word   168, 172, .Land_b25_r4oclr
+        .word   .Land_b25_pow, 32, .Land_b25_r4onlychk1
         .word   12, 12, .Land_b24_a
-.Land_b25_r4oclr:
-        .word   .Land_b25_pow, 32, .Land_b24_a
+.Land_b25_r4onlychk1:
+        .word   168, 168, .Land_b25_r4onlychk2
+.Land_b25_r4onlychk2:
+        .word   32, 168, .Land_b24_a
+        .word   .Land_b25_npow, 32, .Land_b25_r4rest2
+.Land_b25_r4rest2:
+        .word   12, 12, .Land_b24_a
 .Land_b24_a:
-        .word   168, 168, .Land_b24_a1
-.Land_b24_a1:
-        .word   12, 12, .Land_b24_a2
-.Land_b24_a2:
-        .word   28, 12, .Land_b24_a3
-.Land_b24_a3:
-        .word   12, 168, .Land_b24_a4
-.Land_b24_a4:
-        .word   .Land_b24_pow, 168, .Land_b24_a5
-.Land_b24_a5:
-        .word   172, 172, .Land_b24_a6
-.Land_b24_a6:
-        .word   168, 172, .Land_b24_r3set
+        .word   .Land_b24_pow, 28, .Land_b24_r3chk
+        .word   12, 12, .Land_b24_r3done
+.Land_b24_r3chk:
+        .word   168, 168, .Land_b24_r3chk1
+.Land_b24_r3chk1:
+        .word   28, 168, .Land_b24_r3set
+        .word   .Land_b24_npow, 28, .Land_b24_r3rest
+.Land_b24_r3rest:
         .word   12, 12, .Land_b24_r4only
 .Land_b24_r3set:
-        .word   .Land_b24_pow, 28, .Land_b24_r3done
 .Land_b24_r3done:
-        .word   168, 168, .Land_b24_r4a1
-.Land_b24_r4a1:
-        .word   12, 12, .Land_b24_r4a2
-.Land_b24_r4a2:
-        .word   32, 12, .Land_b24_r4a3
-.Land_b24_r4a3:
-        .word   12, 168, .Land_b24_r4a4
-.Land_b24_r4a4:
-        .word   .Land_b24_pow, 168, .Land_b24_r4a5
-.Land_b24_r4a5:
-        .word   172, 172, .Land_b24_r4a6
-.Land_b24_r4a6:
-        .word   168, 172, .Land_b24_both
+        .word   .Land_b24_pow, 32, .Land_b24_r4chk1
+        .word   12, 12, .Land_b24_both
+.Land_b24_r4chk1:
+        .word   168, 168, .Land_b24_r4chk2
+.Land_b24_r4chk2:
+        .word   32, 168, .Land_b24_both
+        .word   .Land_b24_npow, 32, .Land_b24_r4rest1
+.Land_b24_r4rest1:
         .word   12, 12, .Land_b23_a
 .Land_b24_both:
-        .word   .Land_b24_pow, 32, .Land_b24_add1
-.Land_b24_add1:
-        .word   .Land_b24_npow, 160, .Land_b24_add2
-.Land_b24_add2:
-        .word   12, 12, .Land_b23_a
+        .word   .Land_b24_npow, 160, .Land_b23_a
 .Land_b24_r4only:
-        .word   168, 168, .Land_b24_r4o1
-.Land_b24_r4o1:
-        .word   12, 12, .Land_b24_r4o2
-.Land_b24_r4o2:
-        .word   32, 12, .Land_b24_r4o3
-.Land_b24_r4o3:
-        .word   12, 168, .Land_b24_r4o4
-.Land_b24_r4o4:
-        .word   .Land_b24_pow, 168, .Land_b24_r4o5
-.Land_b24_r4o5:
-        .word   172, 172, .Land_b24_r4o6
-.Land_b24_r4o6:
-        .word   168, 172, .Land_b24_r4oclr
+        .word   .Land_b24_pow, 32, .Land_b24_r4onlychk1
         .word   12, 12, .Land_b23_a
-.Land_b24_r4oclr:
-        .word   .Land_b24_pow, 32, .Land_b23_a
+.Land_b24_r4onlychk1:
+        .word   168, 168, .Land_b24_r4onlychk2
+.Land_b24_r4onlychk2:
+        .word   32, 168, .Land_b23_a
+        .word   .Land_b24_npow, 32, .Land_b24_r4rest2
+.Land_b24_r4rest2:
+        .word   12, 12, .Land_b23_a
 .Land_b23_a:
-        .word   168, 168, .Land_b23_a1
-.Land_b23_a1:
-        .word   12, 12, .Land_b23_a2
-.Land_b23_a2:
-        .word   28, 12, .Land_b23_a3
-.Land_b23_a3:
-        .word   12, 168, .Land_b23_a4
-.Land_b23_a4:
-        .word   .Land_b23_pow, 168, .Land_b23_a5
-.Land_b23_a5:
-        .word   172, 172, .Land_b23_a6
-.Land_b23_a6:
-        .word   168, 172, .Land_b23_r3set
+        .word   .Land_b23_pow, 28, .Land_b23_r3chk
+        .word   12, 12, .Land_b23_r3done
+.Land_b23_r3chk:
+        .word   168, 168, .Land_b23_r3chk1
+.Land_b23_r3chk1:
+        .word   28, 168, .Land_b23_r3set
+        .word   .Land_b23_npow, 28, .Land_b23_r3rest
+.Land_b23_r3rest:
         .word   12, 12, .Land_b23_r4only
 .Land_b23_r3set:
-        .word   .Land_b23_pow, 28, .Land_b23_r3done
 .Land_b23_r3done:
-        .word   168, 168, .Land_b23_r4a1
-.Land_b23_r4a1:
-        .word   12, 12, .Land_b23_r4a2
-.Land_b23_r4a2:
-        .word   32, 12, .Land_b23_r4a3
-.Land_b23_r4a3:
-        .word   12, 168, .Land_b23_r4a4
-.Land_b23_r4a4:
-        .word   .Land_b23_pow, 168, .Land_b23_r4a5
-.Land_b23_r4a5:
-        .word   172, 172, .Land_b23_r4a6
-.Land_b23_r4a6:
-        .word   168, 172, .Land_b23_both
+        .word   .Land_b23_pow, 32, .Land_b23_r4chk1
+        .word   12, 12, .Land_b23_both
+.Land_b23_r4chk1:
+        .word   168, 168, .Land_b23_r4chk2
+.Land_b23_r4chk2:
+        .word   32, 168, .Land_b23_both
+        .word   .Land_b23_npow, 32, .Land_b23_r4rest1
+.Land_b23_r4rest1:
         .word   12, 12, .Land_b22_a
 .Land_b23_both:
-        .word   .Land_b23_pow, 32, .Land_b23_add1
-.Land_b23_add1:
-        .word   .Land_b23_npow, 160, .Land_b23_add2
-.Land_b23_add2:
-        .word   12, 12, .Land_b22_a
+        .word   .Land_b23_npow, 160, .Land_b22_a
 .Land_b23_r4only:
-        .word   168, 168, .Land_b23_r4o1
-.Land_b23_r4o1:
-        .word   12, 12, .Land_b23_r4o2
-.Land_b23_r4o2:
-        .word   32, 12, .Land_b23_r4o3
-.Land_b23_r4o3:
-        .word   12, 168, .Land_b23_r4o4
-.Land_b23_r4o4:
-        .word   .Land_b23_pow, 168, .Land_b23_r4o5
-.Land_b23_r4o5:
-        .word   172, 172, .Land_b23_r4o6
-.Land_b23_r4o6:
-        .word   168, 172, .Land_b23_r4oclr
+        .word   .Land_b23_pow, 32, .Land_b23_r4onlychk1
         .word   12, 12, .Land_b22_a
-.Land_b23_r4oclr:
-        .word   .Land_b23_pow, 32, .Land_b22_a
+.Land_b23_r4onlychk1:
+        .word   168, 168, .Land_b23_r4onlychk2
+.Land_b23_r4onlychk2:
+        .word   32, 168, .Land_b22_a
+        .word   .Land_b23_npow, 32, .Land_b23_r4rest2
+.Land_b23_r4rest2:
+        .word   12, 12, .Land_b22_a
 .Land_b22_a:
-        .word   168, 168, .Land_b22_a1
-.Land_b22_a1:
-        .word   12, 12, .Land_b22_a2
-.Land_b22_a2:
-        .word   28, 12, .Land_b22_a3
-.Land_b22_a3:
-        .word   12, 168, .Land_b22_a4
-.Land_b22_a4:
-        .word   .Land_b22_pow, 168, .Land_b22_a5
-.Land_b22_a5:
-        .word   172, 172, .Land_b22_a6
-.Land_b22_a6:
-        .word   168, 172, .Land_b22_r3set
+        .word   .Land_b22_pow, 28, .Land_b22_r3chk
+        .word   12, 12, .Land_b22_r3done
+.Land_b22_r3chk:
+        .word   168, 168, .Land_b22_r3chk1
+.Land_b22_r3chk1:
+        .word   28, 168, .Land_b22_r3set
+        .word   .Land_b22_npow, 28, .Land_b22_r3rest
+.Land_b22_r3rest:
         .word   12, 12, .Land_b22_r4only
 .Land_b22_r3set:
-        .word   .Land_b22_pow, 28, .Land_b22_r3done
 .Land_b22_r3done:
-        .word   168, 168, .Land_b22_r4a1
-.Land_b22_r4a1:
-        .word   12, 12, .Land_b22_r4a2
-.Land_b22_r4a2:
-        .word   32, 12, .Land_b22_r4a3
-.Land_b22_r4a3:
-        .word   12, 168, .Land_b22_r4a4
-.Land_b22_r4a4:
-        .word   .Land_b22_pow, 168, .Land_b22_r4a5
-.Land_b22_r4a5:
-        .word   172, 172, .Land_b22_r4a6
-.Land_b22_r4a6:
-        .word   168, 172, .Land_b22_both
+        .word   .Land_b22_pow, 32, .Land_b22_r4chk1
+        .word   12, 12, .Land_b22_both
+.Land_b22_r4chk1:
+        .word   168, 168, .Land_b22_r4chk2
+.Land_b22_r4chk2:
+        .word   32, 168, .Land_b22_both
+        .word   .Land_b22_npow, 32, .Land_b22_r4rest1
+.Land_b22_r4rest1:
         .word   12, 12, .Land_b21_a
 .Land_b22_both:
-        .word   .Land_b22_pow, 32, .Land_b22_add1
-.Land_b22_add1:
-        .word   .Land_b22_npow, 160, .Land_b22_add2
-.Land_b22_add2:
-        .word   12, 12, .Land_b21_a
+        .word   .Land_b22_npow, 160, .Land_b21_a
 .Land_b22_r4only:
-        .word   168, 168, .Land_b22_r4o1
-.Land_b22_r4o1:
-        .word   12, 12, .Land_b22_r4o2
-.Land_b22_r4o2:
-        .word   32, 12, .Land_b22_r4o3
-.Land_b22_r4o3:
-        .word   12, 168, .Land_b22_r4o4
-.Land_b22_r4o4:
-        .word   .Land_b22_pow, 168, .Land_b22_r4o5
-.Land_b22_r4o5:
-        .word   172, 172, .Land_b22_r4o6
-.Land_b22_r4o6:
-        .word   168, 172, .Land_b22_r4oclr
+        .word   .Land_b22_pow, 32, .Land_b22_r4onlychk1
         .word   12, 12, .Land_b21_a
-.Land_b22_r4oclr:
-        .word   .Land_b22_pow, 32, .Land_b21_a
+.Land_b22_r4onlychk1:
+        .word   168, 168, .Land_b22_r4onlychk2
+.Land_b22_r4onlychk2:
+        .word   32, 168, .Land_b21_a
+        .word   .Land_b22_npow, 32, .Land_b22_r4rest2
+.Land_b22_r4rest2:
+        .word   12, 12, .Land_b21_a
 .Land_b21_a:
-        .word   168, 168, .Land_b21_a1
-.Land_b21_a1:
-        .word   12, 12, .Land_b21_a2
-.Land_b21_a2:
-        .word   28, 12, .Land_b21_a3
-.Land_b21_a3:
-        .word   12, 168, .Land_b21_a4
-.Land_b21_a4:
-        .word   .Land_b21_pow, 168, .Land_b21_a5
-.Land_b21_a5:
-        .word   172, 172, .Land_b21_a6
-.Land_b21_a6:
-        .word   168, 172, .Land_b21_r3set
+        .word   .Land_b21_pow, 28, .Land_b21_r3chk
+        .word   12, 12, .Land_b21_r3done
+.Land_b21_r3chk:
+        .word   168, 168, .Land_b21_r3chk1
+.Land_b21_r3chk1:
+        .word   28, 168, .Land_b21_r3set
+        .word   .Land_b21_npow, 28, .Land_b21_r3rest
+.Land_b21_r3rest:
         .word   12, 12, .Land_b21_r4only
 .Land_b21_r3set:
-        .word   .Land_b21_pow, 28, .Land_b21_r3done
 .Land_b21_r3done:
-        .word   168, 168, .Land_b21_r4a1
-.Land_b21_r4a1:
-        .word   12, 12, .Land_b21_r4a2
-.Land_b21_r4a2:
-        .word   32, 12, .Land_b21_r4a3
-.Land_b21_r4a3:
-        .word   12, 168, .Land_b21_r4a4
-.Land_b21_r4a4:
-        .word   .Land_b21_pow, 168, .Land_b21_r4a5
-.Land_b21_r4a5:
-        .word   172, 172, .Land_b21_r4a6
-.Land_b21_r4a6:
-        .word   168, 172, .Land_b21_both
+        .word   .Land_b21_pow, 32, .Land_b21_r4chk1
+        .word   12, 12, .Land_b21_both
+.Land_b21_r4chk1:
+        .word   168, 168, .Land_b21_r4chk2
+.Land_b21_r4chk2:
+        .word   32, 168, .Land_b21_both
+        .word   .Land_b21_npow, 32, .Land_b21_r4rest1
+.Land_b21_r4rest1:
         .word   12, 12, .Land_b20_a
 .Land_b21_both:
-        .word   .Land_b21_pow, 32, .Land_b21_add1
-.Land_b21_add1:
-        .word   .Land_b21_npow, 160, .Land_b21_add2
-.Land_b21_add2:
-        .word   12, 12, .Land_b20_a
+        .word   .Land_b21_npow, 160, .Land_b20_a
 .Land_b21_r4only:
-        .word   168, 168, .Land_b21_r4o1
-.Land_b21_r4o1:
-        .word   12, 12, .Land_b21_r4o2
-.Land_b21_r4o2:
-        .word   32, 12, .Land_b21_r4o3
-.Land_b21_r4o3:
-        .word   12, 168, .Land_b21_r4o4
-.Land_b21_r4o4:
-        .word   .Land_b21_pow, 168, .Land_b21_r4o5
-.Land_b21_r4o5:
-        .word   172, 172, .Land_b21_r4o6
-.Land_b21_r4o6:
-        .word   168, 172, .Land_b21_r4oclr
+        .word   .Land_b21_pow, 32, .Land_b21_r4onlychk1
         .word   12, 12, .Land_b20_a
-.Land_b21_r4oclr:
-        .word   .Land_b21_pow, 32, .Land_b20_a
+.Land_b21_r4onlychk1:
+        .word   168, 168, .Land_b21_r4onlychk2
+.Land_b21_r4onlychk2:
+        .word   32, 168, .Land_b20_a
+        .word   .Land_b21_npow, 32, .Land_b21_r4rest2
+.Land_b21_r4rest2:
+        .word   12, 12, .Land_b20_a
 .Land_b20_a:
-        .word   168, 168, .Land_b20_a1
-.Land_b20_a1:
-        .word   12, 12, .Land_b20_a2
-.Land_b20_a2:
-        .word   28, 12, .Land_b20_a3
-.Land_b20_a3:
-        .word   12, 168, .Land_b20_a4
-.Land_b20_a4:
-        .word   .Land_b20_pow, 168, .Land_b20_a5
-.Land_b20_a5:
-        .word   172, 172, .Land_b20_a6
-.Land_b20_a6:
-        .word   168, 172, .Land_b20_r3set
+        .word   .Land_b20_pow, 28, .Land_b20_r3chk
+        .word   12, 12, .Land_b20_r3done
+.Land_b20_r3chk:
+        .word   168, 168, .Land_b20_r3chk1
+.Land_b20_r3chk1:
+        .word   28, 168, .Land_b20_r3set
+        .word   .Land_b20_npow, 28, .Land_b20_r3rest
+.Land_b20_r3rest:
         .word   12, 12, .Land_b20_r4only
 .Land_b20_r3set:
-        .word   .Land_b20_pow, 28, .Land_b20_r3done
 .Land_b20_r3done:
-        .word   168, 168, .Land_b20_r4a1
-.Land_b20_r4a1:
-        .word   12, 12, .Land_b20_r4a2
-.Land_b20_r4a2:
-        .word   32, 12, .Land_b20_r4a3
-.Land_b20_r4a3:
-        .word   12, 168, .Land_b20_r4a4
-.Land_b20_r4a4:
-        .word   .Land_b20_pow, 168, .Land_b20_r4a5
-.Land_b20_r4a5:
-        .word   172, 172, .Land_b20_r4a6
-.Land_b20_r4a6:
-        .word   168, 172, .Land_b20_both
+        .word   .Land_b20_pow, 32, .Land_b20_r4chk1
+        .word   12, 12, .Land_b20_both
+.Land_b20_r4chk1:
+        .word   168, 168, .Land_b20_r4chk2
+.Land_b20_r4chk2:
+        .word   32, 168, .Land_b20_both
+        .word   .Land_b20_npow, 32, .Land_b20_r4rest1
+.Land_b20_r4rest1:
         .word   12, 12, .Land_b19_a
 .Land_b20_both:
-        .word   .Land_b20_pow, 32, .Land_b20_add1
-.Land_b20_add1:
-        .word   .Land_b20_npow, 160, .Land_b20_add2
-.Land_b20_add2:
-        .word   12, 12, .Land_b19_a
+        .word   .Land_b20_npow, 160, .Land_b19_a
 .Land_b20_r4only:
-        .word   168, 168, .Land_b20_r4o1
-.Land_b20_r4o1:
-        .word   12, 12, .Land_b20_r4o2
-.Land_b20_r4o2:
-        .word   32, 12, .Land_b20_r4o3
-.Land_b20_r4o3:
-        .word   12, 168, .Land_b20_r4o4
-.Land_b20_r4o4:
-        .word   .Land_b20_pow, 168, .Land_b20_r4o5
-.Land_b20_r4o5:
-        .word   172, 172, .Land_b20_r4o6
-.Land_b20_r4o6:
-        .word   168, 172, .Land_b20_r4oclr
+        .word   .Land_b20_pow, 32, .Land_b20_r4onlychk1
         .word   12, 12, .Land_b19_a
-.Land_b20_r4oclr:
-        .word   .Land_b20_pow, 32, .Land_b19_a
+.Land_b20_r4onlychk1:
+        .word   168, 168, .Land_b20_r4onlychk2
+.Land_b20_r4onlychk2:
+        .word   32, 168, .Land_b19_a
+        .word   .Land_b20_npow, 32, .Land_b20_r4rest2
+.Land_b20_r4rest2:
+        .word   12, 12, .Land_b19_a
 .Land_b19_a:
-        .word   168, 168, .Land_b19_a1
-.Land_b19_a1:
-        .word   12, 12, .Land_b19_a2
-.Land_b19_a2:
-        .word   28, 12, .Land_b19_a3
-.Land_b19_a3:
-        .word   12, 168, .Land_b19_a4
-.Land_b19_a4:
-        .word   .Land_b19_pow, 168, .Land_b19_a5
-.Land_b19_a5:
-        .word   172, 172, .Land_b19_a6
-.Land_b19_a6:
-        .word   168, 172, .Land_b19_r3set
+        .word   .Land_b19_pow, 28, .Land_b19_r3chk
+        .word   12, 12, .Land_b19_r3done
+.Land_b19_r3chk:
+        .word   168, 168, .Land_b19_r3chk1
+.Land_b19_r3chk1:
+        .word   28, 168, .Land_b19_r3set
+        .word   .Land_b19_npow, 28, .Land_b19_r3rest
+.Land_b19_r3rest:
         .word   12, 12, .Land_b19_r4only
 .Land_b19_r3set:
-        .word   .Land_b19_pow, 28, .Land_b19_r3done
 .Land_b19_r3done:
-        .word   168, 168, .Land_b19_r4a1
-.Land_b19_r4a1:
-        .word   12, 12, .Land_b19_r4a2
-.Land_b19_r4a2:
-        .word   32, 12, .Land_b19_r4a3
-.Land_b19_r4a3:
-        .word   12, 168, .Land_b19_r4a4
-.Land_b19_r4a4:
-        .word   .Land_b19_pow, 168, .Land_b19_r4a5
-.Land_b19_r4a5:
-        .word   172, 172, .Land_b19_r4a6
-.Land_b19_r4a6:
-        .word   168, 172, .Land_b19_both
+        .word   .Land_b19_pow, 32, .Land_b19_r4chk1
+        .word   12, 12, .Land_b19_both
+.Land_b19_r4chk1:
+        .word   168, 168, .Land_b19_r4chk2
+.Land_b19_r4chk2:
+        .word   32, 168, .Land_b19_both
+        .word   .Land_b19_npow, 32, .Land_b19_r4rest1
+.Land_b19_r4rest1:
         .word   12, 12, .Land_b18_a
 .Land_b19_both:
-        .word   .Land_b19_pow, 32, .Land_b19_add1
-.Land_b19_add1:
-        .word   .Land_b19_npow, 160, .Land_b19_add2
-.Land_b19_add2:
-        .word   12, 12, .Land_b18_a
+        .word   .Land_b19_npow, 160, .Land_b18_a
 .Land_b19_r4only:
-        .word   168, 168, .Land_b19_r4o1
-.Land_b19_r4o1:
-        .word   12, 12, .Land_b19_r4o2
-.Land_b19_r4o2:
-        .word   32, 12, .Land_b19_r4o3
-.Land_b19_r4o3:
-        .word   12, 168, .Land_b19_r4o4
-.Land_b19_r4o4:
-        .word   .Land_b19_pow, 168, .Land_b19_r4o5
-.Land_b19_r4o5:
-        .word   172, 172, .Land_b19_r4o6
-.Land_b19_r4o6:
-        .word   168, 172, .Land_b19_r4oclr
+        .word   .Land_b19_pow, 32, .Land_b19_r4onlychk1
         .word   12, 12, .Land_b18_a
-.Land_b19_r4oclr:
-        .word   .Land_b19_pow, 32, .Land_b18_a
+.Land_b19_r4onlychk1:
+        .word   168, 168, .Land_b19_r4onlychk2
+.Land_b19_r4onlychk2:
+        .word   32, 168, .Land_b18_a
+        .word   .Land_b19_npow, 32, .Land_b19_r4rest2
+.Land_b19_r4rest2:
+        .word   12, 12, .Land_b18_a
 .Land_b18_a:
-        .word   168, 168, .Land_b18_a1
-.Land_b18_a1:
-        .word   12, 12, .Land_b18_a2
-.Land_b18_a2:
-        .word   28, 12, .Land_b18_a3
-.Land_b18_a3:
-        .word   12, 168, .Land_b18_a4
-.Land_b18_a4:
-        .word   .Land_b18_pow, 168, .Land_b18_a5
-.Land_b18_a5:
-        .word   172, 172, .Land_b18_a6
-.Land_b18_a6:
-        .word   168, 172, .Land_b18_r3set
+        .word   .Land_b18_pow, 28, .Land_b18_r3chk
+        .word   12, 12, .Land_b18_r3done
+.Land_b18_r3chk:
+        .word   168, 168, .Land_b18_r3chk1
+.Land_b18_r3chk1:
+        .word   28, 168, .Land_b18_r3set
+        .word   .Land_b18_npow, 28, .Land_b18_r3rest
+.Land_b18_r3rest:
         .word   12, 12, .Land_b18_r4only
 .Land_b18_r3set:
-        .word   .Land_b18_pow, 28, .Land_b18_r3done
 .Land_b18_r3done:
-        .word   168, 168, .Land_b18_r4a1
-.Land_b18_r4a1:
-        .word   12, 12, .Land_b18_r4a2
-.Land_b18_r4a2:
-        .word   32, 12, .Land_b18_r4a3
-.Land_b18_r4a3:
-        .word   12, 168, .Land_b18_r4a4
-.Land_b18_r4a4:
-        .word   .Land_b18_pow, 168, .Land_b18_r4a5
-.Land_b18_r4a5:
-        .word   172, 172, .Land_b18_r4a6
-.Land_b18_r4a6:
-        .word   168, 172, .Land_b18_both
+        .word   .Land_b18_pow, 32, .Land_b18_r4chk1
+        .word   12, 12, .Land_b18_both
+.Land_b18_r4chk1:
+        .word   168, 168, .Land_b18_r4chk2
+.Land_b18_r4chk2:
+        .word   32, 168, .Land_b18_both
+        .word   .Land_b18_npow, 32, .Land_b18_r4rest1
+.Land_b18_r4rest1:
         .word   12, 12, .Land_b17_a
 .Land_b18_both:
-        .word   .Land_b18_pow, 32, .Land_b18_add1
-.Land_b18_add1:
-        .word   .Land_b18_npow, 160, .Land_b18_add2
-.Land_b18_add2:
-        .word   12, 12, .Land_b17_a
+        .word   .Land_b18_npow, 160, .Land_b17_a
 .Land_b18_r4only:
-        .word   168, 168, .Land_b18_r4o1
-.Land_b18_r4o1:
-        .word   12, 12, .Land_b18_r4o2
-.Land_b18_r4o2:
-        .word   32, 12, .Land_b18_r4o3
-.Land_b18_r4o3:
-        .word   12, 168, .Land_b18_r4o4
-.Land_b18_r4o4:
-        .word   .Land_b18_pow, 168, .Land_b18_r4o5
-.Land_b18_r4o5:
-        .word   172, 172, .Land_b18_r4o6
-.Land_b18_r4o6:
-        .word   168, 172, .Land_b18_r4oclr
+        .word   .Land_b18_pow, 32, .Land_b18_r4onlychk1
         .word   12, 12, .Land_b17_a
-.Land_b18_r4oclr:
-        .word   .Land_b18_pow, 32, .Land_b17_a
+.Land_b18_r4onlychk1:
+        .word   168, 168, .Land_b18_r4onlychk2
+.Land_b18_r4onlychk2:
+        .word   32, 168, .Land_b17_a
+        .word   .Land_b18_npow, 32, .Land_b18_r4rest2
+.Land_b18_r4rest2:
+        .word   12, 12, .Land_b17_a
 .Land_b17_a:
-        .word   168, 168, .Land_b17_a1
-.Land_b17_a1:
-        .word   12, 12, .Land_b17_a2
-.Land_b17_a2:
-        .word   28, 12, .Land_b17_a3
-.Land_b17_a3:
-        .word   12, 168, .Land_b17_a4
-.Land_b17_a4:
-        .word   .Land_b17_pow, 168, .Land_b17_a5
-.Land_b17_a5:
-        .word   172, 172, .Land_b17_a6
-.Land_b17_a6:
-        .word   168, 172, .Land_b17_r3set
+        .word   .Land_b17_pow, 28, .Land_b17_r3chk
+        .word   12, 12, .Land_b17_r3done
+.Land_b17_r3chk:
+        .word   168, 168, .Land_b17_r3chk1
+.Land_b17_r3chk1:
+        .word   28, 168, .Land_b17_r3set
+        .word   .Land_b17_npow, 28, .Land_b17_r3rest
+.Land_b17_r3rest:
         .word   12, 12, .Land_b17_r4only
 .Land_b17_r3set:
-        .word   .Land_b17_pow, 28, .Land_b17_r3done
 .Land_b17_r3done:
-        .word   168, 168, .Land_b17_r4a1
-.Land_b17_r4a1:
-        .word   12, 12, .Land_b17_r4a2
-.Land_b17_r4a2:
-        .word   32, 12, .Land_b17_r4a3
-.Land_b17_r4a3:
-        .word   12, 168, .Land_b17_r4a4
-.Land_b17_r4a4:
-        .word   .Land_b17_pow, 168, .Land_b17_r4a5
-.Land_b17_r4a5:
-        .word   172, 172, .Land_b17_r4a6
-.Land_b17_r4a6:
-        .word   168, 172, .Land_b17_both
+        .word   .Land_b17_pow, 32, .Land_b17_r4chk1
+        .word   12, 12, .Land_b17_both
+.Land_b17_r4chk1:
+        .word   168, 168, .Land_b17_r4chk2
+.Land_b17_r4chk2:
+        .word   32, 168, .Land_b17_both
+        .word   .Land_b17_npow, 32, .Land_b17_r4rest1
+.Land_b17_r4rest1:
         .word   12, 12, .Land_b16_a
 .Land_b17_both:
-        .word   .Land_b17_pow, 32, .Land_b17_add1
-.Land_b17_add1:
-        .word   .Land_b17_npow, 160, .Land_b17_add2
-.Land_b17_add2:
-        .word   12, 12, .Land_b16_a
+        .word   .Land_b17_npow, 160, .Land_b16_a
 .Land_b17_r4only:
-        .word   168, 168, .Land_b17_r4o1
-.Land_b17_r4o1:
-        .word   12, 12, .Land_b17_r4o2
-.Land_b17_r4o2:
-        .word   32, 12, .Land_b17_r4o3
-.Land_b17_r4o3:
-        .word   12, 168, .Land_b17_r4o4
-.Land_b17_r4o4:
-        .word   .Land_b17_pow, 168, .Land_b17_r4o5
-.Land_b17_r4o5:
-        .word   172, 172, .Land_b17_r4o6
-.Land_b17_r4o6:
-        .word   168, 172, .Land_b17_r4oclr
+        .word   .Land_b17_pow, 32, .Land_b17_r4onlychk1
         .word   12, 12, .Land_b16_a
-.Land_b17_r4oclr:
-        .word   .Land_b17_pow, 32, .Land_b16_a
+.Land_b17_r4onlychk1:
+        .word   168, 168, .Land_b17_r4onlychk2
+.Land_b17_r4onlychk2:
+        .word   32, 168, .Land_b16_a
+        .word   .Land_b17_npow, 32, .Land_b17_r4rest2
+.Land_b17_r4rest2:
+        .word   12, 12, .Land_b16_a
 .Land_b16_a:
-        .word   168, 168, .Land_b16_a1
-.Land_b16_a1:
-        .word   12, 12, .Land_b16_a2
-.Land_b16_a2:
-        .word   28, 12, .Land_b16_a3
-.Land_b16_a3:
-        .word   12, 168, .Land_b16_a4
-.Land_b16_a4:
-        .word   .Land_b16_pow, 168, .Land_b16_a5
-.Land_b16_a5:
-        .word   172, 172, .Land_b16_a6
-.Land_b16_a6:
-        .word   168, 172, .Land_b16_r3set
+        .word   .Land_b16_pow, 28, .Land_b16_r3chk
+        .word   12, 12, .Land_b16_r3done
+.Land_b16_r3chk:
+        .word   168, 168, .Land_b16_r3chk1
+.Land_b16_r3chk1:
+        .word   28, 168, .Land_b16_r3set
+        .word   .Land_b16_npow, 28, .Land_b16_r3rest
+.Land_b16_r3rest:
         .word   12, 12, .Land_b16_r4only
 .Land_b16_r3set:
-        .word   .Land_b16_pow, 28, .Land_b16_r3done
 .Land_b16_r3done:
-        .word   168, 168, .Land_b16_r4a1
-.Land_b16_r4a1:
-        .word   12, 12, .Land_b16_r4a2
-.Land_b16_r4a2:
-        .word   32, 12, .Land_b16_r4a3
-.Land_b16_r4a3:
-        .word   12, 168, .Land_b16_r4a4
-.Land_b16_r4a4:
-        .word   .Land_b16_pow, 168, .Land_b16_r4a5
-.Land_b16_r4a5:
-        .word   172, 172, .Land_b16_r4a6
-.Land_b16_r4a6:
-        .word   168, 172, .Land_b16_both
+        .word   .Land_b16_pow, 32, .Land_b16_r4chk1
+        .word   12, 12, .Land_b16_both
+.Land_b16_r4chk1:
+        .word   168, 168, .Land_b16_r4chk2
+.Land_b16_r4chk2:
+        .word   32, 168, .Land_b16_both
+        .word   .Land_b16_npow, 32, .Land_b16_r4rest1
+.Land_b16_r4rest1:
         .word   12, 12, .Land_b15_a
 .Land_b16_both:
-        .word   .Land_b16_pow, 32, .Land_b16_add1
-.Land_b16_add1:
-        .word   .Land_b16_npow, 160, .Land_b16_add2
-.Land_b16_add2:
-        .word   12, 12, .Land_b15_a
+        .word   .Land_b16_npow, 160, .Land_b15_a
 .Land_b16_r4only:
-        .word   168, 168, .Land_b16_r4o1
-.Land_b16_r4o1:
-        .word   12, 12, .Land_b16_r4o2
-.Land_b16_r4o2:
-        .word   32, 12, .Land_b16_r4o3
-.Land_b16_r4o3:
-        .word   12, 168, .Land_b16_r4o4
-.Land_b16_r4o4:
-        .word   .Land_b16_pow, 168, .Land_b16_r4o5
-.Land_b16_r4o5:
-        .word   172, 172, .Land_b16_r4o6
-.Land_b16_r4o6:
-        .word   168, 172, .Land_b16_r4oclr
+        .word   .Land_b16_pow, 32, .Land_b16_r4onlychk1
         .word   12, 12, .Land_b15_a
-.Land_b16_r4oclr:
-        .word   .Land_b16_pow, 32, .Land_b15_a
+.Land_b16_r4onlychk1:
+        .word   168, 168, .Land_b16_r4onlychk2
+.Land_b16_r4onlychk2:
+        .word   32, 168, .Land_b15_a
+        .word   .Land_b16_npow, 32, .Land_b16_r4rest2
+.Land_b16_r4rest2:
+        .word   12, 12, .Land_b15_a
 .Land_b15_a:
-        .word   168, 168, .Land_b15_a1
-.Land_b15_a1:
-        .word   12, 12, .Land_b15_a2
-.Land_b15_a2:
-        .word   28, 12, .Land_b15_a3
-.Land_b15_a3:
-        .word   12, 168, .Land_b15_a4
-.Land_b15_a4:
-        .word   .Land_b15_pow, 168, .Land_b15_a5
-.Land_b15_a5:
-        .word   172, 172, .Land_b15_a6
-.Land_b15_a6:
-        .word   168, 172, .Land_b15_r3set
+        .word   .Land_b15_pow, 28, .Land_b15_r3chk
+        .word   12, 12, .Land_b15_r3done
+.Land_b15_r3chk:
+        .word   168, 168, .Land_b15_r3chk1
+.Land_b15_r3chk1:
+        .word   28, 168, .Land_b15_r3set
+        .word   .Land_b15_npow, 28, .Land_b15_r3rest
+.Land_b15_r3rest:
         .word   12, 12, .Land_b15_r4only
 .Land_b15_r3set:
-        .word   .Land_b15_pow, 28, .Land_b15_r3done
 .Land_b15_r3done:
-        .word   168, 168, .Land_b15_r4a1
-.Land_b15_r4a1:
-        .word   12, 12, .Land_b15_r4a2
-.Land_b15_r4a2:
-        .word   32, 12, .Land_b15_r4a3
-.Land_b15_r4a3:
-        .word   12, 168, .Land_b15_r4a4
-.Land_b15_r4a4:
-        .word   .Land_b15_pow, 168, .Land_b15_r4a5
-.Land_b15_r4a5:
-        .word   172, 172, .Land_b15_r4a6
-.Land_b15_r4a6:
-        .word   168, 172, .Land_b15_both
+        .word   .Land_b15_pow, 32, .Land_b15_r4chk1
+        .word   12, 12, .Land_b15_both
+.Land_b15_r4chk1:
+        .word   168, 168, .Land_b15_r4chk2
+.Land_b15_r4chk2:
+        .word   32, 168, .Land_b15_both
+        .word   .Land_b15_npow, 32, .Land_b15_r4rest1
+.Land_b15_r4rest1:
         .word   12, 12, .Land_b14_a
 .Land_b15_both:
-        .word   .Land_b15_pow, 32, .Land_b15_add1
-.Land_b15_add1:
-        .word   .Land_b15_npow, 160, .Land_b15_add2
-.Land_b15_add2:
-        .word   12, 12, .Land_b14_a
+        .word   .Land_b15_npow, 160, .Land_b14_a
 .Land_b15_r4only:
-        .word   168, 168, .Land_b15_r4o1
-.Land_b15_r4o1:
-        .word   12, 12, .Land_b15_r4o2
-.Land_b15_r4o2:
-        .word   32, 12, .Land_b15_r4o3
-.Land_b15_r4o3:
-        .word   12, 168, .Land_b15_r4o4
-.Land_b15_r4o4:
-        .word   .Land_b15_pow, 168, .Land_b15_r4o5
-.Land_b15_r4o5:
-        .word   172, 172, .Land_b15_r4o6
-.Land_b15_r4o6:
-        .word   168, 172, .Land_b15_r4oclr
+        .word   .Land_b15_pow, 32, .Land_b15_r4onlychk1
         .word   12, 12, .Land_b14_a
-.Land_b15_r4oclr:
-        .word   .Land_b15_pow, 32, .Land_b14_a
+.Land_b15_r4onlychk1:
+        .word   168, 168, .Land_b15_r4onlychk2
+.Land_b15_r4onlychk2:
+        .word   32, 168, .Land_b14_a
+        .word   .Land_b15_npow, 32, .Land_b15_r4rest2
+.Land_b15_r4rest2:
+        .word   12, 12, .Land_b14_a
 .Land_b14_a:
-        .word   168, 168, .Land_b14_a1
-.Land_b14_a1:
-        .word   12, 12, .Land_b14_a2
-.Land_b14_a2:
-        .word   28, 12, .Land_b14_a3
-.Land_b14_a3:
-        .word   12, 168, .Land_b14_a4
-.Land_b14_a4:
-        .word   .Land_b14_pow, 168, .Land_b14_a5
-.Land_b14_a5:
-        .word   172, 172, .Land_b14_a6
-.Land_b14_a6:
-        .word   168, 172, .Land_b14_r3set
+        .word   .Land_b14_pow, 28, .Land_b14_r3chk
+        .word   12, 12, .Land_b14_r3done
+.Land_b14_r3chk:
+        .word   168, 168, .Land_b14_r3chk1
+.Land_b14_r3chk1:
+        .word   28, 168, .Land_b14_r3set
+        .word   .Land_b14_npow, 28, .Land_b14_r3rest
+.Land_b14_r3rest:
         .word   12, 12, .Land_b14_r4only
 .Land_b14_r3set:
-        .word   .Land_b14_pow, 28, .Land_b14_r3done
 .Land_b14_r3done:
-        .word   168, 168, .Land_b14_r4a1
-.Land_b14_r4a1:
-        .word   12, 12, .Land_b14_r4a2
-.Land_b14_r4a2:
-        .word   32, 12, .Land_b14_r4a3
-.Land_b14_r4a3:
-        .word   12, 168, .Land_b14_r4a4
-.Land_b14_r4a4:
-        .word   .Land_b14_pow, 168, .Land_b14_r4a5
-.Land_b14_r4a5:
-        .word   172, 172, .Land_b14_r4a6
-.Land_b14_r4a6:
-        .word   168, 172, .Land_b14_both
+        .word   .Land_b14_pow, 32, .Land_b14_r4chk1
+        .word   12, 12, .Land_b14_both
+.Land_b14_r4chk1:
+        .word   168, 168, .Land_b14_r4chk2
+.Land_b14_r4chk2:
+        .word   32, 168, .Land_b14_both
+        .word   .Land_b14_npow, 32, .Land_b14_r4rest1
+.Land_b14_r4rest1:
         .word   12, 12, .Land_b13_a
 .Land_b14_both:
-        .word   .Land_b14_pow, 32, .Land_b14_add1
-.Land_b14_add1:
-        .word   .Land_b14_npow, 160, .Land_b14_add2
-.Land_b14_add2:
-        .word   12, 12, .Land_b13_a
+        .word   .Land_b14_npow, 160, .Land_b13_a
 .Land_b14_r4only:
-        .word   168, 168, .Land_b14_r4o1
-.Land_b14_r4o1:
-        .word   12, 12, .Land_b14_r4o2
-.Land_b14_r4o2:
-        .word   32, 12, .Land_b14_r4o3
-.Land_b14_r4o3:
-        .word   12, 168, .Land_b14_r4o4
-.Land_b14_r4o4:
-        .word   .Land_b14_pow, 168, .Land_b14_r4o5
-.Land_b14_r4o5:
-        .word   172, 172, .Land_b14_r4o6
-.Land_b14_r4o6:
-        .word   168, 172, .Land_b14_r4oclr
+        .word   .Land_b14_pow, 32, .Land_b14_r4onlychk1
         .word   12, 12, .Land_b13_a
-.Land_b14_r4oclr:
-        .word   .Land_b14_pow, 32, .Land_b13_a
+.Land_b14_r4onlychk1:
+        .word   168, 168, .Land_b14_r4onlychk2
+.Land_b14_r4onlychk2:
+        .word   32, 168, .Land_b13_a
+        .word   .Land_b14_npow, 32, .Land_b14_r4rest2
+.Land_b14_r4rest2:
+        .word   12, 12, .Land_b13_a
 .Land_b13_a:
-        .word   168, 168, .Land_b13_a1
-.Land_b13_a1:
-        .word   12, 12, .Land_b13_a2
-.Land_b13_a2:
-        .word   28, 12, .Land_b13_a3
-.Land_b13_a3:
-        .word   12, 168, .Land_b13_a4
-.Land_b13_a4:
-        .word   .Land_b13_pow, 168, .Land_b13_a5
-.Land_b13_a5:
-        .word   172, 172, .Land_b13_a6
-.Land_b13_a6:
-        .word   168, 172, .Land_b13_r3set
+        .word   .Land_b13_pow, 28, .Land_b13_r3chk
+        .word   12, 12, .Land_b13_r3done
+.Land_b13_r3chk:
+        .word   168, 168, .Land_b13_r3chk1
+.Land_b13_r3chk1:
+        .word   28, 168, .Land_b13_r3set
+        .word   .Land_b13_npow, 28, .Land_b13_r3rest
+.Land_b13_r3rest:
         .word   12, 12, .Land_b13_r4only
 .Land_b13_r3set:
-        .word   .Land_b13_pow, 28, .Land_b13_r3done
 .Land_b13_r3done:
-        .word   168, 168, .Land_b13_r4a1
-.Land_b13_r4a1:
-        .word   12, 12, .Land_b13_r4a2
-.Land_b13_r4a2:
-        .word   32, 12, .Land_b13_r4a3
-.Land_b13_r4a3:
-        .word   12, 168, .Land_b13_r4a4
-.Land_b13_r4a4:
-        .word   .Land_b13_pow, 168, .Land_b13_r4a5
-.Land_b13_r4a5:
-        .word   172, 172, .Land_b13_r4a6
-.Land_b13_r4a6:
-        .word   168, 172, .Land_b13_both
+        .word   .Land_b13_pow, 32, .Land_b13_r4chk1
+        .word   12, 12, .Land_b13_both
+.Land_b13_r4chk1:
+        .word   168, 168, .Land_b13_r4chk2
+.Land_b13_r4chk2:
+        .word   32, 168, .Land_b13_both
+        .word   .Land_b13_npow, 32, .Land_b13_r4rest1
+.Land_b13_r4rest1:
         .word   12, 12, .Land_b12_a
 .Land_b13_both:
-        .word   .Land_b13_pow, 32, .Land_b13_add1
-.Land_b13_add1:
-        .word   .Land_b13_npow, 160, .Land_b13_add2
-.Land_b13_add2:
-        .word   12, 12, .Land_b12_a
+        .word   .Land_b13_npow, 160, .Land_b12_a
 .Land_b13_r4only:
-        .word   168, 168, .Land_b13_r4o1
-.Land_b13_r4o1:
-        .word   12, 12, .Land_b13_r4o2
-.Land_b13_r4o2:
-        .word   32, 12, .Land_b13_r4o3
-.Land_b13_r4o3:
-        .word   12, 168, .Land_b13_r4o4
-.Land_b13_r4o4:
-        .word   .Land_b13_pow, 168, .Land_b13_r4o5
-.Land_b13_r4o5:
-        .word   172, 172, .Land_b13_r4o6
-.Land_b13_r4o6:
-        .word   168, 172, .Land_b13_r4oclr
+        .word   .Land_b13_pow, 32, .Land_b13_r4onlychk1
         .word   12, 12, .Land_b12_a
-.Land_b13_r4oclr:
-        .word   .Land_b13_pow, 32, .Land_b12_a
+.Land_b13_r4onlychk1:
+        .word   168, 168, .Land_b13_r4onlychk2
+.Land_b13_r4onlychk2:
+        .word   32, 168, .Land_b12_a
+        .word   .Land_b13_npow, 32, .Land_b13_r4rest2
+.Land_b13_r4rest2:
+        .word   12, 12, .Land_b12_a
 .Land_b12_a:
-        .word   168, 168, .Land_b12_a1
-.Land_b12_a1:
-        .word   12, 12, .Land_b12_a2
-.Land_b12_a2:
-        .word   28, 12, .Land_b12_a3
-.Land_b12_a3:
-        .word   12, 168, .Land_b12_a4
-.Land_b12_a4:
-        .word   .Land_b12_pow, 168, .Land_b12_a5
-.Land_b12_a5:
-        .word   172, 172, .Land_b12_a6
-.Land_b12_a6:
-        .word   168, 172, .Land_b12_r3set
+        .word   .Land_b12_pow, 28, .Land_b12_r3chk
+        .word   12, 12, .Land_b12_r3done
+.Land_b12_r3chk:
+        .word   168, 168, .Land_b12_r3chk1
+.Land_b12_r3chk1:
+        .word   28, 168, .Land_b12_r3set
+        .word   .Land_b12_npow, 28, .Land_b12_r3rest
+.Land_b12_r3rest:
         .word   12, 12, .Land_b12_r4only
 .Land_b12_r3set:
-        .word   .Land_b12_pow, 28, .Land_b12_r3done
 .Land_b12_r3done:
-        .word   168, 168, .Land_b12_r4a1
-.Land_b12_r4a1:
-        .word   12, 12, .Land_b12_r4a2
-.Land_b12_r4a2:
-        .word   32, 12, .Land_b12_r4a3
-.Land_b12_r4a3:
-        .word   12, 168, .Land_b12_r4a4
-.Land_b12_r4a4:
-        .word   .Land_b12_pow, 168, .Land_b12_r4a5
-.Land_b12_r4a5:
-        .word   172, 172, .Land_b12_r4a6
-.Land_b12_r4a6:
-        .word   168, 172, .Land_b12_both
+        .word   .Land_b12_pow, 32, .Land_b12_r4chk1
+        .word   12, 12, .Land_b12_both
+.Land_b12_r4chk1:
+        .word   168, 168, .Land_b12_r4chk2
+.Land_b12_r4chk2:
+        .word   32, 168, .Land_b12_both
+        .word   .Land_b12_npow, 32, .Land_b12_r4rest1
+.Land_b12_r4rest1:
         .word   12, 12, .Land_b11_a
 .Land_b12_both:
-        .word   .Land_b12_pow, 32, .Land_b12_add1
-.Land_b12_add1:
-        .word   .Land_b12_npow, 160, .Land_b12_add2
-.Land_b12_add2:
-        .word   12, 12, .Land_b11_a
+        .word   .Land_b12_npow, 160, .Land_b11_a
 .Land_b12_r4only:
-        .word   168, 168, .Land_b12_r4o1
-.Land_b12_r4o1:
-        .word   12, 12, .Land_b12_r4o2
-.Land_b12_r4o2:
-        .word   32, 12, .Land_b12_r4o3
-.Land_b12_r4o3:
-        .word   12, 168, .Land_b12_r4o4
-.Land_b12_r4o4:
-        .word   .Land_b12_pow, 168, .Land_b12_r4o5
-.Land_b12_r4o5:
-        .word   172, 172, .Land_b12_r4o6
-.Land_b12_r4o6:
-        .word   168, 172, .Land_b12_r4oclr
+        .word   .Land_b12_pow, 32, .Land_b12_r4onlychk1
         .word   12, 12, .Land_b11_a
-.Land_b12_r4oclr:
-        .word   .Land_b12_pow, 32, .Land_b11_a
+.Land_b12_r4onlychk1:
+        .word   168, 168, .Land_b12_r4onlychk2
+.Land_b12_r4onlychk2:
+        .word   32, 168, .Land_b11_a
+        .word   .Land_b12_npow, 32, .Land_b12_r4rest2
+.Land_b12_r4rest2:
+        .word   12, 12, .Land_b11_a
 .Land_b11_a:
-        .word   168, 168, .Land_b11_a1
-.Land_b11_a1:
-        .word   12, 12, .Land_b11_a2
-.Land_b11_a2:
-        .word   28, 12, .Land_b11_a3
-.Land_b11_a3:
-        .word   12, 168, .Land_b11_a4
-.Land_b11_a4:
-        .word   .Land_b11_pow, 168, .Land_b11_a5
-.Land_b11_a5:
-        .word   172, 172, .Land_b11_a6
-.Land_b11_a6:
-        .word   168, 172, .Land_b11_r3set
+        .word   .Land_b11_pow, 28, .Land_b11_r3chk
+        .word   12, 12, .Land_b11_r3done
+.Land_b11_r3chk:
+        .word   168, 168, .Land_b11_r3chk1
+.Land_b11_r3chk1:
+        .word   28, 168, .Land_b11_r3set
+        .word   .Land_b11_npow, 28, .Land_b11_r3rest
+.Land_b11_r3rest:
         .word   12, 12, .Land_b11_r4only
 .Land_b11_r3set:
-        .word   .Land_b11_pow, 28, .Land_b11_r3done
 .Land_b11_r3done:
-        .word   168, 168, .Land_b11_r4a1
-.Land_b11_r4a1:
-        .word   12, 12, .Land_b11_r4a2
-.Land_b11_r4a2:
-        .word   32, 12, .Land_b11_r4a3
-.Land_b11_r4a3:
-        .word   12, 168, .Land_b11_r4a4
-.Land_b11_r4a4:
-        .word   .Land_b11_pow, 168, .Land_b11_r4a5
-.Land_b11_r4a5:
-        .word   172, 172, .Land_b11_r4a6
-.Land_b11_r4a6:
-        .word   168, 172, .Land_b11_both
+        .word   .Land_b11_pow, 32, .Land_b11_r4chk1
+        .word   12, 12, .Land_b11_both
+.Land_b11_r4chk1:
+        .word   168, 168, .Land_b11_r4chk2
+.Land_b11_r4chk2:
+        .word   32, 168, .Land_b11_both
+        .word   .Land_b11_npow, 32, .Land_b11_r4rest1
+.Land_b11_r4rest1:
         .word   12, 12, .Land_b10_a
 .Land_b11_both:
-        .word   .Land_b11_pow, 32, .Land_b11_add1
-.Land_b11_add1:
-        .word   .Land_b11_npow, 160, .Land_b11_add2
-.Land_b11_add2:
-        .word   12, 12, .Land_b10_a
+        .word   .Land_b11_npow, 160, .Land_b10_a
 .Land_b11_r4only:
-        .word   168, 168, .Land_b11_r4o1
-.Land_b11_r4o1:
-        .word   12, 12, .Land_b11_r4o2
-.Land_b11_r4o2:
-        .word   32, 12, .Land_b11_r4o3
-.Land_b11_r4o3:
-        .word   12, 168, .Land_b11_r4o4
-.Land_b11_r4o4:
-        .word   .Land_b11_pow, 168, .Land_b11_r4o5
-.Land_b11_r4o5:
-        .word   172, 172, .Land_b11_r4o6
-.Land_b11_r4o6:
-        .word   168, 172, .Land_b11_r4oclr
+        .word   .Land_b11_pow, 32, .Land_b11_r4onlychk1
         .word   12, 12, .Land_b10_a
-.Land_b11_r4oclr:
-        .word   .Land_b11_pow, 32, .Land_b10_a
+.Land_b11_r4onlychk1:
+        .word   168, 168, .Land_b11_r4onlychk2
+.Land_b11_r4onlychk2:
+        .word   32, 168, .Land_b10_a
+        .word   .Land_b11_npow, 32, .Land_b11_r4rest2
+.Land_b11_r4rest2:
+        .word   12, 12, .Land_b10_a
 .Land_b10_a:
-        .word   168, 168, .Land_b10_a1
-.Land_b10_a1:
-        .word   12, 12, .Land_b10_a2
-.Land_b10_a2:
-        .word   28, 12, .Land_b10_a3
-.Land_b10_a3:
-        .word   12, 168, .Land_b10_a4
-.Land_b10_a4:
-        .word   .Land_b10_pow, 168, .Land_b10_a5
-.Land_b10_a5:
-        .word   172, 172, .Land_b10_a6
-.Land_b10_a6:
-        .word   168, 172, .Land_b10_r3set
+        .word   .Land_b10_pow, 28, .Land_b10_r3chk
+        .word   12, 12, .Land_b10_r3done
+.Land_b10_r3chk:
+        .word   168, 168, .Land_b10_r3chk1
+.Land_b10_r3chk1:
+        .word   28, 168, .Land_b10_r3set
+        .word   .Land_b10_npow, 28, .Land_b10_r3rest
+.Land_b10_r3rest:
         .word   12, 12, .Land_b10_r4only
 .Land_b10_r3set:
-        .word   .Land_b10_pow, 28, .Land_b10_r3done
 .Land_b10_r3done:
-        .word   168, 168, .Land_b10_r4a1
-.Land_b10_r4a1:
-        .word   12, 12, .Land_b10_r4a2
-.Land_b10_r4a2:
-        .word   32, 12, .Land_b10_r4a3
-.Land_b10_r4a3:
-        .word   12, 168, .Land_b10_r4a4
-.Land_b10_r4a4:
-        .word   .Land_b10_pow, 168, .Land_b10_r4a5
-.Land_b10_r4a5:
-        .word   172, 172, .Land_b10_r4a6
-.Land_b10_r4a6:
-        .word   168, 172, .Land_b10_both
+        .word   .Land_b10_pow, 32, .Land_b10_r4chk1
+        .word   12, 12, .Land_b10_both
+.Land_b10_r4chk1:
+        .word   168, 168, .Land_b10_r4chk2
+.Land_b10_r4chk2:
+        .word   32, 168, .Land_b10_both
+        .word   .Land_b10_npow, 32, .Land_b10_r4rest1
+.Land_b10_r4rest1:
         .word   12, 12, .Land_b9_a
 .Land_b10_both:
-        .word   .Land_b10_pow, 32, .Land_b10_add1
-.Land_b10_add1:
-        .word   .Land_b10_npow, 160, .Land_b10_add2
-.Land_b10_add2:
-        .word   12, 12, .Land_b9_a
+        .word   .Land_b10_npow, 160, .Land_b9_a
 .Land_b10_r4only:
-        .word   168, 168, .Land_b10_r4o1
-.Land_b10_r4o1:
-        .word   12, 12, .Land_b10_r4o2
-.Land_b10_r4o2:
-        .word   32, 12, .Land_b10_r4o3
-.Land_b10_r4o3:
-        .word   12, 168, .Land_b10_r4o4
-.Land_b10_r4o4:
-        .word   .Land_b10_pow, 168, .Land_b10_r4o5
-.Land_b10_r4o5:
-        .word   172, 172, .Land_b10_r4o6
-.Land_b10_r4o6:
-        .word   168, 172, .Land_b10_r4oclr
+        .word   .Land_b10_pow, 32, .Land_b10_r4onlychk1
         .word   12, 12, .Land_b9_a
-.Land_b10_r4oclr:
-        .word   .Land_b10_pow, 32, .Land_b9_a
+.Land_b10_r4onlychk1:
+        .word   168, 168, .Land_b10_r4onlychk2
+.Land_b10_r4onlychk2:
+        .word   32, 168, .Land_b9_a
+        .word   .Land_b10_npow, 32, .Land_b10_r4rest2
+.Land_b10_r4rest2:
+        .word   12, 12, .Land_b9_a
 .Land_b9_a:
-        .word   168, 168, .Land_b9_a1
-.Land_b9_a1:
-        .word   12, 12, .Land_b9_a2
-.Land_b9_a2:
-        .word   28, 12, .Land_b9_a3
-.Land_b9_a3:
-        .word   12, 168, .Land_b9_a4
-.Land_b9_a4:
-        .word   .Land_b9_pow, 168, .Land_b9_a5
-.Land_b9_a5:
-        .word   172, 172, .Land_b9_a6
-.Land_b9_a6:
-        .word   168, 172, .Land_b9_r3set
+        .word   .Land_b9_pow, 28, .Land_b9_r3chk
+        .word   12, 12, .Land_b9_r3done
+.Land_b9_r3chk:
+        .word   168, 168, .Land_b9_r3chk1
+.Land_b9_r3chk1:
+        .word   28, 168, .Land_b9_r3set
+        .word   .Land_b9_npow, 28, .Land_b9_r3rest
+.Land_b9_r3rest:
         .word   12, 12, .Land_b9_r4only
 .Land_b9_r3set:
-        .word   .Land_b9_pow, 28, .Land_b9_r3done
 .Land_b9_r3done:
-        .word   168, 168, .Land_b9_r4a1
-.Land_b9_r4a1:
-        .word   12, 12, .Land_b9_r4a2
-.Land_b9_r4a2:
-        .word   32, 12, .Land_b9_r4a3
-.Land_b9_r4a3:
-        .word   12, 168, .Land_b9_r4a4
-.Land_b9_r4a4:
-        .word   .Land_b9_pow, 168, .Land_b9_r4a5
-.Land_b9_r4a5:
-        .word   172, 172, .Land_b9_r4a6
-.Land_b9_r4a6:
-        .word   168, 172, .Land_b9_both
+        .word   .Land_b9_pow, 32, .Land_b9_r4chk1
+        .word   12, 12, .Land_b9_both
+.Land_b9_r4chk1:
+        .word   168, 168, .Land_b9_r4chk2
+.Land_b9_r4chk2:
+        .word   32, 168, .Land_b9_both
+        .word   .Land_b9_npow, 32, .Land_b9_r4rest1
+.Land_b9_r4rest1:
         .word   12, 12, .Land_b8_a
 .Land_b9_both:
-        .word   .Land_b9_pow, 32, .Land_b9_add1
-.Land_b9_add1:
-        .word   .Land_b9_npow, 160, .Land_b9_add2
-.Land_b9_add2:
-        .word   12, 12, .Land_b8_a
+        .word   .Land_b9_npow, 160, .Land_b8_a
 .Land_b9_r4only:
-        .word   168, 168, .Land_b9_r4o1
-.Land_b9_r4o1:
-        .word   12, 12, .Land_b9_r4o2
-.Land_b9_r4o2:
-        .word   32, 12, .Land_b9_r4o3
-.Land_b9_r4o3:
-        .word   12, 168, .Land_b9_r4o4
-.Land_b9_r4o4:
-        .word   .Land_b9_pow, 168, .Land_b9_r4o5
-.Land_b9_r4o5:
-        .word   172, 172, .Land_b9_r4o6
-.Land_b9_r4o6:
-        .word   168, 172, .Land_b9_r4oclr
+        .word   .Land_b9_pow, 32, .Land_b9_r4onlychk1
         .word   12, 12, .Land_b8_a
-.Land_b9_r4oclr:
-        .word   .Land_b9_pow, 32, .Land_b8_a
+.Land_b9_r4onlychk1:
+        .word   168, 168, .Land_b9_r4onlychk2
+.Land_b9_r4onlychk2:
+        .word   32, 168, .Land_b8_a
+        .word   .Land_b9_npow, 32, .Land_b9_r4rest2
+.Land_b9_r4rest2:
+        .word   12, 12, .Land_b8_a
 .Land_b8_a:
-        .word   168, 168, .Land_b8_a1
-.Land_b8_a1:
-        .word   12, 12, .Land_b8_a2
-.Land_b8_a2:
-        .word   28, 12, .Land_b8_a3
-.Land_b8_a3:
-        .word   12, 168, .Land_b8_a4
-.Land_b8_a4:
-        .word   .Land_b8_pow, 168, .Land_b8_a5
-.Land_b8_a5:
-        .word   172, 172, .Land_b8_a6
-.Land_b8_a6:
-        .word   168, 172, .Land_b8_r3set
+        .word   .Land_b8_pow, 28, .Land_b8_r3chk
+        .word   12, 12, .Land_b8_r3done
+.Land_b8_r3chk:
+        .word   168, 168, .Land_b8_r3chk1
+.Land_b8_r3chk1:
+        .word   28, 168, .Land_b8_r3set
+        .word   .Land_b8_npow, 28, .Land_b8_r3rest
+.Land_b8_r3rest:
         .word   12, 12, .Land_b8_r4only
 .Land_b8_r3set:
-        .word   .Land_b8_pow, 28, .Land_b8_r3done
 .Land_b8_r3done:
-        .word   168, 168, .Land_b8_r4a1
-.Land_b8_r4a1:
-        .word   12, 12, .Land_b8_r4a2
-.Land_b8_r4a2:
-        .word   32, 12, .Land_b8_r4a3
-.Land_b8_r4a3:
-        .word   12, 168, .Land_b8_r4a4
-.Land_b8_r4a4:
-        .word   .Land_b8_pow, 168, .Land_b8_r4a5
-.Land_b8_r4a5:
-        .word   172, 172, .Land_b8_r4a6
-.Land_b8_r4a6:
-        .word   168, 172, .Land_b8_both
+        .word   .Land_b8_pow, 32, .Land_b8_r4chk1
+        .word   12, 12, .Land_b8_both
+.Land_b8_r4chk1:
+        .word   168, 168, .Land_b8_r4chk2
+.Land_b8_r4chk2:
+        .word   32, 168, .Land_b8_both
+        .word   .Land_b8_npow, 32, .Land_b8_r4rest1
+.Land_b8_r4rest1:
         .word   12, 12, .Land_b7_a
 .Land_b8_both:
-        .word   .Land_b8_pow, 32, .Land_b8_add1
-.Land_b8_add1:
-        .word   .Land_b8_npow, 160, .Land_b8_add2
-.Land_b8_add2:
-        .word   12, 12, .Land_b7_a
+        .word   .Land_b8_npow, 160, .Land_b7_a
 .Land_b8_r4only:
-        .word   168, 168, .Land_b8_r4o1
-.Land_b8_r4o1:
-        .word   12, 12, .Land_b8_r4o2
-.Land_b8_r4o2:
-        .word   32, 12, .Land_b8_r4o3
-.Land_b8_r4o3:
-        .word   12, 168, .Land_b8_r4o4
-.Land_b8_r4o4:
-        .word   .Land_b8_pow, 168, .Land_b8_r4o5
-.Land_b8_r4o5:
-        .word   172, 172, .Land_b8_r4o6
-.Land_b8_r4o6:
-        .word   168, 172, .Land_b8_r4oclr
+        .word   .Land_b8_pow, 32, .Land_b8_r4onlychk1
         .word   12, 12, .Land_b7_a
-.Land_b8_r4oclr:
-        .word   .Land_b8_pow, 32, .Land_b7_a
+.Land_b8_r4onlychk1:
+        .word   168, 168, .Land_b8_r4onlychk2
+.Land_b8_r4onlychk2:
+        .word   32, 168, .Land_b7_a
+        .word   .Land_b8_npow, 32, .Land_b8_r4rest2
+.Land_b8_r4rest2:
+        .word   12, 12, .Land_b7_a
 .Land_b7_a:
-        .word   168, 168, .Land_b7_a1
-.Land_b7_a1:
-        .word   12, 12, .Land_b7_a2
-.Land_b7_a2:
-        .word   28, 12, .Land_b7_a3
-.Land_b7_a3:
-        .word   12, 168, .Land_b7_a4
-.Land_b7_a4:
-        .word   .Land_b7_pow, 168, .Land_b7_a5
-.Land_b7_a5:
-        .word   172, 172, .Land_b7_a6
-.Land_b7_a6:
-        .word   168, 172, .Land_b7_r3set
+        .word   .Land_b7_pow, 28, .Land_b7_r3chk
+        .word   12, 12, .Land_b7_r3done
+.Land_b7_r3chk:
+        .word   168, 168, .Land_b7_r3chk1
+.Land_b7_r3chk1:
+        .word   28, 168, .Land_b7_r3set
+        .word   .Land_b7_npow, 28, .Land_b7_r3rest
+.Land_b7_r3rest:
         .word   12, 12, .Land_b7_r4only
 .Land_b7_r3set:
-        .word   .Land_b7_pow, 28, .Land_b7_r3done
 .Land_b7_r3done:
-        .word   168, 168, .Land_b7_r4a1
-.Land_b7_r4a1:
-        .word   12, 12, .Land_b7_r4a2
-.Land_b7_r4a2:
-        .word   32, 12, .Land_b7_r4a3
-.Land_b7_r4a3:
-        .word   12, 168, .Land_b7_r4a4
-.Land_b7_r4a4:
-        .word   .Land_b7_pow, 168, .Land_b7_r4a5
-.Land_b7_r4a5:
-        .word   172, 172, .Land_b7_r4a6
-.Land_b7_r4a6:
-        .word   168, 172, .Land_b7_both
+        .word   .Land_b7_pow, 32, .Land_b7_r4chk1
+        .word   12, 12, .Land_b7_both
+.Land_b7_r4chk1:
+        .word   168, 168, .Land_b7_r4chk2
+.Land_b7_r4chk2:
+        .word   32, 168, .Land_b7_both
+        .word   .Land_b7_npow, 32, .Land_b7_r4rest1
+.Land_b7_r4rest1:
         .word   12, 12, .Land_b6_a
 .Land_b7_both:
-        .word   .Land_b7_pow, 32, .Land_b7_add1
-.Land_b7_add1:
-        .word   .Land_b7_npow, 160, .Land_b7_add2
-.Land_b7_add2:
-        .word   12, 12, .Land_b6_a
+        .word   .Land_b7_npow, 160, .Land_b6_a
 .Land_b7_r4only:
-        .word   168, 168, .Land_b7_r4o1
-.Land_b7_r4o1:
-        .word   12, 12, .Land_b7_r4o2
-.Land_b7_r4o2:
-        .word   32, 12, .Land_b7_r4o3
-.Land_b7_r4o3:
-        .word   12, 168, .Land_b7_r4o4
-.Land_b7_r4o4:
-        .word   .Land_b7_pow, 168, .Land_b7_r4o5
-.Land_b7_r4o5:
-        .word   172, 172, .Land_b7_r4o6
-.Land_b7_r4o6:
-        .word   168, 172, .Land_b7_r4oclr
+        .word   .Land_b7_pow, 32, .Land_b7_r4onlychk1
         .word   12, 12, .Land_b6_a
-.Land_b7_r4oclr:
-        .word   .Land_b7_pow, 32, .Land_b6_a
+.Land_b7_r4onlychk1:
+        .word   168, 168, .Land_b7_r4onlychk2
+.Land_b7_r4onlychk2:
+        .word   32, 168, .Land_b6_a
+        .word   .Land_b7_npow, 32, .Land_b7_r4rest2
+.Land_b7_r4rest2:
+        .word   12, 12, .Land_b6_a
 .Land_b6_a:
-        .word   168, 168, .Land_b6_a1
-.Land_b6_a1:
-        .word   12, 12, .Land_b6_a2
-.Land_b6_a2:
-        .word   28, 12, .Land_b6_a3
-.Land_b6_a3:
-        .word   12, 168, .Land_b6_a4
-.Land_b6_a4:
-        .word   .Land_b6_pow, 168, .Land_b6_a5
-.Land_b6_a5:
-        .word   172, 172, .Land_b6_a6
-.Land_b6_a6:
-        .word   168, 172, .Land_b6_r3set
+        .word   .Land_b6_pow, 28, .Land_b6_r3chk
+        .word   12, 12, .Land_b6_r3done
+.Land_b6_r3chk:
+        .word   168, 168, .Land_b6_r3chk1
+.Land_b6_r3chk1:
+        .word   28, 168, .Land_b6_r3set
+        .word   .Land_b6_npow, 28, .Land_b6_r3rest
+.Land_b6_r3rest:
         .word   12, 12, .Land_b6_r4only
 .Land_b6_r3set:
-        .word   .Land_b6_pow, 28, .Land_b6_r3done
 .Land_b6_r3done:
-        .word   168, 168, .Land_b6_r4a1
-.Land_b6_r4a1:
-        .word   12, 12, .Land_b6_r4a2
-.Land_b6_r4a2:
-        .word   32, 12, .Land_b6_r4a3
-.Land_b6_r4a3:
-        .word   12, 168, .Land_b6_r4a4
-.Land_b6_r4a4:
-        .word   .Land_b6_pow, 168, .Land_b6_r4a5
-.Land_b6_r4a5:
-        .word   172, 172, .Land_b6_r4a6
-.Land_b6_r4a6:
-        .word   168, 172, .Land_b6_both
+        .word   .Land_b6_pow, 32, .Land_b6_r4chk1
+        .word   12, 12, .Land_b6_both
+.Land_b6_r4chk1:
+        .word   168, 168, .Land_b6_r4chk2
+.Land_b6_r4chk2:
+        .word   32, 168, .Land_b6_both
+        .word   .Land_b6_npow, 32, .Land_b6_r4rest1
+.Land_b6_r4rest1:
         .word   12, 12, .Land_b5_a
 .Land_b6_both:
-        .word   .Land_b6_pow, 32, .Land_b6_add1
-.Land_b6_add1:
-        .word   .Land_b6_npow, 160, .Land_b6_add2
-.Land_b6_add2:
-        .word   12, 12, .Land_b5_a
+        .word   .Land_b6_npow, 160, .Land_b5_a
 .Land_b6_r4only:
-        .word   168, 168, .Land_b6_r4o1
-.Land_b6_r4o1:
-        .word   12, 12, .Land_b6_r4o2
-.Land_b6_r4o2:
-        .word   32, 12, .Land_b6_r4o3
-.Land_b6_r4o3:
-        .word   12, 168, .Land_b6_r4o4
-.Land_b6_r4o4:
-        .word   .Land_b6_pow, 168, .Land_b6_r4o5
-.Land_b6_r4o5:
-        .word   172, 172, .Land_b6_r4o6
-.Land_b6_r4o6:
-        .word   168, 172, .Land_b6_r4oclr
+        .word   .Land_b6_pow, 32, .Land_b6_r4onlychk1
         .word   12, 12, .Land_b5_a
-.Land_b6_r4oclr:
-        .word   .Land_b6_pow, 32, .Land_b5_a
+.Land_b6_r4onlychk1:
+        .word   168, 168, .Land_b6_r4onlychk2
+.Land_b6_r4onlychk2:
+        .word   32, 168, .Land_b5_a
+        .word   .Land_b6_npow, 32, .Land_b6_r4rest2
+.Land_b6_r4rest2:
+        .word   12, 12, .Land_b5_a
 .Land_b5_a:
-        .word   168, 168, .Land_b5_a1
-.Land_b5_a1:
-        .word   12, 12, .Land_b5_a2
-.Land_b5_a2:
-        .word   28, 12, .Land_b5_a3
-.Land_b5_a3:
-        .word   12, 168, .Land_b5_a4
-.Land_b5_a4:
-        .word   .Land_b5_pow, 168, .Land_b5_a5
-.Land_b5_a5:
-        .word   172, 172, .Land_b5_a6
-.Land_b5_a6:
-        .word   168, 172, .Land_b5_r3set
+        .word   .Land_b5_pow, 28, .Land_b5_r3chk
+        .word   12, 12, .Land_b5_r3done
+.Land_b5_r3chk:
+        .word   168, 168, .Land_b5_r3chk1
+.Land_b5_r3chk1:
+        .word   28, 168, .Land_b5_r3set
+        .word   .Land_b5_npow, 28, .Land_b5_r3rest
+.Land_b5_r3rest:
         .word   12, 12, .Land_b5_r4only
 .Land_b5_r3set:
-        .word   .Land_b5_pow, 28, .Land_b5_r3done
 .Land_b5_r3done:
-        .word   168, 168, .Land_b5_r4a1
-.Land_b5_r4a1:
-        .word   12, 12, .Land_b5_r4a2
-.Land_b5_r4a2:
-        .word   32, 12, .Land_b5_r4a3
-.Land_b5_r4a3:
-        .word   12, 168, .Land_b5_r4a4
-.Land_b5_r4a4:
-        .word   .Land_b5_pow, 168, .Land_b5_r4a5
-.Land_b5_r4a5:
-        .word   172, 172, .Land_b5_r4a6
-.Land_b5_r4a6:
-        .word   168, 172, .Land_b5_both
+        .word   .Land_b5_pow, 32, .Land_b5_r4chk1
+        .word   12, 12, .Land_b5_both
+.Land_b5_r4chk1:
+        .word   168, 168, .Land_b5_r4chk2
+.Land_b5_r4chk2:
+        .word   32, 168, .Land_b5_both
+        .word   .Land_b5_npow, 32, .Land_b5_r4rest1
+.Land_b5_r4rest1:
         .word   12, 12, .Land_b4_a
 .Land_b5_both:
-        .word   .Land_b5_pow, 32, .Land_b5_add1
-.Land_b5_add1:
-        .word   .Land_b5_npow, 160, .Land_b5_add2
-.Land_b5_add2:
-        .word   12, 12, .Land_b4_a
+        .word   .Land_b5_npow, 160, .Land_b4_a
 .Land_b5_r4only:
-        .word   168, 168, .Land_b5_r4o1
-.Land_b5_r4o1:
-        .word   12, 12, .Land_b5_r4o2
-.Land_b5_r4o2:
-        .word   32, 12, .Land_b5_r4o3
-.Land_b5_r4o3:
-        .word   12, 168, .Land_b5_r4o4
-.Land_b5_r4o4:
-        .word   .Land_b5_pow, 168, .Land_b5_r4o5
-.Land_b5_r4o5:
-        .word   172, 172, .Land_b5_r4o6
-.Land_b5_r4o6:
-        .word   168, 172, .Land_b5_r4oclr
+        .word   .Land_b5_pow, 32, .Land_b5_r4onlychk1
         .word   12, 12, .Land_b4_a
-.Land_b5_r4oclr:
-        .word   .Land_b5_pow, 32, .Land_b4_a
+.Land_b5_r4onlychk1:
+        .word   168, 168, .Land_b5_r4onlychk2
+.Land_b5_r4onlychk2:
+        .word   32, 168, .Land_b4_a
+        .word   .Land_b5_npow, 32, .Land_b5_r4rest2
+.Land_b5_r4rest2:
+        .word   12, 12, .Land_b4_a
 .Land_b4_a:
-        .word   168, 168, .Land_b4_a1
-.Land_b4_a1:
-        .word   12, 12, .Land_b4_a2
-.Land_b4_a2:
-        .word   28, 12, .Land_b4_a3
-.Land_b4_a3:
-        .word   12, 168, .Land_b4_a4
-.Land_b4_a4:
-        .word   .Land_b4_pow, 168, .Land_b4_a5
-.Land_b4_a5:
-        .word   172, 172, .Land_b4_a6
-.Land_b4_a6:
-        .word   168, 172, .Land_b4_r3set
+        .word   .Land_b4_pow, 28, .Land_b4_r3chk
+        .word   12, 12, .Land_b4_r3done
+.Land_b4_r3chk:
+        .word   168, 168, .Land_b4_r3chk1
+.Land_b4_r3chk1:
+        .word   28, 168, .Land_b4_r3set
+        .word   .Land_b4_npow, 28, .Land_b4_r3rest
+.Land_b4_r3rest:
         .word   12, 12, .Land_b4_r4only
 .Land_b4_r3set:
-        .word   .Land_b4_pow, 28, .Land_b4_r3done
 .Land_b4_r3done:
-        .word   168, 168, .Land_b4_r4a1
-.Land_b4_r4a1:
-        .word   12, 12, .Land_b4_r4a2
-.Land_b4_r4a2:
-        .word   32, 12, .Land_b4_r4a3
-.Land_b4_r4a3:
-        .word   12, 168, .Land_b4_r4a4
-.Land_b4_r4a4:
-        .word   .Land_b4_pow, 168, .Land_b4_r4a5
-.Land_b4_r4a5:
-        .word   172, 172, .Land_b4_r4a6
-.Land_b4_r4a6:
-        .word   168, 172, .Land_b4_both
+        .word   .Land_b4_pow, 32, .Land_b4_r4chk1
+        .word   12, 12, .Land_b4_both
+.Land_b4_r4chk1:
+        .word   168, 168, .Land_b4_r4chk2
+.Land_b4_r4chk2:
+        .word   32, 168, .Land_b4_both
+        .word   .Land_b4_npow, 32, .Land_b4_r4rest1
+.Land_b4_r4rest1:
         .word   12, 12, .Land_b3_a
 .Land_b4_both:
-        .word   .Land_b4_pow, 32, .Land_b4_add1
-.Land_b4_add1:
-        .word   .Land_b4_npow, 160, .Land_b4_add2
-.Land_b4_add2:
-        .word   12, 12, .Land_b3_a
+        .word   .Land_b4_npow, 160, .Land_b3_a
 .Land_b4_r4only:
-        .word   168, 168, .Land_b4_r4o1
-.Land_b4_r4o1:
-        .word   12, 12, .Land_b4_r4o2
-.Land_b4_r4o2:
-        .word   32, 12, .Land_b4_r4o3
-.Land_b4_r4o3:
-        .word   12, 168, .Land_b4_r4o4
-.Land_b4_r4o4:
-        .word   .Land_b4_pow, 168, .Land_b4_r4o5
-.Land_b4_r4o5:
-        .word   172, 172, .Land_b4_r4o6
-.Land_b4_r4o6:
-        .word   168, 172, .Land_b4_r4oclr
+        .word   .Land_b4_pow, 32, .Land_b4_r4onlychk1
         .word   12, 12, .Land_b3_a
-.Land_b4_r4oclr:
-        .word   .Land_b4_pow, 32, .Land_b3_a
+.Land_b4_r4onlychk1:
+        .word   168, 168, .Land_b4_r4onlychk2
+.Land_b4_r4onlychk2:
+        .word   32, 168, .Land_b3_a
+        .word   .Land_b4_npow, 32, .Land_b4_r4rest2
+.Land_b4_r4rest2:
+        .word   12, 12, .Land_b3_a
 .Land_b3_a:
-        .word   168, 168, .Land_b3_a1
-.Land_b3_a1:
-        .word   12, 12, .Land_b3_a2
-.Land_b3_a2:
-        .word   28, 12, .Land_b3_a3
-.Land_b3_a3:
-        .word   12, 168, .Land_b3_a4
-.Land_b3_a4:
-        .word   .Land_b3_pow, 168, .Land_b3_a5
-.Land_b3_a5:
-        .word   172, 172, .Land_b3_a6
-.Land_b3_a6:
-        .word   168, 172, .Land_b3_r3set
+        .word   .Land_b3_pow, 28, .Land_b3_r3chk
+        .word   12, 12, .Land_b3_r3done
+.Land_b3_r3chk:
+        .word   168, 168, .Land_b3_r3chk1
+.Land_b3_r3chk1:
+        .word   28, 168, .Land_b3_r3set
+        .word   .Land_b3_npow, 28, .Land_b3_r3rest
+.Land_b3_r3rest:
         .word   12, 12, .Land_b3_r4only
 .Land_b3_r3set:
-        .word   .Land_b3_pow, 28, .Land_b3_r3done
 .Land_b3_r3done:
-        .word   168, 168, .Land_b3_r4a1
-.Land_b3_r4a1:
-        .word   12, 12, .Land_b3_r4a2
-.Land_b3_r4a2:
-        .word   32, 12, .Land_b3_r4a3
-.Land_b3_r4a3:
-        .word   12, 168, .Land_b3_r4a4
-.Land_b3_r4a4:
-        .word   .Land_b3_pow, 168, .Land_b3_r4a5
-.Land_b3_r4a5:
-        .word   172, 172, .Land_b3_r4a6
-.Land_b3_r4a6:
-        .word   168, 172, .Land_b3_both
+        .word   .Land_b3_pow, 32, .Land_b3_r4chk1
+        .word   12, 12, .Land_b3_both
+.Land_b3_r4chk1:
+        .word   168, 168, .Land_b3_r4chk2
+.Land_b3_r4chk2:
+        .word   32, 168, .Land_b3_both
+        .word   .Land_b3_npow, 32, .Land_b3_r4rest1
+.Land_b3_r4rest1:
         .word   12, 12, .Land_b2_a
 .Land_b3_both:
-        .word   .Land_b3_pow, 32, .Land_b3_add1
-.Land_b3_add1:
-        .word   .Land_b3_npow, 160, .Land_b3_add2
-.Land_b3_add2:
-        .word   12, 12, .Land_b2_a
+        .word   .Land_b3_npow, 160, .Land_b2_a
 .Land_b3_r4only:
-        .word   168, 168, .Land_b3_r4o1
-.Land_b3_r4o1:
-        .word   12, 12, .Land_b3_r4o2
-.Land_b3_r4o2:
-        .word   32, 12, .Land_b3_r4o3
-.Land_b3_r4o3:
-        .word   12, 168, .Land_b3_r4o4
-.Land_b3_r4o4:
-        .word   .Land_b3_pow, 168, .Land_b3_r4o5
-.Land_b3_r4o5:
-        .word   172, 172, .Land_b3_r4o6
-.Land_b3_r4o6:
-        .word   168, 172, .Land_b3_r4oclr
+        .word   .Land_b3_pow, 32, .Land_b3_r4onlychk1
         .word   12, 12, .Land_b2_a
-.Land_b3_r4oclr:
-        .word   .Land_b3_pow, 32, .Land_b2_a
+.Land_b3_r4onlychk1:
+        .word   168, 168, .Land_b3_r4onlychk2
+.Land_b3_r4onlychk2:
+        .word   32, 168, .Land_b2_a
+        .word   .Land_b3_npow, 32, .Land_b3_r4rest2
+.Land_b3_r4rest2:
+        .word   12, 12, .Land_b2_a
 .Land_b2_a:
-        .word   168, 168, .Land_b2_a1
-.Land_b2_a1:
-        .word   12, 12, .Land_b2_a2
-.Land_b2_a2:
-        .word   28, 12, .Land_b2_a3
-.Land_b2_a3:
-        .word   12, 168, .Land_b2_a4
-.Land_b2_a4:
-        .word   .Land_b2_pow, 168, .Land_b2_a5
-.Land_b2_a5:
-        .word   172, 172, .Land_b2_a6
-.Land_b2_a6:
-        .word   168, 172, .Land_b2_r3set
+        .word   .Land_b2_pow, 28, .Land_b2_r3chk
+        .word   12, 12, .Land_b2_r3done
+.Land_b2_r3chk:
+        .word   168, 168, .Land_b2_r3chk1
+.Land_b2_r3chk1:
+        .word   28, 168, .Land_b2_r3set
+        .word   .Land_b2_npow, 28, .Land_b2_r3rest
+.Land_b2_r3rest:
         .word   12, 12, .Land_b2_r4only
 .Land_b2_r3set:
-        .word   .Land_b2_pow, 28, .Land_b2_r3done
 .Land_b2_r3done:
-        .word   168, 168, .Land_b2_r4a1
-.Land_b2_r4a1:
-        .word   12, 12, .Land_b2_r4a2
-.Land_b2_r4a2:
-        .word   32, 12, .Land_b2_r4a3
-.Land_b2_r4a3:
-        .word   12, 168, .Land_b2_r4a4
-.Land_b2_r4a4:
-        .word   .Land_b2_pow, 168, .Land_b2_r4a5
-.Land_b2_r4a5:
-        .word   172, 172, .Land_b2_r4a6
-.Land_b2_r4a6:
-        .word   168, 172, .Land_b2_both
+        .word   .Land_b2_pow, 32, .Land_b2_r4chk1
+        .word   12, 12, .Land_b2_both
+.Land_b2_r4chk1:
+        .word   168, 168, .Land_b2_r4chk2
+.Land_b2_r4chk2:
+        .word   32, 168, .Land_b2_both
+        .word   .Land_b2_npow, 32, .Land_b2_r4rest1
+.Land_b2_r4rest1:
         .word   12, 12, .Land_b1_a
 .Land_b2_both:
-        .word   .Land_b2_pow, 32, .Land_b2_add1
-.Land_b2_add1:
-        .word   .Land_b2_npow, 160, .Land_b2_add2
-.Land_b2_add2:
-        .word   12, 12, .Land_b1_a
+        .word   .Land_b2_npow, 160, .Land_b1_a
 .Land_b2_r4only:
-        .word   168, 168, .Land_b2_r4o1
-.Land_b2_r4o1:
-        .word   12, 12, .Land_b2_r4o2
-.Land_b2_r4o2:
-        .word   32, 12, .Land_b2_r4o3
-.Land_b2_r4o3:
-        .word   12, 168, .Land_b2_r4o4
-.Land_b2_r4o4:
-        .word   .Land_b2_pow, 168, .Land_b2_r4o5
-.Land_b2_r4o5:
-        .word   172, 172, .Land_b2_r4o6
-.Land_b2_r4o6:
-        .word   168, 172, .Land_b2_r4oclr
+        .word   .Land_b2_pow, 32, .Land_b2_r4onlychk1
         .word   12, 12, .Land_b1_a
-.Land_b2_r4oclr:
-        .word   .Land_b2_pow, 32, .Land_b1_a
+.Land_b2_r4onlychk1:
+        .word   168, 168, .Land_b2_r4onlychk2
+.Land_b2_r4onlychk2:
+        .word   32, 168, .Land_b1_a
+        .word   .Land_b2_npow, 32, .Land_b2_r4rest2
+.Land_b2_r4rest2:
+        .word   12, 12, .Land_b1_a
 .Land_b1_a:
-        .word   168, 168, .Land_b1_a1
-.Land_b1_a1:
-        .word   12, 12, .Land_b1_a2
-.Land_b1_a2:
-        .word   28, 12, .Land_b1_a3
-.Land_b1_a3:
-        .word   12, 168, .Land_b1_a4
-.Land_b1_a4:
-        .word   .Land_b1_pow, 168, .Land_b1_a5
-.Land_b1_a5:
-        .word   172, 172, .Land_b1_a6
-.Land_b1_a6:
-        .word   168, 172, .Land_b1_r3set
+        .word   .Land_b1_pow, 28, .Land_b1_r3chk
+        .word   12, 12, .Land_b1_r3done
+.Land_b1_r3chk:
+        .word   168, 168, .Land_b1_r3chk1
+.Land_b1_r3chk1:
+        .word   28, 168, .Land_b1_r3set
+        .word   .Land_b1_npow, 28, .Land_b1_r3rest
+.Land_b1_r3rest:
         .word   12, 12, .Land_b1_r4only
 .Land_b1_r3set:
-        .word   .Land_b1_pow, 28, .Land_b1_r3done
 .Land_b1_r3done:
-        .word   168, 168, .Land_b1_r4a1
-.Land_b1_r4a1:
-        .word   12, 12, .Land_b1_r4a2
-.Land_b1_r4a2:
-        .word   32, 12, .Land_b1_r4a3
-.Land_b1_r4a3:
-        .word   12, 168, .Land_b1_r4a4
-.Land_b1_r4a4:
-        .word   .Land_b1_pow, 168, .Land_b1_r4a5
-.Land_b1_r4a5:
-        .word   172, 172, .Land_b1_r4a6
-.Land_b1_r4a6:
-        .word   168, 172, .Land_b1_both
+        .word   .Land_b1_pow, 32, .Land_b1_r4chk1
+        .word   12, 12, .Land_b1_both
+.Land_b1_r4chk1:
+        .word   168, 168, .Land_b1_r4chk2
+.Land_b1_r4chk2:
+        .word   32, 168, .Land_b1_both
+        .word   .Land_b1_npow, 32, .Land_b1_r4rest1
+.Land_b1_r4rest1:
         .word   12, 12, .Land_b0_a
 .Land_b1_both:
-        .word   .Land_b1_pow, 32, .Land_b1_add1
-.Land_b1_add1:
-        .word   .Land_b1_npow, 160, .Land_b1_add2
-.Land_b1_add2:
-        .word   12, 12, .Land_b0_a
+        .word   .Land_b1_npow, 160, .Land_b0_a
 .Land_b1_r4only:
-        .word   168, 168, .Land_b1_r4o1
-.Land_b1_r4o1:
-        .word   12, 12, .Land_b1_r4o2
-.Land_b1_r4o2:
-        .word   32, 12, .Land_b1_r4o3
-.Land_b1_r4o3:
-        .word   12, 168, .Land_b1_r4o4
-.Land_b1_r4o4:
-        .word   .Land_b1_pow, 168, .Land_b1_r4o5
-.Land_b1_r4o5:
-        .word   172, 172, .Land_b1_r4o6
-.Land_b1_r4o6:
-        .word   168, 172, .Land_b1_r4oclr
+        .word   .Land_b1_pow, 32, .Land_b1_r4onlychk1
         .word   12, 12, .Land_b0_a
-.Land_b1_r4oclr:
-        .word   .Land_b1_pow, 32, .Land_b0_a
+.Land_b1_r4onlychk1:
+        .word   168, 168, .Land_b1_r4onlychk2
+.Land_b1_r4onlychk2:
+        .word   32, 168, .Land_b0_a
+        .word   .Land_b1_npow, 32, .Land_b1_r4rest2
+.Land_b1_r4rest2:
+        .word   12, 12, .Land_b0_a
 .Land_b0_a:
-        .word   168, 168, .Land_b0_a1
-.Land_b0_a1:
-        .word   12, 12, .Land_b0_a2
-.Land_b0_a2:
-        .word   28, 12, .Land_b0_a3
-.Land_b0_a3:
-        .word   12, 168, .Land_b0_a4
-.Land_b0_a4:
-        .word   .Land_b0_pow, 168, .Land_b0_a5
-.Land_b0_a5:
-        .word   172, 172, .Land_b0_a6
-.Land_b0_a6:
-        .word   168, 172, .Land_b0_r3set
+        .word   .Land_b0_pow, 28, .Land_b0_r3chk
+        .word   12, 12, .Land_b0_r3done
+.Land_b0_r3chk:
+        .word   168, 168, .Land_b0_r3chk1
+.Land_b0_r3chk1:
+        .word   28, 168, .Land_b0_r3set
+        .word   .Land_b0_npow, 28, .Land_b0_r3rest
+.Land_b0_r3rest:
         .word   12, 12, .Land_b0_r4only
 .Land_b0_r3set:
-        .word   .Land_b0_pow, 28, .Land_b0_r3done
 .Land_b0_r3done:
-        .word   168, 168, .Land_b0_r4a1
-.Land_b0_r4a1:
-        .word   12, 12, .Land_b0_r4a2
-.Land_b0_r4a2:
-        .word   32, 12, .Land_b0_r4a3
-.Land_b0_r4a3:
-        .word   12, 168, .Land_b0_r4a4
-.Land_b0_r4a4:
-        .word   .Land_b0_pow, 168, .Land_b0_r4a5
-.Land_b0_r4a5:
-        .word   172, 172, .Land_b0_r4a6
-.Land_b0_r4a6:
-        .word   168, 172, .Land_b0_both
+        .word   .Land_b0_pow, 32, .Land_b0_r4chk1
+        .word   12, 12, .Land_b0_both
+.Land_b0_r4chk1:
+        .word   168, 168, .Land_b0_r4chk2
+.Land_b0_r4chk2:
+        .word   32, 168, .Land_b0_both
+        .word   .Land_b0_npow, 32, .Land_b0_r4rest1
+.Land_b0_r4rest1:
         .word   12, 12, .Land_done
 .Land_b0_both:
-        .word   .Land_b0_pow, 32, .Land_b0_add1
-.Land_b0_add1:
-        .word   .Land_b0_npow, 160, .Land_b0_add2
-.Land_b0_add2:
-        .word   12, 12, .Land_done
+        .word   .Land_b0_npow, 160, .Land_done
 .Land_b0_r4only:
-        .word   168, 168, .Land_b0_r4o1
-.Land_b0_r4o1:
-        .word   12, 12, .Land_b0_r4o2
-.Land_b0_r4o2:
-        .word   32, 12, .Land_b0_r4o3
-.Land_b0_r4o3:
-        .word   12, 168, .Land_b0_r4o4
-.Land_b0_r4o4:
-        .word   .Land_b0_pow, 168, .Land_b0_r4o5
-.Land_b0_r4o5:
-        .word   172, 172, .Land_b0_r4o6
-.Land_b0_r4o6:
-        .word   168, 172, .Land_b0_r4oclr
+        .word   .Land_b0_pow, 32, .Land_b0_r4onlychk1
         .word   12, 12, .Land_done
-.Land_b0_r4oclr:
-        .word   .Land_b0_pow, 32, .Land_done
+.Land_b0_r4onlychk1:
+        .word   168, 168, .Land_b0_r4onlychk2
+.Land_b0_r4onlychk2:
+        .word   32, 168, .Land_done
+        .word   .Land_b0_npow, 32, .Land_b0_r4rest2
+.Land_b0_r4rest2:
+        .word   12, 12, .Land_done
 .Land_done:
         .word   28, 28, .Land_ret1
 .Land_ret1:

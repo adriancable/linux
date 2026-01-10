@@ -270,9 +270,13 @@ struct needed_lib {
 /*
  * Extract DT_NEEDED library names from PT_DYNAMIC segment
  * Returns the number of libraries found (stored in libs array)
+ *
+ * If phdrs_out and phnum_out are non-NULL, the program headers are returned
+ * to the caller instead of being freed. Caller must kfree(*phdrs_out).
  */
 static int get_elf_needed_libs(struct file *file, struct elfhdr *hdr,
-			       struct needed_lib *libs, int max_libs)
+			       struct needed_lib *libs, int max_libs,
+			       struct elf_phdr **phdrs_out, int *phnum_out)
 {
 	struct elf_phdr *phdrs = NULL, *phdr;
 	Elf32_Dyn *dyns = NULL, *dyn;
@@ -323,7 +327,13 @@ static int get_elf_needed_libs(struct file *file, struct elfhdr *hdr,
 		}
 	}
 
-	kfree(phdrs);
+	/* Return phdrs to caller if requested, otherwise free */
+	if (phdrs_out && phnum_out) {
+		*phdrs_out = phdrs;
+		*phnum_out = hdr->e_phnum;
+	} else {
+		kfree(phdrs);
+	}
 
 	if (dyn_size == 0) {
 		subleq_elf_debug("No PT_DYNAMIC segment found");
@@ -408,41 +418,53 @@ static int get_elf_needed_libs(struct file *file, struct elfhdr *hdr,
 
 /*
  * Load an ELF binary into memory
- * Returns the load address or negative error
+ * If phdrs_in is non-NULL, use the pre-read program headers instead of
+ * reading them again. The caller retains ownership (no free here).
+ * Returns 0 on success or negative error.
  */
 static long load_elf_segments(struct file *file, struct elfhdr *hdr,
-			      struct elf_load_info *info)
+			      struct elf_load_info *info,
+			      struct elf_phdr *phdrs_in, int phnum_in)
 {
-	struct elf_phdr *phdrs, *phdr;
+	struct elf_phdr *phdrs = NULL, *phdr;
 	unsigned long total_size = 0;
 	unsigned long min_addr = ULONG_MAX;
 	unsigned long max_addr = 0;
 	unsigned long load_addr;
 	loff_t pos;
-	int i, nloads = 0;
+	int i, nloads = 0, phnum;
 	ssize_t ret;
+	int own_phdrs = 0; /* Track if we allocated phdrs and need to free */
 
-	/* Read program headers */
-	if (hdr->e_phentsize != sizeof(struct elf_phdr))
-		return -ENOEXEC;
-	if (hdr->e_phnum > 65536 / sizeof(struct elf_phdr))
-		return -ENOEXEC;
+	/* Use pre-read program headers if provided, otherwise read them */
+	if (phdrs_in && phnum_in > 0) {
+		phdrs = phdrs_in;
+		phnum = phnum_in;
+	} else {
+		/* Read program headers */
+		if (hdr->e_phentsize != sizeof(struct elf_phdr))
+			return -ENOEXEC;
+		if (hdr->e_phnum > 65536 / sizeof(struct elf_phdr))
+			return -ENOEXEC;
 
-	phdrs = kmalloc_array(hdr->e_phnum, sizeof(struct elf_phdr),
-			      GFP_KERNEL);
-	if (!phdrs)
-		return -ENOMEM;
+		phdrs = kmalloc_array(hdr->e_phnum, sizeof(struct elf_phdr),
+				      GFP_KERNEL);
+		if (!phdrs)
+			return -ENOMEM;
 
-	pos = hdr->e_phoff;
-	ret = kernel_read(file, phdrs, hdr->e_phnum * sizeof(struct elf_phdr),
-			  &pos);
-	if (ret != hdr->e_phnum * sizeof(struct elf_phdr)) {
-		kfree(phdrs);
-		return ret < 0 ? ret : -ENOEXEC;
+		pos = hdr->e_phoff;
+		ret = kernel_read(file, phdrs, hdr->e_phnum * sizeof(struct elf_phdr),
+				  &pos);
+		if (ret != hdr->e_phnum * sizeof(struct elf_phdr)) {
+			kfree(phdrs);
+			return ret < 0 ? ret : -ENOEXEC;
+		}
+		phnum = hdr->e_phnum;
+		own_phdrs = 1;
 	}
 
 	/* Calculate total memory needed and find min/max addresses */
-	for (i = 0, phdr = phdrs; i < hdr->e_phnum; i++, phdr++) {
+	for (i = 0, phdr = phdrs; i < phnum; i++, phdr++) {
 		if (phdr->p_type == PT_LOAD) {
 			unsigned long end = phdr->p_vaddr + phdr->p_memsz;
 			if (phdr->p_vaddr < min_addr)
@@ -457,7 +479,8 @@ static long load_elf_segments(struct file *file, struct elfhdr *hdr,
 	}
 
 	if (nloads == 0) {
-		kfree(phdrs);
+		if (own_phdrs)
+			kfree(phdrs);
 		return -ENOEXEC;
 	}
 
@@ -472,14 +495,15 @@ static long load_elf_segments(struct file *file, struct elfhdr *hdr,
 			    PROT_READ | PROT_WRITE | PROT_EXEC,
 			    MAP_PRIVATE | MAP_ANONYMOUS, 0);
 	if (IS_ERR_VALUE(load_addr)) {
-		kfree(phdrs);
+		if (own_phdrs)
+			kfree(phdrs);
 		return load_addr;
 	}
 
 	subleq_elf_debug("Allocated at 0x%lx", load_addr);
 
 	/* Load each PT_LOAD segment */
-	for (i = 0, phdr = phdrs; i < hdr->e_phnum; i++, phdr++) {
+	for (i = 0, phdr = phdrs; i < phnum; i++, phdr++) {
 		pr_info("SUBLEQ_ELF: Segment loop i=%d, p_type=%d\n", i, phdr->p_type);
 		if (phdr->p_type != PT_LOAD)
 			continue;
@@ -501,7 +525,8 @@ static long load_elf_segments(struct file *file, struct elfhdr *hdr,
 				pr_err("SUBLEQ_ELF: Segment %d read failed: wanted %lu, got %ld\n",
 				       i, (unsigned long)phdr->p_filesz, (long)ret);
 				vm_munmap(load_addr, total_size);
-				kfree(phdrs);
+				if (own_phdrs)
+					kfree(phdrs);
 				return ret < 0 ? ret : -ENOEXEC;
 			}
 		}
@@ -519,7 +544,8 @@ static long load_elf_segments(struct file *file, struct elfhdr *hdr,
 	info->entry_addr = load_addr + (hdr->e_entry - min_addr);
 	info->total_size = total_size;
 
-	kfree(phdrs);
+	if (own_phdrs)
+		kfree(phdrs);
 	return 0;
 }
 
@@ -962,7 +988,7 @@ static int load_libsrt(const char *lib_path, struct elf_load_info *lib_info)
 
 	subleq_elf_debug("Loading shared library from %s", lib_path);
 
-	ret = load_elf_segments(lib_file, &lib_hdr, lib_info);
+	ret = load_elf_segments(lib_file, &lib_hdr, lib_info, NULL, 0);
 	if (ret < 0) {
 		fput(lib_file);
 		pr_err("SUBLEQ_ELF: Failed to load %s: %d\n", lib_path,
@@ -997,7 +1023,7 @@ static int load_libsrt(const char *lib_path, struct elf_load_info *lib_info)
 	ret = kernel_read(lib_file, &lib_hdr, sizeof(lib_hdr), &pos);
 	if (ret == sizeof(lib_hdr)) {
 		ndeps = get_elf_needed_libs(lib_file, &lib_hdr, lib_deps,
-					    MAX_NEEDED_LIBS);
+					    MAX_NEEDED_LIBS, NULL, NULL);
 		for (i = 0; i < ndeps; i++) {
 			struct elf_load_info dep_info = { 0 };
 			snprintf(dep_path, sizeof(dep_path), "/lib/%s",
@@ -1235,6 +1261,8 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 	int ret;
 	int has_libsrt = 0;
 	int nlibs, i;
+	struct elf_phdr *phdrs = NULL;  /* Reuse phdrs from get_elf_needed_libs */
+	int phnum = 0;
 
 	subleq_elf_debug("Checking ELF binary: %s", bprm->filename);
 
@@ -1245,9 +1273,10 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 	subleq_elf_debug("Valid Subleq ELF, entry=0x%lx",
 			 (unsigned long)hdr->e_entry);
 
-	/* Extract DT_NEEDED library names before point of no return */
+	/* Extract DT_NEEDED library names before point of no return.
+	 * Also returns program headers to avoid reading them again later. */
 	nlibs = get_elf_needed_libs(bprm->file, hdr, needed_libs,
-				    MAX_NEEDED_LIBS);
+				    MAX_NEEDED_LIBS, &phdrs, &phnum);
 	subleq_elf_debug("Found %d DT_NEEDED libraries", nlibs);
 
 	subleq_elf_debug("Before begin_new_exec: PID=%d comm=%s",
@@ -1291,8 +1320,11 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 	 * process_relocations_and_symbols() call in load_libsrt().
 	 */
 
-	/* Load the main executable */
-	ret = load_elf_segments(bprm->file, hdr, &exec_info);
+	/* Load the main executable using pre-read program headers */
+	ret = load_elf_segments(bprm->file, hdr, &exec_info, phdrs, phnum);
+	/* Free phdrs now - no longer needed */
+	kfree(phdrs);
+	phdrs = NULL;
 	if (ret < 0)
 		return ret;
 

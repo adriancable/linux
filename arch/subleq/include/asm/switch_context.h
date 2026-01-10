@@ -15,11 +15,17 @@
 
 /*
  * Callee-saved registers per Subleq calling convention:
- * R3-R19, R25-R31 (24 registers total)
+ * R3-R19, R25-R31 (24 registers)
+ * 
+ * PLUS R20 which is technically caller-saved, but must be preserved
+ * across context switches for vfork to work correctly. With CLONE_VM,
+ * parent and child share memory including the R20 memory location.
+ * By saving R20 in switch_stack, the parent's syscall return value
+ * is preserved even when the child clobbers the shared R20.
  *
- * Total: 24 words = 96 bytes
+ * Total: 25 words = 100 bytes
  *
- * The return address (retpc) is at [SP + 96] after we allocate this struct.
+ * The return address (retpc) is at [SP + 100] after we allocate this struct.
  */
 struct switch_stack {
 	/* Callee-saved registers R3-R19 (17 registers) */
@@ -40,6 +46,9 @@ struct switch_stack {
 	unsigned long r17;
 	unsigned long r18;
 	unsigned long r19;
+	
+	/* R20 - syscall return value, must be preserved for vfork */
+	unsigned long r20;
 
 	/* Callee-saved registers R25-R31 (7 registers) */
 	unsigned long r25;
@@ -51,8 +60,8 @@ struct switch_stack {
 	unsigned long r31;
 };
 
-#define SWITCH_STACK_SIZE sizeof(struct switch_stack) /* 96 bytes */
-#define SWITCH_STACK_RETPC_OFFSET 96  /* retpc is at [SP + 96] after allocation */
+#define SWITCH_STACK_SIZE sizeof(struct switch_stack) /* 100 bytes */
+#define SWITCH_STACK_RETPC_OFFSET 100  /* retpc is at [SP + 100] after allocation */
 
 /* Offsets for assembly - must match struct layout above */
 #define SW_OFF_R3    0
@@ -72,12 +81,13 @@ struct switch_stack {
 #define SW_OFF_R17   56
 #define SW_OFF_R18   60
 #define SW_OFF_R19   64
-#define SW_OFF_R25   68
-#define SW_OFF_R26   72
-#define SW_OFF_R27   76
-#define SW_OFF_R28   80
-#define SW_OFF_R29   84
-#define SW_OFF_R30   88
-#define SW_OFF_R31   92
+#define SW_OFF_R20   68
+#define SW_OFF_R25   72
+#define SW_OFF_R26   76
+#define SW_OFF_R27   80
+#define SW_OFF_R28   84
+#define SW_OFF_R29   88
+#define SW_OFF_R30   92
+#define SW_OFF_R31   96
 
 #endif /* _ASM_SUBLEQ_SWITCH_CONTEXT_H */

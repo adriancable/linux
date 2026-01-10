@@ -448,6 +448,7 @@ static long load_elf_segments(struct file *file, struct elfhdr *hdr,
 
 	/* Load each PT_LOAD segment */
 	for (i = 0, phdr = phdrs; i < hdr->e_phnum; i++, phdr++) {
+		pr_info("SUBLEQ_ELF: Segment loop i=%d, p_type=%d\n", i, phdr->p_type);
 		if (phdr->p_type != PT_LOAD)
 			continue;
 
@@ -465,6 +466,8 @@ static long load_elf_segments(struct file *file, struct elfhdr *hdr,
 			ret = kernel_read(file, (void *)seg_addr,
 					  phdr->p_filesz, &pos);
 			if (ret != phdr->p_filesz) {
+				pr_err("SUBLEQ_ELF: Segment %d read failed: wanted %lu, got %ld\n",
+				       i, (unsigned long)phdr->p_filesz, (long)ret);
 				vm_munmap(load_addr, total_size);
 				kfree(phdrs);
 				return ret < 0 ? ret : -ENOEXEC;
@@ -1075,7 +1078,8 @@ static int load_libsrt(const char *lib_path, struct elf_load_info *lib_info)
  *   [high addr]
  *   strings: "arg0\0arg1\0...env0\0env1\0..."
  *   padding for alignment
- *   auxv[] (not implemented yet)
+ *   auxv[1] = {AT_NULL, 0}
+ *   auxv[0] = {AT_PAGESZ, PAGE_SIZE}
  *   envp[envc] = NULL
  *   envp[envc-1]
  *   ...
@@ -1095,6 +1099,8 @@ static int create_elf_tables(struct linux_binprm *bprm, struct mm_struct *mm,
 	unsigned long envc = bprm->envc;
 	unsigned long __user *argv;
 	unsigned long __user *envp;
+	unsigned long __user *auxv;
+	unsigned long strings_start;
 	char __user *p;
 	size_t len;
 	int ret, i;
@@ -1104,10 +1110,22 @@ static int create_elf_tables(struct linux_binprm *bprm, struct mm_struct *mm,
 	if (ret < 0)
 		return ret;
 
-	/* Remember where the strings start */
-	mm->arg_start = mm->start_stack - (MAX_ARG_PAGES * PAGE_SIZE - bprm->p);
+	/*
+	 * After transfer_args_to_stack, sp points to the start of the
+	 * transferred strings. This is where argv[0] string begins.
+	 * Save this before we align sp for the pointer arrays.
+	 */
+	strings_start = sp;
+	mm->arg_start = sp;
 
 	sp &= ~15UL; /* 16-byte alignment */
+
+	/*
+	 * Space for minimal auxv: {AT_PAGESZ, page_size}, {AT_NULL, 0}
+	 * Each auxv entry is 2 words (a_type and a_val), so 4 words total.
+	 */
+	sp -= 4 * sizeof(unsigned long);
+	auxv = (unsigned long __user *)sp;
 
 	/* Space for envp[] pointers + NULL */
 	sp -= (envc + 1) * sizeof(unsigned long);
@@ -1124,8 +1142,12 @@ static int create_elf_tables(struct linux_binprm *bprm, struct mm_struct *mm,
 	if (put_user(argc, (unsigned long __user *)sp))
 		return -EFAULT;
 
-	/* Fill in argv[] pointers */
-	p = (char __user *)mm->arg_start;
+	/*
+	 * Fill in argv[] pointers.
+	 * Strings start at strings_start and are packed consecutively.
+	 * This matches the regular ELF loader pattern in fs/binfmt_elf.c.
+	 */
+	p = (char __user *)strings_start;
 	for (i = 0; i < argc; i++) {
 		if (put_user((unsigned long)p, argv++))
 			return -EFAULT;
@@ -1154,7 +1176,102 @@ static int create_elf_tables(struct linux_binprm *bprm, struct mm_struct *mm,
 		return -EFAULT;
 	mm->env_end = (unsigned long)p;
 
+	/*
+	 * Fill in minimal auxv - uClibc's _dl_aux_init expects to find
+	 * auxv entries immediately after the envp NULL terminator.
+	 * We provide AT_PAGESZ (useful for memory allocation) and AT_NULL.
+	 */
+	if (put_user((unsigned long)AT_PAGESZ, auxv++) ||
+	    put_user((unsigned long)PAGE_SIZE, auxv++) ||
+	    put_user((unsigned long)AT_NULL, auxv++) ||
+	    put_user(0UL, auxv))
+		return -EFAULT;
+
 	mm->start_stack = sp;
+
+	/*
+	 * Debug: print the stack layout for verification
+	 */
+	pr_info("SUBLEQ_ELF: create_elf_tables debug:\n");
+	pr_info("  mm->start_stack (SP) = 0x%lx\n", mm->start_stack);
+	pr_info("  argc = %lu, envc = %lu\n", argc, envc);
+	pr_info("  strings_start = 0x%lx\n", strings_start);
+	pr_info("  mm->arg_start = 0x%lx, mm->arg_end = 0x%lx\n",
+		mm->arg_start, mm->arg_end);
+	pr_info("  mm->env_start = 0x%lx, mm->env_end = 0x%lx\n",
+		mm->env_start, mm->env_end);
+
+	/* Print stack layout: [SP] = argc, then argv[], then envp[], then auxv[] */
+	{
+		unsigned long __user *ptr = (unsigned long __user *)sp;
+		unsigned long val;
+		int j;
+		char strbuf[64];
+
+		/* argc at SP */
+		if (!get_user(val, ptr))
+			pr_info("  [SP+0x00] argc = %lu\n", val);
+
+		/* argv pointers start at SP+4 */
+		ptr++;
+		pr_info("  argv[] array at 0x%lx:\n", (unsigned long)ptr);
+		for (j = 0; j <= argc && j < 4; j++) {
+			if (!get_user(val, ptr + j)) {
+				if (val != 0) {
+					/* Try to read the string */
+					long copied = strncpy_from_user(strbuf,
+						(const char __user *)val,
+						sizeof(strbuf) - 1);
+					if (copied > 0) {
+						strbuf[copied] = '\0';
+						pr_info("    argv[%d] = 0x%lx -> \"%s\"\n",
+							j, val, strbuf);
+					} else {
+						pr_info("    argv[%d] = 0x%lx -> (read failed: %ld)\n",
+							j, val, copied);
+					}
+				} else {
+					pr_info("    argv[%d] = 0x0 (NULL)\n", j);
+				}
+			}
+		}
+
+		/* envp pointers start after argv */
+		ptr += argc + 1;
+		pr_info("  envp[] array at 0x%lx:\n", (unsigned long)ptr);
+		for (j = 0; j <= envc && j < 4; j++) {
+			if (!get_user(val, ptr + j)) {
+				if (val != 0) {
+					/* Try to read the string */
+					long copied = strncpy_from_user(strbuf,
+						(const char __user *)val,
+						sizeof(strbuf) - 1);
+					if (copied > 0) {
+						strbuf[copied] = '\0';
+						pr_info("    envp[%d] = 0x%lx -> \"%s\"\n",
+							j, val, strbuf);
+					} else {
+						pr_info("    envp[%d] = 0x%lx -> (read failed: %ld)\n",
+							j, val, copied);
+					}
+				} else {
+					pr_info("    envp[%d] = 0x0 (NULL)\n", j);
+				}
+			}
+		}
+
+		/* auxv starts after envp */
+		ptr += envc + 1;
+		pr_info("  auxv[] array at 0x%lx:\n", (unsigned long)ptr);
+		for (j = 0; j < 4; j++) {
+			if (!get_user(val, ptr + j))
+				pr_info("    auxv[%d] = 0x%lx\n", j, val);
+		}
+	}
+
+	/* Flush printk buffer so we see the debug output before any crash */
+	printk_trigger_flush();
+
 	return 0;
 }
 

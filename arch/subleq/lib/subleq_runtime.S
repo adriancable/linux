@@ -59808,1235 +59808,10644 @@ __subleq_shl:
         .type   __subleq_srl,@function
 
 # __subleq_srl: R3 = R3 >> R4 (logical right shift)
-# O(32 * shift_count) optimized version
+# Unrolled O(32-N) version: jumps directly to code for shift amount N
 __subleq_srl:
-        .word   160, 160, .Lsrl_init1
+        .word   164, 164, .Lsrl_init1
 .Lsrl_init1:
         .word   12, 12, .Lsrl_init2
 .Lsrl_init2:
-        .word   32, 12, .Lsrl_init3
+        .word   28, 12, .Lsrl_init3
 .Lsrl_init3:
-        .word   12, 160, .Lsrl_outer
-.Lsrl_outer:
-        .word   164, 164, .Lsrl_cp1
-.Lsrl_cp1:
-        .word   12, 12, .Lsrl_cp2
-.Lsrl_cp2:
-        .word   28, 12, .Lsrl_cp3
-.Lsrl_cp3:
-        .word   12, 164, .Lsrl_outer_chk
-.Lsrl_outer_chk:
-        .word   172, 172, .Lsrl_ochk1
-.Lsrl_ochk1:
+        .word   12, 164, .Lsrl_dispatch
+.Lsrl_dispatch:
+        .word   160, 160, .Lsrl_chk0a
+.Lsrl_chk0a:
+        .word   12, 12, .Lsrl_chk0b
+.Lsrl_chk0b:
+        .word   32, 12, .Lsrl_chk0c
+.Lsrl_chk0c:
+        .word   12, 160, .Lsrl_chk0d
+.Lsrl_chk0d:
         .word   24, 160, .Lsrl_done
-        .word   180, 180, .Lsrl_sign1
-.Lsrl_sign1:
-        .word   12, 12, .Lsrl_sign2
-.Lsrl_sign2:
-        .word   164, 12, .Lsrl_sign3
-.Lsrl_sign3:
-        .word   12, 180, .Lsrl_sign4
-.Lsrl_sign4:
-        .word   24, 180, .Lsrl_t1_le0
-        .word   12, 12, .Lsrl_pos
-.Lsrl_t1_le0:
-        .word   180, 180, .Lsrl_le0_1
-.Lsrl_le0_1:
-        .word   12, 12, .Lsrl_le0_2
-.Lsrl_le0_2:
-        .word   164, 12, .Lsrl_le0_3
-.Lsrl_le0_3:
-        .word   12, 180, .Lsrl_le0_4
-.Lsrl_le0_4:
-        .word   184, 184, .Lsrl_le0_5
-.Lsrl_le0_5:
-        .word   180, 184, .Lsrl_le0_6
-.Lsrl_le0_6:
-        .word   24, 184, .Lsrl_t1_ambig
-        .word   12, 12, .Lsrl_go_neg
-.Lsrl_t1_ambig:
-        .word   184, 184, .Lsrl_ambig_1
-.Lsrl_ambig_1:
-        .word   12, 12, .Lsrl_ambig_2
-.Lsrl_ambig_2:
-        .word   164, 12, .Lsrl_ambig_3
-.Lsrl_ambig_3:
-        .word   12, 184, .Lsrl_ambig_4
-.Lsrl_ambig_4:
-        .word   12, 12, .Lsrl_ambig_5
-.Lsrl_ambig_5:
-        .word   184, 12, .Lsrl_ambig_6
-.Lsrl_ambig_6:
-        .word   184, 184, .Lsrl_ambig_7
-.Lsrl_ambig_7:
-        .word   12, 184, .Lsrl_ambig_8
-.Lsrl_ambig_8:
-        .word   .Lsrl_one, 184, .Lsrl_ambig_9
-.Lsrl_ambig_9:
-        .word   24, 184, .Lsrl_pos
-        .word   12, 12, .Lsrl_go_neg
-.Lsrl_go_neg:
-        .word   .Lsrl_min, 164, .Lsrl_neg_halve1
-.Lsrl_neg_halve1:
-        .word   12, 12, .Lsrl_neg_halve
-.Lsrl_neg_halve:
-        .word   168, 168, .Lsrl_neg_b30
-.Lsrl_neg_b30:
-        .word   180, 180, .Lsrl_neg_b30a
-.Lsrl_neg_b30a:
-        .word   12, 12, .Lsrl_neg_b30b
-.Lsrl_neg_b30b:
-        .word   164, 12, .Lsrl_neg_b30c
-.Lsrl_neg_b30c:
-        .word   12, 180, .Lsrl_neg_b30d
-.Lsrl_neg_b30d:
-        .word   .Lsrl_c1073741824, 180, .Lsrl_neg_b30e
-.Lsrl_neg_b30e:
-        .word   184, 184, .Lsrl_neg_b30f
-.Lsrl_neg_b30f:
-        .word   180, 184, .Lsrl_neg_b30s
-        .word   12, 12, .Lsrl_neg_b29
-.Lsrl_neg_b30s:
-        .word   .Lsrl_c1073741824, 164, .Lsrl_neg_b30t
-.Lsrl_neg_b30t:
-        .word   .Lsrl_n536870912, 168, .Lsrl_neg_b29
-.Lsrl_neg_b29:
-        .word   180, 180, .Lsrl_neg_b29a
-.Lsrl_neg_b29a:
-        .word   12, 12, .Lsrl_neg_b29b
-.Lsrl_neg_b29b:
-        .word   164, 12, .Lsrl_neg_b29c
-.Lsrl_neg_b29c:
-        .word   12, 180, .Lsrl_neg_b29d
-.Lsrl_neg_b29d:
-        .word   .Lsrl_c536870912, 180, .Lsrl_neg_b29e
-.Lsrl_neg_b29e:
-        .word   184, 184, .Lsrl_neg_b29f
-.Lsrl_neg_b29f:
-        .word   180, 184, .Lsrl_neg_b29s
-        .word   12, 12, .Lsrl_neg_b28
-.Lsrl_neg_b29s:
-        .word   .Lsrl_c536870912, 164, .Lsrl_neg_b29t
-.Lsrl_neg_b29t:
-        .word   .Lsrl_n268435456, 168, .Lsrl_neg_b28
-.Lsrl_neg_b28:
-        .word   180, 180, .Lsrl_neg_b28a
-.Lsrl_neg_b28a:
-        .word   12, 12, .Lsrl_neg_b28b
-.Lsrl_neg_b28b:
-        .word   164, 12, .Lsrl_neg_b28c
-.Lsrl_neg_b28c:
-        .word   12, 180, .Lsrl_neg_b28d
-.Lsrl_neg_b28d:
-        .word   .Lsrl_c268435456, 180, .Lsrl_neg_b28e
-.Lsrl_neg_b28e:
-        .word   184, 184, .Lsrl_neg_b28f
-.Lsrl_neg_b28f:
-        .word   180, 184, .Lsrl_neg_b28s
-        .word   12, 12, .Lsrl_neg_b27
-.Lsrl_neg_b28s:
-        .word   .Lsrl_c268435456, 164, .Lsrl_neg_b28t
-.Lsrl_neg_b28t:
-        .word   .Lsrl_n134217728, 168, .Lsrl_neg_b27
-.Lsrl_neg_b27:
-        .word   180, 180, .Lsrl_neg_b27a
-.Lsrl_neg_b27a:
-        .word   12, 12, .Lsrl_neg_b27b
-.Lsrl_neg_b27b:
-        .word   164, 12, .Lsrl_neg_b27c
-.Lsrl_neg_b27c:
-        .word   12, 180, .Lsrl_neg_b27d
-.Lsrl_neg_b27d:
-        .word   .Lsrl_c134217728, 180, .Lsrl_neg_b27e
-.Lsrl_neg_b27e:
-        .word   184, 184, .Lsrl_neg_b27f
-.Lsrl_neg_b27f:
-        .word   180, 184, .Lsrl_neg_b27s
-        .word   12, 12, .Lsrl_neg_b26
-.Lsrl_neg_b27s:
-        .word   .Lsrl_c134217728, 164, .Lsrl_neg_b27t
-.Lsrl_neg_b27t:
-        .word   .Lsrl_n67108864, 168, .Lsrl_neg_b26
-.Lsrl_neg_b26:
-        .word   180, 180, .Lsrl_neg_b26a
-.Lsrl_neg_b26a:
-        .word   12, 12, .Lsrl_neg_b26b
-.Lsrl_neg_b26b:
-        .word   164, 12, .Lsrl_neg_b26c
-.Lsrl_neg_b26c:
-        .word   12, 180, .Lsrl_neg_b26d
-.Lsrl_neg_b26d:
-        .word   .Lsrl_c67108864, 180, .Lsrl_neg_b26e
-.Lsrl_neg_b26e:
-        .word   184, 184, .Lsrl_neg_b26f
-.Lsrl_neg_b26f:
-        .word   180, 184, .Lsrl_neg_b26s
-        .word   12, 12, .Lsrl_neg_b25
-.Lsrl_neg_b26s:
-        .word   .Lsrl_c67108864, 164, .Lsrl_neg_b26t
-.Lsrl_neg_b26t:
-        .word   .Lsrl_n33554432, 168, .Lsrl_neg_b25
-.Lsrl_neg_b25:
-        .word   180, 180, .Lsrl_neg_b25a
-.Lsrl_neg_b25a:
-        .word   12, 12, .Lsrl_neg_b25b
-.Lsrl_neg_b25b:
-        .word   164, 12, .Lsrl_neg_b25c
-.Lsrl_neg_b25c:
-        .word   12, 180, .Lsrl_neg_b25d
-.Lsrl_neg_b25d:
-        .word   .Lsrl_c33554432, 180, .Lsrl_neg_b25e
-.Lsrl_neg_b25e:
-        .word   184, 184, .Lsrl_neg_b25f
-.Lsrl_neg_b25f:
-        .word   180, 184, .Lsrl_neg_b25s
-        .word   12, 12, .Lsrl_neg_b24
-.Lsrl_neg_b25s:
-        .word   .Lsrl_c33554432, 164, .Lsrl_neg_b25t
-.Lsrl_neg_b25t:
-        .word   .Lsrl_n16777216, 168, .Lsrl_neg_b24
-.Lsrl_neg_b24:
-        .word   180, 180, .Lsrl_neg_b24a
-.Lsrl_neg_b24a:
-        .word   12, 12, .Lsrl_neg_b24b
-.Lsrl_neg_b24b:
-        .word   164, 12, .Lsrl_neg_b24c
-.Lsrl_neg_b24c:
-        .word   12, 180, .Lsrl_neg_b24d
-.Lsrl_neg_b24d:
-        .word   .Lsrl_c16777216, 180, .Lsrl_neg_b24e
-.Lsrl_neg_b24e:
-        .word   184, 184, .Lsrl_neg_b24f
-.Lsrl_neg_b24f:
-        .word   180, 184, .Lsrl_neg_b24s
-        .word   12, 12, .Lsrl_neg_b23
-.Lsrl_neg_b24s:
-        .word   .Lsrl_c16777216, 164, .Lsrl_neg_b24t
-.Lsrl_neg_b24t:
-        .word   .Lsrl_n8388608, 168, .Lsrl_neg_b23
-.Lsrl_neg_b23:
-        .word   180, 180, .Lsrl_neg_b23a
-.Lsrl_neg_b23a:
-        .word   12, 12, .Lsrl_neg_b23b
-.Lsrl_neg_b23b:
-        .word   164, 12, .Lsrl_neg_b23c
-.Lsrl_neg_b23c:
-        .word   12, 180, .Lsrl_neg_b23d
-.Lsrl_neg_b23d:
-        .word   .Lsrl_c8388608, 180, .Lsrl_neg_b23e
-.Lsrl_neg_b23e:
-        .word   184, 184, .Lsrl_neg_b23f
-.Lsrl_neg_b23f:
-        .word   180, 184, .Lsrl_neg_b23s
-        .word   12, 12, .Lsrl_neg_b22
-.Lsrl_neg_b23s:
-        .word   .Lsrl_c8388608, 164, .Lsrl_neg_b23t
-.Lsrl_neg_b23t:
-        .word   .Lsrl_n4194304, 168, .Lsrl_neg_b22
-.Lsrl_neg_b22:
-        .word   180, 180, .Lsrl_neg_b22a
-.Lsrl_neg_b22a:
-        .word   12, 12, .Lsrl_neg_b22b
-.Lsrl_neg_b22b:
-        .word   164, 12, .Lsrl_neg_b22c
-.Lsrl_neg_b22c:
-        .word   12, 180, .Lsrl_neg_b22d
-.Lsrl_neg_b22d:
-        .word   .Lsrl_c4194304, 180, .Lsrl_neg_b22e
-.Lsrl_neg_b22e:
-        .word   184, 184, .Lsrl_neg_b22f
-.Lsrl_neg_b22f:
-        .word   180, 184, .Lsrl_neg_b22s
-        .word   12, 12, .Lsrl_neg_b21
-.Lsrl_neg_b22s:
-        .word   .Lsrl_c4194304, 164, .Lsrl_neg_b22t
-.Lsrl_neg_b22t:
-        .word   .Lsrl_n2097152, 168, .Lsrl_neg_b21
-.Lsrl_neg_b21:
-        .word   180, 180, .Lsrl_neg_b21a
-.Lsrl_neg_b21a:
-        .word   12, 12, .Lsrl_neg_b21b
-.Lsrl_neg_b21b:
-        .word   164, 12, .Lsrl_neg_b21c
-.Lsrl_neg_b21c:
-        .word   12, 180, .Lsrl_neg_b21d
-.Lsrl_neg_b21d:
-        .word   .Lsrl_c2097152, 180, .Lsrl_neg_b21e
-.Lsrl_neg_b21e:
-        .word   184, 184, .Lsrl_neg_b21f
-.Lsrl_neg_b21f:
-        .word   180, 184, .Lsrl_neg_b21s
-        .word   12, 12, .Lsrl_neg_b20
-.Lsrl_neg_b21s:
-        .word   .Lsrl_c2097152, 164, .Lsrl_neg_b21t
-.Lsrl_neg_b21t:
-        .word   .Lsrl_n1048576, 168, .Lsrl_neg_b20
-.Lsrl_neg_b20:
-        .word   180, 180, .Lsrl_neg_b20a
-.Lsrl_neg_b20a:
-        .word   12, 12, .Lsrl_neg_b20b
-.Lsrl_neg_b20b:
-        .word   164, 12, .Lsrl_neg_b20c
-.Lsrl_neg_b20c:
-        .word   12, 180, .Lsrl_neg_b20d
-.Lsrl_neg_b20d:
-        .word   .Lsrl_c1048576, 180, .Lsrl_neg_b20e
-.Lsrl_neg_b20e:
-        .word   184, 184, .Lsrl_neg_b20f
-.Lsrl_neg_b20f:
-        .word   180, 184, .Lsrl_neg_b20s
-        .word   12, 12, .Lsrl_neg_b19
-.Lsrl_neg_b20s:
-        .word   .Lsrl_c1048576, 164, .Lsrl_neg_b20t
-.Lsrl_neg_b20t:
-        .word   .Lsrl_n524288, 168, .Lsrl_neg_b19
-.Lsrl_neg_b19:
-        .word   180, 180, .Lsrl_neg_b19a
-.Lsrl_neg_b19a:
-        .word   12, 12, .Lsrl_neg_b19b
-.Lsrl_neg_b19b:
-        .word   164, 12, .Lsrl_neg_b19c
-.Lsrl_neg_b19c:
-        .word   12, 180, .Lsrl_neg_b19d
-.Lsrl_neg_b19d:
-        .word   .Lsrl_c524288, 180, .Lsrl_neg_b19e
-.Lsrl_neg_b19e:
-        .word   184, 184, .Lsrl_neg_b19f
-.Lsrl_neg_b19f:
-        .word   180, 184, .Lsrl_neg_b19s
-        .word   12, 12, .Lsrl_neg_b18
-.Lsrl_neg_b19s:
-        .word   .Lsrl_c524288, 164, .Lsrl_neg_b19t
-.Lsrl_neg_b19t:
-        .word   .Lsrl_n262144, 168, .Lsrl_neg_b18
-.Lsrl_neg_b18:
-        .word   180, 180, .Lsrl_neg_b18a
-.Lsrl_neg_b18a:
-        .word   12, 12, .Lsrl_neg_b18b
-.Lsrl_neg_b18b:
-        .word   164, 12, .Lsrl_neg_b18c
-.Lsrl_neg_b18c:
-        .word   12, 180, .Lsrl_neg_b18d
-.Lsrl_neg_b18d:
-        .word   .Lsrl_c262144, 180, .Lsrl_neg_b18e
-.Lsrl_neg_b18e:
-        .word   184, 184, .Lsrl_neg_b18f
-.Lsrl_neg_b18f:
-        .word   180, 184, .Lsrl_neg_b18s
-        .word   12, 12, .Lsrl_neg_b17
-.Lsrl_neg_b18s:
-        .word   .Lsrl_c262144, 164, .Lsrl_neg_b18t
-.Lsrl_neg_b18t:
-        .word   .Lsrl_n131072, 168, .Lsrl_neg_b17
-.Lsrl_neg_b17:
-        .word   180, 180, .Lsrl_neg_b17a
-.Lsrl_neg_b17a:
-        .word   12, 12, .Lsrl_neg_b17b
-.Lsrl_neg_b17b:
-        .word   164, 12, .Lsrl_neg_b17c
-.Lsrl_neg_b17c:
-        .word   12, 180, .Lsrl_neg_b17d
-.Lsrl_neg_b17d:
-        .word   .Lsrl_c131072, 180, .Lsrl_neg_b17e
-.Lsrl_neg_b17e:
-        .word   184, 184, .Lsrl_neg_b17f
-.Lsrl_neg_b17f:
-        .word   180, 184, .Lsrl_neg_b17s
-        .word   12, 12, .Lsrl_neg_b16
-.Lsrl_neg_b17s:
-        .word   .Lsrl_c131072, 164, .Lsrl_neg_b17t
-.Lsrl_neg_b17t:
-        .word   .Lsrl_n65536, 168, .Lsrl_neg_b16
-.Lsrl_neg_b16:
-        .word   180, 180, .Lsrl_neg_b16a
-.Lsrl_neg_b16a:
-        .word   12, 12, .Lsrl_neg_b16b
-.Lsrl_neg_b16b:
-        .word   164, 12, .Lsrl_neg_b16c
-.Lsrl_neg_b16c:
-        .word   12, 180, .Lsrl_neg_b16d
-.Lsrl_neg_b16d:
-        .word   .Lsrl_c65536, 180, .Lsrl_neg_b16e
-.Lsrl_neg_b16e:
-        .word   184, 184, .Lsrl_neg_b16f
-.Lsrl_neg_b16f:
-        .word   180, 184, .Lsrl_neg_b16s
-        .word   12, 12, .Lsrl_neg_b15
-.Lsrl_neg_b16s:
-        .word   .Lsrl_c65536, 164, .Lsrl_neg_b16t
-.Lsrl_neg_b16t:
-        .word   .Lsrl_n32768, 168, .Lsrl_neg_b15
-.Lsrl_neg_b15:
-        .word   180, 180, .Lsrl_neg_b15a
-.Lsrl_neg_b15a:
-        .word   12, 12, .Lsrl_neg_b15b
-.Lsrl_neg_b15b:
-        .word   164, 12, .Lsrl_neg_b15c
-.Lsrl_neg_b15c:
-        .word   12, 180, .Lsrl_neg_b15d
-.Lsrl_neg_b15d:
-        .word   .Lsrl_c32768, 180, .Lsrl_neg_b15e
-.Lsrl_neg_b15e:
-        .word   184, 184, .Lsrl_neg_b15f
-.Lsrl_neg_b15f:
-        .word   180, 184, .Lsrl_neg_b15s
-        .word   12, 12, .Lsrl_neg_b14
-.Lsrl_neg_b15s:
-        .word   .Lsrl_c32768, 164, .Lsrl_neg_b15t
-.Lsrl_neg_b15t:
-        .word   .Lsrl_n16384, 168, .Lsrl_neg_b14
-.Lsrl_neg_b14:
-        .word   180, 180, .Lsrl_neg_b14a
-.Lsrl_neg_b14a:
-        .word   12, 12, .Lsrl_neg_b14b
-.Lsrl_neg_b14b:
-        .word   164, 12, .Lsrl_neg_b14c
-.Lsrl_neg_b14c:
-        .word   12, 180, .Lsrl_neg_b14d
-.Lsrl_neg_b14d:
-        .word   .Lsrl_c16384, 180, .Lsrl_neg_b14e
-.Lsrl_neg_b14e:
-        .word   184, 184, .Lsrl_neg_b14f
-.Lsrl_neg_b14f:
-        .word   180, 184, .Lsrl_neg_b14s
-        .word   12, 12, .Lsrl_neg_b13
-.Lsrl_neg_b14s:
-        .word   .Lsrl_c16384, 164, .Lsrl_neg_b14t
-.Lsrl_neg_b14t:
-        .word   .Lsrl_n8192, 168, .Lsrl_neg_b13
-.Lsrl_neg_b13:
-        .word   180, 180, .Lsrl_neg_b13a
-.Lsrl_neg_b13a:
-        .word   12, 12, .Lsrl_neg_b13b
-.Lsrl_neg_b13b:
-        .word   164, 12, .Lsrl_neg_b13c
-.Lsrl_neg_b13c:
-        .word   12, 180, .Lsrl_neg_b13d
-.Lsrl_neg_b13d:
-        .word   .Lsrl_c8192, 180, .Lsrl_neg_b13e
-.Lsrl_neg_b13e:
-        .word   184, 184, .Lsrl_neg_b13f
-.Lsrl_neg_b13f:
-        .word   180, 184, .Lsrl_neg_b13s
-        .word   12, 12, .Lsrl_neg_b12
-.Lsrl_neg_b13s:
-        .word   .Lsrl_c8192, 164, .Lsrl_neg_b13t
-.Lsrl_neg_b13t:
-        .word   .Lsrl_n4096, 168, .Lsrl_neg_b12
-.Lsrl_neg_b12:
-        .word   180, 180, .Lsrl_neg_b12a
-.Lsrl_neg_b12a:
-        .word   12, 12, .Lsrl_neg_b12b
-.Lsrl_neg_b12b:
-        .word   164, 12, .Lsrl_neg_b12c
-.Lsrl_neg_b12c:
-        .word   12, 180, .Lsrl_neg_b12d
-.Lsrl_neg_b12d:
-        .word   .Lsrl_c4096, 180, .Lsrl_neg_b12e
-.Lsrl_neg_b12e:
-        .word   184, 184, .Lsrl_neg_b12f
-.Lsrl_neg_b12f:
-        .word   180, 184, .Lsrl_neg_b12s
-        .word   12, 12, .Lsrl_neg_b11
-.Lsrl_neg_b12s:
-        .word   .Lsrl_c4096, 164, .Lsrl_neg_b12t
-.Lsrl_neg_b12t:
-        .word   .Lsrl_n2048, 168, .Lsrl_neg_b11
-.Lsrl_neg_b11:
-        .word   180, 180, .Lsrl_neg_b11a
-.Lsrl_neg_b11a:
-        .word   12, 12, .Lsrl_neg_b11b
-.Lsrl_neg_b11b:
-        .word   164, 12, .Lsrl_neg_b11c
-.Lsrl_neg_b11c:
-        .word   12, 180, .Lsrl_neg_b11d
-.Lsrl_neg_b11d:
-        .word   .Lsrl_c2048, 180, .Lsrl_neg_b11e
-.Lsrl_neg_b11e:
-        .word   184, 184, .Lsrl_neg_b11f
-.Lsrl_neg_b11f:
-        .word   180, 184, .Lsrl_neg_b11s
-        .word   12, 12, .Lsrl_neg_b10
-.Lsrl_neg_b11s:
-        .word   .Lsrl_c2048, 164, .Lsrl_neg_b11t
-.Lsrl_neg_b11t:
-        .word   .Lsrl_n1024, 168, .Lsrl_neg_b10
-.Lsrl_neg_b10:
-        .word   180, 180, .Lsrl_neg_b10a
-.Lsrl_neg_b10a:
-        .word   12, 12, .Lsrl_neg_b10b
-.Lsrl_neg_b10b:
-        .word   164, 12, .Lsrl_neg_b10c
-.Lsrl_neg_b10c:
-        .word   12, 180, .Lsrl_neg_b10d
-.Lsrl_neg_b10d:
-        .word   .Lsrl_c1024, 180, .Lsrl_neg_b10e
-.Lsrl_neg_b10e:
-        .word   184, 184, .Lsrl_neg_b10f
-.Lsrl_neg_b10f:
-        .word   180, 184, .Lsrl_neg_b10s
-        .word   12, 12, .Lsrl_neg_b9
-.Lsrl_neg_b10s:
-        .word   .Lsrl_c1024, 164, .Lsrl_neg_b10t
-.Lsrl_neg_b10t:
-        .word   .Lsrl_n512, 168, .Lsrl_neg_b9
-.Lsrl_neg_b9:
-        .word   180, 180, .Lsrl_neg_b9a
-.Lsrl_neg_b9a:
-        .word   12, 12, .Lsrl_neg_b9b
-.Lsrl_neg_b9b:
-        .word   164, 12, .Lsrl_neg_b9c
-.Lsrl_neg_b9c:
-        .word   12, 180, .Lsrl_neg_b9d
-.Lsrl_neg_b9d:
-        .word   .Lsrl_c512, 180, .Lsrl_neg_b9e
-.Lsrl_neg_b9e:
-        .word   184, 184, .Lsrl_neg_b9f
-.Lsrl_neg_b9f:
-        .word   180, 184, .Lsrl_neg_b9s
-        .word   12, 12, .Lsrl_neg_b8
-.Lsrl_neg_b9s:
-        .word   .Lsrl_c512, 164, .Lsrl_neg_b9t
-.Lsrl_neg_b9t:
-        .word   .Lsrl_n256, 168, .Lsrl_neg_b8
-.Lsrl_neg_b8:
-        .word   180, 180, .Lsrl_neg_b8a
-.Lsrl_neg_b8a:
-        .word   12, 12, .Lsrl_neg_b8b
-.Lsrl_neg_b8b:
-        .word   164, 12, .Lsrl_neg_b8c
-.Lsrl_neg_b8c:
-        .word   12, 180, .Lsrl_neg_b8d
-.Lsrl_neg_b8d:
-        .word   .Lsrl_c256, 180, .Lsrl_neg_b8e
-.Lsrl_neg_b8e:
-        .word   184, 184, .Lsrl_neg_b8f
-.Lsrl_neg_b8f:
-        .word   180, 184, .Lsrl_neg_b8s
-        .word   12, 12, .Lsrl_neg_b7
-.Lsrl_neg_b8s:
-        .word   .Lsrl_c256, 164, .Lsrl_neg_b8t
-.Lsrl_neg_b8t:
-        .word   .Lsrl_n128, 168, .Lsrl_neg_b7
-.Lsrl_neg_b7:
-        .word   180, 180, .Lsrl_neg_b7a
-.Lsrl_neg_b7a:
-        .word   12, 12, .Lsrl_neg_b7b
-.Lsrl_neg_b7b:
-        .word   164, 12, .Lsrl_neg_b7c
-.Lsrl_neg_b7c:
-        .word   12, 180, .Lsrl_neg_b7d
-.Lsrl_neg_b7d:
-        .word   .Lsrl_c128, 180, .Lsrl_neg_b7e
-.Lsrl_neg_b7e:
-        .word   184, 184, .Lsrl_neg_b7f
-.Lsrl_neg_b7f:
-        .word   180, 184, .Lsrl_neg_b7s
-        .word   12, 12, .Lsrl_neg_b6
-.Lsrl_neg_b7s:
-        .word   .Lsrl_c128, 164, .Lsrl_neg_b7t
-.Lsrl_neg_b7t:
-        .word   .Lsrl_n64, 168, .Lsrl_neg_b6
-.Lsrl_neg_b6:
-        .word   180, 180, .Lsrl_neg_b6a
-.Lsrl_neg_b6a:
-        .word   12, 12, .Lsrl_neg_b6b
-.Lsrl_neg_b6b:
-        .word   164, 12, .Lsrl_neg_b6c
-.Lsrl_neg_b6c:
-        .word   12, 180, .Lsrl_neg_b6d
-.Lsrl_neg_b6d:
-        .word   .Lsrl_c64, 180, .Lsrl_neg_b6e
-.Lsrl_neg_b6e:
-        .word   184, 184, .Lsrl_neg_b6f
-.Lsrl_neg_b6f:
-        .word   180, 184, .Lsrl_neg_b6s
-        .word   12, 12, .Lsrl_neg_b5
-.Lsrl_neg_b6s:
-        .word   .Lsrl_c64, 164, .Lsrl_neg_b6t
-.Lsrl_neg_b6t:
-        .word   .Lsrl_n32, 168, .Lsrl_neg_b5
-.Lsrl_neg_b5:
-        .word   180, 180, .Lsrl_neg_b5a
-.Lsrl_neg_b5a:
-        .word   12, 12, .Lsrl_neg_b5b
-.Lsrl_neg_b5b:
-        .word   164, 12, .Lsrl_neg_b5c
-.Lsrl_neg_b5c:
-        .word   12, 180, .Lsrl_neg_b5d
-.Lsrl_neg_b5d:
-        .word   .Lsrl_c32, 180, .Lsrl_neg_b5e
-.Lsrl_neg_b5e:
-        .word   184, 184, .Lsrl_neg_b5f
-.Lsrl_neg_b5f:
-        .word   180, 184, .Lsrl_neg_b5s
-        .word   12, 12, .Lsrl_neg_b4
-.Lsrl_neg_b5s:
-        .word   .Lsrl_c32, 164, .Lsrl_neg_b5t
-.Lsrl_neg_b5t:
-        .word   .Lsrl_n16, 168, .Lsrl_neg_b4
-.Lsrl_neg_b4:
-        .word   180, 180, .Lsrl_neg_b4a
-.Lsrl_neg_b4a:
-        .word   12, 12, .Lsrl_neg_b4b
-.Lsrl_neg_b4b:
-        .word   164, 12, .Lsrl_neg_b4c
-.Lsrl_neg_b4c:
-        .word   12, 180, .Lsrl_neg_b4d
-.Lsrl_neg_b4d:
-        .word   .Lsrl_c16, 180, .Lsrl_neg_b4e
-.Lsrl_neg_b4e:
-        .word   184, 184, .Lsrl_neg_b4f
-.Lsrl_neg_b4f:
-        .word   180, 184, .Lsrl_neg_b4s
-        .word   12, 12, .Lsrl_neg_b3
-.Lsrl_neg_b4s:
-        .word   .Lsrl_c16, 164, .Lsrl_neg_b4t
-.Lsrl_neg_b4t:
-        .word   .Lsrl_n8, 168, .Lsrl_neg_b3
-.Lsrl_neg_b3:
-        .word   180, 180, .Lsrl_neg_b3a
-.Lsrl_neg_b3a:
-        .word   12, 12, .Lsrl_neg_b3b
-.Lsrl_neg_b3b:
-        .word   164, 12, .Lsrl_neg_b3c
-.Lsrl_neg_b3c:
-        .word   12, 180, .Lsrl_neg_b3d
-.Lsrl_neg_b3d:
-        .word   .Lsrl_c8, 180, .Lsrl_neg_b3e
-.Lsrl_neg_b3e:
-        .word   184, 184, .Lsrl_neg_b3f
-.Lsrl_neg_b3f:
-        .word   180, 184, .Lsrl_neg_b3s
-        .word   12, 12, .Lsrl_neg_b2
-.Lsrl_neg_b3s:
-        .word   .Lsrl_c8, 164, .Lsrl_neg_b3t
-.Lsrl_neg_b3t:
-        .word   .Lsrl_n4, 168, .Lsrl_neg_b2
-.Lsrl_neg_b2:
-        .word   180, 180, .Lsrl_neg_b2a
-.Lsrl_neg_b2a:
-        .word   12, 12, .Lsrl_neg_b2b
-.Lsrl_neg_b2b:
-        .word   164, 12, .Lsrl_neg_b2c
-.Lsrl_neg_b2c:
-        .word   12, 180, .Lsrl_neg_b2d
-.Lsrl_neg_b2d:
-        .word   .Lsrl_c4, 180, .Lsrl_neg_b2e
-.Lsrl_neg_b2e:
-        .word   184, 184, .Lsrl_neg_b2f
-.Lsrl_neg_b2f:
-        .word   180, 184, .Lsrl_neg_b2s
-        .word   12, 12, .Lsrl_neg_b1
-.Lsrl_neg_b2s:
-        .word   .Lsrl_c4, 164, .Lsrl_neg_b2t
-.Lsrl_neg_b2t:
-        .word   .Lsrl_n2, 168, .Lsrl_neg_b1
-.Lsrl_neg_b1:
-        .word   180, 180, .Lsrl_neg_b1a
-.Lsrl_neg_b1a:
-        .word   12, 12, .Lsrl_neg_b1b
-.Lsrl_neg_b1b:
-        .word   164, 12, .Lsrl_neg_b1c
-.Lsrl_neg_b1c:
-        .word   12, 180, .Lsrl_neg_b1d
-.Lsrl_neg_b1d:
-        .word   .Lsrl_c2, 180, .Lsrl_neg_b1e
-.Lsrl_neg_b1e:
-        .word   184, 184, .Lsrl_neg_b1f
-.Lsrl_neg_b1f:
-        .word   180, 184, .Lsrl_neg_b1s
-        .word   12, 12, .Lsrl_neg_done
-.Lsrl_neg_b1s:
-        .word   .Lsrl_c2, 164, .Lsrl_neg_b1t
-.Lsrl_neg_b1t:
-        .word   .Lsrl_n1, 168, .Lsrl_neg_done
-.Lsrl_neg_done:
-        .word   .Lsrl_n1073741824, 168, .Lsrl_cpy_result
-        .word   12, 12, .Lsrl_cpy_result
-.Lsrl_pos:
-        .word   168, 168, .Lsrl_b30
-.Lsrl_b30:
-        .word   180, 180, .Lsrl_b30a
-.Lsrl_b30a:
-        .word   12, 12, .Lsrl_b30b
-.Lsrl_b30b:
-        .word   164, 12, .Lsrl_b30c
-.Lsrl_b30c:
-        .word   12, 180, .Lsrl_b30d
-.Lsrl_b30d:
-        .word   .Lsrl_c1073741824, 180, .Lsrl_b30e
-.Lsrl_b30e:
-        .word   184, 184, .Lsrl_b30f
-.Lsrl_b30f:
-        .word   180, 184, .Lsrl_b30s
-        .word   12, 12, .Lsrl_b29
-.Lsrl_b30s:
-        .word   .Lsrl_c1073741824, 164, .Lsrl_b30t
-.Lsrl_b30t:
-        .word   .Lsrl_n536870912, 168, .Lsrl_b29
-.Lsrl_b29:
-        .word   180, 180, .Lsrl_b29a
-.Lsrl_b29a:
-        .word   12, 12, .Lsrl_b29b
-.Lsrl_b29b:
-        .word   164, 12, .Lsrl_b29c
-.Lsrl_b29c:
-        .word   12, 180, .Lsrl_b29d
-.Lsrl_b29d:
-        .word   .Lsrl_c536870912, 180, .Lsrl_b29e
-.Lsrl_b29e:
-        .word   184, 184, .Lsrl_b29f
-.Lsrl_b29f:
-        .word   180, 184, .Lsrl_b29s
-        .word   12, 12, .Lsrl_b28
-.Lsrl_b29s:
-        .word   .Lsrl_c536870912, 164, .Lsrl_b29t
-.Lsrl_b29t:
-        .word   .Lsrl_n268435456, 168, .Lsrl_b28
-.Lsrl_b28:
-        .word   180, 180, .Lsrl_b28a
-.Lsrl_b28a:
-        .word   12, 12, .Lsrl_b28b
-.Lsrl_b28b:
-        .word   164, 12, .Lsrl_b28c
-.Lsrl_b28c:
-        .word   12, 180, .Lsrl_b28d
-.Lsrl_b28d:
-        .word   .Lsrl_c268435456, 180, .Lsrl_b28e
-.Lsrl_b28e:
-        .word   184, 184, .Lsrl_b28f
-.Lsrl_b28f:
-        .word   180, 184, .Lsrl_b28s
-        .word   12, 12, .Lsrl_b27
-.Lsrl_b28s:
-        .word   .Lsrl_c268435456, 164, .Lsrl_b28t
-.Lsrl_b28t:
-        .word   .Lsrl_n134217728, 168, .Lsrl_b27
-.Lsrl_b27:
-        .word   180, 180, .Lsrl_b27a
-.Lsrl_b27a:
-        .word   12, 12, .Lsrl_b27b
-.Lsrl_b27b:
-        .word   164, 12, .Lsrl_b27c
-.Lsrl_b27c:
-        .word   12, 180, .Lsrl_b27d
-.Lsrl_b27d:
-        .word   .Lsrl_c134217728, 180, .Lsrl_b27e
-.Lsrl_b27e:
-        .word   184, 184, .Lsrl_b27f
-.Lsrl_b27f:
-        .word   180, 184, .Lsrl_b27s
-        .word   12, 12, .Lsrl_b26
-.Lsrl_b27s:
-        .word   .Lsrl_c134217728, 164, .Lsrl_b27t
-.Lsrl_b27t:
-        .word   .Lsrl_n67108864, 168, .Lsrl_b26
-.Lsrl_b26:
-        .word   180, 180, .Lsrl_b26a
-.Lsrl_b26a:
-        .word   12, 12, .Lsrl_b26b
-.Lsrl_b26b:
-        .word   164, 12, .Lsrl_b26c
-.Lsrl_b26c:
-        .word   12, 180, .Lsrl_b26d
-.Lsrl_b26d:
-        .word   .Lsrl_c67108864, 180, .Lsrl_b26e
-.Lsrl_b26e:
-        .word   184, 184, .Lsrl_b26f
-.Lsrl_b26f:
-        .word   180, 184, .Lsrl_b26s
-        .word   12, 12, .Lsrl_b25
-.Lsrl_b26s:
-        .word   .Lsrl_c67108864, 164, .Lsrl_b26t
-.Lsrl_b26t:
-        .word   .Lsrl_n33554432, 168, .Lsrl_b25
-.Lsrl_b25:
-        .word   180, 180, .Lsrl_b25a
-.Lsrl_b25a:
-        .word   12, 12, .Lsrl_b25b
-.Lsrl_b25b:
-        .word   164, 12, .Lsrl_b25c
-.Lsrl_b25c:
-        .word   12, 180, .Lsrl_b25d
-.Lsrl_b25d:
-        .word   .Lsrl_c33554432, 180, .Lsrl_b25e
-.Lsrl_b25e:
-        .word   184, 184, .Lsrl_b25f
-.Lsrl_b25f:
-        .word   180, 184, .Lsrl_b25s
-        .word   12, 12, .Lsrl_b24
-.Lsrl_b25s:
-        .word   .Lsrl_c33554432, 164, .Lsrl_b25t
-.Lsrl_b25t:
-        .word   .Lsrl_n16777216, 168, .Lsrl_b24
-.Lsrl_b24:
-        .word   180, 180, .Lsrl_b24a
-.Lsrl_b24a:
-        .word   12, 12, .Lsrl_b24b
-.Lsrl_b24b:
-        .word   164, 12, .Lsrl_b24c
-.Lsrl_b24c:
-        .word   12, 180, .Lsrl_b24d
-.Lsrl_b24d:
-        .word   .Lsrl_c16777216, 180, .Lsrl_b24e
-.Lsrl_b24e:
-        .word   184, 184, .Lsrl_b24f
-.Lsrl_b24f:
-        .word   180, 184, .Lsrl_b24s
-        .word   12, 12, .Lsrl_b23
-.Lsrl_b24s:
-        .word   .Lsrl_c16777216, 164, .Lsrl_b24t
-.Lsrl_b24t:
-        .word   .Lsrl_n8388608, 168, .Lsrl_b23
-.Lsrl_b23:
-        .word   180, 180, .Lsrl_b23a
-.Lsrl_b23a:
-        .word   12, 12, .Lsrl_b23b
-.Lsrl_b23b:
-        .word   164, 12, .Lsrl_b23c
-.Lsrl_b23c:
-        .word   12, 180, .Lsrl_b23d
-.Lsrl_b23d:
-        .word   .Lsrl_c8388608, 180, .Lsrl_b23e
-.Lsrl_b23e:
-        .word   184, 184, .Lsrl_b23f
-.Lsrl_b23f:
-        .word   180, 184, .Lsrl_b23s
-        .word   12, 12, .Lsrl_b22
-.Lsrl_b23s:
-        .word   .Lsrl_c8388608, 164, .Lsrl_b23t
-.Lsrl_b23t:
-        .word   .Lsrl_n4194304, 168, .Lsrl_b22
-.Lsrl_b22:
-        .word   180, 180, .Lsrl_b22a
-.Lsrl_b22a:
-        .word   12, 12, .Lsrl_b22b
-.Lsrl_b22b:
-        .word   164, 12, .Lsrl_b22c
-.Lsrl_b22c:
-        .word   12, 180, .Lsrl_b22d
-.Lsrl_b22d:
-        .word   .Lsrl_c4194304, 180, .Lsrl_b22e
-.Lsrl_b22e:
-        .word   184, 184, .Lsrl_b22f
-.Lsrl_b22f:
-        .word   180, 184, .Lsrl_b22s
-        .word   12, 12, .Lsrl_b21
-.Lsrl_b22s:
-        .word   .Lsrl_c4194304, 164, .Lsrl_b22t
-.Lsrl_b22t:
-        .word   .Lsrl_n2097152, 168, .Lsrl_b21
-.Lsrl_b21:
-        .word   180, 180, .Lsrl_b21a
-.Lsrl_b21a:
-        .word   12, 12, .Lsrl_b21b
-.Lsrl_b21b:
-        .word   164, 12, .Lsrl_b21c
-.Lsrl_b21c:
-        .word   12, 180, .Lsrl_b21d
-.Lsrl_b21d:
-        .word   .Lsrl_c2097152, 180, .Lsrl_b21e
-.Lsrl_b21e:
-        .word   184, 184, .Lsrl_b21f
-.Lsrl_b21f:
-        .word   180, 184, .Lsrl_b21s
-        .word   12, 12, .Lsrl_b20
-.Lsrl_b21s:
-        .word   .Lsrl_c2097152, 164, .Lsrl_b21t
-.Lsrl_b21t:
-        .word   .Lsrl_n1048576, 168, .Lsrl_b20
-.Lsrl_b20:
-        .word   180, 180, .Lsrl_b20a
-.Lsrl_b20a:
-        .word   12, 12, .Lsrl_b20b
-.Lsrl_b20b:
-        .word   164, 12, .Lsrl_b20c
-.Lsrl_b20c:
-        .word   12, 180, .Lsrl_b20d
-.Lsrl_b20d:
-        .word   .Lsrl_c1048576, 180, .Lsrl_b20e
-.Lsrl_b20e:
-        .word   184, 184, .Lsrl_b20f
-.Lsrl_b20f:
-        .word   180, 184, .Lsrl_b20s
-        .word   12, 12, .Lsrl_b19
-.Lsrl_b20s:
-        .word   .Lsrl_c1048576, 164, .Lsrl_b20t
-.Lsrl_b20t:
-        .word   .Lsrl_n524288, 168, .Lsrl_b19
-.Lsrl_b19:
-        .word   180, 180, .Lsrl_b19a
-.Lsrl_b19a:
-        .word   12, 12, .Lsrl_b19b
-.Lsrl_b19b:
-        .word   164, 12, .Lsrl_b19c
-.Lsrl_b19c:
-        .word   12, 180, .Lsrl_b19d
-.Lsrl_b19d:
-        .word   .Lsrl_c524288, 180, .Lsrl_b19e
-.Lsrl_b19e:
-        .word   184, 184, .Lsrl_b19f
-.Lsrl_b19f:
-        .word   180, 184, .Lsrl_b19s
-        .word   12, 12, .Lsrl_b18
-.Lsrl_b19s:
-        .word   .Lsrl_c524288, 164, .Lsrl_b19t
-.Lsrl_b19t:
-        .word   .Lsrl_n262144, 168, .Lsrl_b18
-.Lsrl_b18:
-        .word   180, 180, .Lsrl_b18a
-.Lsrl_b18a:
-        .word   12, 12, .Lsrl_b18b
-.Lsrl_b18b:
-        .word   164, 12, .Lsrl_b18c
-.Lsrl_b18c:
-        .word   12, 180, .Lsrl_b18d
-.Lsrl_b18d:
-        .word   .Lsrl_c262144, 180, .Lsrl_b18e
-.Lsrl_b18e:
-        .word   184, 184, .Lsrl_b18f
-.Lsrl_b18f:
-        .word   180, 184, .Lsrl_b18s
-        .word   12, 12, .Lsrl_b17
-.Lsrl_b18s:
-        .word   .Lsrl_c262144, 164, .Lsrl_b18t
-.Lsrl_b18t:
-        .word   .Lsrl_n131072, 168, .Lsrl_b17
-.Lsrl_b17:
-        .word   180, 180, .Lsrl_b17a
-.Lsrl_b17a:
-        .word   12, 12, .Lsrl_b17b
-.Lsrl_b17b:
-        .word   164, 12, .Lsrl_b17c
-.Lsrl_b17c:
-        .word   12, 180, .Lsrl_b17d
-.Lsrl_b17d:
-        .word   .Lsrl_c131072, 180, .Lsrl_b17e
-.Lsrl_b17e:
-        .word   184, 184, .Lsrl_b17f
-.Lsrl_b17f:
-        .word   180, 184, .Lsrl_b17s
-        .word   12, 12, .Lsrl_b16
-.Lsrl_b17s:
-        .word   .Lsrl_c131072, 164, .Lsrl_b17t
-.Lsrl_b17t:
-        .word   .Lsrl_n65536, 168, .Lsrl_b16
-.Lsrl_b16:
-        .word   180, 180, .Lsrl_b16a
-.Lsrl_b16a:
-        .word   12, 12, .Lsrl_b16b
-.Lsrl_b16b:
-        .word   164, 12, .Lsrl_b16c
-.Lsrl_b16c:
-        .word   12, 180, .Lsrl_b16d
-.Lsrl_b16d:
-        .word   .Lsrl_c65536, 180, .Lsrl_b16e
-.Lsrl_b16e:
-        .word   184, 184, .Lsrl_b16f
-.Lsrl_b16f:
-        .word   180, 184, .Lsrl_b16s
-        .word   12, 12, .Lsrl_b15
-.Lsrl_b16s:
-        .word   .Lsrl_c65536, 164, .Lsrl_b16t
-.Lsrl_b16t:
-        .word   .Lsrl_n32768, 168, .Lsrl_b15
-.Lsrl_b15:
-        .word   180, 180, .Lsrl_b15a
-.Lsrl_b15a:
-        .word   12, 12, .Lsrl_b15b
-.Lsrl_b15b:
-        .word   164, 12, .Lsrl_b15c
-.Lsrl_b15c:
-        .word   12, 180, .Lsrl_b15d
-.Lsrl_b15d:
-        .word   .Lsrl_c32768, 180, .Lsrl_b15e
-.Lsrl_b15e:
-        .word   184, 184, .Lsrl_b15f
-.Lsrl_b15f:
-        .word   180, 184, .Lsrl_b15s
-        .word   12, 12, .Lsrl_b14
-.Lsrl_b15s:
-        .word   .Lsrl_c32768, 164, .Lsrl_b15t
-.Lsrl_b15t:
-        .word   .Lsrl_n16384, 168, .Lsrl_b14
-.Lsrl_b14:
-        .word   180, 180, .Lsrl_b14a
-.Lsrl_b14a:
-        .word   12, 12, .Lsrl_b14b
-.Lsrl_b14b:
-        .word   164, 12, .Lsrl_b14c
-.Lsrl_b14c:
-        .word   12, 180, .Lsrl_b14d
-.Lsrl_b14d:
-        .word   .Lsrl_c16384, 180, .Lsrl_b14e
-.Lsrl_b14e:
-        .word   184, 184, .Lsrl_b14f
-.Lsrl_b14f:
-        .word   180, 184, .Lsrl_b14s
-        .word   12, 12, .Lsrl_b13
-.Lsrl_b14s:
-        .word   .Lsrl_c16384, 164, .Lsrl_b14t
-.Lsrl_b14t:
-        .word   .Lsrl_n8192, 168, .Lsrl_b13
-.Lsrl_b13:
-        .word   180, 180, .Lsrl_b13a
-.Lsrl_b13a:
-        .word   12, 12, .Lsrl_b13b
-.Lsrl_b13b:
-        .word   164, 12, .Lsrl_b13c
-.Lsrl_b13c:
-        .word   12, 180, .Lsrl_b13d
-.Lsrl_b13d:
-        .word   .Lsrl_c8192, 180, .Lsrl_b13e
-.Lsrl_b13e:
-        .word   184, 184, .Lsrl_b13f
-.Lsrl_b13f:
-        .word   180, 184, .Lsrl_b13s
-        .word   12, 12, .Lsrl_b12
-.Lsrl_b13s:
-        .word   .Lsrl_c8192, 164, .Lsrl_b13t
-.Lsrl_b13t:
-        .word   .Lsrl_n4096, 168, .Lsrl_b12
-.Lsrl_b12:
-        .word   180, 180, .Lsrl_b12a
-.Lsrl_b12a:
-        .word   12, 12, .Lsrl_b12b
-.Lsrl_b12b:
-        .word   164, 12, .Lsrl_b12c
-.Lsrl_b12c:
-        .word   12, 180, .Lsrl_b12d
-.Lsrl_b12d:
-        .word   .Lsrl_c4096, 180, .Lsrl_b12e
-.Lsrl_b12e:
-        .word   184, 184, .Lsrl_b12f
-.Lsrl_b12f:
-        .word   180, 184, .Lsrl_b12s
-        .word   12, 12, .Lsrl_b11
-.Lsrl_b12s:
-        .word   .Lsrl_c4096, 164, .Lsrl_b12t
-.Lsrl_b12t:
-        .word   .Lsrl_n2048, 168, .Lsrl_b11
-.Lsrl_b11:
-        .word   180, 180, .Lsrl_b11a
-.Lsrl_b11a:
-        .word   12, 12, .Lsrl_b11b
-.Lsrl_b11b:
-        .word   164, 12, .Lsrl_b11c
-.Lsrl_b11c:
-        .word   12, 180, .Lsrl_b11d
-.Lsrl_b11d:
-        .word   .Lsrl_c2048, 180, .Lsrl_b11e
-.Lsrl_b11e:
-        .word   184, 184, .Lsrl_b11f
-.Lsrl_b11f:
-        .word   180, 184, .Lsrl_b11s
-        .word   12, 12, .Lsrl_b10
-.Lsrl_b11s:
-        .word   .Lsrl_c2048, 164, .Lsrl_b11t
-.Lsrl_b11t:
-        .word   .Lsrl_n1024, 168, .Lsrl_b10
-.Lsrl_b10:
-        .word   180, 180, .Lsrl_b10a
-.Lsrl_b10a:
-        .word   12, 12, .Lsrl_b10b
-.Lsrl_b10b:
-        .word   164, 12, .Lsrl_b10c
-.Lsrl_b10c:
-        .word   12, 180, .Lsrl_b10d
-.Lsrl_b10d:
-        .word   .Lsrl_c1024, 180, .Lsrl_b10e
-.Lsrl_b10e:
-        .word   184, 184, .Lsrl_b10f
-.Lsrl_b10f:
-        .word   180, 184, .Lsrl_b10s
-        .word   12, 12, .Lsrl_b9
-.Lsrl_b10s:
-        .word   .Lsrl_c1024, 164, .Lsrl_b10t
-.Lsrl_b10t:
-        .word   .Lsrl_n512, 168, .Lsrl_b9
-.Lsrl_b9:
-        .word   180, 180, .Lsrl_b9a
-.Lsrl_b9a:
-        .word   12, 12, .Lsrl_b9b
-.Lsrl_b9b:
-        .word   164, 12, .Lsrl_b9c
-.Lsrl_b9c:
-        .word   12, 180, .Lsrl_b9d
-.Lsrl_b9d:
-        .word   .Lsrl_c512, 180, .Lsrl_b9e
-.Lsrl_b9e:
-        .word   184, 184, .Lsrl_b9f
-.Lsrl_b9f:
-        .word   180, 184, .Lsrl_b9s
-        .word   12, 12, .Lsrl_b8
-.Lsrl_b9s:
-        .word   .Lsrl_c512, 164, .Lsrl_b9t
-.Lsrl_b9t:
-        .word   .Lsrl_n256, 168, .Lsrl_b8
-.Lsrl_b8:
-        .word   180, 180, .Lsrl_b8a
-.Lsrl_b8a:
-        .word   12, 12, .Lsrl_b8b
-.Lsrl_b8b:
-        .word   164, 12, .Lsrl_b8c
-.Lsrl_b8c:
-        .word   12, 180, .Lsrl_b8d
-.Lsrl_b8d:
-        .word   .Lsrl_c256, 180, .Lsrl_b8e
-.Lsrl_b8e:
-        .word   184, 184, .Lsrl_b8f
-.Lsrl_b8f:
-        .word   180, 184, .Lsrl_b8s
-        .word   12, 12, .Lsrl_b7
-.Lsrl_b8s:
-        .word   .Lsrl_c256, 164, .Lsrl_b8t
-.Lsrl_b8t:
-        .word   .Lsrl_n128, 168, .Lsrl_b7
-.Lsrl_b7:
-        .word   180, 180, .Lsrl_b7a
-.Lsrl_b7a:
-        .word   12, 12, .Lsrl_b7b
-.Lsrl_b7b:
-        .word   164, 12, .Lsrl_b7c
-.Lsrl_b7c:
-        .word   12, 180, .Lsrl_b7d
-.Lsrl_b7d:
-        .word   .Lsrl_c128, 180, .Lsrl_b7e
-.Lsrl_b7e:
-        .word   184, 184, .Lsrl_b7f
-.Lsrl_b7f:
-        .word   180, 184, .Lsrl_b7s
-        .word   12, 12, .Lsrl_b6
-.Lsrl_b7s:
-        .word   .Lsrl_c128, 164, .Lsrl_b7t
-.Lsrl_b7t:
-        .word   .Lsrl_n64, 168, .Lsrl_b6
-.Lsrl_b6:
-        .word   180, 180, .Lsrl_b6a
-.Lsrl_b6a:
-        .word   12, 12, .Lsrl_b6b
-.Lsrl_b6b:
-        .word   164, 12, .Lsrl_b6c
-.Lsrl_b6c:
-        .word   12, 180, .Lsrl_b6d
-.Lsrl_b6d:
-        .word   .Lsrl_c64, 180, .Lsrl_b6e
-.Lsrl_b6e:
-        .word   184, 184, .Lsrl_b6f
-.Lsrl_b6f:
-        .word   180, 184, .Lsrl_b6s
-        .word   12, 12, .Lsrl_b5
-.Lsrl_b6s:
-        .word   .Lsrl_c64, 164, .Lsrl_b6t
-.Lsrl_b6t:
-        .word   .Lsrl_n32, 168, .Lsrl_b5
-.Lsrl_b5:
-        .word   180, 180, .Lsrl_b5a
-.Lsrl_b5a:
-        .word   12, 12, .Lsrl_b5b
-.Lsrl_b5b:
-        .word   164, 12, .Lsrl_b5c
-.Lsrl_b5c:
-        .word   12, 180, .Lsrl_b5d
-.Lsrl_b5d:
-        .word   .Lsrl_c32, 180, .Lsrl_b5e
-.Lsrl_b5e:
-        .word   184, 184, .Lsrl_b5f
-.Lsrl_b5f:
-        .word   180, 184, .Lsrl_b5s
-        .word   12, 12, .Lsrl_b4
-.Lsrl_b5s:
-        .word   .Lsrl_c32, 164, .Lsrl_b5t
-.Lsrl_b5t:
-        .word   .Lsrl_n16, 168, .Lsrl_b4
-.Lsrl_b4:
-        .word   180, 180, .Lsrl_b4a
-.Lsrl_b4a:
-        .word   12, 12, .Lsrl_b4b
-.Lsrl_b4b:
-        .word   164, 12, .Lsrl_b4c
-.Lsrl_b4c:
-        .word   12, 180, .Lsrl_b4d
-.Lsrl_b4d:
-        .word   .Lsrl_c16, 180, .Lsrl_b4e
-.Lsrl_b4e:
-        .word   184, 184, .Lsrl_b4f
-.Lsrl_b4f:
-        .word   180, 184, .Lsrl_b4s
-        .word   12, 12, .Lsrl_b3
-.Lsrl_b4s:
-        .word   .Lsrl_c16, 164, .Lsrl_b4t
-.Lsrl_b4t:
-        .word   .Lsrl_n8, 168, .Lsrl_b3
-.Lsrl_b3:
-        .word   180, 180, .Lsrl_b3a
-.Lsrl_b3a:
-        .word   12, 12, .Lsrl_b3b
-.Lsrl_b3b:
-        .word   164, 12, .Lsrl_b3c
-.Lsrl_b3c:
-        .word   12, 180, .Lsrl_b3d
-.Lsrl_b3d:
-        .word   .Lsrl_c8, 180, .Lsrl_b3e
-.Lsrl_b3e:
-        .word   184, 184, .Lsrl_b3f
-.Lsrl_b3f:
-        .word   180, 184, .Lsrl_b3s
-        .word   12, 12, .Lsrl_b2
-.Lsrl_b3s:
-        .word   .Lsrl_c8, 164, .Lsrl_b3t
-.Lsrl_b3t:
-        .word   .Lsrl_n4, 168, .Lsrl_b2
-.Lsrl_b2:
-        .word   180, 180, .Lsrl_b2a
-.Lsrl_b2a:
-        .word   12, 12, .Lsrl_b2b
-.Lsrl_b2b:
-        .word   164, 12, .Lsrl_b2c
-.Lsrl_b2c:
-        .word   12, 180, .Lsrl_b2d
-.Lsrl_b2d:
-        .word   .Lsrl_c4, 180, .Lsrl_b2e
-.Lsrl_b2e:
-        .word   184, 184, .Lsrl_b2f
-.Lsrl_b2f:
-        .word   180, 184, .Lsrl_b2s
-        .word   12, 12, .Lsrl_b1
-.Lsrl_b2s:
-        .word   .Lsrl_c4, 164, .Lsrl_b2t
-.Lsrl_b2t:
-        .word   .Lsrl_n2, 168, .Lsrl_b1
-.Lsrl_b1:
-        .word   180, 180, .Lsrl_b1a
-.Lsrl_b1a:
-        .word   12, 12, .Lsrl_b1b
-.Lsrl_b1b:
-        .word   164, 12, .Lsrl_b1c
-.Lsrl_b1c:
-        .word   12, 180, .Lsrl_b1d
-.Lsrl_b1d:
-        .word   .Lsrl_c2, 180, .Lsrl_b1e
-.Lsrl_b1e:
-        .word   184, 184, .Lsrl_b1f
-.Lsrl_b1f:
-        .word   180, 184, .Lsrl_b1s
-        .word   12, 12, .Lsrl_cpy_result
-.Lsrl_b1s:
-        .word   .Lsrl_c2, 164, .Lsrl_b1t
-.Lsrl_b1t:
-        .word   .Lsrl_n1, 168, .Lsrl_cpy_result
-.Lsrl_cpy_result:
-        .word   28, 28, .Lsrl_cpy1
-.Lsrl_cpy1:
-        .word   12, 12, .Lsrl_cpy2
-.Lsrl_cpy2:
-        .word   168, 12, .Lsrl_cpy3
-.Lsrl_cpy3:
-        .word   12, 28, .Lsrl_odec
-.Lsrl_odec:
-        .word   .Lsrl_one, 160, .Lsrl_done
-        .word   12, 12, .Lsrl_outer
+        .word   160, 160, .Lsrl_chk32a
+.Lsrl_chk32a:
+        .word   12, 12, .Lsrl_chk32b
+.Lsrl_chk32b:
+        .word   32, 12, .Lsrl_chk32c
+.Lsrl_chk32c:
+        .word   12, 160, .Lsrl_chk32d
+.Lsrl_chk32d:
+        .word   .Lsrl_sh32, 160, .Lsrl_chk32e
+.Lsrl_chk32e:
+        .word   172, 172, .Lsrl_chk32f
+.Lsrl_chk32f:
+        .word   160, 172, .Lsrl_zero
+.Lsrl_chk1:
+        .word   160, 160, .Lsrl_chk1a
+.Lsrl_chk1a:
+        .word   12, 12, .Lsrl_chk1b
+.Lsrl_chk1b:
+        .word   32, 12, .Lsrl_chk1c
+.Lsrl_chk1c:
+        .word   12, 160, .Lsrl_chk1d
+.Lsrl_chk1d:
+        .word   .Lsrl_sh1, 160, .Lsrl_chk1e
+.Lsrl_chk1e:
+        .word   24, 160, .Lsrl_shift_1
+.Lsrl_chk2:
+        .word   160, 160, .Lsrl_chk2a
+.Lsrl_chk2a:
+        .word   12, 12, .Lsrl_chk2b
+.Lsrl_chk2b:
+        .word   32, 12, .Lsrl_chk2c
+.Lsrl_chk2c:
+        .word   12, 160, .Lsrl_chk2d
+.Lsrl_chk2d:
+        .word   .Lsrl_sh2, 160, .Lsrl_chk2e
+.Lsrl_chk2e:
+        .word   24, 160, .Lsrl_shift_2
+.Lsrl_chk3:
+        .word   160, 160, .Lsrl_chk3a
+.Lsrl_chk3a:
+        .word   12, 12, .Lsrl_chk3b
+.Lsrl_chk3b:
+        .word   32, 12, .Lsrl_chk3c
+.Lsrl_chk3c:
+        .word   12, 160, .Lsrl_chk3d
+.Lsrl_chk3d:
+        .word   .Lsrl_sh3, 160, .Lsrl_chk3e
+.Lsrl_chk3e:
+        .word   24, 160, .Lsrl_shift_3
+.Lsrl_chk4:
+        .word   160, 160, .Lsrl_chk4a
+.Lsrl_chk4a:
+        .word   12, 12, .Lsrl_chk4b
+.Lsrl_chk4b:
+        .word   32, 12, .Lsrl_chk4c
+.Lsrl_chk4c:
+        .word   12, 160, .Lsrl_chk4d
+.Lsrl_chk4d:
+        .word   .Lsrl_sh4, 160, .Lsrl_chk4e
+.Lsrl_chk4e:
+        .word   24, 160, .Lsrl_shift_4
+.Lsrl_chk5:
+        .word   160, 160, .Lsrl_chk5a
+.Lsrl_chk5a:
+        .word   12, 12, .Lsrl_chk5b
+.Lsrl_chk5b:
+        .word   32, 12, .Lsrl_chk5c
+.Lsrl_chk5c:
+        .word   12, 160, .Lsrl_chk5d
+.Lsrl_chk5d:
+        .word   .Lsrl_sh5, 160, .Lsrl_chk5e
+.Lsrl_chk5e:
+        .word   24, 160, .Lsrl_shift_5
+.Lsrl_chk6:
+        .word   160, 160, .Lsrl_chk6a
+.Lsrl_chk6a:
+        .word   12, 12, .Lsrl_chk6b
+.Lsrl_chk6b:
+        .word   32, 12, .Lsrl_chk6c
+.Lsrl_chk6c:
+        .word   12, 160, .Lsrl_chk6d
+.Lsrl_chk6d:
+        .word   .Lsrl_sh6, 160, .Lsrl_chk6e
+.Lsrl_chk6e:
+        .word   24, 160, .Lsrl_shift_6
+.Lsrl_chk7:
+        .word   160, 160, .Lsrl_chk7a
+.Lsrl_chk7a:
+        .word   12, 12, .Lsrl_chk7b
+.Lsrl_chk7b:
+        .word   32, 12, .Lsrl_chk7c
+.Lsrl_chk7c:
+        .word   12, 160, .Lsrl_chk7d
+.Lsrl_chk7d:
+        .word   .Lsrl_sh7, 160, .Lsrl_chk7e
+.Lsrl_chk7e:
+        .word   24, 160, .Lsrl_shift_7
+.Lsrl_chk8:
+        .word   160, 160, .Lsrl_chk8a
+.Lsrl_chk8a:
+        .word   12, 12, .Lsrl_chk8b
+.Lsrl_chk8b:
+        .word   32, 12, .Lsrl_chk8c
+.Lsrl_chk8c:
+        .word   12, 160, .Lsrl_chk8d
+.Lsrl_chk8d:
+        .word   .Lsrl_sh8, 160, .Lsrl_chk8e
+.Lsrl_chk8e:
+        .word   24, 160, .Lsrl_shift_8
+.Lsrl_chk9:
+        .word   160, 160, .Lsrl_chk9a
+.Lsrl_chk9a:
+        .word   12, 12, .Lsrl_chk9b
+.Lsrl_chk9b:
+        .word   32, 12, .Lsrl_chk9c
+.Lsrl_chk9c:
+        .word   12, 160, .Lsrl_chk9d
+.Lsrl_chk9d:
+        .word   .Lsrl_sh9, 160, .Lsrl_chk9e
+.Lsrl_chk9e:
+        .word   24, 160, .Lsrl_shift_9
+.Lsrl_chk10:
+        .word   160, 160, .Lsrl_chk10a
+.Lsrl_chk10a:
+        .word   12, 12, .Lsrl_chk10b
+.Lsrl_chk10b:
+        .word   32, 12, .Lsrl_chk10c
+.Lsrl_chk10c:
+        .word   12, 160, .Lsrl_chk10d
+.Lsrl_chk10d:
+        .word   .Lsrl_sh10, 160, .Lsrl_chk10e
+.Lsrl_chk10e:
+        .word   24, 160, .Lsrl_shift_10
+.Lsrl_chk11:
+        .word   160, 160, .Lsrl_chk11a
+.Lsrl_chk11a:
+        .word   12, 12, .Lsrl_chk11b
+.Lsrl_chk11b:
+        .word   32, 12, .Lsrl_chk11c
+.Lsrl_chk11c:
+        .word   12, 160, .Lsrl_chk11d
+.Lsrl_chk11d:
+        .word   .Lsrl_sh11, 160, .Lsrl_chk11e
+.Lsrl_chk11e:
+        .word   24, 160, .Lsrl_shift_11
+.Lsrl_chk12:
+        .word   160, 160, .Lsrl_chk12a
+.Lsrl_chk12a:
+        .word   12, 12, .Lsrl_chk12b
+.Lsrl_chk12b:
+        .word   32, 12, .Lsrl_chk12c
+.Lsrl_chk12c:
+        .word   12, 160, .Lsrl_chk12d
+.Lsrl_chk12d:
+        .word   .Lsrl_sh12, 160, .Lsrl_chk12e
+.Lsrl_chk12e:
+        .word   24, 160, .Lsrl_shift_12
+.Lsrl_chk13:
+        .word   160, 160, .Lsrl_chk13a
+.Lsrl_chk13a:
+        .word   12, 12, .Lsrl_chk13b
+.Lsrl_chk13b:
+        .word   32, 12, .Lsrl_chk13c
+.Lsrl_chk13c:
+        .word   12, 160, .Lsrl_chk13d
+.Lsrl_chk13d:
+        .word   .Lsrl_sh13, 160, .Lsrl_chk13e
+.Lsrl_chk13e:
+        .word   24, 160, .Lsrl_shift_13
+.Lsrl_chk14:
+        .word   160, 160, .Lsrl_chk14a
+.Lsrl_chk14a:
+        .word   12, 12, .Lsrl_chk14b
+.Lsrl_chk14b:
+        .word   32, 12, .Lsrl_chk14c
+.Lsrl_chk14c:
+        .word   12, 160, .Lsrl_chk14d
+.Lsrl_chk14d:
+        .word   .Lsrl_sh14, 160, .Lsrl_chk14e
+.Lsrl_chk14e:
+        .word   24, 160, .Lsrl_shift_14
+.Lsrl_chk15:
+        .word   160, 160, .Lsrl_chk15a
+.Lsrl_chk15a:
+        .word   12, 12, .Lsrl_chk15b
+.Lsrl_chk15b:
+        .word   32, 12, .Lsrl_chk15c
+.Lsrl_chk15c:
+        .word   12, 160, .Lsrl_chk15d
+.Lsrl_chk15d:
+        .word   .Lsrl_sh15, 160, .Lsrl_chk15e
+.Lsrl_chk15e:
+        .word   24, 160, .Lsrl_shift_15
+.Lsrl_chk16:
+        .word   160, 160, .Lsrl_chk16a
+.Lsrl_chk16a:
+        .word   12, 12, .Lsrl_chk16b
+.Lsrl_chk16b:
+        .word   32, 12, .Lsrl_chk16c
+.Lsrl_chk16c:
+        .word   12, 160, .Lsrl_chk16d
+.Lsrl_chk16d:
+        .word   .Lsrl_sh16, 160, .Lsrl_chk16e
+.Lsrl_chk16e:
+        .word   24, 160, .Lsrl_shift_16
+.Lsrl_chk17:
+        .word   160, 160, .Lsrl_chk17a
+.Lsrl_chk17a:
+        .word   12, 12, .Lsrl_chk17b
+.Lsrl_chk17b:
+        .word   32, 12, .Lsrl_chk17c
+.Lsrl_chk17c:
+        .word   12, 160, .Lsrl_chk17d
+.Lsrl_chk17d:
+        .word   .Lsrl_sh17, 160, .Lsrl_chk17e
+.Lsrl_chk17e:
+        .word   24, 160, .Lsrl_shift_17
+.Lsrl_chk18:
+        .word   160, 160, .Lsrl_chk18a
+.Lsrl_chk18a:
+        .word   12, 12, .Lsrl_chk18b
+.Lsrl_chk18b:
+        .word   32, 12, .Lsrl_chk18c
+.Lsrl_chk18c:
+        .word   12, 160, .Lsrl_chk18d
+.Lsrl_chk18d:
+        .word   .Lsrl_sh18, 160, .Lsrl_chk18e
+.Lsrl_chk18e:
+        .word   24, 160, .Lsrl_shift_18
+.Lsrl_chk19:
+        .word   160, 160, .Lsrl_chk19a
+.Lsrl_chk19a:
+        .word   12, 12, .Lsrl_chk19b
+.Lsrl_chk19b:
+        .word   32, 12, .Lsrl_chk19c
+.Lsrl_chk19c:
+        .word   12, 160, .Lsrl_chk19d
+.Lsrl_chk19d:
+        .word   .Lsrl_sh19, 160, .Lsrl_chk19e
+.Lsrl_chk19e:
+        .word   24, 160, .Lsrl_shift_19
+.Lsrl_chk20:
+        .word   160, 160, .Lsrl_chk20a
+.Lsrl_chk20a:
+        .word   12, 12, .Lsrl_chk20b
+.Lsrl_chk20b:
+        .word   32, 12, .Lsrl_chk20c
+.Lsrl_chk20c:
+        .word   12, 160, .Lsrl_chk20d
+.Lsrl_chk20d:
+        .word   .Lsrl_sh20, 160, .Lsrl_chk20e
+.Lsrl_chk20e:
+        .word   24, 160, .Lsrl_shift_20
+.Lsrl_chk21:
+        .word   160, 160, .Lsrl_chk21a
+.Lsrl_chk21a:
+        .word   12, 12, .Lsrl_chk21b
+.Lsrl_chk21b:
+        .word   32, 12, .Lsrl_chk21c
+.Lsrl_chk21c:
+        .word   12, 160, .Lsrl_chk21d
+.Lsrl_chk21d:
+        .word   .Lsrl_sh21, 160, .Lsrl_chk21e
+.Lsrl_chk21e:
+        .word   24, 160, .Lsrl_shift_21
+.Lsrl_chk22:
+        .word   160, 160, .Lsrl_chk22a
+.Lsrl_chk22a:
+        .word   12, 12, .Lsrl_chk22b
+.Lsrl_chk22b:
+        .word   32, 12, .Lsrl_chk22c
+.Lsrl_chk22c:
+        .word   12, 160, .Lsrl_chk22d
+.Lsrl_chk22d:
+        .word   .Lsrl_sh22, 160, .Lsrl_chk22e
+.Lsrl_chk22e:
+        .word   24, 160, .Lsrl_shift_22
+.Lsrl_chk23:
+        .word   160, 160, .Lsrl_chk23a
+.Lsrl_chk23a:
+        .word   12, 12, .Lsrl_chk23b
+.Lsrl_chk23b:
+        .word   32, 12, .Lsrl_chk23c
+.Lsrl_chk23c:
+        .word   12, 160, .Lsrl_chk23d
+.Lsrl_chk23d:
+        .word   .Lsrl_sh23, 160, .Lsrl_chk23e
+.Lsrl_chk23e:
+        .word   24, 160, .Lsrl_shift_23
+.Lsrl_chk24:
+        .word   160, 160, .Lsrl_chk24a
+.Lsrl_chk24a:
+        .word   12, 12, .Lsrl_chk24b
+.Lsrl_chk24b:
+        .word   32, 12, .Lsrl_chk24c
+.Lsrl_chk24c:
+        .word   12, 160, .Lsrl_chk24d
+.Lsrl_chk24d:
+        .word   .Lsrl_sh24, 160, .Lsrl_chk24e
+.Lsrl_chk24e:
+        .word   24, 160, .Lsrl_shift_24
+.Lsrl_chk25:
+        .word   160, 160, .Lsrl_chk25a
+.Lsrl_chk25a:
+        .word   12, 12, .Lsrl_chk25b
+.Lsrl_chk25b:
+        .word   32, 12, .Lsrl_chk25c
+.Lsrl_chk25c:
+        .word   12, 160, .Lsrl_chk25d
+.Lsrl_chk25d:
+        .word   .Lsrl_sh25, 160, .Lsrl_chk25e
+.Lsrl_chk25e:
+        .word   24, 160, .Lsrl_shift_25
+.Lsrl_chk26:
+        .word   160, 160, .Lsrl_chk26a
+.Lsrl_chk26a:
+        .word   12, 12, .Lsrl_chk26b
+.Lsrl_chk26b:
+        .word   32, 12, .Lsrl_chk26c
+.Lsrl_chk26c:
+        .word   12, 160, .Lsrl_chk26d
+.Lsrl_chk26d:
+        .word   .Lsrl_sh26, 160, .Lsrl_chk26e
+.Lsrl_chk26e:
+        .word   24, 160, .Lsrl_shift_26
+.Lsrl_chk27:
+        .word   160, 160, .Lsrl_chk27a
+.Lsrl_chk27a:
+        .word   12, 12, .Lsrl_chk27b
+.Lsrl_chk27b:
+        .word   32, 12, .Lsrl_chk27c
+.Lsrl_chk27c:
+        .word   12, 160, .Lsrl_chk27d
+.Lsrl_chk27d:
+        .word   .Lsrl_sh27, 160, .Lsrl_chk27e
+.Lsrl_chk27e:
+        .word   24, 160, .Lsrl_shift_27
+.Lsrl_chk28:
+        .word   160, 160, .Lsrl_chk28a
+.Lsrl_chk28a:
+        .word   12, 12, .Lsrl_chk28b
+.Lsrl_chk28b:
+        .word   32, 12, .Lsrl_chk28c
+.Lsrl_chk28c:
+        .word   12, 160, .Lsrl_chk28d
+.Lsrl_chk28d:
+        .word   .Lsrl_sh28, 160, .Lsrl_chk28e
+.Lsrl_chk28e:
+        .word   24, 160, .Lsrl_shift_28
+.Lsrl_chk29:
+        .word   160, 160, .Lsrl_chk29a
+.Lsrl_chk29a:
+        .word   12, 12, .Lsrl_chk29b
+.Lsrl_chk29b:
+        .word   32, 12, .Lsrl_chk29c
+.Lsrl_chk29c:
+        .word   12, 160, .Lsrl_chk29d
+.Lsrl_chk29d:
+        .word   .Lsrl_sh29, 160, .Lsrl_chk29e
+.Lsrl_chk29e:
+        .word   24, 160, .Lsrl_shift_29
+.Lsrl_chk30:
+        .word   160, 160, .Lsrl_chk30a
+.Lsrl_chk30a:
+        .word   12, 12, .Lsrl_chk30b
+.Lsrl_chk30b:
+        .word   32, 12, .Lsrl_chk30c
+.Lsrl_chk30c:
+        .word   12, 160, .Lsrl_chk30d
+.Lsrl_chk30d:
+        .word   .Lsrl_sh30, 160, .Lsrl_chk30e
+.Lsrl_chk30e:
+        .word   24, 160, .Lsrl_shift_30
+.Lsrl_chk31:
+        .word   160, 160, .Lsrl_chk31a
+.Lsrl_chk31a:
+        .word   12, 12, .Lsrl_chk31b
+.Lsrl_chk31b:
+        .word   32, 12, .Lsrl_chk31c
+.Lsrl_chk31c:
+        .word   12, 160, .Lsrl_chk31d
+.Lsrl_chk31d:
+        .word   .Lsrl_sh31, 160, .Lsrl_chk31e
+.Lsrl_chk31e:
+        .word   24, 160, .Lsrl_shift_31
+        .word   12, 12, .Lsrl_zero
+.Lsrl_zero:
+        .word   28, 28, .Lsrl_done
+        .word   12, 12, .Lsrl_done
+
+.Lsrl_shift_1:
+        .word   168, 168, .Lsrl1_start
+.Lsrl1_start:
+.Lsrl1_b31:
+        .word   172, 172, .Lsrl1_b31a
+.Lsrl1_b31a:
+        .word   12, 12, .Lsrl1_b31b
+.Lsrl1_b31b:
+        .word   164, 12, .Lsrl1_b31c
+.Lsrl1_b31c:
+        .word   12, 172, .Lsrl1_b31d
+.Lsrl1_b31d:
+        .word   24, 172, .Lsrl1_b31_le0
+        .word   12, 12, .Lsrl1_b30
+.Lsrl1_b31_le0:
+        .word   176, 176, .Lsrl1_b31e
+.Lsrl1_b31e:
+        .word   164, 176, .Lsrl1_b31f
+.Lsrl1_b31f:
+        .word   24, 176, .Lsrl1_b31_ambig
+        .word   12, 12, .Lsrl1_b31s
+.Lsrl1_b31_ambig:
+        .word   172, 172, .Lsrl1_b31g
+.Lsrl1_b31g:
+        .word   164, 172, .Lsrl1_b31h
+.Lsrl1_b31h:
+        .word   .Lsrl_one, 172, .Lsrl1_b31i
+.Lsrl1_b31i:
+        .word   24, 172, .Lsrl1_b30
+        .word   12, 12, .Lsrl1_b31s
+.Lsrl1_b31s:
+        .word   .Lsrl_c2147483648, 164, .Lsrl1_b31t
+.Lsrl1_b31t:
+        .word   .Lsrl_n1073741824, 168, .Lsrl1_b30
+.Lsrl1_b30:
+        .word   172, 172, .Lsrl1_b30a
+.Lsrl1_b30a:
+        .word   12, 12, .Lsrl1_b30b
+.Lsrl1_b30b:
+        .word   164, 12, .Lsrl1_b30c
+.Lsrl1_b30c:
+        .word   12, 172, .Lsrl1_b30d
+.Lsrl1_b30d:
+        .word   .Lsrl_c1073741824, 172, .Lsrl1_b30e
+.Lsrl1_b30e:
+        .word   176, 176, .Lsrl1_b30f
+.Lsrl1_b30f:
+        .word   172, 176, .Lsrl1_b30s
+        .word   12, 12, .Lsrl1_b29
+.Lsrl1_b30s:
+        .word   .Lsrl_c1073741824, 164, .Lsrl1_b30t
+.Lsrl1_b30t:
+        .word   .Lsrl_n536870912, 168, .Lsrl1_b29
+.Lsrl1_b29:
+        .word   172, 172, .Lsrl1_b29a
+.Lsrl1_b29a:
+        .word   12, 12, .Lsrl1_b29b
+.Lsrl1_b29b:
+        .word   164, 12, .Lsrl1_b29c
+.Lsrl1_b29c:
+        .word   12, 172, .Lsrl1_b29d
+.Lsrl1_b29d:
+        .word   .Lsrl_c536870912, 172, .Lsrl1_b29e
+.Lsrl1_b29e:
+        .word   176, 176, .Lsrl1_b29f
+.Lsrl1_b29f:
+        .word   172, 176, .Lsrl1_b29s
+        .word   12, 12, .Lsrl1_b28
+.Lsrl1_b29s:
+        .word   .Lsrl_c536870912, 164, .Lsrl1_b29t
+.Lsrl1_b29t:
+        .word   .Lsrl_n268435456, 168, .Lsrl1_b28
+.Lsrl1_b28:
+        .word   172, 172, .Lsrl1_b28a
+.Lsrl1_b28a:
+        .word   12, 12, .Lsrl1_b28b
+.Lsrl1_b28b:
+        .word   164, 12, .Lsrl1_b28c
+.Lsrl1_b28c:
+        .word   12, 172, .Lsrl1_b28d
+.Lsrl1_b28d:
+        .word   .Lsrl_c268435456, 172, .Lsrl1_b28e
+.Lsrl1_b28e:
+        .word   176, 176, .Lsrl1_b28f
+.Lsrl1_b28f:
+        .word   172, 176, .Lsrl1_b28s
+        .word   12, 12, .Lsrl1_b27
+.Lsrl1_b28s:
+        .word   .Lsrl_c268435456, 164, .Lsrl1_b28t
+.Lsrl1_b28t:
+        .word   .Lsrl_n134217728, 168, .Lsrl1_b27
+.Lsrl1_b27:
+        .word   172, 172, .Lsrl1_b27a
+.Lsrl1_b27a:
+        .word   12, 12, .Lsrl1_b27b
+.Lsrl1_b27b:
+        .word   164, 12, .Lsrl1_b27c
+.Lsrl1_b27c:
+        .word   12, 172, .Lsrl1_b27d
+.Lsrl1_b27d:
+        .word   .Lsrl_c134217728, 172, .Lsrl1_b27e
+.Lsrl1_b27e:
+        .word   176, 176, .Lsrl1_b27f
+.Lsrl1_b27f:
+        .word   172, 176, .Lsrl1_b27s
+        .word   12, 12, .Lsrl1_b26
+.Lsrl1_b27s:
+        .word   .Lsrl_c134217728, 164, .Lsrl1_b27t
+.Lsrl1_b27t:
+        .word   .Lsrl_n67108864, 168, .Lsrl1_b26
+.Lsrl1_b26:
+        .word   172, 172, .Lsrl1_b26a
+.Lsrl1_b26a:
+        .word   12, 12, .Lsrl1_b26b
+.Lsrl1_b26b:
+        .word   164, 12, .Lsrl1_b26c
+.Lsrl1_b26c:
+        .word   12, 172, .Lsrl1_b26d
+.Lsrl1_b26d:
+        .word   .Lsrl_c67108864, 172, .Lsrl1_b26e
+.Lsrl1_b26e:
+        .word   176, 176, .Lsrl1_b26f
+.Lsrl1_b26f:
+        .word   172, 176, .Lsrl1_b26s
+        .word   12, 12, .Lsrl1_b25
+.Lsrl1_b26s:
+        .word   .Lsrl_c67108864, 164, .Lsrl1_b26t
+.Lsrl1_b26t:
+        .word   .Lsrl_n33554432, 168, .Lsrl1_b25
+.Lsrl1_b25:
+        .word   172, 172, .Lsrl1_b25a
+.Lsrl1_b25a:
+        .word   12, 12, .Lsrl1_b25b
+.Lsrl1_b25b:
+        .word   164, 12, .Lsrl1_b25c
+.Lsrl1_b25c:
+        .word   12, 172, .Lsrl1_b25d
+.Lsrl1_b25d:
+        .word   .Lsrl_c33554432, 172, .Lsrl1_b25e
+.Lsrl1_b25e:
+        .word   176, 176, .Lsrl1_b25f
+.Lsrl1_b25f:
+        .word   172, 176, .Lsrl1_b25s
+        .word   12, 12, .Lsrl1_b24
+.Lsrl1_b25s:
+        .word   .Lsrl_c33554432, 164, .Lsrl1_b25t
+.Lsrl1_b25t:
+        .word   .Lsrl_n16777216, 168, .Lsrl1_b24
+.Lsrl1_b24:
+        .word   172, 172, .Lsrl1_b24a
+.Lsrl1_b24a:
+        .word   12, 12, .Lsrl1_b24b
+.Lsrl1_b24b:
+        .word   164, 12, .Lsrl1_b24c
+.Lsrl1_b24c:
+        .word   12, 172, .Lsrl1_b24d
+.Lsrl1_b24d:
+        .word   .Lsrl_c16777216, 172, .Lsrl1_b24e
+.Lsrl1_b24e:
+        .word   176, 176, .Lsrl1_b24f
+.Lsrl1_b24f:
+        .word   172, 176, .Lsrl1_b24s
+        .word   12, 12, .Lsrl1_b23
+.Lsrl1_b24s:
+        .word   .Lsrl_c16777216, 164, .Lsrl1_b24t
+.Lsrl1_b24t:
+        .word   .Lsrl_n8388608, 168, .Lsrl1_b23
+.Lsrl1_b23:
+        .word   172, 172, .Lsrl1_b23a
+.Lsrl1_b23a:
+        .word   12, 12, .Lsrl1_b23b
+.Lsrl1_b23b:
+        .word   164, 12, .Lsrl1_b23c
+.Lsrl1_b23c:
+        .word   12, 172, .Lsrl1_b23d
+.Lsrl1_b23d:
+        .word   .Lsrl_c8388608, 172, .Lsrl1_b23e
+.Lsrl1_b23e:
+        .word   176, 176, .Lsrl1_b23f
+.Lsrl1_b23f:
+        .word   172, 176, .Lsrl1_b23s
+        .word   12, 12, .Lsrl1_b22
+.Lsrl1_b23s:
+        .word   .Lsrl_c8388608, 164, .Lsrl1_b23t
+.Lsrl1_b23t:
+        .word   .Lsrl_n4194304, 168, .Lsrl1_b22
+.Lsrl1_b22:
+        .word   172, 172, .Lsrl1_b22a
+.Lsrl1_b22a:
+        .word   12, 12, .Lsrl1_b22b
+.Lsrl1_b22b:
+        .word   164, 12, .Lsrl1_b22c
+.Lsrl1_b22c:
+        .word   12, 172, .Lsrl1_b22d
+.Lsrl1_b22d:
+        .word   .Lsrl_c4194304, 172, .Lsrl1_b22e
+.Lsrl1_b22e:
+        .word   176, 176, .Lsrl1_b22f
+.Lsrl1_b22f:
+        .word   172, 176, .Lsrl1_b22s
+        .word   12, 12, .Lsrl1_b21
+.Lsrl1_b22s:
+        .word   .Lsrl_c4194304, 164, .Lsrl1_b22t
+.Lsrl1_b22t:
+        .word   .Lsrl_n2097152, 168, .Lsrl1_b21
+.Lsrl1_b21:
+        .word   172, 172, .Lsrl1_b21a
+.Lsrl1_b21a:
+        .word   12, 12, .Lsrl1_b21b
+.Lsrl1_b21b:
+        .word   164, 12, .Lsrl1_b21c
+.Lsrl1_b21c:
+        .word   12, 172, .Lsrl1_b21d
+.Lsrl1_b21d:
+        .word   .Lsrl_c2097152, 172, .Lsrl1_b21e
+.Lsrl1_b21e:
+        .word   176, 176, .Lsrl1_b21f
+.Lsrl1_b21f:
+        .word   172, 176, .Lsrl1_b21s
+        .word   12, 12, .Lsrl1_b20
+.Lsrl1_b21s:
+        .word   .Lsrl_c2097152, 164, .Lsrl1_b21t
+.Lsrl1_b21t:
+        .word   .Lsrl_n1048576, 168, .Lsrl1_b20
+.Lsrl1_b20:
+        .word   172, 172, .Lsrl1_b20a
+.Lsrl1_b20a:
+        .word   12, 12, .Lsrl1_b20b
+.Lsrl1_b20b:
+        .word   164, 12, .Lsrl1_b20c
+.Lsrl1_b20c:
+        .word   12, 172, .Lsrl1_b20d
+.Lsrl1_b20d:
+        .word   .Lsrl_c1048576, 172, .Lsrl1_b20e
+.Lsrl1_b20e:
+        .word   176, 176, .Lsrl1_b20f
+.Lsrl1_b20f:
+        .word   172, 176, .Lsrl1_b20s
+        .word   12, 12, .Lsrl1_b19
+.Lsrl1_b20s:
+        .word   .Lsrl_c1048576, 164, .Lsrl1_b20t
+.Lsrl1_b20t:
+        .word   .Lsrl_n524288, 168, .Lsrl1_b19
+.Lsrl1_b19:
+        .word   172, 172, .Lsrl1_b19a
+.Lsrl1_b19a:
+        .word   12, 12, .Lsrl1_b19b
+.Lsrl1_b19b:
+        .word   164, 12, .Lsrl1_b19c
+.Lsrl1_b19c:
+        .word   12, 172, .Lsrl1_b19d
+.Lsrl1_b19d:
+        .word   .Lsrl_c524288, 172, .Lsrl1_b19e
+.Lsrl1_b19e:
+        .word   176, 176, .Lsrl1_b19f
+.Lsrl1_b19f:
+        .word   172, 176, .Lsrl1_b19s
+        .word   12, 12, .Lsrl1_b18
+.Lsrl1_b19s:
+        .word   .Lsrl_c524288, 164, .Lsrl1_b19t
+.Lsrl1_b19t:
+        .word   .Lsrl_n262144, 168, .Lsrl1_b18
+.Lsrl1_b18:
+        .word   172, 172, .Lsrl1_b18a
+.Lsrl1_b18a:
+        .word   12, 12, .Lsrl1_b18b
+.Lsrl1_b18b:
+        .word   164, 12, .Lsrl1_b18c
+.Lsrl1_b18c:
+        .word   12, 172, .Lsrl1_b18d
+.Lsrl1_b18d:
+        .word   .Lsrl_c262144, 172, .Lsrl1_b18e
+.Lsrl1_b18e:
+        .word   176, 176, .Lsrl1_b18f
+.Lsrl1_b18f:
+        .word   172, 176, .Lsrl1_b18s
+        .word   12, 12, .Lsrl1_b17
+.Lsrl1_b18s:
+        .word   .Lsrl_c262144, 164, .Lsrl1_b18t
+.Lsrl1_b18t:
+        .word   .Lsrl_n131072, 168, .Lsrl1_b17
+.Lsrl1_b17:
+        .word   172, 172, .Lsrl1_b17a
+.Lsrl1_b17a:
+        .word   12, 12, .Lsrl1_b17b
+.Lsrl1_b17b:
+        .word   164, 12, .Lsrl1_b17c
+.Lsrl1_b17c:
+        .word   12, 172, .Lsrl1_b17d
+.Lsrl1_b17d:
+        .word   .Lsrl_c131072, 172, .Lsrl1_b17e
+.Lsrl1_b17e:
+        .word   176, 176, .Lsrl1_b17f
+.Lsrl1_b17f:
+        .word   172, 176, .Lsrl1_b17s
+        .word   12, 12, .Lsrl1_b16
+.Lsrl1_b17s:
+        .word   .Lsrl_c131072, 164, .Lsrl1_b17t
+.Lsrl1_b17t:
+        .word   .Lsrl_n65536, 168, .Lsrl1_b16
+.Lsrl1_b16:
+        .word   172, 172, .Lsrl1_b16a
+.Lsrl1_b16a:
+        .word   12, 12, .Lsrl1_b16b
+.Lsrl1_b16b:
+        .word   164, 12, .Lsrl1_b16c
+.Lsrl1_b16c:
+        .word   12, 172, .Lsrl1_b16d
+.Lsrl1_b16d:
+        .word   .Lsrl_c65536, 172, .Lsrl1_b16e
+.Lsrl1_b16e:
+        .word   176, 176, .Lsrl1_b16f
+.Lsrl1_b16f:
+        .word   172, 176, .Lsrl1_b16s
+        .word   12, 12, .Lsrl1_b15
+.Lsrl1_b16s:
+        .word   .Lsrl_c65536, 164, .Lsrl1_b16t
+.Lsrl1_b16t:
+        .word   .Lsrl_n32768, 168, .Lsrl1_b15
+.Lsrl1_b15:
+        .word   172, 172, .Lsrl1_b15a
+.Lsrl1_b15a:
+        .word   12, 12, .Lsrl1_b15b
+.Lsrl1_b15b:
+        .word   164, 12, .Lsrl1_b15c
+.Lsrl1_b15c:
+        .word   12, 172, .Lsrl1_b15d
+.Lsrl1_b15d:
+        .word   .Lsrl_c32768, 172, .Lsrl1_b15e
+.Lsrl1_b15e:
+        .word   176, 176, .Lsrl1_b15f
+.Lsrl1_b15f:
+        .word   172, 176, .Lsrl1_b15s
+        .word   12, 12, .Lsrl1_b14
+.Lsrl1_b15s:
+        .word   .Lsrl_c32768, 164, .Lsrl1_b15t
+.Lsrl1_b15t:
+        .word   .Lsrl_n16384, 168, .Lsrl1_b14
+.Lsrl1_b14:
+        .word   172, 172, .Lsrl1_b14a
+.Lsrl1_b14a:
+        .word   12, 12, .Lsrl1_b14b
+.Lsrl1_b14b:
+        .word   164, 12, .Lsrl1_b14c
+.Lsrl1_b14c:
+        .word   12, 172, .Lsrl1_b14d
+.Lsrl1_b14d:
+        .word   .Lsrl_c16384, 172, .Lsrl1_b14e
+.Lsrl1_b14e:
+        .word   176, 176, .Lsrl1_b14f
+.Lsrl1_b14f:
+        .word   172, 176, .Lsrl1_b14s
+        .word   12, 12, .Lsrl1_b13
+.Lsrl1_b14s:
+        .word   .Lsrl_c16384, 164, .Lsrl1_b14t
+.Lsrl1_b14t:
+        .word   .Lsrl_n8192, 168, .Lsrl1_b13
+.Lsrl1_b13:
+        .word   172, 172, .Lsrl1_b13a
+.Lsrl1_b13a:
+        .word   12, 12, .Lsrl1_b13b
+.Lsrl1_b13b:
+        .word   164, 12, .Lsrl1_b13c
+.Lsrl1_b13c:
+        .word   12, 172, .Lsrl1_b13d
+.Lsrl1_b13d:
+        .word   .Lsrl_c8192, 172, .Lsrl1_b13e
+.Lsrl1_b13e:
+        .word   176, 176, .Lsrl1_b13f
+.Lsrl1_b13f:
+        .word   172, 176, .Lsrl1_b13s
+        .word   12, 12, .Lsrl1_b12
+.Lsrl1_b13s:
+        .word   .Lsrl_c8192, 164, .Lsrl1_b13t
+.Lsrl1_b13t:
+        .word   .Lsrl_n4096, 168, .Lsrl1_b12
+.Lsrl1_b12:
+        .word   172, 172, .Lsrl1_b12a
+.Lsrl1_b12a:
+        .word   12, 12, .Lsrl1_b12b
+.Lsrl1_b12b:
+        .word   164, 12, .Lsrl1_b12c
+.Lsrl1_b12c:
+        .word   12, 172, .Lsrl1_b12d
+.Lsrl1_b12d:
+        .word   .Lsrl_c4096, 172, .Lsrl1_b12e
+.Lsrl1_b12e:
+        .word   176, 176, .Lsrl1_b12f
+.Lsrl1_b12f:
+        .word   172, 176, .Lsrl1_b12s
+        .word   12, 12, .Lsrl1_b11
+.Lsrl1_b12s:
+        .word   .Lsrl_c4096, 164, .Lsrl1_b12t
+.Lsrl1_b12t:
+        .word   .Lsrl_n2048, 168, .Lsrl1_b11
+.Lsrl1_b11:
+        .word   172, 172, .Lsrl1_b11a
+.Lsrl1_b11a:
+        .word   12, 12, .Lsrl1_b11b
+.Lsrl1_b11b:
+        .word   164, 12, .Lsrl1_b11c
+.Lsrl1_b11c:
+        .word   12, 172, .Lsrl1_b11d
+.Lsrl1_b11d:
+        .word   .Lsrl_c2048, 172, .Lsrl1_b11e
+.Lsrl1_b11e:
+        .word   176, 176, .Lsrl1_b11f
+.Lsrl1_b11f:
+        .word   172, 176, .Lsrl1_b11s
+        .word   12, 12, .Lsrl1_b10
+.Lsrl1_b11s:
+        .word   .Lsrl_c2048, 164, .Lsrl1_b11t
+.Lsrl1_b11t:
+        .word   .Lsrl_n1024, 168, .Lsrl1_b10
+.Lsrl1_b10:
+        .word   172, 172, .Lsrl1_b10a
+.Lsrl1_b10a:
+        .word   12, 12, .Lsrl1_b10b
+.Lsrl1_b10b:
+        .word   164, 12, .Lsrl1_b10c
+.Lsrl1_b10c:
+        .word   12, 172, .Lsrl1_b10d
+.Lsrl1_b10d:
+        .word   .Lsrl_c1024, 172, .Lsrl1_b10e
+.Lsrl1_b10e:
+        .word   176, 176, .Lsrl1_b10f
+.Lsrl1_b10f:
+        .word   172, 176, .Lsrl1_b10s
+        .word   12, 12, .Lsrl1_b9
+.Lsrl1_b10s:
+        .word   .Lsrl_c1024, 164, .Lsrl1_b10t
+.Lsrl1_b10t:
+        .word   .Lsrl_n512, 168, .Lsrl1_b9
+.Lsrl1_b9:
+        .word   172, 172, .Lsrl1_b9a
+.Lsrl1_b9a:
+        .word   12, 12, .Lsrl1_b9b
+.Lsrl1_b9b:
+        .word   164, 12, .Lsrl1_b9c
+.Lsrl1_b9c:
+        .word   12, 172, .Lsrl1_b9d
+.Lsrl1_b9d:
+        .word   .Lsrl_c512, 172, .Lsrl1_b9e
+.Lsrl1_b9e:
+        .word   176, 176, .Lsrl1_b9f
+.Lsrl1_b9f:
+        .word   172, 176, .Lsrl1_b9s
+        .word   12, 12, .Lsrl1_b8
+.Lsrl1_b9s:
+        .word   .Lsrl_c512, 164, .Lsrl1_b9t
+.Lsrl1_b9t:
+        .word   .Lsrl_n256, 168, .Lsrl1_b8
+.Lsrl1_b8:
+        .word   172, 172, .Lsrl1_b8a
+.Lsrl1_b8a:
+        .word   12, 12, .Lsrl1_b8b
+.Lsrl1_b8b:
+        .word   164, 12, .Lsrl1_b8c
+.Lsrl1_b8c:
+        .word   12, 172, .Lsrl1_b8d
+.Lsrl1_b8d:
+        .word   .Lsrl_c256, 172, .Lsrl1_b8e
+.Lsrl1_b8e:
+        .word   176, 176, .Lsrl1_b8f
+.Lsrl1_b8f:
+        .word   172, 176, .Lsrl1_b8s
+        .word   12, 12, .Lsrl1_b7
+.Lsrl1_b8s:
+        .word   .Lsrl_c256, 164, .Lsrl1_b8t
+.Lsrl1_b8t:
+        .word   .Lsrl_n128, 168, .Lsrl1_b7
+.Lsrl1_b7:
+        .word   172, 172, .Lsrl1_b7a
+.Lsrl1_b7a:
+        .word   12, 12, .Lsrl1_b7b
+.Lsrl1_b7b:
+        .word   164, 12, .Lsrl1_b7c
+.Lsrl1_b7c:
+        .word   12, 172, .Lsrl1_b7d
+.Lsrl1_b7d:
+        .word   .Lsrl_c128, 172, .Lsrl1_b7e
+.Lsrl1_b7e:
+        .word   176, 176, .Lsrl1_b7f
+.Lsrl1_b7f:
+        .word   172, 176, .Lsrl1_b7s
+        .word   12, 12, .Lsrl1_b6
+.Lsrl1_b7s:
+        .word   .Lsrl_c128, 164, .Lsrl1_b7t
+.Lsrl1_b7t:
+        .word   .Lsrl_n64, 168, .Lsrl1_b6
+.Lsrl1_b6:
+        .word   172, 172, .Lsrl1_b6a
+.Lsrl1_b6a:
+        .word   12, 12, .Lsrl1_b6b
+.Lsrl1_b6b:
+        .word   164, 12, .Lsrl1_b6c
+.Lsrl1_b6c:
+        .word   12, 172, .Lsrl1_b6d
+.Lsrl1_b6d:
+        .word   .Lsrl_c64, 172, .Lsrl1_b6e
+.Lsrl1_b6e:
+        .word   176, 176, .Lsrl1_b6f
+.Lsrl1_b6f:
+        .word   172, 176, .Lsrl1_b6s
+        .word   12, 12, .Lsrl1_b5
+.Lsrl1_b6s:
+        .word   .Lsrl_c64, 164, .Lsrl1_b6t
+.Lsrl1_b6t:
+        .word   .Lsrl_n32, 168, .Lsrl1_b5
+.Lsrl1_b5:
+        .word   172, 172, .Lsrl1_b5a
+.Lsrl1_b5a:
+        .word   12, 12, .Lsrl1_b5b
+.Lsrl1_b5b:
+        .word   164, 12, .Lsrl1_b5c
+.Lsrl1_b5c:
+        .word   12, 172, .Lsrl1_b5d
+.Lsrl1_b5d:
+        .word   .Lsrl_c32, 172, .Lsrl1_b5e
+.Lsrl1_b5e:
+        .word   176, 176, .Lsrl1_b5f
+.Lsrl1_b5f:
+        .word   172, 176, .Lsrl1_b5s
+        .word   12, 12, .Lsrl1_b4
+.Lsrl1_b5s:
+        .word   .Lsrl_c32, 164, .Lsrl1_b5t
+.Lsrl1_b5t:
+        .word   .Lsrl_n16, 168, .Lsrl1_b4
+.Lsrl1_b4:
+        .word   172, 172, .Lsrl1_b4a
+.Lsrl1_b4a:
+        .word   12, 12, .Lsrl1_b4b
+.Lsrl1_b4b:
+        .word   164, 12, .Lsrl1_b4c
+.Lsrl1_b4c:
+        .word   12, 172, .Lsrl1_b4d
+.Lsrl1_b4d:
+        .word   .Lsrl_c16, 172, .Lsrl1_b4e
+.Lsrl1_b4e:
+        .word   176, 176, .Lsrl1_b4f
+.Lsrl1_b4f:
+        .word   172, 176, .Lsrl1_b4s
+        .word   12, 12, .Lsrl1_b3
+.Lsrl1_b4s:
+        .word   .Lsrl_c16, 164, .Lsrl1_b4t
+.Lsrl1_b4t:
+        .word   .Lsrl_n8, 168, .Lsrl1_b3
+.Lsrl1_b3:
+        .word   172, 172, .Lsrl1_b3a
+.Lsrl1_b3a:
+        .word   12, 12, .Lsrl1_b3b
+.Lsrl1_b3b:
+        .word   164, 12, .Lsrl1_b3c
+.Lsrl1_b3c:
+        .word   12, 172, .Lsrl1_b3d
+.Lsrl1_b3d:
+        .word   .Lsrl_c8, 172, .Lsrl1_b3e
+.Lsrl1_b3e:
+        .word   176, 176, .Lsrl1_b3f
+.Lsrl1_b3f:
+        .word   172, 176, .Lsrl1_b3s
+        .word   12, 12, .Lsrl1_b2
+.Lsrl1_b3s:
+        .word   .Lsrl_c8, 164, .Lsrl1_b3t
+.Lsrl1_b3t:
+        .word   .Lsrl_n4, 168, .Lsrl1_b2
+.Lsrl1_b2:
+        .word   172, 172, .Lsrl1_b2a
+.Lsrl1_b2a:
+        .word   12, 12, .Lsrl1_b2b
+.Lsrl1_b2b:
+        .word   164, 12, .Lsrl1_b2c
+.Lsrl1_b2c:
+        .word   12, 172, .Lsrl1_b2d
+.Lsrl1_b2d:
+        .word   .Lsrl_c4, 172, .Lsrl1_b2e
+.Lsrl1_b2e:
+        .word   176, 176, .Lsrl1_b2f
+.Lsrl1_b2f:
+        .word   172, 176, .Lsrl1_b2s
+        .word   12, 12, .Lsrl1_b1
+.Lsrl1_b2s:
+        .word   .Lsrl_c4, 164, .Lsrl1_b2t
+.Lsrl1_b2t:
+        .word   .Lsrl_n2, 168, .Lsrl1_b1
+.Lsrl1_b1:
+        .word   172, 172, .Lsrl1_b1a
+.Lsrl1_b1a:
+        .word   12, 12, .Lsrl1_b1b
+.Lsrl1_b1b:
+        .word   164, 12, .Lsrl1_b1c
+.Lsrl1_b1c:
+        .word   12, 172, .Lsrl1_b1d
+.Lsrl1_b1d:
+        .word   .Lsrl_c2, 172, .Lsrl1_b1e
+.Lsrl1_b1e:
+        .word   176, 176, .Lsrl1_b1f
+.Lsrl1_b1f:
+        .word   172, 176, .Lsrl1_b1s
+        .word   12, 12, .Lsrl1_store
+.Lsrl1_b1s:
+        .word   .Lsrl_c2, 164, .Lsrl1_b1t
+.Lsrl1_b1t:
+        .word   .Lsrl_n1, 168, .Lsrl1_store
+.Lsrl1_store:
+        .word   28, 28, .Lsrl1_st1
+.Lsrl1_st1:
+        .word   12, 12, .Lsrl1_st2
+.Lsrl1_st2:
+        .word   168, 12, .Lsrl1_st3
+.Lsrl1_st3:
+        .word   12, 28, .Lsrl1_st4
+.Lsrl1_st4:
+        .word   24, 24, .Lsrl_done
+
+.Lsrl_shift_2:
+        .word   168, 168, .Lsrl2_start
+.Lsrl2_start:
+.Lsrl2_b31:
+        .word   172, 172, .Lsrl2_b31a
+.Lsrl2_b31a:
+        .word   12, 12, .Lsrl2_b31b
+.Lsrl2_b31b:
+        .word   164, 12, .Lsrl2_b31c
+.Lsrl2_b31c:
+        .word   12, 172, .Lsrl2_b31d
+.Lsrl2_b31d:
+        .word   24, 172, .Lsrl2_b31_le0
+        .word   12, 12, .Lsrl2_b30
+.Lsrl2_b31_le0:
+        .word   176, 176, .Lsrl2_b31e
+.Lsrl2_b31e:
+        .word   164, 176, .Lsrl2_b31f
+.Lsrl2_b31f:
+        .word   24, 176, .Lsrl2_b31_ambig
+        .word   12, 12, .Lsrl2_b31s
+.Lsrl2_b31_ambig:
+        .word   172, 172, .Lsrl2_b31g
+.Lsrl2_b31g:
+        .word   164, 172, .Lsrl2_b31h
+.Lsrl2_b31h:
+        .word   .Lsrl_one, 172, .Lsrl2_b31i
+.Lsrl2_b31i:
+        .word   24, 172, .Lsrl2_b30
+        .word   12, 12, .Lsrl2_b31s
+.Lsrl2_b31s:
+        .word   .Lsrl_c2147483648, 164, .Lsrl2_b31t
+.Lsrl2_b31t:
+        .word   .Lsrl_n536870912, 168, .Lsrl2_b30
+.Lsrl2_b30:
+        .word   172, 172, .Lsrl2_b30a
+.Lsrl2_b30a:
+        .word   12, 12, .Lsrl2_b30b
+.Lsrl2_b30b:
+        .word   164, 12, .Lsrl2_b30c
+.Lsrl2_b30c:
+        .word   12, 172, .Lsrl2_b30d
+.Lsrl2_b30d:
+        .word   .Lsrl_c1073741824, 172, .Lsrl2_b30e
+.Lsrl2_b30e:
+        .word   176, 176, .Lsrl2_b30f
+.Lsrl2_b30f:
+        .word   172, 176, .Lsrl2_b30s
+        .word   12, 12, .Lsrl2_b29
+.Lsrl2_b30s:
+        .word   .Lsrl_c1073741824, 164, .Lsrl2_b30t
+.Lsrl2_b30t:
+        .word   .Lsrl_n268435456, 168, .Lsrl2_b29
+.Lsrl2_b29:
+        .word   172, 172, .Lsrl2_b29a
+.Lsrl2_b29a:
+        .word   12, 12, .Lsrl2_b29b
+.Lsrl2_b29b:
+        .word   164, 12, .Lsrl2_b29c
+.Lsrl2_b29c:
+        .word   12, 172, .Lsrl2_b29d
+.Lsrl2_b29d:
+        .word   .Lsrl_c536870912, 172, .Lsrl2_b29e
+.Lsrl2_b29e:
+        .word   176, 176, .Lsrl2_b29f
+.Lsrl2_b29f:
+        .word   172, 176, .Lsrl2_b29s
+        .word   12, 12, .Lsrl2_b28
+.Lsrl2_b29s:
+        .word   .Lsrl_c536870912, 164, .Lsrl2_b29t
+.Lsrl2_b29t:
+        .word   .Lsrl_n134217728, 168, .Lsrl2_b28
+.Lsrl2_b28:
+        .word   172, 172, .Lsrl2_b28a
+.Lsrl2_b28a:
+        .word   12, 12, .Lsrl2_b28b
+.Lsrl2_b28b:
+        .word   164, 12, .Lsrl2_b28c
+.Lsrl2_b28c:
+        .word   12, 172, .Lsrl2_b28d
+.Lsrl2_b28d:
+        .word   .Lsrl_c268435456, 172, .Lsrl2_b28e
+.Lsrl2_b28e:
+        .word   176, 176, .Lsrl2_b28f
+.Lsrl2_b28f:
+        .word   172, 176, .Lsrl2_b28s
+        .word   12, 12, .Lsrl2_b27
+.Lsrl2_b28s:
+        .word   .Lsrl_c268435456, 164, .Lsrl2_b28t
+.Lsrl2_b28t:
+        .word   .Lsrl_n67108864, 168, .Lsrl2_b27
+.Lsrl2_b27:
+        .word   172, 172, .Lsrl2_b27a
+.Lsrl2_b27a:
+        .word   12, 12, .Lsrl2_b27b
+.Lsrl2_b27b:
+        .word   164, 12, .Lsrl2_b27c
+.Lsrl2_b27c:
+        .word   12, 172, .Lsrl2_b27d
+.Lsrl2_b27d:
+        .word   .Lsrl_c134217728, 172, .Lsrl2_b27e
+.Lsrl2_b27e:
+        .word   176, 176, .Lsrl2_b27f
+.Lsrl2_b27f:
+        .word   172, 176, .Lsrl2_b27s
+        .word   12, 12, .Lsrl2_b26
+.Lsrl2_b27s:
+        .word   .Lsrl_c134217728, 164, .Lsrl2_b27t
+.Lsrl2_b27t:
+        .word   .Lsrl_n33554432, 168, .Lsrl2_b26
+.Lsrl2_b26:
+        .word   172, 172, .Lsrl2_b26a
+.Lsrl2_b26a:
+        .word   12, 12, .Lsrl2_b26b
+.Lsrl2_b26b:
+        .word   164, 12, .Lsrl2_b26c
+.Lsrl2_b26c:
+        .word   12, 172, .Lsrl2_b26d
+.Lsrl2_b26d:
+        .word   .Lsrl_c67108864, 172, .Lsrl2_b26e
+.Lsrl2_b26e:
+        .word   176, 176, .Lsrl2_b26f
+.Lsrl2_b26f:
+        .word   172, 176, .Lsrl2_b26s
+        .word   12, 12, .Lsrl2_b25
+.Lsrl2_b26s:
+        .word   .Lsrl_c67108864, 164, .Lsrl2_b26t
+.Lsrl2_b26t:
+        .word   .Lsrl_n16777216, 168, .Lsrl2_b25
+.Lsrl2_b25:
+        .word   172, 172, .Lsrl2_b25a
+.Lsrl2_b25a:
+        .word   12, 12, .Lsrl2_b25b
+.Lsrl2_b25b:
+        .word   164, 12, .Lsrl2_b25c
+.Lsrl2_b25c:
+        .word   12, 172, .Lsrl2_b25d
+.Lsrl2_b25d:
+        .word   .Lsrl_c33554432, 172, .Lsrl2_b25e
+.Lsrl2_b25e:
+        .word   176, 176, .Lsrl2_b25f
+.Lsrl2_b25f:
+        .word   172, 176, .Lsrl2_b25s
+        .word   12, 12, .Lsrl2_b24
+.Lsrl2_b25s:
+        .word   .Lsrl_c33554432, 164, .Lsrl2_b25t
+.Lsrl2_b25t:
+        .word   .Lsrl_n8388608, 168, .Lsrl2_b24
+.Lsrl2_b24:
+        .word   172, 172, .Lsrl2_b24a
+.Lsrl2_b24a:
+        .word   12, 12, .Lsrl2_b24b
+.Lsrl2_b24b:
+        .word   164, 12, .Lsrl2_b24c
+.Lsrl2_b24c:
+        .word   12, 172, .Lsrl2_b24d
+.Lsrl2_b24d:
+        .word   .Lsrl_c16777216, 172, .Lsrl2_b24e
+.Lsrl2_b24e:
+        .word   176, 176, .Lsrl2_b24f
+.Lsrl2_b24f:
+        .word   172, 176, .Lsrl2_b24s
+        .word   12, 12, .Lsrl2_b23
+.Lsrl2_b24s:
+        .word   .Lsrl_c16777216, 164, .Lsrl2_b24t
+.Lsrl2_b24t:
+        .word   .Lsrl_n4194304, 168, .Lsrl2_b23
+.Lsrl2_b23:
+        .word   172, 172, .Lsrl2_b23a
+.Lsrl2_b23a:
+        .word   12, 12, .Lsrl2_b23b
+.Lsrl2_b23b:
+        .word   164, 12, .Lsrl2_b23c
+.Lsrl2_b23c:
+        .word   12, 172, .Lsrl2_b23d
+.Lsrl2_b23d:
+        .word   .Lsrl_c8388608, 172, .Lsrl2_b23e
+.Lsrl2_b23e:
+        .word   176, 176, .Lsrl2_b23f
+.Lsrl2_b23f:
+        .word   172, 176, .Lsrl2_b23s
+        .word   12, 12, .Lsrl2_b22
+.Lsrl2_b23s:
+        .word   .Lsrl_c8388608, 164, .Lsrl2_b23t
+.Lsrl2_b23t:
+        .word   .Lsrl_n2097152, 168, .Lsrl2_b22
+.Lsrl2_b22:
+        .word   172, 172, .Lsrl2_b22a
+.Lsrl2_b22a:
+        .word   12, 12, .Lsrl2_b22b
+.Lsrl2_b22b:
+        .word   164, 12, .Lsrl2_b22c
+.Lsrl2_b22c:
+        .word   12, 172, .Lsrl2_b22d
+.Lsrl2_b22d:
+        .word   .Lsrl_c4194304, 172, .Lsrl2_b22e
+.Lsrl2_b22e:
+        .word   176, 176, .Lsrl2_b22f
+.Lsrl2_b22f:
+        .word   172, 176, .Lsrl2_b22s
+        .word   12, 12, .Lsrl2_b21
+.Lsrl2_b22s:
+        .word   .Lsrl_c4194304, 164, .Lsrl2_b22t
+.Lsrl2_b22t:
+        .word   .Lsrl_n1048576, 168, .Lsrl2_b21
+.Lsrl2_b21:
+        .word   172, 172, .Lsrl2_b21a
+.Lsrl2_b21a:
+        .word   12, 12, .Lsrl2_b21b
+.Lsrl2_b21b:
+        .word   164, 12, .Lsrl2_b21c
+.Lsrl2_b21c:
+        .word   12, 172, .Lsrl2_b21d
+.Lsrl2_b21d:
+        .word   .Lsrl_c2097152, 172, .Lsrl2_b21e
+.Lsrl2_b21e:
+        .word   176, 176, .Lsrl2_b21f
+.Lsrl2_b21f:
+        .word   172, 176, .Lsrl2_b21s
+        .word   12, 12, .Lsrl2_b20
+.Lsrl2_b21s:
+        .word   .Lsrl_c2097152, 164, .Lsrl2_b21t
+.Lsrl2_b21t:
+        .word   .Lsrl_n524288, 168, .Lsrl2_b20
+.Lsrl2_b20:
+        .word   172, 172, .Lsrl2_b20a
+.Lsrl2_b20a:
+        .word   12, 12, .Lsrl2_b20b
+.Lsrl2_b20b:
+        .word   164, 12, .Lsrl2_b20c
+.Lsrl2_b20c:
+        .word   12, 172, .Lsrl2_b20d
+.Lsrl2_b20d:
+        .word   .Lsrl_c1048576, 172, .Lsrl2_b20e
+.Lsrl2_b20e:
+        .word   176, 176, .Lsrl2_b20f
+.Lsrl2_b20f:
+        .word   172, 176, .Lsrl2_b20s
+        .word   12, 12, .Lsrl2_b19
+.Lsrl2_b20s:
+        .word   .Lsrl_c1048576, 164, .Lsrl2_b20t
+.Lsrl2_b20t:
+        .word   .Lsrl_n262144, 168, .Lsrl2_b19
+.Lsrl2_b19:
+        .word   172, 172, .Lsrl2_b19a
+.Lsrl2_b19a:
+        .word   12, 12, .Lsrl2_b19b
+.Lsrl2_b19b:
+        .word   164, 12, .Lsrl2_b19c
+.Lsrl2_b19c:
+        .word   12, 172, .Lsrl2_b19d
+.Lsrl2_b19d:
+        .word   .Lsrl_c524288, 172, .Lsrl2_b19e
+.Lsrl2_b19e:
+        .word   176, 176, .Lsrl2_b19f
+.Lsrl2_b19f:
+        .word   172, 176, .Lsrl2_b19s
+        .word   12, 12, .Lsrl2_b18
+.Lsrl2_b19s:
+        .word   .Lsrl_c524288, 164, .Lsrl2_b19t
+.Lsrl2_b19t:
+        .word   .Lsrl_n131072, 168, .Lsrl2_b18
+.Lsrl2_b18:
+        .word   172, 172, .Lsrl2_b18a
+.Lsrl2_b18a:
+        .word   12, 12, .Lsrl2_b18b
+.Lsrl2_b18b:
+        .word   164, 12, .Lsrl2_b18c
+.Lsrl2_b18c:
+        .word   12, 172, .Lsrl2_b18d
+.Lsrl2_b18d:
+        .word   .Lsrl_c262144, 172, .Lsrl2_b18e
+.Lsrl2_b18e:
+        .word   176, 176, .Lsrl2_b18f
+.Lsrl2_b18f:
+        .word   172, 176, .Lsrl2_b18s
+        .word   12, 12, .Lsrl2_b17
+.Lsrl2_b18s:
+        .word   .Lsrl_c262144, 164, .Lsrl2_b18t
+.Lsrl2_b18t:
+        .word   .Lsrl_n65536, 168, .Lsrl2_b17
+.Lsrl2_b17:
+        .word   172, 172, .Lsrl2_b17a
+.Lsrl2_b17a:
+        .word   12, 12, .Lsrl2_b17b
+.Lsrl2_b17b:
+        .word   164, 12, .Lsrl2_b17c
+.Lsrl2_b17c:
+        .word   12, 172, .Lsrl2_b17d
+.Lsrl2_b17d:
+        .word   .Lsrl_c131072, 172, .Lsrl2_b17e
+.Lsrl2_b17e:
+        .word   176, 176, .Lsrl2_b17f
+.Lsrl2_b17f:
+        .word   172, 176, .Lsrl2_b17s
+        .word   12, 12, .Lsrl2_b16
+.Lsrl2_b17s:
+        .word   .Lsrl_c131072, 164, .Lsrl2_b17t
+.Lsrl2_b17t:
+        .word   .Lsrl_n32768, 168, .Lsrl2_b16
+.Lsrl2_b16:
+        .word   172, 172, .Lsrl2_b16a
+.Lsrl2_b16a:
+        .word   12, 12, .Lsrl2_b16b
+.Lsrl2_b16b:
+        .word   164, 12, .Lsrl2_b16c
+.Lsrl2_b16c:
+        .word   12, 172, .Lsrl2_b16d
+.Lsrl2_b16d:
+        .word   .Lsrl_c65536, 172, .Lsrl2_b16e
+.Lsrl2_b16e:
+        .word   176, 176, .Lsrl2_b16f
+.Lsrl2_b16f:
+        .word   172, 176, .Lsrl2_b16s
+        .word   12, 12, .Lsrl2_b15
+.Lsrl2_b16s:
+        .word   .Lsrl_c65536, 164, .Lsrl2_b16t
+.Lsrl2_b16t:
+        .word   .Lsrl_n16384, 168, .Lsrl2_b15
+.Lsrl2_b15:
+        .word   172, 172, .Lsrl2_b15a
+.Lsrl2_b15a:
+        .word   12, 12, .Lsrl2_b15b
+.Lsrl2_b15b:
+        .word   164, 12, .Lsrl2_b15c
+.Lsrl2_b15c:
+        .word   12, 172, .Lsrl2_b15d
+.Lsrl2_b15d:
+        .word   .Lsrl_c32768, 172, .Lsrl2_b15e
+.Lsrl2_b15e:
+        .word   176, 176, .Lsrl2_b15f
+.Lsrl2_b15f:
+        .word   172, 176, .Lsrl2_b15s
+        .word   12, 12, .Lsrl2_b14
+.Lsrl2_b15s:
+        .word   .Lsrl_c32768, 164, .Lsrl2_b15t
+.Lsrl2_b15t:
+        .word   .Lsrl_n8192, 168, .Lsrl2_b14
+.Lsrl2_b14:
+        .word   172, 172, .Lsrl2_b14a
+.Lsrl2_b14a:
+        .word   12, 12, .Lsrl2_b14b
+.Lsrl2_b14b:
+        .word   164, 12, .Lsrl2_b14c
+.Lsrl2_b14c:
+        .word   12, 172, .Lsrl2_b14d
+.Lsrl2_b14d:
+        .word   .Lsrl_c16384, 172, .Lsrl2_b14e
+.Lsrl2_b14e:
+        .word   176, 176, .Lsrl2_b14f
+.Lsrl2_b14f:
+        .word   172, 176, .Lsrl2_b14s
+        .word   12, 12, .Lsrl2_b13
+.Lsrl2_b14s:
+        .word   .Lsrl_c16384, 164, .Lsrl2_b14t
+.Lsrl2_b14t:
+        .word   .Lsrl_n4096, 168, .Lsrl2_b13
+.Lsrl2_b13:
+        .word   172, 172, .Lsrl2_b13a
+.Lsrl2_b13a:
+        .word   12, 12, .Lsrl2_b13b
+.Lsrl2_b13b:
+        .word   164, 12, .Lsrl2_b13c
+.Lsrl2_b13c:
+        .word   12, 172, .Lsrl2_b13d
+.Lsrl2_b13d:
+        .word   .Lsrl_c8192, 172, .Lsrl2_b13e
+.Lsrl2_b13e:
+        .word   176, 176, .Lsrl2_b13f
+.Lsrl2_b13f:
+        .word   172, 176, .Lsrl2_b13s
+        .word   12, 12, .Lsrl2_b12
+.Lsrl2_b13s:
+        .word   .Lsrl_c8192, 164, .Lsrl2_b13t
+.Lsrl2_b13t:
+        .word   .Lsrl_n2048, 168, .Lsrl2_b12
+.Lsrl2_b12:
+        .word   172, 172, .Lsrl2_b12a
+.Lsrl2_b12a:
+        .word   12, 12, .Lsrl2_b12b
+.Lsrl2_b12b:
+        .word   164, 12, .Lsrl2_b12c
+.Lsrl2_b12c:
+        .word   12, 172, .Lsrl2_b12d
+.Lsrl2_b12d:
+        .word   .Lsrl_c4096, 172, .Lsrl2_b12e
+.Lsrl2_b12e:
+        .word   176, 176, .Lsrl2_b12f
+.Lsrl2_b12f:
+        .word   172, 176, .Lsrl2_b12s
+        .word   12, 12, .Lsrl2_b11
+.Lsrl2_b12s:
+        .word   .Lsrl_c4096, 164, .Lsrl2_b12t
+.Lsrl2_b12t:
+        .word   .Lsrl_n1024, 168, .Lsrl2_b11
+.Lsrl2_b11:
+        .word   172, 172, .Lsrl2_b11a
+.Lsrl2_b11a:
+        .word   12, 12, .Lsrl2_b11b
+.Lsrl2_b11b:
+        .word   164, 12, .Lsrl2_b11c
+.Lsrl2_b11c:
+        .word   12, 172, .Lsrl2_b11d
+.Lsrl2_b11d:
+        .word   .Lsrl_c2048, 172, .Lsrl2_b11e
+.Lsrl2_b11e:
+        .word   176, 176, .Lsrl2_b11f
+.Lsrl2_b11f:
+        .word   172, 176, .Lsrl2_b11s
+        .word   12, 12, .Lsrl2_b10
+.Lsrl2_b11s:
+        .word   .Lsrl_c2048, 164, .Lsrl2_b11t
+.Lsrl2_b11t:
+        .word   .Lsrl_n512, 168, .Lsrl2_b10
+.Lsrl2_b10:
+        .word   172, 172, .Lsrl2_b10a
+.Lsrl2_b10a:
+        .word   12, 12, .Lsrl2_b10b
+.Lsrl2_b10b:
+        .word   164, 12, .Lsrl2_b10c
+.Lsrl2_b10c:
+        .word   12, 172, .Lsrl2_b10d
+.Lsrl2_b10d:
+        .word   .Lsrl_c1024, 172, .Lsrl2_b10e
+.Lsrl2_b10e:
+        .word   176, 176, .Lsrl2_b10f
+.Lsrl2_b10f:
+        .word   172, 176, .Lsrl2_b10s
+        .word   12, 12, .Lsrl2_b9
+.Lsrl2_b10s:
+        .word   .Lsrl_c1024, 164, .Lsrl2_b10t
+.Lsrl2_b10t:
+        .word   .Lsrl_n256, 168, .Lsrl2_b9
+.Lsrl2_b9:
+        .word   172, 172, .Lsrl2_b9a
+.Lsrl2_b9a:
+        .word   12, 12, .Lsrl2_b9b
+.Lsrl2_b9b:
+        .word   164, 12, .Lsrl2_b9c
+.Lsrl2_b9c:
+        .word   12, 172, .Lsrl2_b9d
+.Lsrl2_b9d:
+        .word   .Lsrl_c512, 172, .Lsrl2_b9e
+.Lsrl2_b9e:
+        .word   176, 176, .Lsrl2_b9f
+.Lsrl2_b9f:
+        .word   172, 176, .Lsrl2_b9s
+        .word   12, 12, .Lsrl2_b8
+.Lsrl2_b9s:
+        .word   .Lsrl_c512, 164, .Lsrl2_b9t
+.Lsrl2_b9t:
+        .word   .Lsrl_n128, 168, .Lsrl2_b8
+.Lsrl2_b8:
+        .word   172, 172, .Lsrl2_b8a
+.Lsrl2_b8a:
+        .word   12, 12, .Lsrl2_b8b
+.Lsrl2_b8b:
+        .word   164, 12, .Lsrl2_b8c
+.Lsrl2_b8c:
+        .word   12, 172, .Lsrl2_b8d
+.Lsrl2_b8d:
+        .word   .Lsrl_c256, 172, .Lsrl2_b8e
+.Lsrl2_b8e:
+        .word   176, 176, .Lsrl2_b8f
+.Lsrl2_b8f:
+        .word   172, 176, .Lsrl2_b8s
+        .word   12, 12, .Lsrl2_b7
+.Lsrl2_b8s:
+        .word   .Lsrl_c256, 164, .Lsrl2_b8t
+.Lsrl2_b8t:
+        .word   .Lsrl_n64, 168, .Lsrl2_b7
+.Lsrl2_b7:
+        .word   172, 172, .Lsrl2_b7a
+.Lsrl2_b7a:
+        .word   12, 12, .Lsrl2_b7b
+.Lsrl2_b7b:
+        .word   164, 12, .Lsrl2_b7c
+.Lsrl2_b7c:
+        .word   12, 172, .Lsrl2_b7d
+.Lsrl2_b7d:
+        .word   .Lsrl_c128, 172, .Lsrl2_b7e
+.Lsrl2_b7e:
+        .word   176, 176, .Lsrl2_b7f
+.Lsrl2_b7f:
+        .word   172, 176, .Lsrl2_b7s
+        .word   12, 12, .Lsrl2_b6
+.Lsrl2_b7s:
+        .word   .Lsrl_c128, 164, .Lsrl2_b7t
+.Lsrl2_b7t:
+        .word   .Lsrl_n32, 168, .Lsrl2_b6
+.Lsrl2_b6:
+        .word   172, 172, .Lsrl2_b6a
+.Lsrl2_b6a:
+        .word   12, 12, .Lsrl2_b6b
+.Lsrl2_b6b:
+        .word   164, 12, .Lsrl2_b6c
+.Lsrl2_b6c:
+        .word   12, 172, .Lsrl2_b6d
+.Lsrl2_b6d:
+        .word   .Lsrl_c64, 172, .Lsrl2_b6e
+.Lsrl2_b6e:
+        .word   176, 176, .Lsrl2_b6f
+.Lsrl2_b6f:
+        .word   172, 176, .Lsrl2_b6s
+        .word   12, 12, .Lsrl2_b5
+.Lsrl2_b6s:
+        .word   .Lsrl_c64, 164, .Lsrl2_b6t
+.Lsrl2_b6t:
+        .word   .Lsrl_n16, 168, .Lsrl2_b5
+.Lsrl2_b5:
+        .word   172, 172, .Lsrl2_b5a
+.Lsrl2_b5a:
+        .word   12, 12, .Lsrl2_b5b
+.Lsrl2_b5b:
+        .word   164, 12, .Lsrl2_b5c
+.Lsrl2_b5c:
+        .word   12, 172, .Lsrl2_b5d
+.Lsrl2_b5d:
+        .word   .Lsrl_c32, 172, .Lsrl2_b5e
+.Lsrl2_b5e:
+        .word   176, 176, .Lsrl2_b5f
+.Lsrl2_b5f:
+        .word   172, 176, .Lsrl2_b5s
+        .word   12, 12, .Lsrl2_b4
+.Lsrl2_b5s:
+        .word   .Lsrl_c32, 164, .Lsrl2_b5t
+.Lsrl2_b5t:
+        .word   .Lsrl_n8, 168, .Lsrl2_b4
+.Lsrl2_b4:
+        .word   172, 172, .Lsrl2_b4a
+.Lsrl2_b4a:
+        .word   12, 12, .Lsrl2_b4b
+.Lsrl2_b4b:
+        .word   164, 12, .Lsrl2_b4c
+.Lsrl2_b4c:
+        .word   12, 172, .Lsrl2_b4d
+.Lsrl2_b4d:
+        .word   .Lsrl_c16, 172, .Lsrl2_b4e
+.Lsrl2_b4e:
+        .word   176, 176, .Lsrl2_b4f
+.Lsrl2_b4f:
+        .word   172, 176, .Lsrl2_b4s
+        .word   12, 12, .Lsrl2_b3
+.Lsrl2_b4s:
+        .word   .Lsrl_c16, 164, .Lsrl2_b4t
+.Lsrl2_b4t:
+        .word   .Lsrl_n4, 168, .Lsrl2_b3
+.Lsrl2_b3:
+        .word   172, 172, .Lsrl2_b3a
+.Lsrl2_b3a:
+        .word   12, 12, .Lsrl2_b3b
+.Lsrl2_b3b:
+        .word   164, 12, .Lsrl2_b3c
+.Lsrl2_b3c:
+        .word   12, 172, .Lsrl2_b3d
+.Lsrl2_b3d:
+        .word   .Lsrl_c8, 172, .Lsrl2_b3e
+.Lsrl2_b3e:
+        .word   176, 176, .Lsrl2_b3f
+.Lsrl2_b3f:
+        .word   172, 176, .Lsrl2_b3s
+        .word   12, 12, .Lsrl2_b2
+.Lsrl2_b3s:
+        .word   .Lsrl_c8, 164, .Lsrl2_b3t
+.Lsrl2_b3t:
+        .word   .Lsrl_n2, 168, .Lsrl2_b2
+.Lsrl2_b2:
+        .word   172, 172, .Lsrl2_b2a
+.Lsrl2_b2a:
+        .word   12, 12, .Lsrl2_b2b
+.Lsrl2_b2b:
+        .word   164, 12, .Lsrl2_b2c
+.Lsrl2_b2c:
+        .word   12, 172, .Lsrl2_b2d
+.Lsrl2_b2d:
+        .word   .Lsrl_c4, 172, .Lsrl2_b2e
+.Lsrl2_b2e:
+        .word   176, 176, .Lsrl2_b2f
+.Lsrl2_b2f:
+        .word   172, 176, .Lsrl2_b2s
+        .word   12, 12, .Lsrl2_store
+.Lsrl2_b2s:
+        .word   .Lsrl_c4, 164, .Lsrl2_b2t
+.Lsrl2_b2t:
+        .word   .Lsrl_n1, 168, .Lsrl2_store
+.Lsrl2_store:
+        .word   28, 28, .Lsrl2_st1
+.Lsrl2_st1:
+        .word   12, 12, .Lsrl2_st2
+.Lsrl2_st2:
+        .word   168, 12, .Lsrl2_st3
+.Lsrl2_st3:
+        .word   12, 28, .Lsrl2_st4
+.Lsrl2_st4:
+        .word   24, 24, .Lsrl_done
+
+.Lsrl_shift_3:
+        .word   168, 168, .Lsrl3_start
+.Lsrl3_start:
+.Lsrl3_b31:
+        .word   172, 172, .Lsrl3_b31a
+.Lsrl3_b31a:
+        .word   12, 12, .Lsrl3_b31b
+.Lsrl3_b31b:
+        .word   164, 12, .Lsrl3_b31c
+.Lsrl3_b31c:
+        .word   12, 172, .Lsrl3_b31d
+.Lsrl3_b31d:
+        .word   24, 172, .Lsrl3_b31_le0
+        .word   12, 12, .Lsrl3_b30
+.Lsrl3_b31_le0:
+        .word   176, 176, .Lsrl3_b31e
+.Lsrl3_b31e:
+        .word   164, 176, .Lsrl3_b31f
+.Lsrl3_b31f:
+        .word   24, 176, .Lsrl3_b31_ambig
+        .word   12, 12, .Lsrl3_b31s
+.Lsrl3_b31_ambig:
+        .word   172, 172, .Lsrl3_b31g
+.Lsrl3_b31g:
+        .word   164, 172, .Lsrl3_b31h
+.Lsrl3_b31h:
+        .word   .Lsrl_one, 172, .Lsrl3_b31i
+.Lsrl3_b31i:
+        .word   24, 172, .Lsrl3_b30
+        .word   12, 12, .Lsrl3_b31s
+.Lsrl3_b31s:
+        .word   .Lsrl_c2147483648, 164, .Lsrl3_b31t
+.Lsrl3_b31t:
+        .word   .Lsrl_n268435456, 168, .Lsrl3_b30
+.Lsrl3_b30:
+        .word   172, 172, .Lsrl3_b30a
+.Lsrl3_b30a:
+        .word   12, 12, .Lsrl3_b30b
+.Lsrl3_b30b:
+        .word   164, 12, .Lsrl3_b30c
+.Lsrl3_b30c:
+        .word   12, 172, .Lsrl3_b30d
+.Lsrl3_b30d:
+        .word   .Lsrl_c1073741824, 172, .Lsrl3_b30e
+.Lsrl3_b30e:
+        .word   176, 176, .Lsrl3_b30f
+.Lsrl3_b30f:
+        .word   172, 176, .Lsrl3_b30s
+        .word   12, 12, .Lsrl3_b29
+.Lsrl3_b30s:
+        .word   .Lsrl_c1073741824, 164, .Lsrl3_b30t
+.Lsrl3_b30t:
+        .word   .Lsrl_n134217728, 168, .Lsrl3_b29
+.Lsrl3_b29:
+        .word   172, 172, .Lsrl3_b29a
+.Lsrl3_b29a:
+        .word   12, 12, .Lsrl3_b29b
+.Lsrl3_b29b:
+        .word   164, 12, .Lsrl3_b29c
+.Lsrl3_b29c:
+        .word   12, 172, .Lsrl3_b29d
+.Lsrl3_b29d:
+        .word   .Lsrl_c536870912, 172, .Lsrl3_b29e
+.Lsrl3_b29e:
+        .word   176, 176, .Lsrl3_b29f
+.Lsrl3_b29f:
+        .word   172, 176, .Lsrl3_b29s
+        .word   12, 12, .Lsrl3_b28
+.Lsrl3_b29s:
+        .word   .Lsrl_c536870912, 164, .Lsrl3_b29t
+.Lsrl3_b29t:
+        .word   .Lsrl_n67108864, 168, .Lsrl3_b28
+.Lsrl3_b28:
+        .word   172, 172, .Lsrl3_b28a
+.Lsrl3_b28a:
+        .word   12, 12, .Lsrl3_b28b
+.Lsrl3_b28b:
+        .word   164, 12, .Lsrl3_b28c
+.Lsrl3_b28c:
+        .word   12, 172, .Lsrl3_b28d
+.Lsrl3_b28d:
+        .word   .Lsrl_c268435456, 172, .Lsrl3_b28e
+.Lsrl3_b28e:
+        .word   176, 176, .Lsrl3_b28f
+.Lsrl3_b28f:
+        .word   172, 176, .Lsrl3_b28s
+        .word   12, 12, .Lsrl3_b27
+.Lsrl3_b28s:
+        .word   .Lsrl_c268435456, 164, .Lsrl3_b28t
+.Lsrl3_b28t:
+        .word   .Lsrl_n33554432, 168, .Lsrl3_b27
+.Lsrl3_b27:
+        .word   172, 172, .Lsrl3_b27a
+.Lsrl3_b27a:
+        .word   12, 12, .Lsrl3_b27b
+.Lsrl3_b27b:
+        .word   164, 12, .Lsrl3_b27c
+.Lsrl3_b27c:
+        .word   12, 172, .Lsrl3_b27d
+.Lsrl3_b27d:
+        .word   .Lsrl_c134217728, 172, .Lsrl3_b27e
+.Lsrl3_b27e:
+        .word   176, 176, .Lsrl3_b27f
+.Lsrl3_b27f:
+        .word   172, 176, .Lsrl3_b27s
+        .word   12, 12, .Lsrl3_b26
+.Lsrl3_b27s:
+        .word   .Lsrl_c134217728, 164, .Lsrl3_b27t
+.Lsrl3_b27t:
+        .word   .Lsrl_n16777216, 168, .Lsrl3_b26
+.Lsrl3_b26:
+        .word   172, 172, .Lsrl3_b26a
+.Lsrl3_b26a:
+        .word   12, 12, .Lsrl3_b26b
+.Lsrl3_b26b:
+        .word   164, 12, .Lsrl3_b26c
+.Lsrl3_b26c:
+        .word   12, 172, .Lsrl3_b26d
+.Lsrl3_b26d:
+        .word   .Lsrl_c67108864, 172, .Lsrl3_b26e
+.Lsrl3_b26e:
+        .word   176, 176, .Lsrl3_b26f
+.Lsrl3_b26f:
+        .word   172, 176, .Lsrl3_b26s
+        .word   12, 12, .Lsrl3_b25
+.Lsrl3_b26s:
+        .word   .Lsrl_c67108864, 164, .Lsrl3_b26t
+.Lsrl3_b26t:
+        .word   .Lsrl_n8388608, 168, .Lsrl3_b25
+.Lsrl3_b25:
+        .word   172, 172, .Lsrl3_b25a
+.Lsrl3_b25a:
+        .word   12, 12, .Lsrl3_b25b
+.Lsrl3_b25b:
+        .word   164, 12, .Lsrl3_b25c
+.Lsrl3_b25c:
+        .word   12, 172, .Lsrl3_b25d
+.Lsrl3_b25d:
+        .word   .Lsrl_c33554432, 172, .Lsrl3_b25e
+.Lsrl3_b25e:
+        .word   176, 176, .Lsrl3_b25f
+.Lsrl3_b25f:
+        .word   172, 176, .Lsrl3_b25s
+        .word   12, 12, .Lsrl3_b24
+.Lsrl3_b25s:
+        .word   .Lsrl_c33554432, 164, .Lsrl3_b25t
+.Lsrl3_b25t:
+        .word   .Lsrl_n4194304, 168, .Lsrl3_b24
+.Lsrl3_b24:
+        .word   172, 172, .Lsrl3_b24a
+.Lsrl3_b24a:
+        .word   12, 12, .Lsrl3_b24b
+.Lsrl3_b24b:
+        .word   164, 12, .Lsrl3_b24c
+.Lsrl3_b24c:
+        .word   12, 172, .Lsrl3_b24d
+.Lsrl3_b24d:
+        .word   .Lsrl_c16777216, 172, .Lsrl3_b24e
+.Lsrl3_b24e:
+        .word   176, 176, .Lsrl3_b24f
+.Lsrl3_b24f:
+        .word   172, 176, .Lsrl3_b24s
+        .word   12, 12, .Lsrl3_b23
+.Lsrl3_b24s:
+        .word   .Lsrl_c16777216, 164, .Lsrl3_b24t
+.Lsrl3_b24t:
+        .word   .Lsrl_n2097152, 168, .Lsrl3_b23
+.Lsrl3_b23:
+        .word   172, 172, .Lsrl3_b23a
+.Lsrl3_b23a:
+        .word   12, 12, .Lsrl3_b23b
+.Lsrl3_b23b:
+        .word   164, 12, .Lsrl3_b23c
+.Lsrl3_b23c:
+        .word   12, 172, .Lsrl3_b23d
+.Lsrl3_b23d:
+        .word   .Lsrl_c8388608, 172, .Lsrl3_b23e
+.Lsrl3_b23e:
+        .word   176, 176, .Lsrl3_b23f
+.Lsrl3_b23f:
+        .word   172, 176, .Lsrl3_b23s
+        .word   12, 12, .Lsrl3_b22
+.Lsrl3_b23s:
+        .word   .Lsrl_c8388608, 164, .Lsrl3_b23t
+.Lsrl3_b23t:
+        .word   .Lsrl_n1048576, 168, .Lsrl3_b22
+.Lsrl3_b22:
+        .word   172, 172, .Lsrl3_b22a
+.Lsrl3_b22a:
+        .word   12, 12, .Lsrl3_b22b
+.Lsrl3_b22b:
+        .word   164, 12, .Lsrl3_b22c
+.Lsrl3_b22c:
+        .word   12, 172, .Lsrl3_b22d
+.Lsrl3_b22d:
+        .word   .Lsrl_c4194304, 172, .Lsrl3_b22e
+.Lsrl3_b22e:
+        .word   176, 176, .Lsrl3_b22f
+.Lsrl3_b22f:
+        .word   172, 176, .Lsrl3_b22s
+        .word   12, 12, .Lsrl3_b21
+.Lsrl3_b22s:
+        .word   .Lsrl_c4194304, 164, .Lsrl3_b22t
+.Lsrl3_b22t:
+        .word   .Lsrl_n524288, 168, .Lsrl3_b21
+.Lsrl3_b21:
+        .word   172, 172, .Lsrl3_b21a
+.Lsrl3_b21a:
+        .word   12, 12, .Lsrl3_b21b
+.Lsrl3_b21b:
+        .word   164, 12, .Lsrl3_b21c
+.Lsrl3_b21c:
+        .word   12, 172, .Lsrl3_b21d
+.Lsrl3_b21d:
+        .word   .Lsrl_c2097152, 172, .Lsrl3_b21e
+.Lsrl3_b21e:
+        .word   176, 176, .Lsrl3_b21f
+.Lsrl3_b21f:
+        .word   172, 176, .Lsrl3_b21s
+        .word   12, 12, .Lsrl3_b20
+.Lsrl3_b21s:
+        .word   .Lsrl_c2097152, 164, .Lsrl3_b21t
+.Lsrl3_b21t:
+        .word   .Lsrl_n262144, 168, .Lsrl3_b20
+.Lsrl3_b20:
+        .word   172, 172, .Lsrl3_b20a
+.Lsrl3_b20a:
+        .word   12, 12, .Lsrl3_b20b
+.Lsrl3_b20b:
+        .word   164, 12, .Lsrl3_b20c
+.Lsrl3_b20c:
+        .word   12, 172, .Lsrl3_b20d
+.Lsrl3_b20d:
+        .word   .Lsrl_c1048576, 172, .Lsrl3_b20e
+.Lsrl3_b20e:
+        .word   176, 176, .Lsrl3_b20f
+.Lsrl3_b20f:
+        .word   172, 176, .Lsrl3_b20s
+        .word   12, 12, .Lsrl3_b19
+.Lsrl3_b20s:
+        .word   .Lsrl_c1048576, 164, .Lsrl3_b20t
+.Lsrl3_b20t:
+        .word   .Lsrl_n131072, 168, .Lsrl3_b19
+.Lsrl3_b19:
+        .word   172, 172, .Lsrl3_b19a
+.Lsrl3_b19a:
+        .word   12, 12, .Lsrl3_b19b
+.Lsrl3_b19b:
+        .word   164, 12, .Lsrl3_b19c
+.Lsrl3_b19c:
+        .word   12, 172, .Lsrl3_b19d
+.Lsrl3_b19d:
+        .word   .Lsrl_c524288, 172, .Lsrl3_b19e
+.Lsrl3_b19e:
+        .word   176, 176, .Lsrl3_b19f
+.Lsrl3_b19f:
+        .word   172, 176, .Lsrl3_b19s
+        .word   12, 12, .Lsrl3_b18
+.Lsrl3_b19s:
+        .word   .Lsrl_c524288, 164, .Lsrl3_b19t
+.Lsrl3_b19t:
+        .word   .Lsrl_n65536, 168, .Lsrl3_b18
+.Lsrl3_b18:
+        .word   172, 172, .Lsrl3_b18a
+.Lsrl3_b18a:
+        .word   12, 12, .Lsrl3_b18b
+.Lsrl3_b18b:
+        .word   164, 12, .Lsrl3_b18c
+.Lsrl3_b18c:
+        .word   12, 172, .Lsrl3_b18d
+.Lsrl3_b18d:
+        .word   .Lsrl_c262144, 172, .Lsrl3_b18e
+.Lsrl3_b18e:
+        .word   176, 176, .Lsrl3_b18f
+.Lsrl3_b18f:
+        .word   172, 176, .Lsrl3_b18s
+        .word   12, 12, .Lsrl3_b17
+.Lsrl3_b18s:
+        .word   .Lsrl_c262144, 164, .Lsrl3_b18t
+.Lsrl3_b18t:
+        .word   .Lsrl_n32768, 168, .Lsrl3_b17
+.Lsrl3_b17:
+        .word   172, 172, .Lsrl3_b17a
+.Lsrl3_b17a:
+        .word   12, 12, .Lsrl3_b17b
+.Lsrl3_b17b:
+        .word   164, 12, .Lsrl3_b17c
+.Lsrl3_b17c:
+        .word   12, 172, .Lsrl3_b17d
+.Lsrl3_b17d:
+        .word   .Lsrl_c131072, 172, .Lsrl3_b17e
+.Lsrl3_b17e:
+        .word   176, 176, .Lsrl3_b17f
+.Lsrl3_b17f:
+        .word   172, 176, .Lsrl3_b17s
+        .word   12, 12, .Lsrl3_b16
+.Lsrl3_b17s:
+        .word   .Lsrl_c131072, 164, .Lsrl3_b17t
+.Lsrl3_b17t:
+        .word   .Lsrl_n16384, 168, .Lsrl3_b16
+.Lsrl3_b16:
+        .word   172, 172, .Lsrl3_b16a
+.Lsrl3_b16a:
+        .word   12, 12, .Lsrl3_b16b
+.Lsrl3_b16b:
+        .word   164, 12, .Lsrl3_b16c
+.Lsrl3_b16c:
+        .word   12, 172, .Lsrl3_b16d
+.Lsrl3_b16d:
+        .word   .Lsrl_c65536, 172, .Lsrl3_b16e
+.Lsrl3_b16e:
+        .word   176, 176, .Lsrl3_b16f
+.Lsrl3_b16f:
+        .word   172, 176, .Lsrl3_b16s
+        .word   12, 12, .Lsrl3_b15
+.Lsrl3_b16s:
+        .word   .Lsrl_c65536, 164, .Lsrl3_b16t
+.Lsrl3_b16t:
+        .word   .Lsrl_n8192, 168, .Lsrl3_b15
+.Lsrl3_b15:
+        .word   172, 172, .Lsrl3_b15a
+.Lsrl3_b15a:
+        .word   12, 12, .Lsrl3_b15b
+.Lsrl3_b15b:
+        .word   164, 12, .Lsrl3_b15c
+.Lsrl3_b15c:
+        .word   12, 172, .Lsrl3_b15d
+.Lsrl3_b15d:
+        .word   .Lsrl_c32768, 172, .Lsrl3_b15e
+.Lsrl3_b15e:
+        .word   176, 176, .Lsrl3_b15f
+.Lsrl3_b15f:
+        .word   172, 176, .Lsrl3_b15s
+        .word   12, 12, .Lsrl3_b14
+.Lsrl3_b15s:
+        .word   .Lsrl_c32768, 164, .Lsrl3_b15t
+.Lsrl3_b15t:
+        .word   .Lsrl_n4096, 168, .Lsrl3_b14
+.Lsrl3_b14:
+        .word   172, 172, .Lsrl3_b14a
+.Lsrl3_b14a:
+        .word   12, 12, .Lsrl3_b14b
+.Lsrl3_b14b:
+        .word   164, 12, .Lsrl3_b14c
+.Lsrl3_b14c:
+        .word   12, 172, .Lsrl3_b14d
+.Lsrl3_b14d:
+        .word   .Lsrl_c16384, 172, .Lsrl3_b14e
+.Lsrl3_b14e:
+        .word   176, 176, .Lsrl3_b14f
+.Lsrl3_b14f:
+        .word   172, 176, .Lsrl3_b14s
+        .word   12, 12, .Lsrl3_b13
+.Lsrl3_b14s:
+        .word   .Lsrl_c16384, 164, .Lsrl3_b14t
+.Lsrl3_b14t:
+        .word   .Lsrl_n2048, 168, .Lsrl3_b13
+.Lsrl3_b13:
+        .word   172, 172, .Lsrl3_b13a
+.Lsrl3_b13a:
+        .word   12, 12, .Lsrl3_b13b
+.Lsrl3_b13b:
+        .word   164, 12, .Lsrl3_b13c
+.Lsrl3_b13c:
+        .word   12, 172, .Lsrl3_b13d
+.Lsrl3_b13d:
+        .word   .Lsrl_c8192, 172, .Lsrl3_b13e
+.Lsrl3_b13e:
+        .word   176, 176, .Lsrl3_b13f
+.Lsrl3_b13f:
+        .word   172, 176, .Lsrl3_b13s
+        .word   12, 12, .Lsrl3_b12
+.Lsrl3_b13s:
+        .word   .Lsrl_c8192, 164, .Lsrl3_b13t
+.Lsrl3_b13t:
+        .word   .Lsrl_n1024, 168, .Lsrl3_b12
+.Lsrl3_b12:
+        .word   172, 172, .Lsrl3_b12a
+.Lsrl3_b12a:
+        .word   12, 12, .Lsrl3_b12b
+.Lsrl3_b12b:
+        .word   164, 12, .Lsrl3_b12c
+.Lsrl3_b12c:
+        .word   12, 172, .Lsrl3_b12d
+.Lsrl3_b12d:
+        .word   .Lsrl_c4096, 172, .Lsrl3_b12e
+.Lsrl3_b12e:
+        .word   176, 176, .Lsrl3_b12f
+.Lsrl3_b12f:
+        .word   172, 176, .Lsrl3_b12s
+        .word   12, 12, .Lsrl3_b11
+.Lsrl3_b12s:
+        .word   .Lsrl_c4096, 164, .Lsrl3_b12t
+.Lsrl3_b12t:
+        .word   .Lsrl_n512, 168, .Lsrl3_b11
+.Lsrl3_b11:
+        .word   172, 172, .Lsrl3_b11a
+.Lsrl3_b11a:
+        .word   12, 12, .Lsrl3_b11b
+.Lsrl3_b11b:
+        .word   164, 12, .Lsrl3_b11c
+.Lsrl3_b11c:
+        .word   12, 172, .Lsrl3_b11d
+.Lsrl3_b11d:
+        .word   .Lsrl_c2048, 172, .Lsrl3_b11e
+.Lsrl3_b11e:
+        .word   176, 176, .Lsrl3_b11f
+.Lsrl3_b11f:
+        .word   172, 176, .Lsrl3_b11s
+        .word   12, 12, .Lsrl3_b10
+.Lsrl3_b11s:
+        .word   .Lsrl_c2048, 164, .Lsrl3_b11t
+.Lsrl3_b11t:
+        .word   .Lsrl_n256, 168, .Lsrl3_b10
+.Lsrl3_b10:
+        .word   172, 172, .Lsrl3_b10a
+.Lsrl3_b10a:
+        .word   12, 12, .Lsrl3_b10b
+.Lsrl3_b10b:
+        .word   164, 12, .Lsrl3_b10c
+.Lsrl3_b10c:
+        .word   12, 172, .Lsrl3_b10d
+.Lsrl3_b10d:
+        .word   .Lsrl_c1024, 172, .Lsrl3_b10e
+.Lsrl3_b10e:
+        .word   176, 176, .Lsrl3_b10f
+.Lsrl3_b10f:
+        .word   172, 176, .Lsrl3_b10s
+        .word   12, 12, .Lsrl3_b9
+.Lsrl3_b10s:
+        .word   .Lsrl_c1024, 164, .Lsrl3_b10t
+.Lsrl3_b10t:
+        .word   .Lsrl_n128, 168, .Lsrl3_b9
+.Lsrl3_b9:
+        .word   172, 172, .Lsrl3_b9a
+.Lsrl3_b9a:
+        .word   12, 12, .Lsrl3_b9b
+.Lsrl3_b9b:
+        .word   164, 12, .Lsrl3_b9c
+.Lsrl3_b9c:
+        .word   12, 172, .Lsrl3_b9d
+.Lsrl3_b9d:
+        .word   .Lsrl_c512, 172, .Lsrl3_b9e
+.Lsrl3_b9e:
+        .word   176, 176, .Lsrl3_b9f
+.Lsrl3_b9f:
+        .word   172, 176, .Lsrl3_b9s
+        .word   12, 12, .Lsrl3_b8
+.Lsrl3_b9s:
+        .word   .Lsrl_c512, 164, .Lsrl3_b9t
+.Lsrl3_b9t:
+        .word   .Lsrl_n64, 168, .Lsrl3_b8
+.Lsrl3_b8:
+        .word   172, 172, .Lsrl3_b8a
+.Lsrl3_b8a:
+        .word   12, 12, .Lsrl3_b8b
+.Lsrl3_b8b:
+        .word   164, 12, .Lsrl3_b8c
+.Lsrl3_b8c:
+        .word   12, 172, .Lsrl3_b8d
+.Lsrl3_b8d:
+        .word   .Lsrl_c256, 172, .Lsrl3_b8e
+.Lsrl3_b8e:
+        .word   176, 176, .Lsrl3_b8f
+.Lsrl3_b8f:
+        .word   172, 176, .Lsrl3_b8s
+        .word   12, 12, .Lsrl3_b7
+.Lsrl3_b8s:
+        .word   .Lsrl_c256, 164, .Lsrl3_b8t
+.Lsrl3_b8t:
+        .word   .Lsrl_n32, 168, .Lsrl3_b7
+.Lsrl3_b7:
+        .word   172, 172, .Lsrl3_b7a
+.Lsrl3_b7a:
+        .word   12, 12, .Lsrl3_b7b
+.Lsrl3_b7b:
+        .word   164, 12, .Lsrl3_b7c
+.Lsrl3_b7c:
+        .word   12, 172, .Lsrl3_b7d
+.Lsrl3_b7d:
+        .word   .Lsrl_c128, 172, .Lsrl3_b7e
+.Lsrl3_b7e:
+        .word   176, 176, .Lsrl3_b7f
+.Lsrl3_b7f:
+        .word   172, 176, .Lsrl3_b7s
+        .word   12, 12, .Lsrl3_b6
+.Lsrl3_b7s:
+        .word   .Lsrl_c128, 164, .Lsrl3_b7t
+.Lsrl3_b7t:
+        .word   .Lsrl_n16, 168, .Lsrl3_b6
+.Lsrl3_b6:
+        .word   172, 172, .Lsrl3_b6a
+.Lsrl3_b6a:
+        .word   12, 12, .Lsrl3_b6b
+.Lsrl3_b6b:
+        .word   164, 12, .Lsrl3_b6c
+.Lsrl3_b6c:
+        .word   12, 172, .Lsrl3_b6d
+.Lsrl3_b6d:
+        .word   .Lsrl_c64, 172, .Lsrl3_b6e
+.Lsrl3_b6e:
+        .word   176, 176, .Lsrl3_b6f
+.Lsrl3_b6f:
+        .word   172, 176, .Lsrl3_b6s
+        .word   12, 12, .Lsrl3_b5
+.Lsrl3_b6s:
+        .word   .Lsrl_c64, 164, .Lsrl3_b6t
+.Lsrl3_b6t:
+        .word   .Lsrl_n8, 168, .Lsrl3_b5
+.Lsrl3_b5:
+        .word   172, 172, .Lsrl3_b5a
+.Lsrl3_b5a:
+        .word   12, 12, .Lsrl3_b5b
+.Lsrl3_b5b:
+        .word   164, 12, .Lsrl3_b5c
+.Lsrl3_b5c:
+        .word   12, 172, .Lsrl3_b5d
+.Lsrl3_b5d:
+        .word   .Lsrl_c32, 172, .Lsrl3_b5e
+.Lsrl3_b5e:
+        .word   176, 176, .Lsrl3_b5f
+.Lsrl3_b5f:
+        .word   172, 176, .Lsrl3_b5s
+        .word   12, 12, .Lsrl3_b4
+.Lsrl3_b5s:
+        .word   .Lsrl_c32, 164, .Lsrl3_b5t
+.Lsrl3_b5t:
+        .word   .Lsrl_n4, 168, .Lsrl3_b4
+.Lsrl3_b4:
+        .word   172, 172, .Lsrl3_b4a
+.Lsrl3_b4a:
+        .word   12, 12, .Lsrl3_b4b
+.Lsrl3_b4b:
+        .word   164, 12, .Lsrl3_b4c
+.Lsrl3_b4c:
+        .word   12, 172, .Lsrl3_b4d
+.Lsrl3_b4d:
+        .word   .Lsrl_c16, 172, .Lsrl3_b4e
+.Lsrl3_b4e:
+        .word   176, 176, .Lsrl3_b4f
+.Lsrl3_b4f:
+        .word   172, 176, .Lsrl3_b4s
+        .word   12, 12, .Lsrl3_b3
+.Lsrl3_b4s:
+        .word   .Lsrl_c16, 164, .Lsrl3_b4t
+.Lsrl3_b4t:
+        .word   .Lsrl_n2, 168, .Lsrl3_b3
+.Lsrl3_b3:
+        .word   172, 172, .Lsrl3_b3a
+.Lsrl3_b3a:
+        .word   12, 12, .Lsrl3_b3b
+.Lsrl3_b3b:
+        .word   164, 12, .Lsrl3_b3c
+.Lsrl3_b3c:
+        .word   12, 172, .Lsrl3_b3d
+.Lsrl3_b3d:
+        .word   .Lsrl_c8, 172, .Lsrl3_b3e
+.Lsrl3_b3e:
+        .word   176, 176, .Lsrl3_b3f
+.Lsrl3_b3f:
+        .word   172, 176, .Lsrl3_b3s
+        .word   12, 12, .Lsrl3_store
+.Lsrl3_b3s:
+        .word   .Lsrl_c8, 164, .Lsrl3_b3t
+.Lsrl3_b3t:
+        .word   .Lsrl_n1, 168, .Lsrl3_store
+.Lsrl3_store:
+        .word   28, 28, .Lsrl3_st1
+.Lsrl3_st1:
+        .word   12, 12, .Lsrl3_st2
+.Lsrl3_st2:
+        .word   168, 12, .Lsrl3_st3
+.Lsrl3_st3:
+        .word   12, 28, .Lsrl3_st4
+.Lsrl3_st4:
+        .word   24, 24, .Lsrl_done
+
+.Lsrl_shift_4:
+        .word   168, 168, .Lsrl4_start
+.Lsrl4_start:
+.Lsrl4_b31:
+        .word   172, 172, .Lsrl4_b31a
+.Lsrl4_b31a:
+        .word   12, 12, .Lsrl4_b31b
+.Lsrl4_b31b:
+        .word   164, 12, .Lsrl4_b31c
+.Lsrl4_b31c:
+        .word   12, 172, .Lsrl4_b31d
+.Lsrl4_b31d:
+        .word   24, 172, .Lsrl4_b31_le0
+        .word   12, 12, .Lsrl4_b30
+.Lsrl4_b31_le0:
+        .word   176, 176, .Lsrl4_b31e
+.Lsrl4_b31e:
+        .word   164, 176, .Lsrl4_b31f
+.Lsrl4_b31f:
+        .word   24, 176, .Lsrl4_b31_ambig
+        .word   12, 12, .Lsrl4_b31s
+.Lsrl4_b31_ambig:
+        .word   172, 172, .Lsrl4_b31g
+.Lsrl4_b31g:
+        .word   164, 172, .Lsrl4_b31h
+.Lsrl4_b31h:
+        .word   .Lsrl_one, 172, .Lsrl4_b31i
+.Lsrl4_b31i:
+        .word   24, 172, .Lsrl4_b30
+        .word   12, 12, .Lsrl4_b31s
+.Lsrl4_b31s:
+        .word   .Lsrl_c2147483648, 164, .Lsrl4_b31t
+.Lsrl4_b31t:
+        .word   .Lsrl_n134217728, 168, .Lsrl4_b30
+.Lsrl4_b30:
+        .word   172, 172, .Lsrl4_b30a
+.Lsrl4_b30a:
+        .word   12, 12, .Lsrl4_b30b
+.Lsrl4_b30b:
+        .word   164, 12, .Lsrl4_b30c
+.Lsrl4_b30c:
+        .word   12, 172, .Lsrl4_b30d
+.Lsrl4_b30d:
+        .word   .Lsrl_c1073741824, 172, .Lsrl4_b30e
+.Lsrl4_b30e:
+        .word   176, 176, .Lsrl4_b30f
+.Lsrl4_b30f:
+        .word   172, 176, .Lsrl4_b30s
+        .word   12, 12, .Lsrl4_b29
+.Lsrl4_b30s:
+        .word   .Lsrl_c1073741824, 164, .Lsrl4_b30t
+.Lsrl4_b30t:
+        .word   .Lsrl_n67108864, 168, .Lsrl4_b29
+.Lsrl4_b29:
+        .word   172, 172, .Lsrl4_b29a
+.Lsrl4_b29a:
+        .word   12, 12, .Lsrl4_b29b
+.Lsrl4_b29b:
+        .word   164, 12, .Lsrl4_b29c
+.Lsrl4_b29c:
+        .word   12, 172, .Lsrl4_b29d
+.Lsrl4_b29d:
+        .word   .Lsrl_c536870912, 172, .Lsrl4_b29e
+.Lsrl4_b29e:
+        .word   176, 176, .Lsrl4_b29f
+.Lsrl4_b29f:
+        .word   172, 176, .Lsrl4_b29s
+        .word   12, 12, .Lsrl4_b28
+.Lsrl4_b29s:
+        .word   .Lsrl_c536870912, 164, .Lsrl4_b29t
+.Lsrl4_b29t:
+        .word   .Lsrl_n33554432, 168, .Lsrl4_b28
+.Lsrl4_b28:
+        .word   172, 172, .Lsrl4_b28a
+.Lsrl4_b28a:
+        .word   12, 12, .Lsrl4_b28b
+.Lsrl4_b28b:
+        .word   164, 12, .Lsrl4_b28c
+.Lsrl4_b28c:
+        .word   12, 172, .Lsrl4_b28d
+.Lsrl4_b28d:
+        .word   .Lsrl_c268435456, 172, .Lsrl4_b28e
+.Lsrl4_b28e:
+        .word   176, 176, .Lsrl4_b28f
+.Lsrl4_b28f:
+        .word   172, 176, .Lsrl4_b28s
+        .word   12, 12, .Lsrl4_b27
+.Lsrl4_b28s:
+        .word   .Lsrl_c268435456, 164, .Lsrl4_b28t
+.Lsrl4_b28t:
+        .word   .Lsrl_n16777216, 168, .Lsrl4_b27
+.Lsrl4_b27:
+        .word   172, 172, .Lsrl4_b27a
+.Lsrl4_b27a:
+        .word   12, 12, .Lsrl4_b27b
+.Lsrl4_b27b:
+        .word   164, 12, .Lsrl4_b27c
+.Lsrl4_b27c:
+        .word   12, 172, .Lsrl4_b27d
+.Lsrl4_b27d:
+        .word   .Lsrl_c134217728, 172, .Lsrl4_b27e
+.Lsrl4_b27e:
+        .word   176, 176, .Lsrl4_b27f
+.Lsrl4_b27f:
+        .word   172, 176, .Lsrl4_b27s
+        .word   12, 12, .Lsrl4_b26
+.Lsrl4_b27s:
+        .word   .Lsrl_c134217728, 164, .Lsrl4_b27t
+.Lsrl4_b27t:
+        .word   .Lsrl_n8388608, 168, .Lsrl4_b26
+.Lsrl4_b26:
+        .word   172, 172, .Lsrl4_b26a
+.Lsrl4_b26a:
+        .word   12, 12, .Lsrl4_b26b
+.Lsrl4_b26b:
+        .word   164, 12, .Lsrl4_b26c
+.Lsrl4_b26c:
+        .word   12, 172, .Lsrl4_b26d
+.Lsrl4_b26d:
+        .word   .Lsrl_c67108864, 172, .Lsrl4_b26e
+.Lsrl4_b26e:
+        .word   176, 176, .Lsrl4_b26f
+.Lsrl4_b26f:
+        .word   172, 176, .Lsrl4_b26s
+        .word   12, 12, .Lsrl4_b25
+.Lsrl4_b26s:
+        .word   .Lsrl_c67108864, 164, .Lsrl4_b26t
+.Lsrl4_b26t:
+        .word   .Lsrl_n4194304, 168, .Lsrl4_b25
+.Lsrl4_b25:
+        .word   172, 172, .Lsrl4_b25a
+.Lsrl4_b25a:
+        .word   12, 12, .Lsrl4_b25b
+.Lsrl4_b25b:
+        .word   164, 12, .Lsrl4_b25c
+.Lsrl4_b25c:
+        .word   12, 172, .Lsrl4_b25d
+.Lsrl4_b25d:
+        .word   .Lsrl_c33554432, 172, .Lsrl4_b25e
+.Lsrl4_b25e:
+        .word   176, 176, .Lsrl4_b25f
+.Lsrl4_b25f:
+        .word   172, 176, .Lsrl4_b25s
+        .word   12, 12, .Lsrl4_b24
+.Lsrl4_b25s:
+        .word   .Lsrl_c33554432, 164, .Lsrl4_b25t
+.Lsrl4_b25t:
+        .word   .Lsrl_n2097152, 168, .Lsrl4_b24
+.Lsrl4_b24:
+        .word   172, 172, .Lsrl4_b24a
+.Lsrl4_b24a:
+        .word   12, 12, .Lsrl4_b24b
+.Lsrl4_b24b:
+        .word   164, 12, .Lsrl4_b24c
+.Lsrl4_b24c:
+        .word   12, 172, .Lsrl4_b24d
+.Lsrl4_b24d:
+        .word   .Lsrl_c16777216, 172, .Lsrl4_b24e
+.Lsrl4_b24e:
+        .word   176, 176, .Lsrl4_b24f
+.Lsrl4_b24f:
+        .word   172, 176, .Lsrl4_b24s
+        .word   12, 12, .Lsrl4_b23
+.Lsrl4_b24s:
+        .word   .Lsrl_c16777216, 164, .Lsrl4_b24t
+.Lsrl4_b24t:
+        .word   .Lsrl_n1048576, 168, .Lsrl4_b23
+.Lsrl4_b23:
+        .word   172, 172, .Lsrl4_b23a
+.Lsrl4_b23a:
+        .word   12, 12, .Lsrl4_b23b
+.Lsrl4_b23b:
+        .word   164, 12, .Lsrl4_b23c
+.Lsrl4_b23c:
+        .word   12, 172, .Lsrl4_b23d
+.Lsrl4_b23d:
+        .word   .Lsrl_c8388608, 172, .Lsrl4_b23e
+.Lsrl4_b23e:
+        .word   176, 176, .Lsrl4_b23f
+.Lsrl4_b23f:
+        .word   172, 176, .Lsrl4_b23s
+        .word   12, 12, .Lsrl4_b22
+.Lsrl4_b23s:
+        .word   .Lsrl_c8388608, 164, .Lsrl4_b23t
+.Lsrl4_b23t:
+        .word   .Lsrl_n524288, 168, .Lsrl4_b22
+.Lsrl4_b22:
+        .word   172, 172, .Lsrl4_b22a
+.Lsrl4_b22a:
+        .word   12, 12, .Lsrl4_b22b
+.Lsrl4_b22b:
+        .word   164, 12, .Lsrl4_b22c
+.Lsrl4_b22c:
+        .word   12, 172, .Lsrl4_b22d
+.Lsrl4_b22d:
+        .word   .Lsrl_c4194304, 172, .Lsrl4_b22e
+.Lsrl4_b22e:
+        .word   176, 176, .Lsrl4_b22f
+.Lsrl4_b22f:
+        .word   172, 176, .Lsrl4_b22s
+        .word   12, 12, .Lsrl4_b21
+.Lsrl4_b22s:
+        .word   .Lsrl_c4194304, 164, .Lsrl4_b22t
+.Lsrl4_b22t:
+        .word   .Lsrl_n262144, 168, .Lsrl4_b21
+.Lsrl4_b21:
+        .word   172, 172, .Lsrl4_b21a
+.Lsrl4_b21a:
+        .word   12, 12, .Lsrl4_b21b
+.Lsrl4_b21b:
+        .word   164, 12, .Lsrl4_b21c
+.Lsrl4_b21c:
+        .word   12, 172, .Lsrl4_b21d
+.Lsrl4_b21d:
+        .word   .Lsrl_c2097152, 172, .Lsrl4_b21e
+.Lsrl4_b21e:
+        .word   176, 176, .Lsrl4_b21f
+.Lsrl4_b21f:
+        .word   172, 176, .Lsrl4_b21s
+        .word   12, 12, .Lsrl4_b20
+.Lsrl4_b21s:
+        .word   .Lsrl_c2097152, 164, .Lsrl4_b21t
+.Lsrl4_b21t:
+        .word   .Lsrl_n131072, 168, .Lsrl4_b20
+.Lsrl4_b20:
+        .word   172, 172, .Lsrl4_b20a
+.Lsrl4_b20a:
+        .word   12, 12, .Lsrl4_b20b
+.Lsrl4_b20b:
+        .word   164, 12, .Lsrl4_b20c
+.Lsrl4_b20c:
+        .word   12, 172, .Lsrl4_b20d
+.Lsrl4_b20d:
+        .word   .Lsrl_c1048576, 172, .Lsrl4_b20e
+.Lsrl4_b20e:
+        .word   176, 176, .Lsrl4_b20f
+.Lsrl4_b20f:
+        .word   172, 176, .Lsrl4_b20s
+        .word   12, 12, .Lsrl4_b19
+.Lsrl4_b20s:
+        .word   .Lsrl_c1048576, 164, .Lsrl4_b20t
+.Lsrl4_b20t:
+        .word   .Lsrl_n65536, 168, .Lsrl4_b19
+.Lsrl4_b19:
+        .word   172, 172, .Lsrl4_b19a
+.Lsrl4_b19a:
+        .word   12, 12, .Lsrl4_b19b
+.Lsrl4_b19b:
+        .word   164, 12, .Lsrl4_b19c
+.Lsrl4_b19c:
+        .word   12, 172, .Lsrl4_b19d
+.Lsrl4_b19d:
+        .word   .Lsrl_c524288, 172, .Lsrl4_b19e
+.Lsrl4_b19e:
+        .word   176, 176, .Lsrl4_b19f
+.Lsrl4_b19f:
+        .word   172, 176, .Lsrl4_b19s
+        .word   12, 12, .Lsrl4_b18
+.Lsrl4_b19s:
+        .word   .Lsrl_c524288, 164, .Lsrl4_b19t
+.Lsrl4_b19t:
+        .word   .Lsrl_n32768, 168, .Lsrl4_b18
+.Lsrl4_b18:
+        .word   172, 172, .Lsrl4_b18a
+.Lsrl4_b18a:
+        .word   12, 12, .Lsrl4_b18b
+.Lsrl4_b18b:
+        .word   164, 12, .Lsrl4_b18c
+.Lsrl4_b18c:
+        .word   12, 172, .Lsrl4_b18d
+.Lsrl4_b18d:
+        .word   .Lsrl_c262144, 172, .Lsrl4_b18e
+.Lsrl4_b18e:
+        .word   176, 176, .Lsrl4_b18f
+.Lsrl4_b18f:
+        .word   172, 176, .Lsrl4_b18s
+        .word   12, 12, .Lsrl4_b17
+.Lsrl4_b18s:
+        .word   .Lsrl_c262144, 164, .Lsrl4_b18t
+.Lsrl4_b18t:
+        .word   .Lsrl_n16384, 168, .Lsrl4_b17
+.Lsrl4_b17:
+        .word   172, 172, .Lsrl4_b17a
+.Lsrl4_b17a:
+        .word   12, 12, .Lsrl4_b17b
+.Lsrl4_b17b:
+        .word   164, 12, .Lsrl4_b17c
+.Lsrl4_b17c:
+        .word   12, 172, .Lsrl4_b17d
+.Lsrl4_b17d:
+        .word   .Lsrl_c131072, 172, .Lsrl4_b17e
+.Lsrl4_b17e:
+        .word   176, 176, .Lsrl4_b17f
+.Lsrl4_b17f:
+        .word   172, 176, .Lsrl4_b17s
+        .word   12, 12, .Lsrl4_b16
+.Lsrl4_b17s:
+        .word   .Lsrl_c131072, 164, .Lsrl4_b17t
+.Lsrl4_b17t:
+        .word   .Lsrl_n8192, 168, .Lsrl4_b16
+.Lsrl4_b16:
+        .word   172, 172, .Lsrl4_b16a
+.Lsrl4_b16a:
+        .word   12, 12, .Lsrl4_b16b
+.Lsrl4_b16b:
+        .word   164, 12, .Lsrl4_b16c
+.Lsrl4_b16c:
+        .word   12, 172, .Lsrl4_b16d
+.Lsrl4_b16d:
+        .word   .Lsrl_c65536, 172, .Lsrl4_b16e
+.Lsrl4_b16e:
+        .word   176, 176, .Lsrl4_b16f
+.Lsrl4_b16f:
+        .word   172, 176, .Lsrl4_b16s
+        .word   12, 12, .Lsrl4_b15
+.Lsrl4_b16s:
+        .word   .Lsrl_c65536, 164, .Lsrl4_b16t
+.Lsrl4_b16t:
+        .word   .Lsrl_n4096, 168, .Lsrl4_b15
+.Lsrl4_b15:
+        .word   172, 172, .Lsrl4_b15a
+.Lsrl4_b15a:
+        .word   12, 12, .Lsrl4_b15b
+.Lsrl4_b15b:
+        .word   164, 12, .Lsrl4_b15c
+.Lsrl4_b15c:
+        .word   12, 172, .Lsrl4_b15d
+.Lsrl4_b15d:
+        .word   .Lsrl_c32768, 172, .Lsrl4_b15e
+.Lsrl4_b15e:
+        .word   176, 176, .Lsrl4_b15f
+.Lsrl4_b15f:
+        .word   172, 176, .Lsrl4_b15s
+        .word   12, 12, .Lsrl4_b14
+.Lsrl4_b15s:
+        .word   .Lsrl_c32768, 164, .Lsrl4_b15t
+.Lsrl4_b15t:
+        .word   .Lsrl_n2048, 168, .Lsrl4_b14
+.Lsrl4_b14:
+        .word   172, 172, .Lsrl4_b14a
+.Lsrl4_b14a:
+        .word   12, 12, .Lsrl4_b14b
+.Lsrl4_b14b:
+        .word   164, 12, .Lsrl4_b14c
+.Lsrl4_b14c:
+        .word   12, 172, .Lsrl4_b14d
+.Lsrl4_b14d:
+        .word   .Lsrl_c16384, 172, .Lsrl4_b14e
+.Lsrl4_b14e:
+        .word   176, 176, .Lsrl4_b14f
+.Lsrl4_b14f:
+        .word   172, 176, .Lsrl4_b14s
+        .word   12, 12, .Lsrl4_b13
+.Lsrl4_b14s:
+        .word   .Lsrl_c16384, 164, .Lsrl4_b14t
+.Lsrl4_b14t:
+        .word   .Lsrl_n1024, 168, .Lsrl4_b13
+.Lsrl4_b13:
+        .word   172, 172, .Lsrl4_b13a
+.Lsrl4_b13a:
+        .word   12, 12, .Lsrl4_b13b
+.Lsrl4_b13b:
+        .word   164, 12, .Lsrl4_b13c
+.Lsrl4_b13c:
+        .word   12, 172, .Lsrl4_b13d
+.Lsrl4_b13d:
+        .word   .Lsrl_c8192, 172, .Lsrl4_b13e
+.Lsrl4_b13e:
+        .word   176, 176, .Lsrl4_b13f
+.Lsrl4_b13f:
+        .word   172, 176, .Lsrl4_b13s
+        .word   12, 12, .Lsrl4_b12
+.Lsrl4_b13s:
+        .word   .Lsrl_c8192, 164, .Lsrl4_b13t
+.Lsrl4_b13t:
+        .word   .Lsrl_n512, 168, .Lsrl4_b12
+.Lsrl4_b12:
+        .word   172, 172, .Lsrl4_b12a
+.Lsrl4_b12a:
+        .word   12, 12, .Lsrl4_b12b
+.Lsrl4_b12b:
+        .word   164, 12, .Lsrl4_b12c
+.Lsrl4_b12c:
+        .word   12, 172, .Lsrl4_b12d
+.Lsrl4_b12d:
+        .word   .Lsrl_c4096, 172, .Lsrl4_b12e
+.Lsrl4_b12e:
+        .word   176, 176, .Lsrl4_b12f
+.Lsrl4_b12f:
+        .word   172, 176, .Lsrl4_b12s
+        .word   12, 12, .Lsrl4_b11
+.Lsrl4_b12s:
+        .word   .Lsrl_c4096, 164, .Lsrl4_b12t
+.Lsrl4_b12t:
+        .word   .Lsrl_n256, 168, .Lsrl4_b11
+.Lsrl4_b11:
+        .word   172, 172, .Lsrl4_b11a
+.Lsrl4_b11a:
+        .word   12, 12, .Lsrl4_b11b
+.Lsrl4_b11b:
+        .word   164, 12, .Lsrl4_b11c
+.Lsrl4_b11c:
+        .word   12, 172, .Lsrl4_b11d
+.Lsrl4_b11d:
+        .word   .Lsrl_c2048, 172, .Lsrl4_b11e
+.Lsrl4_b11e:
+        .word   176, 176, .Lsrl4_b11f
+.Lsrl4_b11f:
+        .word   172, 176, .Lsrl4_b11s
+        .word   12, 12, .Lsrl4_b10
+.Lsrl4_b11s:
+        .word   .Lsrl_c2048, 164, .Lsrl4_b11t
+.Lsrl4_b11t:
+        .word   .Lsrl_n128, 168, .Lsrl4_b10
+.Lsrl4_b10:
+        .word   172, 172, .Lsrl4_b10a
+.Lsrl4_b10a:
+        .word   12, 12, .Lsrl4_b10b
+.Lsrl4_b10b:
+        .word   164, 12, .Lsrl4_b10c
+.Lsrl4_b10c:
+        .word   12, 172, .Lsrl4_b10d
+.Lsrl4_b10d:
+        .word   .Lsrl_c1024, 172, .Lsrl4_b10e
+.Lsrl4_b10e:
+        .word   176, 176, .Lsrl4_b10f
+.Lsrl4_b10f:
+        .word   172, 176, .Lsrl4_b10s
+        .word   12, 12, .Lsrl4_b9
+.Lsrl4_b10s:
+        .word   .Lsrl_c1024, 164, .Lsrl4_b10t
+.Lsrl4_b10t:
+        .word   .Lsrl_n64, 168, .Lsrl4_b9
+.Lsrl4_b9:
+        .word   172, 172, .Lsrl4_b9a
+.Lsrl4_b9a:
+        .word   12, 12, .Lsrl4_b9b
+.Lsrl4_b9b:
+        .word   164, 12, .Lsrl4_b9c
+.Lsrl4_b9c:
+        .word   12, 172, .Lsrl4_b9d
+.Lsrl4_b9d:
+        .word   .Lsrl_c512, 172, .Lsrl4_b9e
+.Lsrl4_b9e:
+        .word   176, 176, .Lsrl4_b9f
+.Lsrl4_b9f:
+        .word   172, 176, .Lsrl4_b9s
+        .word   12, 12, .Lsrl4_b8
+.Lsrl4_b9s:
+        .word   .Lsrl_c512, 164, .Lsrl4_b9t
+.Lsrl4_b9t:
+        .word   .Lsrl_n32, 168, .Lsrl4_b8
+.Lsrl4_b8:
+        .word   172, 172, .Lsrl4_b8a
+.Lsrl4_b8a:
+        .word   12, 12, .Lsrl4_b8b
+.Lsrl4_b8b:
+        .word   164, 12, .Lsrl4_b8c
+.Lsrl4_b8c:
+        .word   12, 172, .Lsrl4_b8d
+.Lsrl4_b8d:
+        .word   .Lsrl_c256, 172, .Lsrl4_b8e
+.Lsrl4_b8e:
+        .word   176, 176, .Lsrl4_b8f
+.Lsrl4_b8f:
+        .word   172, 176, .Lsrl4_b8s
+        .word   12, 12, .Lsrl4_b7
+.Lsrl4_b8s:
+        .word   .Lsrl_c256, 164, .Lsrl4_b8t
+.Lsrl4_b8t:
+        .word   .Lsrl_n16, 168, .Lsrl4_b7
+.Lsrl4_b7:
+        .word   172, 172, .Lsrl4_b7a
+.Lsrl4_b7a:
+        .word   12, 12, .Lsrl4_b7b
+.Lsrl4_b7b:
+        .word   164, 12, .Lsrl4_b7c
+.Lsrl4_b7c:
+        .word   12, 172, .Lsrl4_b7d
+.Lsrl4_b7d:
+        .word   .Lsrl_c128, 172, .Lsrl4_b7e
+.Lsrl4_b7e:
+        .word   176, 176, .Lsrl4_b7f
+.Lsrl4_b7f:
+        .word   172, 176, .Lsrl4_b7s
+        .word   12, 12, .Lsrl4_b6
+.Lsrl4_b7s:
+        .word   .Lsrl_c128, 164, .Lsrl4_b7t
+.Lsrl4_b7t:
+        .word   .Lsrl_n8, 168, .Lsrl4_b6
+.Lsrl4_b6:
+        .word   172, 172, .Lsrl4_b6a
+.Lsrl4_b6a:
+        .word   12, 12, .Lsrl4_b6b
+.Lsrl4_b6b:
+        .word   164, 12, .Lsrl4_b6c
+.Lsrl4_b6c:
+        .word   12, 172, .Lsrl4_b6d
+.Lsrl4_b6d:
+        .word   .Lsrl_c64, 172, .Lsrl4_b6e
+.Lsrl4_b6e:
+        .word   176, 176, .Lsrl4_b6f
+.Lsrl4_b6f:
+        .word   172, 176, .Lsrl4_b6s
+        .word   12, 12, .Lsrl4_b5
+.Lsrl4_b6s:
+        .word   .Lsrl_c64, 164, .Lsrl4_b6t
+.Lsrl4_b6t:
+        .word   .Lsrl_n4, 168, .Lsrl4_b5
+.Lsrl4_b5:
+        .word   172, 172, .Lsrl4_b5a
+.Lsrl4_b5a:
+        .word   12, 12, .Lsrl4_b5b
+.Lsrl4_b5b:
+        .word   164, 12, .Lsrl4_b5c
+.Lsrl4_b5c:
+        .word   12, 172, .Lsrl4_b5d
+.Lsrl4_b5d:
+        .word   .Lsrl_c32, 172, .Lsrl4_b5e
+.Lsrl4_b5e:
+        .word   176, 176, .Lsrl4_b5f
+.Lsrl4_b5f:
+        .word   172, 176, .Lsrl4_b5s
+        .word   12, 12, .Lsrl4_b4
+.Lsrl4_b5s:
+        .word   .Lsrl_c32, 164, .Lsrl4_b5t
+.Lsrl4_b5t:
+        .word   .Lsrl_n2, 168, .Lsrl4_b4
+.Lsrl4_b4:
+        .word   172, 172, .Lsrl4_b4a
+.Lsrl4_b4a:
+        .word   12, 12, .Lsrl4_b4b
+.Lsrl4_b4b:
+        .word   164, 12, .Lsrl4_b4c
+.Lsrl4_b4c:
+        .word   12, 172, .Lsrl4_b4d
+.Lsrl4_b4d:
+        .word   .Lsrl_c16, 172, .Lsrl4_b4e
+.Lsrl4_b4e:
+        .word   176, 176, .Lsrl4_b4f
+.Lsrl4_b4f:
+        .word   172, 176, .Lsrl4_b4s
+        .word   12, 12, .Lsrl4_store
+.Lsrl4_b4s:
+        .word   .Lsrl_c16, 164, .Lsrl4_b4t
+.Lsrl4_b4t:
+        .word   .Lsrl_n1, 168, .Lsrl4_store
+.Lsrl4_store:
+        .word   28, 28, .Lsrl4_st1
+.Lsrl4_st1:
+        .word   12, 12, .Lsrl4_st2
+.Lsrl4_st2:
+        .word   168, 12, .Lsrl4_st3
+.Lsrl4_st3:
+        .word   12, 28, .Lsrl4_st4
+.Lsrl4_st4:
+        .word   24, 24, .Lsrl_done
+
+.Lsrl_shift_5:
+        .word   168, 168, .Lsrl5_start
+.Lsrl5_start:
+.Lsrl5_b31:
+        .word   172, 172, .Lsrl5_b31a
+.Lsrl5_b31a:
+        .word   12, 12, .Lsrl5_b31b
+.Lsrl5_b31b:
+        .word   164, 12, .Lsrl5_b31c
+.Lsrl5_b31c:
+        .word   12, 172, .Lsrl5_b31d
+.Lsrl5_b31d:
+        .word   24, 172, .Lsrl5_b31_le0
+        .word   12, 12, .Lsrl5_b30
+.Lsrl5_b31_le0:
+        .word   176, 176, .Lsrl5_b31e
+.Lsrl5_b31e:
+        .word   164, 176, .Lsrl5_b31f
+.Lsrl5_b31f:
+        .word   24, 176, .Lsrl5_b31_ambig
+        .word   12, 12, .Lsrl5_b31s
+.Lsrl5_b31_ambig:
+        .word   172, 172, .Lsrl5_b31g
+.Lsrl5_b31g:
+        .word   164, 172, .Lsrl5_b31h
+.Lsrl5_b31h:
+        .word   .Lsrl_one, 172, .Lsrl5_b31i
+.Lsrl5_b31i:
+        .word   24, 172, .Lsrl5_b30
+        .word   12, 12, .Lsrl5_b31s
+.Lsrl5_b31s:
+        .word   .Lsrl_c2147483648, 164, .Lsrl5_b31t
+.Lsrl5_b31t:
+        .word   .Lsrl_n67108864, 168, .Lsrl5_b30
+.Lsrl5_b30:
+        .word   172, 172, .Lsrl5_b30a
+.Lsrl5_b30a:
+        .word   12, 12, .Lsrl5_b30b
+.Lsrl5_b30b:
+        .word   164, 12, .Lsrl5_b30c
+.Lsrl5_b30c:
+        .word   12, 172, .Lsrl5_b30d
+.Lsrl5_b30d:
+        .word   .Lsrl_c1073741824, 172, .Lsrl5_b30e
+.Lsrl5_b30e:
+        .word   176, 176, .Lsrl5_b30f
+.Lsrl5_b30f:
+        .word   172, 176, .Lsrl5_b30s
+        .word   12, 12, .Lsrl5_b29
+.Lsrl5_b30s:
+        .word   .Lsrl_c1073741824, 164, .Lsrl5_b30t
+.Lsrl5_b30t:
+        .word   .Lsrl_n33554432, 168, .Lsrl5_b29
+.Lsrl5_b29:
+        .word   172, 172, .Lsrl5_b29a
+.Lsrl5_b29a:
+        .word   12, 12, .Lsrl5_b29b
+.Lsrl5_b29b:
+        .word   164, 12, .Lsrl5_b29c
+.Lsrl5_b29c:
+        .word   12, 172, .Lsrl5_b29d
+.Lsrl5_b29d:
+        .word   .Lsrl_c536870912, 172, .Lsrl5_b29e
+.Lsrl5_b29e:
+        .word   176, 176, .Lsrl5_b29f
+.Lsrl5_b29f:
+        .word   172, 176, .Lsrl5_b29s
+        .word   12, 12, .Lsrl5_b28
+.Lsrl5_b29s:
+        .word   .Lsrl_c536870912, 164, .Lsrl5_b29t
+.Lsrl5_b29t:
+        .word   .Lsrl_n16777216, 168, .Lsrl5_b28
+.Lsrl5_b28:
+        .word   172, 172, .Lsrl5_b28a
+.Lsrl5_b28a:
+        .word   12, 12, .Lsrl5_b28b
+.Lsrl5_b28b:
+        .word   164, 12, .Lsrl5_b28c
+.Lsrl5_b28c:
+        .word   12, 172, .Lsrl5_b28d
+.Lsrl5_b28d:
+        .word   .Lsrl_c268435456, 172, .Lsrl5_b28e
+.Lsrl5_b28e:
+        .word   176, 176, .Lsrl5_b28f
+.Lsrl5_b28f:
+        .word   172, 176, .Lsrl5_b28s
+        .word   12, 12, .Lsrl5_b27
+.Lsrl5_b28s:
+        .word   .Lsrl_c268435456, 164, .Lsrl5_b28t
+.Lsrl5_b28t:
+        .word   .Lsrl_n8388608, 168, .Lsrl5_b27
+.Lsrl5_b27:
+        .word   172, 172, .Lsrl5_b27a
+.Lsrl5_b27a:
+        .word   12, 12, .Lsrl5_b27b
+.Lsrl5_b27b:
+        .word   164, 12, .Lsrl5_b27c
+.Lsrl5_b27c:
+        .word   12, 172, .Lsrl5_b27d
+.Lsrl5_b27d:
+        .word   .Lsrl_c134217728, 172, .Lsrl5_b27e
+.Lsrl5_b27e:
+        .word   176, 176, .Lsrl5_b27f
+.Lsrl5_b27f:
+        .word   172, 176, .Lsrl5_b27s
+        .word   12, 12, .Lsrl5_b26
+.Lsrl5_b27s:
+        .word   .Lsrl_c134217728, 164, .Lsrl5_b27t
+.Lsrl5_b27t:
+        .word   .Lsrl_n4194304, 168, .Lsrl5_b26
+.Lsrl5_b26:
+        .word   172, 172, .Lsrl5_b26a
+.Lsrl5_b26a:
+        .word   12, 12, .Lsrl5_b26b
+.Lsrl5_b26b:
+        .word   164, 12, .Lsrl5_b26c
+.Lsrl5_b26c:
+        .word   12, 172, .Lsrl5_b26d
+.Lsrl5_b26d:
+        .word   .Lsrl_c67108864, 172, .Lsrl5_b26e
+.Lsrl5_b26e:
+        .word   176, 176, .Lsrl5_b26f
+.Lsrl5_b26f:
+        .word   172, 176, .Lsrl5_b26s
+        .word   12, 12, .Lsrl5_b25
+.Lsrl5_b26s:
+        .word   .Lsrl_c67108864, 164, .Lsrl5_b26t
+.Lsrl5_b26t:
+        .word   .Lsrl_n2097152, 168, .Lsrl5_b25
+.Lsrl5_b25:
+        .word   172, 172, .Lsrl5_b25a
+.Lsrl5_b25a:
+        .word   12, 12, .Lsrl5_b25b
+.Lsrl5_b25b:
+        .word   164, 12, .Lsrl5_b25c
+.Lsrl5_b25c:
+        .word   12, 172, .Lsrl5_b25d
+.Lsrl5_b25d:
+        .word   .Lsrl_c33554432, 172, .Lsrl5_b25e
+.Lsrl5_b25e:
+        .word   176, 176, .Lsrl5_b25f
+.Lsrl5_b25f:
+        .word   172, 176, .Lsrl5_b25s
+        .word   12, 12, .Lsrl5_b24
+.Lsrl5_b25s:
+        .word   .Lsrl_c33554432, 164, .Lsrl5_b25t
+.Lsrl5_b25t:
+        .word   .Lsrl_n1048576, 168, .Lsrl5_b24
+.Lsrl5_b24:
+        .word   172, 172, .Lsrl5_b24a
+.Lsrl5_b24a:
+        .word   12, 12, .Lsrl5_b24b
+.Lsrl5_b24b:
+        .word   164, 12, .Lsrl5_b24c
+.Lsrl5_b24c:
+        .word   12, 172, .Lsrl5_b24d
+.Lsrl5_b24d:
+        .word   .Lsrl_c16777216, 172, .Lsrl5_b24e
+.Lsrl5_b24e:
+        .word   176, 176, .Lsrl5_b24f
+.Lsrl5_b24f:
+        .word   172, 176, .Lsrl5_b24s
+        .word   12, 12, .Lsrl5_b23
+.Lsrl5_b24s:
+        .word   .Lsrl_c16777216, 164, .Lsrl5_b24t
+.Lsrl5_b24t:
+        .word   .Lsrl_n524288, 168, .Lsrl5_b23
+.Lsrl5_b23:
+        .word   172, 172, .Lsrl5_b23a
+.Lsrl5_b23a:
+        .word   12, 12, .Lsrl5_b23b
+.Lsrl5_b23b:
+        .word   164, 12, .Lsrl5_b23c
+.Lsrl5_b23c:
+        .word   12, 172, .Lsrl5_b23d
+.Lsrl5_b23d:
+        .word   .Lsrl_c8388608, 172, .Lsrl5_b23e
+.Lsrl5_b23e:
+        .word   176, 176, .Lsrl5_b23f
+.Lsrl5_b23f:
+        .word   172, 176, .Lsrl5_b23s
+        .word   12, 12, .Lsrl5_b22
+.Lsrl5_b23s:
+        .word   .Lsrl_c8388608, 164, .Lsrl5_b23t
+.Lsrl5_b23t:
+        .word   .Lsrl_n262144, 168, .Lsrl5_b22
+.Lsrl5_b22:
+        .word   172, 172, .Lsrl5_b22a
+.Lsrl5_b22a:
+        .word   12, 12, .Lsrl5_b22b
+.Lsrl5_b22b:
+        .word   164, 12, .Lsrl5_b22c
+.Lsrl5_b22c:
+        .word   12, 172, .Lsrl5_b22d
+.Lsrl5_b22d:
+        .word   .Lsrl_c4194304, 172, .Lsrl5_b22e
+.Lsrl5_b22e:
+        .word   176, 176, .Lsrl5_b22f
+.Lsrl5_b22f:
+        .word   172, 176, .Lsrl5_b22s
+        .word   12, 12, .Lsrl5_b21
+.Lsrl5_b22s:
+        .word   .Lsrl_c4194304, 164, .Lsrl5_b22t
+.Lsrl5_b22t:
+        .word   .Lsrl_n131072, 168, .Lsrl5_b21
+.Lsrl5_b21:
+        .word   172, 172, .Lsrl5_b21a
+.Lsrl5_b21a:
+        .word   12, 12, .Lsrl5_b21b
+.Lsrl5_b21b:
+        .word   164, 12, .Lsrl5_b21c
+.Lsrl5_b21c:
+        .word   12, 172, .Lsrl5_b21d
+.Lsrl5_b21d:
+        .word   .Lsrl_c2097152, 172, .Lsrl5_b21e
+.Lsrl5_b21e:
+        .word   176, 176, .Lsrl5_b21f
+.Lsrl5_b21f:
+        .word   172, 176, .Lsrl5_b21s
+        .word   12, 12, .Lsrl5_b20
+.Lsrl5_b21s:
+        .word   .Lsrl_c2097152, 164, .Lsrl5_b21t
+.Lsrl5_b21t:
+        .word   .Lsrl_n65536, 168, .Lsrl5_b20
+.Lsrl5_b20:
+        .word   172, 172, .Lsrl5_b20a
+.Lsrl5_b20a:
+        .word   12, 12, .Lsrl5_b20b
+.Lsrl5_b20b:
+        .word   164, 12, .Lsrl5_b20c
+.Lsrl5_b20c:
+        .word   12, 172, .Lsrl5_b20d
+.Lsrl5_b20d:
+        .word   .Lsrl_c1048576, 172, .Lsrl5_b20e
+.Lsrl5_b20e:
+        .word   176, 176, .Lsrl5_b20f
+.Lsrl5_b20f:
+        .word   172, 176, .Lsrl5_b20s
+        .word   12, 12, .Lsrl5_b19
+.Lsrl5_b20s:
+        .word   .Lsrl_c1048576, 164, .Lsrl5_b20t
+.Lsrl5_b20t:
+        .word   .Lsrl_n32768, 168, .Lsrl5_b19
+.Lsrl5_b19:
+        .word   172, 172, .Lsrl5_b19a
+.Lsrl5_b19a:
+        .word   12, 12, .Lsrl5_b19b
+.Lsrl5_b19b:
+        .word   164, 12, .Lsrl5_b19c
+.Lsrl5_b19c:
+        .word   12, 172, .Lsrl5_b19d
+.Lsrl5_b19d:
+        .word   .Lsrl_c524288, 172, .Lsrl5_b19e
+.Lsrl5_b19e:
+        .word   176, 176, .Lsrl5_b19f
+.Lsrl5_b19f:
+        .word   172, 176, .Lsrl5_b19s
+        .word   12, 12, .Lsrl5_b18
+.Lsrl5_b19s:
+        .word   .Lsrl_c524288, 164, .Lsrl5_b19t
+.Lsrl5_b19t:
+        .word   .Lsrl_n16384, 168, .Lsrl5_b18
+.Lsrl5_b18:
+        .word   172, 172, .Lsrl5_b18a
+.Lsrl5_b18a:
+        .word   12, 12, .Lsrl5_b18b
+.Lsrl5_b18b:
+        .word   164, 12, .Lsrl5_b18c
+.Lsrl5_b18c:
+        .word   12, 172, .Lsrl5_b18d
+.Lsrl5_b18d:
+        .word   .Lsrl_c262144, 172, .Lsrl5_b18e
+.Lsrl5_b18e:
+        .word   176, 176, .Lsrl5_b18f
+.Lsrl5_b18f:
+        .word   172, 176, .Lsrl5_b18s
+        .word   12, 12, .Lsrl5_b17
+.Lsrl5_b18s:
+        .word   .Lsrl_c262144, 164, .Lsrl5_b18t
+.Lsrl5_b18t:
+        .word   .Lsrl_n8192, 168, .Lsrl5_b17
+.Lsrl5_b17:
+        .word   172, 172, .Lsrl5_b17a
+.Lsrl5_b17a:
+        .word   12, 12, .Lsrl5_b17b
+.Lsrl5_b17b:
+        .word   164, 12, .Lsrl5_b17c
+.Lsrl5_b17c:
+        .word   12, 172, .Lsrl5_b17d
+.Lsrl5_b17d:
+        .word   .Lsrl_c131072, 172, .Lsrl5_b17e
+.Lsrl5_b17e:
+        .word   176, 176, .Lsrl5_b17f
+.Lsrl5_b17f:
+        .word   172, 176, .Lsrl5_b17s
+        .word   12, 12, .Lsrl5_b16
+.Lsrl5_b17s:
+        .word   .Lsrl_c131072, 164, .Lsrl5_b17t
+.Lsrl5_b17t:
+        .word   .Lsrl_n4096, 168, .Lsrl5_b16
+.Lsrl5_b16:
+        .word   172, 172, .Lsrl5_b16a
+.Lsrl5_b16a:
+        .word   12, 12, .Lsrl5_b16b
+.Lsrl5_b16b:
+        .word   164, 12, .Lsrl5_b16c
+.Lsrl5_b16c:
+        .word   12, 172, .Lsrl5_b16d
+.Lsrl5_b16d:
+        .word   .Lsrl_c65536, 172, .Lsrl5_b16e
+.Lsrl5_b16e:
+        .word   176, 176, .Lsrl5_b16f
+.Lsrl5_b16f:
+        .word   172, 176, .Lsrl5_b16s
+        .word   12, 12, .Lsrl5_b15
+.Lsrl5_b16s:
+        .word   .Lsrl_c65536, 164, .Lsrl5_b16t
+.Lsrl5_b16t:
+        .word   .Lsrl_n2048, 168, .Lsrl5_b15
+.Lsrl5_b15:
+        .word   172, 172, .Lsrl5_b15a
+.Lsrl5_b15a:
+        .word   12, 12, .Lsrl5_b15b
+.Lsrl5_b15b:
+        .word   164, 12, .Lsrl5_b15c
+.Lsrl5_b15c:
+        .word   12, 172, .Lsrl5_b15d
+.Lsrl5_b15d:
+        .word   .Lsrl_c32768, 172, .Lsrl5_b15e
+.Lsrl5_b15e:
+        .word   176, 176, .Lsrl5_b15f
+.Lsrl5_b15f:
+        .word   172, 176, .Lsrl5_b15s
+        .word   12, 12, .Lsrl5_b14
+.Lsrl5_b15s:
+        .word   .Lsrl_c32768, 164, .Lsrl5_b15t
+.Lsrl5_b15t:
+        .word   .Lsrl_n1024, 168, .Lsrl5_b14
+.Lsrl5_b14:
+        .word   172, 172, .Lsrl5_b14a
+.Lsrl5_b14a:
+        .word   12, 12, .Lsrl5_b14b
+.Lsrl5_b14b:
+        .word   164, 12, .Lsrl5_b14c
+.Lsrl5_b14c:
+        .word   12, 172, .Lsrl5_b14d
+.Lsrl5_b14d:
+        .word   .Lsrl_c16384, 172, .Lsrl5_b14e
+.Lsrl5_b14e:
+        .word   176, 176, .Lsrl5_b14f
+.Lsrl5_b14f:
+        .word   172, 176, .Lsrl5_b14s
+        .word   12, 12, .Lsrl5_b13
+.Lsrl5_b14s:
+        .word   .Lsrl_c16384, 164, .Lsrl5_b14t
+.Lsrl5_b14t:
+        .word   .Lsrl_n512, 168, .Lsrl5_b13
+.Lsrl5_b13:
+        .word   172, 172, .Lsrl5_b13a
+.Lsrl5_b13a:
+        .word   12, 12, .Lsrl5_b13b
+.Lsrl5_b13b:
+        .word   164, 12, .Lsrl5_b13c
+.Lsrl5_b13c:
+        .word   12, 172, .Lsrl5_b13d
+.Lsrl5_b13d:
+        .word   .Lsrl_c8192, 172, .Lsrl5_b13e
+.Lsrl5_b13e:
+        .word   176, 176, .Lsrl5_b13f
+.Lsrl5_b13f:
+        .word   172, 176, .Lsrl5_b13s
+        .word   12, 12, .Lsrl5_b12
+.Lsrl5_b13s:
+        .word   .Lsrl_c8192, 164, .Lsrl5_b13t
+.Lsrl5_b13t:
+        .word   .Lsrl_n256, 168, .Lsrl5_b12
+.Lsrl5_b12:
+        .word   172, 172, .Lsrl5_b12a
+.Lsrl5_b12a:
+        .word   12, 12, .Lsrl5_b12b
+.Lsrl5_b12b:
+        .word   164, 12, .Lsrl5_b12c
+.Lsrl5_b12c:
+        .word   12, 172, .Lsrl5_b12d
+.Lsrl5_b12d:
+        .word   .Lsrl_c4096, 172, .Lsrl5_b12e
+.Lsrl5_b12e:
+        .word   176, 176, .Lsrl5_b12f
+.Lsrl5_b12f:
+        .word   172, 176, .Lsrl5_b12s
+        .word   12, 12, .Lsrl5_b11
+.Lsrl5_b12s:
+        .word   .Lsrl_c4096, 164, .Lsrl5_b12t
+.Lsrl5_b12t:
+        .word   .Lsrl_n128, 168, .Lsrl5_b11
+.Lsrl5_b11:
+        .word   172, 172, .Lsrl5_b11a
+.Lsrl5_b11a:
+        .word   12, 12, .Lsrl5_b11b
+.Lsrl5_b11b:
+        .word   164, 12, .Lsrl5_b11c
+.Lsrl5_b11c:
+        .word   12, 172, .Lsrl5_b11d
+.Lsrl5_b11d:
+        .word   .Lsrl_c2048, 172, .Lsrl5_b11e
+.Lsrl5_b11e:
+        .word   176, 176, .Lsrl5_b11f
+.Lsrl5_b11f:
+        .word   172, 176, .Lsrl5_b11s
+        .word   12, 12, .Lsrl5_b10
+.Lsrl5_b11s:
+        .word   .Lsrl_c2048, 164, .Lsrl5_b11t
+.Lsrl5_b11t:
+        .word   .Lsrl_n64, 168, .Lsrl5_b10
+.Lsrl5_b10:
+        .word   172, 172, .Lsrl5_b10a
+.Lsrl5_b10a:
+        .word   12, 12, .Lsrl5_b10b
+.Lsrl5_b10b:
+        .word   164, 12, .Lsrl5_b10c
+.Lsrl5_b10c:
+        .word   12, 172, .Lsrl5_b10d
+.Lsrl5_b10d:
+        .word   .Lsrl_c1024, 172, .Lsrl5_b10e
+.Lsrl5_b10e:
+        .word   176, 176, .Lsrl5_b10f
+.Lsrl5_b10f:
+        .word   172, 176, .Lsrl5_b10s
+        .word   12, 12, .Lsrl5_b9
+.Lsrl5_b10s:
+        .word   .Lsrl_c1024, 164, .Lsrl5_b10t
+.Lsrl5_b10t:
+        .word   .Lsrl_n32, 168, .Lsrl5_b9
+.Lsrl5_b9:
+        .word   172, 172, .Lsrl5_b9a
+.Lsrl5_b9a:
+        .word   12, 12, .Lsrl5_b9b
+.Lsrl5_b9b:
+        .word   164, 12, .Lsrl5_b9c
+.Lsrl5_b9c:
+        .word   12, 172, .Lsrl5_b9d
+.Lsrl5_b9d:
+        .word   .Lsrl_c512, 172, .Lsrl5_b9e
+.Lsrl5_b9e:
+        .word   176, 176, .Lsrl5_b9f
+.Lsrl5_b9f:
+        .word   172, 176, .Lsrl5_b9s
+        .word   12, 12, .Lsrl5_b8
+.Lsrl5_b9s:
+        .word   .Lsrl_c512, 164, .Lsrl5_b9t
+.Lsrl5_b9t:
+        .word   .Lsrl_n16, 168, .Lsrl5_b8
+.Lsrl5_b8:
+        .word   172, 172, .Lsrl5_b8a
+.Lsrl5_b8a:
+        .word   12, 12, .Lsrl5_b8b
+.Lsrl5_b8b:
+        .word   164, 12, .Lsrl5_b8c
+.Lsrl5_b8c:
+        .word   12, 172, .Lsrl5_b8d
+.Lsrl5_b8d:
+        .word   .Lsrl_c256, 172, .Lsrl5_b8e
+.Lsrl5_b8e:
+        .word   176, 176, .Lsrl5_b8f
+.Lsrl5_b8f:
+        .word   172, 176, .Lsrl5_b8s
+        .word   12, 12, .Lsrl5_b7
+.Lsrl5_b8s:
+        .word   .Lsrl_c256, 164, .Lsrl5_b8t
+.Lsrl5_b8t:
+        .word   .Lsrl_n8, 168, .Lsrl5_b7
+.Lsrl5_b7:
+        .word   172, 172, .Lsrl5_b7a
+.Lsrl5_b7a:
+        .word   12, 12, .Lsrl5_b7b
+.Lsrl5_b7b:
+        .word   164, 12, .Lsrl5_b7c
+.Lsrl5_b7c:
+        .word   12, 172, .Lsrl5_b7d
+.Lsrl5_b7d:
+        .word   .Lsrl_c128, 172, .Lsrl5_b7e
+.Lsrl5_b7e:
+        .word   176, 176, .Lsrl5_b7f
+.Lsrl5_b7f:
+        .word   172, 176, .Lsrl5_b7s
+        .word   12, 12, .Lsrl5_b6
+.Lsrl5_b7s:
+        .word   .Lsrl_c128, 164, .Lsrl5_b7t
+.Lsrl5_b7t:
+        .word   .Lsrl_n4, 168, .Lsrl5_b6
+.Lsrl5_b6:
+        .word   172, 172, .Lsrl5_b6a
+.Lsrl5_b6a:
+        .word   12, 12, .Lsrl5_b6b
+.Lsrl5_b6b:
+        .word   164, 12, .Lsrl5_b6c
+.Lsrl5_b6c:
+        .word   12, 172, .Lsrl5_b6d
+.Lsrl5_b6d:
+        .word   .Lsrl_c64, 172, .Lsrl5_b6e
+.Lsrl5_b6e:
+        .word   176, 176, .Lsrl5_b6f
+.Lsrl5_b6f:
+        .word   172, 176, .Lsrl5_b6s
+        .word   12, 12, .Lsrl5_b5
+.Lsrl5_b6s:
+        .word   .Lsrl_c64, 164, .Lsrl5_b6t
+.Lsrl5_b6t:
+        .word   .Lsrl_n2, 168, .Lsrl5_b5
+.Lsrl5_b5:
+        .word   172, 172, .Lsrl5_b5a
+.Lsrl5_b5a:
+        .word   12, 12, .Lsrl5_b5b
+.Lsrl5_b5b:
+        .word   164, 12, .Lsrl5_b5c
+.Lsrl5_b5c:
+        .word   12, 172, .Lsrl5_b5d
+.Lsrl5_b5d:
+        .word   .Lsrl_c32, 172, .Lsrl5_b5e
+.Lsrl5_b5e:
+        .word   176, 176, .Lsrl5_b5f
+.Lsrl5_b5f:
+        .word   172, 176, .Lsrl5_b5s
+        .word   12, 12, .Lsrl5_store
+.Lsrl5_b5s:
+        .word   .Lsrl_c32, 164, .Lsrl5_b5t
+.Lsrl5_b5t:
+        .word   .Lsrl_n1, 168, .Lsrl5_store
+.Lsrl5_store:
+        .word   28, 28, .Lsrl5_st1
+.Lsrl5_st1:
+        .word   12, 12, .Lsrl5_st2
+.Lsrl5_st2:
+        .word   168, 12, .Lsrl5_st3
+.Lsrl5_st3:
+        .word   12, 28, .Lsrl5_st4
+.Lsrl5_st4:
+        .word   24, 24, .Lsrl_done
+
+.Lsrl_shift_6:
+        .word   168, 168, .Lsrl6_start
+.Lsrl6_start:
+.Lsrl6_b31:
+        .word   172, 172, .Lsrl6_b31a
+.Lsrl6_b31a:
+        .word   12, 12, .Lsrl6_b31b
+.Lsrl6_b31b:
+        .word   164, 12, .Lsrl6_b31c
+.Lsrl6_b31c:
+        .word   12, 172, .Lsrl6_b31d
+.Lsrl6_b31d:
+        .word   24, 172, .Lsrl6_b31_le0
+        .word   12, 12, .Lsrl6_b30
+.Lsrl6_b31_le0:
+        .word   176, 176, .Lsrl6_b31e
+.Lsrl6_b31e:
+        .word   164, 176, .Lsrl6_b31f
+.Lsrl6_b31f:
+        .word   24, 176, .Lsrl6_b31_ambig
+        .word   12, 12, .Lsrl6_b31s
+.Lsrl6_b31_ambig:
+        .word   172, 172, .Lsrl6_b31g
+.Lsrl6_b31g:
+        .word   164, 172, .Lsrl6_b31h
+.Lsrl6_b31h:
+        .word   .Lsrl_one, 172, .Lsrl6_b31i
+.Lsrl6_b31i:
+        .word   24, 172, .Lsrl6_b30
+        .word   12, 12, .Lsrl6_b31s
+.Lsrl6_b31s:
+        .word   .Lsrl_c2147483648, 164, .Lsrl6_b31t
+.Lsrl6_b31t:
+        .word   .Lsrl_n33554432, 168, .Lsrl6_b30
+.Lsrl6_b30:
+        .word   172, 172, .Lsrl6_b30a
+.Lsrl6_b30a:
+        .word   12, 12, .Lsrl6_b30b
+.Lsrl6_b30b:
+        .word   164, 12, .Lsrl6_b30c
+.Lsrl6_b30c:
+        .word   12, 172, .Lsrl6_b30d
+.Lsrl6_b30d:
+        .word   .Lsrl_c1073741824, 172, .Lsrl6_b30e
+.Lsrl6_b30e:
+        .word   176, 176, .Lsrl6_b30f
+.Lsrl6_b30f:
+        .word   172, 176, .Lsrl6_b30s
+        .word   12, 12, .Lsrl6_b29
+.Lsrl6_b30s:
+        .word   .Lsrl_c1073741824, 164, .Lsrl6_b30t
+.Lsrl6_b30t:
+        .word   .Lsrl_n16777216, 168, .Lsrl6_b29
+.Lsrl6_b29:
+        .word   172, 172, .Lsrl6_b29a
+.Lsrl6_b29a:
+        .word   12, 12, .Lsrl6_b29b
+.Lsrl6_b29b:
+        .word   164, 12, .Lsrl6_b29c
+.Lsrl6_b29c:
+        .word   12, 172, .Lsrl6_b29d
+.Lsrl6_b29d:
+        .word   .Lsrl_c536870912, 172, .Lsrl6_b29e
+.Lsrl6_b29e:
+        .word   176, 176, .Lsrl6_b29f
+.Lsrl6_b29f:
+        .word   172, 176, .Lsrl6_b29s
+        .word   12, 12, .Lsrl6_b28
+.Lsrl6_b29s:
+        .word   .Lsrl_c536870912, 164, .Lsrl6_b29t
+.Lsrl6_b29t:
+        .word   .Lsrl_n8388608, 168, .Lsrl6_b28
+.Lsrl6_b28:
+        .word   172, 172, .Lsrl6_b28a
+.Lsrl6_b28a:
+        .word   12, 12, .Lsrl6_b28b
+.Lsrl6_b28b:
+        .word   164, 12, .Lsrl6_b28c
+.Lsrl6_b28c:
+        .word   12, 172, .Lsrl6_b28d
+.Lsrl6_b28d:
+        .word   .Lsrl_c268435456, 172, .Lsrl6_b28e
+.Lsrl6_b28e:
+        .word   176, 176, .Lsrl6_b28f
+.Lsrl6_b28f:
+        .word   172, 176, .Lsrl6_b28s
+        .word   12, 12, .Lsrl6_b27
+.Lsrl6_b28s:
+        .word   .Lsrl_c268435456, 164, .Lsrl6_b28t
+.Lsrl6_b28t:
+        .word   .Lsrl_n4194304, 168, .Lsrl6_b27
+.Lsrl6_b27:
+        .word   172, 172, .Lsrl6_b27a
+.Lsrl6_b27a:
+        .word   12, 12, .Lsrl6_b27b
+.Lsrl6_b27b:
+        .word   164, 12, .Lsrl6_b27c
+.Lsrl6_b27c:
+        .word   12, 172, .Lsrl6_b27d
+.Lsrl6_b27d:
+        .word   .Lsrl_c134217728, 172, .Lsrl6_b27e
+.Lsrl6_b27e:
+        .word   176, 176, .Lsrl6_b27f
+.Lsrl6_b27f:
+        .word   172, 176, .Lsrl6_b27s
+        .word   12, 12, .Lsrl6_b26
+.Lsrl6_b27s:
+        .word   .Lsrl_c134217728, 164, .Lsrl6_b27t
+.Lsrl6_b27t:
+        .word   .Lsrl_n2097152, 168, .Lsrl6_b26
+.Lsrl6_b26:
+        .word   172, 172, .Lsrl6_b26a
+.Lsrl6_b26a:
+        .word   12, 12, .Lsrl6_b26b
+.Lsrl6_b26b:
+        .word   164, 12, .Lsrl6_b26c
+.Lsrl6_b26c:
+        .word   12, 172, .Lsrl6_b26d
+.Lsrl6_b26d:
+        .word   .Lsrl_c67108864, 172, .Lsrl6_b26e
+.Lsrl6_b26e:
+        .word   176, 176, .Lsrl6_b26f
+.Lsrl6_b26f:
+        .word   172, 176, .Lsrl6_b26s
+        .word   12, 12, .Lsrl6_b25
+.Lsrl6_b26s:
+        .word   .Lsrl_c67108864, 164, .Lsrl6_b26t
+.Lsrl6_b26t:
+        .word   .Lsrl_n1048576, 168, .Lsrl6_b25
+.Lsrl6_b25:
+        .word   172, 172, .Lsrl6_b25a
+.Lsrl6_b25a:
+        .word   12, 12, .Lsrl6_b25b
+.Lsrl6_b25b:
+        .word   164, 12, .Lsrl6_b25c
+.Lsrl6_b25c:
+        .word   12, 172, .Lsrl6_b25d
+.Lsrl6_b25d:
+        .word   .Lsrl_c33554432, 172, .Lsrl6_b25e
+.Lsrl6_b25e:
+        .word   176, 176, .Lsrl6_b25f
+.Lsrl6_b25f:
+        .word   172, 176, .Lsrl6_b25s
+        .word   12, 12, .Lsrl6_b24
+.Lsrl6_b25s:
+        .word   .Lsrl_c33554432, 164, .Lsrl6_b25t
+.Lsrl6_b25t:
+        .word   .Lsrl_n524288, 168, .Lsrl6_b24
+.Lsrl6_b24:
+        .word   172, 172, .Lsrl6_b24a
+.Lsrl6_b24a:
+        .word   12, 12, .Lsrl6_b24b
+.Lsrl6_b24b:
+        .word   164, 12, .Lsrl6_b24c
+.Lsrl6_b24c:
+        .word   12, 172, .Lsrl6_b24d
+.Lsrl6_b24d:
+        .word   .Lsrl_c16777216, 172, .Lsrl6_b24e
+.Lsrl6_b24e:
+        .word   176, 176, .Lsrl6_b24f
+.Lsrl6_b24f:
+        .word   172, 176, .Lsrl6_b24s
+        .word   12, 12, .Lsrl6_b23
+.Lsrl6_b24s:
+        .word   .Lsrl_c16777216, 164, .Lsrl6_b24t
+.Lsrl6_b24t:
+        .word   .Lsrl_n262144, 168, .Lsrl6_b23
+.Lsrl6_b23:
+        .word   172, 172, .Lsrl6_b23a
+.Lsrl6_b23a:
+        .word   12, 12, .Lsrl6_b23b
+.Lsrl6_b23b:
+        .word   164, 12, .Lsrl6_b23c
+.Lsrl6_b23c:
+        .word   12, 172, .Lsrl6_b23d
+.Lsrl6_b23d:
+        .word   .Lsrl_c8388608, 172, .Lsrl6_b23e
+.Lsrl6_b23e:
+        .word   176, 176, .Lsrl6_b23f
+.Lsrl6_b23f:
+        .word   172, 176, .Lsrl6_b23s
+        .word   12, 12, .Lsrl6_b22
+.Lsrl6_b23s:
+        .word   .Lsrl_c8388608, 164, .Lsrl6_b23t
+.Lsrl6_b23t:
+        .word   .Lsrl_n131072, 168, .Lsrl6_b22
+.Lsrl6_b22:
+        .word   172, 172, .Lsrl6_b22a
+.Lsrl6_b22a:
+        .word   12, 12, .Lsrl6_b22b
+.Lsrl6_b22b:
+        .word   164, 12, .Lsrl6_b22c
+.Lsrl6_b22c:
+        .word   12, 172, .Lsrl6_b22d
+.Lsrl6_b22d:
+        .word   .Lsrl_c4194304, 172, .Lsrl6_b22e
+.Lsrl6_b22e:
+        .word   176, 176, .Lsrl6_b22f
+.Lsrl6_b22f:
+        .word   172, 176, .Lsrl6_b22s
+        .word   12, 12, .Lsrl6_b21
+.Lsrl6_b22s:
+        .word   .Lsrl_c4194304, 164, .Lsrl6_b22t
+.Lsrl6_b22t:
+        .word   .Lsrl_n65536, 168, .Lsrl6_b21
+.Lsrl6_b21:
+        .word   172, 172, .Lsrl6_b21a
+.Lsrl6_b21a:
+        .word   12, 12, .Lsrl6_b21b
+.Lsrl6_b21b:
+        .word   164, 12, .Lsrl6_b21c
+.Lsrl6_b21c:
+        .word   12, 172, .Lsrl6_b21d
+.Lsrl6_b21d:
+        .word   .Lsrl_c2097152, 172, .Lsrl6_b21e
+.Lsrl6_b21e:
+        .word   176, 176, .Lsrl6_b21f
+.Lsrl6_b21f:
+        .word   172, 176, .Lsrl6_b21s
+        .word   12, 12, .Lsrl6_b20
+.Lsrl6_b21s:
+        .word   .Lsrl_c2097152, 164, .Lsrl6_b21t
+.Lsrl6_b21t:
+        .word   .Lsrl_n32768, 168, .Lsrl6_b20
+.Lsrl6_b20:
+        .word   172, 172, .Lsrl6_b20a
+.Lsrl6_b20a:
+        .word   12, 12, .Lsrl6_b20b
+.Lsrl6_b20b:
+        .word   164, 12, .Lsrl6_b20c
+.Lsrl6_b20c:
+        .word   12, 172, .Lsrl6_b20d
+.Lsrl6_b20d:
+        .word   .Lsrl_c1048576, 172, .Lsrl6_b20e
+.Lsrl6_b20e:
+        .word   176, 176, .Lsrl6_b20f
+.Lsrl6_b20f:
+        .word   172, 176, .Lsrl6_b20s
+        .word   12, 12, .Lsrl6_b19
+.Lsrl6_b20s:
+        .word   .Lsrl_c1048576, 164, .Lsrl6_b20t
+.Lsrl6_b20t:
+        .word   .Lsrl_n16384, 168, .Lsrl6_b19
+.Lsrl6_b19:
+        .word   172, 172, .Lsrl6_b19a
+.Lsrl6_b19a:
+        .word   12, 12, .Lsrl6_b19b
+.Lsrl6_b19b:
+        .word   164, 12, .Lsrl6_b19c
+.Lsrl6_b19c:
+        .word   12, 172, .Lsrl6_b19d
+.Lsrl6_b19d:
+        .word   .Lsrl_c524288, 172, .Lsrl6_b19e
+.Lsrl6_b19e:
+        .word   176, 176, .Lsrl6_b19f
+.Lsrl6_b19f:
+        .word   172, 176, .Lsrl6_b19s
+        .word   12, 12, .Lsrl6_b18
+.Lsrl6_b19s:
+        .word   .Lsrl_c524288, 164, .Lsrl6_b19t
+.Lsrl6_b19t:
+        .word   .Lsrl_n8192, 168, .Lsrl6_b18
+.Lsrl6_b18:
+        .word   172, 172, .Lsrl6_b18a
+.Lsrl6_b18a:
+        .word   12, 12, .Lsrl6_b18b
+.Lsrl6_b18b:
+        .word   164, 12, .Lsrl6_b18c
+.Lsrl6_b18c:
+        .word   12, 172, .Lsrl6_b18d
+.Lsrl6_b18d:
+        .word   .Lsrl_c262144, 172, .Lsrl6_b18e
+.Lsrl6_b18e:
+        .word   176, 176, .Lsrl6_b18f
+.Lsrl6_b18f:
+        .word   172, 176, .Lsrl6_b18s
+        .word   12, 12, .Lsrl6_b17
+.Lsrl6_b18s:
+        .word   .Lsrl_c262144, 164, .Lsrl6_b18t
+.Lsrl6_b18t:
+        .word   .Lsrl_n4096, 168, .Lsrl6_b17
+.Lsrl6_b17:
+        .word   172, 172, .Lsrl6_b17a
+.Lsrl6_b17a:
+        .word   12, 12, .Lsrl6_b17b
+.Lsrl6_b17b:
+        .word   164, 12, .Lsrl6_b17c
+.Lsrl6_b17c:
+        .word   12, 172, .Lsrl6_b17d
+.Lsrl6_b17d:
+        .word   .Lsrl_c131072, 172, .Lsrl6_b17e
+.Lsrl6_b17e:
+        .word   176, 176, .Lsrl6_b17f
+.Lsrl6_b17f:
+        .word   172, 176, .Lsrl6_b17s
+        .word   12, 12, .Lsrl6_b16
+.Lsrl6_b17s:
+        .word   .Lsrl_c131072, 164, .Lsrl6_b17t
+.Lsrl6_b17t:
+        .word   .Lsrl_n2048, 168, .Lsrl6_b16
+.Lsrl6_b16:
+        .word   172, 172, .Lsrl6_b16a
+.Lsrl6_b16a:
+        .word   12, 12, .Lsrl6_b16b
+.Lsrl6_b16b:
+        .word   164, 12, .Lsrl6_b16c
+.Lsrl6_b16c:
+        .word   12, 172, .Lsrl6_b16d
+.Lsrl6_b16d:
+        .word   .Lsrl_c65536, 172, .Lsrl6_b16e
+.Lsrl6_b16e:
+        .word   176, 176, .Lsrl6_b16f
+.Lsrl6_b16f:
+        .word   172, 176, .Lsrl6_b16s
+        .word   12, 12, .Lsrl6_b15
+.Lsrl6_b16s:
+        .word   .Lsrl_c65536, 164, .Lsrl6_b16t
+.Lsrl6_b16t:
+        .word   .Lsrl_n1024, 168, .Lsrl6_b15
+.Lsrl6_b15:
+        .word   172, 172, .Lsrl6_b15a
+.Lsrl6_b15a:
+        .word   12, 12, .Lsrl6_b15b
+.Lsrl6_b15b:
+        .word   164, 12, .Lsrl6_b15c
+.Lsrl6_b15c:
+        .word   12, 172, .Lsrl6_b15d
+.Lsrl6_b15d:
+        .word   .Lsrl_c32768, 172, .Lsrl6_b15e
+.Lsrl6_b15e:
+        .word   176, 176, .Lsrl6_b15f
+.Lsrl6_b15f:
+        .word   172, 176, .Lsrl6_b15s
+        .word   12, 12, .Lsrl6_b14
+.Lsrl6_b15s:
+        .word   .Lsrl_c32768, 164, .Lsrl6_b15t
+.Lsrl6_b15t:
+        .word   .Lsrl_n512, 168, .Lsrl6_b14
+.Lsrl6_b14:
+        .word   172, 172, .Lsrl6_b14a
+.Lsrl6_b14a:
+        .word   12, 12, .Lsrl6_b14b
+.Lsrl6_b14b:
+        .word   164, 12, .Lsrl6_b14c
+.Lsrl6_b14c:
+        .word   12, 172, .Lsrl6_b14d
+.Lsrl6_b14d:
+        .word   .Lsrl_c16384, 172, .Lsrl6_b14e
+.Lsrl6_b14e:
+        .word   176, 176, .Lsrl6_b14f
+.Lsrl6_b14f:
+        .word   172, 176, .Lsrl6_b14s
+        .word   12, 12, .Lsrl6_b13
+.Lsrl6_b14s:
+        .word   .Lsrl_c16384, 164, .Lsrl6_b14t
+.Lsrl6_b14t:
+        .word   .Lsrl_n256, 168, .Lsrl6_b13
+.Lsrl6_b13:
+        .word   172, 172, .Lsrl6_b13a
+.Lsrl6_b13a:
+        .word   12, 12, .Lsrl6_b13b
+.Lsrl6_b13b:
+        .word   164, 12, .Lsrl6_b13c
+.Lsrl6_b13c:
+        .word   12, 172, .Lsrl6_b13d
+.Lsrl6_b13d:
+        .word   .Lsrl_c8192, 172, .Lsrl6_b13e
+.Lsrl6_b13e:
+        .word   176, 176, .Lsrl6_b13f
+.Lsrl6_b13f:
+        .word   172, 176, .Lsrl6_b13s
+        .word   12, 12, .Lsrl6_b12
+.Lsrl6_b13s:
+        .word   .Lsrl_c8192, 164, .Lsrl6_b13t
+.Lsrl6_b13t:
+        .word   .Lsrl_n128, 168, .Lsrl6_b12
+.Lsrl6_b12:
+        .word   172, 172, .Lsrl6_b12a
+.Lsrl6_b12a:
+        .word   12, 12, .Lsrl6_b12b
+.Lsrl6_b12b:
+        .word   164, 12, .Lsrl6_b12c
+.Lsrl6_b12c:
+        .word   12, 172, .Lsrl6_b12d
+.Lsrl6_b12d:
+        .word   .Lsrl_c4096, 172, .Lsrl6_b12e
+.Lsrl6_b12e:
+        .word   176, 176, .Lsrl6_b12f
+.Lsrl6_b12f:
+        .word   172, 176, .Lsrl6_b12s
+        .word   12, 12, .Lsrl6_b11
+.Lsrl6_b12s:
+        .word   .Lsrl_c4096, 164, .Lsrl6_b12t
+.Lsrl6_b12t:
+        .word   .Lsrl_n64, 168, .Lsrl6_b11
+.Lsrl6_b11:
+        .word   172, 172, .Lsrl6_b11a
+.Lsrl6_b11a:
+        .word   12, 12, .Lsrl6_b11b
+.Lsrl6_b11b:
+        .word   164, 12, .Lsrl6_b11c
+.Lsrl6_b11c:
+        .word   12, 172, .Lsrl6_b11d
+.Lsrl6_b11d:
+        .word   .Lsrl_c2048, 172, .Lsrl6_b11e
+.Lsrl6_b11e:
+        .word   176, 176, .Lsrl6_b11f
+.Lsrl6_b11f:
+        .word   172, 176, .Lsrl6_b11s
+        .word   12, 12, .Lsrl6_b10
+.Lsrl6_b11s:
+        .word   .Lsrl_c2048, 164, .Lsrl6_b11t
+.Lsrl6_b11t:
+        .word   .Lsrl_n32, 168, .Lsrl6_b10
+.Lsrl6_b10:
+        .word   172, 172, .Lsrl6_b10a
+.Lsrl6_b10a:
+        .word   12, 12, .Lsrl6_b10b
+.Lsrl6_b10b:
+        .word   164, 12, .Lsrl6_b10c
+.Lsrl6_b10c:
+        .word   12, 172, .Lsrl6_b10d
+.Lsrl6_b10d:
+        .word   .Lsrl_c1024, 172, .Lsrl6_b10e
+.Lsrl6_b10e:
+        .word   176, 176, .Lsrl6_b10f
+.Lsrl6_b10f:
+        .word   172, 176, .Lsrl6_b10s
+        .word   12, 12, .Lsrl6_b9
+.Lsrl6_b10s:
+        .word   .Lsrl_c1024, 164, .Lsrl6_b10t
+.Lsrl6_b10t:
+        .word   .Lsrl_n16, 168, .Lsrl6_b9
+.Lsrl6_b9:
+        .word   172, 172, .Lsrl6_b9a
+.Lsrl6_b9a:
+        .word   12, 12, .Lsrl6_b9b
+.Lsrl6_b9b:
+        .word   164, 12, .Lsrl6_b9c
+.Lsrl6_b9c:
+        .word   12, 172, .Lsrl6_b9d
+.Lsrl6_b9d:
+        .word   .Lsrl_c512, 172, .Lsrl6_b9e
+.Lsrl6_b9e:
+        .word   176, 176, .Lsrl6_b9f
+.Lsrl6_b9f:
+        .word   172, 176, .Lsrl6_b9s
+        .word   12, 12, .Lsrl6_b8
+.Lsrl6_b9s:
+        .word   .Lsrl_c512, 164, .Lsrl6_b9t
+.Lsrl6_b9t:
+        .word   .Lsrl_n8, 168, .Lsrl6_b8
+.Lsrl6_b8:
+        .word   172, 172, .Lsrl6_b8a
+.Lsrl6_b8a:
+        .word   12, 12, .Lsrl6_b8b
+.Lsrl6_b8b:
+        .word   164, 12, .Lsrl6_b8c
+.Lsrl6_b8c:
+        .word   12, 172, .Lsrl6_b8d
+.Lsrl6_b8d:
+        .word   .Lsrl_c256, 172, .Lsrl6_b8e
+.Lsrl6_b8e:
+        .word   176, 176, .Lsrl6_b8f
+.Lsrl6_b8f:
+        .word   172, 176, .Lsrl6_b8s
+        .word   12, 12, .Lsrl6_b7
+.Lsrl6_b8s:
+        .word   .Lsrl_c256, 164, .Lsrl6_b8t
+.Lsrl6_b8t:
+        .word   .Lsrl_n4, 168, .Lsrl6_b7
+.Lsrl6_b7:
+        .word   172, 172, .Lsrl6_b7a
+.Lsrl6_b7a:
+        .word   12, 12, .Lsrl6_b7b
+.Lsrl6_b7b:
+        .word   164, 12, .Lsrl6_b7c
+.Lsrl6_b7c:
+        .word   12, 172, .Lsrl6_b7d
+.Lsrl6_b7d:
+        .word   .Lsrl_c128, 172, .Lsrl6_b7e
+.Lsrl6_b7e:
+        .word   176, 176, .Lsrl6_b7f
+.Lsrl6_b7f:
+        .word   172, 176, .Lsrl6_b7s
+        .word   12, 12, .Lsrl6_b6
+.Lsrl6_b7s:
+        .word   .Lsrl_c128, 164, .Lsrl6_b7t
+.Lsrl6_b7t:
+        .word   .Lsrl_n2, 168, .Lsrl6_b6
+.Lsrl6_b6:
+        .word   172, 172, .Lsrl6_b6a
+.Lsrl6_b6a:
+        .word   12, 12, .Lsrl6_b6b
+.Lsrl6_b6b:
+        .word   164, 12, .Lsrl6_b6c
+.Lsrl6_b6c:
+        .word   12, 172, .Lsrl6_b6d
+.Lsrl6_b6d:
+        .word   .Lsrl_c64, 172, .Lsrl6_b6e
+.Lsrl6_b6e:
+        .word   176, 176, .Lsrl6_b6f
+.Lsrl6_b6f:
+        .word   172, 176, .Lsrl6_b6s
+        .word   12, 12, .Lsrl6_store
+.Lsrl6_b6s:
+        .word   .Lsrl_c64, 164, .Lsrl6_b6t
+.Lsrl6_b6t:
+        .word   .Lsrl_n1, 168, .Lsrl6_store
+.Lsrl6_store:
+        .word   28, 28, .Lsrl6_st1
+.Lsrl6_st1:
+        .word   12, 12, .Lsrl6_st2
+.Lsrl6_st2:
+        .word   168, 12, .Lsrl6_st3
+.Lsrl6_st3:
+        .word   12, 28, .Lsrl6_st4
+.Lsrl6_st4:
+        .word   24, 24, .Lsrl_done
+
+.Lsrl_shift_7:
+        .word   168, 168, .Lsrl7_start
+.Lsrl7_start:
+.Lsrl7_b31:
+        .word   172, 172, .Lsrl7_b31a
+.Lsrl7_b31a:
+        .word   12, 12, .Lsrl7_b31b
+.Lsrl7_b31b:
+        .word   164, 12, .Lsrl7_b31c
+.Lsrl7_b31c:
+        .word   12, 172, .Lsrl7_b31d
+.Lsrl7_b31d:
+        .word   24, 172, .Lsrl7_b31_le0
+        .word   12, 12, .Lsrl7_b30
+.Lsrl7_b31_le0:
+        .word   176, 176, .Lsrl7_b31e
+.Lsrl7_b31e:
+        .word   164, 176, .Lsrl7_b31f
+.Lsrl7_b31f:
+        .word   24, 176, .Lsrl7_b31_ambig
+        .word   12, 12, .Lsrl7_b31s
+.Lsrl7_b31_ambig:
+        .word   172, 172, .Lsrl7_b31g
+.Lsrl7_b31g:
+        .word   164, 172, .Lsrl7_b31h
+.Lsrl7_b31h:
+        .word   .Lsrl_one, 172, .Lsrl7_b31i
+.Lsrl7_b31i:
+        .word   24, 172, .Lsrl7_b30
+        .word   12, 12, .Lsrl7_b31s
+.Lsrl7_b31s:
+        .word   .Lsrl_c2147483648, 164, .Lsrl7_b31t
+.Lsrl7_b31t:
+        .word   .Lsrl_n16777216, 168, .Lsrl7_b30
+.Lsrl7_b30:
+        .word   172, 172, .Lsrl7_b30a
+.Lsrl7_b30a:
+        .word   12, 12, .Lsrl7_b30b
+.Lsrl7_b30b:
+        .word   164, 12, .Lsrl7_b30c
+.Lsrl7_b30c:
+        .word   12, 172, .Lsrl7_b30d
+.Lsrl7_b30d:
+        .word   .Lsrl_c1073741824, 172, .Lsrl7_b30e
+.Lsrl7_b30e:
+        .word   176, 176, .Lsrl7_b30f
+.Lsrl7_b30f:
+        .word   172, 176, .Lsrl7_b30s
+        .word   12, 12, .Lsrl7_b29
+.Lsrl7_b30s:
+        .word   .Lsrl_c1073741824, 164, .Lsrl7_b30t
+.Lsrl7_b30t:
+        .word   .Lsrl_n8388608, 168, .Lsrl7_b29
+.Lsrl7_b29:
+        .word   172, 172, .Lsrl7_b29a
+.Lsrl7_b29a:
+        .word   12, 12, .Lsrl7_b29b
+.Lsrl7_b29b:
+        .word   164, 12, .Lsrl7_b29c
+.Lsrl7_b29c:
+        .word   12, 172, .Lsrl7_b29d
+.Lsrl7_b29d:
+        .word   .Lsrl_c536870912, 172, .Lsrl7_b29e
+.Lsrl7_b29e:
+        .word   176, 176, .Lsrl7_b29f
+.Lsrl7_b29f:
+        .word   172, 176, .Lsrl7_b29s
+        .word   12, 12, .Lsrl7_b28
+.Lsrl7_b29s:
+        .word   .Lsrl_c536870912, 164, .Lsrl7_b29t
+.Lsrl7_b29t:
+        .word   .Lsrl_n4194304, 168, .Lsrl7_b28
+.Lsrl7_b28:
+        .word   172, 172, .Lsrl7_b28a
+.Lsrl7_b28a:
+        .word   12, 12, .Lsrl7_b28b
+.Lsrl7_b28b:
+        .word   164, 12, .Lsrl7_b28c
+.Lsrl7_b28c:
+        .word   12, 172, .Lsrl7_b28d
+.Lsrl7_b28d:
+        .word   .Lsrl_c268435456, 172, .Lsrl7_b28e
+.Lsrl7_b28e:
+        .word   176, 176, .Lsrl7_b28f
+.Lsrl7_b28f:
+        .word   172, 176, .Lsrl7_b28s
+        .word   12, 12, .Lsrl7_b27
+.Lsrl7_b28s:
+        .word   .Lsrl_c268435456, 164, .Lsrl7_b28t
+.Lsrl7_b28t:
+        .word   .Lsrl_n2097152, 168, .Lsrl7_b27
+.Lsrl7_b27:
+        .word   172, 172, .Lsrl7_b27a
+.Lsrl7_b27a:
+        .word   12, 12, .Lsrl7_b27b
+.Lsrl7_b27b:
+        .word   164, 12, .Lsrl7_b27c
+.Lsrl7_b27c:
+        .word   12, 172, .Lsrl7_b27d
+.Lsrl7_b27d:
+        .word   .Lsrl_c134217728, 172, .Lsrl7_b27e
+.Lsrl7_b27e:
+        .word   176, 176, .Lsrl7_b27f
+.Lsrl7_b27f:
+        .word   172, 176, .Lsrl7_b27s
+        .word   12, 12, .Lsrl7_b26
+.Lsrl7_b27s:
+        .word   .Lsrl_c134217728, 164, .Lsrl7_b27t
+.Lsrl7_b27t:
+        .word   .Lsrl_n1048576, 168, .Lsrl7_b26
+.Lsrl7_b26:
+        .word   172, 172, .Lsrl7_b26a
+.Lsrl7_b26a:
+        .word   12, 12, .Lsrl7_b26b
+.Lsrl7_b26b:
+        .word   164, 12, .Lsrl7_b26c
+.Lsrl7_b26c:
+        .word   12, 172, .Lsrl7_b26d
+.Lsrl7_b26d:
+        .word   .Lsrl_c67108864, 172, .Lsrl7_b26e
+.Lsrl7_b26e:
+        .word   176, 176, .Lsrl7_b26f
+.Lsrl7_b26f:
+        .word   172, 176, .Lsrl7_b26s
+        .word   12, 12, .Lsrl7_b25
+.Lsrl7_b26s:
+        .word   .Lsrl_c67108864, 164, .Lsrl7_b26t
+.Lsrl7_b26t:
+        .word   .Lsrl_n524288, 168, .Lsrl7_b25
+.Lsrl7_b25:
+        .word   172, 172, .Lsrl7_b25a
+.Lsrl7_b25a:
+        .word   12, 12, .Lsrl7_b25b
+.Lsrl7_b25b:
+        .word   164, 12, .Lsrl7_b25c
+.Lsrl7_b25c:
+        .word   12, 172, .Lsrl7_b25d
+.Lsrl7_b25d:
+        .word   .Lsrl_c33554432, 172, .Lsrl7_b25e
+.Lsrl7_b25e:
+        .word   176, 176, .Lsrl7_b25f
+.Lsrl7_b25f:
+        .word   172, 176, .Lsrl7_b25s
+        .word   12, 12, .Lsrl7_b24
+.Lsrl7_b25s:
+        .word   .Lsrl_c33554432, 164, .Lsrl7_b25t
+.Lsrl7_b25t:
+        .word   .Lsrl_n262144, 168, .Lsrl7_b24
+.Lsrl7_b24:
+        .word   172, 172, .Lsrl7_b24a
+.Lsrl7_b24a:
+        .word   12, 12, .Lsrl7_b24b
+.Lsrl7_b24b:
+        .word   164, 12, .Lsrl7_b24c
+.Lsrl7_b24c:
+        .word   12, 172, .Lsrl7_b24d
+.Lsrl7_b24d:
+        .word   .Lsrl_c16777216, 172, .Lsrl7_b24e
+.Lsrl7_b24e:
+        .word   176, 176, .Lsrl7_b24f
+.Lsrl7_b24f:
+        .word   172, 176, .Lsrl7_b24s
+        .word   12, 12, .Lsrl7_b23
+.Lsrl7_b24s:
+        .word   .Lsrl_c16777216, 164, .Lsrl7_b24t
+.Lsrl7_b24t:
+        .word   .Lsrl_n131072, 168, .Lsrl7_b23
+.Lsrl7_b23:
+        .word   172, 172, .Lsrl7_b23a
+.Lsrl7_b23a:
+        .word   12, 12, .Lsrl7_b23b
+.Lsrl7_b23b:
+        .word   164, 12, .Lsrl7_b23c
+.Lsrl7_b23c:
+        .word   12, 172, .Lsrl7_b23d
+.Lsrl7_b23d:
+        .word   .Lsrl_c8388608, 172, .Lsrl7_b23e
+.Lsrl7_b23e:
+        .word   176, 176, .Lsrl7_b23f
+.Lsrl7_b23f:
+        .word   172, 176, .Lsrl7_b23s
+        .word   12, 12, .Lsrl7_b22
+.Lsrl7_b23s:
+        .word   .Lsrl_c8388608, 164, .Lsrl7_b23t
+.Lsrl7_b23t:
+        .word   .Lsrl_n65536, 168, .Lsrl7_b22
+.Lsrl7_b22:
+        .word   172, 172, .Lsrl7_b22a
+.Lsrl7_b22a:
+        .word   12, 12, .Lsrl7_b22b
+.Lsrl7_b22b:
+        .word   164, 12, .Lsrl7_b22c
+.Lsrl7_b22c:
+        .word   12, 172, .Lsrl7_b22d
+.Lsrl7_b22d:
+        .word   .Lsrl_c4194304, 172, .Lsrl7_b22e
+.Lsrl7_b22e:
+        .word   176, 176, .Lsrl7_b22f
+.Lsrl7_b22f:
+        .word   172, 176, .Lsrl7_b22s
+        .word   12, 12, .Lsrl7_b21
+.Lsrl7_b22s:
+        .word   .Lsrl_c4194304, 164, .Lsrl7_b22t
+.Lsrl7_b22t:
+        .word   .Lsrl_n32768, 168, .Lsrl7_b21
+.Lsrl7_b21:
+        .word   172, 172, .Lsrl7_b21a
+.Lsrl7_b21a:
+        .word   12, 12, .Lsrl7_b21b
+.Lsrl7_b21b:
+        .word   164, 12, .Lsrl7_b21c
+.Lsrl7_b21c:
+        .word   12, 172, .Lsrl7_b21d
+.Lsrl7_b21d:
+        .word   .Lsrl_c2097152, 172, .Lsrl7_b21e
+.Lsrl7_b21e:
+        .word   176, 176, .Lsrl7_b21f
+.Lsrl7_b21f:
+        .word   172, 176, .Lsrl7_b21s
+        .word   12, 12, .Lsrl7_b20
+.Lsrl7_b21s:
+        .word   .Lsrl_c2097152, 164, .Lsrl7_b21t
+.Lsrl7_b21t:
+        .word   .Lsrl_n16384, 168, .Lsrl7_b20
+.Lsrl7_b20:
+        .word   172, 172, .Lsrl7_b20a
+.Lsrl7_b20a:
+        .word   12, 12, .Lsrl7_b20b
+.Lsrl7_b20b:
+        .word   164, 12, .Lsrl7_b20c
+.Lsrl7_b20c:
+        .word   12, 172, .Lsrl7_b20d
+.Lsrl7_b20d:
+        .word   .Lsrl_c1048576, 172, .Lsrl7_b20e
+.Lsrl7_b20e:
+        .word   176, 176, .Lsrl7_b20f
+.Lsrl7_b20f:
+        .word   172, 176, .Lsrl7_b20s
+        .word   12, 12, .Lsrl7_b19
+.Lsrl7_b20s:
+        .word   .Lsrl_c1048576, 164, .Lsrl7_b20t
+.Lsrl7_b20t:
+        .word   .Lsrl_n8192, 168, .Lsrl7_b19
+.Lsrl7_b19:
+        .word   172, 172, .Lsrl7_b19a
+.Lsrl7_b19a:
+        .word   12, 12, .Lsrl7_b19b
+.Lsrl7_b19b:
+        .word   164, 12, .Lsrl7_b19c
+.Lsrl7_b19c:
+        .word   12, 172, .Lsrl7_b19d
+.Lsrl7_b19d:
+        .word   .Lsrl_c524288, 172, .Lsrl7_b19e
+.Lsrl7_b19e:
+        .word   176, 176, .Lsrl7_b19f
+.Lsrl7_b19f:
+        .word   172, 176, .Lsrl7_b19s
+        .word   12, 12, .Lsrl7_b18
+.Lsrl7_b19s:
+        .word   .Lsrl_c524288, 164, .Lsrl7_b19t
+.Lsrl7_b19t:
+        .word   .Lsrl_n4096, 168, .Lsrl7_b18
+.Lsrl7_b18:
+        .word   172, 172, .Lsrl7_b18a
+.Lsrl7_b18a:
+        .word   12, 12, .Lsrl7_b18b
+.Lsrl7_b18b:
+        .word   164, 12, .Lsrl7_b18c
+.Lsrl7_b18c:
+        .word   12, 172, .Lsrl7_b18d
+.Lsrl7_b18d:
+        .word   .Lsrl_c262144, 172, .Lsrl7_b18e
+.Lsrl7_b18e:
+        .word   176, 176, .Lsrl7_b18f
+.Lsrl7_b18f:
+        .word   172, 176, .Lsrl7_b18s
+        .word   12, 12, .Lsrl7_b17
+.Lsrl7_b18s:
+        .word   .Lsrl_c262144, 164, .Lsrl7_b18t
+.Lsrl7_b18t:
+        .word   .Lsrl_n2048, 168, .Lsrl7_b17
+.Lsrl7_b17:
+        .word   172, 172, .Lsrl7_b17a
+.Lsrl7_b17a:
+        .word   12, 12, .Lsrl7_b17b
+.Lsrl7_b17b:
+        .word   164, 12, .Lsrl7_b17c
+.Lsrl7_b17c:
+        .word   12, 172, .Lsrl7_b17d
+.Lsrl7_b17d:
+        .word   .Lsrl_c131072, 172, .Lsrl7_b17e
+.Lsrl7_b17e:
+        .word   176, 176, .Lsrl7_b17f
+.Lsrl7_b17f:
+        .word   172, 176, .Lsrl7_b17s
+        .word   12, 12, .Lsrl7_b16
+.Lsrl7_b17s:
+        .word   .Lsrl_c131072, 164, .Lsrl7_b17t
+.Lsrl7_b17t:
+        .word   .Lsrl_n1024, 168, .Lsrl7_b16
+.Lsrl7_b16:
+        .word   172, 172, .Lsrl7_b16a
+.Lsrl7_b16a:
+        .word   12, 12, .Lsrl7_b16b
+.Lsrl7_b16b:
+        .word   164, 12, .Lsrl7_b16c
+.Lsrl7_b16c:
+        .word   12, 172, .Lsrl7_b16d
+.Lsrl7_b16d:
+        .word   .Lsrl_c65536, 172, .Lsrl7_b16e
+.Lsrl7_b16e:
+        .word   176, 176, .Lsrl7_b16f
+.Lsrl7_b16f:
+        .word   172, 176, .Lsrl7_b16s
+        .word   12, 12, .Lsrl7_b15
+.Lsrl7_b16s:
+        .word   .Lsrl_c65536, 164, .Lsrl7_b16t
+.Lsrl7_b16t:
+        .word   .Lsrl_n512, 168, .Lsrl7_b15
+.Lsrl7_b15:
+        .word   172, 172, .Lsrl7_b15a
+.Lsrl7_b15a:
+        .word   12, 12, .Lsrl7_b15b
+.Lsrl7_b15b:
+        .word   164, 12, .Lsrl7_b15c
+.Lsrl7_b15c:
+        .word   12, 172, .Lsrl7_b15d
+.Lsrl7_b15d:
+        .word   .Lsrl_c32768, 172, .Lsrl7_b15e
+.Lsrl7_b15e:
+        .word   176, 176, .Lsrl7_b15f
+.Lsrl7_b15f:
+        .word   172, 176, .Lsrl7_b15s
+        .word   12, 12, .Lsrl7_b14
+.Lsrl7_b15s:
+        .word   .Lsrl_c32768, 164, .Lsrl7_b15t
+.Lsrl7_b15t:
+        .word   .Lsrl_n256, 168, .Lsrl7_b14
+.Lsrl7_b14:
+        .word   172, 172, .Lsrl7_b14a
+.Lsrl7_b14a:
+        .word   12, 12, .Lsrl7_b14b
+.Lsrl7_b14b:
+        .word   164, 12, .Lsrl7_b14c
+.Lsrl7_b14c:
+        .word   12, 172, .Lsrl7_b14d
+.Lsrl7_b14d:
+        .word   .Lsrl_c16384, 172, .Lsrl7_b14e
+.Lsrl7_b14e:
+        .word   176, 176, .Lsrl7_b14f
+.Lsrl7_b14f:
+        .word   172, 176, .Lsrl7_b14s
+        .word   12, 12, .Lsrl7_b13
+.Lsrl7_b14s:
+        .word   .Lsrl_c16384, 164, .Lsrl7_b14t
+.Lsrl7_b14t:
+        .word   .Lsrl_n128, 168, .Lsrl7_b13
+.Lsrl7_b13:
+        .word   172, 172, .Lsrl7_b13a
+.Lsrl7_b13a:
+        .word   12, 12, .Lsrl7_b13b
+.Lsrl7_b13b:
+        .word   164, 12, .Lsrl7_b13c
+.Lsrl7_b13c:
+        .word   12, 172, .Lsrl7_b13d
+.Lsrl7_b13d:
+        .word   .Lsrl_c8192, 172, .Lsrl7_b13e
+.Lsrl7_b13e:
+        .word   176, 176, .Lsrl7_b13f
+.Lsrl7_b13f:
+        .word   172, 176, .Lsrl7_b13s
+        .word   12, 12, .Lsrl7_b12
+.Lsrl7_b13s:
+        .word   .Lsrl_c8192, 164, .Lsrl7_b13t
+.Lsrl7_b13t:
+        .word   .Lsrl_n64, 168, .Lsrl7_b12
+.Lsrl7_b12:
+        .word   172, 172, .Lsrl7_b12a
+.Lsrl7_b12a:
+        .word   12, 12, .Lsrl7_b12b
+.Lsrl7_b12b:
+        .word   164, 12, .Lsrl7_b12c
+.Lsrl7_b12c:
+        .word   12, 172, .Lsrl7_b12d
+.Lsrl7_b12d:
+        .word   .Lsrl_c4096, 172, .Lsrl7_b12e
+.Lsrl7_b12e:
+        .word   176, 176, .Lsrl7_b12f
+.Lsrl7_b12f:
+        .word   172, 176, .Lsrl7_b12s
+        .word   12, 12, .Lsrl7_b11
+.Lsrl7_b12s:
+        .word   .Lsrl_c4096, 164, .Lsrl7_b12t
+.Lsrl7_b12t:
+        .word   .Lsrl_n32, 168, .Lsrl7_b11
+.Lsrl7_b11:
+        .word   172, 172, .Lsrl7_b11a
+.Lsrl7_b11a:
+        .word   12, 12, .Lsrl7_b11b
+.Lsrl7_b11b:
+        .word   164, 12, .Lsrl7_b11c
+.Lsrl7_b11c:
+        .word   12, 172, .Lsrl7_b11d
+.Lsrl7_b11d:
+        .word   .Lsrl_c2048, 172, .Lsrl7_b11e
+.Lsrl7_b11e:
+        .word   176, 176, .Lsrl7_b11f
+.Lsrl7_b11f:
+        .word   172, 176, .Lsrl7_b11s
+        .word   12, 12, .Lsrl7_b10
+.Lsrl7_b11s:
+        .word   .Lsrl_c2048, 164, .Lsrl7_b11t
+.Lsrl7_b11t:
+        .word   .Lsrl_n16, 168, .Lsrl7_b10
+.Lsrl7_b10:
+        .word   172, 172, .Lsrl7_b10a
+.Lsrl7_b10a:
+        .word   12, 12, .Lsrl7_b10b
+.Lsrl7_b10b:
+        .word   164, 12, .Lsrl7_b10c
+.Lsrl7_b10c:
+        .word   12, 172, .Lsrl7_b10d
+.Lsrl7_b10d:
+        .word   .Lsrl_c1024, 172, .Lsrl7_b10e
+.Lsrl7_b10e:
+        .word   176, 176, .Lsrl7_b10f
+.Lsrl7_b10f:
+        .word   172, 176, .Lsrl7_b10s
+        .word   12, 12, .Lsrl7_b9
+.Lsrl7_b10s:
+        .word   .Lsrl_c1024, 164, .Lsrl7_b10t
+.Lsrl7_b10t:
+        .word   .Lsrl_n8, 168, .Lsrl7_b9
+.Lsrl7_b9:
+        .word   172, 172, .Lsrl7_b9a
+.Lsrl7_b9a:
+        .word   12, 12, .Lsrl7_b9b
+.Lsrl7_b9b:
+        .word   164, 12, .Lsrl7_b9c
+.Lsrl7_b9c:
+        .word   12, 172, .Lsrl7_b9d
+.Lsrl7_b9d:
+        .word   .Lsrl_c512, 172, .Lsrl7_b9e
+.Lsrl7_b9e:
+        .word   176, 176, .Lsrl7_b9f
+.Lsrl7_b9f:
+        .word   172, 176, .Lsrl7_b9s
+        .word   12, 12, .Lsrl7_b8
+.Lsrl7_b9s:
+        .word   .Lsrl_c512, 164, .Lsrl7_b9t
+.Lsrl7_b9t:
+        .word   .Lsrl_n4, 168, .Lsrl7_b8
+.Lsrl7_b8:
+        .word   172, 172, .Lsrl7_b8a
+.Lsrl7_b8a:
+        .word   12, 12, .Lsrl7_b8b
+.Lsrl7_b8b:
+        .word   164, 12, .Lsrl7_b8c
+.Lsrl7_b8c:
+        .word   12, 172, .Lsrl7_b8d
+.Lsrl7_b8d:
+        .word   .Lsrl_c256, 172, .Lsrl7_b8e
+.Lsrl7_b8e:
+        .word   176, 176, .Lsrl7_b8f
+.Lsrl7_b8f:
+        .word   172, 176, .Lsrl7_b8s
+        .word   12, 12, .Lsrl7_b7
+.Lsrl7_b8s:
+        .word   .Lsrl_c256, 164, .Lsrl7_b8t
+.Lsrl7_b8t:
+        .word   .Lsrl_n2, 168, .Lsrl7_b7
+.Lsrl7_b7:
+        .word   172, 172, .Lsrl7_b7a
+.Lsrl7_b7a:
+        .word   12, 12, .Lsrl7_b7b
+.Lsrl7_b7b:
+        .word   164, 12, .Lsrl7_b7c
+.Lsrl7_b7c:
+        .word   12, 172, .Lsrl7_b7d
+.Lsrl7_b7d:
+        .word   .Lsrl_c128, 172, .Lsrl7_b7e
+.Lsrl7_b7e:
+        .word   176, 176, .Lsrl7_b7f
+.Lsrl7_b7f:
+        .word   172, 176, .Lsrl7_b7s
+        .word   12, 12, .Lsrl7_store
+.Lsrl7_b7s:
+        .word   .Lsrl_c128, 164, .Lsrl7_b7t
+.Lsrl7_b7t:
+        .word   .Lsrl_n1, 168, .Lsrl7_store
+.Lsrl7_store:
+        .word   28, 28, .Lsrl7_st1
+.Lsrl7_st1:
+        .word   12, 12, .Lsrl7_st2
+.Lsrl7_st2:
+        .word   168, 12, .Lsrl7_st3
+.Lsrl7_st3:
+        .word   12, 28, .Lsrl7_st4
+.Lsrl7_st4:
+        .word   24, 24, .Lsrl_done
+
+.Lsrl_shift_8:
+        .word   168, 168, .Lsrl8_start
+.Lsrl8_start:
+.Lsrl8_b31:
+        .word   172, 172, .Lsrl8_b31a
+.Lsrl8_b31a:
+        .word   12, 12, .Lsrl8_b31b
+.Lsrl8_b31b:
+        .word   164, 12, .Lsrl8_b31c
+.Lsrl8_b31c:
+        .word   12, 172, .Lsrl8_b31d
+.Lsrl8_b31d:
+        .word   24, 172, .Lsrl8_b31_le0
+        .word   12, 12, .Lsrl8_b30
+.Lsrl8_b31_le0:
+        .word   176, 176, .Lsrl8_b31e
+.Lsrl8_b31e:
+        .word   164, 176, .Lsrl8_b31f
+.Lsrl8_b31f:
+        .word   24, 176, .Lsrl8_b31_ambig
+        .word   12, 12, .Lsrl8_b31s
+.Lsrl8_b31_ambig:
+        .word   172, 172, .Lsrl8_b31g
+.Lsrl8_b31g:
+        .word   164, 172, .Lsrl8_b31h
+.Lsrl8_b31h:
+        .word   .Lsrl_one, 172, .Lsrl8_b31i
+.Lsrl8_b31i:
+        .word   24, 172, .Lsrl8_b30
+        .word   12, 12, .Lsrl8_b31s
+.Lsrl8_b31s:
+        .word   .Lsrl_c2147483648, 164, .Lsrl8_b31t
+.Lsrl8_b31t:
+        .word   .Lsrl_n8388608, 168, .Lsrl8_b30
+.Lsrl8_b30:
+        .word   172, 172, .Lsrl8_b30a
+.Lsrl8_b30a:
+        .word   12, 12, .Lsrl8_b30b
+.Lsrl8_b30b:
+        .word   164, 12, .Lsrl8_b30c
+.Lsrl8_b30c:
+        .word   12, 172, .Lsrl8_b30d
+.Lsrl8_b30d:
+        .word   .Lsrl_c1073741824, 172, .Lsrl8_b30e
+.Lsrl8_b30e:
+        .word   176, 176, .Lsrl8_b30f
+.Lsrl8_b30f:
+        .word   172, 176, .Lsrl8_b30s
+        .word   12, 12, .Lsrl8_b29
+.Lsrl8_b30s:
+        .word   .Lsrl_c1073741824, 164, .Lsrl8_b30t
+.Lsrl8_b30t:
+        .word   .Lsrl_n4194304, 168, .Lsrl8_b29
+.Lsrl8_b29:
+        .word   172, 172, .Lsrl8_b29a
+.Lsrl8_b29a:
+        .word   12, 12, .Lsrl8_b29b
+.Lsrl8_b29b:
+        .word   164, 12, .Lsrl8_b29c
+.Lsrl8_b29c:
+        .word   12, 172, .Lsrl8_b29d
+.Lsrl8_b29d:
+        .word   .Lsrl_c536870912, 172, .Lsrl8_b29e
+.Lsrl8_b29e:
+        .word   176, 176, .Lsrl8_b29f
+.Lsrl8_b29f:
+        .word   172, 176, .Lsrl8_b29s
+        .word   12, 12, .Lsrl8_b28
+.Lsrl8_b29s:
+        .word   .Lsrl_c536870912, 164, .Lsrl8_b29t
+.Lsrl8_b29t:
+        .word   .Lsrl_n2097152, 168, .Lsrl8_b28
+.Lsrl8_b28:
+        .word   172, 172, .Lsrl8_b28a
+.Lsrl8_b28a:
+        .word   12, 12, .Lsrl8_b28b
+.Lsrl8_b28b:
+        .word   164, 12, .Lsrl8_b28c
+.Lsrl8_b28c:
+        .word   12, 172, .Lsrl8_b28d
+.Lsrl8_b28d:
+        .word   .Lsrl_c268435456, 172, .Lsrl8_b28e
+.Lsrl8_b28e:
+        .word   176, 176, .Lsrl8_b28f
+.Lsrl8_b28f:
+        .word   172, 176, .Lsrl8_b28s
+        .word   12, 12, .Lsrl8_b27
+.Lsrl8_b28s:
+        .word   .Lsrl_c268435456, 164, .Lsrl8_b28t
+.Lsrl8_b28t:
+        .word   .Lsrl_n1048576, 168, .Lsrl8_b27
+.Lsrl8_b27:
+        .word   172, 172, .Lsrl8_b27a
+.Lsrl8_b27a:
+        .word   12, 12, .Lsrl8_b27b
+.Lsrl8_b27b:
+        .word   164, 12, .Lsrl8_b27c
+.Lsrl8_b27c:
+        .word   12, 172, .Lsrl8_b27d
+.Lsrl8_b27d:
+        .word   .Lsrl_c134217728, 172, .Lsrl8_b27e
+.Lsrl8_b27e:
+        .word   176, 176, .Lsrl8_b27f
+.Lsrl8_b27f:
+        .word   172, 176, .Lsrl8_b27s
+        .word   12, 12, .Lsrl8_b26
+.Lsrl8_b27s:
+        .word   .Lsrl_c134217728, 164, .Lsrl8_b27t
+.Lsrl8_b27t:
+        .word   .Lsrl_n524288, 168, .Lsrl8_b26
+.Lsrl8_b26:
+        .word   172, 172, .Lsrl8_b26a
+.Lsrl8_b26a:
+        .word   12, 12, .Lsrl8_b26b
+.Lsrl8_b26b:
+        .word   164, 12, .Lsrl8_b26c
+.Lsrl8_b26c:
+        .word   12, 172, .Lsrl8_b26d
+.Lsrl8_b26d:
+        .word   .Lsrl_c67108864, 172, .Lsrl8_b26e
+.Lsrl8_b26e:
+        .word   176, 176, .Lsrl8_b26f
+.Lsrl8_b26f:
+        .word   172, 176, .Lsrl8_b26s
+        .word   12, 12, .Lsrl8_b25
+.Lsrl8_b26s:
+        .word   .Lsrl_c67108864, 164, .Lsrl8_b26t
+.Lsrl8_b26t:
+        .word   .Lsrl_n262144, 168, .Lsrl8_b25
+.Lsrl8_b25:
+        .word   172, 172, .Lsrl8_b25a
+.Lsrl8_b25a:
+        .word   12, 12, .Lsrl8_b25b
+.Lsrl8_b25b:
+        .word   164, 12, .Lsrl8_b25c
+.Lsrl8_b25c:
+        .word   12, 172, .Lsrl8_b25d
+.Lsrl8_b25d:
+        .word   .Lsrl_c33554432, 172, .Lsrl8_b25e
+.Lsrl8_b25e:
+        .word   176, 176, .Lsrl8_b25f
+.Lsrl8_b25f:
+        .word   172, 176, .Lsrl8_b25s
+        .word   12, 12, .Lsrl8_b24
+.Lsrl8_b25s:
+        .word   .Lsrl_c33554432, 164, .Lsrl8_b25t
+.Lsrl8_b25t:
+        .word   .Lsrl_n131072, 168, .Lsrl8_b24
+.Lsrl8_b24:
+        .word   172, 172, .Lsrl8_b24a
+.Lsrl8_b24a:
+        .word   12, 12, .Lsrl8_b24b
+.Lsrl8_b24b:
+        .word   164, 12, .Lsrl8_b24c
+.Lsrl8_b24c:
+        .word   12, 172, .Lsrl8_b24d
+.Lsrl8_b24d:
+        .word   .Lsrl_c16777216, 172, .Lsrl8_b24e
+.Lsrl8_b24e:
+        .word   176, 176, .Lsrl8_b24f
+.Lsrl8_b24f:
+        .word   172, 176, .Lsrl8_b24s
+        .word   12, 12, .Lsrl8_b23
+.Lsrl8_b24s:
+        .word   .Lsrl_c16777216, 164, .Lsrl8_b24t
+.Lsrl8_b24t:
+        .word   .Lsrl_n65536, 168, .Lsrl8_b23
+.Lsrl8_b23:
+        .word   172, 172, .Lsrl8_b23a
+.Lsrl8_b23a:
+        .word   12, 12, .Lsrl8_b23b
+.Lsrl8_b23b:
+        .word   164, 12, .Lsrl8_b23c
+.Lsrl8_b23c:
+        .word   12, 172, .Lsrl8_b23d
+.Lsrl8_b23d:
+        .word   .Lsrl_c8388608, 172, .Lsrl8_b23e
+.Lsrl8_b23e:
+        .word   176, 176, .Lsrl8_b23f
+.Lsrl8_b23f:
+        .word   172, 176, .Lsrl8_b23s
+        .word   12, 12, .Lsrl8_b22
+.Lsrl8_b23s:
+        .word   .Lsrl_c8388608, 164, .Lsrl8_b23t
+.Lsrl8_b23t:
+        .word   .Lsrl_n32768, 168, .Lsrl8_b22
+.Lsrl8_b22:
+        .word   172, 172, .Lsrl8_b22a
+.Lsrl8_b22a:
+        .word   12, 12, .Lsrl8_b22b
+.Lsrl8_b22b:
+        .word   164, 12, .Lsrl8_b22c
+.Lsrl8_b22c:
+        .word   12, 172, .Lsrl8_b22d
+.Lsrl8_b22d:
+        .word   .Lsrl_c4194304, 172, .Lsrl8_b22e
+.Lsrl8_b22e:
+        .word   176, 176, .Lsrl8_b22f
+.Lsrl8_b22f:
+        .word   172, 176, .Lsrl8_b22s
+        .word   12, 12, .Lsrl8_b21
+.Lsrl8_b22s:
+        .word   .Lsrl_c4194304, 164, .Lsrl8_b22t
+.Lsrl8_b22t:
+        .word   .Lsrl_n16384, 168, .Lsrl8_b21
+.Lsrl8_b21:
+        .word   172, 172, .Lsrl8_b21a
+.Lsrl8_b21a:
+        .word   12, 12, .Lsrl8_b21b
+.Lsrl8_b21b:
+        .word   164, 12, .Lsrl8_b21c
+.Lsrl8_b21c:
+        .word   12, 172, .Lsrl8_b21d
+.Lsrl8_b21d:
+        .word   .Lsrl_c2097152, 172, .Lsrl8_b21e
+.Lsrl8_b21e:
+        .word   176, 176, .Lsrl8_b21f
+.Lsrl8_b21f:
+        .word   172, 176, .Lsrl8_b21s
+        .word   12, 12, .Lsrl8_b20
+.Lsrl8_b21s:
+        .word   .Lsrl_c2097152, 164, .Lsrl8_b21t
+.Lsrl8_b21t:
+        .word   .Lsrl_n8192, 168, .Lsrl8_b20
+.Lsrl8_b20:
+        .word   172, 172, .Lsrl8_b20a
+.Lsrl8_b20a:
+        .word   12, 12, .Lsrl8_b20b
+.Lsrl8_b20b:
+        .word   164, 12, .Lsrl8_b20c
+.Lsrl8_b20c:
+        .word   12, 172, .Lsrl8_b20d
+.Lsrl8_b20d:
+        .word   .Lsrl_c1048576, 172, .Lsrl8_b20e
+.Lsrl8_b20e:
+        .word   176, 176, .Lsrl8_b20f
+.Lsrl8_b20f:
+        .word   172, 176, .Lsrl8_b20s
+        .word   12, 12, .Lsrl8_b19
+.Lsrl8_b20s:
+        .word   .Lsrl_c1048576, 164, .Lsrl8_b20t
+.Lsrl8_b20t:
+        .word   .Lsrl_n4096, 168, .Lsrl8_b19
+.Lsrl8_b19:
+        .word   172, 172, .Lsrl8_b19a
+.Lsrl8_b19a:
+        .word   12, 12, .Lsrl8_b19b
+.Lsrl8_b19b:
+        .word   164, 12, .Lsrl8_b19c
+.Lsrl8_b19c:
+        .word   12, 172, .Lsrl8_b19d
+.Lsrl8_b19d:
+        .word   .Lsrl_c524288, 172, .Lsrl8_b19e
+.Lsrl8_b19e:
+        .word   176, 176, .Lsrl8_b19f
+.Lsrl8_b19f:
+        .word   172, 176, .Lsrl8_b19s
+        .word   12, 12, .Lsrl8_b18
+.Lsrl8_b19s:
+        .word   .Lsrl_c524288, 164, .Lsrl8_b19t
+.Lsrl8_b19t:
+        .word   .Lsrl_n2048, 168, .Lsrl8_b18
+.Lsrl8_b18:
+        .word   172, 172, .Lsrl8_b18a
+.Lsrl8_b18a:
+        .word   12, 12, .Lsrl8_b18b
+.Lsrl8_b18b:
+        .word   164, 12, .Lsrl8_b18c
+.Lsrl8_b18c:
+        .word   12, 172, .Lsrl8_b18d
+.Lsrl8_b18d:
+        .word   .Lsrl_c262144, 172, .Lsrl8_b18e
+.Lsrl8_b18e:
+        .word   176, 176, .Lsrl8_b18f
+.Lsrl8_b18f:
+        .word   172, 176, .Lsrl8_b18s
+        .word   12, 12, .Lsrl8_b17
+.Lsrl8_b18s:
+        .word   .Lsrl_c262144, 164, .Lsrl8_b18t
+.Lsrl8_b18t:
+        .word   .Lsrl_n1024, 168, .Lsrl8_b17
+.Lsrl8_b17:
+        .word   172, 172, .Lsrl8_b17a
+.Lsrl8_b17a:
+        .word   12, 12, .Lsrl8_b17b
+.Lsrl8_b17b:
+        .word   164, 12, .Lsrl8_b17c
+.Lsrl8_b17c:
+        .word   12, 172, .Lsrl8_b17d
+.Lsrl8_b17d:
+        .word   .Lsrl_c131072, 172, .Lsrl8_b17e
+.Lsrl8_b17e:
+        .word   176, 176, .Lsrl8_b17f
+.Lsrl8_b17f:
+        .word   172, 176, .Lsrl8_b17s
+        .word   12, 12, .Lsrl8_b16
+.Lsrl8_b17s:
+        .word   .Lsrl_c131072, 164, .Lsrl8_b17t
+.Lsrl8_b17t:
+        .word   .Lsrl_n512, 168, .Lsrl8_b16
+.Lsrl8_b16:
+        .word   172, 172, .Lsrl8_b16a
+.Lsrl8_b16a:
+        .word   12, 12, .Lsrl8_b16b
+.Lsrl8_b16b:
+        .word   164, 12, .Lsrl8_b16c
+.Lsrl8_b16c:
+        .word   12, 172, .Lsrl8_b16d
+.Lsrl8_b16d:
+        .word   .Lsrl_c65536, 172, .Lsrl8_b16e
+.Lsrl8_b16e:
+        .word   176, 176, .Lsrl8_b16f
+.Lsrl8_b16f:
+        .word   172, 176, .Lsrl8_b16s
+        .word   12, 12, .Lsrl8_b15
+.Lsrl8_b16s:
+        .word   .Lsrl_c65536, 164, .Lsrl8_b16t
+.Lsrl8_b16t:
+        .word   .Lsrl_n256, 168, .Lsrl8_b15
+.Lsrl8_b15:
+        .word   172, 172, .Lsrl8_b15a
+.Lsrl8_b15a:
+        .word   12, 12, .Lsrl8_b15b
+.Lsrl8_b15b:
+        .word   164, 12, .Lsrl8_b15c
+.Lsrl8_b15c:
+        .word   12, 172, .Lsrl8_b15d
+.Lsrl8_b15d:
+        .word   .Lsrl_c32768, 172, .Lsrl8_b15e
+.Lsrl8_b15e:
+        .word   176, 176, .Lsrl8_b15f
+.Lsrl8_b15f:
+        .word   172, 176, .Lsrl8_b15s
+        .word   12, 12, .Lsrl8_b14
+.Lsrl8_b15s:
+        .word   .Lsrl_c32768, 164, .Lsrl8_b15t
+.Lsrl8_b15t:
+        .word   .Lsrl_n128, 168, .Lsrl8_b14
+.Lsrl8_b14:
+        .word   172, 172, .Lsrl8_b14a
+.Lsrl8_b14a:
+        .word   12, 12, .Lsrl8_b14b
+.Lsrl8_b14b:
+        .word   164, 12, .Lsrl8_b14c
+.Lsrl8_b14c:
+        .word   12, 172, .Lsrl8_b14d
+.Lsrl8_b14d:
+        .word   .Lsrl_c16384, 172, .Lsrl8_b14e
+.Lsrl8_b14e:
+        .word   176, 176, .Lsrl8_b14f
+.Lsrl8_b14f:
+        .word   172, 176, .Lsrl8_b14s
+        .word   12, 12, .Lsrl8_b13
+.Lsrl8_b14s:
+        .word   .Lsrl_c16384, 164, .Lsrl8_b14t
+.Lsrl8_b14t:
+        .word   .Lsrl_n64, 168, .Lsrl8_b13
+.Lsrl8_b13:
+        .word   172, 172, .Lsrl8_b13a
+.Lsrl8_b13a:
+        .word   12, 12, .Lsrl8_b13b
+.Lsrl8_b13b:
+        .word   164, 12, .Lsrl8_b13c
+.Lsrl8_b13c:
+        .word   12, 172, .Lsrl8_b13d
+.Lsrl8_b13d:
+        .word   .Lsrl_c8192, 172, .Lsrl8_b13e
+.Lsrl8_b13e:
+        .word   176, 176, .Lsrl8_b13f
+.Lsrl8_b13f:
+        .word   172, 176, .Lsrl8_b13s
+        .word   12, 12, .Lsrl8_b12
+.Lsrl8_b13s:
+        .word   .Lsrl_c8192, 164, .Lsrl8_b13t
+.Lsrl8_b13t:
+        .word   .Lsrl_n32, 168, .Lsrl8_b12
+.Lsrl8_b12:
+        .word   172, 172, .Lsrl8_b12a
+.Lsrl8_b12a:
+        .word   12, 12, .Lsrl8_b12b
+.Lsrl8_b12b:
+        .word   164, 12, .Lsrl8_b12c
+.Lsrl8_b12c:
+        .word   12, 172, .Lsrl8_b12d
+.Lsrl8_b12d:
+        .word   .Lsrl_c4096, 172, .Lsrl8_b12e
+.Lsrl8_b12e:
+        .word   176, 176, .Lsrl8_b12f
+.Lsrl8_b12f:
+        .word   172, 176, .Lsrl8_b12s
+        .word   12, 12, .Lsrl8_b11
+.Lsrl8_b12s:
+        .word   .Lsrl_c4096, 164, .Lsrl8_b12t
+.Lsrl8_b12t:
+        .word   .Lsrl_n16, 168, .Lsrl8_b11
+.Lsrl8_b11:
+        .word   172, 172, .Lsrl8_b11a
+.Lsrl8_b11a:
+        .word   12, 12, .Lsrl8_b11b
+.Lsrl8_b11b:
+        .word   164, 12, .Lsrl8_b11c
+.Lsrl8_b11c:
+        .word   12, 172, .Lsrl8_b11d
+.Lsrl8_b11d:
+        .word   .Lsrl_c2048, 172, .Lsrl8_b11e
+.Lsrl8_b11e:
+        .word   176, 176, .Lsrl8_b11f
+.Lsrl8_b11f:
+        .word   172, 176, .Lsrl8_b11s
+        .word   12, 12, .Lsrl8_b10
+.Lsrl8_b11s:
+        .word   .Lsrl_c2048, 164, .Lsrl8_b11t
+.Lsrl8_b11t:
+        .word   .Lsrl_n8, 168, .Lsrl8_b10
+.Lsrl8_b10:
+        .word   172, 172, .Lsrl8_b10a
+.Lsrl8_b10a:
+        .word   12, 12, .Lsrl8_b10b
+.Lsrl8_b10b:
+        .word   164, 12, .Lsrl8_b10c
+.Lsrl8_b10c:
+        .word   12, 172, .Lsrl8_b10d
+.Lsrl8_b10d:
+        .word   .Lsrl_c1024, 172, .Lsrl8_b10e
+.Lsrl8_b10e:
+        .word   176, 176, .Lsrl8_b10f
+.Lsrl8_b10f:
+        .word   172, 176, .Lsrl8_b10s
+        .word   12, 12, .Lsrl8_b9
+.Lsrl8_b10s:
+        .word   .Lsrl_c1024, 164, .Lsrl8_b10t
+.Lsrl8_b10t:
+        .word   .Lsrl_n4, 168, .Lsrl8_b9
+.Lsrl8_b9:
+        .word   172, 172, .Lsrl8_b9a
+.Lsrl8_b9a:
+        .word   12, 12, .Lsrl8_b9b
+.Lsrl8_b9b:
+        .word   164, 12, .Lsrl8_b9c
+.Lsrl8_b9c:
+        .word   12, 172, .Lsrl8_b9d
+.Lsrl8_b9d:
+        .word   .Lsrl_c512, 172, .Lsrl8_b9e
+.Lsrl8_b9e:
+        .word   176, 176, .Lsrl8_b9f
+.Lsrl8_b9f:
+        .word   172, 176, .Lsrl8_b9s
+        .word   12, 12, .Lsrl8_b8
+.Lsrl8_b9s:
+        .word   .Lsrl_c512, 164, .Lsrl8_b9t
+.Lsrl8_b9t:
+        .word   .Lsrl_n2, 168, .Lsrl8_b8
+.Lsrl8_b8:
+        .word   172, 172, .Lsrl8_b8a
+.Lsrl8_b8a:
+        .word   12, 12, .Lsrl8_b8b
+.Lsrl8_b8b:
+        .word   164, 12, .Lsrl8_b8c
+.Lsrl8_b8c:
+        .word   12, 172, .Lsrl8_b8d
+.Lsrl8_b8d:
+        .word   .Lsrl_c256, 172, .Lsrl8_b8e
+.Lsrl8_b8e:
+        .word   176, 176, .Lsrl8_b8f
+.Lsrl8_b8f:
+        .word   172, 176, .Lsrl8_b8s
+        .word   12, 12, .Lsrl8_store
+.Lsrl8_b8s:
+        .word   .Lsrl_c256, 164, .Lsrl8_b8t
+.Lsrl8_b8t:
+        .word   .Lsrl_n1, 168, .Lsrl8_store
+.Lsrl8_store:
+        .word   28, 28, .Lsrl8_st1
+.Lsrl8_st1:
+        .word   12, 12, .Lsrl8_st2
+.Lsrl8_st2:
+        .word   168, 12, .Lsrl8_st3
+.Lsrl8_st3:
+        .word   12, 28, .Lsrl8_st4
+.Lsrl8_st4:
+        .word   24, 24, .Lsrl_done
+
+.Lsrl_shift_9:
+        .word   168, 168, .Lsrl9_start
+.Lsrl9_start:
+.Lsrl9_b31:
+        .word   172, 172, .Lsrl9_b31a
+.Lsrl9_b31a:
+        .word   12, 12, .Lsrl9_b31b
+.Lsrl9_b31b:
+        .word   164, 12, .Lsrl9_b31c
+.Lsrl9_b31c:
+        .word   12, 172, .Lsrl9_b31d
+.Lsrl9_b31d:
+        .word   24, 172, .Lsrl9_b31_le0
+        .word   12, 12, .Lsrl9_b30
+.Lsrl9_b31_le0:
+        .word   176, 176, .Lsrl9_b31e
+.Lsrl9_b31e:
+        .word   164, 176, .Lsrl9_b31f
+.Lsrl9_b31f:
+        .word   24, 176, .Lsrl9_b31_ambig
+        .word   12, 12, .Lsrl9_b31s
+.Lsrl9_b31_ambig:
+        .word   172, 172, .Lsrl9_b31g
+.Lsrl9_b31g:
+        .word   164, 172, .Lsrl9_b31h
+.Lsrl9_b31h:
+        .word   .Lsrl_one, 172, .Lsrl9_b31i
+.Lsrl9_b31i:
+        .word   24, 172, .Lsrl9_b30
+        .word   12, 12, .Lsrl9_b31s
+.Lsrl9_b31s:
+        .word   .Lsrl_c2147483648, 164, .Lsrl9_b31t
+.Lsrl9_b31t:
+        .word   .Lsrl_n4194304, 168, .Lsrl9_b30
+.Lsrl9_b30:
+        .word   172, 172, .Lsrl9_b30a
+.Lsrl9_b30a:
+        .word   12, 12, .Lsrl9_b30b
+.Lsrl9_b30b:
+        .word   164, 12, .Lsrl9_b30c
+.Lsrl9_b30c:
+        .word   12, 172, .Lsrl9_b30d
+.Lsrl9_b30d:
+        .word   .Lsrl_c1073741824, 172, .Lsrl9_b30e
+.Lsrl9_b30e:
+        .word   176, 176, .Lsrl9_b30f
+.Lsrl9_b30f:
+        .word   172, 176, .Lsrl9_b30s
+        .word   12, 12, .Lsrl9_b29
+.Lsrl9_b30s:
+        .word   .Lsrl_c1073741824, 164, .Lsrl9_b30t
+.Lsrl9_b30t:
+        .word   .Lsrl_n2097152, 168, .Lsrl9_b29
+.Lsrl9_b29:
+        .word   172, 172, .Lsrl9_b29a
+.Lsrl9_b29a:
+        .word   12, 12, .Lsrl9_b29b
+.Lsrl9_b29b:
+        .word   164, 12, .Lsrl9_b29c
+.Lsrl9_b29c:
+        .word   12, 172, .Lsrl9_b29d
+.Lsrl9_b29d:
+        .word   .Lsrl_c536870912, 172, .Lsrl9_b29e
+.Lsrl9_b29e:
+        .word   176, 176, .Lsrl9_b29f
+.Lsrl9_b29f:
+        .word   172, 176, .Lsrl9_b29s
+        .word   12, 12, .Lsrl9_b28
+.Lsrl9_b29s:
+        .word   .Lsrl_c536870912, 164, .Lsrl9_b29t
+.Lsrl9_b29t:
+        .word   .Lsrl_n1048576, 168, .Lsrl9_b28
+.Lsrl9_b28:
+        .word   172, 172, .Lsrl9_b28a
+.Lsrl9_b28a:
+        .word   12, 12, .Lsrl9_b28b
+.Lsrl9_b28b:
+        .word   164, 12, .Lsrl9_b28c
+.Lsrl9_b28c:
+        .word   12, 172, .Lsrl9_b28d
+.Lsrl9_b28d:
+        .word   .Lsrl_c268435456, 172, .Lsrl9_b28e
+.Lsrl9_b28e:
+        .word   176, 176, .Lsrl9_b28f
+.Lsrl9_b28f:
+        .word   172, 176, .Lsrl9_b28s
+        .word   12, 12, .Lsrl9_b27
+.Lsrl9_b28s:
+        .word   .Lsrl_c268435456, 164, .Lsrl9_b28t
+.Lsrl9_b28t:
+        .word   .Lsrl_n524288, 168, .Lsrl9_b27
+.Lsrl9_b27:
+        .word   172, 172, .Lsrl9_b27a
+.Lsrl9_b27a:
+        .word   12, 12, .Lsrl9_b27b
+.Lsrl9_b27b:
+        .word   164, 12, .Lsrl9_b27c
+.Lsrl9_b27c:
+        .word   12, 172, .Lsrl9_b27d
+.Lsrl9_b27d:
+        .word   .Lsrl_c134217728, 172, .Lsrl9_b27e
+.Lsrl9_b27e:
+        .word   176, 176, .Lsrl9_b27f
+.Lsrl9_b27f:
+        .word   172, 176, .Lsrl9_b27s
+        .word   12, 12, .Lsrl9_b26
+.Lsrl9_b27s:
+        .word   .Lsrl_c134217728, 164, .Lsrl9_b27t
+.Lsrl9_b27t:
+        .word   .Lsrl_n262144, 168, .Lsrl9_b26
+.Lsrl9_b26:
+        .word   172, 172, .Lsrl9_b26a
+.Lsrl9_b26a:
+        .word   12, 12, .Lsrl9_b26b
+.Lsrl9_b26b:
+        .word   164, 12, .Lsrl9_b26c
+.Lsrl9_b26c:
+        .word   12, 172, .Lsrl9_b26d
+.Lsrl9_b26d:
+        .word   .Lsrl_c67108864, 172, .Lsrl9_b26e
+.Lsrl9_b26e:
+        .word   176, 176, .Lsrl9_b26f
+.Lsrl9_b26f:
+        .word   172, 176, .Lsrl9_b26s
+        .word   12, 12, .Lsrl9_b25
+.Lsrl9_b26s:
+        .word   .Lsrl_c67108864, 164, .Lsrl9_b26t
+.Lsrl9_b26t:
+        .word   .Lsrl_n131072, 168, .Lsrl9_b25
+.Lsrl9_b25:
+        .word   172, 172, .Lsrl9_b25a
+.Lsrl9_b25a:
+        .word   12, 12, .Lsrl9_b25b
+.Lsrl9_b25b:
+        .word   164, 12, .Lsrl9_b25c
+.Lsrl9_b25c:
+        .word   12, 172, .Lsrl9_b25d
+.Lsrl9_b25d:
+        .word   .Lsrl_c33554432, 172, .Lsrl9_b25e
+.Lsrl9_b25e:
+        .word   176, 176, .Lsrl9_b25f
+.Lsrl9_b25f:
+        .word   172, 176, .Lsrl9_b25s
+        .word   12, 12, .Lsrl9_b24
+.Lsrl9_b25s:
+        .word   .Lsrl_c33554432, 164, .Lsrl9_b25t
+.Lsrl9_b25t:
+        .word   .Lsrl_n65536, 168, .Lsrl9_b24
+.Lsrl9_b24:
+        .word   172, 172, .Lsrl9_b24a
+.Lsrl9_b24a:
+        .word   12, 12, .Lsrl9_b24b
+.Lsrl9_b24b:
+        .word   164, 12, .Lsrl9_b24c
+.Lsrl9_b24c:
+        .word   12, 172, .Lsrl9_b24d
+.Lsrl9_b24d:
+        .word   .Lsrl_c16777216, 172, .Lsrl9_b24e
+.Lsrl9_b24e:
+        .word   176, 176, .Lsrl9_b24f
+.Lsrl9_b24f:
+        .word   172, 176, .Lsrl9_b24s
+        .word   12, 12, .Lsrl9_b23
+.Lsrl9_b24s:
+        .word   .Lsrl_c16777216, 164, .Lsrl9_b24t
+.Lsrl9_b24t:
+        .word   .Lsrl_n32768, 168, .Lsrl9_b23
+.Lsrl9_b23:
+        .word   172, 172, .Lsrl9_b23a
+.Lsrl9_b23a:
+        .word   12, 12, .Lsrl9_b23b
+.Lsrl9_b23b:
+        .word   164, 12, .Lsrl9_b23c
+.Lsrl9_b23c:
+        .word   12, 172, .Lsrl9_b23d
+.Lsrl9_b23d:
+        .word   .Lsrl_c8388608, 172, .Lsrl9_b23e
+.Lsrl9_b23e:
+        .word   176, 176, .Lsrl9_b23f
+.Lsrl9_b23f:
+        .word   172, 176, .Lsrl9_b23s
+        .word   12, 12, .Lsrl9_b22
+.Lsrl9_b23s:
+        .word   .Lsrl_c8388608, 164, .Lsrl9_b23t
+.Lsrl9_b23t:
+        .word   .Lsrl_n16384, 168, .Lsrl9_b22
+.Lsrl9_b22:
+        .word   172, 172, .Lsrl9_b22a
+.Lsrl9_b22a:
+        .word   12, 12, .Lsrl9_b22b
+.Lsrl9_b22b:
+        .word   164, 12, .Lsrl9_b22c
+.Lsrl9_b22c:
+        .word   12, 172, .Lsrl9_b22d
+.Lsrl9_b22d:
+        .word   .Lsrl_c4194304, 172, .Lsrl9_b22e
+.Lsrl9_b22e:
+        .word   176, 176, .Lsrl9_b22f
+.Lsrl9_b22f:
+        .word   172, 176, .Lsrl9_b22s
+        .word   12, 12, .Lsrl9_b21
+.Lsrl9_b22s:
+        .word   .Lsrl_c4194304, 164, .Lsrl9_b22t
+.Lsrl9_b22t:
+        .word   .Lsrl_n8192, 168, .Lsrl9_b21
+.Lsrl9_b21:
+        .word   172, 172, .Lsrl9_b21a
+.Lsrl9_b21a:
+        .word   12, 12, .Lsrl9_b21b
+.Lsrl9_b21b:
+        .word   164, 12, .Lsrl9_b21c
+.Lsrl9_b21c:
+        .word   12, 172, .Lsrl9_b21d
+.Lsrl9_b21d:
+        .word   .Lsrl_c2097152, 172, .Lsrl9_b21e
+.Lsrl9_b21e:
+        .word   176, 176, .Lsrl9_b21f
+.Lsrl9_b21f:
+        .word   172, 176, .Lsrl9_b21s
+        .word   12, 12, .Lsrl9_b20
+.Lsrl9_b21s:
+        .word   .Lsrl_c2097152, 164, .Lsrl9_b21t
+.Lsrl9_b21t:
+        .word   .Lsrl_n4096, 168, .Lsrl9_b20
+.Lsrl9_b20:
+        .word   172, 172, .Lsrl9_b20a
+.Lsrl9_b20a:
+        .word   12, 12, .Lsrl9_b20b
+.Lsrl9_b20b:
+        .word   164, 12, .Lsrl9_b20c
+.Lsrl9_b20c:
+        .word   12, 172, .Lsrl9_b20d
+.Lsrl9_b20d:
+        .word   .Lsrl_c1048576, 172, .Lsrl9_b20e
+.Lsrl9_b20e:
+        .word   176, 176, .Lsrl9_b20f
+.Lsrl9_b20f:
+        .word   172, 176, .Lsrl9_b20s
+        .word   12, 12, .Lsrl9_b19
+.Lsrl9_b20s:
+        .word   .Lsrl_c1048576, 164, .Lsrl9_b20t
+.Lsrl9_b20t:
+        .word   .Lsrl_n2048, 168, .Lsrl9_b19
+.Lsrl9_b19:
+        .word   172, 172, .Lsrl9_b19a
+.Lsrl9_b19a:
+        .word   12, 12, .Lsrl9_b19b
+.Lsrl9_b19b:
+        .word   164, 12, .Lsrl9_b19c
+.Lsrl9_b19c:
+        .word   12, 172, .Lsrl9_b19d
+.Lsrl9_b19d:
+        .word   .Lsrl_c524288, 172, .Lsrl9_b19e
+.Lsrl9_b19e:
+        .word   176, 176, .Lsrl9_b19f
+.Lsrl9_b19f:
+        .word   172, 176, .Lsrl9_b19s
+        .word   12, 12, .Lsrl9_b18
+.Lsrl9_b19s:
+        .word   .Lsrl_c524288, 164, .Lsrl9_b19t
+.Lsrl9_b19t:
+        .word   .Lsrl_n1024, 168, .Lsrl9_b18
+.Lsrl9_b18:
+        .word   172, 172, .Lsrl9_b18a
+.Lsrl9_b18a:
+        .word   12, 12, .Lsrl9_b18b
+.Lsrl9_b18b:
+        .word   164, 12, .Lsrl9_b18c
+.Lsrl9_b18c:
+        .word   12, 172, .Lsrl9_b18d
+.Lsrl9_b18d:
+        .word   .Lsrl_c262144, 172, .Lsrl9_b18e
+.Lsrl9_b18e:
+        .word   176, 176, .Lsrl9_b18f
+.Lsrl9_b18f:
+        .word   172, 176, .Lsrl9_b18s
+        .word   12, 12, .Lsrl9_b17
+.Lsrl9_b18s:
+        .word   .Lsrl_c262144, 164, .Lsrl9_b18t
+.Lsrl9_b18t:
+        .word   .Lsrl_n512, 168, .Lsrl9_b17
+.Lsrl9_b17:
+        .word   172, 172, .Lsrl9_b17a
+.Lsrl9_b17a:
+        .word   12, 12, .Lsrl9_b17b
+.Lsrl9_b17b:
+        .word   164, 12, .Lsrl9_b17c
+.Lsrl9_b17c:
+        .word   12, 172, .Lsrl9_b17d
+.Lsrl9_b17d:
+        .word   .Lsrl_c131072, 172, .Lsrl9_b17e
+.Lsrl9_b17e:
+        .word   176, 176, .Lsrl9_b17f
+.Lsrl9_b17f:
+        .word   172, 176, .Lsrl9_b17s
+        .word   12, 12, .Lsrl9_b16
+.Lsrl9_b17s:
+        .word   .Lsrl_c131072, 164, .Lsrl9_b17t
+.Lsrl9_b17t:
+        .word   .Lsrl_n256, 168, .Lsrl9_b16
+.Lsrl9_b16:
+        .word   172, 172, .Lsrl9_b16a
+.Lsrl9_b16a:
+        .word   12, 12, .Lsrl9_b16b
+.Lsrl9_b16b:
+        .word   164, 12, .Lsrl9_b16c
+.Lsrl9_b16c:
+        .word   12, 172, .Lsrl9_b16d
+.Lsrl9_b16d:
+        .word   .Lsrl_c65536, 172, .Lsrl9_b16e
+.Lsrl9_b16e:
+        .word   176, 176, .Lsrl9_b16f
+.Lsrl9_b16f:
+        .word   172, 176, .Lsrl9_b16s
+        .word   12, 12, .Lsrl9_b15
+.Lsrl9_b16s:
+        .word   .Lsrl_c65536, 164, .Lsrl9_b16t
+.Lsrl9_b16t:
+        .word   .Lsrl_n128, 168, .Lsrl9_b15
+.Lsrl9_b15:
+        .word   172, 172, .Lsrl9_b15a
+.Lsrl9_b15a:
+        .word   12, 12, .Lsrl9_b15b
+.Lsrl9_b15b:
+        .word   164, 12, .Lsrl9_b15c
+.Lsrl9_b15c:
+        .word   12, 172, .Lsrl9_b15d
+.Lsrl9_b15d:
+        .word   .Lsrl_c32768, 172, .Lsrl9_b15e
+.Lsrl9_b15e:
+        .word   176, 176, .Lsrl9_b15f
+.Lsrl9_b15f:
+        .word   172, 176, .Lsrl9_b15s
+        .word   12, 12, .Lsrl9_b14
+.Lsrl9_b15s:
+        .word   .Lsrl_c32768, 164, .Lsrl9_b15t
+.Lsrl9_b15t:
+        .word   .Lsrl_n64, 168, .Lsrl9_b14
+.Lsrl9_b14:
+        .word   172, 172, .Lsrl9_b14a
+.Lsrl9_b14a:
+        .word   12, 12, .Lsrl9_b14b
+.Lsrl9_b14b:
+        .word   164, 12, .Lsrl9_b14c
+.Lsrl9_b14c:
+        .word   12, 172, .Lsrl9_b14d
+.Lsrl9_b14d:
+        .word   .Lsrl_c16384, 172, .Lsrl9_b14e
+.Lsrl9_b14e:
+        .word   176, 176, .Lsrl9_b14f
+.Lsrl9_b14f:
+        .word   172, 176, .Lsrl9_b14s
+        .word   12, 12, .Lsrl9_b13
+.Lsrl9_b14s:
+        .word   .Lsrl_c16384, 164, .Lsrl9_b14t
+.Lsrl9_b14t:
+        .word   .Lsrl_n32, 168, .Lsrl9_b13
+.Lsrl9_b13:
+        .word   172, 172, .Lsrl9_b13a
+.Lsrl9_b13a:
+        .word   12, 12, .Lsrl9_b13b
+.Lsrl9_b13b:
+        .word   164, 12, .Lsrl9_b13c
+.Lsrl9_b13c:
+        .word   12, 172, .Lsrl9_b13d
+.Lsrl9_b13d:
+        .word   .Lsrl_c8192, 172, .Lsrl9_b13e
+.Lsrl9_b13e:
+        .word   176, 176, .Lsrl9_b13f
+.Lsrl9_b13f:
+        .word   172, 176, .Lsrl9_b13s
+        .word   12, 12, .Lsrl9_b12
+.Lsrl9_b13s:
+        .word   .Lsrl_c8192, 164, .Lsrl9_b13t
+.Lsrl9_b13t:
+        .word   .Lsrl_n16, 168, .Lsrl9_b12
+.Lsrl9_b12:
+        .word   172, 172, .Lsrl9_b12a
+.Lsrl9_b12a:
+        .word   12, 12, .Lsrl9_b12b
+.Lsrl9_b12b:
+        .word   164, 12, .Lsrl9_b12c
+.Lsrl9_b12c:
+        .word   12, 172, .Lsrl9_b12d
+.Lsrl9_b12d:
+        .word   .Lsrl_c4096, 172, .Lsrl9_b12e
+.Lsrl9_b12e:
+        .word   176, 176, .Lsrl9_b12f
+.Lsrl9_b12f:
+        .word   172, 176, .Lsrl9_b12s
+        .word   12, 12, .Lsrl9_b11
+.Lsrl9_b12s:
+        .word   .Lsrl_c4096, 164, .Lsrl9_b12t
+.Lsrl9_b12t:
+        .word   .Lsrl_n8, 168, .Lsrl9_b11
+.Lsrl9_b11:
+        .word   172, 172, .Lsrl9_b11a
+.Lsrl9_b11a:
+        .word   12, 12, .Lsrl9_b11b
+.Lsrl9_b11b:
+        .word   164, 12, .Lsrl9_b11c
+.Lsrl9_b11c:
+        .word   12, 172, .Lsrl9_b11d
+.Lsrl9_b11d:
+        .word   .Lsrl_c2048, 172, .Lsrl9_b11e
+.Lsrl9_b11e:
+        .word   176, 176, .Lsrl9_b11f
+.Lsrl9_b11f:
+        .word   172, 176, .Lsrl9_b11s
+        .word   12, 12, .Lsrl9_b10
+.Lsrl9_b11s:
+        .word   .Lsrl_c2048, 164, .Lsrl9_b11t
+.Lsrl9_b11t:
+        .word   .Lsrl_n4, 168, .Lsrl9_b10
+.Lsrl9_b10:
+        .word   172, 172, .Lsrl9_b10a
+.Lsrl9_b10a:
+        .word   12, 12, .Lsrl9_b10b
+.Lsrl9_b10b:
+        .word   164, 12, .Lsrl9_b10c
+.Lsrl9_b10c:
+        .word   12, 172, .Lsrl9_b10d
+.Lsrl9_b10d:
+        .word   .Lsrl_c1024, 172, .Lsrl9_b10e
+.Lsrl9_b10e:
+        .word   176, 176, .Lsrl9_b10f
+.Lsrl9_b10f:
+        .word   172, 176, .Lsrl9_b10s
+        .word   12, 12, .Lsrl9_b9
+.Lsrl9_b10s:
+        .word   .Lsrl_c1024, 164, .Lsrl9_b10t
+.Lsrl9_b10t:
+        .word   .Lsrl_n2, 168, .Lsrl9_b9
+.Lsrl9_b9:
+        .word   172, 172, .Lsrl9_b9a
+.Lsrl9_b9a:
+        .word   12, 12, .Lsrl9_b9b
+.Lsrl9_b9b:
+        .word   164, 12, .Lsrl9_b9c
+.Lsrl9_b9c:
+        .word   12, 172, .Lsrl9_b9d
+.Lsrl9_b9d:
+        .word   .Lsrl_c512, 172, .Lsrl9_b9e
+.Lsrl9_b9e:
+        .word   176, 176, .Lsrl9_b9f
+.Lsrl9_b9f:
+        .word   172, 176, .Lsrl9_b9s
+        .word   12, 12, .Lsrl9_store
+.Lsrl9_b9s:
+        .word   .Lsrl_c512, 164, .Lsrl9_b9t
+.Lsrl9_b9t:
+        .word   .Lsrl_n1, 168, .Lsrl9_store
+.Lsrl9_store:
+        .word   28, 28, .Lsrl9_st1
+.Lsrl9_st1:
+        .word   12, 12, .Lsrl9_st2
+.Lsrl9_st2:
+        .word   168, 12, .Lsrl9_st3
+.Lsrl9_st3:
+        .word   12, 28, .Lsrl9_st4
+.Lsrl9_st4:
+        .word   24, 24, .Lsrl_done
+
+.Lsrl_shift_10:
+        .word   168, 168, .Lsrl10_start
+.Lsrl10_start:
+.Lsrl10_b31:
+        .word   172, 172, .Lsrl10_b31a
+.Lsrl10_b31a:
+        .word   12, 12, .Lsrl10_b31b
+.Lsrl10_b31b:
+        .word   164, 12, .Lsrl10_b31c
+.Lsrl10_b31c:
+        .word   12, 172, .Lsrl10_b31d
+.Lsrl10_b31d:
+        .word   24, 172, .Lsrl10_b31_le0
+        .word   12, 12, .Lsrl10_b30
+.Lsrl10_b31_le0:
+        .word   176, 176, .Lsrl10_b31e
+.Lsrl10_b31e:
+        .word   164, 176, .Lsrl10_b31f
+.Lsrl10_b31f:
+        .word   24, 176, .Lsrl10_b31_ambig
+        .word   12, 12, .Lsrl10_b31s
+.Lsrl10_b31_ambig:
+        .word   172, 172, .Lsrl10_b31g
+.Lsrl10_b31g:
+        .word   164, 172, .Lsrl10_b31h
+.Lsrl10_b31h:
+        .word   .Lsrl_one, 172, .Lsrl10_b31i
+.Lsrl10_b31i:
+        .word   24, 172, .Lsrl10_b30
+        .word   12, 12, .Lsrl10_b31s
+.Lsrl10_b31s:
+        .word   .Lsrl_c2147483648, 164, .Lsrl10_b31t
+.Lsrl10_b31t:
+        .word   .Lsrl_n2097152, 168, .Lsrl10_b30
+.Lsrl10_b30:
+        .word   172, 172, .Lsrl10_b30a
+.Lsrl10_b30a:
+        .word   12, 12, .Lsrl10_b30b
+.Lsrl10_b30b:
+        .word   164, 12, .Lsrl10_b30c
+.Lsrl10_b30c:
+        .word   12, 172, .Lsrl10_b30d
+.Lsrl10_b30d:
+        .word   .Lsrl_c1073741824, 172, .Lsrl10_b30e
+.Lsrl10_b30e:
+        .word   176, 176, .Lsrl10_b30f
+.Lsrl10_b30f:
+        .word   172, 176, .Lsrl10_b30s
+        .word   12, 12, .Lsrl10_b29
+.Lsrl10_b30s:
+        .word   .Lsrl_c1073741824, 164, .Lsrl10_b30t
+.Lsrl10_b30t:
+        .word   .Lsrl_n1048576, 168, .Lsrl10_b29
+.Lsrl10_b29:
+        .word   172, 172, .Lsrl10_b29a
+.Lsrl10_b29a:
+        .word   12, 12, .Lsrl10_b29b
+.Lsrl10_b29b:
+        .word   164, 12, .Lsrl10_b29c
+.Lsrl10_b29c:
+        .word   12, 172, .Lsrl10_b29d
+.Lsrl10_b29d:
+        .word   .Lsrl_c536870912, 172, .Lsrl10_b29e
+.Lsrl10_b29e:
+        .word   176, 176, .Lsrl10_b29f
+.Lsrl10_b29f:
+        .word   172, 176, .Lsrl10_b29s
+        .word   12, 12, .Lsrl10_b28
+.Lsrl10_b29s:
+        .word   .Lsrl_c536870912, 164, .Lsrl10_b29t
+.Lsrl10_b29t:
+        .word   .Lsrl_n524288, 168, .Lsrl10_b28
+.Lsrl10_b28:
+        .word   172, 172, .Lsrl10_b28a
+.Lsrl10_b28a:
+        .word   12, 12, .Lsrl10_b28b
+.Lsrl10_b28b:
+        .word   164, 12, .Lsrl10_b28c
+.Lsrl10_b28c:
+        .word   12, 172, .Lsrl10_b28d
+.Lsrl10_b28d:
+        .word   .Lsrl_c268435456, 172, .Lsrl10_b28e
+.Lsrl10_b28e:
+        .word   176, 176, .Lsrl10_b28f
+.Lsrl10_b28f:
+        .word   172, 176, .Lsrl10_b28s
+        .word   12, 12, .Lsrl10_b27
+.Lsrl10_b28s:
+        .word   .Lsrl_c268435456, 164, .Lsrl10_b28t
+.Lsrl10_b28t:
+        .word   .Lsrl_n262144, 168, .Lsrl10_b27
+.Lsrl10_b27:
+        .word   172, 172, .Lsrl10_b27a
+.Lsrl10_b27a:
+        .word   12, 12, .Lsrl10_b27b
+.Lsrl10_b27b:
+        .word   164, 12, .Lsrl10_b27c
+.Lsrl10_b27c:
+        .word   12, 172, .Lsrl10_b27d
+.Lsrl10_b27d:
+        .word   .Lsrl_c134217728, 172, .Lsrl10_b27e
+.Lsrl10_b27e:
+        .word   176, 176, .Lsrl10_b27f
+.Lsrl10_b27f:
+        .word   172, 176, .Lsrl10_b27s
+        .word   12, 12, .Lsrl10_b26
+.Lsrl10_b27s:
+        .word   .Lsrl_c134217728, 164, .Lsrl10_b27t
+.Lsrl10_b27t:
+        .word   .Lsrl_n131072, 168, .Lsrl10_b26
+.Lsrl10_b26:
+        .word   172, 172, .Lsrl10_b26a
+.Lsrl10_b26a:
+        .word   12, 12, .Lsrl10_b26b
+.Lsrl10_b26b:
+        .word   164, 12, .Lsrl10_b26c
+.Lsrl10_b26c:
+        .word   12, 172, .Lsrl10_b26d
+.Lsrl10_b26d:
+        .word   .Lsrl_c67108864, 172, .Lsrl10_b26e
+.Lsrl10_b26e:
+        .word   176, 176, .Lsrl10_b26f
+.Lsrl10_b26f:
+        .word   172, 176, .Lsrl10_b26s
+        .word   12, 12, .Lsrl10_b25
+.Lsrl10_b26s:
+        .word   .Lsrl_c67108864, 164, .Lsrl10_b26t
+.Lsrl10_b26t:
+        .word   .Lsrl_n65536, 168, .Lsrl10_b25
+.Lsrl10_b25:
+        .word   172, 172, .Lsrl10_b25a
+.Lsrl10_b25a:
+        .word   12, 12, .Lsrl10_b25b
+.Lsrl10_b25b:
+        .word   164, 12, .Lsrl10_b25c
+.Lsrl10_b25c:
+        .word   12, 172, .Lsrl10_b25d
+.Lsrl10_b25d:
+        .word   .Lsrl_c33554432, 172, .Lsrl10_b25e
+.Lsrl10_b25e:
+        .word   176, 176, .Lsrl10_b25f
+.Lsrl10_b25f:
+        .word   172, 176, .Lsrl10_b25s
+        .word   12, 12, .Lsrl10_b24
+.Lsrl10_b25s:
+        .word   .Lsrl_c33554432, 164, .Lsrl10_b25t
+.Lsrl10_b25t:
+        .word   .Lsrl_n32768, 168, .Lsrl10_b24
+.Lsrl10_b24:
+        .word   172, 172, .Lsrl10_b24a
+.Lsrl10_b24a:
+        .word   12, 12, .Lsrl10_b24b
+.Lsrl10_b24b:
+        .word   164, 12, .Lsrl10_b24c
+.Lsrl10_b24c:
+        .word   12, 172, .Lsrl10_b24d
+.Lsrl10_b24d:
+        .word   .Lsrl_c16777216, 172, .Lsrl10_b24e
+.Lsrl10_b24e:
+        .word   176, 176, .Lsrl10_b24f
+.Lsrl10_b24f:
+        .word   172, 176, .Lsrl10_b24s
+        .word   12, 12, .Lsrl10_b23
+.Lsrl10_b24s:
+        .word   .Lsrl_c16777216, 164, .Lsrl10_b24t
+.Lsrl10_b24t:
+        .word   .Lsrl_n16384, 168, .Lsrl10_b23
+.Lsrl10_b23:
+        .word   172, 172, .Lsrl10_b23a
+.Lsrl10_b23a:
+        .word   12, 12, .Lsrl10_b23b
+.Lsrl10_b23b:
+        .word   164, 12, .Lsrl10_b23c
+.Lsrl10_b23c:
+        .word   12, 172, .Lsrl10_b23d
+.Lsrl10_b23d:
+        .word   .Lsrl_c8388608, 172, .Lsrl10_b23e
+.Lsrl10_b23e:
+        .word   176, 176, .Lsrl10_b23f
+.Lsrl10_b23f:
+        .word   172, 176, .Lsrl10_b23s
+        .word   12, 12, .Lsrl10_b22
+.Lsrl10_b23s:
+        .word   .Lsrl_c8388608, 164, .Lsrl10_b23t
+.Lsrl10_b23t:
+        .word   .Lsrl_n8192, 168, .Lsrl10_b22
+.Lsrl10_b22:
+        .word   172, 172, .Lsrl10_b22a
+.Lsrl10_b22a:
+        .word   12, 12, .Lsrl10_b22b
+.Lsrl10_b22b:
+        .word   164, 12, .Lsrl10_b22c
+.Lsrl10_b22c:
+        .word   12, 172, .Lsrl10_b22d
+.Lsrl10_b22d:
+        .word   .Lsrl_c4194304, 172, .Lsrl10_b22e
+.Lsrl10_b22e:
+        .word   176, 176, .Lsrl10_b22f
+.Lsrl10_b22f:
+        .word   172, 176, .Lsrl10_b22s
+        .word   12, 12, .Lsrl10_b21
+.Lsrl10_b22s:
+        .word   .Lsrl_c4194304, 164, .Lsrl10_b22t
+.Lsrl10_b22t:
+        .word   .Lsrl_n4096, 168, .Lsrl10_b21
+.Lsrl10_b21:
+        .word   172, 172, .Lsrl10_b21a
+.Lsrl10_b21a:
+        .word   12, 12, .Lsrl10_b21b
+.Lsrl10_b21b:
+        .word   164, 12, .Lsrl10_b21c
+.Lsrl10_b21c:
+        .word   12, 172, .Lsrl10_b21d
+.Lsrl10_b21d:
+        .word   .Lsrl_c2097152, 172, .Lsrl10_b21e
+.Lsrl10_b21e:
+        .word   176, 176, .Lsrl10_b21f
+.Lsrl10_b21f:
+        .word   172, 176, .Lsrl10_b21s
+        .word   12, 12, .Lsrl10_b20
+.Lsrl10_b21s:
+        .word   .Lsrl_c2097152, 164, .Lsrl10_b21t
+.Lsrl10_b21t:
+        .word   .Lsrl_n2048, 168, .Lsrl10_b20
+.Lsrl10_b20:
+        .word   172, 172, .Lsrl10_b20a
+.Lsrl10_b20a:
+        .word   12, 12, .Lsrl10_b20b
+.Lsrl10_b20b:
+        .word   164, 12, .Lsrl10_b20c
+.Lsrl10_b20c:
+        .word   12, 172, .Lsrl10_b20d
+.Lsrl10_b20d:
+        .word   .Lsrl_c1048576, 172, .Lsrl10_b20e
+.Lsrl10_b20e:
+        .word   176, 176, .Lsrl10_b20f
+.Lsrl10_b20f:
+        .word   172, 176, .Lsrl10_b20s
+        .word   12, 12, .Lsrl10_b19
+.Lsrl10_b20s:
+        .word   .Lsrl_c1048576, 164, .Lsrl10_b20t
+.Lsrl10_b20t:
+        .word   .Lsrl_n1024, 168, .Lsrl10_b19
+.Lsrl10_b19:
+        .word   172, 172, .Lsrl10_b19a
+.Lsrl10_b19a:
+        .word   12, 12, .Lsrl10_b19b
+.Lsrl10_b19b:
+        .word   164, 12, .Lsrl10_b19c
+.Lsrl10_b19c:
+        .word   12, 172, .Lsrl10_b19d
+.Lsrl10_b19d:
+        .word   .Lsrl_c524288, 172, .Lsrl10_b19e
+.Lsrl10_b19e:
+        .word   176, 176, .Lsrl10_b19f
+.Lsrl10_b19f:
+        .word   172, 176, .Lsrl10_b19s
+        .word   12, 12, .Lsrl10_b18
+.Lsrl10_b19s:
+        .word   .Lsrl_c524288, 164, .Lsrl10_b19t
+.Lsrl10_b19t:
+        .word   .Lsrl_n512, 168, .Lsrl10_b18
+.Lsrl10_b18:
+        .word   172, 172, .Lsrl10_b18a
+.Lsrl10_b18a:
+        .word   12, 12, .Lsrl10_b18b
+.Lsrl10_b18b:
+        .word   164, 12, .Lsrl10_b18c
+.Lsrl10_b18c:
+        .word   12, 172, .Lsrl10_b18d
+.Lsrl10_b18d:
+        .word   .Lsrl_c262144, 172, .Lsrl10_b18e
+.Lsrl10_b18e:
+        .word   176, 176, .Lsrl10_b18f
+.Lsrl10_b18f:
+        .word   172, 176, .Lsrl10_b18s
+        .word   12, 12, .Lsrl10_b17
+.Lsrl10_b18s:
+        .word   .Lsrl_c262144, 164, .Lsrl10_b18t
+.Lsrl10_b18t:
+        .word   .Lsrl_n256, 168, .Lsrl10_b17
+.Lsrl10_b17:
+        .word   172, 172, .Lsrl10_b17a
+.Lsrl10_b17a:
+        .word   12, 12, .Lsrl10_b17b
+.Lsrl10_b17b:
+        .word   164, 12, .Lsrl10_b17c
+.Lsrl10_b17c:
+        .word   12, 172, .Lsrl10_b17d
+.Lsrl10_b17d:
+        .word   .Lsrl_c131072, 172, .Lsrl10_b17e
+.Lsrl10_b17e:
+        .word   176, 176, .Lsrl10_b17f
+.Lsrl10_b17f:
+        .word   172, 176, .Lsrl10_b17s
+        .word   12, 12, .Lsrl10_b16
+.Lsrl10_b17s:
+        .word   .Lsrl_c131072, 164, .Lsrl10_b17t
+.Lsrl10_b17t:
+        .word   .Lsrl_n128, 168, .Lsrl10_b16
+.Lsrl10_b16:
+        .word   172, 172, .Lsrl10_b16a
+.Lsrl10_b16a:
+        .word   12, 12, .Lsrl10_b16b
+.Lsrl10_b16b:
+        .word   164, 12, .Lsrl10_b16c
+.Lsrl10_b16c:
+        .word   12, 172, .Lsrl10_b16d
+.Lsrl10_b16d:
+        .word   .Lsrl_c65536, 172, .Lsrl10_b16e
+.Lsrl10_b16e:
+        .word   176, 176, .Lsrl10_b16f
+.Lsrl10_b16f:
+        .word   172, 176, .Lsrl10_b16s
+        .word   12, 12, .Lsrl10_b15
+.Lsrl10_b16s:
+        .word   .Lsrl_c65536, 164, .Lsrl10_b16t
+.Lsrl10_b16t:
+        .word   .Lsrl_n64, 168, .Lsrl10_b15
+.Lsrl10_b15:
+        .word   172, 172, .Lsrl10_b15a
+.Lsrl10_b15a:
+        .word   12, 12, .Lsrl10_b15b
+.Lsrl10_b15b:
+        .word   164, 12, .Lsrl10_b15c
+.Lsrl10_b15c:
+        .word   12, 172, .Lsrl10_b15d
+.Lsrl10_b15d:
+        .word   .Lsrl_c32768, 172, .Lsrl10_b15e
+.Lsrl10_b15e:
+        .word   176, 176, .Lsrl10_b15f
+.Lsrl10_b15f:
+        .word   172, 176, .Lsrl10_b15s
+        .word   12, 12, .Lsrl10_b14
+.Lsrl10_b15s:
+        .word   .Lsrl_c32768, 164, .Lsrl10_b15t
+.Lsrl10_b15t:
+        .word   .Lsrl_n32, 168, .Lsrl10_b14
+.Lsrl10_b14:
+        .word   172, 172, .Lsrl10_b14a
+.Lsrl10_b14a:
+        .word   12, 12, .Lsrl10_b14b
+.Lsrl10_b14b:
+        .word   164, 12, .Lsrl10_b14c
+.Lsrl10_b14c:
+        .word   12, 172, .Lsrl10_b14d
+.Lsrl10_b14d:
+        .word   .Lsrl_c16384, 172, .Lsrl10_b14e
+.Lsrl10_b14e:
+        .word   176, 176, .Lsrl10_b14f
+.Lsrl10_b14f:
+        .word   172, 176, .Lsrl10_b14s
+        .word   12, 12, .Lsrl10_b13
+.Lsrl10_b14s:
+        .word   .Lsrl_c16384, 164, .Lsrl10_b14t
+.Lsrl10_b14t:
+        .word   .Lsrl_n16, 168, .Lsrl10_b13
+.Lsrl10_b13:
+        .word   172, 172, .Lsrl10_b13a
+.Lsrl10_b13a:
+        .word   12, 12, .Lsrl10_b13b
+.Lsrl10_b13b:
+        .word   164, 12, .Lsrl10_b13c
+.Lsrl10_b13c:
+        .word   12, 172, .Lsrl10_b13d
+.Lsrl10_b13d:
+        .word   .Lsrl_c8192, 172, .Lsrl10_b13e
+.Lsrl10_b13e:
+        .word   176, 176, .Lsrl10_b13f
+.Lsrl10_b13f:
+        .word   172, 176, .Lsrl10_b13s
+        .word   12, 12, .Lsrl10_b12
+.Lsrl10_b13s:
+        .word   .Lsrl_c8192, 164, .Lsrl10_b13t
+.Lsrl10_b13t:
+        .word   .Lsrl_n8, 168, .Lsrl10_b12
+.Lsrl10_b12:
+        .word   172, 172, .Lsrl10_b12a
+.Lsrl10_b12a:
+        .word   12, 12, .Lsrl10_b12b
+.Lsrl10_b12b:
+        .word   164, 12, .Lsrl10_b12c
+.Lsrl10_b12c:
+        .word   12, 172, .Lsrl10_b12d
+.Lsrl10_b12d:
+        .word   .Lsrl_c4096, 172, .Lsrl10_b12e
+.Lsrl10_b12e:
+        .word   176, 176, .Lsrl10_b12f
+.Lsrl10_b12f:
+        .word   172, 176, .Lsrl10_b12s
+        .word   12, 12, .Lsrl10_b11
+.Lsrl10_b12s:
+        .word   .Lsrl_c4096, 164, .Lsrl10_b12t
+.Lsrl10_b12t:
+        .word   .Lsrl_n4, 168, .Lsrl10_b11
+.Lsrl10_b11:
+        .word   172, 172, .Lsrl10_b11a
+.Lsrl10_b11a:
+        .word   12, 12, .Lsrl10_b11b
+.Lsrl10_b11b:
+        .word   164, 12, .Lsrl10_b11c
+.Lsrl10_b11c:
+        .word   12, 172, .Lsrl10_b11d
+.Lsrl10_b11d:
+        .word   .Lsrl_c2048, 172, .Lsrl10_b11e
+.Lsrl10_b11e:
+        .word   176, 176, .Lsrl10_b11f
+.Lsrl10_b11f:
+        .word   172, 176, .Lsrl10_b11s
+        .word   12, 12, .Lsrl10_b10
+.Lsrl10_b11s:
+        .word   .Lsrl_c2048, 164, .Lsrl10_b11t
+.Lsrl10_b11t:
+        .word   .Lsrl_n2, 168, .Lsrl10_b10
+.Lsrl10_b10:
+        .word   172, 172, .Lsrl10_b10a
+.Lsrl10_b10a:
+        .word   12, 12, .Lsrl10_b10b
+.Lsrl10_b10b:
+        .word   164, 12, .Lsrl10_b10c
+.Lsrl10_b10c:
+        .word   12, 172, .Lsrl10_b10d
+.Lsrl10_b10d:
+        .word   .Lsrl_c1024, 172, .Lsrl10_b10e
+.Lsrl10_b10e:
+        .word   176, 176, .Lsrl10_b10f
+.Lsrl10_b10f:
+        .word   172, 176, .Lsrl10_b10s
+        .word   12, 12, .Lsrl10_store
+.Lsrl10_b10s:
+        .word   .Lsrl_c1024, 164, .Lsrl10_b10t
+.Lsrl10_b10t:
+        .word   .Lsrl_n1, 168, .Lsrl10_store
+.Lsrl10_store:
+        .word   28, 28, .Lsrl10_st1
+.Lsrl10_st1:
+        .word   12, 12, .Lsrl10_st2
+.Lsrl10_st2:
+        .word   168, 12, .Lsrl10_st3
+.Lsrl10_st3:
+        .word   12, 28, .Lsrl10_st4
+.Lsrl10_st4:
+        .word   24, 24, .Lsrl_done
+
+.Lsrl_shift_11:
+        .word   168, 168, .Lsrl11_start
+.Lsrl11_start:
+.Lsrl11_b31:
+        .word   172, 172, .Lsrl11_b31a
+.Lsrl11_b31a:
+        .word   12, 12, .Lsrl11_b31b
+.Lsrl11_b31b:
+        .word   164, 12, .Lsrl11_b31c
+.Lsrl11_b31c:
+        .word   12, 172, .Lsrl11_b31d
+.Lsrl11_b31d:
+        .word   24, 172, .Lsrl11_b31_le0
+        .word   12, 12, .Lsrl11_b30
+.Lsrl11_b31_le0:
+        .word   176, 176, .Lsrl11_b31e
+.Lsrl11_b31e:
+        .word   164, 176, .Lsrl11_b31f
+.Lsrl11_b31f:
+        .word   24, 176, .Lsrl11_b31_ambig
+        .word   12, 12, .Lsrl11_b31s
+.Lsrl11_b31_ambig:
+        .word   172, 172, .Lsrl11_b31g
+.Lsrl11_b31g:
+        .word   164, 172, .Lsrl11_b31h
+.Lsrl11_b31h:
+        .word   .Lsrl_one, 172, .Lsrl11_b31i
+.Lsrl11_b31i:
+        .word   24, 172, .Lsrl11_b30
+        .word   12, 12, .Lsrl11_b31s
+.Lsrl11_b31s:
+        .word   .Lsrl_c2147483648, 164, .Lsrl11_b31t
+.Lsrl11_b31t:
+        .word   .Lsrl_n1048576, 168, .Lsrl11_b30
+.Lsrl11_b30:
+        .word   172, 172, .Lsrl11_b30a
+.Lsrl11_b30a:
+        .word   12, 12, .Lsrl11_b30b
+.Lsrl11_b30b:
+        .word   164, 12, .Lsrl11_b30c
+.Lsrl11_b30c:
+        .word   12, 172, .Lsrl11_b30d
+.Lsrl11_b30d:
+        .word   .Lsrl_c1073741824, 172, .Lsrl11_b30e
+.Lsrl11_b30e:
+        .word   176, 176, .Lsrl11_b30f
+.Lsrl11_b30f:
+        .word   172, 176, .Lsrl11_b30s
+        .word   12, 12, .Lsrl11_b29
+.Lsrl11_b30s:
+        .word   .Lsrl_c1073741824, 164, .Lsrl11_b30t
+.Lsrl11_b30t:
+        .word   .Lsrl_n524288, 168, .Lsrl11_b29
+.Lsrl11_b29:
+        .word   172, 172, .Lsrl11_b29a
+.Lsrl11_b29a:
+        .word   12, 12, .Lsrl11_b29b
+.Lsrl11_b29b:
+        .word   164, 12, .Lsrl11_b29c
+.Lsrl11_b29c:
+        .word   12, 172, .Lsrl11_b29d
+.Lsrl11_b29d:
+        .word   .Lsrl_c536870912, 172, .Lsrl11_b29e
+.Lsrl11_b29e:
+        .word   176, 176, .Lsrl11_b29f
+.Lsrl11_b29f:
+        .word   172, 176, .Lsrl11_b29s
+        .word   12, 12, .Lsrl11_b28
+.Lsrl11_b29s:
+        .word   .Lsrl_c536870912, 164, .Lsrl11_b29t
+.Lsrl11_b29t:
+        .word   .Lsrl_n262144, 168, .Lsrl11_b28
+.Lsrl11_b28:
+        .word   172, 172, .Lsrl11_b28a
+.Lsrl11_b28a:
+        .word   12, 12, .Lsrl11_b28b
+.Lsrl11_b28b:
+        .word   164, 12, .Lsrl11_b28c
+.Lsrl11_b28c:
+        .word   12, 172, .Lsrl11_b28d
+.Lsrl11_b28d:
+        .word   .Lsrl_c268435456, 172, .Lsrl11_b28e
+.Lsrl11_b28e:
+        .word   176, 176, .Lsrl11_b28f
+.Lsrl11_b28f:
+        .word   172, 176, .Lsrl11_b28s
+        .word   12, 12, .Lsrl11_b27
+.Lsrl11_b28s:
+        .word   .Lsrl_c268435456, 164, .Lsrl11_b28t
+.Lsrl11_b28t:
+        .word   .Lsrl_n131072, 168, .Lsrl11_b27
+.Lsrl11_b27:
+        .word   172, 172, .Lsrl11_b27a
+.Lsrl11_b27a:
+        .word   12, 12, .Lsrl11_b27b
+.Lsrl11_b27b:
+        .word   164, 12, .Lsrl11_b27c
+.Lsrl11_b27c:
+        .word   12, 172, .Lsrl11_b27d
+.Lsrl11_b27d:
+        .word   .Lsrl_c134217728, 172, .Lsrl11_b27e
+.Lsrl11_b27e:
+        .word   176, 176, .Lsrl11_b27f
+.Lsrl11_b27f:
+        .word   172, 176, .Lsrl11_b27s
+        .word   12, 12, .Lsrl11_b26
+.Lsrl11_b27s:
+        .word   .Lsrl_c134217728, 164, .Lsrl11_b27t
+.Lsrl11_b27t:
+        .word   .Lsrl_n65536, 168, .Lsrl11_b26
+.Lsrl11_b26:
+        .word   172, 172, .Lsrl11_b26a
+.Lsrl11_b26a:
+        .word   12, 12, .Lsrl11_b26b
+.Lsrl11_b26b:
+        .word   164, 12, .Lsrl11_b26c
+.Lsrl11_b26c:
+        .word   12, 172, .Lsrl11_b26d
+.Lsrl11_b26d:
+        .word   .Lsrl_c67108864, 172, .Lsrl11_b26e
+.Lsrl11_b26e:
+        .word   176, 176, .Lsrl11_b26f
+.Lsrl11_b26f:
+        .word   172, 176, .Lsrl11_b26s
+        .word   12, 12, .Lsrl11_b25
+.Lsrl11_b26s:
+        .word   .Lsrl_c67108864, 164, .Lsrl11_b26t
+.Lsrl11_b26t:
+        .word   .Lsrl_n32768, 168, .Lsrl11_b25
+.Lsrl11_b25:
+        .word   172, 172, .Lsrl11_b25a
+.Lsrl11_b25a:
+        .word   12, 12, .Lsrl11_b25b
+.Lsrl11_b25b:
+        .word   164, 12, .Lsrl11_b25c
+.Lsrl11_b25c:
+        .word   12, 172, .Lsrl11_b25d
+.Lsrl11_b25d:
+        .word   .Lsrl_c33554432, 172, .Lsrl11_b25e
+.Lsrl11_b25e:
+        .word   176, 176, .Lsrl11_b25f
+.Lsrl11_b25f:
+        .word   172, 176, .Lsrl11_b25s
+        .word   12, 12, .Lsrl11_b24
+.Lsrl11_b25s:
+        .word   .Lsrl_c33554432, 164, .Lsrl11_b25t
+.Lsrl11_b25t:
+        .word   .Lsrl_n16384, 168, .Lsrl11_b24
+.Lsrl11_b24:
+        .word   172, 172, .Lsrl11_b24a
+.Lsrl11_b24a:
+        .word   12, 12, .Lsrl11_b24b
+.Lsrl11_b24b:
+        .word   164, 12, .Lsrl11_b24c
+.Lsrl11_b24c:
+        .word   12, 172, .Lsrl11_b24d
+.Lsrl11_b24d:
+        .word   .Lsrl_c16777216, 172, .Lsrl11_b24e
+.Lsrl11_b24e:
+        .word   176, 176, .Lsrl11_b24f
+.Lsrl11_b24f:
+        .word   172, 176, .Lsrl11_b24s
+        .word   12, 12, .Lsrl11_b23
+.Lsrl11_b24s:
+        .word   .Lsrl_c16777216, 164, .Lsrl11_b24t
+.Lsrl11_b24t:
+        .word   .Lsrl_n8192, 168, .Lsrl11_b23
+.Lsrl11_b23:
+        .word   172, 172, .Lsrl11_b23a
+.Lsrl11_b23a:
+        .word   12, 12, .Lsrl11_b23b
+.Lsrl11_b23b:
+        .word   164, 12, .Lsrl11_b23c
+.Lsrl11_b23c:
+        .word   12, 172, .Lsrl11_b23d
+.Lsrl11_b23d:
+        .word   .Lsrl_c8388608, 172, .Lsrl11_b23e
+.Lsrl11_b23e:
+        .word   176, 176, .Lsrl11_b23f
+.Lsrl11_b23f:
+        .word   172, 176, .Lsrl11_b23s
+        .word   12, 12, .Lsrl11_b22
+.Lsrl11_b23s:
+        .word   .Lsrl_c8388608, 164, .Lsrl11_b23t
+.Lsrl11_b23t:
+        .word   .Lsrl_n4096, 168, .Lsrl11_b22
+.Lsrl11_b22:
+        .word   172, 172, .Lsrl11_b22a
+.Lsrl11_b22a:
+        .word   12, 12, .Lsrl11_b22b
+.Lsrl11_b22b:
+        .word   164, 12, .Lsrl11_b22c
+.Lsrl11_b22c:
+        .word   12, 172, .Lsrl11_b22d
+.Lsrl11_b22d:
+        .word   .Lsrl_c4194304, 172, .Lsrl11_b22e
+.Lsrl11_b22e:
+        .word   176, 176, .Lsrl11_b22f
+.Lsrl11_b22f:
+        .word   172, 176, .Lsrl11_b22s
+        .word   12, 12, .Lsrl11_b21
+.Lsrl11_b22s:
+        .word   .Lsrl_c4194304, 164, .Lsrl11_b22t
+.Lsrl11_b22t:
+        .word   .Lsrl_n2048, 168, .Lsrl11_b21
+.Lsrl11_b21:
+        .word   172, 172, .Lsrl11_b21a
+.Lsrl11_b21a:
+        .word   12, 12, .Lsrl11_b21b
+.Lsrl11_b21b:
+        .word   164, 12, .Lsrl11_b21c
+.Lsrl11_b21c:
+        .word   12, 172, .Lsrl11_b21d
+.Lsrl11_b21d:
+        .word   .Lsrl_c2097152, 172, .Lsrl11_b21e
+.Lsrl11_b21e:
+        .word   176, 176, .Lsrl11_b21f
+.Lsrl11_b21f:
+        .word   172, 176, .Lsrl11_b21s
+        .word   12, 12, .Lsrl11_b20
+.Lsrl11_b21s:
+        .word   .Lsrl_c2097152, 164, .Lsrl11_b21t
+.Lsrl11_b21t:
+        .word   .Lsrl_n1024, 168, .Lsrl11_b20
+.Lsrl11_b20:
+        .word   172, 172, .Lsrl11_b20a
+.Lsrl11_b20a:
+        .word   12, 12, .Lsrl11_b20b
+.Lsrl11_b20b:
+        .word   164, 12, .Lsrl11_b20c
+.Lsrl11_b20c:
+        .word   12, 172, .Lsrl11_b20d
+.Lsrl11_b20d:
+        .word   .Lsrl_c1048576, 172, .Lsrl11_b20e
+.Lsrl11_b20e:
+        .word   176, 176, .Lsrl11_b20f
+.Lsrl11_b20f:
+        .word   172, 176, .Lsrl11_b20s
+        .word   12, 12, .Lsrl11_b19
+.Lsrl11_b20s:
+        .word   .Lsrl_c1048576, 164, .Lsrl11_b20t
+.Lsrl11_b20t:
+        .word   .Lsrl_n512, 168, .Lsrl11_b19
+.Lsrl11_b19:
+        .word   172, 172, .Lsrl11_b19a
+.Lsrl11_b19a:
+        .word   12, 12, .Lsrl11_b19b
+.Lsrl11_b19b:
+        .word   164, 12, .Lsrl11_b19c
+.Lsrl11_b19c:
+        .word   12, 172, .Lsrl11_b19d
+.Lsrl11_b19d:
+        .word   .Lsrl_c524288, 172, .Lsrl11_b19e
+.Lsrl11_b19e:
+        .word   176, 176, .Lsrl11_b19f
+.Lsrl11_b19f:
+        .word   172, 176, .Lsrl11_b19s
+        .word   12, 12, .Lsrl11_b18
+.Lsrl11_b19s:
+        .word   .Lsrl_c524288, 164, .Lsrl11_b19t
+.Lsrl11_b19t:
+        .word   .Lsrl_n256, 168, .Lsrl11_b18
+.Lsrl11_b18:
+        .word   172, 172, .Lsrl11_b18a
+.Lsrl11_b18a:
+        .word   12, 12, .Lsrl11_b18b
+.Lsrl11_b18b:
+        .word   164, 12, .Lsrl11_b18c
+.Lsrl11_b18c:
+        .word   12, 172, .Lsrl11_b18d
+.Lsrl11_b18d:
+        .word   .Lsrl_c262144, 172, .Lsrl11_b18e
+.Lsrl11_b18e:
+        .word   176, 176, .Lsrl11_b18f
+.Lsrl11_b18f:
+        .word   172, 176, .Lsrl11_b18s
+        .word   12, 12, .Lsrl11_b17
+.Lsrl11_b18s:
+        .word   .Lsrl_c262144, 164, .Lsrl11_b18t
+.Lsrl11_b18t:
+        .word   .Lsrl_n128, 168, .Lsrl11_b17
+.Lsrl11_b17:
+        .word   172, 172, .Lsrl11_b17a
+.Lsrl11_b17a:
+        .word   12, 12, .Lsrl11_b17b
+.Lsrl11_b17b:
+        .word   164, 12, .Lsrl11_b17c
+.Lsrl11_b17c:
+        .word   12, 172, .Lsrl11_b17d
+.Lsrl11_b17d:
+        .word   .Lsrl_c131072, 172, .Lsrl11_b17e
+.Lsrl11_b17e:
+        .word   176, 176, .Lsrl11_b17f
+.Lsrl11_b17f:
+        .word   172, 176, .Lsrl11_b17s
+        .word   12, 12, .Lsrl11_b16
+.Lsrl11_b17s:
+        .word   .Lsrl_c131072, 164, .Lsrl11_b17t
+.Lsrl11_b17t:
+        .word   .Lsrl_n64, 168, .Lsrl11_b16
+.Lsrl11_b16:
+        .word   172, 172, .Lsrl11_b16a
+.Lsrl11_b16a:
+        .word   12, 12, .Lsrl11_b16b
+.Lsrl11_b16b:
+        .word   164, 12, .Lsrl11_b16c
+.Lsrl11_b16c:
+        .word   12, 172, .Lsrl11_b16d
+.Lsrl11_b16d:
+        .word   .Lsrl_c65536, 172, .Lsrl11_b16e
+.Lsrl11_b16e:
+        .word   176, 176, .Lsrl11_b16f
+.Lsrl11_b16f:
+        .word   172, 176, .Lsrl11_b16s
+        .word   12, 12, .Lsrl11_b15
+.Lsrl11_b16s:
+        .word   .Lsrl_c65536, 164, .Lsrl11_b16t
+.Lsrl11_b16t:
+        .word   .Lsrl_n32, 168, .Lsrl11_b15
+.Lsrl11_b15:
+        .word   172, 172, .Lsrl11_b15a
+.Lsrl11_b15a:
+        .word   12, 12, .Lsrl11_b15b
+.Lsrl11_b15b:
+        .word   164, 12, .Lsrl11_b15c
+.Lsrl11_b15c:
+        .word   12, 172, .Lsrl11_b15d
+.Lsrl11_b15d:
+        .word   .Lsrl_c32768, 172, .Lsrl11_b15e
+.Lsrl11_b15e:
+        .word   176, 176, .Lsrl11_b15f
+.Lsrl11_b15f:
+        .word   172, 176, .Lsrl11_b15s
+        .word   12, 12, .Lsrl11_b14
+.Lsrl11_b15s:
+        .word   .Lsrl_c32768, 164, .Lsrl11_b15t
+.Lsrl11_b15t:
+        .word   .Lsrl_n16, 168, .Lsrl11_b14
+.Lsrl11_b14:
+        .word   172, 172, .Lsrl11_b14a
+.Lsrl11_b14a:
+        .word   12, 12, .Lsrl11_b14b
+.Lsrl11_b14b:
+        .word   164, 12, .Lsrl11_b14c
+.Lsrl11_b14c:
+        .word   12, 172, .Lsrl11_b14d
+.Lsrl11_b14d:
+        .word   .Lsrl_c16384, 172, .Lsrl11_b14e
+.Lsrl11_b14e:
+        .word   176, 176, .Lsrl11_b14f
+.Lsrl11_b14f:
+        .word   172, 176, .Lsrl11_b14s
+        .word   12, 12, .Lsrl11_b13
+.Lsrl11_b14s:
+        .word   .Lsrl_c16384, 164, .Lsrl11_b14t
+.Lsrl11_b14t:
+        .word   .Lsrl_n8, 168, .Lsrl11_b13
+.Lsrl11_b13:
+        .word   172, 172, .Lsrl11_b13a
+.Lsrl11_b13a:
+        .word   12, 12, .Lsrl11_b13b
+.Lsrl11_b13b:
+        .word   164, 12, .Lsrl11_b13c
+.Lsrl11_b13c:
+        .word   12, 172, .Lsrl11_b13d
+.Lsrl11_b13d:
+        .word   .Lsrl_c8192, 172, .Lsrl11_b13e
+.Lsrl11_b13e:
+        .word   176, 176, .Lsrl11_b13f
+.Lsrl11_b13f:
+        .word   172, 176, .Lsrl11_b13s
+        .word   12, 12, .Lsrl11_b12
+.Lsrl11_b13s:
+        .word   .Lsrl_c8192, 164, .Lsrl11_b13t
+.Lsrl11_b13t:
+        .word   .Lsrl_n4, 168, .Lsrl11_b12
+.Lsrl11_b12:
+        .word   172, 172, .Lsrl11_b12a
+.Lsrl11_b12a:
+        .word   12, 12, .Lsrl11_b12b
+.Lsrl11_b12b:
+        .word   164, 12, .Lsrl11_b12c
+.Lsrl11_b12c:
+        .word   12, 172, .Lsrl11_b12d
+.Lsrl11_b12d:
+        .word   .Lsrl_c4096, 172, .Lsrl11_b12e
+.Lsrl11_b12e:
+        .word   176, 176, .Lsrl11_b12f
+.Lsrl11_b12f:
+        .word   172, 176, .Lsrl11_b12s
+        .word   12, 12, .Lsrl11_b11
+.Lsrl11_b12s:
+        .word   .Lsrl_c4096, 164, .Lsrl11_b12t
+.Lsrl11_b12t:
+        .word   .Lsrl_n2, 168, .Lsrl11_b11
+.Lsrl11_b11:
+        .word   172, 172, .Lsrl11_b11a
+.Lsrl11_b11a:
+        .word   12, 12, .Lsrl11_b11b
+.Lsrl11_b11b:
+        .word   164, 12, .Lsrl11_b11c
+.Lsrl11_b11c:
+        .word   12, 172, .Lsrl11_b11d
+.Lsrl11_b11d:
+        .word   .Lsrl_c2048, 172, .Lsrl11_b11e
+.Lsrl11_b11e:
+        .word   176, 176, .Lsrl11_b11f
+.Lsrl11_b11f:
+        .word   172, 176, .Lsrl11_b11s
+        .word   12, 12, .Lsrl11_store
+.Lsrl11_b11s:
+        .word   .Lsrl_c2048, 164, .Lsrl11_b11t
+.Lsrl11_b11t:
+        .word   .Lsrl_n1, 168, .Lsrl11_store
+.Lsrl11_store:
+        .word   28, 28, .Lsrl11_st1
+.Lsrl11_st1:
+        .word   12, 12, .Lsrl11_st2
+.Lsrl11_st2:
+        .word   168, 12, .Lsrl11_st3
+.Lsrl11_st3:
+        .word   12, 28, .Lsrl11_st4
+.Lsrl11_st4:
+        .word   24, 24, .Lsrl_done
+
+.Lsrl_shift_12:
+        .word   168, 168, .Lsrl12_start
+.Lsrl12_start:
+.Lsrl12_b31:
+        .word   172, 172, .Lsrl12_b31a
+.Lsrl12_b31a:
+        .word   12, 12, .Lsrl12_b31b
+.Lsrl12_b31b:
+        .word   164, 12, .Lsrl12_b31c
+.Lsrl12_b31c:
+        .word   12, 172, .Lsrl12_b31d
+.Lsrl12_b31d:
+        .word   24, 172, .Lsrl12_b31_le0
+        .word   12, 12, .Lsrl12_b30
+.Lsrl12_b31_le0:
+        .word   176, 176, .Lsrl12_b31e
+.Lsrl12_b31e:
+        .word   164, 176, .Lsrl12_b31f
+.Lsrl12_b31f:
+        .word   24, 176, .Lsrl12_b31_ambig
+        .word   12, 12, .Lsrl12_b31s
+.Lsrl12_b31_ambig:
+        .word   172, 172, .Lsrl12_b31g
+.Lsrl12_b31g:
+        .word   164, 172, .Lsrl12_b31h
+.Lsrl12_b31h:
+        .word   .Lsrl_one, 172, .Lsrl12_b31i
+.Lsrl12_b31i:
+        .word   24, 172, .Lsrl12_b30
+        .word   12, 12, .Lsrl12_b31s
+.Lsrl12_b31s:
+        .word   .Lsrl_c2147483648, 164, .Lsrl12_b31t
+.Lsrl12_b31t:
+        .word   .Lsrl_n524288, 168, .Lsrl12_b30
+.Lsrl12_b30:
+        .word   172, 172, .Lsrl12_b30a
+.Lsrl12_b30a:
+        .word   12, 12, .Lsrl12_b30b
+.Lsrl12_b30b:
+        .word   164, 12, .Lsrl12_b30c
+.Lsrl12_b30c:
+        .word   12, 172, .Lsrl12_b30d
+.Lsrl12_b30d:
+        .word   .Lsrl_c1073741824, 172, .Lsrl12_b30e
+.Lsrl12_b30e:
+        .word   176, 176, .Lsrl12_b30f
+.Lsrl12_b30f:
+        .word   172, 176, .Lsrl12_b30s
+        .word   12, 12, .Lsrl12_b29
+.Lsrl12_b30s:
+        .word   .Lsrl_c1073741824, 164, .Lsrl12_b30t
+.Lsrl12_b30t:
+        .word   .Lsrl_n262144, 168, .Lsrl12_b29
+.Lsrl12_b29:
+        .word   172, 172, .Lsrl12_b29a
+.Lsrl12_b29a:
+        .word   12, 12, .Lsrl12_b29b
+.Lsrl12_b29b:
+        .word   164, 12, .Lsrl12_b29c
+.Lsrl12_b29c:
+        .word   12, 172, .Lsrl12_b29d
+.Lsrl12_b29d:
+        .word   .Lsrl_c536870912, 172, .Lsrl12_b29e
+.Lsrl12_b29e:
+        .word   176, 176, .Lsrl12_b29f
+.Lsrl12_b29f:
+        .word   172, 176, .Lsrl12_b29s
+        .word   12, 12, .Lsrl12_b28
+.Lsrl12_b29s:
+        .word   .Lsrl_c536870912, 164, .Lsrl12_b29t
+.Lsrl12_b29t:
+        .word   .Lsrl_n131072, 168, .Lsrl12_b28
+.Lsrl12_b28:
+        .word   172, 172, .Lsrl12_b28a
+.Lsrl12_b28a:
+        .word   12, 12, .Lsrl12_b28b
+.Lsrl12_b28b:
+        .word   164, 12, .Lsrl12_b28c
+.Lsrl12_b28c:
+        .word   12, 172, .Lsrl12_b28d
+.Lsrl12_b28d:
+        .word   .Lsrl_c268435456, 172, .Lsrl12_b28e
+.Lsrl12_b28e:
+        .word   176, 176, .Lsrl12_b28f
+.Lsrl12_b28f:
+        .word   172, 176, .Lsrl12_b28s
+        .word   12, 12, .Lsrl12_b27
+.Lsrl12_b28s:
+        .word   .Lsrl_c268435456, 164, .Lsrl12_b28t
+.Lsrl12_b28t:
+        .word   .Lsrl_n65536, 168, .Lsrl12_b27
+.Lsrl12_b27:
+        .word   172, 172, .Lsrl12_b27a
+.Lsrl12_b27a:
+        .word   12, 12, .Lsrl12_b27b
+.Lsrl12_b27b:
+        .word   164, 12, .Lsrl12_b27c
+.Lsrl12_b27c:
+        .word   12, 172, .Lsrl12_b27d
+.Lsrl12_b27d:
+        .word   .Lsrl_c134217728, 172, .Lsrl12_b27e
+.Lsrl12_b27e:
+        .word   176, 176, .Lsrl12_b27f
+.Lsrl12_b27f:
+        .word   172, 176, .Lsrl12_b27s
+        .word   12, 12, .Lsrl12_b26
+.Lsrl12_b27s:
+        .word   .Lsrl_c134217728, 164, .Lsrl12_b27t
+.Lsrl12_b27t:
+        .word   .Lsrl_n32768, 168, .Lsrl12_b26
+.Lsrl12_b26:
+        .word   172, 172, .Lsrl12_b26a
+.Lsrl12_b26a:
+        .word   12, 12, .Lsrl12_b26b
+.Lsrl12_b26b:
+        .word   164, 12, .Lsrl12_b26c
+.Lsrl12_b26c:
+        .word   12, 172, .Lsrl12_b26d
+.Lsrl12_b26d:
+        .word   .Lsrl_c67108864, 172, .Lsrl12_b26e
+.Lsrl12_b26e:
+        .word   176, 176, .Lsrl12_b26f
+.Lsrl12_b26f:
+        .word   172, 176, .Lsrl12_b26s
+        .word   12, 12, .Lsrl12_b25
+.Lsrl12_b26s:
+        .word   .Lsrl_c67108864, 164, .Lsrl12_b26t
+.Lsrl12_b26t:
+        .word   .Lsrl_n16384, 168, .Lsrl12_b25
+.Lsrl12_b25:
+        .word   172, 172, .Lsrl12_b25a
+.Lsrl12_b25a:
+        .word   12, 12, .Lsrl12_b25b
+.Lsrl12_b25b:
+        .word   164, 12, .Lsrl12_b25c
+.Lsrl12_b25c:
+        .word   12, 172, .Lsrl12_b25d
+.Lsrl12_b25d:
+        .word   .Lsrl_c33554432, 172, .Lsrl12_b25e
+.Lsrl12_b25e:
+        .word   176, 176, .Lsrl12_b25f
+.Lsrl12_b25f:
+        .word   172, 176, .Lsrl12_b25s
+        .word   12, 12, .Lsrl12_b24
+.Lsrl12_b25s:
+        .word   .Lsrl_c33554432, 164, .Lsrl12_b25t
+.Lsrl12_b25t:
+        .word   .Lsrl_n8192, 168, .Lsrl12_b24
+.Lsrl12_b24:
+        .word   172, 172, .Lsrl12_b24a
+.Lsrl12_b24a:
+        .word   12, 12, .Lsrl12_b24b
+.Lsrl12_b24b:
+        .word   164, 12, .Lsrl12_b24c
+.Lsrl12_b24c:
+        .word   12, 172, .Lsrl12_b24d
+.Lsrl12_b24d:
+        .word   .Lsrl_c16777216, 172, .Lsrl12_b24e
+.Lsrl12_b24e:
+        .word   176, 176, .Lsrl12_b24f
+.Lsrl12_b24f:
+        .word   172, 176, .Lsrl12_b24s
+        .word   12, 12, .Lsrl12_b23
+.Lsrl12_b24s:
+        .word   .Lsrl_c16777216, 164, .Lsrl12_b24t
+.Lsrl12_b24t:
+        .word   .Lsrl_n4096, 168, .Lsrl12_b23
+.Lsrl12_b23:
+        .word   172, 172, .Lsrl12_b23a
+.Lsrl12_b23a:
+        .word   12, 12, .Lsrl12_b23b
+.Lsrl12_b23b:
+        .word   164, 12, .Lsrl12_b23c
+.Lsrl12_b23c:
+        .word   12, 172, .Lsrl12_b23d
+.Lsrl12_b23d:
+        .word   .Lsrl_c8388608, 172, .Lsrl12_b23e
+.Lsrl12_b23e:
+        .word   176, 176, .Lsrl12_b23f
+.Lsrl12_b23f:
+        .word   172, 176, .Lsrl12_b23s
+        .word   12, 12, .Lsrl12_b22
+.Lsrl12_b23s:
+        .word   .Lsrl_c8388608, 164, .Lsrl12_b23t
+.Lsrl12_b23t:
+        .word   .Lsrl_n2048, 168, .Lsrl12_b22
+.Lsrl12_b22:
+        .word   172, 172, .Lsrl12_b22a
+.Lsrl12_b22a:
+        .word   12, 12, .Lsrl12_b22b
+.Lsrl12_b22b:
+        .word   164, 12, .Lsrl12_b22c
+.Lsrl12_b22c:
+        .word   12, 172, .Lsrl12_b22d
+.Lsrl12_b22d:
+        .word   .Lsrl_c4194304, 172, .Lsrl12_b22e
+.Lsrl12_b22e:
+        .word   176, 176, .Lsrl12_b22f
+.Lsrl12_b22f:
+        .word   172, 176, .Lsrl12_b22s
+        .word   12, 12, .Lsrl12_b21
+.Lsrl12_b22s:
+        .word   .Lsrl_c4194304, 164, .Lsrl12_b22t
+.Lsrl12_b22t:
+        .word   .Lsrl_n1024, 168, .Lsrl12_b21
+.Lsrl12_b21:
+        .word   172, 172, .Lsrl12_b21a
+.Lsrl12_b21a:
+        .word   12, 12, .Lsrl12_b21b
+.Lsrl12_b21b:
+        .word   164, 12, .Lsrl12_b21c
+.Lsrl12_b21c:
+        .word   12, 172, .Lsrl12_b21d
+.Lsrl12_b21d:
+        .word   .Lsrl_c2097152, 172, .Lsrl12_b21e
+.Lsrl12_b21e:
+        .word   176, 176, .Lsrl12_b21f
+.Lsrl12_b21f:
+        .word   172, 176, .Lsrl12_b21s
+        .word   12, 12, .Lsrl12_b20
+.Lsrl12_b21s:
+        .word   .Lsrl_c2097152, 164, .Lsrl12_b21t
+.Lsrl12_b21t:
+        .word   .Lsrl_n512, 168, .Lsrl12_b20
+.Lsrl12_b20:
+        .word   172, 172, .Lsrl12_b20a
+.Lsrl12_b20a:
+        .word   12, 12, .Lsrl12_b20b
+.Lsrl12_b20b:
+        .word   164, 12, .Lsrl12_b20c
+.Lsrl12_b20c:
+        .word   12, 172, .Lsrl12_b20d
+.Lsrl12_b20d:
+        .word   .Lsrl_c1048576, 172, .Lsrl12_b20e
+.Lsrl12_b20e:
+        .word   176, 176, .Lsrl12_b20f
+.Lsrl12_b20f:
+        .word   172, 176, .Lsrl12_b20s
+        .word   12, 12, .Lsrl12_b19
+.Lsrl12_b20s:
+        .word   .Lsrl_c1048576, 164, .Lsrl12_b20t
+.Lsrl12_b20t:
+        .word   .Lsrl_n256, 168, .Lsrl12_b19
+.Lsrl12_b19:
+        .word   172, 172, .Lsrl12_b19a
+.Lsrl12_b19a:
+        .word   12, 12, .Lsrl12_b19b
+.Lsrl12_b19b:
+        .word   164, 12, .Lsrl12_b19c
+.Lsrl12_b19c:
+        .word   12, 172, .Lsrl12_b19d
+.Lsrl12_b19d:
+        .word   .Lsrl_c524288, 172, .Lsrl12_b19e
+.Lsrl12_b19e:
+        .word   176, 176, .Lsrl12_b19f
+.Lsrl12_b19f:
+        .word   172, 176, .Lsrl12_b19s
+        .word   12, 12, .Lsrl12_b18
+.Lsrl12_b19s:
+        .word   .Lsrl_c524288, 164, .Lsrl12_b19t
+.Lsrl12_b19t:
+        .word   .Lsrl_n128, 168, .Lsrl12_b18
+.Lsrl12_b18:
+        .word   172, 172, .Lsrl12_b18a
+.Lsrl12_b18a:
+        .word   12, 12, .Lsrl12_b18b
+.Lsrl12_b18b:
+        .word   164, 12, .Lsrl12_b18c
+.Lsrl12_b18c:
+        .word   12, 172, .Lsrl12_b18d
+.Lsrl12_b18d:
+        .word   .Lsrl_c262144, 172, .Lsrl12_b18e
+.Lsrl12_b18e:
+        .word   176, 176, .Lsrl12_b18f
+.Lsrl12_b18f:
+        .word   172, 176, .Lsrl12_b18s
+        .word   12, 12, .Lsrl12_b17
+.Lsrl12_b18s:
+        .word   .Lsrl_c262144, 164, .Lsrl12_b18t
+.Lsrl12_b18t:
+        .word   .Lsrl_n64, 168, .Lsrl12_b17
+.Lsrl12_b17:
+        .word   172, 172, .Lsrl12_b17a
+.Lsrl12_b17a:
+        .word   12, 12, .Lsrl12_b17b
+.Lsrl12_b17b:
+        .word   164, 12, .Lsrl12_b17c
+.Lsrl12_b17c:
+        .word   12, 172, .Lsrl12_b17d
+.Lsrl12_b17d:
+        .word   .Lsrl_c131072, 172, .Lsrl12_b17e
+.Lsrl12_b17e:
+        .word   176, 176, .Lsrl12_b17f
+.Lsrl12_b17f:
+        .word   172, 176, .Lsrl12_b17s
+        .word   12, 12, .Lsrl12_b16
+.Lsrl12_b17s:
+        .word   .Lsrl_c131072, 164, .Lsrl12_b17t
+.Lsrl12_b17t:
+        .word   .Lsrl_n32, 168, .Lsrl12_b16
+.Lsrl12_b16:
+        .word   172, 172, .Lsrl12_b16a
+.Lsrl12_b16a:
+        .word   12, 12, .Lsrl12_b16b
+.Lsrl12_b16b:
+        .word   164, 12, .Lsrl12_b16c
+.Lsrl12_b16c:
+        .word   12, 172, .Lsrl12_b16d
+.Lsrl12_b16d:
+        .word   .Lsrl_c65536, 172, .Lsrl12_b16e
+.Lsrl12_b16e:
+        .word   176, 176, .Lsrl12_b16f
+.Lsrl12_b16f:
+        .word   172, 176, .Lsrl12_b16s
+        .word   12, 12, .Lsrl12_b15
+.Lsrl12_b16s:
+        .word   .Lsrl_c65536, 164, .Lsrl12_b16t
+.Lsrl12_b16t:
+        .word   .Lsrl_n16, 168, .Lsrl12_b15
+.Lsrl12_b15:
+        .word   172, 172, .Lsrl12_b15a
+.Lsrl12_b15a:
+        .word   12, 12, .Lsrl12_b15b
+.Lsrl12_b15b:
+        .word   164, 12, .Lsrl12_b15c
+.Lsrl12_b15c:
+        .word   12, 172, .Lsrl12_b15d
+.Lsrl12_b15d:
+        .word   .Lsrl_c32768, 172, .Lsrl12_b15e
+.Lsrl12_b15e:
+        .word   176, 176, .Lsrl12_b15f
+.Lsrl12_b15f:
+        .word   172, 176, .Lsrl12_b15s
+        .word   12, 12, .Lsrl12_b14
+.Lsrl12_b15s:
+        .word   .Lsrl_c32768, 164, .Lsrl12_b15t
+.Lsrl12_b15t:
+        .word   .Lsrl_n8, 168, .Lsrl12_b14
+.Lsrl12_b14:
+        .word   172, 172, .Lsrl12_b14a
+.Lsrl12_b14a:
+        .word   12, 12, .Lsrl12_b14b
+.Lsrl12_b14b:
+        .word   164, 12, .Lsrl12_b14c
+.Lsrl12_b14c:
+        .word   12, 172, .Lsrl12_b14d
+.Lsrl12_b14d:
+        .word   .Lsrl_c16384, 172, .Lsrl12_b14e
+.Lsrl12_b14e:
+        .word   176, 176, .Lsrl12_b14f
+.Lsrl12_b14f:
+        .word   172, 176, .Lsrl12_b14s
+        .word   12, 12, .Lsrl12_b13
+.Lsrl12_b14s:
+        .word   .Lsrl_c16384, 164, .Lsrl12_b14t
+.Lsrl12_b14t:
+        .word   .Lsrl_n4, 168, .Lsrl12_b13
+.Lsrl12_b13:
+        .word   172, 172, .Lsrl12_b13a
+.Lsrl12_b13a:
+        .word   12, 12, .Lsrl12_b13b
+.Lsrl12_b13b:
+        .word   164, 12, .Lsrl12_b13c
+.Lsrl12_b13c:
+        .word   12, 172, .Lsrl12_b13d
+.Lsrl12_b13d:
+        .word   .Lsrl_c8192, 172, .Lsrl12_b13e
+.Lsrl12_b13e:
+        .word   176, 176, .Lsrl12_b13f
+.Lsrl12_b13f:
+        .word   172, 176, .Lsrl12_b13s
+        .word   12, 12, .Lsrl12_b12
+.Lsrl12_b13s:
+        .word   .Lsrl_c8192, 164, .Lsrl12_b13t
+.Lsrl12_b13t:
+        .word   .Lsrl_n2, 168, .Lsrl12_b12
+.Lsrl12_b12:
+        .word   172, 172, .Lsrl12_b12a
+.Lsrl12_b12a:
+        .word   12, 12, .Lsrl12_b12b
+.Lsrl12_b12b:
+        .word   164, 12, .Lsrl12_b12c
+.Lsrl12_b12c:
+        .word   12, 172, .Lsrl12_b12d
+.Lsrl12_b12d:
+        .word   .Lsrl_c4096, 172, .Lsrl12_b12e
+.Lsrl12_b12e:
+        .word   176, 176, .Lsrl12_b12f
+.Lsrl12_b12f:
+        .word   172, 176, .Lsrl12_b12s
+        .word   12, 12, .Lsrl12_store
+.Lsrl12_b12s:
+        .word   .Lsrl_c4096, 164, .Lsrl12_b12t
+.Lsrl12_b12t:
+        .word   .Lsrl_n1, 168, .Lsrl12_store
+.Lsrl12_store:
+        .word   28, 28, .Lsrl12_st1
+.Lsrl12_st1:
+        .word   12, 12, .Lsrl12_st2
+.Lsrl12_st2:
+        .word   168, 12, .Lsrl12_st3
+.Lsrl12_st3:
+        .word   12, 28, .Lsrl12_st4
+.Lsrl12_st4:
+        .word   24, 24, .Lsrl_done
+
+.Lsrl_shift_13:
+        .word   168, 168, .Lsrl13_start
+.Lsrl13_start:
+.Lsrl13_b31:
+        .word   172, 172, .Lsrl13_b31a
+.Lsrl13_b31a:
+        .word   12, 12, .Lsrl13_b31b
+.Lsrl13_b31b:
+        .word   164, 12, .Lsrl13_b31c
+.Lsrl13_b31c:
+        .word   12, 172, .Lsrl13_b31d
+.Lsrl13_b31d:
+        .word   24, 172, .Lsrl13_b31_le0
+        .word   12, 12, .Lsrl13_b30
+.Lsrl13_b31_le0:
+        .word   176, 176, .Lsrl13_b31e
+.Lsrl13_b31e:
+        .word   164, 176, .Lsrl13_b31f
+.Lsrl13_b31f:
+        .word   24, 176, .Lsrl13_b31_ambig
+        .word   12, 12, .Lsrl13_b31s
+.Lsrl13_b31_ambig:
+        .word   172, 172, .Lsrl13_b31g
+.Lsrl13_b31g:
+        .word   164, 172, .Lsrl13_b31h
+.Lsrl13_b31h:
+        .word   .Lsrl_one, 172, .Lsrl13_b31i
+.Lsrl13_b31i:
+        .word   24, 172, .Lsrl13_b30
+        .word   12, 12, .Lsrl13_b31s
+.Lsrl13_b31s:
+        .word   .Lsrl_c2147483648, 164, .Lsrl13_b31t
+.Lsrl13_b31t:
+        .word   .Lsrl_n262144, 168, .Lsrl13_b30
+.Lsrl13_b30:
+        .word   172, 172, .Lsrl13_b30a
+.Lsrl13_b30a:
+        .word   12, 12, .Lsrl13_b30b
+.Lsrl13_b30b:
+        .word   164, 12, .Lsrl13_b30c
+.Lsrl13_b30c:
+        .word   12, 172, .Lsrl13_b30d
+.Lsrl13_b30d:
+        .word   .Lsrl_c1073741824, 172, .Lsrl13_b30e
+.Lsrl13_b30e:
+        .word   176, 176, .Lsrl13_b30f
+.Lsrl13_b30f:
+        .word   172, 176, .Lsrl13_b30s
+        .word   12, 12, .Lsrl13_b29
+.Lsrl13_b30s:
+        .word   .Lsrl_c1073741824, 164, .Lsrl13_b30t
+.Lsrl13_b30t:
+        .word   .Lsrl_n131072, 168, .Lsrl13_b29
+.Lsrl13_b29:
+        .word   172, 172, .Lsrl13_b29a
+.Lsrl13_b29a:
+        .word   12, 12, .Lsrl13_b29b
+.Lsrl13_b29b:
+        .word   164, 12, .Lsrl13_b29c
+.Lsrl13_b29c:
+        .word   12, 172, .Lsrl13_b29d
+.Lsrl13_b29d:
+        .word   .Lsrl_c536870912, 172, .Lsrl13_b29e
+.Lsrl13_b29e:
+        .word   176, 176, .Lsrl13_b29f
+.Lsrl13_b29f:
+        .word   172, 176, .Lsrl13_b29s
+        .word   12, 12, .Lsrl13_b28
+.Lsrl13_b29s:
+        .word   .Lsrl_c536870912, 164, .Lsrl13_b29t
+.Lsrl13_b29t:
+        .word   .Lsrl_n65536, 168, .Lsrl13_b28
+.Lsrl13_b28:
+        .word   172, 172, .Lsrl13_b28a
+.Lsrl13_b28a:
+        .word   12, 12, .Lsrl13_b28b
+.Lsrl13_b28b:
+        .word   164, 12, .Lsrl13_b28c
+.Lsrl13_b28c:
+        .word   12, 172, .Lsrl13_b28d
+.Lsrl13_b28d:
+        .word   .Lsrl_c268435456, 172, .Lsrl13_b28e
+.Lsrl13_b28e:
+        .word   176, 176, .Lsrl13_b28f
+.Lsrl13_b28f:
+        .word   172, 176, .Lsrl13_b28s
+        .word   12, 12, .Lsrl13_b27
+.Lsrl13_b28s:
+        .word   .Lsrl_c268435456, 164, .Lsrl13_b28t
+.Lsrl13_b28t:
+        .word   .Lsrl_n32768, 168, .Lsrl13_b27
+.Lsrl13_b27:
+        .word   172, 172, .Lsrl13_b27a
+.Lsrl13_b27a:
+        .word   12, 12, .Lsrl13_b27b
+.Lsrl13_b27b:
+        .word   164, 12, .Lsrl13_b27c
+.Lsrl13_b27c:
+        .word   12, 172, .Lsrl13_b27d
+.Lsrl13_b27d:
+        .word   .Lsrl_c134217728, 172, .Lsrl13_b27e
+.Lsrl13_b27e:
+        .word   176, 176, .Lsrl13_b27f
+.Lsrl13_b27f:
+        .word   172, 176, .Lsrl13_b27s
+        .word   12, 12, .Lsrl13_b26
+.Lsrl13_b27s:
+        .word   .Lsrl_c134217728, 164, .Lsrl13_b27t
+.Lsrl13_b27t:
+        .word   .Lsrl_n16384, 168, .Lsrl13_b26
+.Lsrl13_b26:
+        .word   172, 172, .Lsrl13_b26a
+.Lsrl13_b26a:
+        .word   12, 12, .Lsrl13_b26b
+.Lsrl13_b26b:
+        .word   164, 12, .Lsrl13_b26c
+.Lsrl13_b26c:
+        .word   12, 172, .Lsrl13_b26d
+.Lsrl13_b26d:
+        .word   .Lsrl_c67108864, 172, .Lsrl13_b26e
+.Lsrl13_b26e:
+        .word   176, 176, .Lsrl13_b26f
+.Lsrl13_b26f:
+        .word   172, 176, .Lsrl13_b26s
+        .word   12, 12, .Lsrl13_b25
+.Lsrl13_b26s:
+        .word   .Lsrl_c67108864, 164, .Lsrl13_b26t
+.Lsrl13_b26t:
+        .word   .Lsrl_n8192, 168, .Lsrl13_b25
+.Lsrl13_b25:
+        .word   172, 172, .Lsrl13_b25a
+.Lsrl13_b25a:
+        .word   12, 12, .Lsrl13_b25b
+.Lsrl13_b25b:
+        .word   164, 12, .Lsrl13_b25c
+.Lsrl13_b25c:
+        .word   12, 172, .Lsrl13_b25d
+.Lsrl13_b25d:
+        .word   .Lsrl_c33554432, 172, .Lsrl13_b25e
+.Lsrl13_b25e:
+        .word   176, 176, .Lsrl13_b25f
+.Lsrl13_b25f:
+        .word   172, 176, .Lsrl13_b25s
+        .word   12, 12, .Lsrl13_b24
+.Lsrl13_b25s:
+        .word   .Lsrl_c33554432, 164, .Lsrl13_b25t
+.Lsrl13_b25t:
+        .word   .Lsrl_n4096, 168, .Lsrl13_b24
+.Lsrl13_b24:
+        .word   172, 172, .Lsrl13_b24a
+.Lsrl13_b24a:
+        .word   12, 12, .Lsrl13_b24b
+.Lsrl13_b24b:
+        .word   164, 12, .Lsrl13_b24c
+.Lsrl13_b24c:
+        .word   12, 172, .Lsrl13_b24d
+.Lsrl13_b24d:
+        .word   .Lsrl_c16777216, 172, .Lsrl13_b24e
+.Lsrl13_b24e:
+        .word   176, 176, .Lsrl13_b24f
+.Lsrl13_b24f:
+        .word   172, 176, .Lsrl13_b24s
+        .word   12, 12, .Lsrl13_b23
+.Lsrl13_b24s:
+        .word   .Lsrl_c16777216, 164, .Lsrl13_b24t
+.Lsrl13_b24t:
+        .word   .Lsrl_n2048, 168, .Lsrl13_b23
+.Lsrl13_b23:
+        .word   172, 172, .Lsrl13_b23a
+.Lsrl13_b23a:
+        .word   12, 12, .Lsrl13_b23b
+.Lsrl13_b23b:
+        .word   164, 12, .Lsrl13_b23c
+.Lsrl13_b23c:
+        .word   12, 172, .Lsrl13_b23d
+.Lsrl13_b23d:
+        .word   .Lsrl_c8388608, 172, .Lsrl13_b23e
+.Lsrl13_b23e:
+        .word   176, 176, .Lsrl13_b23f
+.Lsrl13_b23f:
+        .word   172, 176, .Lsrl13_b23s
+        .word   12, 12, .Lsrl13_b22
+.Lsrl13_b23s:
+        .word   .Lsrl_c8388608, 164, .Lsrl13_b23t
+.Lsrl13_b23t:
+        .word   .Lsrl_n1024, 168, .Lsrl13_b22
+.Lsrl13_b22:
+        .word   172, 172, .Lsrl13_b22a
+.Lsrl13_b22a:
+        .word   12, 12, .Lsrl13_b22b
+.Lsrl13_b22b:
+        .word   164, 12, .Lsrl13_b22c
+.Lsrl13_b22c:
+        .word   12, 172, .Lsrl13_b22d
+.Lsrl13_b22d:
+        .word   .Lsrl_c4194304, 172, .Lsrl13_b22e
+.Lsrl13_b22e:
+        .word   176, 176, .Lsrl13_b22f
+.Lsrl13_b22f:
+        .word   172, 176, .Lsrl13_b22s
+        .word   12, 12, .Lsrl13_b21
+.Lsrl13_b22s:
+        .word   .Lsrl_c4194304, 164, .Lsrl13_b22t
+.Lsrl13_b22t:
+        .word   .Lsrl_n512, 168, .Lsrl13_b21
+.Lsrl13_b21:
+        .word   172, 172, .Lsrl13_b21a
+.Lsrl13_b21a:
+        .word   12, 12, .Lsrl13_b21b
+.Lsrl13_b21b:
+        .word   164, 12, .Lsrl13_b21c
+.Lsrl13_b21c:
+        .word   12, 172, .Lsrl13_b21d
+.Lsrl13_b21d:
+        .word   .Lsrl_c2097152, 172, .Lsrl13_b21e
+.Lsrl13_b21e:
+        .word   176, 176, .Lsrl13_b21f
+.Lsrl13_b21f:
+        .word   172, 176, .Lsrl13_b21s
+        .word   12, 12, .Lsrl13_b20
+.Lsrl13_b21s:
+        .word   .Lsrl_c2097152, 164, .Lsrl13_b21t
+.Lsrl13_b21t:
+        .word   .Lsrl_n256, 168, .Lsrl13_b20
+.Lsrl13_b20:
+        .word   172, 172, .Lsrl13_b20a
+.Lsrl13_b20a:
+        .word   12, 12, .Lsrl13_b20b
+.Lsrl13_b20b:
+        .word   164, 12, .Lsrl13_b20c
+.Lsrl13_b20c:
+        .word   12, 172, .Lsrl13_b20d
+.Lsrl13_b20d:
+        .word   .Lsrl_c1048576, 172, .Lsrl13_b20e
+.Lsrl13_b20e:
+        .word   176, 176, .Lsrl13_b20f
+.Lsrl13_b20f:
+        .word   172, 176, .Lsrl13_b20s
+        .word   12, 12, .Lsrl13_b19
+.Lsrl13_b20s:
+        .word   .Lsrl_c1048576, 164, .Lsrl13_b20t
+.Lsrl13_b20t:
+        .word   .Lsrl_n128, 168, .Lsrl13_b19
+.Lsrl13_b19:
+        .word   172, 172, .Lsrl13_b19a
+.Lsrl13_b19a:
+        .word   12, 12, .Lsrl13_b19b
+.Lsrl13_b19b:
+        .word   164, 12, .Lsrl13_b19c
+.Lsrl13_b19c:
+        .word   12, 172, .Lsrl13_b19d
+.Lsrl13_b19d:
+        .word   .Lsrl_c524288, 172, .Lsrl13_b19e
+.Lsrl13_b19e:
+        .word   176, 176, .Lsrl13_b19f
+.Lsrl13_b19f:
+        .word   172, 176, .Lsrl13_b19s
+        .word   12, 12, .Lsrl13_b18
+.Lsrl13_b19s:
+        .word   .Lsrl_c524288, 164, .Lsrl13_b19t
+.Lsrl13_b19t:
+        .word   .Lsrl_n64, 168, .Lsrl13_b18
+.Lsrl13_b18:
+        .word   172, 172, .Lsrl13_b18a
+.Lsrl13_b18a:
+        .word   12, 12, .Lsrl13_b18b
+.Lsrl13_b18b:
+        .word   164, 12, .Lsrl13_b18c
+.Lsrl13_b18c:
+        .word   12, 172, .Lsrl13_b18d
+.Lsrl13_b18d:
+        .word   .Lsrl_c262144, 172, .Lsrl13_b18e
+.Lsrl13_b18e:
+        .word   176, 176, .Lsrl13_b18f
+.Lsrl13_b18f:
+        .word   172, 176, .Lsrl13_b18s
+        .word   12, 12, .Lsrl13_b17
+.Lsrl13_b18s:
+        .word   .Lsrl_c262144, 164, .Lsrl13_b18t
+.Lsrl13_b18t:
+        .word   .Lsrl_n32, 168, .Lsrl13_b17
+.Lsrl13_b17:
+        .word   172, 172, .Lsrl13_b17a
+.Lsrl13_b17a:
+        .word   12, 12, .Lsrl13_b17b
+.Lsrl13_b17b:
+        .word   164, 12, .Lsrl13_b17c
+.Lsrl13_b17c:
+        .word   12, 172, .Lsrl13_b17d
+.Lsrl13_b17d:
+        .word   .Lsrl_c131072, 172, .Lsrl13_b17e
+.Lsrl13_b17e:
+        .word   176, 176, .Lsrl13_b17f
+.Lsrl13_b17f:
+        .word   172, 176, .Lsrl13_b17s
+        .word   12, 12, .Lsrl13_b16
+.Lsrl13_b17s:
+        .word   .Lsrl_c131072, 164, .Lsrl13_b17t
+.Lsrl13_b17t:
+        .word   .Lsrl_n16, 168, .Lsrl13_b16
+.Lsrl13_b16:
+        .word   172, 172, .Lsrl13_b16a
+.Lsrl13_b16a:
+        .word   12, 12, .Lsrl13_b16b
+.Lsrl13_b16b:
+        .word   164, 12, .Lsrl13_b16c
+.Lsrl13_b16c:
+        .word   12, 172, .Lsrl13_b16d
+.Lsrl13_b16d:
+        .word   .Lsrl_c65536, 172, .Lsrl13_b16e
+.Lsrl13_b16e:
+        .word   176, 176, .Lsrl13_b16f
+.Lsrl13_b16f:
+        .word   172, 176, .Lsrl13_b16s
+        .word   12, 12, .Lsrl13_b15
+.Lsrl13_b16s:
+        .word   .Lsrl_c65536, 164, .Lsrl13_b16t
+.Lsrl13_b16t:
+        .word   .Lsrl_n8, 168, .Lsrl13_b15
+.Lsrl13_b15:
+        .word   172, 172, .Lsrl13_b15a
+.Lsrl13_b15a:
+        .word   12, 12, .Lsrl13_b15b
+.Lsrl13_b15b:
+        .word   164, 12, .Lsrl13_b15c
+.Lsrl13_b15c:
+        .word   12, 172, .Lsrl13_b15d
+.Lsrl13_b15d:
+        .word   .Lsrl_c32768, 172, .Lsrl13_b15e
+.Lsrl13_b15e:
+        .word   176, 176, .Lsrl13_b15f
+.Lsrl13_b15f:
+        .word   172, 176, .Lsrl13_b15s
+        .word   12, 12, .Lsrl13_b14
+.Lsrl13_b15s:
+        .word   .Lsrl_c32768, 164, .Lsrl13_b15t
+.Lsrl13_b15t:
+        .word   .Lsrl_n4, 168, .Lsrl13_b14
+.Lsrl13_b14:
+        .word   172, 172, .Lsrl13_b14a
+.Lsrl13_b14a:
+        .word   12, 12, .Lsrl13_b14b
+.Lsrl13_b14b:
+        .word   164, 12, .Lsrl13_b14c
+.Lsrl13_b14c:
+        .word   12, 172, .Lsrl13_b14d
+.Lsrl13_b14d:
+        .word   .Lsrl_c16384, 172, .Lsrl13_b14e
+.Lsrl13_b14e:
+        .word   176, 176, .Lsrl13_b14f
+.Lsrl13_b14f:
+        .word   172, 176, .Lsrl13_b14s
+        .word   12, 12, .Lsrl13_b13
+.Lsrl13_b14s:
+        .word   .Lsrl_c16384, 164, .Lsrl13_b14t
+.Lsrl13_b14t:
+        .word   .Lsrl_n2, 168, .Lsrl13_b13
+.Lsrl13_b13:
+        .word   172, 172, .Lsrl13_b13a
+.Lsrl13_b13a:
+        .word   12, 12, .Lsrl13_b13b
+.Lsrl13_b13b:
+        .word   164, 12, .Lsrl13_b13c
+.Lsrl13_b13c:
+        .word   12, 172, .Lsrl13_b13d
+.Lsrl13_b13d:
+        .word   .Lsrl_c8192, 172, .Lsrl13_b13e
+.Lsrl13_b13e:
+        .word   176, 176, .Lsrl13_b13f
+.Lsrl13_b13f:
+        .word   172, 176, .Lsrl13_b13s
+        .word   12, 12, .Lsrl13_store
+.Lsrl13_b13s:
+        .word   .Lsrl_c8192, 164, .Lsrl13_b13t
+.Lsrl13_b13t:
+        .word   .Lsrl_n1, 168, .Lsrl13_store
+.Lsrl13_store:
+        .word   28, 28, .Lsrl13_st1
+.Lsrl13_st1:
+        .word   12, 12, .Lsrl13_st2
+.Lsrl13_st2:
+        .word   168, 12, .Lsrl13_st3
+.Lsrl13_st3:
+        .word   12, 28, .Lsrl13_st4
+.Lsrl13_st4:
+        .word   24, 24, .Lsrl_done
+
+.Lsrl_shift_14:
+        .word   168, 168, .Lsrl14_start
+.Lsrl14_start:
+.Lsrl14_b31:
+        .word   172, 172, .Lsrl14_b31a
+.Lsrl14_b31a:
+        .word   12, 12, .Lsrl14_b31b
+.Lsrl14_b31b:
+        .word   164, 12, .Lsrl14_b31c
+.Lsrl14_b31c:
+        .word   12, 172, .Lsrl14_b31d
+.Lsrl14_b31d:
+        .word   24, 172, .Lsrl14_b31_le0
+        .word   12, 12, .Lsrl14_b30
+.Lsrl14_b31_le0:
+        .word   176, 176, .Lsrl14_b31e
+.Lsrl14_b31e:
+        .word   164, 176, .Lsrl14_b31f
+.Lsrl14_b31f:
+        .word   24, 176, .Lsrl14_b31_ambig
+        .word   12, 12, .Lsrl14_b31s
+.Lsrl14_b31_ambig:
+        .word   172, 172, .Lsrl14_b31g
+.Lsrl14_b31g:
+        .word   164, 172, .Lsrl14_b31h
+.Lsrl14_b31h:
+        .word   .Lsrl_one, 172, .Lsrl14_b31i
+.Lsrl14_b31i:
+        .word   24, 172, .Lsrl14_b30
+        .word   12, 12, .Lsrl14_b31s
+.Lsrl14_b31s:
+        .word   .Lsrl_c2147483648, 164, .Lsrl14_b31t
+.Lsrl14_b31t:
+        .word   .Lsrl_n131072, 168, .Lsrl14_b30
+.Lsrl14_b30:
+        .word   172, 172, .Lsrl14_b30a
+.Lsrl14_b30a:
+        .word   12, 12, .Lsrl14_b30b
+.Lsrl14_b30b:
+        .word   164, 12, .Lsrl14_b30c
+.Lsrl14_b30c:
+        .word   12, 172, .Lsrl14_b30d
+.Lsrl14_b30d:
+        .word   .Lsrl_c1073741824, 172, .Lsrl14_b30e
+.Lsrl14_b30e:
+        .word   176, 176, .Lsrl14_b30f
+.Lsrl14_b30f:
+        .word   172, 176, .Lsrl14_b30s
+        .word   12, 12, .Lsrl14_b29
+.Lsrl14_b30s:
+        .word   .Lsrl_c1073741824, 164, .Lsrl14_b30t
+.Lsrl14_b30t:
+        .word   .Lsrl_n65536, 168, .Lsrl14_b29
+.Lsrl14_b29:
+        .word   172, 172, .Lsrl14_b29a
+.Lsrl14_b29a:
+        .word   12, 12, .Lsrl14_b29b
+.Lsrl14_b29b:
+        .word   164, 12, .Lsrl14_b29c
+.Lsrl14_b29c:
+        .word   12, 172, .Lsrl14_b29d
+.Lsrl14_b29d:
+        .word   .Lsrl_c536870912, 172, .Lsrl14_b29e
+.Lsrl14_b29e:
+        .word   176, 176, .Lsrl14_b29f
+.Lsrl14_b29f:
+        .word   172, 176, .Lsrl14_b29s
+        .word   12, 12, .Lsrl14_b28
+.Lsrl14_b29s:
+        .word   .Lsrl_c536870912, 164, .Lsrl14_b29t
+.Lsrl14_b29t:
+        .word   .Lsrl_n32768, 168, .Lsrl14_b28
+.Lsrl14_b28:
+        .word   172, 172, .Lsrl14_b28a
+.Lsrl14_b28a:
+        .word   12, 12, .Lsrl14_b28b
+.Lsrl14_b28b:
+        .word   164, 12, .Lsrl14_b28c
+.Lsrl14_b28c:
+        .word   12, 172, .Lsrl14_b28d
+.Lsrl14_b28d:
+        .word   .Lsrl_c268435456, 172, .Lsrl14_b28e
+.Lsrl14_b28e:
+        .word   176, 176, .Lsrl14_b28f
+.Lsrl14_b28f:
+        .word   172, 176, .Lsrl14_b28s
+        .word   12, 12, .Lsrl14_b27
+.Lsrl14_b28s:
+        .word   .Lsrl_c268435456, 164, .Lsrl14_b28t
+.Lsrl14_b28t:
+        .word   .Lsrl_n16384, 168, .Lsrl14_b27
+.Lsrl14_b27:
+        .word   172, 172, .Lsrl14_b27a
+.Lsrl14_b27a:
+        .word   12, 12, .Lsrl14_b27b
+.Lsrl14_b27b:
+        .word   164, 12, .Lsrl14_b27c
+.Lsrl14_b27c:
+        .word   12, 172, .Lsrl14_b27d
+.Lsrl14_b27d:
+        .word   .Lsrl_c134217728, 172, .Lsrl14_b27e
+.Lsrl14_b27e:
+        .word   176, 176, .Lsrl14_b27f
+.Lsrl14_b27f:
+        .word   172, 176, .Lsrl14_b27s
+        .word   12, 12, .Lsrl14_b26
+.Lsrl14_b27s:
+        .word   .Lsrl_c134217728, 164, .Lsrl14_b27t
+.Lsrl14_b27t:
+        .word   .Lsrl_n8192, 168, .Lsrl14_b26
+.Lsrl14_b26:
+        .word   172, 172, .Lsrl14_b26a
+.Lsrl14_b26a:
+        .word   12, 12, .Lsrl14_b26b
+.Lsrl14_b26b:
+        .word   164, 12, .Lsrl14_b26c
+.Lsrl14_b26c:
+        .word   12, 172, .Lsrl14_b26d
+.Lsrl14_b26d:
+        .word   .Lsrl_c67108864, 172, .Lsrl14_b26e
+.Lsrl14_b26e:
+        .word   176, 176, .Lsrl14_b26f
+.Lsrl14_b26f:
+        .word   172, 176, .Lsrl14_b26s
+        .word   12, 12, .Lsrl14_b25
+.Lsrl14_b26s:
+        .word   .Lsrl_c67108864, 164, .Lsrl14_b26t
+.Lsrl14_b26t:
+        .word   .Lsrl_n4096, 168, .Lsrl14_b25
+.Lsrl14_b25:
+        .word   172, 172, .Lsrl14_b25a
+.Lsrl14_b25a:
+        .word   12, 12, .Lsrl14_b25b
+.Lsrl14_b25b:
+        .word   164, 12, .Lsrl14_b25c
+.Lsrl14_b25c:
+        .word   12, 172, .Lsrl14_b25d
+.Lsrl14_b25d:
+        .word   .Lsrl_c33554432, 172, .Lsrl14_b25e
+.Lsrl14_b25e:
+        .word   176, 176, .Lsrl14_b25f
+.Lsrl14_b25f:
+        .word   172, 176, .Lsrl14_b25s
+        .word   12, 12, .Lsrl14_b24
+.Lsrl14_b25s:
+        .word   .Lsrl_c33554432, 164, .Lsrl14_b25t
+.Lsrl14_b25t:
+        .word   .Lsrl_n2048, 168, .Lsrl14_b24
+.Lsrl14_b24:
+        .word   172, 172, .Lsrl14_b24a
+.Lsrl14_b24a:
+        .word   12, 12, .Lsrl14_b24b
+.Lsrl14_b24b:
+        .word   164, 12, .Lsrl14_b24c
+.Lsrl14_b24c:
+        .word   12, 172, .Lsrl14_b24d
+.Lsrl14_b24d:
+        .word   .Lsrl_c16777216, 172, .Lsrl14_b24e
+.Lsrl14_b24e:
+        .word   176, 176, .Lsrl14_b24f
+.Lsrl14_b24f:
+        .word   172, 176, .Lsrl14_b24s
+        .word   12, 12, .Lsrl14_b23
+.Lsrl14_b24s:
+        .word   .Lsrl_c16777216, 164, .Lsrl14_b24t
+.Lsrl14_b24t:
+        .word   .Lsrl_n1024, 168, .Lsrl14_b23
+.Lsrl14_b23:
+        .word   172, 172, .Lsrl14_b23a
+.Lsrl14_b23a:
+        .word   12, 12, .Lsrl14_b23b
+.Lsrl14_b23b:
+        .word   164, 12, .Lsrl14_b23c
+.Lsrl14_b23c:
+        .word   12, 172, .Lsrl14_b23d
+.Lsrl14_b23d:
+        .word   .Lsrl_c8388608, 172, .Lsrl14_b23e
+.Lsrl14_b23e:
+        .word   176, 176, .Lsrl14_b23f
+.Lsrl14_b23f:
+        .word   172, 176, .Lsrl14_b23s
+        .word   12, 12, .Lsrl14_b22
+.Lsrl14_b23s:
+        .word   .Lsrl_c8388608, 164, .Lsrl14_b23t
+.Lsrl14_b23t:
+        .word   .Lsrl_n512, 168, .Lsrl14_b22
+.Lsrl14_b22:
+        .word   172, 172, .Lsrl14_b22a
+.Lsrl14_b22a:
+        .word   12, 12, .Lsrl14_b22b
+.Lsrl14_b22b:
+        .word   164, 12, .Lsrl14_b22c
+.Lsrl14_b22c:
+        .word   12, 172, .Lsrl14_b22d
+.Lsrl14_b22d:
+        .word   .Lsrl_c4194304, 172, .Lsrl14_b22e
+.Lsrl14_b22e:
+        .word   176, 176, .Lsrl14_b22f
+.Lsrl14_b22f:
+        .word   172, 176, .Lsrl14_b22s
+        .word   12, 12, .Lsrl14_b21
+.Lsrl14_b22s:
+        .word   .Lsrl_c4194304, 164, .Lsrl14_b22t
+.Lsrl14_b22t:
+        .word   .Lsrl_n256, 168, .Lsrl14_b21
+.Lsrl14_b21:
+        .word   172, 172, .Lsrl14_b21a
+.Lsrl14_b21a:
+        .word   12, 12, .Lsrl14_b21b
+.Lsrl14_b21b:
+        .word   164, 12, .Lsrl14_b21c
+.Lsrl14_b21c:
+        .word   12, 172, .Lsrl14_b21d
+.Lsrl14_b21d:
+        .word   .Lsrl_c2097152, 172, .Lsrl14_b21e
+.Lsrl14_b21e:
+        .word   176, 176, .Lsrl14_b21f
+.Lsrl14_b21f:
+        .word   172, 176, .Lsrl14_b21s
+        .word   12, 12, .Lsrl14_b20
+.Lsrl14_b21s:
+        .word   .Lsrl_c2097152, 164, .Lsrl14_b21t
+.Lsrl14_b21t:
+        .word   .Lsrl_n128, 168, .Lsrl14_b20
+.Lsrl14_b20:
+        .word   172, 172, .Lsrl14_b20a
+.Lsrl14_b20a:
+        .word   12, 12, .Lsrl14_b20b
+.Lsrl14_b20b:
+        .word   164, 12, .Lsrl14_b20c
+.Lsrl14_b20c:
+        .word   12, 172, .Lsrl14_b20d
+.Lsrl14_b20d:
+        .word   .Lsrl_c1048576, 172, .Lsrl14_b20e
+.Lsrl14_b20e:
+        .word   176, 176, .Lsrl14_b20f
+.Lsrl14_b20f:
+        .word   172, 176, .Lsrl14_b20s
+        .word   12, 12, .Lsrl14_b19
+.Lsrl14_b20s:
+        .word   .Lsrl_c1048576, 164, .Lsrl14_b20t
+.Lsrl14_b20t:
+        .word   .Lsrl_n64, 168, .Lsrl14_b19
+.Lsrl14_b19:
+        .word   172, 172, .Lsrl14_b19a
+.Lsrl14_b19a:
+        .word   12, 12, .Lsrl14_b19b
+.Lsrl14_b19b:
+        .word   164, 12, .Lsrl14_b19c
+.Lsrl14_b19c:
+        .word   12, 172, .Lsrl14_b19d
+.Lsrl14_b19d:
+        .word   .Lsrl_c524288, 172, .Lsrl14_b19e
+.Lsrl14_b19e:
+        .word   176, 176, .Lsrl14_b19f
+.Lsrl14_b19f:
+        .word   172, 176, .Lsrl14_b19s
+        .word   12, 12, .Lsrl14_b18
+.Lsrl14_b19s:
+        .word   .Lsrl_c524288, 164, .Lsrl14_b19t
+.Lsrl14_b19t:
+        .word   .Lsrl_n32, 168, .Lsrl14_b18
+.Lsrl14_b18:
+        .word   172, 172, .Lsrl14_b18a
+.Lsrl14_b18a:
+        .word   12, 12, .Lsrl14_b18b
+.Lsrl14_b18b:
+        .word   164, 12, .Lsrl14_b18c
+.Lsrl14_b18c:
+        .word   12, 172, .Lsrl14_b18d
+.Lsrl14_b18d:
+        .word   .Lsrl_c262144, 172, .Lsrl14_b18e
+.Lsrl14_b18e:
+        .word   176, 176, .Lsrl14_b18f
+.Lsrl14_b18f:
+        .word   172, 176, .Lsrl14_b18s
+        .word   12, 12, .Lsrl14_b17
+.Lsrl14_b18s:
+        .word   .Lsrl_c262144, 164, .Lsrl14_b18t
+.Lsrl14_b18t:
+        .word   .Lsrl_n16, 168, .Lsrl14_b17
+.Lsrl14_b17:
+        .word   172, 172, .Lsrl14_b17a
+.Lsrl14_b17a:
+        .word   12, 12, .Lsrl14_b17b
+.Lsrl14_b17b:
+        .word   164, 12, .Lsrl14_b17c
+.Lsrl14_b17c:
+        .word   12, 172, .Lsrl14_b17d
+.Lsrl14_b17d:
+        .word   .Lsrl_c131072, 172, .Lsrl14_b17e
+.Lsrl14_b17e:
+        .word   176, 176, .Lsrl14_b17f
+.Lsrl14_b17f:
+        .word   172, 176, .Lsrl14_b17s
+        .word   12, 12, .Lsrl14_b16
+.Lsrl14_b17s:
+        .word   .Lsrl_c131072, 164, .Lsrl14_b17t
+.Lsrl14_b17t:
+        .word   .Lsrl_n8, 168, .Lsrl14_b16
+.Lsrl14_b16:
+        .word   172, 172, .Lsrl14_b16a
+.Lsrl14_b16a:
+        .word   12, 12, .Lsrl14_b16b
+.Lsrl14_b16b:
+        .word   164, 12, .Lsrl14_b16c
+.Lsrl14_b16c:
+        .word   12, 172, .Lsrl14_b16d
+.Lsrl14_b16d:
+        .word   .Lsrl_c65536, 172, .Lsrl14_b16e
+.Lsrl14_b16e:
+        .word   176, 176, .Lsrl14_b16f
+.Lsrl14_b16f:
+        .word   172, 176, .Lsrl14_b16s
+        .word   12, 12, .Lsrl14_b15
+.Lsrl14_b16s:
+        .word   .Lsrl_c65536, 164, .Lsrl14_b16t
+.Lsrl14_b16t:
+        .word   .Lsrl_n4, 168, .Lsrl14_b15
+.Lsrl14_b15:
+        .word   172, 172, .Lsrl14_b15a
+.Lsrl14_b15a:
+        .word   12, 12, .Lsrl14_b15b
+.Lsrl14_b15b:
+        .word   164, 12, .Lsrl14_b15c
+.Lsrl14_b15c:
+        .word   12, 172, .Lsrl14_b15d
+.Lsrl14_b15d:
+        .word   .Lsrl_c32768, 172, .Lsrl14_b15e
+.Lsrl14_b15e:
+        .word   176, 176, .Lsrl14_b15f
+.Lsrl14_b15f:
+        .word   172, 176, .Lsrl14_b15s
+        .word   12, 12, .Lsrl14_b14
+.Lsrl14_b15s:
+        .word   .Lsrl_c32768, 164, .Lsrl14_b15t
+.Lsrl14_b15t:
+        .word   .Lsrl_n2, 168, .Lsrl14_b14
+.Lsrl14_b14:
+        .word   172, 172, .Lsrl14_b14a
+.Lsrl14_b14a:
+        .word   12, 12, .Lsrl14_b14b
+.Lsrl14_b14b:
+        .word   164, 12, .Lsrl14_b14c
+.Lsrl14_b14c:
+        .word   12, 172, .Lsrl14_b14d
+.Lsrl14_b14d:
+        .word   .Lsrl_c16384, 172, .Lsrl14_b14e
+.Lsrl14_b14e:
+        .word   176, 176, .Lsrl14_b14f
+.Lsrl14_b14f:
+        .word   172, 176, .Lsrl14_b14s
+        .word   12, 12, .Lsrl14_store
+.Lsrl14_b14s:
+        .word   .Lsrl_c16384, 164, .Lsrl14_b14t
+.Lsrl14_b14t:
+        .word   .Lsrl_n1, 168, .Lsrl14_store
+.Lsrl14_store:
+        .word   28, 28, .Lsrl14_st1
+.Lsrl14_st1:
+        .word   12, 12, .Lsrl14_st2
+.Lsrl14_st2:
+        .word   168, 12, .Lsrl14_st3
+.Lsrl14_st3:
+        .word   12, 28, .Lsrl14_st4
+.Lsrl14_st4:
+        .word   24, 24, .Lsrl_done
+
+.Lsrl_shift_15:
+        .word   168, 168, .Lsrl15_start
+.Lsrl15_start:
+.Lsrl15_b31:
+        .word   172, 172, .Lsrl15_b31a
+.Lsrl15_b31a:
+        .word   12, 12, .Lsrl15_b31b
+.Lsrl15_b31b:
+        .word   164, 12, .Lsrl15_b31c
+.Lsrl15_b31c:
+        .word   12, 172, .Lsrl15_b31d
+.Lsrl15_b31d:
+        .word   24, 172, .Lsrl15_b31_le0
+        .word   12, 12, .Lsrl15_b30
+.Lsrl15_b31_le0:
+        .word   176, 176, .Lsrl15_b31e
+.Lsrl15_b31e:
+        .word   164, 176, .Lsrl15_b31f
+.Lsrl15_b31f:
+        .word   24, 176, .Lsrl15_b31_ambig
+        .word   12, 12, .Lsrl15_b31s
+.Lsrl15_b31_ambig:
+        .word   172, 172, .Lsrl15_b31g
+.Lsrl15_b31g:
+        .word   164, 172, .Lsrl15_b31h
+.Lsrl15_b31h:
+        .word   .Lsrl_one, 172, .Lsrl15_b31i
+.Lsrl15_b31i:
+        .word   24, 172, .Lsrl15_b30
+        .word   12, 12, .Lsrl15_b31s
+.Lsrl15_b31s:
+        .word   .Lsrl_c2147483648, 164, .Lsrl15_b31t
+.Lsrl15_b31t:
+        .word   .Lsrl_n65536, 168, .Lsrl15_b30
+.Lsrl15_b30:
+        .word   172, 172, .Lsrl15_b30a
+.Lsrl15_b30a:
+        .word   12, 12, .Lsrl15_b30b
+.Lsrl15_b30b:
+        .word   164, 12, .Lsrl15_b30c
+.Lsrl15_b30c:
+        .word   12, 172, .Lsrl15_b30d
+.Lsrl15_b30d:
+        .word   .Lsrl_c1073741824, 172, .Lsrl15_b30e
+.Lsrl15_b30e:
+        .word   176, 176, .Lsrl15_b30f
+.Lsrl15_b30f:
+        .word   172, 176, .Lsrl15_b30s
+        .word   12, 12, .Lsrl15_b29
+.Lsrl15_b30s:
+        .word   .Lsrl_c1073741824, 164, .Lsrl15_b30t
+.Lsrl15_b30t:
+        .word   .Lsrl_n32768, 168, .Lsrl15_b29
+.Lsrl15_b29:
+        .word   172, 172, .Lsrl15_b29a
+.Lsrl15_b29a:
+        .word   12, 12, .Lsrl15_b29b
+.Lsrl15_b29b:
+        .word   164, 12, .Lsrl15_b29c
+.Lsrl15_b29c:
+        .word   12, 172, .Lsrl15_b29d
+.Lsrl15_b29d:
+        .word   .Lsrl_c536870912, 172, .Lsrl15_b29e
+.Lsrl15_b29e:
+        .word   176, 176, .Lsrl15_b29f
+.Lsrl15_b29f:
+        .word   172, 176, .Lsrl15_b29s
+        .word   12, 12, .Lsrl15_b28
+.Lsrl15_b29s:
+        .word   .Lsrl_c536870912, 164, .Lsrl15_b29t
+.Lsrl15_b29t:
+        .word   .Lsrl_n16384, 168, .Lsrl15_b28
+.Lsrl15_b28:
+        .word   172, 172, .Lsrl15_b28a
+.Lsrl15_b28a:
+        .word   12, 12, .Lsrl15_b28b
+.Lsrl15_b28b:
+        .word   164, 12, .Lsrl15_b28c
+.Lsrl15_b28c:
+        .word   12, 172, .Lsrl15_b28d
+.Lsrl15_b28d:
+        .word   .Lsrl_c268435456, 172, .Lsrl15_b28e
+.Lsrl15_b28e:
+        .word   176, 176, .Lsrl15_b28f
+.Lsrl15_b28f:
+        .word   172, 176, .Lsrl15_b28s
+        .word   12, 12, .Lsrl15_b27
+.Lsrl15_b28s:
+        .word   .Lsrl_c268435456, 164, .Lsrl15_b28t
+.Lsrl15_b28t:
+        .word   .Lsrl_n8192, 168, .Lsrl15_b27
+.Lsrl15_b27:
+        .word   172, 172, .Lsrl15_b27a
+.Lsrl15_b27a:
+        .word   12, 12, .Lsrl15_b27b
+.Lsrl15_b27b:
+        .word   164, 12, .Lsrl15_b27c
+.Lsrl15_b27c:
+        .word   12, 172, .Lsrl15_b27d
+.Lsrl15_b27d:
+        .word   .Lsrl_c134217728, 172, .Lsrl15_b27e
+.Lsrl15_b27e:
+        .word   176, 176, .Lsrl15_b27f
+.Lsrl15_b27f:
+        .word   172, 176, .Lsrl15_b27s
+        .word   12, 12, .Lsrl15_b26
+.Lsrl15_b27s:
+        .word   .Lsrl_c134217728, 164, .Lsrl15_b27t
+.Lsrl15_b27t:
+        .word   .Lsrl_n4096, 168, .Lsrl15_b26
+.Lsrl15_b26:
+        .word   172, 172, .Lsrl15_b26a
+.Lsrl15_b26a:
+        .word   12, 12, .Lsrl15_b26b
+.Lsrl15_b26b:
+        .word   164, 12, .Lsrl15_b26c
+.Lsrl15_b26c:
+        .word   12, 172, .Lsrl15_b26d
+.Lsrl15_b26d:
+        .word   .Lsrl_c67108864, 172, .Lsrl15_b26e
+.Lsrl15_b26e:
+        .word   176, 176, .Lsrl15_b26f
+.Lsrl15_b26f:
+        .word   172, 176, .Lsrl15_b26s
+        .word   12, 12, .Lsrl15_b25
+.Lsrl15_b26s:
+        .word   .Lsrl_c67108864, 164, .Lsrl15_b26t
+.Lsrl15_b26t:
+        .word   .Lsrl_n2048, 168, .Lsrl15_b25
+.Lsrl15_b25:
+        .word   172, 172, .Lsrl15_b25a
+.Lsrl15_b25a:
+        .word   12, 12, .Lsrl15_b25b
+.Lsrl15_b25b:
+        .word   164, 12, .Lsrl15_b25c
+.Lsrl15_b25c:
+        .word   12, 172, .Lsrl15_b25d
+.Lsrl15_b25d:
+        .word   .Lsrl_c33554432, 172, .Lsrl15_b25e
+.Lsrl15_b25e:
+        .word   176, 176, .Lsrl15_b25f
+.Lsrl15_b25f:
+        .word   172, 176, .Lsrl15_b25s
+        .word   12, 12, .Lsrl15_b24
+.Lsrl15_b25s:
+        .word   .Lsrl_c33554432, 164, .Lsrl15_b25t
+.Lsrl15_b25t:
+        .word   .Lsrl_n1024, 168, .Lsrl15_b24
+.Lsrl15_b24:
+        .word   172, 172, .Lsrl15_b24a
+.Lsrl15_b24a:
+        .word   12, 12, .Lsrl15_b24b
+.Lsrl15_b24b:
+        .word   164, 12, .Lsrl15_b24c
+.Lsrl15_b24c:
+        .word   12, 172, .Lsrl15_b24d
+.Lsrl15_b24d:
+        .word   .Lsrl_c16777216, 172, .Lsrl15_b24e
+.Lsrl15_b24e:
+        .word   176, 176, .Lsrl15_b24f
+.Lsrl15_b24f:
+        .word   172, 176, .Lsrl15_b24s
+        .word   12, 12, .Lsrl15_b23
+.Lsrl15_b24s:
+        .word   .Lsrl_c16777216, 164, .Lsrl15_b24t
+.Lsrl15_b24t:
+        .word   .Lsrl_n512, 168, .Lsrl15_b23
+.Lsrl15_b23:
+        .word   172, 172, .Lsrl15_b23a
+.Lsrl15_b23a:
+        .word   12, 12, .Lsrl15_b23b
+.Lsrl15_b23b:
+        .word   164, 12, .Lsrl15_b23c
+.Lsrl15_b23c:
+        .word   12, 172, .Lsrl15_b23d
+.Lsrl15_b23d:
+        .word   .Lsrl_c8388608, 172, .Lsrl15_b23e
+.Lsrl15_b23e:
+        .word   176, 176, .Lsrl15_b23f
+.Lsrl15_b23f:
+        .word   172, 176, .Lsrl15_b23s
+        .word   12, 12, .Lsrl15_b22
+.Lsrl15_b23s:
+        .word   .Lsrl_c8388608, 164, .Lsrl15_b23t
+.Lsrl15_b23t:
+        .word   .Lsrl_n256, 168, .Lsrl15_b22
+.Lsrl15_b22:
+        .word   172, 172, .Lsrl15_b22a
+.Lsrl15_b22a:
+        .word   12, 12, .Lsrl15_b22b
+.Lsrl15_b22b:
+        .word   164, 12, .Lsrl15_b22c
+.Lsrl15_b22c:
+        .word   12, 172, .Lsrl15_b22d
+.Lsrl15_b22d:
+        .word   .Lsrl_c4194304, 172, .Lsrl15_b22e
+.Lsrl15_b22e:
+        .word   176, 176, .Lsrl15_b22f
+.Lsrl15_b22f:
+        .word   172, 176, .Lsrl15_b22s
+        .word   12, 12, .Lsrl15_b21
+.Lsrl15_b22s:
+        .word   .Lsrl_c4194304, 164, .Lsrl15_b22t
+.Lsrl15_b22t:
+        .word   .Lsrl_n128, 168, .Lsrl15_b21
+.Lsrl15_b21:
+        .word   172, 172, .Lsrl15_b21a
+.Lsrl15_b21a:
+        .word   12, 12, .Lsrl15_b21b
+.Lsrl15_b21b:
+        .word   164, 12, .Lsrl15_b21c
+.Lsrl15_b21c:
+        .word   12, 172, .Lsrl15_b21d
+.Lsrl15_b21d:
+        .word   .Lsrl_c2097152, 172, .Lsrl15_b21e
+.Lsrl15_b21e:
+        .word   176, 176, .Lsrl15_b21f
+.Lsrl15_b21f:
+        .word   172, 176, .Lsrl15_b21s
+        .word   12, 12, .Lsrl15_b20
+.Lsrl15_b21s:
+        .word   .Lsrl_c2097152, 164, .Lsrl15_b21t
+.Lsrl15_b21t:
+        .word   .Lsrl_n64, 168, .Lsrl15_b20
+.Lsrl15_b20:
+        .word   172, 172, .Lsrl15_b20a
+.Lsrl15_b20a:
+        .word   12, 12, .Lsrl15_b20b
+.Lsrl15_b20b:
+        .word   164, 12, .Lsrl15_b20c
+.Lsrl15_b20c:
+        .word   12, 172, .Lsrl15_b20d
+.Lsrl15_b20d:
+        .word   .Lsrl_c1048576, 172, .Lsrl15_b20e
+.Lsrl15_b20e:
+        .word   176, 176, .Lsrl15_b20f
+.Lsrl15_b20f:
+        .word   172, 176, .Lsrl15_b20s
+        .word   12, 12, .Lsrl15_b19
+.Lsrl15_b20s:
+        .word   .Lsrl_c1048576, 164, .Lsrl15_b20t
+.Lsrl15_b20t:
+        .word   .Lsrl_n32, 168, .Lsrl15_b19
+.Lsrl15_b19:
+        .word   172, 172, .Lsrl15_b19a
+.Lsrl15_b19a:
+        .word   12, 12, .Lsrl15_b19b
+.Lsrl15_b19b:
+        .word   164, 12, .Lsrl15_b19c
+.Lsrl15_b19c:
+        .word   12, 172, .Lsrl15_b19d
+.Lsrl15_b19d:
+        .word   .Lsrl_c524288, 172, .Lsrl15_b19e
+.Lsrl15_b19e:
+        .word   176, 176, .Lsrl15_b19f
+.Lsrl15_b19f:
+        .word   172, 176, .Lsrl15_b19s
+        .word   12, 12, .Lsrl15_b18
+.Lsrl15_b19s:
+        .word   .Lsrl_c524288, 164, .Lsrl15_b19t
+.Lsrl15_b19t:
+        .word   .Lsrl_n16, 168, .Lsrl15_b18
+.Lsrl15_b18:
+        .word   172, 172, .Lsrl15_b18a
+.Lsrl15_b18a:
+        .word   12, 12, .Lsrl15_b18b
+.Lsrl15_b18b:
+        .word   164, 12, .Lsrl15_b18c
+.Lsrl15_b18c:
+        .word   12, 172, .Lsrl15_b18d
+.Lsrl15_b18d:
+        .word   .Lsrl_c262144, 172, .Lsrl15_b18e
+.Lsrl15_b18e:
+        .word   176, 176, .Lsrl15_b18f
+.Lsrl15_b18f:
+        .word   172, 176, .Lsrl15_b18s
+        .word   12, 12, .Lsrl15_b17
+.Lsrl15_b18s:
+        .word   .Lsrl_c262144, 164, .Lsrl15_b18t
+.Lsrl15_b18t:
+        .word   .Lsrl_n8, 168, .Lsrl15_b17
+.Lsrl15_b17:
+        .word   172, 172, .Lsrl15_b17a
+.Lsrl15_b17a:
+        .word   12, 12, .Lsrl15_b17b
+.Lsrl15_b17b:
+        .word   164, 12, .Lsrl15_b17c
+.Lsrl15_b17c:
+        .word   12, 172, .Lsrl15_b17d
+.Lsrl15_b17d:
+        .word   .Lsrl_c131072, 172, .Lsrl15_b17e
+.Lsrl15_b17e:
+        .word   176, 176, .Lsrl15_b17f
+.Lsrl15_b17f:
+        .word   172, 176, .Lsrl15_b17s
+        .word   12, 12, .Lsrl15_b16
+.Lsrl15_b17s:
+        .word   .Lsrl_c131072, 164, .Lsrl15_b17t
+.Lsrl15_b17t:
+        .word   .Lsrl_n4, 168, .Lsrl15_b16
+.Lsrl15_b16:
+        .word   172, 172, .Lsrl15_b16a
+.Lsrl15_b16a:
+        .word   12, 12, .Lsrl15_b16b
+.Lsrl15_b16b:
+        .word   164, 12, .Lsrl15_b16c
+.Lsrl15_b16c:
+        .word   12, 172, .Lsrl15_b16d
+.Lsrl15_b16d:
+        .word   .Lsrl_c65536, 172, .Lsrl15_b16e
+.Lsrl15_b16e:
+        .word   176, 176, .Lsrl15_b16f
+.Lsrl15_b16f:
+        .word   172, 176, .Lsrl15_b16s
+        .word   12, 12, .Lsrl15_b15
+.Lsrl15_b16s:
+        .word   .Lsrl_c65536, 164, .Lsrl15_b16t
+.Lsrl15_b16t:
+        .word   .Lsrl_n2, 168, .Lsrl15_b15
+.Lsrl15_b15:
+        .word   172, 172, .Lsrl15_b15a
+.Lsrl15_b15a:
+        .word   12, 12, .Lsrl15_b15b
+.Lsrl15_b15b:
+        .word   164, 12, .Lsrl15_b15c
+.Lsrl15_b15c:
+        .word   12, 172, .Lsrl15_b15d
+.Lsrl15_b15d:
+        .word   .Lsrl_c32768, 172, .Lsrl15_b15e
+.Lsrl15_b15e:
+        .word   176, 176, .Lsrl15_b15f
+.Lsrl15_b15f:
+        .word   172, 176, .Lsrl15_b15s
+        .word   12, 12, .Lsrl15_store
+.Lsrl15_b15s:
+        .word   .Lsrl_c32768, 164, .Lsrl15_b15t
+.Lsrl15_b15t:
+        .word   .Lsrl_n1, 168, .Lsrl15_store
+.Lsrl15_store:
+        .word   28, 28, .Lsrl15_st1
+.Lsrl15_st1:
+        .word   12, 12, .Lsrl15_st2
+.Lsrl15_st2:
+        .word   168, 12, .Lsrl15_st3
+.Lsrl15_st3:
+        .word   12, 28, .Lsrl15_st4
+.Lsrl15_st4:
+        .word   24, 24, .Lsrl_done
+
+.Lsrl_shift_16:
+        .word   168, 168, .Lsrl16_start
+.Lsrl16_start:
+.Lsrl16_b31:
+        .word   172, 172, .Lsrl16_b31a
+.Lsrl16_b31a:
+        .word   12, 12, .Lsrl16_b31b
+.Lsrl16_b31b:
+        .word   164, 12, .Lsrl16_b31c
+.Lsrl16_b31c:
+        .word   12, 172, .Lsrl16_b31d
+.Lsrl16_b31d:
+        .word   24, 172, .Lsrl16_b31_le0
+        .word   12, 12, .Lsrl16_b30
+.Lsrl16_b31_le0:
+        .word   176, 176, .Lsrl16_b31e
+.Lsrl16_b31e:
+        .word   164, 176, .Lsrl16_b31f
+.Lsrl16_b31f:
+        .word   24, 176, .Lsrl16_b31_ambig
+        .word   12, 12, .Lsrl16_b31s
+.Lsrl16_b31_ambig:
+        .word   172, 172, .Lsrl16_b31g
+.Lsrl16_b31g:
+        .word   164, 172, .Lsrl16_b31h
+.Lsrl16_b31h:
+        .word   .Lsrl_one, 172, .Lsrl16_b31i
+.Lsrl16_b31i:
+        .word   24, 172, .Lsrl16_b30
+        .word   12, 12, .Lsrl16_b31s
+.Lsrl16_b31s:
+        .word   .Lsrl_c2147483648, 164, .Lsrl16_b31t
+.Lsrl16_b31t:
+        .word   .Lsrl_n32768, 168, .Lsrl16_b30
+.Lsrl16_b30:
+        .word   172, 172, .Lsrl16_b30a
+.Lsrl16_b30a:
+        .word   12, 12, .Lsrl16_b30b
+.Lsrl16_b30b:
+        .word   164, 12, .Lsrl16_b30c
+.Lsrl16_b30c:
+        .word   12, 172, .Lsrl16_b30d
+.Lsrl16_b30d:
+        .word   .Lsrl_c1073741824, 172, .Lsrl16_b30e
+.Lsrl16_b30e:
+        .word   176, 176, .Lsrl16_b30f
+.Lsrl16_b30f:
+        .word   172, 176, .Lsrl16_b30s
+        .word   12, 12, .Lsrl16_b29
+.Lsrl16_b30s:
+        .word   .Lsrl_c1073741824, 164, .Lsrl16_b30t
+.Lsrl16_b30t:
+        .word   .Lsrl_n16384, 168, .Lsrl16_b29
+.Lsrl16_b29:
+        .word   172, 172, .Lsrl16_b29a
+.Lsrl16_b29a:
+        .word   12, 12, .Lsrl16_b29b
+.Lsrl16_b29b:
+        .word   164, 12, .Lsrl16_b29c
+.Lsrl16_b29c:
+        .word   12, 172, .Lsrl16_b29d
+.Lsrl16_b29d:
+        .word   .Lsrl_c536870912, 172, .Lsrl16_b29e
+.Lsrl16_b29e:
+        .word   176, 176, .Lsrl16_b29f
+.Lsrl16_b29f:
+        .word   172, 176, .Lsrl16_b29s
+        .word   12, 12, .Lsrl16_b28
+.Lsrl16_b29s:
+        .word   .Lsrl_c536870912, 164, .Lsrl16_b29t
+.Lsrl16_b29t:
+        .word   .Lsrl_n8192, 168, .Lsrl16_b28
+.Lsrl16_b28:
+        .word   172, 172, .Lsrl16_b28a
+.Lsrl16_b28a:
+        .word   12, 12, .Lsrl16_b28b
+.Lsrl16_b28b:
+        .word   164, 12, .Lsrl16_b28c
+.Lsrl16_b28c:
+        .word   12, 172, .Lsrl16_b28d
+.Lsrl16_b28d:
+        .word   .Lsrl_c268435456, 172, .Lsrl16_b28e
+.Lsrl16_b28e:
+        .word   176, 176, .Lsrl16_b28f
+.Lsrl16_b28f:
+        .word   172, 176, .Lsrl16_b28s
+        .word   12, 12, .Lsrl16_b27
+.Lsrl16_b28s:
+        .word   .Lsrl_c268435456, 164, .Lsrl16_b28t
+.Lsrl16_b28t:
+        .word   .Lsrl_n4096, 168, .Lsrl16_b27
+.Lsrl16_b27:
+        .word   172, 172, .Lsrl16_b27a
+.Lsrl16_b27a:
+        .word   12, 12, .Lsrl16_b27b
+.Lsrl16_b27b:
+        .word   164, 12, .Lsrl16_b27c
+.Lsrl16_b27c:
+        .word   12, 172, .Lsrl16_b27d
+.Lsrl16_b27d:
+        .word   .Lsrl_c134217728, 172, .Lsrl16_b27e
+.Lsrl16_b27e:
+        .word   176, 176, .Lsrl16_b27f
+.Lsrl16_b27f:
+        .word   172, 176, .Lsrl16_b27s
+        .word   12, 12, .Lsrl16_b26
+.Lsrl16_b27s:
+        .word   .Lsrl_c134217728, 164, .Lsrl16_b27t
+.Lsrl16_b27t:
+        .word   .Lsrl_n2048, 168, .Lsrl16_b26
+.Lsrl16_b26:
+        .word   172, 172, .Lsrl16_b26a
+.Lsrl16_b26a:
+        .word   12, 12, .Lsrl16_b26b
+.Lsrl16_b26b:
+        .word   164, 12, .Lsrl16_b26c
+.Lsrl16_b26c:
+        .word   12, 172, .Lsrl16_b26d
+.Lsrl16_b26d:
+        .word   .Lsrl_c67108864, 172, .Lsrl16_b26e
+.Lsrl16_b26e:
+        .word   176, 176, .Lsrl16_b26f
+.Lsrl16_b26f:
+        .word   172, 176, .Lsrl16_b26s
+        .word   12, 12, .Lsrl16_b25
+.Lsrl16_b26s:
+        .word   .Lsrl_c67108864, 164, .Lsrl16_b26t
+.Lsrl16_b26t:
+        .word   .Lsrl_n1024, 168, .Lsrl16_b25
+.Lsrl16_b25:
+        .word   172, 172, .Lsrl16_b25a
+.Lsrl16_b25a:
+        .word   12, 12, .Lsrl16_b25b
+.Lsrl16_b25b:
+        .word   164, 12, .Lsrl16_b25c
+.Lsrl16_b25c:
+        .word   12, 172, .Lsrl16_b25d
+.Lsrl16_b25d:
+        .word   .Lsrl_c33554432, 172, .Lsrl16_b25e
+.Lsrl16_b25e:
+        .word   176, 176, .Lsrl16_b25f
+.Lsrl16_b25f:
+        .word   172, 176, .Lsrl16_b25s
+        .word   12, 12, .Lsrl16_b24
+.Lsrl16_b25s:
+        .word   .Lsrl_c33554432, 164, .Lsrl16_b25t
+.Lsrl16_b25t:
+        .word   .Lsrl_n512, 168, .Lsrl16_b24
+.Lsrl16_b24:
+        .word   172, 172, .Lsrl16_b24a
+.Lsrl16_b24a:
+        .word   12, 12, .Lsrl16_b24b
+.Lsrl16_b24b:
+        .word   164, 12, .Lsrl16_b24c
+.Lsrl16_b24c:
+        .word   12, 172, .Lsrl16_b24d
+.Lsrl16_b24d:
+        .word   .Lsrl_c16777216, 172, .Lsrl16_b24e
+.Lsrl16_b24e:
+        .word   176, 176, .Lsrl16_b24f
+.Lsrl16_b24f:
+        .word   172, 176, .Lsrl16_b24s
+        .word   12, 12, .Lsrl16_b23
+.Lsrl16_b24s:
+        .word   .Lsrl_c16777216, 164, .Lsrl16_b24t
+.Lsrl16_b24t:
+        .word   .Lsrl_n256, 168, .Lsrl16_b23
+.Lsrl16_b23:
+        .word   172, 172, .Lsrl16_b23a
+.Lsrl16_b23a:
+        .word   12, 12, .Lsrl16_b23b
+.Lsrl16_b23b:
+        .word   164, 12, .Lsrl16_b23c
+.Lsrl16_b23c:
+        .word   12, 172, .Lsrl16_b23d
+.Lsrl16_b23d:
+        .word   .Lsrl_c8388608, 172, .Lsrl16_b23e
+.Lsrl16_b23e:
+        .word   176, 176, .Lsrl16_b23f
+.Lsrl16_b23f:
+        .word   172, 176, .Lsrl16_b23s
+        .word   12, 12, .Lsrl16_b22
+.Lsrl16_b23s:
+        .word   .Lsrl_c8388608, 164, .Lsrl16_b23t
+.Lsrl16_b23t:
+        .word   .Lsrl_n128, 168, .Lsrl16_b22
+.Lsrl16_b22:
+        .word   172, 172, .Lsrl16_b22a
+.Lsrl16_b22a:
+        .word   12, 12, .Lsrl16_b22b
+.Lsrl16_b22b:
+        .word   164, 12, .Lsrl16_b22c
+.Lsrl16_b22c:
+        .word   12, 172, .Lsrl16_b22d
+.Lsrl16_b22d:
+        .word   .Lsrl_c4194304, 172, .Lsrl16_b22e
+.Lsrl16_b22e:
+        .word   176, 176, .Lsrl16_b22f
+.Lsrl16_b22f:
+        .word   172, 176, .Lsrl16_b22s
+        .word   12, 12, .Lsrl16_b21
+.Lsrl16_b22s:
+        .word   .Lsrl_c4194304, 164, .Lsrl16_b22t
+.Lsrl16_b22t:
+        .word   .Lsrl_n64, 168, .Lsrl16_b21
+.Lsrl16_b21:
+        .word   172, 172, .Lsrl16_b21a
+.Lsrl16_b21a:
+        .word   12, 12, .Lsrl16_b21b
+.Lsrl16_b21b:
+        .word   164, 12, .Lsrl16_b21c
+.Lsrl16_b21c:
+        .word   12, 172, .Lsrl16_b21d
+.Lsrl16_b21d:
+        .word   .Lsrl_c2097152, 172, .Lsrl16_b21e
+.Lsrl16_b21e:
+        .word   176, 176, .Lsrl16_b21f
+.Lsrl16_b21f:
+        .word   172, 176, .Lsrl16_b21s
+        .word   12, 12, .Lsrl16_b20
+.Lsrl16_b21s:
+        .word   .Lsrl_c2097152, 164, .Lsrl16_b21t
+.Lsrl16_b21t:
+        .word   .Lsrl_n32, 168, .Lsrl16_b20
+.Lsrl16_b20:
+        .word   172, 172, .Lsrl16_b20a
+.Lsrl16_b20a:
+        .word   12, 12, .Lsrl16_b20b
+.Lsrl16_b20b:
+        .word   164, 12, .Lsrl16_b20c
+.Lsrl16_b20c:
+        .word   12, 172, .Lsrl16_b20d
+.Lsrl16_b20d:
+        .word   .Lsrl_c1048576, 172, .Lsrl16_b20e
+.Lsrl16_b20e:
+        .word   176, 176, .Lsrl16_b20f
+.Lsrl16_b20f:
+        .word   172, 176, .Lsrl16_b20s
+        .word   12, 12, .Lsrl16_b19
+.Lsrl16_b20s:
+        .word   .Lsrl_c1048576, 164, .Lsrl16_b20t
+.Lsrl16_b20t:
+        .word   .Lsrl_n16, 168, .Lsrl16_b19
+.Lsrl16_b19:
+        .word   172, 172, .Lsrl16_b19a
+.Lsrl16_b19a:
+        .word   12, 12, .Lsrl16_b19b
+.Lsrl16_b19b:
+        .word   164, 12, .Lsrl16_b19c
+.Lsrl16_b19c:
+        .word   12, 172, .Lsrl16_b19d
+.Lsrl16_b19d:
+        .word   .Lsrl_c524288, 172, .Lsrl16_b19e
+.Lsrl16_b19e:
+        .word   176, 176, .Lsrl16_b19f
+.Lsrl16_b19f:
+        .word   172, 176, .Lsrl16_b19s
+        .word   12, 12, .Lsrl16_b18
+.Lsrl16_b19s:
+        .word   .Lsrl_c524288, 164, .Lsrl16_b19t
+.Lsrl16_b19t:
+        .word   .Lsrl_n8, 168, .Lsrl16_b18
+.Lsrl16_b18:
+        .word   172, 172, .Lsrl16_b18a
+.Lsrl16_b18a:
+        .word   12, 12, .Lsrl16_b18b
+.Lsrl16_b18b:
+        .word   164, 12, .Lsrl16_b18c
+.Lsrl16_b18c:
+        .word   12, 172, .Lsrl16_b18d
+.Lsrl16_b18d:
+        .word   .Lsrl_c262144, 172, .Lsrl16_b18e
+.Lsrl16_b18e:
+        .word   176, 176, .Lsrl16_b18f
+.Lsrl16_b18f:
+        .word   172, 176, .Lsrl16_b18s
+        .word   12, 12, .Lsrl16_b17
+.Lsrl16_b18s:
+        .word   .Lsrl_c262144, 164, .Lsrl16_b18t
+.Lsrl16_b18t:
+        .word   .Lsrl_n4, 168, .Lsrl16_b17
+.Lsrl16_b17:
+        .word   172, 172, .Lsrl16_b17a
+.Lsrl16_b17a:
+        .word   12, 12, .Lsrl16_b17b
+.Lsrl16_b17b:
+        .word   164, 12, .Lsrl16_b17c
+.Lsrl16_b17c:
+        .word   12, 172, .Lsrl16_b17d
+.Lsrl16_b17d:
+        .word   .Lsrl_c131072, 172, .Lsrl16_b17e
+.Lsrl16_b17e:
+        .word   176, 176, .Lsrl16_b17f
+.Lsrl16_b17f:
+        .word   172, 176, .Lsrl16_b17s
+        .word   12, 12, .Lsrl16_b16
+.Lsrl16_b17s:
+        .word   .Lsrl_c131072, 164, .Lsrl16_b17t
+.Lsrl16_b17t:
+        .word   .Lsrl_n2, 168, .Lsrl16_b16
+.Lsrl16_b16:
+        .word   172, 172, .Lsrl16_b16a
+.Lsrl16_b16a:
+        .word   12, 12, .Lsrl16_b16b
+.Lsrl16_b16b:
+        .word   164, 12, .Lsrl16_b16c
+.Lsrl16_b16c:
+        .word   12, 172, .Lsrl16_b16d
+.Lsrl16_b16d:
+        .word   .Lsrl_c65536, 172, .Lsrl16_b16e
+.Lsrl16_b16e:
+        .word   176, 176, .Lsrl16_b16f
+.Lsrl16_b16f:
+        .word   172, 176, .Lsrl16_b16s
+        .word   12, 12, .Lsrl16_store
+.Lsrl16_b16s:
+        .word   .Lsrl_c65536, 164, .Lsrl16_b16t
+.Lsrl16_b16t:
+        .word   .Lsrl_n1, 168, .Lsrl16_store
+.Lsrl16_store:
+        .word   28, 28, .Lsrl16_st1
+.Lsrl16_st1:
+        .word   12, 12, .Lsrl16_st2
+.Lsrl16_st2:
+        .word   168, 12, .Lsrl16_st3
+.Lsrl16_st3:
+        .word   12, 28, .Lsrl16_st4
+.Lsrl16_st4:
+        .word   24, 24, .Lsrl_done
+
+.Lsrl_shift_17:
+        .word   168, 168, .Lsrl17_start
+.Lsrl17_start:
+.Lsrl17_b31:
+        .word   172, 172, .Lsrl17_b31a
+.Lsrl17_b31a:
+        .word   12, 12, .Lsrl17_b31b
+.Lsrl17_b31b:
+        .word   164, 12, .Lsrl17_b31c
+.Lsrl17_b31c:
+        .word   12, 172, .Lsrl17_b31d
+.Lsrl17_b31d:
+        .word   24, 172, .Lsrl17_b31_le0
+        .word   12, 12, .Lsrl17_b30
+.Lsrl17_b31_le0:
+        .word   176, 176, .Lsrl17_b31e
+.Lsrl17_b31e:
+        .word   164, 176, .Lsrl17_b31f
+.Lsrl17_b31f:
+        .word   24, 176, .Lsrl17_b31_ambig
+        .word   12, 12, .Lsrl17_b31s
+.Lsrl17_b31_ambig:
+        .word   172, 172, .Lsrl17_b31g
+.Lsrl17_b31g:
+        .word   164, 172, .Lsrl17_b31h
+.Lsrl17_b31h:
+        .word   .Lsrl_one, 172, .Lsrl17_b31i
+.Lsrl17_b31i:
+        .word   24, 172, .Lsrl17_b30
+        .word   12, 12, .Lsrl17_b31s
+.Lsrl17_b31s:
+        .word   .Lsrl_c2147483648, 164, .Lsrl17_b31t
+.Lsrl17_b31t:
+        .word   .Lsrl_n16384, 168, .Lsrl17_b30
+.Lsrl17_b30:
+        .word   172, 172, .Lsrl17_b30a
+.Lsrl17_b30a:
+        .word   12, 12, .Lsrl17_b30b
+.Lsrl17_b30b:
+        .word   164, 12, .Lsrl17_b30c
+.Lsrl17_b30c:
+        .word   12, 172, .Lsrl17_b30d
+.Lsrl17_b30d:
+        .word   .Lsrl_c1073741824, 172, .Lsrl17_b30e
+.Lsrl17_b30e:
+        .word   176, 176, .Lsrl17_b30f
+.Lsrl17_b30f:
+        .word   172, 176, .Lsrl17_b30s
+        .word   12, 12, .Lsrl17_b29
+.Lsrl17_b30s:
+        .word   .Lsrl_c1073741824, 164, .Lsrl17_b30t
+.Lsrl17_b30t:
+        .word   .Lsrl_n8192, 168, .Lsrl17_b29
+.Lsrl17_b29:
+        .word   172, 172, .Lsrl17_b29a
+.Lsrl17_b29a:
+        .word   12, 12, .Lsrl17_b29b
+.Lsrl17_b29b:
+        .word   164, 12, .Lsrl17_b29c
+.Lsrl17_b29c:
+        .word   12, 172, .Lsrl17_b29d
+.Lsrl17_b29d:
+        .word   .Lsrl_c536870912, 172, .Lsrl17_b29e
+.Lsrl17_b29e:
+        .word   176, 176, .Lsrl17_b29f
+.Lsrl17_b29f:
+        .word   172, 176, .Lsrl17_b29s
+        .word   12, 12, .Lsrl17_b28
+.Lsrl17_b29s:
+        .word   .Lsrl_c536870912, 164, .Lsrl17_b29t
+.Lsrl17_b29t:
+        .word   .Lsrl_n4096, 168, .Lsrl17_b28
+.Lsrl17_b28:
+        .word   172, 172, .Lsrl17_b28a
+.Lsrl17_b28a:
+        .word   12, 12, .Lsrl17_b28b
+.Lsrl17_b28b:
+        .word   164, 12, .Lsrl17_b28c
+.Lsrl17_b28c:
+        .word   12, 172, .Lsrl17_b28d
+.Lsrl17_b28d:
+        .word   .Lsrl_c268435456, 172, .Lsrl17_b28e
+.Lsrl17_b28e:
+        .word   176, 176, .Lsrl17_b28f
+.Lsrl17_b28f:
+        .word   172, 176, .Lsrl17_b28s
+        .word   12, 12, .Lsrl17_b27
+.Lsrl17_b28s:
+        .word   .Lsrl_c268435456, 164, .Lsrl17_b28t
+.Lsrl17_b28t:
+        .word   .Lsrl_n2048, 168, .Lsrl17_b27
+.Lsrl17_b27:
+        .word   172, 172, .Lsrl17_b27a
+.Lsrl17_b27a:
+        .word   12, 12, .Lsrl17_b27b
+.Lsrl17_b27b:
+        .word   164, 12, .Lsrl17_b27c
+.Lsrl17_b27c:
+        .word   12, 172, .Lsrl17_b27d
+.Lsrl17_b27d:
+        .word   .Lsrl_c134217728, 172, .Lsrl17_b27e
+.Lsrl17_b27e:
+        .word   176, 176, .Lsrl17_b27f
+.Lsrl17_b27f:
+        .word   172, 176, .Lsrl17_b27s
+        .word   12, 12, .Lsrl17_b26
+.Lsrl17_b27s:
+        .word   .Lsrl_c134217728, 164, .Lsrl17_b27t
+.Lsrl17_b27t:
+        .word   .Lsrl_n1024, 168, .Lsrl17_b26
+.Lsrl17_b26:
+        .word   172, 172, .Lsrl17_b26a
+.Lsrl17_b26a:
+        .word   12, 12, .Lsrl17_b26b
+.Lsrl17_b26b:
+        .word   164, 12, .Lsrl17_b26c
+.Lsrl17_b26c:
+        .word   12, 172, .Lsrl17_b26d
+.Lsrl17_b26d:
+        .word   .Lsrl_c67108864, 172, .Lsrl17_b26e
+.Lsrl17_b26e:
+        .word   176, 176, .Lsrl17_b26f
+.Lsrl17_b26f:
+        .word   172, 176, .Lsrl17_b26s
+        .word   12, 12, .Lsrl17_b25
+.Lsrl17_b26s:
+        .word   .Lsrl_c67108864, 164, .Lsrl17_b26t
+.Lsrl17_b26t:
+        .word   .Lsrl_n512, 168, .Lsrl17_b25
+.Lsrl17_b25:
+        .word   172, 172, .Lsrl17_b25a
+.Lsrl17_b25a:
+        .word   12, 12, .Lsrl17_b25b
+.Lsrl17_b25b:
+        .word   164, 12, .Lsrl17_b25c
+.Lsrl17_b25c:
+        .word   12, 172, .Lsrl17_b25d
+.Lsrl17_b25d:
+        .word   .Lsrl_c33554432, 172, .Lsrl17_b25e
+.Lsrl17_b25e:
+        .word   176, 176, .Lsrl17_b25f
+.Lsrl17_b25f:
+        .word   172, 176, .Lsrl17_b25s
+        .word   12, 12, .Lsrl17_b24
+.Lsrl17_b25s:
+        .word   .Lsrl_c33554432, 164, .Lsrl17_b25t
+.Lsrl17_b25t:
+        .word   .Lsrl_n256, 168, .Lsrl17_b24
+.Lsrl17_b24:
+        .word   172, 172, .Lsrl17_b24a
+.Lsrl17_b24a:
+        .word   12, 12, .Lsrl17_b24b
+.Lsrl17_b24b:
+        .word   164, 12, .Lsrl17_b24c
+.Lsrl17_b24c:
+        .word   12, 172, .Lsrl17_b24d
+.Lsrl17_b24d:
+        .word   .Lsrl_c16777216, 172, .Lsrl17_b24e
+.Lsrl17_b24e:
+        .word   176, 176, .Lsrl17_b24f
+.Lsrl17_b24f:
+        .word   172, 176, .Lsrl17_b24s
+        .word   12, 12, .Lsrl17_b23
+.Lsrl17_b24s:
+        .word   .Lsrl_c16777216, 164, .Lsrl17_b24t
+.Lsrl17_b24t:
+        .word   .Lsrl_n128, 168, .Lsrl17_b23
+.Lsrl17_b23:
+        .word   172, 172, .Lsrl17_b23a
+.Lsrl17_b23a:
+        .word   12, 12, .Lsrl17_b23b
+.Lsrl17_b23b:
+        .word   164, 12, .Lsrl17_b23c
+.Lsrl17_b23c:
+        .word   12, 172, .Lsrl17_b23d
+.Lsrl17_b23d:
+        .word   .Lsrl_c8388608, 172, .Lsrl17_b23e
+.Lsrl17_b23e:
+        .word   176, 176, .Lsrl17_b23f
+.Lsrl17_b23f:
+        .word   172, 176, .Lsrl17_b23s
+        .word   12, 12, .Lsrl17_b22
+.Lsrl17_b23s:
+        .word   .Lsrl_c8388608, 164, .Lsrl17_b23t
+.Lsrl17_b23t:
+        .word   .Lsrl_n64, 168, .Lsrl17_b22
+.Lsrl17_b22:
+        .word   172, 172, .Lsrl17_b22a
+.Lsrl17_b22a:
+        .word   12, 12, .Lsrl17_b22b
+.Lsrl17_b22b:
+        .word   164, 12, .Lsrl17_b22c
+.Lsrl17_b22c:
+        .word   12, 172, .Lsrl17_b22d
+.Lsrl17_b22d:
+        .word   .Lsrl_c4194304, 172, .Lsrl17_b22e
+.Lsrl17_b22e:
+        .word   176, 176, .Lsrl17_b22f
+.Lsrl17_b22f:
+        .word   172, 176, .Lsrl17_b22s
+        .word   12, 12, .Lsrl17_b21
+.Lsrl17_b22s:
+        .word   .Lsrl_c4194304, 164, .Lsrl17_b22t
+.Lsrl17_b22t:
+        .word   .Lsrl_n32, 168, .Lsrl17_b21
+.Lsrl17_b21:
+        .word   172, 172, .Lsrl17_b21a
+.Lsrl17_b21a:
+        .word   12, 12, .Lsrl17_b21b
+.Lsrl17_b21b:
+        .word   164, 12, .Lsrl17_b21c
+.Lsrl17_b21c:
+        .word   12, 172, .Lsrl17_b21d
+.Lsrl17_b21d:
+        .word   .Lsrl_c2097152, 172, .Lsrl17_b21e
+.Lsrl17_b21e:
+        .word   176, 176, .Lsrl17_b21f
+.Lsrl17_b21f:
+        .word   172, 176, .Lsrl17_b21s
+        .word   12, 12, .Lsrl17_b20
+.Lsrl17_b21s:
+        .word   .Lsrl_c2097152, 164, .Lsrl17_b21t
+.Lsrl17_b21t:
+        .word   .Lsrl_n16, 168, .Lsrl17_b20
+.Lsrl17_b20:
+        .word   172, 172, .Lsrl17_b20a
+.Lsrl17_b20a:
+        .word   12, 12, .Lsrl17_b20b
+.Lsrl17_b20b:
+        .word   164, 12, .Lsrl17_b20c
+.Lsrl17_b20c:
+        .word   12, 172, .Lsrl17_b20d
+.Lsrl17_b20d:
+        .word   .Lsrl_c1048576, 172, .Lsrl17_b20e
+.Lsrl17_b20e:
+        .word   176, 176, .Lsrl17_b20f
+.Lsrl17_b20f:
+        .word   172, 176, .Lsrl17_b20s
+        .word   12, 12, .Lsrl17_b19
+.Lsrl17_b20s:
+        .word   .Lsrl_c1048576, 164, .Lsrl17_b20t
+.Lsrl17_b20t:
+        .word   .Lsrl_n8, 168, .Lsrl17_b19
+.Lsrl17_b19:
+        .word   172, 172, .Lsrl17_b19a
+.Lsrl17_b19a:
+        .word   12, 12, .Lsrl17_b19b
+.Lsrl17_b19b:
+        .word   164, 12, .Lsrl17_b19c
+.Lsrl17_b19c:
+        .word   12, 172, .Lsrl17_b19d
+.Lsrl17_b19d:
+        .word   .Lsrl_c524288, 172, .Lsrl17_b19e
+.Lsrl17_b19e:
+        .word   176, 176, .Lsrl17_b19f
+.Lsrl17_b19f:
+        .word   172, 176, .Lsrl17_b19s
+        .word   12, 12, .Lsrl17_b18
+.Lsrl17_b19s:
+        .word   .Lsrl_c524288, 164, .Lsrl17_b19t
+.Lsrl17_b19t:
+        .word   .Lsrl_n4, 168, .Lsrl17_b18
+.Lsrl17_b18:
+        .word   172, 172, .Lsrl17_b18a
+.Lsrl17_b18a:
+        .word   12, 12, .Lsrl17_b18b
+.Lsrl17_b18b:
+        .word   164, 12, .Lsrl17_b18c
+.Lsrl17_b18c:
+        .word   12, 172, .Lsrl17_b18d
+.Lsrl17_b18d:
+        .word   .Lsrl_c262144, 172, .Lsrl17_b18e
+.Lsrl17_b18e:
+        .word   176, 176, .Lsrl17_b18f
+.Lsrl17_b18f:
+        .word   172, 176, .Lsrl17_b18s
+        .word   12, 12, .Lsrl17_b17
+.Lsrl17_b18s:
+        .word   .Lsrl_c262144, 164, .Lsrl17_b18t
+.Lsrl17_b18t:
+        .word   .Lsrl_n2, 168, .Lsrl17_b17
+.Lsrl17_b17:
+        .word   172, 172, .Lsrl17_b17a
+.Lsrl17_b17a:
+        .word   12, 12, .Lsrl17_b17b
+.Lsrl17_b17b:
+        .word   164, 12, .Lsrl17_b17c
+.Lsrl17_b17c:
+        .word   12, 172, .Lsrl17_b17d
+.Lsrl17_b17d:
+        .word   .Lsrl_c131072, 172, .Lsrl17_b17e
+.Lsrl17_b17e:
+        .word   176, 176, .Lsrl17_b17f
+.Lsrl17_b17f:
+        .word   172, 176, .Lsrl17_b17s
+        .word   12, 12, .Lsrl17_store
+.Lsrl17_b17s:
+        .word   .Lsrl_c131072, 164, .Lsrl17_b17t
+.Lsrl17_b17t:
+        .word   .Lsrl_n1, 168, .Lsrl17_store
+.Lsrl17_store:
+        .word   28, 28, .Lsrl17_st1
+.Lsrl17_st1:
+        .word   12, 12, .Lsrl17_st2
+.Lsrl17_st2:
+        .word   168, 12, .Lsrl17_st3
+.Lsrl17_st3:
+        .word   12, 28, .Lsrl17_st4
+.Lsrl17_st4:
+        .word   24, 24, .Lsrl_done
+
+.Lsrl_shift_18:
+        .word   168, 168, .Lsrl18_start
+.Lsrl18_start:
+.Lsrl18_b31:
+        .word   172, 172, .Lsrl18_b31a
+.Lsrl18_b31a:
+        .word   12, 12, .Lsrl18_b31b
+.Lsrl18_b31b:
+        .word   164, 12, .Lsrl18_b31c
+.Lsrl18_b31c:
+        .word   12, 172, .Lsrl18_b31d
+.Lsrl18_b31d:
+        .word   24, 172, .Lsrl18_b31_le0
+        .word   12, 12, .Lsrl18_b30
+.Lsrl18_b31_le0:
+        .word   176, 176, .Lsrl18_b31e
+.Lsrl18_b31e:
+        .word   164, 176, .Lsrl18_b31f
+.Lsrl18_b31f:
+        .word   24, 176, .Lsrl18_b31_ambig
+        .word   12, 12, .Lsrl18_b31s
+.Lsrl18_b31_ambig:
+        .word   172, 172, .Lsrl18_b31g
+.Lsrl18_b31g:
+        .word   164, 172, .Lsrl18_b31h
+.Lsrl18_b31h:
+        .word   .Lsrl_one, 172, .Lsrl18_b31i
+.Lsrl18_b31i:
+        .word   24, 172, .Lsrl18_b30
+        .word   12, 12, .Lsrl18_b31s
+.Lsrl18_b31s:
+        .word   .Lsrl_c2147483648, 164, .Lsrl18_b31t
+.Lsrl18_b31t:
+        .word   .Lsrl_n8192, 168, .Lsrl18_b30
+.Lsrl18_b30:
+        .word   172, 172, .Lsrl18_b30a
+.Lsrl18_b30a:
+        .word   12, 12, .Lsrl18_b30b
+.Lsrl18_b30b:
+        .word   164, 12, .Lsrl18_b30c
+.Lsrl18_b30c:
+        .word   12, 172, .Lsrl18_b30d
+.Lsrl18_b30d:
+        .word   .Lsrl_c1073741824, 172, .Lsrl18_b30e
+.Lsrl18_b30e:
+        .word   176, 176, .Lsrl18_b30f
+.Lsrl18_b30f:
+        .word   172, 176, .Lsrl18_b30s
+        .word   12, 12, .Lsrl18_b29
+.Lsrl18_b30s:
+        .word   .Lsrl_c1073741824, 164, .Lsrl18_b30t
+.Lsrl18_b30t:
+        .word   .Lsrl_n4096, 168, .Lsrl18_b29
+.Lsrl18_b29:
+        .word   172, 172, .Lsrl18_b29a
+.Lsrl18_b29a:
+        .word   12, 12, .Lsrl18_b29b
+.Lsrl18_b29b:
+        .word   164, 12, .Lsrl18_b29c
+.Lsrl18_b29c:
+        .word   12, 172, .Lsrl18_b29d
+.Lsrl18_b29d:
+        .word   .Lsrl_c536870912, 172, .Lsrl18_b29e
+.Lsrl18_b29e:
+        .word   176, 176, .Lsrl18_b29f
+.Lsrl18_b29f:
+        .word   172, 176, .Lsrl18_b29s
+        .word   12, 12, .Lsrl18_b28
+.Lsrl18_b29s:
+        .word   .Lsrl_c536870912, 164, .Lsrl18_b29t
+.Lsrl18_b29t:
+        .word   .Lsrl_n2048, 168, .Lsrl18_b28
+.Lsrl18_b28:
+        .word   172, 172, .Lsrl18_b28a
+.Lsrl18_b28a:
+        .word   12, 12, .Lsrl18_b28b
+.Lsrl18_b28b:
+        .word   164, 12, .Lsrl18_b28c
+.Lsrl18_b28c:
+        .word   12, 172, .Lsrl18_b28d
+.Lsrl18_b28d:
+        .word   .Lsrl_c268435456, 172, .Lsrl18_b28e
+.Lsrl18_b28e:
+        .word   176, 176, .Lsrl18_b28f
+.Lsrl18_b28f:
+        .word   172, 176, .Lsrl18_b28s
+        .word   12, 12, .Lsrl18_b27
+.Lsrl18_b28s:
+        .word   .Lsrl_c268435456, 164, .Lsrl18_b28t
+.Lsrl18_b28t:
+        .word   .Lsrl_n1024, 168, .Lsrl18_b27
+.Lsrl18_b27:
+        .word   172, 172, .Lsrl18_b27a
+.Lsrl18_b27a:
+        .word   12, 12, .Lsrl18_b27b
+.Lsrl18_b27b:
+        .word   164, 12, .Lsrl18_b27c
+.Lsrl18_b27c:
+        .word   12, 172, .Lsrl18_b27d
+.Lsrl18_b27d:
+        .word   .Lsrl_c134217728, 172, .Lsrl18_b27e
+.Lsrl18_b27e:
+        .word   176, 176, .Lsrl18_b27f
+.Lsrl18_b27f:
+        .word   172, 176, .Lsrl18_b27s
+        .word   12, 12, .Lsrl18_b26
+.Lsrl18_b27s:
+        .word   .Lsrl_c134217728, 164, .Lsrl18_b27t
+.Lsrl18_b27t:
+        .word   .Lsrl_n512, 168, .Lsrl18_b26
+.Lsrl18_b26:
+        .word   172, 172, .Lsrl18_b26a
+.Lsrl18_b26a:
+        .word   12, 12, .Lsrl18_b26b
+.Lsrl18_b26b:
+        .word   164, 12, .Lsrl18_b26c
+.Lsrl18_b26c:
+        .word   12, 172, .Lsrl18_b26d
+.Lsrl18_b26d:
+        .word   .Lsrl_c67108864, 172, .Lsrl18_b26e
+.Lsrl18_b26e:
+        .word   176, 176, .Lsrl18_b26f
+.Lsrl18_b26f:
+        .word   172, 176, .Lsrl18_b26s
+        .word   12, 12, .Lsrl18_b25
+.Lsrl18_b26s:
+        .word   .Lsrl_c67108864, 164, .Lsrl18_b26t
+.Lsrl18_b26t:
+        .word   .Lsrl_n256, 168, .Lsrl18_b25
+.Lsrl18_b25:
+        .word   172, 172, .Lsrl18_b25a
+.Lsrl18_b25a:
+        .word   12, 12, .Lsrl18_b25b
+.Lsrl18_b25b:
+        .word   164, 12, .Lsrl18_b25c
+.Lsrl18_b25c:
+        .word   12, 172, .Lsrl18_b25d
+.Lsrl18_b25d:
+        .word   .Lsrl_c33554432, 172, .Lsrl18_b25e
+.Lsrl18_b25e:
+        .word   176, 176, .Lsrl18_b25f
+.Lsrl18_b25f:
+        .word   172, 176, .Lsrl18_b25s
+        .word   12, 12, .Lsrl18_b24
+.Lsrl18_b25s:
+        .word   .Lsrl_c33554432, 164, .Lsrl18_b25t
+.Lsrl18_b25t:
+        .word   .Lsrl_n128, 168, .Lsrl18_b24
+.Lsrl18_b24:
+        .word   172, 172, .Lsrl18_b24a
+.Lsrl18_b24a:
+        .word   12, 12, .Lsrl18_b24b
+.Lsrl18_b24b:
+        .word   164, 12, .Lsrl18_b24c
+.Lsrl18_b24c:
+        .word   12, 172, .Lsrl18_b24d
+.Lsrl18_b24d:
+        .word   .Lsrl_c16777216, 172, .Lsrl18_b24e
+.Lsrl18_b24e:
+        .word   176, 176, .Lsrl18_b24f
+.Lsrl18_b24f:
+        .word   172, 176, .Lsrl18_b24s
+        .word   12, 12, .Lsrl18_b23
+.Lsrl18_b24s:
+        .word   .Lsrl_c16777216, 164, .Lsrl18_b24t
+.Lsrl18_b24t:
+        .word   .Lsrl_n64, 168, .Lsrl18_b23
+.Lsrl18_b23:
+        .word   172, 172, .Lsrl18_b23a
+.Lsrl18_b23a:
+        .word   12, 12, .Lsrl18_b23b
+.Lsrl18_b23b:
+        .word   164, 12, .Lsrl18_b23c
+.Lsrl18_b23c:
+        .word   12, 172, .Lsrl18_b23d
+.Lsrl18_b23d:
+        .word   .Lsrl_c8388608, 172, .Lsrl18_b23e
+.Lsrl18_b23e:
+        .word   176, 176, .Lsrl18_b23f
+.Lsrl18_b23f:
+        .word   172, 176, .Lsrl18_b23s
+        .word   12, 12, .Lsrl18_b22
+.Lsrl18_b23s:
+        .word   .Lsrl_c8388608, 164, .Lsrl18_b23t
+.Lsrl18_b23t:
+        .word   .Lsrl_n32, 168, .Lsrl18_b22
+.Lsrl18_b22:
+        .word   172, 172, .Lsrl18_b22a
+.Lsrl18_b22a:
+        .word   12, 12, .Lsrl18_b22b
+.Lsrl18_b22b:
+        .word   164, 12, .Lsrl18_b22c
+.Lsrl18_b22c:
+        .word   12, 172, .Lsrl18_b22d
+.Lsrl18_b22d:
+        .word   .Lsrl_c4194304, 172, .Lsrl18_b22e
+.Lsrl18_b22e:
+        .word   176, 176, .Lsrl18_b22f
+.Lsrl18_b22f:
+        .word   172, 176, .Lsrl18_b22s
+        .word   12, 12, .Lsrl18_b21
+.Lsrl18_b22s:
+        .word   .Lsrl_c4194304, 164, .Lsrl18_b22t
+.Lsrl18_b22t:
+        .word   .Lsrl_n16, 168, .Lsrl18_b21
+.Lsrl18_b21:
+        .word   172, 172, .Lsrl18_b21a
+.Lsrl18_b21a:
+        .word   12, 12, .Lsrl18_b21b
+.Lsrl18_b21b:
+        .word   164, 12, .Lsrl18_b21c
+.Lsrl18_b21c:
+        .word   12, 172, .Lsrl18_b21d
+.Lsrl18_b21d:
+        .word   .Lsrl_c2097152, 172, .Lsrl18_b21e
+.Lsrl18_b21e:
+        .word   176, 176, .Lsrl18_b21f
+.Lsrl18_b21f:
+        .word   172, 176, .Lsrl18_b21s
+        .word   12, 12, .Lsrl18_b20
+.Lsrl18_b21s:
+        .word   .Lsrl_c2097152, 164, .Lsrl18_b21t
+.Lsrl18_b21t:
+        .word   .Lsrl_n8, 168, .Lsrl18_b20
+.Lsrl18_b20:
+        .word   172, 172, .Lsrl18_b20a
+.Lsrl18_b20a:
+        .word   12, 12, .Lsrl18_b20b
+.Lsrl18_b20b:
+        .word   164, 12, .Lsrl18_b20c
+.Lsrl18_b20c:
+        .word   12, 172, .Lsrl18_b20d
+.Lsrl18_b20d:
+        .word   .Lsrl_c1048576, 172, .Lsrl18_b20e
+.Lsrl18_b20e:
+        .word   176, 176, .Lsrl18_b20f
+.Lsrl18_b20f:
+        .word   172, 176, .Lsrl18_b20s
+        .word   12, 12, .Lsrl18_b19
+.Lsrl18_b20s:
+        .word   .Lsrl_c1048576, 164, .Lsrl18_b20t
+.Lsrl18_b20t:
+        .word   .Lsrl_n4, 168, .Lsrl18_b19
+.Lsrl18_b19:
+        .word   172, 172, .Lsrl18_b19a
+.Lsrl18_b19a:
+        .word   12, 12, .Lsrl18_b19b
+.Lsrl18_b19b:
+        .word   164, 12, .Lsrl18_b19c
+.Lsrl18_b19c:
+        .word   12, 172, .Lsrl18_b19d
+.Lsrl18_b19d:
+        .word   .Lsrl_c524288, 172, .Lsrl18_b19e
+.Lsrl18_b19e:
+        .word   176, 176, .Lsrl18_b19f
+.Lsrl18_b19f:
+        .word   172, 176, .Lsrl18_b19s
+        .word   12, 12, .Lsrl18_b18
+.Lsrl18_b19s:
+        .word   .Lsrl_c524288, 164, .Lsrl18_b19t
+.Lsrl18_b19t:
+        .word   .Lsrl_n2, 168, .Lsrl18_b18
+.Lsrl18_b18:
+        .word   172, 172, .Lsrl18_b18a
+.Lsrl18_b18a:
+        .word   12, 12, .Lsrl18_b18b
+.Lsrl18_b18b:
+        .word   164, 12, .Lsrl18_b18c
+.Lsrl18_b18c:
+        .word   12, 172, .Lsrl18_b18d
+.Lsrl18_b18d:
+        .word   .Lsrl_c262144, 172, .Lsrl18_b18e
+.Lsrl18_b18e:
+        .word   176, 176, .Lsrl18_b18f
+.Lsrl18_b18f:
+        .word   172, 176, .Lsrl18_b18s
+        .word   12, 12, .Lsrl18_store
+.Lsrl18_b18s:
+        .word   .Lsrl_c262144, 164, .Lsrl18_b18t
+.Lsrl18_b18t:
+        .word   .Lsrl_n1, 168, .Lsrl18_store
+.Lsrl18_store:
+        .word   28, 28, .Lsrl18_st1
+.Lsrl18_st1:
+        .word   12, 12, .Lsrl18_st2
+.Lsrl18_st2:
+        .word   168, 12, .Lsrl18_st3
+.Lsrl18_st3:
+        .word   12, 28, .Lsrl18_st4
+.Lsrl18_st4:
+        .word   24, 24, .Lsrl_done
+
+.Lsrl_shift_19:
+        .word   168, 168, .Lsrl19_start
+.Lsrl19_start:
+.Lsrl19_b31:
+        .word   172, 172, .Lsrl19_b31a
+.Lsrl19_b31a:
+        .word   12, 12, .Lsrl19_b31b
+.Lsrl19_b31b:
+        .word   164, 12, .Lsrl19_b31c
+.Lsrl19_b31c:
+        .word   12, 172, .Lsrl19_b31d
+.Lsrl19_b31d:
+        .word   24, 172, .Lsrl19_b31_le0
+        .word   12, 12, .Lsrl19_b30
+.Lsrl19_b31_le0:
+        .word   176, 176, .Lsrl19_b31e
+.Lsrl19_b31e:
+        .word   164, 176, .Lsrl19_b31f
+.Lsrl19_b31f:
+        .word   24, 176, .Lsrl19_b31_ambig
+        .word   12, 12, .Lsrl19_b31s
+.Lsrl19_b31_ambig:
+        .word   172, 172, .Lsrl19_b31g
+.Lsrl19_b31g:
+        .word   164, 172, .Lsrl19_b31h
+.Lsrl19_b31h:
+        .word   .Lsrl_one, 172, .Lsrl19_b31i
+.Lsrl19_b31i:
+        .word   24, 172, .Lsrl19_b30
+        .word   12, 12, .Lsrl19_b31s
+.Lsrl19_b31s:
+        .word   .Lsrl_c2147483648, 164, .Lsrl19_b31t
+.Lsrl19_b31t:
+        .word   .Lsrl_n4096, 168, .Lsrl19_b30
+.Lsrl19_b30:
+        .word   172, 172, .Lsrl19_b30a
+.Lsrl19_b30a:
+        .word   12, 12, .Lsrl19_b30b
+.Lsrl19_b30b:
+        .word   164, 12, .Lsrl19_b30c
+.Lsrl19_b30c:
+        .word   12, 172, .Lsrl19_b30d
+.Lsrl19_b30d:
+        .word   .Lsrl_c1073741824, 172, .Lsrl19_b30e
+.Lsrl19_b30e:
+        .word   176, 176, .Lsrl19_b30f
+.Lsrl19_b30f:
+        .word   172, 176, .Lsrl19_b30s
+        .word   12, 12, .Lsrl19_b29
+.Lsrl19_b30s:
+        .word   .Lsrl_c1073741824, 164, .Lsrl19_b30t
+.Lsrl19_b30t:
+        .word   .Lsrl_n2048, 168, .Lsrl19_b29
+.Lsrl19_b29:
+        .word   172, 172, .Lsrl19_b29a
+.Lsrl19_b29a:
+        .word   12, 12, .Lsrl19_b29b
+.Lsrl19_b29b:
+        .word   164, 12, .Lsrl19_b29c
+.Lsrl19_b29c:
+        .word   12, 172, .Lsrl19_b29d
+.Lsrl19_b29d:
+        .word   .Lsrl_c536870912, 172, .Lsrl19_b29e
+.Lsrl19_b29e:
+        .word   176, 176, .Lsrl19_b29f
+.Lsrl19_b29f:
+        .word   172, 176, .Lsrl19_b29s
+        .word   12, 12, .Lsrl19_b28
+.Lsrl19_b29s:
+        .word   .Lsrl_c536870912, 164, .Lsrl19_b29t
+.Lsrl19_b29t:
+        .word   .Lsrl_n1024, 168, .Lsrl19_b28
+.Lsrl19_b28:
+        .word   172, 172, .Lsrl19_b28a
+.Lsrl19_b28a:
+        .word   12, 12, .Lsrl19_b28b
+.Lsrl19_b28b:
+        .word   164, 12, .Lsrl19_b28c
+.Lsrl19_b28c:
+        .word   12, 172, .Lsrl19_b28d
+.Lsrl19_b28d:
+        .word   .Lsrl_c268435456, 172, .Lsrl19_b28e
+.Lsrl19_b28e:
+        .word   176, 176, .Lsrl19_b28f
+.Lsrl19_b28f:
+        .word   172, 176, .Lsrl19_b28s
+        .word   12, 12, .Lsrl19_b27
+.Lsrl19_b28s:
+        .word   .Lsrl_c268435456, 164, .Lsrl19_b28t
+.Lsrl19_b28t:
+        .word   .Lsrl_n512, 168, .Lsrl19_b27
+.Lsrl19_b27:
+        .word   172, 172, .Lsrl19_b27a
+.Lsrl19_b27a:
+        .word   12, 12, .Lsrl19_b27b
+.Lsrl19_b27b:
+        .word   164, 12, .Lsrl19_b27c
+.Lsrl19_b27c:
+        .word   12, 172, .Lsrl19_b27d
+.Lsrl19_b27d:
+        .word   .Lsrl_c134217728, 172, .Lsrl19_b27e
+.Lsrl19_b27e:
+        .word   176, 176, .Lsrl19_b27f
+.Lsrl19_b27f:
+        .word   172, 176, .Lsrl19_b27s
+        .word   12, 12, .Lsrl19_b26
+.Lsrl19_b27s:
+        .word   .Lsrl_c134217728, 164, .Lsrl19_b27t
+.Lsrl19_b27t:
+        .word   .Lsrl_n256, 168, .Lsrl19_b26
+.Lsrl19_b26:
+        .word   172, 172, .Lsrl19_b26a
+.Lsrl19_b26a:
+        .word   12, 12, .Lsrl19_b26b
+.Lsrl19_b26b:
+        .word   164, 12, .Lsrl19_b26c
+.Lsrl19_b26c:
+        .word   12, 172, .Lsrl19_b26d
+.Lsrl19_b26d:
+        .word   .Lsrl_c67108864, 172, .Lsrl19_b26e
+.Lsrl19_b26e:
+        .word   176, 176, .Lsrl19_b26f
+.Lsrl19_b26f:
+        .word   172, 176, .Lsrl19_b26s
+        .word   12, 12, .Lsrl19_b25
+.Lsrl19_b26s:
+        .word   .Lsrl_c67108864, 164, .Lsrl19_b26t
+.Lsrl19_b26t:
+        .word   .Lsrl_n128, 168, .Lsrl19_b25
+.Lsrl19_b25:
+        .word   172, 172, .Lsrl19_b25a
+.Lsrl19_b25a:
+        .word   12, 12, .Lsrl19_b25b
+.Lsrl19_b25b:
+        .word   164, 12, .Lsrl19_b25c
+.Lsrl19_b25c:
+        .word   12, 172, .Lsrl19_b25d
+.Lsrl19_b25d:
+        .word   .Lsrl_c33554432, 172, .Lsrl19_b25e
+.Lsrl19_b25e:
+        .word   176, 176, .Lsrl19_b25f
+.Lsrl19_b25f:
+        .word   172, 176, .Lsrl19_b25s
+        .word   12, 12, .Lsrl19_b24
+.Lsrl19_b25s:
+        .word   .Lsrl_c33554432, 164, .Lsrl19_b25t
+.Lsrl19_b25t:
+        .word   .Lsrl_n64, 168, .Lsrl19_b24
+.Lsrl19_b24:
+        .word   172, 172, .Lsrl19_b24a
+.Lsrl19_b24a:
+        .word   12, 12, .Lsrl19_b24b
+.Lsrl19_b24b:
+        .word   164, 12, .Lsrl19_b24c
+.Lsrl19_b24c:
+        .word   12, 172, .Lsrl19_b24d
+.Lsrl19_b24d:
+        .word   .Lsrl_c16777216, 172, .Lsrl19_b24e
+.Lsrl19_b24e:
+        .word   176, 176, .Lsrl19_b24f
+.Lsrl19_b24f:
+        .word   172, 176, .Lsrl19_b24s
+        .word   12, 12, .Lsrl19_b23
+.Lsrl19_b24s:
+        .word   .Lsrl_c16777216, 164, .Lsrl19_b24t
+.Lsrl19_b24t:
+        .word   .Lsrl_n32, 168, .Lsrl19_b23
+.Lsrl19_b23:
+        .word   172, 172, .Lsrl19_b23a
+.Lsrl19_b23a:
+        .word   12, 12, .Lsrl19_b23b
+.Lsrl19_b23b:
+        .word   164, 12, .Lsrl19_b23c
+.Lsrl19_b23c:
+        .word   12, 172, .Lsrl19_b23d
+.Lsrl19_b23d:
+        .word   .Lsrl_c8388608, 172, .Lsrl19_b23e
+.Lsrl19_b23e:
+        .word   176, 176, .Lsrl19_b23f
+.Lsrl19_b23f:
+        .word   172, 176, .Lsrl19_b23s
+        .word   12, 12, .Lsrl19_b22
+.Lsrl19_b23s:
+        .word   .Lsrl_c8388608, 164, .Lsrl19_b23t
+.Lsrl19_b23t:
+        .word   .Lsrl_n16, 168, .Lsrl19_b22
+.Lsrl19_b22:
+        .word   172, 172, .Lsrl19_b22a
+.Lsrl19_b22a:
+        .word   12, 12, .Lsrl19_b22b
+.Lsrl19_b22b:
+        .word   164, 12, .Lsrl19_b22c
+.Lsrl19_b22c:
+        .word   12, 172, .Lsrl19_b22d
+.Lsrl19_b22d:
+        .word   .Lsrl_c4194304, 172, .Lsrl19_b22e
+.Lsrl19_b22e:
+        .word   176, 176, .Lsrl19_b22f
+.Lsrl19_b22f:
+        .word   172, 176, .Lsrl19_b22s
+        .word   12, 12, .Lsrl19_b21
+.Lsrl19_b22s:
+        .word   .Lsrl_c4194304, 164, .Lsrl19_b22t
+.Lsrl19_b22t:
+        .word   .Lsrl_n8, 168, .Lsrl19_b21
+.Lsrl19_b21:
+        .word   172, 172, .Lsrl19_b21a
+.Lsrl19_b21a:
+        .word   12, 12, .Lsrl19_b21b
+.Lsrl19_b21b:
+        .word   164, 12, .Lsrl19_b21c
+.Lsrl19_b21c:
+        .word   12, 172, .Lsrl19_b21d
+.Lsrl19_b21d:
+        .word   .Lsrl_c2097152, 172, .Lsrl19_b21e
+.Lsrl19_b21e:
+        .word   176, 176, .Lsrl19_b21f
+.Lsrl19_b21f:
+        .word   172, 176, .Lsrl19_b21s
+        .word   12, 12, .Lsrl19_b20
+.Lsrl19_b21s:
+        .word   .Lsrl_c2097152, 164, .Lsrl19_b21t
+.Lsrl19_b21t:
+        .word   .Lsrl_n4, 168, .Lsrl19_b20
+.Lsrl19_b20:
+        .word   172, 172, .Lsrl19_b20a
+.Lsrl19_b20a:
+        .word   12, 12, .Lsrl19_b20b
+.Lsrl19_b20b:
+        .word   164, 12, .Lsrl19_b20c
+.Lsrl19_b20c:
+        .word   12, 172, .Lsrl19_b20d
+.Lsrl19_b20d:
+        .word   .Lsrl_c1048576, 172, .Lsrl19_b20e
+.Lsrl19_b20e:
+        .word   176, 176, .Lsrl19_b20f
+.Lsrl19_b20f:
+        .word   172, 176, .Lsrl19_b20s
+        .word   12, 12, .Lsrl19_b19
+.Lsrl19_b20s:
+        .word   .Lsrl_c1048576, 164, .Lsrl19_b20t
+.Lsrl19_b20t:
+        .word   .Lsrl_n2, 168, .Lsrl19_b19
+.Lsrl19_b19:
+        .word   172, 172, .Lsrl19_b19a
+.Lsrl19_b19a:
+        .word   12, 12, .Lsrl19_b19b
+.Lsrl19_b19b:
+        .word   164, 12, .Lsrl19_b19c
+.Lsrl19_b19c:
+        .word   12, 172, .Lsrl19_b19d
+.Lsrl19_b19d:
+        .word   .Lsrl_c524288, 172, .Lsrl19_b19e
+.Lsrl19_b19e:
+        .word   176, 176, .Lsrl19_b19f
+.Lsrl19_b19f:
+        .word   172, 176, .Lsrl19_b19s
+        .word   12, 12, .Lsrl19_store
+.Lsrl19_b19s:
+        .word   .Lsrl_c524288, 164, .Lsrl19_b19t
+.Lsrl19_b19t:
+        .word   .Lsrl_n1, 168, .Lsrl19_store
+.Lsrl19_store:
+        .word   28, 28, .Lsrl19_st1
+.Lsrl19_st1:
+        .word   12, 12, .Lsrl19_st2
+.Lsrl19_st2:
+        .word   168, 12, .Lsrl19_st3
+.Lsrl19_st3:
+        .word   12, 28, .Lsrl19_st4
+.Lsrl19_st4:
+        .word   24, 24, .Lsrl_done
+
+.Lsrl_shift_20:
+        .word   168, 168, .Lsrl20_start
+.Lsrl20_start:
+.Lsrl20_b31:
+        .word   172, 172, .Lsrl20_b31a
+.Lsrl20_b31a:
+        .word   12, 12, .Lsrl20_b31b
+.Lsrl20_b31b:
+        .word   164, 12, .Lsrl20_b31c
+.Lsrl20_b31c:
+        .word   12, 172, .Lsrl20_b31d
+.Lsrl20_b31d:
+        .word   24, 172, .Lsrl20_b31_le0
+        .word   12, 12, .Lsrl20_b30
+.Lsrl20_b31_le0:
+        .word   176, 176, .Lsrl20_b31e
+.Lsrl20_b31e:
+        .word   164, 176, .Lsrl20_b31f
+.Lsrl20_b31f:
+        .word   24, 176, .Lsrl20_b31_ambig
+        .word   12, 12, .Lsrl20_b31s
+.Lsrl20_b31_ambig:
+        .word   172, 172, .Lsrl20_b31g
+.Lsrl20_b31g:
+        .word   164, 172, .Lsrl20_b31h
+.Lsrl20_b31h:
+        .word   .Lsrl_one, 172, .Lsrl20_b31i
+.Lsrl20_b31i:
+        .word   24, 172, .Lsrl20_b30
+        .word   12, 12, .Lsrl20_b31s
+.Lsrl20_b31s:
+        .word   .Lsrl_c2147483648, 164, .Lsrl20_b31t
+.Lsrl20_b31t:
+        .word   .Lsrl_n2048, 168, .Lsrl20_b30
+.Lsrl20_b30:
+        .word   172, 172, .Lsrl20_b30a
+.Lsrl20_b30a:
+        .word   12, 12, .Lsrl20_b30b
+.Lsrl20_b30b:
+        .word   164, 12, .Lsrl20_b30c
+.Lsrl20_b30c:
+        .word   12, 172, .Lsrl20_b30d
+.Lsrl20_b30d:
+        .word   .Lsrl_c1073741824, 172, .Lsrl20_b30e
+.Lsrl20_b30e:
+        .word   176, 176, .Lsrl20_b30f
+.Lsrl20_b30f:
+        .word   172, 176, .Lsrl20_b30s
+        .word   12, 12, .Lsrl20_b29
+.Lsrl20_b30s:
+        .word   .Lsrl_c1073741824, 164, .Lsrl20_b30t
+.Lsrl20_b30t:
+        .word   .Lsrl_n1024, 168, .Lsrl20_b29
+.Lsrl20_b29:
+        .word   172, 172, .Lsrl20_b29a
+.Lsrl20_b29a:
+        .word   12, 12, .Lsrl20_b29b
+.Lsrl20_b29b:
+        .word   164, 12, .Lsrl20_b29c
+.Lsrl20_b29c:
+        .word   12, 172, .Lsrl20_b29d
+.Lsrl20_b29d:
+        .word   .Lsrl_c536870912, 172, .Lsrl20_b29e
+.Lsrl20_b29e:
+        .word   176, 176, .Lsrl20_b29f
+.Lsrl20_b29f:
+        .word   172, 176, .Lsrl20_b29s
+        .word   12, 12, .Lsrl20_b28
+.Lsrl20_b29s:
+        .word   .Lsrl_c536870912, 164, .Lsrl20_b29t
+.Lsrl20_b29t:
+        .word   .Lsrl_n512, 168, .Lsrl20_b28
+.Lsrl20_b28:
+        .word   172, 172, .Lsrl20_b28a
+.Lsrl20_b28a:
+        .word   12, 12, .Lsrl20_b28b
+.Lsrl20_b28b:
+        .word   164, 12, .Lsrl20_b28c
+.Lsrl20_b28c:
+        .word   12, 172, .Lsrl20_b28d
+.Lsrl20_b28d:
+        .word   .Lsrl_c268435456, 172, .Lsrl20_b28e
+.Lsrl20_b28e:
+        .word   176, 176, .Lsrl20_b28f
+.Lsrl20_b28f:
+        .word   172, 176, .Lsrl20_b28s
+        .word   12, 12, .Lsrl20_b27
+.Lsrl20_b28s:
+        .word   .Lsrl_c268435456, 164, .Lsrl20_b28t
+.Lsrl20_b28t:
+        .word   .Lsrl_n256, 168, .Lsrl20_b27
+.Lsrl20_b27:
+        .word   172, 172, .Lsrl20_b27a
+.Lsrl20_b27a:
+        .word   12, 12, .Lsrl20_b27b
+.Lsrl20_b27b:
+        .word   164, 12, .Lsrl20_b27c
+.Lsrl20_b27c:
+        .word   12, 172, .Lsrl20_b27d
+.Lsrl20_b27d:
+        .word   .Lsrl_c134217728, 172, .Lsrl20_b27e
+.Lsrl20_b27e:
+        .word   176, 176, .Lsrl20_b27f
+.Lsrl20_b27f:
+        .word   172, 176, .Lsrl20_b27s
+        .word   12, 12, .Lsrl20_b26
+.Lsrl20_b27s:
+        .word   .Lsrl_c134217728, 164, .Lsrl20_b27t
+.Lsrl20_b27t:
+        .word   .Lsrl_n128, 168, .Lsrl20_b26
+.Lsrl20_b26:
+        .word   172, 172, .Lsrl20_b26a
+.Lsrl20_b26a:
+        .word   12, 12, .Lsrl20_b26b
+.Lsrl20_b26b:
+        .word   164, 12, .Lsrl20_b26c
+.Lsrl20_b26c:
+        .word   12, 172, .Lsrl20_b26d
+.Lsrl20_b26d:
+        .word   .Lsrl_c67108864, 172, .Lsrl20_b26e
+.Lsrl20_b26e:
+        .word   176, 176, .Lsrl20_b26f
+.Lsrl20_b26f:
+        .word   172, 176, .Lsrl20_b26s
+        .word   12, 12, .Lsrl20_b25
+.Lsrl20_b26s:
+        .word   .Lsrl_c67108864, 164, .Lsrl20_b26t
+.Lsrl20_b26t:
+        .word   .Lsrl_n64, 168, .Lsrl20_b25
+.Lsrl20_b25:
+        .word   172, 172, .Lsrl20_b25a
+.Lsrl20_b25a:
+        .word   12, 12, .Lsrl20_b25b
+.Lsrl20_b25b:
+        .word   164, 12, .Lsrl20_b25c
+.Lsrl20_b25c:
+        .word   12, 172, .Lsrl20_b25d
+.Lsrl20_b25d:
+        .word   .Lsrl_c33554432, 172, .Lsrl20_b25e
+.Lsrl20_b25e:
+        .word   176, 176, .Lsrl20_b25f
+.Lsrl20_b25f:
+        .word   172, 176, .Lsrl20_b25s
+        .word   12, 12, .Lsrl20_b24
+.Lsrl20_b25s:
+        .word   .Lsrl_c33554432, 164, .Lsrl20_b25t
+.Lsrl20_b25t:
+        .word   .Lsrl_n32, 168, .Lsrl20_b24
+.Lsrl20_b24:
+        .word   172, 172, .Lsrl20_b24a
+.Lsrl20_b24a:
+        .word   12, 12, .Lsrl20_b24b
+.Lsrl20_b24b:
+        .word   164, 12, .Lsrl20_b24c
+.Lsrl20_b24c:
+        .word   12, 172, .Lsrl20_b24d
+.Lsrl20_b24d:
+        .word   .Lsrl_c16777216, 172, .Lsrl20_b24e
+.Lsrl20_b24e:
+        .word   176, 176, .Lsrl20_b24f
+.Lsrl20_b24f:
+        .word   172, 176, .Lsrl20_b24s
+        .word   12, 12, .Lsrl20_b23
+.Lsrl20_b24s:
+        .word   .Lsrl_c16777216, 164, .Lsrl20_b24t
+.Lsrl20_b24t:
+        .word   .Lsrl_n16, 168, .Lsrl20_b23
+.Lsrl20_b23:
+        .word   172, 172, .Lsrl20_b23a
+.Lsrl20_b23a:
+        .word   12, 12, .Lsrl20_b23b
+.Lsrl20_b23b:
+        .word   164, 12, .Lsrl20_b23c
+.Lsrl20_b23c:
+        .word   12, 172, .Lsrl20_b23d
+.Lsrl20_b23d:
+        .word   .Lsrl_c8388608, 172, .Lsrl20_b23e
+.Lsrl20_b23e:
+        .word   176, 176, .Lsrl20_b23f
+.Lsrl20_b23f:
+        .word   172, 176, .Lsrl20_b23s
+        .word   12, 12, .Lsrl20_b22
+.Lsrl20_b23s:
+        .word   .Lsrl_c8388608, 164, .Lsrl20_b23t
+.Lsrl20_b23t:
+        .word   .Lsrl_n8, 168, .Lsrl20_b22
+.Lsrl20_b22:
+        .word   172, 172, .Lsrl20_b22a
+.Lsrl20_b22a:
+        .word   12, 12, .Lsrl20_b22b
+.Lsrl20_b22b:
+        .word   164, 12, .Lsrl20_b22c
+.Lsrl20_b22c:
+        .word   12, 172, .Lsrl20_b22d
+.Lsrl20_b22d:
+        .word   .Lsrl_c4194304, 172, .Lsrl20_b22e
+.Lsrl20_b22e:
+        .word   176, 176, .Lsrl20_b22f
+.Lsrl20_b22f:
+        .word   172, 176, .Lsrl20_b22s
+        .word   12, 12, .Lsrl20_b21
+.Lsrl20_b22s:
+        .word   .Lsrl_c4194304, 164, .Lsrl20_b22t
+.Lsrl20_b22t:
+        .word   .Lsrl_n4, 168, .Lsrl20_b21
+.Lsrl20_b21:
+        .word   172, 172, .Lsrl20_b21a
+.Lsrl20_b21a:
+        .word   12, 12, .Lsrl20_b21b
+.Lsrl20_b21b:
+        .word   164, 12, .Lsrl20_b21c
+.Lsrl20_b21c:
+        .word   12, 172, .Lsrl20_b21d
+.Lsrl20_b21d:
+        .word   .Lsrl_c2097152, 172, .Lsrl20_b21e
+.Lsrl20_b21e:
+        .word   176, 176, .Lsrl20_b21f
+.Lsrl20_b21f:
+        .word   172, 176, .Lsrl20_b21s
+        .word   12, 12, .Lsrl20_b20
+.Lsrl20_b21s:
+        .word   .Lsrl_c2097152, 164, .Lsrl20_b21t
+.Lsrl20_b21t:
+        .word   .Lsrl_n2, 168, .Lsrl20_b20
+.Lsrl20_b20:
+        .word   172, 172, .Lsrl20_b20a
+.Lsrl20_b20a:
+        .word   12, 12, .Lsrl20_b20b
+.Lsrl20_b20b:
+        .word   164, 12, .Lsrl20_b20c
+.Lsrl20_b20c:
+        .word   12, 172, .Lsrl20_b20d
+.Lsrl20_b20d:
+        .word   .Lsrl_c1048576, 172, .Lsrl20_b20e
+.Lsrl20_b20e:
+        .word   176, 176, .Lsrl20_b20f
+.Lsrl20_b20f:
+        .word   172, 176, .Lsrl20_b20s
+        .word   12, 12, .Lsrl20_store
+.Lsrl20_b20s:
+        .word   .Lsrl_c1048576, 164, .Lsrl20_b20t
+.Lsrl20_b20t:
+        .word   .Lsrl_n1, 168, .Lsrl20_store
+.Lsrl20_store:
+        .word   28, 28, .Lsrl20_st1
+.Lsrl20_st1:
+        .word   12, 12, .Lsrl20_st2
+.Lsrl20_st2:
+        .word   168, 12, .Lsrl20_st3
+.Lsrl20_st3:
+        .word   12, 28, .Lsrl20_st4
+.Lsrl20_st4:
+        .word   24, 24, .Lsrl_done
+
+.Lsrl_shift_21:
+        .word   168, 168, .Lsrl21_start
+.Lsrl21_start:
+.Lsrl21_b31:
+        .word   172, 172, .Lsrl21_b31a
+.Lsrl21_b31a:
+        .word   12, 12, .Lsrl21_b31b
+.Lsrl21_b31b:
+        .word   164, 12, .Lsrl21_b31c
+.Lsrl21_b31c:
+        .word   12, 172, .Lsrl21_b31d
+.Lsrl21_b31d:
+        .word   24, 172, .Lsrl21_b31_le0
+        .word   12, 12, .Lsrl21_b30
+.Lsrl21_b31_le0:
+        .word   176, 176, .Lsrl21_b31e
+.Lsrl21_b31e:
+        .word   164, 176, .Lsrl21_b31f
+.Lsrl21_b31f:
+        .word   24, 176, .Lsrl21_b31_ambig
+        .word   12, 12, .Lsrl21_b31s
+.Lsrl21_b31_ambig:
+        .word   172, 172, .Lsrl21_b31g
+.Lsrl21_b31g:
+        .word   164, 172, .Lsrl21_b31h
+.Lsrl21_b31h:
+        .word   .Lsrl_one, 172, .Lsrl21_b31i
+.Lsrl21_b31i:
+        .word   24, 172, .Lsrl21_b30
+        .word   12, 12, .Lsrl21_b31s
+.Lsrl21_b31s:
+        .word   .Lsrl_c2147483648, 164, .Lsrl21_b31t
+.Lsrl21_b31t:
+        .word   .Lsrl_n1024, 168, .Lsrl21_b30
+.Lsrl21_b30:
+        .word   172, 172, .Lsrl21_b30a
+.Lsrl21_b30a:
+        .word   12, 12, .Lsrl21_b30b
+.Lsrl21_b30b:
+        .word   164, 12, .Lsrl21_b30c
+.Lsrl21_b30c:
+        .word   12, 172, .Lsrl21_b30d
+.Lsrl21_b30d:
+        .word   .Lsrl_c1073741824, 172, .Lsrl21_b30e
+.Lsrl21_b30e:
+        .word   176, 176, .Lsrl21_b30f
+.Lsrl21_b30f:
+        .word   172, 176, .Lsrl21_b30s
+        .word   12, 12, .Lsrl21_b29
+.Lsrl21_b30s:
+        .word   .Lsrl_c1073741824, 164, .Lsrl21_b30t
+.Lsrl21_b30t:
+        .word   .Lsrl_n512, 168, .Lsrl21_b29
+.Lsrl21_b29:
+        .word   172, 172, .Lsrl21_b29a
+.Lsrl21_b29a:
+        .word   12, 12, .Lsrl21_b29b
+.Lsrl21_b29b:
+        .word   164, 12, .Lsrl21_b29c
+.Lsrl21_b29c:
+        .word   12, 172, .Lsrl21_b29d
+.Lsrl21_b29d:
+        .word   .Lsrl_c536870912, 172, .Lsrl21_b29e
+.Lsrl21_b29e:
+        .word   176, 176, .Lsrl21_b29f
+.Lsrl21_b29f:
+        .word   172, 176, .Lsrl21_b29s
+        .word   12, 12, .Lsrl21_b28
+.Lsrl21_b29s:
+        .word   .Lsrl_c536870912, 164, .Lsrl21_b29t
+.Lsrl21_b29t:
+        .word   .Lsrl_n256, 168, .Lsrl21_b28
+.Lsrl21_b28:
+        .word   172, 172, .Lsrl21_b28a
+.Lsrl21_b28a:
+        .word   12, 12, .Lsrl21_b28b
+.Lsrl21_b28b:
+        .word   164, 12, .Lsrl21_b28c
+.Lsrl21_b28c:
+        .word   12, 172, .Lsrl21_b28d
+.Lsrl21_b28d:
+        .word   .Lsrl_c268435456, 172, .Lsrl21_b28e
+.Lsrl21_b28e:
+        .word   176, 176, .Lsrl21_b28f
+.Lsrl21_b28f:
+        .word   172, 176, .Lsrl21_b28s
+        .word   12, 12, .Lsrl21_b27
+.Lsrl21_b28s:
+        .word   .Lsrl_c268435456, 164, .Lsrl21_b28t
+.Lsrl21_b28t:
+        .word   .Lsrl_n128, 168, .Lsrl21_b27
+.Lsrl21_b27:
+        .word   172, 172, .Lsrl21_b27a
+.Lsrl21_b27a:
+        .word   12, 12, .Lsrl21_b27b
+.Lsrl21_b27b:
+        .word   164, 12, .Lsrl21_b27c
+.Lsrl21_b27c:
+        .word   12, 172, .Lsrl21_b27d
+.Lsrl21_b27d:
+        .word   .Lsrl_c134217728, 172, .Lsrl21_b27e
+.Lsrl21_b27e:
+        .word   176, 176, .Lsrl21_b27f
+.Lsrl21_b27f:
+        .word   172, 176, .Lsrl21_b27s
+        .word   12, 12, .Lsrl21_b26
+.Lsrl21_b27s:
+        .word   .Lsrl_c134217728, 164, .Lsrl21_b27t
+.Lsrl21_b27t:
+        .word   .Lsrl_n64, 168, .Lsrl21_b26
+.Lsrl21_b26:
+        .word   172, 172, .Lsrl21_b26a
+.Lsrl21_b26a:
+        .word   12, 12, .Lsrl21_b26b
+.Lsrl21_b26b:
+        .word   164, 12, .Lsrl21_b26c
+.Lsrl21_b26c:
+        .word   12, 172, .Lsrl21_b26d
+.Lsrl21_b26d:
+        .word   .Lsrl_c67108864, 172, .Lsrl21_b26e
+.Lsrl21_b26e:
+        .word   176, 176, .Lsrl21_b26f
+.Lsrl21_b26f:
+        .word   172, 176, .Lsrl21_b26s
+        .word   12, 12, .Lsrl21_b25
+.Lsrl21_b26s:
+        .word   .Lsrl_c67108864, 164, .Lsrl21_b26t
+.Lsrl21_b26t:
+        .word   .Lsrl_n32, 168, .Lsrl21_b25
+.Lsrl21_b25:
+        .word   172, 172, .Lsrl21_b25a
+.Lsrl21_b25a:
+        .word   12, 12, .Lsrl21_b25b
+.Lsrl21_b25b:
+        .word   164, 12, .Lsrl21_b25c
+.Lsrl21_b25c:
+        .word   12, 172, .Lsrl21_b25d
+.Lsrl21_b25d:
+        .word   .Lsrl_c33554432, 172, .Lsrl21_b25e
+.Lsrl21_b25e:
+        .word   176, 176, .Lsrl21_b25f
+.Lsrl21_b25f:
+        .word   172, 176, .Lsrl21_b25s
+        .word   12, 12, .Lsrl21_b24
+.Lsrl21_b25s:
+        .word   .Lsrl_c33554432, 164, .Lsrl21_b25t
+.Lsrl21_b25t:
+        .word   .Lsrl_n16, 168, .Lsrl21_b24
+.Lsrl21_b24:
+        .word   172, 172, .Lsrl21_b24a
+.Lsrl21_b24a:
+        .word   12, 12, .Lsrl21_b24b
+.Lsrl21_b24b:
+        .word   164, 12, .Lsrl21_b24c
+.Lsrl21_b24c:
+        .word   12, 172, .Lsrl21_b24d
+.Lsrl21_b24d:
+        .word   .Lsrl_c16777216, 172, .Lsrl21_b24e
+.Lsrl21_b24e:
+        .word   176, 176, .Lsrl21_b24f
+.Lsrl21_b24f:
+        .word   172, 176, .Lsrl21_b24s
+        .word   12, 12, .Lsrl21_b23
+.Lsrl21_b24s:
+        .word   .Lsrl_c16777216, 164, .Lsrl21_b24t
+.Lsrl21_b24t:
+        .word   .Lsrl_n8, 168, .Lsrl21_b23
+.Lsrl21_b23:
+        .word   172, 172, .Lsrl21_b23a
+.Lsrl21_b23a:
+        .word   12, 12, .Lsrl21_b23b
+.Lsrl21_b23b:
+        .word   164, 12, .Lsrl21_b23c
+.Lsrl21_b23c:
+        .word   12, 172, .Lsrl21_b23d
+.Lsrl21_b23d:
+        .word   .Lsrl_c8388608, 172, .Lsrl21_b23e
+.Lsrl21_b23e:
+        .word   176, 176, .Lsrl21_b23f
+.Lsrl21_b23f:
+        .word   172, 176, .Lsrl21_b23s
+        .word   12, 12, .Lsrl21_b22
+.Lsrl21_b23s:
+        .word   .Lsrl_c8388608, 164, .Lsrl21_b23t
+.Lsrl21_b23t:
+        .word   .Lsrl_n4, 168, .Lsrl21_b22
+.Lsrl21_b22:
+        .word   172, 172, .Lsrl21_b22a
+.Lsrl21_b22a:
+        .word   12, 12, .Lsrl21_b22b
+.Lsrl21_b22b:
+        .word   164, 12, .Lsrl21_b22c
+.Lsrl21_b22c:
+        .word   12, 172, .Lsrl21_b22d
+.Lsrl21_b22d:
+        .word   .Lsrl_c4194304, 172, .Lsrl21_b22e
+.Lsrl21_b22e:
+        .word   176, 176, .Lsrl21_b22f
+.Lsrl21_b22f:
+        .word   172, 176, .Lsrl21_b22s
+        .word   12, 12, .Lsrl21_b21
+.Lsrl21_b22s:
+        .word   .Lsrl_c4194304, 164, .Lsrl21_b22t
+.Lsrl21_b22t:
+        .word   .Lsrl_n2, 168, .Lsrl21_b21
+.Lsrl21_b21:
+        .word   172, 172, .Lsrl21_b21a
+.Lsrl21_b21a:
+        .word   12, 12, .Lsrl21_b21b
+.Lsrl21_b21b:
+        .word   164, 12, .Lsrl21_b21c
+.Lsrl21_b21c:
+        .word   12, 172, .Lsrl21_b21d
+.Lsrl21_b21d:
+        .word   .Lsrl_c2097152, 172, .Lsrl21_b21e
+.Lsrl21_b21e:
+        .word   176, 176, .Lsrl21_b21f
+.Lsrl21_b21f:
+        .word   172, 176, .Lsrl21_b21s
+        .word   12, 12, .Lsrl21_store
+.Lsrl21_b21s:
+        .word   .Lsrl_c2097152, 164, .Lsrl21_b21t
+.Lsrl21_b21t:
+        .word   .Lsrl_n1, 168, .Lsrl21_store
+.Lsrl21_store:
+        .word   28, 28, .Lsrl21_st1
+.Lsrl21_st1:
+        .word   12, 12, .Lsrl21_st2
+.Lsrl21_st2:
+        .word   168, 12, .Lsrl21_st3
+.Lsrl21_st3:
+        .word   12, 28, .Lsrl21_st4
+.Lsrl21_st4:
+        .word   24, 24, .Lsrl_done
+
+.Lsrl_shift_22:
+        .word   168, 168, .Lsrl22_start
+.Lsrl22_start:
+.Lsrl22_b31:
+        .word   172, 172, .Lsrl22_b31a
+.Lsrl22_b31a:
+        .word   12, 12, .Lsrl22_b31b
+.Lsrl22_b31b:
+        .word   164, 12, .Lsrl22_b31c
+.Lsrl22_b31c:
+        .word   12, 172, .Lsrl22_b31d
+.Lsrl22_b31d:
+        .word   24, 172, .Lsrl22_b31_le0
+        .word   12, 12, .Lsrl22_b30
+.Lsrl22_b31_le0:
+        .word   176, 176, .Lsrl22_b31e
+.Lsrl22_b31e:
+        .word   164, 176, .Lsrl22_b31f
+.Lsrl22_b31f:
+        .word   24, 176, .Lsrl22_b31_ambig
+        .word   12, 12, .Lsrl22_b31s
+.Lsrl22_b31_ambig:
+        .word   172, 172, .Lsrl22_b31g
+.Lsrl22_b31g:
+        .word   164, 172, .Lsrl22_b31h
+.Lsrl22_b31h:
+        .word   .Lsrl_one, 172, .Lsrl22_b31i
+.Lsrl22_b31i:
+        .word   24, 172, .Lsrl22_b30
+        .word   12, 12, .Lsrl22_b31s
+.Lsrl22_b31s:
+        .word   .Lsrl_c2147483648, 164, .Lsrl22_b31t
+.Lsrl22_b31t:
+        .word   .Lsrl_n512, 168, .Lsrl22_b30
+.Lsrl22_b30:
+        .word   172, 172, .Lsrl22_b30a
+.Lsrl22_b30a:
+        .word   12, 12, .Lsrl22_b30b
+.Lsrl22_b30b:
+        .word   164, 12, .Lsrl22_b30c
+.Lsrl22_b30c:
+        .word   12, 172, .Lsrl22_b30d
+.Lsrl22_b30d:
+        .word   .Lsrl_c1073741824, 172, .Lsrl22_b30e
+.Lsrl22_b30e:
+        .word   176, 176, .Lsrl22_b30f
+.Lsrl22_b30f:
+        .word   172, 176, .Lsrl22_b30s
+        .word   12, 12, .Lsrl22_b29
+.Lsrl22_b30s:
+        .word   .Lsrl_c1073741824, 164, .Lsrl22_b30t
+.Lsrl22_b30t:
+        .word   .Lsrl_n256, 168, .Lsrl22_b29
+.Lsrl22_b29:
+        .word   172, 172, .Lsrl22_b29a
+.Lsrl22_b29a:
+        .word   12, 12, .Lsrl22_b29b
+.Lsrl22_b29b:
+        .word   164, 12, .Lsrl22_b29c
+.Lsrl22_b29c:
+        .word   12, 172, .Lsrl22_b29d
+.Lsrl22_b29d:
+        .word   .Lsrl_c536870912, 172, .Lsrl22_b29e
+.Lsrl22_b29e:
+        .word   176, 176, .Lsrl22_b29f
+.Lsrl22_b29f:
+        .word   172, 176, .Lsrl22_b29s
+        .word   12, 12, .Lsrl22_b28
+.Lsrl22_b29s:
+        .word   .Lsrl_c536870912, 164, .Lsrl22_b29t
+.Lsrl22_b29t:
+        .word   .Lsrl_n128, 168, .Lsrl22_b28
+.Lsrl22_b28:
+        .word   172, 172, .Lsrl22_b28a
+.Lsrl22_b28a:
+        .word   12, 12, .Lsrl22_b28b
+.Lsrl22_b28b:
+        .word   164, 12, .Lsrl22_b28c
+.Lsrl22_b28c:
+        .word   12, 172, .Lsrl22_b28d
+.Lsrl22_b28d:
+        .word   .Lsrl_c268435456, 172, .Lsrl22_b28e
+.Lsrl22_b28e:
+        .word   176, 176, .Lsrl22_b28f
+.Lsrl22_b28f:
+        .word   172, 176, .Lsrl22_b28s
+        .word   12, 12, .Lsrl22_b27
+.Lsrl22_b28s:
+        .word   .Lsrl_c268435456, 164, .Lsrl22_b28t
+.Lsrl22_b28t:
+        .word   .Lsrl_n64, 168, .Lsrl22_b27
+.Lsrl22_b27:
+        .word   172, 172, .Lsrl22_b27a
+.Lsrl22_b27a:
+        .word   12, 12, .Lsrl22_b27b
+.Lsrl22_b27b:
+        .word   164, 12, .Lsrl22_b27c
+.Lsrl22_b27c:
+        .word   12, 172, .Lsrl22_b27d
+.Lsrl22_b27d:
+        .word   .Lsrl_c134217728, 172, .Lsrl22_b27e
+.Lsrl22_b27e:
+        .word   176, 176, .Lsrl22_b27f
+.Lsrl22_b27f:
+        .word   172, 176, .Lsrl22_b27s
+        .word   12, 12, .Lsrl22_b26
+.Lsrl22_b27s:
+        .word   .Lsrl_c134217728, 164, .Lsrl22_b27t
+.Lsrl22_b27t:
+        .word   .Lsrl_n32, 168, .Lsrl22_b26
+.Lsrl22_b26:
+        .word   172, 172, .Lsrl22_b26a
+.Lsrl22_b26a:
+        .word   12, 12, .Lsrl22_b26b
+.Lsrl22_b26b:
+        .word   164, 12, .Lsrl22_b26c
+.Lsrl22_b26c:
+        .word   12, 172, .Lsrl22_b26d
+.Lsrl22_b26d:
+        .word   .Lsrl_c67108864, 172, .Lsrl22_b26e
+.Lsrl22_b26e:
+        .word   176, 176, .Lsrl22_b26f
+.Lsrl22_b26f:
+        .word   172, 176, .Lsrl22_b26s
+        .word   12, 12, .Lsrl22_b25
+.Lsrl22_b26s:
+        .word   .Lsrl_c67108864, 164, .Lsrl22_b26t
+.Lsrl22_b26t:
+        .word   .Lsrl_n16, 168, .Lsrl22_b25
+.Lsrl22_b25:
+        .word   172, 172, .Lsrl22_b25a
+.Lsrl22_b25a:
+        .word   12, 12, .Lsrl22_b25b
+.Lsrl22_b25b:
+        .word   164, 12, .Lsrl22_b25c
+.Lsrl22_b25c:
+        .word   12, 172, .Lsrl22_b25d
+.Lsrl22_b25d:
+        .word   .Lsrl_c33554432, 172, .Lsrl22_b25e
+.Lsrl22_b25e:
+        .word   176, 176, .Lsrl22_b25f
+.Lsrl22_b25f:
+        .word   172, 176, .Lsrl22_b25s
+        .word   12, 12, .Lsrl22_b24
+.Lsrl22_b25s:
+        .word   .Lsrl_c33554432, 164, .Lsrl22_b25t
+.Lsrl22_b25t:
+        .word   .Lsrl_n8, 168, .Lsrl22_b24
+.Lsrl22_b24:
+        .word   172, 172, .Lsrl22_b24a
+.Lsrl22_b24a:
+        .word   12, 12, .Lsrl22_b24b
+.Lsrl22_b24b:
+        .word   164, 12, .Lsrl22_b24c
+.Lsrl22_b24c:
+        .word   12, 172, .Lsrl22_b24d
+.Lsrl22_b24d:
+        .word   .Lsrl_c16777216, 172, .Lsrl22_b24e
+.Lsrl22_b24e:
+        .word   176, 176, .Lsrl22_b24f
+.Lsrl22_b24f:
+        .word   172, 176, .Lsrl22_b24s
+        .word   12, 12, .Lsrl22_b23
+.Lsrl22_b24s:
+        .word   .Lsrl_c16777216, 164, .Lsrl22_b24t
+.Lsrl22_b24t:
+        .word   .Lsrl_n4, 168, .Lsrl22_b23
+.Lsrl22_b23:
+        .word   172, 172, .Lsrl22_b23a
+.Lsrl22_b23a:
+        .word   12, 12, .Lsrl22_b23b
+.Lsrl22_b23b:
+        .word   164, 12, .Lsrl22_b23c
+.Lsrl22_b23c:
+        .word   12, 172, .Lsrl22_b23d
+.Lsrl22_b23d:
+        .word   .Lsrl_c8388608, 172, .Lsrl22_b23e
+.Lsrl22_b23e:
+        .word   176, 176, .Lsrl22_b23f
+.Lsrl22_b23f:
+        .word   172, 176, .Lsrl22_b23s
+        .word   12, 12, .Lsrl22_b22
+.Lsrl22_b23s:
+        .word   .Lsrl_c8388608, 164, .Lsrl22_b23t
+.Lsrl22_b23t:
+        .word   .Lsrl_n2, 168, .Lsrl22_b22
+.Lsrl22_b22:
+        .word   172, 172, .Lsrl22_b22a
+.Lsrl22_b22a:
+        .word   12, 12, .Lsrl22_b22b
+.Lsrl22_b22b:
+        .word   164, 12, .Lsrl22_b22c
+.Lsrl22_b22c:
+        .word   12, 172, .Lsrl22_b22d
+.Lsrl22_b22d:
+        .word   .Lsrl_c4194304, 172, .Lsrl22_b22e
+.Lsrl22_b22e:
+        .word   176, 176, .Lsrl22_b22f
+.Lsrl22_b22f:
+        .word   172, 176, .Lsrl22_b22s
+        .word   12, 12, .Lsrl22_store
+.Lsrl22_b22s:
+        .word   .Lsrl_c4194304, 164, .Lsrl22_b22t
+.Lsrl22_b22t:
+        .word   .Lsrl_n1, 168, .Lsrl22_store
+.Lsrl22_store:
+        .word   28, 28, .Lsrl22_st1
+.Lsrl22_st1:
+        .word   12, 12, .Lsrl22_st2
+.Lsrl22_st2:
+        .word   168, 12, .Lsrl22_st3
+.Lsrl22_st3:
+        .word   12, 28, .Lsrl22_st4
+.Lsrl22_st4:
+        .word   24, 24, .Lsrl_done
+
+.Lsrl_shift_23:
+        .word   168, 168, .Lsrl23_start
+.Lsrl23_start:
+.Lsrl23_b31:
+        .word   172, 172, .Lsrl23_b31a
+.Lsrl23_b31a:
+        .word   12, 12, .Lsrl23_b31b
+.Lsrl23_b31b:
+        .word   164, 12, .Lsrl23_b31c
+.Lsrl23_b31c:
+        .word   12, 172, .Lsrl23_b31d
+.Lsrl23_b31d:
+        .word   24, 172, .Lsrl23_b31_le0
+        .word   12, 12, .Lsrl23_b30
+.Lsrl23_b31_le0:
+        .word   176, 176, .Lsrl23_b31e
+.Lsrl23_b31e:
+        .word   164, 176, .Lsrl23_b31f
+.Lsrl23_b31f:
+        .word   24, 176, .Lsrl23_b31_ambig
+        .word   12, 12, .Lsrl23_b31s
+.Lsrl23_b31_ambig:
+        .word   172, 172, .Lsrl23_b31g
+.Lsrl23_b31g:
+        .word   164, 172, .Lsrl23_b31h
+.Lsrl23_b31h:
+        .word   .Lsrl_one, 172, .Lsrl23_b31i
+.Lsrl23_b31i:
+        .word   24, 172, .Lsrl23_b30
+        .word   12, 12, .Lsrl23_b31s
+.Lsrl23_b31s:
+        .word   .Lsrl_c2147483648, 164, .Lsrl23_b31t
+.Lsrl23_b31t:
+        .word   .Lsrl_n256, 168, .Lsrl23_b30
+.Lsrl23_b30:
+        .word   172, 172, .Lsrl23_b30a
+.Lsrl23_b30a:
+        .word   12, 12, .Lsrl23_b30b
+.Lsrl23_b30b:
+        .word   164, 12, .Lsrl23_b30c
+.Lsrl23_b30c:
+        .word   12, 172, .Lsrl23_b30d
+.Lsrl23_b30d:
+        .word   .Lsrl_c1073741824, 172, .Lsrl23_b30e
+.Lsrl23_b30e:
+        .word   176, 176, .Lsrl23_b30f
+.Lsrl23_b30f:
+        .word   172, 176, .Lsrl23_b30s
+        .word   12, 12, .Lsrl23_b29
+.Lsrl23_b30s:
+        .word   .Lsrl_c1073741824, 164, .Lsrl23_b30t
+.Lsrl23_b30t:
+        .word   .Lsrl_n128, 168, .Lsrl23_b29
+.Lsrl23_b29:
+        .word   172, 172, .Lsrl23_b29a
+.Lsrl23_b29a:
+        .word   12, 12, .Lsrl23_b29b
+.Lsrl23_b29b:
+        .word   164, 12, .Lsrl23_b29c
+.Lsrl23_b29c:
+        .word   12, 172, .Lsrl23_b29d
+.Lsrl23_b29d:
+        .word   .Lsrl_c536870912, 172, .Lsrl23_b29e
+.Lsrl23_b29e:
+        .word   176, 176, .Lsrl23_b29f
+.Lsrl23_b29f:
+        .word   172, 176, .Lsrl23_b29s
+        .word   12, 12, .Lsrl23_b28
+.Lsrl23_b29s:
+        .word   .Lsrl_c536870912, 164, .Lsrl23_b29t
+.Lsrl23_b29t:
+        .word   .Lsrl_n64, 168, .Lsrl23_b28
+.Lsrl23_b28:
+        .word   172, 172, .Lsrl23_b28a
+.Lsrl23_b28a:
+        .word   12, 12, .Lsrl23_b28b
+.Lsrl23_b28b:
+        .word   164, 12, .Lsrl23_b28c
+.Lsrl23_b28c:
+        .word   12, 172, .Lsrl23_b28d
+.Lsrl23_b28d:
+        .word   .Lsrl_c268435456, 172, .Lsrl23_b28e
+.Lsrl23_b28e:
+        .word   176, 176, .Lsrl23_b28f
+.Lsrl23_b28f:
+        .word   172, 176, .Lsrl23_b28s
+        .word   12, 12, .Lsrl23_b27
+.Lsrl23_b28s:
+        .word   .Lsrl_c268435456, 164, .Lsrl23_b28t
+.Lsrl23_b28t:
+        .word   .Lsrl_n32, 168, .Lsrl23_b27
+.Lsrl23_b27:
+        .word   172, 172, .Lsrl23_b27a
+.Lsrl23_b27a:
+        .word   12, 12, .Lsrl23_b27b
+.Lsrl23_b27b:
+        .word   164, 12, .Lsrl23_b27c
+.Lsrl23_b27c:
+        .word   12, 172, .Lsrl23_b27d
+.Lsrl23_b27d:
+        .word   .Lsrl_c134217728, 172, .Lsrl23_b27e
+.Lsrl23_b27e:
+        .word   176, 176, .Lsrl23_b27f
+.Lsrl23_b27f:
+        .word   172, 176, .Lsrl23_b27s
+        .word   12, 12, .Lsrl23_b26
+.Lsrl23_b27s:
+        .word   .Lsrl_c134217728, 164, .Lsrl23_b27t
+.Lsrl23_b27t:
+        .word   .Lsrl_n16, 168, .Lsrl23_b26
+.Lsrl23_b26:
+        .word   172, 172, .Lsrl23_b26a
+.Lsrl23_b26a:
+        .word   12, 12, .Lsrl23_b26b
+.Lsrl23_b26b:
+        .word   164, 12, .Lsrl23_b26c
+.Lsrl23_b26c:
+        .word   12, 172, .Lsrl23_b26d
+.Lsrl23_b26d:
+        .word   .Lsrl_c67108864, 172, .Lsrl23_b26e
+.Lsrl23_b26e:
+        .word   176, 176, .Lsrl23_b26f
+.Lsrl23_b26f:
+        .word   172, 176, .Lsrl23_b26s
+        .word   12, 12, .Lsrl23_b25
+.Lsrl23_b26s:
+        .word   .Lsrl_c67108864, 164, .Lsrl23_b26t
+.Lsrl23_b26t:
+        .word   .Lsrl_n8, 168, .Lsrl23_b25
+.Lsrl23_b25:
+        .word   172, 172, .Lsrl23_b25a
+.Lsrl23_b25a:
+        .word   12, 12, .Lsrl23_b25b
+.Lsrl23_b25b:
+        .word   164, 12, .Lsrl23_b25c
+.Lsrl23_b25c:
+        .word   12, 172, .Lsrl23_b25d
+.Lsrl23_b25d:
+        .word   .Lsrl_c33554432, 172, .Lsrl23_b25e
+.Lsrl23_b25e:
+        .word   176, 176, .Lsrl23_b25f
+.Lsrl23_b25f:
+        .word   172, 176, .Lsrl23_b25s
+        .word   12, 12, .Lsrl23_b24
+.Lsrl23_b25s:
+        .word   .Lsrl_c33554432, 164, .Lsrl23_b25t
+.Lsrl23_b25t:
+        .word   .Lsrl_n4, 168, .Lsrl23_b24
+.Lsrl23_b24:
+        .word   172, 172, .Lsrl23_b24a
+.Lsrl23_b24a:
+        .word   12, 12, .Lsrl23_b24b
+.Lsrl23_b24b:
+        .word   164, 12, .Lsrl23_b24c
+.Lsrl23_b24c:
+        .word   12, 172, .Lsrl23_b24d
+.Lsrl23_b24d:
+        .word   .Lsrl_c16777216, 172, .Lsrl23_b24e
+.Lsrl23_b24e:
+        .word   176, 176, .Lsrl23_b24f
+.Lsrl23_b24f:
+        .word   172, 176, .Lsrl23_b24s
+        .word   12, 12, .Lsrl23_b23
+.Lsrl23_b24s:
+        .word   .Lsrl_c16777216, 164, .Lsrl23_b24t
+.Lsrl23_b24t:
+        .word   .Lsrl_n2, 168, .Lsrl23_b23
+.Lsrl23_b23:
+        .word   172, 172, .Lsrl23_b23a
+.Lsrl23_b23a:
+        .word   12, 12, .Lsrl23_b23b
+.Lsrl23_b23b:
+        .word   164, 12, .Lsrl23_b23c
+.Lsrl23_b23c:
+        .word   12, 172, .Lsrl23_b23d
+.Lsrl23_b23d:
+        .word   .Lsrl_c8388608, 172, .Lsrl23_b23e
+.Lsrl23_b23e:
+        .word   176, 176, .Lsrl23_b23f
+.Lsrl23_b23f:
+        .word   172, 176, .Lsrl23_b23s
+        .word   12, 12, .Lsrl23_store
+.Lsrl23_b23s:
+        .word   .Lsrl_c8388608, 164, .Lsrl23_b23t
+.Lsrl23_b23t:
+        .word   .Lsrl_n1, 168, .Lsrl23_store
+.Lsrl23_store:
+        .word   28, 28, .Lsrl23_st1
+.Lsrl23_st1:
+        .word   12, 12, .Lsrl23_st2
+.Lsrl23_st2:
+        .word   168, 12, .Lsrl23_st3
+.Lsrl23_st3:
+        .word   12, 28, .Lsrl23_st4
+.Lsrl23_st4:
+        .word   24, 24, .Lsrl_done
+
+.Lsrl_shift_24:
+        .word   168, 168, .Lsrl24_start
+.Lsrl24_start:
+.Lsrl24_b31:
+        .word   172, 172, .Lsrl24_b31a
+.Lsrl24_b31a:
+        .word   12, 12, .Lsrl24_b31b
+.Lsrl24_b31b:
+        .word   164, 12, .Lsrl24_b31c
+.Lsrl24_b31c:
+        .word   12, 172, .Lsrl24_b31d
+.Lsrl24_b31d:
+        .word   24, 172, .Lsrl24_b31_le0
+        .word   12, 12, .Lsrl24_b30
+.Lsrl24_b31_le0:
+        .word   176, 176, .Lsrl24_b31e
+.Lsrl24_b31e:
+        .word   164, 176, .Lsrl24_b31f
+.Lsrl24_b31f:
+        .word   24, 176, .Lsrl24_b31_ambig
+        .word   12, 12, .Lsrl24_b31s
+.Lsrl24_b31_ambig:
+        .word   172, 172, .Lsrl24_b31g
+.Lsrl24_b31g:
+        .word   164, 172, .Lsrl24_b31h
+.Lsrl24_b31h:
+        .word   .Lsrl_one, 172, .Lsrl24_b31i
+.Lsrl24_b31i:
+        .word   24, 172, .Lsrl24_b30
+        .word   12, 12, .Lsrl24_b31s
+.Lsrl24_b31s:
+        .word   .Lsrl_c2147483648, 164, .Lsrl24_b31t
+.Lsrl24_b31t:
+        .word   .Lsrl_n128, 168, .Lsrl24_b30
+.Lsrl24_b30:
+        .word   172, 172, .Lsrl24_b30a
+.Lsrl24_b30a:
+        .word   12, 12, .Lsrl24_b30b
+.Lsrl24_b30b:
+        .word   164, 12, .Lsrl24_b30c
+.Lsrl24_b30c:
+        .word   12, 172, .Lsrl24_b30d
+.Lsrl24_b30d:
+        .word   .Lsrl_c1073741824, 172, .Lsrl24_b30e
+.Lsrl24_b30e:
+        .word   176, 176, .Lsrl24_b30f
+.Lsrl24_b30f:
+        .word   172, 176, .Lsrl24_b30s
+        .word   12, 12, .Lsrl24_b29
+.Lsrl24_b30s:
+        .word   .Lsrl_c1073741824, 164, .Lsrl24_b30t
+.Lsrl24_b30t:
+        .word   .Lsrl_n64, 168, .Lsrl24_b29
+.Lsrl24_b29:
+        .word   172, 172, .Lsrl24_b29a
+.Lsrl24_b29a:
+        .word   12, 12, .Lsrl24_b29b
+.Lsrl24_b29b:
+        .word   164, 12, .Lsrl24_b29c
+.Lsrl24_b29c:
+        .word   12, 172, .Lsrl24_b29d
+.Lsrl24_b29d:
+        .word   .Lsrl_c536870912, 172, .Lsrl24_b29e
+.Lsrl24_b29e:
+        .word   176, 176, .Lsrl24_b29f
+.Lsrl24_b29f:
+        .word   172, 176, .Lsrl24_b29s
+        .word   12, 12, .Lsrl24_b28
+.Lsrl24_b29s:
+        .word   .Lsrl_c536870912, 164, .Lsrl24_b29t
+.Lsrl24_b29t:
+        .word   .Lsrl_n32, 168, .Lsrl24_b28
+.Lsrl24_b28:
+        .word   172, 172, .Lsrl24_b28a
+.Lsrl24_b28a:
+        .word   12, 12, .Lsrl24_b28b
+.Lsrl24_b28b:
+        .word   164, 12, .Lsrl24_b28c
+.Lsrl24_b28c:
+        .word   12, 172, .Lsrl24_b28d
+.Lsrl24_b28d:
+        .word   .Lsrl_c268435456, 172, .Lsrl24_b28e
+.Lsrl24_b28e:
+        .word   176, 176, .Lsrl24_b28f
+.Lsrl24_b28f:
+        .word   172, 176, .Lsrl24_b28s
+        .word   12, 12, .Lsrl24_b27
+.Lsrl24_b28s:
+        .word   .Lsrl_c268435456, 164, .Lsrl24_b28t
+.Lsrl24_b28t:
+        .word   .Lsrl_n16, 168, .Lsrl24_b27
+.Lsrl24_b27:
+        .word   172, 172, .Lsrl24_b27a
+.Lsrl24_b27a:
+        .word   12, 12, .Lsrl24_b27b
+.Lsrl24_b27b:
+        .word   164, 12, .Lsrl24_b27c
+.Lsrl24_b27c:
+        .word   12, 172, .Lsrl24_b27d
+.Lsrl24_b27d:
+        .word   .Lsrl_c134217728, 172, .Lsrl24_b27e
+.Lsrl24_b27e:
+        .word   176, 176, .Lsrl24_b27f
+.Lsrl24_b27f:
+        .word   172, 176, .Lsrl24_b27s
+        .word   12, 12, .Lsrl24_b26
+.Lsrl24_b27s:
+        .word   .Lsrl_c134217728, 164, .Lsrl24_b27t
+.Lsrl24_b27t:
+        .word   .Lsrl_n8, 168, .Lsrl24_b26
+.Lsrl24_b26:
+        .word   172, 172, .Lsrl24_b26a
+.Lsrl24_b26a:
+        .word   12, 12, .Lsrl24_b26b
+.Lsrl24_b26b:
+        .word   164, 12, .Lsrl24_b26c
+.Lsrl24_b26c:
+        .word   12, 172, .Lsrl24_b26d
+.Lsrl24_b26d:
+        .word   .Lsrl_c67108864, 172, .Lsrl24_b26e
+.Lsrl24_b26e:
+        .word   176, 176, .Lsrl24_b26f
+.Lsrl24_b26f:
+        .word   172, 176, .Lsrl24_b26s
+        .word   12, 12, .Lsrl24_b25
+.Lsrl24_b26s:
+        .word   .Lsrl_c67108864, 164, .Lsrl24_b26t
+.Lsrl24_b26t:
+        .word   .Lsrl_n4, 168, .Lsrl24_b25
+.Lsrl24_b25:
+        .word   172, 172, .Lsrl24_b25a
+.Lsrl24_b25a:
+        .word   12, 12, .Lsrl24_b25b
+.Lsrl24_b25b:
+        .word   164, 12, .Lsrl24_b25c
+.Lsrl24_b25c:
+        .word   12, 172, .Lsrl24_b25d
+.Lsrl24_b25d:
+        .word   .Lsrl_c33554432, 172, .Lsrl24_b25e
+.Lsrl24_b25e:
+        .word   176, 176, .Lsrl24_b25f
+.Lsrl24_b25f:
+        .word   172, 176, .Lsrl24_b25s
+        .word   12, 12, .Lsrl24_b24
+.Lsrl24_b25s:
+        .word   .Lsrl_c33554432, 164, .Lsrl24_b25t
+.Lsrl24_b25t:
+        .word   .Lsrl_n2, 168, .Lsrl24_b24
+.Lsrl24_b24:
+        .word   172, 172, .Lsrl24_b24a
+.Lsrl24_b24a:
+        .word   12, 12, .Lsrl24_b24b
+.Lsrl24_b24b:
+        .word   164, 12, .Lsrl24_b24c
+.Lsrl24_b24c:
+        .word   12, 172, .Lsrl24_b24d
+.Lsrl24_b24d:
+        .word   .Lsrl_c16777216, 172, .Lsrl24_b24e
+.Lsrl24_b24e:
+        .word   176, 176, .Lsrl24_b24f
+.Lsrl24_b24f:
+        .word   172, 176, .Lsrl24_b24s
+        .word   12, 12, .Lsrl24_store
+.Lsrl24_b24s:
+        .word   .Lsrl_c16777216, 164, .Lsrl24_b24t
+.Lsrl24_b24t:
+        .word   .Lsrl_n1, 168, .Lsrl24_store
+.Lsrl24_store:
+        .word   28, 28, .Lsrl24_st1
+.Lsrl24_st1:
+        .word   12, 12, .Lsrl24_st2
+.Lsrl24_st2:
+        .word   168, 12, .Lsrl24_st3
+.Lsrl24_st3:
+        .word   12, 28, .Lsrl24_st4
+.Lsrl24_st4:
+        .word   24, 24, .Lsrl_done
+
+.Lsrl_shift_25:
+        .word   168, 168, .Lsrl25_start
+.Lsrl25_start:
+.Lsrl25_b31:
+        .word   172, 172, .Lsrl25_b31a
+.Lsrl25_b31a:
+        .word   12, 12, .Lsrl25_b31b
+.Lsrl25_b31b:
+        .word   164, 12, .Lsrl25_b31c
+.Lsrl25_b31c:
+        .word   12, 172, .Lsrl25_b31d
+.Lsrl25_b31d:
+        .word   24, 172, .Lsrl25_b31_le0
+        .word   12, 12, .Lsrl25_b30
+.Lsrl25_b31_le0:
+        .word   176, 176, .Lsrl25_b31e
+.Lsrl25_b31e:
+        .word   164, 176, .Lsrl25_b31f
+.Lsrl25_b31f:
+        .word   24, 176, .Lsrl25_b31_ambig
+        .word   12, 12, .Lsrl25_b31s
+.Lsrl25_b31_ambig:
+        .word   172, 172, .Lsrl25_b31g
+.Lsrl25_b31g:
+        .word   164, 172, .Lsrl25_b31h
+.Lsrl25_b31h:
+        .word   .Lsrl_one, 172, .Lsrl25_b31i
+.Lsrl25_b31i:
+        .word   24, 172, .Lsrl25_b30
+        .word   12, 12, .Lsrl25_b31s
+.Lsrl25_b31s:
+        .word   .Lsrl_c2147483648, 164, .Lsrl25_b31t
+.Lsrl25_b31t:
+        .word   .Lsrl_n64, 168, .Lsrl25_b30
+.Lsrl25_b30:
+        .word   172, 172, .Lsrl25_b30a
+.Lsrl25_b30a:
+        .word   12, 12, .Lsrl25_b30b
+.Lsrl25_b30b:
+        .word   164, 12, .Lsrl25_b30c
+.Lsrl25_b30c:
+        .word   12, 172, .Lsrl25_b30d
+.Lsrl25_b30d:
+        .word   .Lsrl_c1073741824, 172, .Lsrl25_b30e
+.Lsrl25_b30e:
+        .word   176, 176, .Lsrl25_b30f
+.Lsrl25_b30f:
+        .word   172, 176, .Lsrl25_b30s
+        .word   12, 12, .Lsrl25_b29
+.Lsrl25_b30s:
+        .word   .Lsrl_c1073741824, 164, .Lsrl25_b30t
+.Lsrl25_b30t:
+        .word   .Lsrl_n32, 168, .Lsrl25_b29
+.Lsrl25_b29:
+        .word   172, 172, .Lsrl25_b29a
+.Lsrl25_b29a:
+        .word   12, 12, .Lsrl25_b29b
+.Lsrl25_b29b:
+        .word   164, 12, .Lsrl25_b29c
+.Lsrl25_b29c:
+        .word   12, 172, .Lsrl25_b29d
+.Lsrl25_b29d:
+        .word   .Lsrl_c536870912, 172, .Lsrl25_b29e
+.Lsrl25_b29e:
+        .word   176, 176, .Lsrl25_b29f
+.Lsrl25_b29f:
+        .word   172, 176, .Lsrl25_b29s
+        .word   12, 12, .Lsrl25_b28
+.Lsrl25_b29s:
+        .word   .Lsrl_c536870912, 164, .Lsrl25_b29t
+.Lsrl25_b29t:
+        .word   .Lsrl_n16, 168, .Lsrl25_b28
+.Lsrl25_b28:
+        .word   172, 172, .Lsrl25_b28a
+.Lsrl25_b28a:
+        .word   12, 12, .Lsrl25_b28b
+.Lsrl25_b28b:
+        .word   164, 12, .Lsrl25_b28c
+.Lsrl25_b28c:
+        .word   12, 172, .Lsrl25_b28d
+.Lsrl25_b28d:
+        .word   .Lsrl_c268435456, 172, .Lsrl25_b28e
+.Lsrl25_b28e:
+        .word   176, 176, .Lsrl25_b28f
+.Lsrl25_b28f:
+        .word   172, 176, .Lsrl25_b28s
+        .word   12, 12, .Lsrl25_b27
+.Lsrl25_b28s:
+        .word   .Lsrl_c268435456, 164, .Lsrl25_b28t
+.Lsrl25_b28t:
+        .word   .Lsrl_n8, 168, .Lsrl25_b27
+.Lsrl25_b27:
+        .word   172, 172, .Lsrl25_b27a
+.Lsrl25_b27a:
+        .word   12, 12, .Lsrl25_b27b
+.Lsrl25_b27b:
+        .word   164, 12, .Lsrl25_b27c
+.Lsrl25_b27c:
+        .word   12, 172, .Lsrl25_b27d
+.Lsrl25_b27d:
+        .word   .Lsrl_c134217728, 172, .Lsrl25_b27e
+.Lsrl25_b27e:
+        .word   176, 176, .Lsrl25_b27f
+.Lsrl25_b27f:
+        .word   172, 176, .Lsrl25_b27s
+        .word   12, 12, .Lsrl25_b26
+.Lsrl25_b27s:
+        .word   .Lsrl_c134217728, 164, .Lsrl25_b27t
+.Lsrl25_b27t:
+        .word   .Lsrl_n4, 168, .Lsrl25_b26
+.Lsrl25_b26:
+        .word   172, 172, .Lsrl25_b26a
+.Lsrl25_b26a:
+        .word   12, 12, .Lsrl25_b26b
+.Lsrl25_b26b:
+        .word   164, 12, .Lsrl25_b26c
+.Lsrl25_b26c:
+        .word   12, 172, .Lsrl25_b26d
+.Lsrl25_b26d:
+        .word   .Lsrl_c67108864, 172, .Lsrl25_b26e
+.Lsrl25_b26e:
+        .word   176, 176, .Lsrl25_b26f
+.Lsrl25_b26f:
+        .word   172, 176, .Lsrl25_b26s
+        .word   12, 12, .Lsrl25_b25
+.Lsrl25_b26s:
+        .word   .Lsrl_c67108864, 164, .Lsrl25_b26t
+.Lsrl25_b26t:
+        .word   .Lsrl_n2, 168, .Lsrl25_b25
+.Lsrl25_b25:
+        .word   172, 172, .Lsrl25_b25a
+.Lsrl25_b25a:
+        .word   12, 12, .Lsrl25_b25b
+.Lsrl25_b25b:
+        .word   164, 12, .Lsrl25_b25c
+.Lsrl25_b25c:
+        .word   12, 172, .Lsrl25_b25d
+.Lsrl25_b25d:
+        .word   .Lsrl_c33554432, 172, .Lsrl25_b25e
+.Lsrl25_b25e:
+        .word   176, 176, .Lsrl25_b25f
+.Lsrl25_b25f:
+        .word   172, 176, .Lsrl25_b25s
+        .word   12, 12, .Lsrl25_store
+.Lsrl25_b25s:
+        .word   .Lsrl_c33554432, 164, .Lsrl25_b25t
+.Lsrl25_b25t:
+        .word   .Lsrl_n1, 168, .Lsrl25_store
+.Lsrl25_store:
+        .word   28, 28, .Lsrl25_st1
+.Lsrl25_st1:
+        .word   12, 12, .Lsrl25_st2
+.Lsrl25_st2:
+        .word   168, 12, .Lsrl25_st3
+.Lsrl25_st3:
+        .word   12, 28, .Lsrl25_st4
+.Lsrl25_st4:
+        .word   24, 24, .Lsrl_done
+
+.Lsrl_shift_26:
+        .word   168, 168, .Lsrl26_start
+.Lsrl26_start:
+.Lsrl26_b31:
+        .word   172, 172, .Lsrl26_b31a
+.Lsrl26_b31a:
+        .word   12, 12, .Lsrl26_b31b
+.Lsrl26_b31b:
+        .word   164, 12, .Lsrl26_b31c
+.Lsrl26_b31c:
+        .word   12, 172, .Lsrl26_b31d
+.Lsrl26_b31d:
+        .word   24, 172, .Lsrl26_b31_le0
+        .word   12, 12, .Lsrl26_b30
+.Lsrl26_b31_le0:
+        .word   176, 176, .Lsrl26_b31e
+.Lsrl26_b31e:
+        .word   164, 176, .Lsrl26_b31f
+.Lsrl26_b31f:
+        .word   24, 176, .Lsrl26_b31_ambig
+        .word   12, 12, .Lsrl26_b31s
+.Lsrl26_b31_ambig:
+        .word   172, 172, .Lsrl26_b31g
+.Lsrl26_b31g:
+        .word   164, 172, .Lsrl26_b31h
+.Lsrl26_b31h:
+        .word   .Lsrl_one, 172, .Lsrl26_b31i
+.Lsrl26_b31i:
+        .word   24, 172, .Lsrl26_b30
+        .word   12, 12, .Lsrl26_b31s
+.Lsrl26_b31s:
+        .word   .Lsrl_c2147483648, 164, .Lsrl26_b31t
+.Lsrl26_b31t:
+        .word   .Lsrl_n32, 168, .Lsrl26_b30
+.Lsrl26_b30:
+        .word   172, 172, .Lsrl26_b30a
+.Lsrl26_b30a:
+        .word   12, 12, .Lsrl26_b30b
+.Lsrl26_b30b:
+        .word   164, 12, .Lsrl26_b30c
+.Lsrl26_b30c:
+        .word   12, 172, .Lsrl26_b30d
+.Lsrl26_b30d:
+        .word   .Lsrl_c1073741824, 172, .Lsrl26_b30e
+.Lsrl26_b30e:
+        .word   176, 176, .Lsrl26_b30f
+.Lsrl26_b30f:
+        .word   172, 176, .Lsrl26_b30s
+        .word   12, 12, .Lsrl26_b29
+.Lsrl26_b30s:
+        .word   .Lsrl_c1073741824, 164, .Lsrl26_b30t
+.Lsrl26_b30t:
+        .word   .Lsrl_n16, 168, .Lsrl26_b29
+.Lsrl26_b29:
+        .word   172, 172, .Lsrl26_b29a
+.Lsrl26_b29a:
+        .word   12, 12, .Lsrl26_b29b
+.Lsrl26_b29b:
+        .word   164, 12, .Lsrl26_b29c
+.Lsrl26_b29c:
+        .word   12, 172, .Lsrl26_b29d
+.Lsrl26_b29d:
+        .word   .Lsrl_c536870912, 172, .Lsrl26_b29e
+.Lsrl26_b29e:
+        .word   176, 176, .Lsrl26_b29f
+.Lsrl26_b29f:
+        .word   172, 176, .Lsrl26_b29s
+        .word   12, 12, .Lsrl26_b28
+.Lsrl26_b29s:
+        .word   .Lsrl_c536870912, 164, .Lsrl26_b29t
+.Lsrl26_b29t:
+        .word   .Lsrl_n8, 168, .Lsrl26_b28
+.Lsrl26_b28:
+        .word   172, 172, .Lsrl26_b28a
+.Lsrl26_b28a:
+        .word   12, 12, .Lsrl26_b28b
+.Lsrl26_b28b:
+        .word   164, 12, .Lsrl26_b28c
+.Lsrl26_b28c:
+        .word   12, 172, .Lsrl26_b28d
+.Lsrl26_b28d:
+        .word   .Lsrl_c268435456, 172, .Lsrl26_b28e
+.Lsrl26_b28e:
+        .word   176, 176, .Lsrl26_b28f
+.Lsrl26_b28f:
+        .word   172, 176, .Lsrl26_b28s
+        .word   12, 12, .Lsrl26_b27
+.Lsrl26_b28s:
+        .word   .Lsrl_c268435456, 164, .Lsrl26_b28t
+.Lsrl26_b28t:
+        .word   .Lsrl_n4, 168, .Lsrl26_b27
+.Lsrl26_b27:
+        .word   172, 172, .Lsrl26_b27a
+.Lsrl26_b27a:
+        .word   12, 12, .Lsrl26_b27b
+.Lsrl26_b27b:
+        .word   164, 12, .Lsrl26_b27c
+.Lsrl26_b27c:
+        .word   12, 172, .Lsrl26_b27d
+.Lsrl26_b27d:
+        .word   .Lsrl_c134217728, 172, .Lsrl26_b27e
+.Lsrl26_b27e:
+        .word   176, 176, .Lsrl26_b27f
+.Lsrl26_b27f:
+        .word   172, 176, .Lsrl26_b27s
+        .word   12, 12, .Lsrl26_b26
+.Lsrl26_b27s:
+        .word   .Lsrl_c134217728, 164, .Lsrl26_b27t
+.Lsrl26_b27t:
+        .word   .Lsrl_n2, 168, .Lsrl26_b26
+.Lsrl26_b26:
+        .word   172, 172, .Lsrl26_b26a
+.Lsrl26_b26a:
+        .word   12, 12, .Lsrl26_b26b
+.Lsrl26_b26b:
+        .word   164, 12, .Lsrl26_b26c
+.Lsrl26_b26c:
+        .word   12, 172, .Lsrl26_b26d
+.Lsrl26_b26d:
+        .word   .Lsrl_c67108864, 172, .Lsrl26_b26e
+.Lsrl26_b26e:
+        .word   176, 176, .Lsrl26_b26f
+.Lsrl26_b26f:
+        .word   172, 176, .Lsrl26_b26s
+        .word   12, 12, .Lsrl26_store
+.Lsrl26_b26s:
+        .word   .Lsrl_c67108864, 164, .Lsrl26_b26t
+.Lsrl26_b26t:
+        .word   .Lsrl_n1, 168, .Lsrl26_store
+.Lsrl26_store:
+        .word   28, 28, .Lsrl26_st1
+.Lsrl26_st1:
+        .word   12, 12, .Lsrl26_st2
+.Lsrl26_st2:
+        .word   168, 12, .Lsrl26_st3
+.Lsrl26_st3:
+        .word   12, 28, .Lsrl26_st4
+.Lsrl26_st4:
+        .word   24, 24, .Lsrl_done
+
+.Lsrl_shift_27:
+        .word   168, 168, .Lsrl27_start
+.Lsrl27_start:
+.Lsrl27_b31:
+        .word   172, 172, .Lsrl27_b31a
+.Lsrl27_b31a:
+        .word   12, 12, .Lsrl27_b31b
+.Lsrl27_b31b:
+        .word   164, 12, .Lsrl27_b31c
+.Lsrl27_b31c:
+        .word   12, 172, .Lsrl27_b31d
+.Lsrl27_b31d:
+        .word   24, 172, .Lsrl27_b31_le0
+        .word   12, 12, .Lsrl27_b30
+.Lsrl27_b31_le0:
+        .word   176, 176, .Lsrl27_b31e
+.Lsrl27_b31e:
+        .word   164, 176, .Lsrl27_b31f
+.Lsrl27_b31f:
+        .word   24, 176, .Lsrl27_b31_ambig
+        .word   12, 12, .Lsrl27_b31s
+.Lsrl27_b31_ambig:
+        .word   172, 172, .Lsrl27_b31g
+.Lsrl27_b31g:
+        .word   164, 172, .Lsrl27_b31h
+.Lsrl27_b31h:
+        .word   .Lsrl_one, 172, .Lsrl27_b31i
+.Lsrl27_b31i:
+        .word   24, 172, .Lsrl27_b30
+        .word   12, 12, .Lsrl27_b31s
+.Lsrl27_b31s:
+        .word   .Lsrl_c2147483648, 164, .Lsrl27_b31t
+.Lsrl27_b31t:
+        .word   .Lsrl_n16, 168, .Lsrl27_b30
+.Lsrl27_b30:
+        .word   172, 172, .Lsrl27_b30a
+.Lsrl27_b30a:
+        .word   12, 12, .Lsrl27_b30b
+.Lsrl27_b30b:
+        .word   164, 12, .Lsrl27_b30c
+.Lsrl27_b30c:
+        .word   12, 172, .Lsrl27_b30d
+.Lsrl27_b30d:
+        .word   .Lsrl_c1073741824, 172, .Lsrl27_b30e
+.Lsrl27_b30e:
+        .word   176, 176, .Lsrl27_b30f
+.Lsrl27_b30f:
+        .word   172, 176, .Lsrl27_b30s
+        .word   12, 12, .Lsrl27_b29
+.Lsrl27_b30s:
+        .word   .Lsrl_c1073741824, 164, .Lsrl27_b30t
+.Lsrl27_b30t:
+        .word   .Lsrl_n8, 168, .Lsrl27_b29
+.Lsrl27_b29:
+        .word   172, 172, .Lsrl27_b29a
+.Lsrl27_b29a:
+        .word   12, 12, .Lsrl27_b29b
+.Lsrl27_b29b:
+        .word   164, 12, .Lsrl27_b29c
+.Lsrl27_b29c:
+        .word   12, 172, .Lsrl27_b29d
+.Lsrl27_b29d:
+        .word   .Lsrl_c536870912, 172, .Lsrl27_b29e
+.Lsrl27_b29e:
+        .word   176, 176, .Lsrl27_b29f
+.Lsrl27_b29f:
+        .word   172, 176, .Lsrl27_b29s
+        .word   12, 12, .Lsrl27_b28
+.Lsrl27_b29s:
+        .word   .Lsrl_c536870912, 164, .Lsrl27_b29t
+.Lsrl27_b29t:
+        .word   .Lsrl_n4, 168, .Lsrl27_b28
+.Lsrl27_b28:
+        .word   172, 172, .Lsrl27_b28a
+.Lsrl27_b28a:
+        .word   12, 12, .Lsrl27_b28b
+.Lsrl27_b28b:
+        .word   164, 12, .Lsrl27_b28c
+.Lsrl27_b28c:
+        .word   12, 172, .Lsrl27_b28d
+.Lsrl27_b28d:
+        .word   .Lsrl_c268435456, 172, .Lsrl27_b28e
+.Lsrl27_b28e:
+        .word   176, 176, .Lsrl27_b28f
+.Lsrl27_b28f:
+        .word   172, 176, .Lsrl27_b28s
+        .word   12, 12, .Lsrl27_b27
+.Lsrl27_b28s:
+        .word   .Lsrl_c268435456, 164, .Lsrl27_b28t
+.Lsrl27_b28t:
+        .word   .Lsrl_n2, 168, .Lsrl27_b27
+.Lsrl27_b27:
+        .word   172, 172, .Lsrl27_b27a
+.Lsrl27_b27a:
+        .word   12, 12, .Lsrl27_b27b
+.Lsrl27_b27b:
+        .word   164, 12, .Lsrl27_b27c
+.Lsrl27_b27c:
+        .word   12, 172, .Lsrl27_b27d
+.Lsrl27_b27d:
+        .word   .Lsrl_c134217728, 172, .Lsrl27_b27e
+.Lsrl27_b27e:
+        .word   176, 176, .Lsrl27_b27f
+.Lsrl27_b27f:
+        .word   172, 176, .Lsrl27_b27s
+        .word   12, 12, .Lsrl27_store
+.Lsrl27_b27s:
+        .word   .Lsrl_c134217728, 164, .Lsrl27_b27t
+.Lsrl27_b27t:
+        .word   .Lsrl_n1, 168, .Lsrl27_store
+.Lsrl27_store:
+        .word   28, 28, .Lsrl27_st1
+.Lsrl27_st1:
+        .word   12, 12, .Lsrl27_st2
+.Lsrl27_st2:
+        .word   168, 12, .Lsrl27_st3
+.Lsrl27_st3:
+        .word   12, 28, .Lsrl27_st4
+.Lsrl27_st4:
+        .word   24, 24, .Lsrl_done
+
+.Lsrl_shift_28:
+        .word   168, 168, .Lsrl28_start
+.Lsrl28_start:
+.Lsrl28_b31:
+        .word   172, 172, .Lsrl28_b31a
+.Lsrl28_b31a:
+        .word   12, 12, .Lsrl28_b31b
+.Lsrl28_b31b:
+        .word   164, 12, .Lsrl28_b31c
+.Lsrl28_b31c:
+        .word   12, 172, .Lsrl28_b31d
+.Lsrl28_b31d:
+        .word   24, 172, .Lsrl28_b31_le0
+        .word   12, 12, .Lsrl28_b30
+.Lsrl28_b31_le0:
+        .word   176, 176, .Lsrl28_b31e
+.Lsrl28_b31e:
+        .word   164, 176, .Lsrl28_b31f
+.Lsrl28_b31f:
+        .word   24, 176, .Lsrl28_b31_ambig
+        .word   12, 12, .Lsrl28_b31s
+.Lsrl28_b31_ambig:
+        .word   172, 172, .Lsrl28_b31g
+.Lsrl28_b31g:
+        .word   164, 172, .Lsrl28_b31h
+.Lsrl28_b31h:
+        .word   .Lsrl_one, 172, .Lsrl28_b31i
+.Lsrl28_b31i:
+        .word   24, 172, .Lsrl28_b30
+        .word   12, 12, .Lsrl28_b31s
+.Lsrl28_b31s:
+        .word   .Lsrl_c2147483648, 164, .Lsrl28_b31t
+.Lsrl28_b31t:
+        .word   .Lsrl_n8, 168, .Lsrl28_b30
+.Lsrl28_b30:
+        .word   172, 172, .Lsrl28_b30a
+.Lsrl28_b30a:
+        .word   12, 12, .Lsrl28_b30b
+.Lsrl28_b30b:
+        .word   164, 12, .Lsrl28_b30c
+.Lsrl28_b30c:
+        .word   12, 172, .Lsrl28_b30d
+.Lsrl28_b30d:
+        .word   .Lsrl_c1073741824, 172, .Lsrl28_b30e
+.Lsrl28_b30e:
+        .word   176, 176, .Lsrl28_b30f
+.Lsrl28_b30f:
+        .word   172, 176, .Lsrl28_b30s
+        .word   12, 12, .Lsrl28_b29
+.Lsrl28_b30s:
+        .word   .Lsrl_c1073741824, 164, .Lsrl28_b30t
+.Lsrl28_b30t:
+        .word   .Lsrl_n4, 168, .Lsrl28_b29
+.Lsrl28_b29:
+        .word   172, 172, .Lsrl28_b29a
+.Lsrl28_b29a:
+        .word   12, 12, .Lsrl28_b29b
+.Lsrl28_b29b:
+        .word   164, 12, .Lsrl28_b29c
+.Lsrl28_b29c:
+        .word   12, 172, .Lsrl28_b29d
+.Lsrl28_b29d:
+        .word   .Lsrl_c536870912, 172, .Lsrl28_b29e
+.Lsrl28_b29e:
+        .word   176, 176, .Lsrl28_b29f
+.Lsrl28_b29f:
+        .word   172, 176, .Lsrl28_b29s
+        .word   12, 12, .Lsrl28_b28
+.Lsrl28_b29s:
+        .word   .Lsrl_c536870912, 164, .Lsrl28_b29t
+.Lsrl28_b29t:
+        .word   .Lsrl_n2, 168, .Lsrl28_b28
+.Lsrl28_b28:
+        .word   172, 172, .Lsrl28_b28a
+.Lsrl28_b28a:
+        .word   12, 12, .Lsrl28_b28b
+.Lsrl28_b28b:
+        .word   164, 12, .Lsrl28_b28c
+.Lsrl28_b28c:
+        .word   12, 172, .Lsrl28_b28d
+.Lsrl28_b28d:
+        .word   .Lsrl_c268435456, 172, .Lsrl28_b28e
+.Lsrl28_b28e:
+        .word   176, 176, .Lsrl28_b28f
+.Lsrl28_b28f:
+        .word   172, 176, .Lsrl28_b28s
+        .word   12, 12, .Lsrl28_store
+.Lsrl28_b28s:
+        .word   .Lsrl_c268435456, 164, .Lsrl28_b28t
+.Lsrl28_b28t:
+        .word   .Lsrl_n1, 168, .Lsrl28_store
+.Lsrl28_store:
+        .word   28, 28, .Lsrl28_st1
+.Lsrl28_st1:
+        .word   12, 12, .Lsrl28_st2
+.Lsrl28_st2:
+        .word   168, 12, .Lsrl28_st3
+.Lsrl28_st3:
+        .word   12, 28, .Lsrl28_st4
+.Lsrl28_st4:
+        .word   24, 24, .Lsrl_done
+
+.Lsrl_shift_29:
+        .word   168, 168, .Lsrl29_start
+.Lsrl29_start:
+.Lsrl29_b31:
+        .word   172, 172, .Lsrl29_b31a
+.Lsrl29_b31a:
+        .word   12, 12, .Lsrl29_b31b
+.Lsrl29_b31b:
+        .word   164, 12, .Lsrl29_b31c
+.Lsrl29_b31c:
+        .word   12, 172, .Lsrl29_b31d
+.Lsrl29_b31d:
+        .word   24, 172, .Lsrl29_b31_le0
+        .word   12, 12, .Lsrl29_b30
+.Lsrl29_b31_le0:
+        .word   176, 176, .Lsrl29_b31e
+.Lsrl29_b31e:
+        .word   164, 176, .Lsrl29_b31f
+.Lsrl29_b31f:
+        .word   24, 176, .Lsrl29_b31_ambig
+        .word   12, 12, .Lsrl29_b31s
+.Lsrl29_b31_ambig:
+        .word   172, 172, .Lsrl29_b31g
+.Lsrl29_b31g:
+        .word   164, 172, .Lsrl29_b31h
+.Lsrl29_b31h:
+        .word   .Lsrl_one, 172, .Lsrl29_b31i
+.Lsrl29_b31i:
+        .word   24, 172, .Lsrl29_b30
+        .word   12, 12, .Lsrl29_b31s
+.Lsrl29_b31s:
+        .word   .Lsrl_c2147483648, 164, .Lsrl29_b31t
+.Lsrl29_b31t:
+        .word   .Lsrl_n4, 168, .Lsrl29_b30
+.Lsrl29_b30:
+        .word   172, 172, .Lsrl29_b30a
+.Lsrl29_b30a:
+        .word   12, 12, .Lsrl29_b30b
+.Lsrl29_b30b:
+        .word   164, 12, .Lsrl29_b30c
+.Lsrl29_b30c:
+        .word   12, 172, .Lsrl29_b30d
+.Lsrl29_b30d:
+        .word   .Lsrl_c1073741824, 172, .Lsrl29_b30e
+.Lsrl29_b30e:
+        .word   176, 176, .Lsrl29_b30f
+.Lsrl29_b30f:
+        .word   172, 176, .Lsrl29_b30s
+        .word   12, 12, .Lsrl29_b29
+.Lsrl29_b30s:
+        .word   .Lsrl_c1073741824, 164, .Lsrl29_b30t
+.Lsrl29_b30t:
+        .word   .Lsrl_n2, 168, .Lsrl29_b29
+.Lsrl29_b29:
+        .word   172, 172, .Lsrl29_b29a
+.Lsrl29_b29a:
+        .word   12, 12, .Lsrl29_b29b
+.Lsrl29_b29b:
+        .word   164, 12, .Lsrl29_b29c
+.Lsrl29_b29c:
+        .word   12, 172, .Lsrl29_b29d
+.Lsrl29_b29d:
+        .word   .Lsrl_c536870912, 172, .Lsrl29_b29e
+.Lsrl29_b29e:
+        .word   176, 176, .Lsrl29_b29f
+.Lsrl29_b29f:
+        .word   172, 176, .Lsrl29_b29s
+        .word   12, 12, .Lsrl29_store
+.Lsrl29_b29s:
+        .word   .Lsrl_c536870912, 164, .Lsrl29_b29t
+.Lsrl29_b29t:
+        .word   .Lsrl_n1, 168, .Lsrl29_store
+.Lsrl29_store:
+        .word   28, 28, .Lsrl29_st1
+.Lsrl29_st1:
+        .word   12, 12, .Lsrl29_st2
+.Lsrl29_st2:
+        .word   168, 12, .Lsrl29_st3
+.Lsrl29_st3:
+        .word   12, 28, .Lsrl29_st4
+.Lsrl29_st4:
+        .word   24, 24, .Lsrl_done
+
+.Lsrl_shift_30:
+        .word   168, 168, .Lsrl30_start
+.Lsrl30_start:
+.Lsrl30_b31:
+        .word   172, 172, .Lsrl30_b31a
+.Lsrl30_b31a:
+        .word   12, 12, .Lsrl30_b31b
+.Lsrl30_b31b:
+        .word   164, 12, .Lsrl30_b31c
+.Lsrl30_b31c:
+        .word   12, 172, .Lsrl30_b31d
+.Lsrl30_b31d:
+        .word   24, 172, .Lsrl30_b31_le0
+        .word   12, 12, .Lsrl30_b30
+.Lsrl30_b31_le0:
+        .word   176, 176, .Lsrl30_b31e
+.Lsrl30_b31e:
+        .word   164, 176, .Lsrl30_b31f
+.Lsrl30_b31f:
+        .word   24, 176, .Lsrl30_b31_ambig
+        .word   12, 12, .Lsrl30_b31s
+.Lsrl30_b31_ambig:
+        .word   172, 172, .Lsrl30_b31g
+.Lsrl30_b31g:
+        .word   164, 172, .Lsrl30_b31h
+.Lsrl30_b31h:
+        .word   .Lsrl_one, 172, .Lsrl30_b31i
+.Lsrl30_b31i:
+        .word   24, 172, .Lsrl30_b30
+        .word   12, 12, .Lsrl30_b31s
+.Lsrl30_b31s:
+        .word   .Lsrl_c2147483648, 164, .Lsrl30_b31t
+.Lsrl30_b31t:
+        .word   .Lsrl_n2, 168, .Lsrl30_b30
+.Lsrl30_b30:
+        .word   172, 172, .Lsrl30_b30a
+.Lsrl30_b30a:
+        .word   12, 12, .Lsrl30_b30b
+.Lsrl30_b30b:
+        .word   164, 12, .Lsrl30_b30c
+.Lsrl30_b30c:
+        .word   12, 172, .Lsrl30_b30d
+.Lsrl30_b30d:
+        .word   .Lsrl_c1073741824, 172, .Lsrl30_b30e
+.Lsrl30_b30e:
+        .word   176, 176, .Lsrl30_b30f
+.Lsrl30_b30f:
+        .word   172, 176, .Lsrl30_b30s
+        .word   12, 12, .Lsrl30_store
+.Lsrl30_b30s:
+        .word   .Lsrl_c1073741824, 164, .Lsrl30_b30t
+.Lsrl30_b30t:
+        .word   .Lsrl_n1, 168, .Lsrl30_store
+.Lsrl30_store:
+        .word   28, 28, .Lsrl30_st1
+.Lsrl30_st1:
+        .word   12, 12, .Lsrl30_st2
+.Lsrl30_st2:
+        .word   168, 12, .Lsrl30_st3
+.Lsrl30_st3:
+        .word   12, 28, .Lsrl30_st4
+.Lsrl30_st4:
+        .word   24, 24, .Lsrl_done
+
+.Lsrl_shift_31:
+        .word   168, 168, .Lsrl31_start
+.Lsrl31_start:
+.Lsrl31_b31:
+        .word   172, 172, .Lsrl31_b31a
+.Lsrl31_b31a:
+        .word   12, 12, .Lsrl31_b31b
+.Lsrl31_b31b:
+        .word   164, 12, .Lsrl31_b31c
+.Lsrl31_b31c:
+        .word   12, 172, .Lsrl31_b31d
+.Lsrl31_b31d:
+        .word   24, 172, .Lsrl31_b31_le0
+        .word   12, 12, .Lsrl31_store
+.Lsrl31_b31_le0:
+        .word   176, 176, .Lsrl31_b31e
+.Lsrl31_b31e:
+        .word   164, 176, .Lsrl31_b31f
+.Lsrl31_b31f:
+        .word   24, 176, .Lsrl31_b31_ambig
+        .word   12, 12, .Lsrl31_b31s
+.Lsrl31_b31_ambig:
+        .word   172, 172, .Lsrl31_b31g
+.Lsrl31_b31g:
+        .word   164, 172, .Lsrl31_b31h
+.Lsrl31_b31h:
+        .word   .Lsrl_one, 172, .Lsrl31_b31i
+.Lsrl31_b31i:
+        .word   24, 172, .Lsrl31_store
+        .word   12, 12, .Lsrl31_b31s
+.Lsrl31_b31s:
+        .word   .Lsrl_c2147483648, 164, .Lsrl31_b31t
+.Lsrl31_b31t:
+        .word   .Lsrl_n1, 168, .Lsrl31_store
+.Lsrl31_store:
+        .word   28, 28, .Lsrl31_st1
+.Lsrl31_st1:
+        .word   12, 12, .Lsrl31_st2
+.Lsrl31_st2:
+        .word   168, 12, .Lsrl31_st3
+.Lsrl31_st3:
+        .word   12, 28, .Lsrl31_st4
+.Lsrl31_st4:
+        .word   24, 24, .Lsrl_done
 .Lsrl_done:
 .Lsrl_pop:
         .word   12, 12, .Lsrl_pop1
@@ -61058,10 +70467,74 @@ __subleq_srl:
         .word   -1
 .Lsrl_neg4:
         .word   -4
+.Lsrl_sh32:
+        .word   32
 .Lsrl_one:
         .word   1
-.Lsrl_min:
-        .word   -2147483648
+.Lsrl_sh1:
+        .word   1
+.Lsrl_sh2:
+        .word   2
+.Lsrl_sh3:
+        .word   3
+.Lsrl_sh4:
+        .word   4
+.Lsrl_sh5:
+        .word   5
+.Lsrl_sh6:
+        .word   6
+.Lsrl_sh7:
+        .word   7
+.Lsrl_sh8:
+        .word   8
+.Lsrl_sh9:
+        .word   9
+.Lsrl_sh10:
+        .word   10
+.Lsrl_sh11:
+        .word   11
+.Lsrl_sh12:
+        .word   12
+.Lsrl_sh13:
+        .word   13
+.Lsrl_sh14:
+        .word   14
+.Lsrl_sh15:
+        .word   15
+.Lsrl_sh16:
+        .word   16
+.Lsrl_sh17:
+        .word   17
+.Lsrl_sh18:
+        .word   18
+.Lsrl_sh19:
+        .word   19
+.Lsrl_sh20:
+        .word   20
+.Lsrl_sh21:
+        .word   21
+.Lsrl_sh22:
+        .word   22
+.Lsrl_sh23:
+        .word   23
+.Lsrl_sh24:
+        .word   24
+.Lsrl_sh25:
+        .word   25
+.Lsrl_sh26:
+        .word   26
+.Lsrl_sh27:
+        .word   27
+.Lsrl_sh28:
+        .word   28
+.Lsrl_sh29:
+        .word   29
+.Lsrl_sh30:
+        .word   30
+.Lsrl_sh31:
+        .word   31
+.Lsrl_c1:
+        .word   1
 .Lsrl_c2:
         .word   2
 .Lsrl_c4:
@@ -61122,6 +70595,8 @@ __subleq_srl:
         .word   536870912
 .Lsrl_c1073741824:
         .word   1073741824
+.Lsrl_c2147483648:
+        .word   2147483648
 .Lsrl_n1:
         .word   -1
 .Lsrl_n2:
@@ -61191,695 +70666,11637 @@ __subleq_srl:
         .type   __subleq_sra,@function
 
 # __subleq_sra: R3 = R3 >> R4 (arithmetic right shift)
-# O(32 * shift_count) optimized version
+# Unrolled O(32-N) version with sign extension
 __subleq_sra:
-        .word   160, 160, .Lsra_init1
+        .word   164, 164, .Lsra_init1
 .Lsra_init1:
         .word   12, 12, .Lsra_init2
 .Lsra_init2:
-        .word   32, 12, .Lsra_init3
+        .word   28, 12, .Lsra_init3
 .Lsra_init3:
-        .word   12, 160, .Lsra_outer
-.Lsra_outer:
-        .word   172, 172, .Lsra_ochk1
-.Lsra_ochk1:
+        .word   12, 164, .Lsra_dispatch
+.Lsra_dispatch:
+        .word   160, 160, .Lsra_chk0a
+.Lsra_chk0a:
+        .word   12, 12, .Lsra_chk0b
+.Lsra_chk0b:
+        .word   32, 12, .Lsra_chk0c
+.Lsra_chk0c:
+        .word   12, 160, .Lsra_chk0d
+.Lsra_chk0d:
         .word   24, 160, .Lsra_done
-        .word   164, 164, .Lsra_cp1
-.Lsra_cp1:
-        .word   12, 12, .Lsra_cp2
-.Lsra_cp2:
-        .word   28, 12, .Lsra_cp3
-.Lsra_cp3:
-        .word   12, 164, .Lsra_sign_chk
-.Lsra_sign_chk:
-        .word   176, 176, .Lsra_sign1
-.Lsra_sign1:
-        .word   180, 180, .Lsra_sign2
-.Lsra_sign2:
-        .word   12, 12, .Lsra_sign3
-.Lsra_sign3:
-        .word   164, 12, .Lsra_sign4
-.Lsra_sign4:
-        .word   12, 180, .Lsra_sign5
-.Lsra_sign5:
-        .word   24, 180, .Lsra_t1_le0
-        .word   12, 12, .Lsra_pos
-.Lsra_t1_le0:
-        .word   180, 180, .Lsra_le0_1
-.Lsra_le0_1:
-        .word   12, 12, .Lsra_le0_2
-.Lsra_le0_2:
-        .word   164, 12, .Lsra_le0_3
-.Lsra_le0_3:
-        .word   12, 180, .Lsra_le0_4
-.Lsra_le0_4:
-        .word   172, 172, .Lsra_le0_5
-.Lsra_le0_5:
-        .word   180, 172, .Lsra_le0_6
-.Lsra_le0_6:
-        .word   24, 172, .Lsra_t1_ambig
-        .word   12, 12, .Lsra_go_neg
-.Lsra_t1_ambig:
-        .word   172, 172, .Lsra_ambig_1
-.Lsra_ambig_1:
-        .word   12, 12, .Lsra_ambig_2
-.Lsra_ambig_2:
-        .word   164, 12, .Lsra_ambig_3
-.Lsra_ambig_3:
-        .word   12, 172, .Lsra_ambig_4
-.Lsra_ambig_4:
-        .word   12, 12, .Lsra_ambig_5
-.Lsra_ambig_5:
-        .word   172, 12, .Lsra_ambig_6
-.Lsra_ambig_6:
-        .word   172, 172, .Lsra_ambig_7
-.Lsra_ambig_7:
-        .word   12, 172, .Lsra_ambig_8
-.Lsra_ambig_8:
-        .word   .Lsra_one, 172, .Lsra_ambig_9
-.Lsra_ambig_9:
-        .word   24, 172, .Lsra_pos
-        .word   12, 12, .Lsra_go_neg
-.Lsra_go_neg:
-        .word   .Lsra_neg1, 176, .Lsra_flip
-.Lsra_flip:
-        .word   172, 172, .Lsra_flip1
-.Lsra_flip1:
-        .word   164, 172, .Lsra_flip2
-.Lsra_flip2:
-        .word   164, 164, .Lsra_flip3
-.Lsra_flip3:
-        .word   12, 12, .Lsra_flip4
-.Lsra_flip4:
-        .word   172, 12, .Lsra_flip5
-.Lsra_flip5:
-        .word   12, 164, .Lsra_flip6
-.Lsra_flip6:
-        .word   12, 12, .Lsra_flip7
-.Lsra_flip7:
-        .word   .Lsra_one, 164, .Lsra_pos
-.Lsra_pos:
-        .word   168, 168, .Lsra_b30
-.Lsra_b30:
-        .word   180, 180, .Lsra_b30a
-.Lsra_b30a:
-        .word   12, 12, .Lsra_b30b
-.Lsra_b30b:
-        .word   164, 12, .Lsra_b30c
-.Lsra_b30c:
-        .word   12, 180, .Lsra_b30d
-.Lsra_b30d:
-        .word   .Lsra_c1073741824, 180, .Lsra_b30e
-.Lsra_b30e:
-        .word   184, 184, .Lsra_b30f
-.Lsra_b30f:
-        .word   180, 184, .Lsra_b30s
-        .word   12, 12, .Lsra_b29
-.Lsra_b30s:
-        .word   .Lsra_c1073741824, 164, .Lsra_b30t
-.Lsra_b30t:
-        .word   .Lsra_n536870912, 168, .Lsra_b29
-.Lsra_b29:
-        .word   180, 180, .Lsra_b29a
-.Lsra_b29a:
-        .word   12, 12, .Lsra_b29b
-.Lsra_b29b:
-        .word   164, 12, .Lsra_b29c
-.Lsra_b29c:
-        .word   12, 180, .Lsra_b29d
-.Lsra_b29d:
-        .word   .Lsra_c536870912, 180, .Lsra_b29e
-.Lsra_b29e:
-        .word   184, 184, .Lsra_b29f
-.Lsra_b29f:
-        .word   180, 184, .Lsra_b29s
-        .word   12, 12, .Lsra_b28
-.Lsra_b29s:
-        .word   .Lsra_c536870912, 164, .Lsra_b29t
-.Lsra_b29t:
-        .word   .Lsra_n268435456, 168, .Lsra_b28
-.Lsra_b28:
-        .word   180, 180, .Lsra_b28a
-.Lsra_b28a:
-        .word   12, 12, .Lsra_b28b
-.Lsra_b28b:
-        .word   164, 12, .Lsra_b28c
-.Lsra_b28c:
-        .word   12, 180, .Lsra_b28d
-.Lsra_b28d:
-        .word   .Lsra_c268435456, 180, .Lsra_b28e
-.Lsra_b28e:
-        .word   184, 184, .Lsra_b28f
-.Lsra_b28f:
-        .word   180, 184, .Lsra_b28s
-        .word   12, 12, .Lsra_b27
-.Lsra_b28s:
-        .word   .Lsra_c268435456, 164, .Lsra_b28t
-.Lsra_b28t:
-        .word   .Lsra_n134217728, 168, .Lsra_b27
-.Lsra_b27:
-        .word   180, 180, .Lsra_b27a
-.Lsra_b27a:
-        .word   12, 12, .Lsra_b27b
-.Lsra_b27b:
-        .word   164, 12, .Lsra_b27c
-.Lsra_b27c:
-        .word   12, 180, .Lsra_b27d
-.Lsra_b27d:
-        .word   .Lsra_c134217728, 180, .Lsra_b27e
-.Lsra_b27e:
-        .word   184, 184, .Lsra_b27f
-.Lsra_b27f:
-        .word   180, 184, .Lsra_b27s
-        .word   12, 12, .Lsra_b26
-.Lsra_b27s:
-        .word   .Lsra_c134217728, 164, .Lsra_b27t
-.Lsra_b27t:
-        .word   .Lsra_n67108864, 168, .Lsra_b26
-.Lsra_b26:
-        .word   180, 180, .Lsra_b26a
-.Lsra_b26a:
-        .word   12, 12, .Lsra_b26b
-.Lsra_b26b:
-        .word   164, 12, .Lsra_b26c
-.Lsra_b26c:
-        .word   12, 180, .Lsra_b26d
-.Lsra_b26d:
-        .word   .Lsra_c67108864, 180, .Lsra_b26e
-.Lsra_b26e:
-        .word   184, 184, .Lsra_b26f
-.Lsra_b26f:
-        .word   180, 184, .Lsra_b26s
-        .word   12, 12, .Lsra_b25
-.Lsra_b26s:
-        .word   .Lsra_c67108864, 164, .Lsra_b26t
-.Lsra_b26t:
-        .word   .Lsra_n33554432, 168, .Lsra_b25
-.Lsra_b25:
-        .word   180, 180, .Lsra_b25a
-.Lsra_b25a:
-        .word   12, 12, .Lsra_b25b
-.Lsra_b25b:
-        .word   164, 12, .Lsra_b25c
-.Lsra_b25c:
-        .word   12, 180, .Lsra_b25d
-.Lsra_b25d:
-        .word   .Lsra_c33554432, 180, .Lsra_b25e
-.Lsra_b25e:
-        .word   184, 184, .Lsra_b25f
-.Lsra_b25f:
-        .word   180, 184, .Lsra_b25s
-        .word   12, 12, .Lsra_b24
-.Lsra_b25s:
-        .word   .Lsra_c33554432, 164, .Lsra_b25t
-.Lsra_b25t:
-        .word   .Lsra_n16777216, 168, .Lsra_b24
-.Lsra_b24:
-        .word   180, 180, .Lsra_b24a
-.Lsra_b24a:
-        .word   12, 12, .Lsra_b24b
-.Lsra_b24b:
-        .word   164, 12, .Lsra_b24c
-.Lsra_b24c:
-        .word   12, 180, .Lsra_b24d
-.Lsra_b24d:
-        .word   .Lsra_c16777216, 180, .Lsra_b24e
-.Lsra_b24e:
-        .word   184, 184, .Lsra_b24f
-.Lsra_b24f:
-        .word   180, 184, .Lsra_b24s
-        .word   12, 12, .Lsra_b23
-.Lsra_b24s:
-        .word   .Lsra_c16777216, 164, .Lsra_b24t
-.Lsra_b24t:
-        .word   .Lsra_n8388608, 168, .Lsra_b23
-.Lsra_b23:
-        .word   180, 180, .Lsra_b23a
-.Lsra_b23a:
-        .word   12, 12, .Lsra_b23b
-.Lsra_b23b:
-        .word   164, 12, .Lsra_b23c
-.Lsra_b23c:
-        .word   12, 180, .Lsra_b23d
-.Lsra_b23d:
-        .word   .Lsra_c8388608, 180, .Lsra_b23e
-.Lsra_b23e:
-        .word   184, 184, .Lsra_b23f
-.Lsra_b23f:
-        .word   180, 184, .Lsra_b23s
-        .word   12, 12, .Lsra_b22
-.Lsra_b23s:
-        .word   .Lsra_c8388608, 164, .Lsra_b23t
-.Lsra_b23t:
-        .word   .Lsra_n4194304, 168, .Lsra_b22
-.Lsra_b22:
-        .word   180, 180, .Lsra_b22a
-.Lsra_b22a:
-        .word   12, 12, .Lsra_b22b
-.Lsra_b22b:
-        .word   164, 12, .Lsra_b22c
-.Lsra_b22c:
-        .word   12, 180, .Lsra_b22d
-.Lsra_b22d:
-        .word   .Lsra_c4194304, 180, .Lsra_b22e
-.Lsra_b22e:
-        .word   184, 184, .Lsra_b22f
-.Lsra_b22f:
-        .word   180, 184, .Lsra_b22s
-        .word   12, 12, .Lsra_b21
-.Lsra_b22s:
-        .word   .Lsra_c4194304, 164, .Lsra_b22t
-.Lsra_b22t:
-        .word   .Lsra_n2097152, 168, .Lsra_b21
-.Lsra_b21:
-        .word   180, 180, .Lsra_b21a
-.Lsra_b21a:
-        .word   12, 12, .Lsra_b21b
-.Lsra_b21b:
-        .word   164, 12, .Lsra_b21c
-.Lsra_b21c:
-        .word   12, 180, .Lsra_b21d
-.Lsra_b21d:
-        .word   .Lsra_c2097152, 180, .Lsra_b21e
-.Lsra_b21e:
-        .word   184, 184, .Lsra_b21f
-.Lsra_b21f:
-        .word   180, 184, .Lsra_b21s
-        .word   12, 12, .Lsra_b20
-.Lsra_b21s:
-        .word   .Lsra_c2097152, 164, .Lsra_b21t
-.Lsra_b21t:
-        .word   .Lsra_n1048576, 168, .Lsra_b20
-.Lsra_b20:
-        .word   180, 180, .Lsra_b20a
-.Lsra_b20a:
-        .word   12, 12, .Lsra_b20b
-.Lsra_b20b:
-        .word   164, 12, .Lsra_b20c
-.Lsra_b20c:
-        .word   12, 180, .Lsra_b20d
-.Lsra_b20d:
-        .word   .Lsra_c1048576, 180, .Lsra_b20e
-.Lsra_b20e:
-        .word   184, 184, .Lsra_b20f
-.Lsra_b20f:
-        .word   180, 184, .Lsra_b20s
-        .word   12, 12, .Lsra_b19
-.Lsra_b20s:
-        .word   .Lsra_c1048576, 164, .Lsra_b20t
-.Lsra_b20t:
-        .word   .Lsra_n524288, 168, .Lsra_b19
-.Lsra_b19:
-        .word   180, 180, .Lsra_b19a
-.Lsra_b19a:
-        .word   12, 12, .Lsra_b19b
-.Lsra_b19b:
-        .word   164, 12, .Lsra_b19c
-.Lsra_b19c:
-        .word   12, 180, .Lsra_b19d
-.Lsra_b19d:
-        .word   .Lsra_c524288, 180, .Lsra_b19e
-.Lsra_b19e:
-        .word   184, 184, .Lsra_b19f
-.Lsra_b19f:
-        .word   180, 184, .Lsra_b19s
-        .word   12, 12, .Lsra_b18
-.Lsra_b19s:
-        .word   .Lsra_c524288, 164, .Lsra_b19t
-.Lsra_b19t:
-        .word   .Lsra_n262144, 168, .Lsra_b18
-.Lsra_b18:
-        .word   180, 180, .Lsra_b18a
-.Lsra_b18a:
-        .word   12, 12, .Lsra_b18b
-.Lsra_b18b:
-        .word   164, 12, .Lsra_b18c
-.Lsra_b18c:
-        .word   12, 180, .Lsra_b18d
-.Lsra_b18d:
-        .word   .Lsra_c262144, 180, .Lsra_b18e
-.Lsra_b18e:
-        .word   184, 184, .Lsra_b18f
-.Lsra_b18f:
-        .word   180, 184, .Lsra_b18s
-        .word   12, 12, .Lsra_b17
-.Lsra_b18s:
-        .word   .Lsra_c262144, 164, .Lsra_b18t
-.Lsra_b18t:
-        .word   .Lsra_n131072, 168, .Lsra_b17
-.Lsra_b17:
-        .word   180, 180, .Lsra_b17a
-.Lsra_b17a:
-        .word   12, 12, .Lsra_b17b
-.Lsra_b17b:
-        .word   164, 12, .Lsra_b17c
-.Lsra_b17c:
-        .word   12, 180, .Lsra_b17d
-.Lsra_b17d:
-        .word   .Lsra_c131072, 180, .Lsra_b17e
-.Lsra_b17e:
-        .word   184, 184, .Lsra_b17f
-.Lsra_b17f:
-        .word   180, 184, .Lsra_b17s
-        .word   12, 12, .Lsra_b16
-.Lsra_b17s:
-        .word   .Lsra_c131072, 164, .Lsra_b17t
-.Lsra_b17t:
-        .word   .Lsra_n65536, 168, .Lsra_b16
-.Lsra_b16:
-        .word   180, 180, .Lsra_b16a
-.Lsra_b16a:
-        .word   12, 12, .Lsra_b16b
-.Lsra_b16b:
-        .word   164, 12, .Lsra_b16c
-.Lsra_b16c:
-        .word   12, 180, .Lsra_b16d
-.Lsra_b16d:
-        .word   .Lsra_c65536, 180, .Lsra_b16e
-.Lsra_b16e:
-        .word   184, 184, .Lsra_b16f
-.Lsra_b16f:
-        .word   180, 184, .Lsra_b16s
-        .word   12, 12, .Lsra_b15
-.Lsra_b16s:
-        .word   .Lsra_c65536, 164, .Lsra_b16t
-.Lsra_b16t:
-        .word   .Lsra_n32768, 168, .Lsra_b15
-.Lsra_b15:
-        .word   180, 180, .Lsra_b15a
-.Lsra_b15a:
-        .word   12, 12, .Lsra_b15b
-.Lsra_b15b:
-        .word   164, 12, .Lsra_b15c
-.Lsra_b15c:
-        .word   12, 180, .Lsra_b15d
-.Lsra_b15d:
-        .word   .Lsra_c32768, 180, .Lsra_b15e
-.Lsra_b15e:
-        .word   184, 184, .Lsra_b15f
-.Lsra_b15f:
-        .word   180, 184, .Lsra_b15s
-        .word   12, 12, .Lsra_b14
-.Lsra_b15s:
-        .word   .Lsra_c32768, 164, .Lsra_b15t
-.Lsra_b15t:
-        .word   .Lsra_n16384, 168, .Lsra_b14
-.Lsra_b14:
-        .word   180, 180, .Lsra_b14a
-.Lsra_b14a:
-        .word   12, 12, .Lsra_b14b
-.Lsra_b14b:
-        .word   164, 12, .Lsra_b14c
-.Lsra_b14c:
-        .word   12, 180, .Lsra_b14d
-.Lsra_b14d:
-        .word   .Lsra_c16384, 180, .Lsra_b14e
-.Lsra_b14e:
-        .word   184, 184, .Lsra_b14f
-.Lsra_b14f:
-        .word   180, 184, .Lsra_b14s
-        .word   12, 12, .Lsra_b13
-.Lsra_b14s:
-        .word   .Lsra_c16384, 164, .Lsra_b14t
-.Lsra_b14t:
-        .word   .Lsra_n8192, 168, .Lsra_b13
-.Lsra_b13:
-        .word   180, 180, .Lsra_b13a
-.Lsra_b13a:
-        .word   12, 12, .Lsra_b13b
-.Lsra_b13b:
-        .word   164, 12, .Lsra_b13c
-.Lsra_b13c:
-        .word   12, 180, .Lsra_b13d
-.Lsra_b13d:
-        .word   .Lsra_c8192, 180, .Lsra_b13e
-.Lsra_b13e:
-        .word   184, 184, .Lsra_b13f
-.Lsra_b13f:
-        .word   180, 184, .Lsra_b13s
-        .word   12, 12, .Lsra_b12
-.Lsra_b13s:
-        .word   .Lsra_c8192, 164, .Lsra_b13t
-.Lsra_b13t:
-        .word   .Lsra_n4096, 168, .Lsra_b12
-.Lsra_b12:
-        .word   180, 180, .Lsra_b12a
-.Lsra_b12a:
-        .word   12, 12, .Lsra_b12b
-.Lsra_b12b:
-        .word   164, 12, .Lsra_b12c
-.Lsra_b12c:
-        .word   12, 180, .Lsra_b12d
-.Lsra_b12d:
-        .word   .Lsra_c4096, 180, .Lsra_b12e
-.Lsra_b12e:
-        .word   184, 184, .Lsra_b12f
-.Lsra_b12f:
-        .word   180, 184, .Lsra_b12s
-        .word   12, 12, .Lsra_b11
-.Lsra_b12s:
-        .word   .Lsra_c4096, 164, .Lsra_b12t
-.Lsra_b12t:
-        .word   .Lsra_n2048, 168, .Lsra_b11
-.Lsra_b11:
-        .word   180, 180, .Lsra_b11a
-.Lsra_b11a:
-        .word   12, 12, .Lsra_b11b
-.Lsra_b11b:
-        .word   164, 12, .Lsra_b11c
-.Lsra_b11c:
-        .word   12, 180, .Lsra_b11d
-.Lsra_b11d:
-        .word   .Lsra_c2048, 180, .Lsra_b11e
-.Lsra_b11e:
-        .word   184, 184, .Lsra_b11f
-.Lsra_b11f:
-        .word   180, 184, .Lsra_b11s
-        .word   12, 12, .Lsra_b10
-.Lsra_b11s:
-        .word   .Lsra_c2048, 164, .Lsra_b11t
-.Lsra_b11t:
-        .word   .Lsra_n1024, 168, .Lsra_b10
-.Lsra_b10:
-        .word   180, 180, .Lsra_b10a
-.Lsra_b10a:
-        .word   12, 12, .Lsra_b10b
-.Lsra_b10b:
-        .word   164, 12, .Lsra_b10c
-.Lsra_b10c:
-        .word   12, 180, .Lsra_b10d
-.Lsra_b10d:
-        .word   .Lsra_c1024, 180, .Lsra_b10e
-.Lsra_b10e:
-        .word   184, 184, .Lsra_b10f
-.Lsra_b10f:
-        .word   180, 184, .Lsra_b10s
-        .word   12, 12, .Lsra_b9
-.Lsra_b10s:
-        .word   .Lsra_c1024, 164, .Lsra_b10t
-.Lsra_b10t:
-        .word   .Lsra_n512, 168, .Lsra_b9
-.Lsra_b9:
-        .word   180, 180, .Lsra_b9a
-.Lsra_b9a:
-        .word   12, 12, .Lsra_b9b
-.Lsra_b9b:
-        .word   164, 12, .Lsra_b9c
-.Lsra_b9c:
-        .word   12, 180, .Lsra_b9d
-.Lsra_b9d:
-        .word   .Lsra_c512, 180, .Lsra_b9e
-.Lsra_b9e:
-        .word   184, 184, .Lsra_b9f
-.Lsra_b9f:
-        .word   180, 184, .Lsra_b9s
-        .word   12, 12, .Lsra_b8
-.Lsra_b9s:
-        .word   .Lsra_c512, 164, .Lsra_b9t
-.Lsra_b9t:
-        .word   .Lsra_n256, 168, .Lsra_b8
-.Lsra_b8:
-        .word   180, 180, .Lsra_b8a
-.Lsra_b8a:
-        .word   12, 12, .Lsra_b8b
-.Lsra_b8b:
-        .word   164, 12, .Lsra_b8c
-.Lsra_b8c:
-        .word   12, 180, .Lsra_b8d
-.Lsra_b8d:
-        .word   .Lsra_c256, 180, .Lsra_b8e
-.Lsra_b8e:
-        .word   184, 184, .Lsra_b8f
-.Lsra_b8f:
-        .word   180, 184, .Lsra_b8s
-        .word   12, 12, .Lsra_b7
-.Lsra_b8s:
-        .word   .Lsra_c256, 164, .Lsra_b8t
-.Lsra_b8t:
-        .word   .Lsra_n128, 168, .Lsra_b7
-.Lsra_b7:
-        .word   180, 180, .Lsra_b7a
-.Lsra_b7a:
-        .word   12, 12, .Lsra_b7b
-.Lsra_b7b:
-        .word   164, 12, .Lsra_b7c
-.Lsra_b7c:
-        .word   12, 180, .Lsra_b7d
-.Lsra_b7d:
-        .word   .Lsra_c128, 180, .Lsra_b7e
-.Lsra_b7e:
-        .word   184, 184, .Lsra_b7f
-.Lsra_b7f:
-        .word   180, 184, .Lsra_b7s
-        .word   12, 12, .Lsra_b6
-.Lsra_b7s:
-        .word   .Lsra_c128, 164, .Lsra_b7t
-.Lsra_b7t:
-        .word   .Lsra_n64, 168, .Lsra_b6
-.Lsra_b6:
-        .word   180, 180, .Lsra_b6a
-.Lsra_b6a:
-        .word   12, 12, .Lsra_b6b
-.Lsra_b6b:
-        .word   164, 12, .Lsra_b6c
-.Lsra_b6c:
-        .word   12, 180, .Lsra_b6d
-.Lsra_b6d:
-        .word   .Lsra_c64, 180, .Lsra_b6e
-.Lsra_b6e:
-        .word   184, 184, .Lsra_b6f
-.Lsra_b6f:
-        .word   180, 184, .Lsra_b6s
-        .word   12, 12, .Lsra_b5
-.Lsra_b6s:
-        .word   .Lsra_c64, 164, .Lsra_b6t
-.Lsra_b6t:
-        .word   .Lsra_n32, 168, .Lsra_b5
-.Lsra_b5:
-        .word   180, 180, .Lsra_b5a
-.Lsra_b5a:
-        .word   12, 12, .Lsra_b5b
-.Lsra_b5b:
-        .word   164, 12, .Lsra_b5c
-.Lsra_b5c:
-        .word   12, 180, .Lsra_b5d
-.Lsra_b5d:
-        .word   .Lsra_c32, 180, .Lsra_b5e
-.Lsra_b5e:
-        .word   184, 184, .Lsra_b5f
-.Lsra_b5f:
-        .word   180, 184, .Lsra_b5s
-        .word   12, 12, .Lsra_b4
-.Lsra_b5s:
-        .word   .Lsra_c32, 164, .Lsra_b5t
-.Lsra_b5t:
-        .word   .Lsra_n16, 168, .Lsra_b4
-.Lsra_b4:
-        .word   180, 180, .Lsra_b4a
-.Lsra_b4a:
-        .word   12, 12, .Lsra_b4b
-.Lsra_b4b:
-        .word   164, 12, .Lsra_b4c
-.Lsra_b4c:
-        .word   12, 180, .Lsra_b4d
-.Lsra_b4d:
-        .word   .Lsra_c16, 180, .Lsra_b4e
-.Lsra_b4e:
-        .word   184, 184, .Lsra_b4f
-.Lsra_b4f:
-        .word   180, 184, .Lsra_b4s
-        .word   12, 12, .Lsra_b3
-.Lsra_b4s:
-        .word   .Lsra_c16, 164, .Lsra_b4t
-.Lsra_b4t:
-        .word   .Lsra_n8, 168, .Lsra_b3
-.Lsra_b3:
-        .word   180, 180, .Lsra_b3a
-.Lsra_b3a:
-        .word   12, 12, .Lsra_b3b
-.Lsra_b3b:
-        .word   164, 12, .Lsra_b3c
-.Lsra_b3c:
-        .word   12, 180, .Lsra_b3d
-.Lsra_b3d:
-        .word   .Lsra_c8, 180, .Lsra_b3e
-.Lsra_b3e:
-        .word   184, 184, .Lsra_b3f
-.Lsra_b3f:
-        .word   180, 184, .Lsra_b3s
-        .word   12, 12, .Lsra_b2
-.Lsra_b3s:
-        .word   .Lsra_c8, 164, .Lsra_b3t
-.Lsra_b3t:
-        .word   .Lsra_n4, 168, .Lsra_b2
-.Lsra_b2:
-        .word   180, 180, .Lsra_b2a
-.Lsra_b2a:
-        .word   12, 12, .Lsra_b2b
-.Lsra_b2b:
-        .word   164, 12, .Lsra_b2c
-.Lsra_b2c:
-        .word   12, 180, .Lsra_b2d
-.Lsra_b2d:
-        .word   .Lsra_c4, 180, .Lsra_b2e
-.Lsra_b2e:
-        .word   184, 184, .Lsra_b2f
-.Lsra_b2f:
-        .word   180, 184, .Lsra_b2s
-        .word   12, 12, .Lsra_b1
-.Lsra_b2s:
-        .word   .Lsra_c4, 164, .Lsra_b2t
-.Lsra_b2t:
-        .word   .Lsra_n2, 168, .Lsra_b1
-.Lsra_b1:
-        .word   180, 180, .Lsra_b1a
-.Lsra_b1a:
-        .word   12, 12, .Lsra_b1b
-.Lsra_b1b:
-        .word   164, 12, .Lsra_b1c
-.Lsra_b1c:
-        .word   12, 180, .Lsra_b1d
-.Lsra_b1d:
-        .word   .Lsra_c2, 180, .Lsra_b1e
-.Lsra_b1e:
-        .word   184, 184, .Lsra_b1f
-.Lsra_b1f:
-        .word   180, 184, .Lsra_b1s
-        .word   12, 12, .Lsra_halve_done
-.Lsra_b1s:
-        .word   .Lsra_c2, 164, .Lsra_b1t
-.Lsra_b1t:
-        .word   .Lsra_n1, 168, .Lsra_halve_done
-.Lsra_halve_done:
-        .word   172, 172, .Lsra_chk_neg
-.Lsra_chk_neg:
-        .word   24, 176, .Lsra_cpy_result
-        .word   172, 172, .Lsra_unflip1
-.Lsra_unflip1:
-        .word   168, 172, .Lsra_unflip2
-.Lsra_unflip2:
-        .word   168, 168, .Lsra_unflip3
-.Lsra_unflip3:
-        .word   12, 12, .Lsra_unflip4
-.Lsra_unflip4:
-        .word   172, 12, .Lsra_unflip5
-.Lsra_unflip5:
-        .word   12, 168, .Lsra_unflip6
-.Lsra_unflip6:
-        .word   12, 12, .Lsra_unflip7
-.Lsra_unflip7:
-        .word   .Lsra_one, 168, .Lsra_cpy_result
-.Lsra_cpy_result:
-        .word   28, 28, .Lsra_cpy1
-.Lsra_cpy1:
-        .word   12, 12, .Lsra_cpy2
-.Lsra_cpy2:
-        .word   168, 12, .Lsra_cpy3
-.Lsra_cpy3:
-        .word   12, 28, .Lsra_odec
-.Lsra_odec:
-        .word   .Lsra_one, 160, .Lsra_done
-        .word   12, 12, .Lsra_outer
+        .word   160, 160, .Lsra_chk32a
+.Lsra_chk32a:
+        .word   12, 12, .Lsra_chk32b
+.Lsra_chk32b:
+        .word   32, 12, .Lsra_chk32c
+.Lsra_chk32c:
+        .word   12, 160, .Lsra_chk32d
+.Lsra_chk32d:
+        .word   .Lsra_c32, 160, .Lsra_chk32e
+.Lsra_chk32e:
+        .word   172, 172, .Lsra_chk32f
+.Lsra_chk32f:
+        .word   160, 172, .Lsra_allbits
+.Lsra_chk1:
+        .word   160, 160, .Lsra_chk1a
+.Lsra_chk1a:
+        .word   12, 12, .Lsra_chk1b
+.Lsra_chk1b:
+        .word   32, 12, .Lsra_chk1c
+.Lsra_chk1c:
+        .word   12, 160, .Lsra_chk1d
+.Lsra_chk1d:
+        .word   .Lsra_sh1, 160, .Lsra_chk1e
+.Lsra_chk1e:
+        .word   24, 160, .Lsra_shift_1
+.Lsra_chk2:
+        .word   160, 160, .Lsra_chk2a
+.Lsra_chk2a:
+        .word   12, 12, .Lsra_chk2b
+.Lsra_chk2b:
+        .word   32, 12, .Lsra_chk2c
+.Lsra_chk2c:
+        .word   12, 160, .Lsra_chk2d
+.Lsra_chk2d:
+        .word   .Lsra_sh2, 160, .Lsra_chk2e
+.Lsra_chk2e:
+        .word   24, 160, .Lsra_shift_2
+.Lsra_chk3:
+        .word   160, 160, .Lsra_chk3a
+.Lsra_chk3a:
+        .word   12, 12, .Lsra_chk3b
+.Lsra_chk3b:
+        .word   32, 12, .Lsra_chk3c
+.Lsra_chk3c:
+        .word   12, 160, .Lsra_chk3d
+.Lsra_chk3d:
+        .word   .Lsra_sh3, 160, .Lsra_chk3e
+.Lsra_chk3e:
+        .word   24, 160, .Lsra_shift_3
+.Lsra_chk4:
+        .word   160, 160, .Lsra_chk4a
+.Lsra_chk4a:
+        .word   12, 12, .Lsra_chk4b
+.Lsra_chk4b:
+        .word   32, 12, .Lsra_chk4c
+.Lsra_chk4c:
+        .word   12, 160, .Lsra_chk4d
+.Lsra_chk4d:
+        .word   .Lsra_sh4, 160, .Lsra_chk4e
+.Lsra_chk4e:
+        .word   24, 160, .Lsra_shift_4
+.Lsra_chk5:
+        .word   160, 160, .Lsra_chk5a
+.Lsra_chk5a:
+        .word   12, 12, .Lsra_chk5b
+.Lsra_chk5b:
+        .word   32, 12, .Lsra_chk5c
+.Lsra_chk5c:
+        .word   12, 160, .Lsra_chk5d
+.Lsra_chk5d:
+        .word   .Lsra_sh5, 160, .Lsra_chk5e
+.Lsra_chk5e:
+        .word   24, 160, .Lsra_shift_5
+.Lsra_chk6:
+        .word   160, 160, .Lsra_chk6a
+.Lsra_chk6a:
+        .word   12, 12, .Lsra_chk6b
+.Lsra_chk6b:
+        .word   32, 12, .Lsra_chk6c
+.Lsra_chk6c:
+        .word   12, 160, .Lsra_chk6d
+.Lsra_chk6d:
+        .word   .Lsra_sh6, 160, .Lsra_chk6e
+.Lsra_chk6e:
+        .word   24, 160, .Lsra_shift_6
+.Lsra_chk7:
+        .word   160, 160, .Lsra_chk7a
+.Lsra_chk7a:
+        .word   12, 12, .Lsra_chk7b
+.Lsra_chk7b:
+        .word   32, 12, .Lsra_chk7c
+.Lsra_chk7c:
+        .word   12, 160, .Lsra_chk7d
+.Lsra_chk7d:
+        .word   .Lsra_sh7, 160, .Lsra_chk7e
+.Lsra_chk7e:
+        .word   24, 160, .Lsra_shift_7
+.Lsra_chk8:
+        .word   160, 160, .Lsra_chk8a
+.Lsra_chk8a:
+        .word   12, 12, .Lsra_chk8b
+.Lsra_chk8b:
+        .word   32, 12, .Lsra_chk8c
+.Lsra_chk8c:
+        .word   12, 160, .Lsra_chk8d
+.Lsra_chk8d:
+        .word   .Lsra_sh8, 160, .Lsra_chk8e
+.Lsra_chk8e:
+        .word   24, 160, .Lsra_shift_8
+.Lsra_chk9:
+        .word   160, 160, .Lsra_chk9a
+.Lsra_chk9a:
+        .word   12, 12, .Lsra_chk9b
+.Lsra_chk9b:
+        .word   32, 12, .Lsra_chk9c
+.Lsra_chk9c:
+        .word   12, 160, .Lsra_chk9d
+.Lsra_chk9d:
+        .word   .Lsra_sh9, 160, .Lsra_chk9e
+.Lsra_chk9e:
+        .word   24, 160, .Lsra_shift_9
+.Lsra_chk10:
+        .word   160, 160, .Lsra_chk10a
+.Lsra_chk10a:
+        .word   12, 12, .Lsra_chk10b
+.Lsra_chk10b:
+        .word   32, 12, .Lsra_chk10c
+.Lsra_chk10c:
+        .word   12, 160, .Lsra_chk10d
+.Lsra_chk10d:
+        .word   .Lsra_sh10, 160, .Lsra_chk10e
+.Lsra_chk10e:
+        .word   24, 160, .Lsra_shift_10
+.Lsra_chk11:
+        .word   160, 160, .Lsra_chk11a
+.Lsra_chk11a:
+        .word   12, 12, .Lsra_chk11b
+.Lsra_chk11b:
+        .word   32, 12, .Lsra_chk11c
+.Lsra_chk11c:
+        .word   12, 160, .Lsra_chk11d
+.Lsra_chk11d:
+        .word   .Lsra_sh11, 160, .Lsra_chk11e
+.Lsra_chk11e:
+        .word   24, 160, .Lsra_shift_11
+.Lsra_chk12:
+        .word   160, 160, .Lsra_chk12a
+.Lsra_chk12a:
+        .word   12, 12, .Lsra_chk12b
+.Lsra_chk12b:
+        .word   32, 12, .Lsra_chk12c
+.Lsra_chk12c:
+        .word   12, 160, .Lsra_chk12d
+.Lsra_chk12d:
+        .word   .Lsra_sh12, 160, .Lsra_chk12e
+.Lsra_chk12e:
+        .word   24, 160, .Lsra_shift_12
+.Lsra_chk13:
+        .word   160, 160, .Lsra_chk13a
+.Lsra_chk13a:
+        .word   12, 12, .Lsra_chk13b
+.Lsra_chk13b:
+        .word   32, 12, .Lsra_chk13c
+.Lsra_chk13c:
+        .word   12, 160, .Lsra_chk13d
+.Lsra_chk13d:
+        .word   .Lsra_sh13, 160, .Lsra_chk13e
+.Lsra_chk13e:
+        .word   24, 160, .Lsra_shift_13
+.Lsra_chk14:
+        .word   160, 160, .Lsra_chk14a
+.Lsra_chk14a:
+        .word   12, 12, .Lsra_chk14b
+.Lsra_chk14b:
+        .word   32, 12, .Lsra_chk14c
+.Lsra_chk14c:
+        .word   12, 160, .Lsra_chk14d
+.Lsra_chk14d:
+        .word   .Lsra_sh14, 160, .Lsra_chk14e
+.Lsra_chk14e:
+        .word   24, 160, .Lsra_shift_14
+.Lsra_chk15:
+        .word   160, 160, .Lsra_chk15a
+.Lsra_chk15a:
+        .word   12, 12, .Lsra_chk15b
+.Lsra_chk15b:
+        .word   32, 12, .Lsra_chk15c
+.Lsra_chk15c:
+        .word   12, 160, .Lsra_chk15d
+.Lsra_chk15d:
+        .word   .Lsra_sh15, 160, .Lsra_chk15e
+.Lsra_chk15e:
+        .word   24, 160, .Lsra_shift_15
+.Lsra_chk16:
+        .word   160, 160, .Lsra_chk16a
+.Lsra_chk16a:
+        .word   12, 12, .Lsra_chk16b
+.Lsra_chk16b:
+        .word   32, 12, .Lsra_chk16c
+.Lsra_chk16c:
+        .word   12, 160, .Lsra_chk16d
+.Lsra_chk16d:
+        .word   .Lsra_sh16, 160, .Lsra_chk16e
+.Lsra_chk16e:
+        .word   24, 160, .Lsra_shift_16
+.Lsra_chk17:
+        .word   160, 160, .Lsra_chk17a
+.Lsra_chk17a:
+        .word   12, 12, .Lsra_chk17b
+.Lsra_chk17b:
+        .word   32, 12, .Lsra_chk17c
+.Lsra_chk17c:
+        .word   12, 160, .Lsra_chk17d
+.Lsra_chk17d:
+        .word   .Lsra_sh17, 160, .Lsra_chk17e
+.Lsra_chk17e:
+        .word   24, 160, .Lsra_shift_17
+.Lsra_chk18:
+        .word   160, 160, .Lsra_chk18a
+.Lsra_chk18a:
+        .word   12, 12, .Lsra_chk18b
+.Lsra_chk18b:
+        .word   32, 12, .Lsra_chk18c
+.Lsra_chk18c:
+        .word   12, 160, .Lsra_chk18d
+.Lsra_chk18d:
+        .word   .Lsra_sh18, 160, .Lsra_chk18e
+.Lsra_chk18e:
+        .word   24, 160, .Lsra_shift_18
+.Lsra_chk19:
+        .word   160, 160, .Lsra_chk19a
+.Lsra_chk19a:
+        .word   12, 12, .Lsra_chk19b
+.Lsra_chk19b:
+        .word   32, 12, .Lsra_chk19c
+.Lsra_chk19c:
+        .word   12, 160, .Lsra_chk19d
+.Lsra_chk19d:
+        .word   .Lsra_sh19, 160, .Lsra_chk19e
+.Lsra_chk19e:
+        .word   24, 160, .Lsra_shift_19
+.Lsra_chk20:
+        .word   160, 160, .Lsra_chk20a
+.Lsra_chk20a:
+        .word   12, 12, .Lsra_chk20b
+.Lsra_chk20b:
+        .word   32, 12, .Lsra_chk20c
+.Lsra_chk20c:
+        .word   12, 160, .Lsra_chk20d
+.Lsra_chk20d:
+        .word   .Lsra_sh20, 160, .Lsra_chk20e
+.Lsra_chk20e:
+        .word   24, 160, .Lsra_shift_20
+.Lsra_chk21:
+        .word   160, 160, .Lsra_chk21a
+.Lsra_chk21a:
+        .word   12, 12, .Lsra_chk21b
+.Lsra_chk21b:
+        .word   32, 12, .Lsra_chk21c
+.Lsra_chk21c:
+        .word   12, 160, .Lsra_chk21d
+.Lsra_chk21d:
+        .word   .Lsra_sh21, 160, .Lsra_chk21e
+.Lsra_chk21e:
+        .word   24, 160, .Lsra_shift_21
+.Lsra_chk22:
+        .word   160, 160, .Lsra_chk22a
+.Lsra_chk22a:
+        .word   12, 12, .Lsra_chk22b
+.Lsra_chk22b:
+        .word   32, 12, .Lsra_chk22c
+.Lsra_chk22c:
+        .word   12, 160, .Lsra_chk22d
+.Lsra_chk22d:
+        .word   .Lsra_sh22, 160, .Lsra_chk22e
+.Lsra_chk22e:
+        .word   24, 160, .Lsra_shift_22
+.Lsra_chk23:
+        .word   160, 160, .Lsra_chk23a
+.Lsra_chk23a:
+        .word   12, 12, .Lsra_chk23b
+.Lsra_chk23b:
+        .word   32, 12, .Lsra_chk23c
+.Lsra_chk23c:
+        .word   12, 160, .Lsra_chk23d
+.Lsra_chk23d:
+        .word   .Lsra_sh23, 160, .Lsra_chk23e
+.Lsra_chk23e:
+        .word   24, 160, .Lsra_shift_23
+.Lsra_chk24:
+        .word   160, 160, .Lsra_chk24a
+.Lsra_chk24a:
+        .word   12, 12, .Lsra_chk24b
+.Lsra_chk24b:
+        .word   32, 12, .Lsra_chk24c
+.Lsra_chk24c:
+        .word   12, 160, .Lsra_chk24d
+.Lsra_chk24d:
+        .word   .Lsra_sh24, 160, .Lsra_chk24e
+.Lsra_chk24e:
+        .word   24, 160, .Lsra_shift_24
+.Lsra_chk25:
+        .word   160, 160, .Lsra_chk25a
+.Lsra_chk25a:
+        .word   12, 12, .Lsra_chk25b
+.Lsra_chk25b:
+        .word   32, 12, .Lsra_chk25c
+.Lsra_chk25c:
+        .word   12, 160, .Lsra_chk25d
+.Lsra_chk25d:
+        .word   .Lsra_sh25, 160, .Lsra_chk25e
+.Lsra_chk25e:
+        .word   24, 160, .Lsra_shift_25
+.Lsra_chk26:
+        .word   160, 160, .Lsra_chk26a
+.Lsra_chk26a:
+        .word   12, 12, .Lsra_chk26b
+.Lsra_chk26b:
+        .word   32, 12, .Lsra_chk26c
+.Lsra_chk26c:
+        .word   12, 160, .Lsra_chk26d
+.Lsra_chk26d:
+        .word   .Lsra_sh26, 160, .Lsra_chk26e
+.Lsra_chk26e:
+        .word   24, 160, .Lsra_shift_26
+.Lsra_chk27:
+        .word   160, 160, .Lsra_chk27a
+.Lsra_chk27a:
+        .word   12, 12, .Lsra_chk27b
+.Lsra_chk27b:
+        .word   32, 12, .Lsra_chk27c
+.Lsra_chk27c:
+        .word   12, 160, .Lsra_chk27d
+.Lsra_chk27d:
+        .word   .Lsra_sh27, 160, .Lsra_chk27e
+.Lsra_chk27e:
+        .word   24, 160, .Lsra_shift_27
+.Lsra_chk28:
+        .word   160, 160, .Lsra_chk28a
+.Lsra_chk28a:
+        .word   12, 12, .Lsra_chk28b
+.Lsra_chk28b:
+        .word   32, 12, .Lsra_chk28c
+.Lsra_chk28c:
+        .word   12, 160, .Lsra_chk28d
+.Lsra_chk28d:
+        .word   .Lsra_sh28, 160, .Lsra_chk28e
+.Lsra_chk28e:
+        .word   24, 160, .Lsra_shift_28
+.Lsra_chk29:
+        .word   160, 160, .Lsra_chk29a
+.Lsra_chk29a:
+        .word   12, 12, .Lsra_chk29b
+.Lsra_chk29b:
+        .word   32, 12, .Lsra_chk29c
+.Lsra_chk29c:
+        .word   12, 160, .Lsra_chk29d
+.Lsra_chk29d:
+        .word   .Lsra_sh29, 160, .Lsra_chk29e
+.Lsra_chk29e:
+        .word   24, 160, .Lsra_shift_29
+.Lsra_chk30:
+        .word   160, 160, .Lsra_chk30a
+.Lsra_chk30a:
+        .word   12, 12, .Lsra_chk30b
+.Lsra_chk30b:
+        .word   32, 12, .Lsra_chk30c
+.Lsra_chk30c:
+        .word   12, 160, .Lsra_chk30d
+.Lsra_chk30d:
+        .word   .Lsra_sh30, 160, .Lsra_chk30e
+.Lsra_chk30e:
+        .word   24, 160, .Lsra_shift_30
+.Lsra_chk31:
+        .word   160, 160, .Lsra_chk31a
+.Lsra_chk31a:
+        .word   12, 12, .Lsra_chk31b
+.Lsra_chk31b:
+        .word   32, 12, .Lsra_chk31c
+.Lsra_chk31c:
+        .word   12, 160, .Lsra_chk31d
+.Lsra_chk31d:
+        .word   .Lsra_sh31, 160, .Lsra_chk31e
+.Lsra_chk31e:
+        .word   24, 160, .Lsra_shift_31
+        .word   12, 12, .Lsra_allbits
+.Lsra_allbits:
+        .word   172, 172, .Lsra_ab1
+.Lsra_ab1:
+        .word   12, 12, .Lsra_ab2
+.Lsra_ab2:
+        .word   164, 12, .Lsra_ab3
+.Lsra_ab3:
+        .word   12, 172, .Lsra_ab4
+.Lsra_ab4:
+        .word   24, 172, .Lsra_ab_maybe_neg
+        .word   12, 12, .Lsra_zero
+.Lsra_ab_maybe_neg:
+        .word   172, 172, .Lsra_ab5
+.Lsra_ab5:
+        .word   164, 172, .Lsra_ab6
+.Lsra_ab6:
+        .word   24, 172, .Lsra_ab_ambig
+        .word   12, 12, .Lsra_minus1
+.Lsra_ab_ambig:
+        .word   172, 172, .Lsra_ab7
+.Lsra_ab7:
+        .word   164, 172, .Lsra_ab8
+.Lsra_ab8:
+        .word   .Lsra_one, 172, .Lsra_ab9
+.Lsra_ab9:
+        .word   24, 172, .Lsra_zero
+        .word   12, 12, .Lsra_minus1
+.Lsra_zero:
+        .word   28, 28, .Lsra_done
+        .word   12, 12, .Lsra_done
+.Lsra_minus1:
+        .word   28, 28, .Lsra_m1a
+.Lsra_m1a:
+        .word   .Lsra_one, 28, .Lsra_done
+        .word   12, 12, .Lsra_done
+
+.Lsra_shift_1:
+        .word   180, 180, .Lsra1_chksign
+.Lsra1_chksign:
+        .word   172, 172, .Lsra1_s1
+.Lsra1_s1:
+        .word   12, 12, .Lsra1_s2
+.Lsra1_s2:
+        .word   164, 12, .Lsra1_s3
+.Lsra1_s3:
+        .word   12, 172, .Lsra1_s4
+.Lsra1_s4:
+        .word   24, 172, .Lsra1_maybe_neg
+        .word   12, 12, .Lsra1_pos
+.Lsra1_maybe_neg:
+        .word   172, 172, .Lsra1_m1
+.Lsra1_m1:
+        .word   164, 172, .Lsra1_m2
+.Lsra1_m2:
+        .word   24, 172, .Lsra1_ambig
+        .word   12, 12, .Lsra1_neg
+.Lsra1_ambig:
+        .word   172, 172, .Lsra1_a1
+.Lsra1_a1:
+        .word   164, 172, .Lsra1_a2
+.Lsra1_a2:
+        .word   .Lsra_one, 172, .Lsra1_a3
+.Lsra1_a3:
+        .word   24, 172, .Lsra1_pos
+        .word   12, 12, .Lsra1_neg
+.Lsra1_neg:
+        .word   .Lsra_negone, 180, .Lsra1_n1
+.Lsra1_n1:
+        .word   172, 172, .Lsra1_n2
+.Lsra1_n2:
+        .word   164, 172, .Lsra1_n3
+.Lsra1_n3:
+        .word   164, 164, .Lsra1_n4
+.Lsra1_n4:
+        .word   12, 12, .Lsra1_n5
+.Lsra1_n5:
+        .word   172, 12, .Lsra1_n6
+.Lsra1_n6:
+        .word   12, 164, .Lsra1_n7
+.Lsra1_n7:
+        .word   .Lsra_one, 164, .Lsra1_pos
+.Lsra1_pos:
+        .word   168, 168, .Lsra1_start
+.Lsra1_start:
+.Lsra1_b30:
+        .word   172, 172, .Lsra1_b30a
+.Lsra1_b30a:
+        .word   12, 12, .Lsra1_b30b
+.Lsra1_b30b:
+        .word   164, 12, .Lsra1_b30c
+.Lsra1_b30c:
+        .word   12, 172, .Lsra1_b30d
+.Lsra1_b30d:
+        .word   .Lsra_c1073741824, 172, .Lsra1_b30e
+.Lsra1_b30e:
+        .word   176, 176, .Lsra1_b30f
+.Lsra1_b30f:
+        .word   172, 176, .Lsra1_b30s
+        .word   12, 12, .Lsra1_b29
+.Lsra1_b30s:
+        .word   .Lsra_c1073741824, 164, .Lsra1_b30t
+.Lsra1_b30t:
+        .word   .Lsra_n536870912, 168, .Lsra1_b29
+.Lsra1_b29:
+        .word   172, 172, .Lsra1_b29a
+.Lsra1_b29a:
+        .word   12, 12, .Lsra1_b29b
+.Lsra1_b29b:
+        .word   164, 12, .Lsra1_b29c
+.Lsra1_b29c:
+        .word   12, 172, .Lsra1_b29d
+.Lsra1_b29d:
+        .word   .Lsra_c536870912, 172, .Lsra1_b29e
+.Lsra1_b29e:
+        .word   176, 176, .Lsra1_b29f
+.Lsra1_b29f:
+        .word   172, 176, .Lsra1_b29s
+        .word   12, 12, .Lsra1_b28
+.Lsra1_b29s:
+        .word   .Lsra_c536870912, 164, .Lsra1_b29t
+.Lsra1_b29t:
+        .word   .Lsra_n268435456, 168, .Lsra1_b28
+.Lsra1_b28:
+        .word   172, 172, .Lsra1_b28a
+.Lsra1_b28a:
+        .word   12, 12, .Lsra1_b28b
+.Lsra1_b28b:
+        .word   164, 12, .Lsra1_b28c
+.Lsra1_b28c:
+        .word   12, 172, .Lsra1_b28d
+.Lsra1_b28d:
+        .word   .Lsra_c268435456, 172, .Lsra1_b28e
+.Lsra1_b28e:
+        .word   176, 176, .Lsra1_b28f
+.Lsra1_b28f:
+        .word   172, 176, .Lsra1_b28s
+        .word   12, 12, .Lsra1_b27
+.Lsra1_b28s:
+        .word   .Lsra_c268435456, 164, .Lsra1_b28t
+.Lsra1_b28t:
+        .word   .Lsra_n134217728, 168, .Lsra1_b27
+.Lsra1_b27:
+        .word   172, 172, .Lsra1_b27a
+.Lsra1_b27a:
+        .word   12, 12, .Lsra1_b27b
+.Lsra1_b27b:
+        .word   164, 12, .Lsra1_b27c
+.Lsra1_b27c:
+        .word   12, 172, .Lsra1_b27d
+.Lsra1_b27d:
+        .word   .Lsra_c134217728, 172, .Lsra1_b27e
+.Lsra1_b27e:
+        .word   176, 176, .Lsra1_b27f
+.Lsra1_b27f:
+        .word   172, 176, .Lsra1_b27s
+        .word   12, 12, .Lsra1_b26
+.Lsra1_b27s:
+        .word   .Lsra_c134217728, 164, .Lsra1_b27t
+.Lsra1_b27t:
+        .word   .Lsra_n67108864, 168, .Lsra1_b26
+.Lsra1_b26:
+        .word   172, 172, .Lsra1_b26a
+.Lsra1_b26a:
+        .word   12, 12, .Lsra1_b26b
+.Lsra1_b26b:
+        .word   164, 12, .Lsra1_b26c
+.Lsra1_b26c:
+        .word   12, 172, .Lsra1_b26d
+.Lsra1_b26d:
+        .word   .Lsra_c67108864, 172, .Lsra1_b26e
+.Lsra1_b26e:
+        .word   176, 176, .Lsra1_b26f
+.Lsra1_b26f:
+        .word   172, 176, .Lsra1_b26s
+        .word   12, 12, .Lsra1_b25
+.Lsra1_b26s:
+        .word   .Lsra_c67108864, 164, .Lsra1_b26t
+.Lsra1_b26t:
+        .word   .Lsra_n33554432, 168, .Lsra1_b25
+.Lsra1_b25:
+        .word   172, 172, .Lsra1_b25a
+.Lsra1_b25a:
+        .word   12, 12, .Lsra1_b25b
+.Lsra1_b25b:
+        .word   164, 12, .Lsra1_b25c
+.Lsra1_b25c:
+        .word   12, 172, .Lsra1_b25d
+.Lsra1_b25d:
+        .word   .Lsra_c33554432, 172, .Lsra1_b25e
+.Lsra1_b25e:
+        .word   176, 176, .Lsra1_b25f
+.Lsra1_b25f:
+        .word   172, 176, .Lsra1_b25s
+        .word   12, 12, .Lsra1_b24
+.Lsra1_b25s:
+        .word   .Lsra_c33554432, 164, .Lsra1_b25t
+.Lsra1_b25t:
+        .word   .Lsra_n16777216, 168, .Lsra1_b24
+.Lsra1_b24:
+        .word   172, 172, .Lsra1_b24a
+.Lsra1_b24a:
+        .word   12, 12, .Lsra1_b24b
+.Lsra1_b24b:
+        .word   164, 12, .Lsra1_b24c
+.Lsra1_b24c:
+        .word   12, 172, .Lsra1_b24d
+.Lsra1_b24d:
+        .word   .Lsra_c16777216, 172, .Lsra1_b24e
+.Lsra1_b24e:
+        .word   176, 176, .Lsra1_b24f
+.Lsra1_b24f:
+        .word   172, 176, .Lsra1_b24s
+        .word   12, 12, .Lsra1_b23
+.Lsra1_b24s:
+        .word   .Lsra_c16777216, 164, .Lsra1_b24t
+.Lsra1_b24t:
+        .word   .Lsra_n8388608, 168, .Lsra1_b23
+.Lsra1_b23:
+        .word   172, 172, .Lsra1_b23a
+.Lsra1_b23a:
+        .word   12, 12, .Lsra1_b23b
+.Lsra1_b23b:
+        .word   164, 12, .Lsra1_b23c
+.Lsra1_b23c:
+        .word   12, 172, .Lsra1_b23d
+.Lsra1_b23d:
+        .word   .Lsra_c8388608, 172, .Lsra1_b23e
+.Lsra1_b23e:
+        .word   176, 176, .Lsra1_b23f
+.Lsra1_b23f:
+        .word   172, 176, .Lsra1_b23s
+        .word   12, 12, .Lsra1_b22
+.Lsra1_b23s:
+        .word   .Lsra_c8388608, 164, .Lsra1_b23t
+.Lsra1_b23t:
+        .word   .Lsra_n4194304, 168, .Lsra1_b22
+.Lsra1_b22:
+        .word   172, 172, .Lsra1_b22a
+.Lsra1_b22a:
+        .word   12, 12, .Lsra1_b22b
+.Lsra1_b22b:
+        .word   164, 12, .Lsra1_b22c
+.Lsra1_b22c:
+        .word   12, 172, .Lsra1_b22d
+.Lsra1_b22d:
+        .word   .Lsra_c4194304, 172, .Lsra1_b22e
+.Lsra1_b22e:
+        .word   176, 176, .Lsra1_b22f
+.Lsra1_b22f:
+        .word   172, 176, .Lsra1_b22s
+        .word   12, 12, .Lsra1_b21
+.Lsra1_b22s:
+        .word   .Lsra_c4194304, 164, .Lsra1_b22t
+.Lsra1_b22t:
+        .word   .Lsra_n2097152, 168, .Lsra1_b21
+.Lsra1_b21:
+        .word   172, 172, .Lsra1_b21a
+.Lsra1_b21a:
+        .word   12, 12, .Lsra1_b21b
+.Lsra1_b21b:
+        .word   164, 12, .Lsra1_b21c
+.Lsra1_b21c:
+        .word   12, 172, .Lsra1_b21d
+.Lsra1_b21d:
+        .word   .Lsra_c2097152, 172, .Lsra1_b21e
+.Lsra1_b21e:
+        .word   176, 176, .Lsra1_b21f
+.Lsra1_b21f:
+        .word   172, 176, .Lsra1_b21s
+        .word   12, 12, .Lsra1_b20
+.Lsra1_b21s:
+        .word   .Lsra_c2097152, 164, .Lsra1_b21t
+.Lsra1_b21t:
+        .word   .Lsra_n1048576, 168, .Lsra1_b20
+.Lsra1_b20:
+        .word   172, 172, .Lsra1_b20a
+.Lsra1_b20a:
+        .word   12, 12, .Lsra1_b20b
+.Lsra1_b20b:
+        .word   164, 12, .Lsra1_b20c
+.Lsra1_b20c:
+        .word   12, 172, .Lsra1_b20d
+.Lsra1_b20d:
+        .word   .Lsra_c1048576, 172, .Lsra1_b20e
+.Lsra1_b20e:
+        .word   176, 176, .Lsra1_b20f
+.Lsra1_b20f:
+        .word   172, 176, .Lsra1_b20s
+        .word   12, 12, .Lsra1_b19
+.Lsra1_b20s:
+        .word   .Lsra_c1048576, 164, .Lsra1_b20t
+.Lsra1_b20t:
+        .word   .Lsra_n524288, 168, .Lsra1_b19
+.Lsra1_b19:
+        .word   172, 172, .Lsra1_b19a
+.Lsra1_b19a:
+        .word   12, 12, .Lsra1_b19b
+.Lsra1_b19b:
+        .word   164, 12, .Lsra1_b19c
+.Lsra1_b19c:
+        .word   12, 172, .Lsra1_b19d
+.Lsra1_b19d:
+        .word   .Lsra_c524288, 172, .Lsra1_b19e
+.Lsra1_b19e:
+        .word   176, 176, .Lsra1_b19f
+.Lsra1_b19f:
+        .word   172, 176, .Lsra1_b19s
+        .word   12, 12, .Lsra1_b18
+.Lsra1_b19s:
+        .word   .Lsra_c524288, 164, .Lsra1_b19t
+.Lsra1_b19t:
+        .word   .Lsra_n262144, 168, .Lsra1_b18
+.Lsra1_b18:
+        .word   172, 172, .Lsra1_b18a
+.Lsra1_b18a:
+        .word   12, 12, .Lsra1_b18b
+.Lsra1_b18b:
+        .word   164, 12, .Lsra1_b18c
+.Lsra1_b18c:
+        .word   12, 172, .Lsra1_b18d
+.Lsra1_b18d:
+        .word   .Lsra_c262144, 172, .Lsra1_b18e
+.Lsra1_b18e:
+        .word   176, 176, .Lsra1_b18f
+.Lsra1_b18f:
+        .word   172, 176, .Lsra1_b18s
+        .word   12, 12, .Lsra1_b17
+.Lsra1_b18s:
+        .word   .Lsra_c262144, 164, .Lsra1_b18t
+.Lsra1_b18t:
+        .word   .Lsra_n131072, 168, .Lsra1_b17
+.Lsra1_b17:
+        .word   172, 172, .Lsra1_b17a
+.Lsra1_b17a:
+        .word   12, 12, .Lsra1_b17b
+.Lsra1_b17b:
+        .word   164, 12, .Lsra1_b17c
+.Lsra1_b17c:
+        .word   12, 172, .Lsra1_b17d
+.Lsra1_b17d:
+        .word   .Lsra_c131072, 172, .Lsra1_b17e
+.Lsra1_b17e:
+        .word   176, 176, .Lsra1_b17f
+.Lsra1_b17f:
+        .word   172, 176, .Lsra1_b17s
+        .word   12, 12, .Lsra1_b16
+.Lsra1_b17s:
+        .word   .Lsra_c131072, 164, .Lsra1_b17t
+.Lsra1_b17t:
+        .word   .Lsra_n65536, 168, .Lsra1_b16
+.Lsra1_b16:
+        .word   172, 172, .Lsra1_b16a
+.Lsra1_b16a:
+        .word   12, 12, .Lsra1_b16b
+.Lsra1_b16b:
+        .word   164, 12, .Lsra1_b16c
+.Lsra1_b16c:
+        .word   12, 172, .Lsra1_b16d
+.Lsra1_b16d:
+        .word   .Lsra_c65536, 172, .Lsra1_b16e
+.Lsra1_b16e:
+        .word   176, 176, .Lsra1_b16f
+.Lsra1_b16f:
+        .word   172, 176, .Lsra1_b16s
+        .word   12, 12, .Lsra1_b15
+.Lsra1_b16s:
+        .word   .Lsra_c65536, 164, .Lsra1_b16t
+.Lsra1_b16t:
+        .word   .Lsra_n32768, 168, .Lsra1_b15
+.Lsra1_b15:
+        .word   172, 172, .Lsra1_b15a
+.Lsra1_b15a:
+        .word   12, 12, .Lsra1_b15b
+.Lsra1_b15b:
+        .word   164, 12, .Lsra1_b15c
+.Lsra1_b15c:
+        .word   12, 172, .Lsra1_b15d
+.Lsra1_b15d:
+        .word   .Lsra_c32768, 172, .Lsra1_b15e
+.Lsra1_b15e:
+        .word   176, 176, .Lsra1_b15f
+.Lsra1_b15f:
+        .word   172, 176, .Lsra1_b15s
+        .word   12, 12, .Lsra1_b14
+.Lsra1_b15s:
+        .word   .Lsra_c32768, 164, .Lsra1_b15t
+.Lsra1_b15t:
+        .word   .Lsra_n16384, 168, .Lsra1_b14
+.Lsra1_b14:
+        .word   172, 172, .Lsra1_b14a
+.Lsra1_b14a:
+        .word   12, 12, .Lsra1_b14b
+.Lsra1_b14b:
+        .word   164, 12, .Lsra1_b14c
+.Lsra1_b14c:
+        .word   12, 172, .Lsra1_b14d
+.Lsra1_b14d:
+        .word   .Lsra_c16384, 172, .Lsra1_b14e
+.Lsra1_b14e:
+        .word   176, 176, .Lsra1_b14f
+.Lsra1_b14f:
+        .word   172, 176, .Lsra1_b14s
+        .word   12, 12, .Lsra1_b13
+.Lsra1_b14s:
+        .word   .Lsra_c16384, 164, .Lsra1_b14t
+.Lsra1_b14t:
+        .word   .Lsra_n8192, 168, .Lsra1_b13
+.Lsra1_b13:
+        .word   172, 172, .Lsra1_b13a
+.Lsra1_b13a:
+        .word   12, 12, .Lsra1_b13b
+.Lsra1_b13b:
+        .word   164, 12, .Lsra1_b13c
+.Lsra1_b13c:
+        .word   12, 172, .Lsra1_b13d
+.Lsra1_b13d:
+        .word   .Lsra_c8192, 172, .Lsra1_b13e
+.Lsra1_b13e:
+        .word   176, 176, .Lsra1_b13f
+.Lsra1_b13f:
+        .word   172, 176, .Lsra1_b13s
+        .word   12, 12, .Lsra1_b12
+.Lsra1_b13s:
+        .word   .Lsra_c8192, 164, .Lsra1_b13t
+.Lsra1_b13t:
+        .word   .Lsra_n4096, 168, .Lsra1_b12
+.Lsra1_b12:
+        .word   172, 172, .Lsra1_b12a
+.Lsra1_b12a:
+        .word   12, 12, .Lsra1_b12b
+.Lsra1_b12b:
+        .word   164, 12, .Lsra1_b12c
+.Lsra1_b12c:
+        .word   12, 172, .Lsra1_b12d
+.Lsra1_b12d:
+        .word   .Lsra_c4096, 172, .Lsra1_b12e
+.Lsra1_b12e:
+        .word   176, 176, .Lsra1_b12f
+.Lsra1_b12f:
+        .word   172, 176, .Lsra1_b12s
+        .word   12, 12, .Lsra1_b11
+.Lsra1_b12s:
+        .word   .Lsra_c4096, 164, .Lsra1_b12t
+.Lsra1_b12t:
+        .word   .Lsra_n2048, 168, .Lsra1_b11
+.Lsra1_b11:
+        .word   172, 172, .Lsra1_b11a
+.Lsra1_b11a:
+        .word   12, 12, .Lsra1_b11b
+.Lsra1_b11b:
+        .word   164, 12, .Lsra1_b11c
+.Lsra1_b11c:
+        .word   12, 172, .Lsra1_b11d
+.Lsra1_b11d:
+        .word   .Lsra_c2048, 172, .Lsra1_b11e
+.Lsra1_b11e:
+        .word   176, 176, .Lsra1_b11f
+.Lsra1_b11f:
+        .word   172, 176, .Lsra1_b11s
+        .word   12, 12, .Lsra1_b10
+.Lsra1_b11s:
+        .word   .Lsra_c2048, 164, .Lsra1_b11t
+.Lsra1_b11t:
+        .word   .Lsra_n1024, 168, .Lsra1_b10
+.Lsra1_b10:
+        .word   172, 172, .Lsra1_b10a
+.Lsra1_b10a:
+        .word   12, 12, .Lsra1_b10b
+.Lsra1_b10b:
+        .word   164, 12, .Lsra1_b10c
+.Lsra1_b10c:
+        .word   12, 172, .Lsra1_b10d
+.Lsra1_b10d:
+        .word   .Lsra_c1024, 172, .Lsra1_b10e
+.Lsra1_b10e:
+        .word   176, 176, .Lsra1_b10f
+.Lsra1_b10f:
+        .word   172, 176, .Lsra1_b10s
+        .word   12, 12, .Lsra1_b9
+.Lsra1_b10s:
+        .word   .Lsra_c1024, 164, .Lsra1_b10t
+.Lsra1_b10t:
+        .word   .Lsra_n512, 168, .Lsra1_b9
+.Lsra1_b9:
+        .word   172, 172, .Lsra1_b9a
+.Lsra1_b9a:
+        .word   12, 12, .Lsra1_b9b
+.Lsra1_b9b:
+        .word   164, 12, .Lsra1_b9c
+.Lsra1_b9c:
+        .word   12, 172, .Lsra1_b9d
+.Lsra1_b9d:
+        .word   .Lsra_c512, 172, .Lsra1_b9e
+.Lsra1_b9e:
+        .word   176, 176, .Lsra1_b9f
+.Lsra1_b9f:
+        .word   172, 176, .Lsra1_b9s
+        .word   12, 12, .Lsra1_b8
+.Lsra1_b9s:
+        .word   .Lsra_c512, 164, .Lsra1_b9t
+.Lsra1_b9t:
+        .word   .Lsra_n256, 168, .Lsra1_b8
+.Lsra1_b8:
+        .word   172, 172, .Lsra1_b8a
+.Lsra1_b8a:
+        .word   12, 12, .Lsra1_b8b
+.Lsra1_b8b:
+        .word   164, 12, .Lsra1_b8c
+.Lsra1_b8c:
+        .word   12, 172, .Lsra1_b8d
+.Lsra1_b8d:
+        .word   .Lsra_c256, 172, .Lsra1_b8e
+.Lsra1_b8e:
+        .word   176, 176, .Lsra1_b8f
+.Lsra1_b8f:
+        .word   172, 176, .Lsra1_b8s
+        .word   12, 12, .Lsra1_b7
+.Lsra1_b8s:
+        .word   .Lsra_c256, 164, .Lsra1_b8t
+.Lsra1_b8t:
+        .word   .Lsra_n128, 168, .Lsra1_b7
+.Lsra1_b7:
+        .word   172, 172, .Lsra1_b7a
+.Lsra1_b7a:
+        .word   12, 12, .Lsra1_b7b
+.Lsra1_b7b:
+        .word   164, 12, .Lsra1_b7c
+.Lsra1_b7c:
+        .word   12, 172, .Lsra1_b7d
+.Lsra1_b7d:
+        .word   .Lsra_c128, 172, .Lsra1_b7e
+.Lsra1_b7e:
+        .word   176, 176, .Lsra1_b7f
+.Lsra1_b7f:
+        .word   172, 176, .Lsra1_b7s
+        .word   12, 12, .Lsra1_b6
+.Lsra1_b7s:
+        .word   .Lsra_c128, 164, .Lsra1_b7t
+.Lsra1_b7t:
+        .word   .Lsra_n64, 168, .Lsra1_b6
+.Lsra1_b6:
+        .word   172, 172, .Lsra1_b6a
+.Lsra1_b6a:
+        .word   12, 12, .Lsra1_b6b
+.Lsra1_b6b:
+        .word   164, 12, .Lsra1_b6c
+.Lsra1_b6c:
+        .word   12, 172, .Lsra1_b6d
+.Lsra1_b6d:
+        .word   .Lsra_c64, 172, .Lsra1_b6e
+.Lsra1_b6e:
+        .word   176, 176, .Lsra1_b6f
+.Lsra1_b6f:
+        .word   172, 176, .Lsra1_b6s
+        .word   12, 12, .Lsra1_b5
+.Lsra1_b6s:
+        .word   .Lsra_c64, 164, .Lsra1_b6t
+.Lsra1_b6t:
+        .word   .Lsra_n32, 168, .Lsra1_b5
+.Lsra1_b5:
+        .word   172, 172, .Lsra1_b5a
+.Lsra1_b5a:
+        .word   12, 12, .Lsra1_b5b
+.Lsra1_b5b:
+        .word   164, 12, .Lsra1_b5c
+.Lsra1_b5c:
+        .word   12, 172, .Lsra1_b5d
+.Lsra1_b5d:
+        .word   .Lsra_c32, 172, .Lsra1_b5e
+.Lsra1_b5e:
+        .word   176, 176, .Lsra1_b5f
+.Lsra1_b5f:
+        .word   172, 176, .Lsra1_b5s
+        .word   12, 12, .Lsra1_b4
+.Lsra1_b5s:
+        .word   .Lsra_c32, 164, .Lsra1_b5t
+.Lsra1_b5t:
+        .word   .Lsra_n16, 168, .Lsra1_b4
+.Lsra1_b4:
+        .word   172, 172, .Lsra1_b4a
+.Lsra1_b4a:
+        .word   12, 12, .Lsra1_b4b
+.Lsra1_b4b:
+        .word   164, 12, .Lsra1_b4c
+.Lsra1_b4c:
+        .word   12, 172, .Lsra1_b4d
+.Lsra1_b4d:
+        .word   .Lsra_c16, 172, .Lsra1_b4e
+.Lsra1_b4e:
+        .word   176, 176, .Lsra1_b4f
+.Lsra1_b4f:
+        .word   172, 176, .Lsra1_b4s
+        .word   12, 12, .Lsra1_b3
+.Lsra1_b4s:
+        .word   .Lsra_c16, 164, .Lsra1_b4t
+.Lsra1_b4t:
+        .word   .Lsra_n8, 168, .Lsra1_b3
+.Lsra1_b3:
+        .word   172, 172, .Lsra1_b3a
+.Lsra1_b3a:
+        .word   12, 12, .Lsra1_b3b
+.Lsra1_b3b:
+        .word   164, 12, .Lsra1_b3c
+.Lsra1_b3c:
+        .word   12, 172, .Lsra1_b3d
+.Lsra1_b3d:
+        .word   .Lsra_c8, 172, .Lsra1_b3e
+.Lsra1_b3e:
+        .word   176, 176, .Lsra1_b3f
+.Lsra1_b3f:
+        .word   172, 176, .Lsra1_b3s
+        .word   12, 12, .Lsra1_b2
+.Lsra1_b3s:
+        .word   .Lsra_c8, 164, .Lsra1_b3t
+.Lsra1_b3t:
+        .word   .Lsra_n4, 168, .Lsra1_b2
+.Lsra1_b2:
+        .word   172, 172, .Lsra1_b2a
+.Lsra1_b2a:
+        .word   12, 12, .Lsra1_b2b
+.Lsra1_b2b:
+        .word   164, 12, .Lsra1_b2c
+.Lsra1_b2c:
+        .word   12, 172, .Lsra1_b2d
+.Lsra1_b2d:
+        .word   .Lsra_c4, 172, .Lsra1_b2e
+.Lsra1_b2e:
+        .word   176, 176, .Lsra1_b2f
+.Lsra1_b2f:
+        .word   172, 176, .Lsra1_b2s
+        .word   12, 12, .Lsra1_b1
+.Lsra1_b2s:
+        .word   .Lsra_c4, 164, .Lsra1_b2t
+.Lsra1_b2t:
+        .word   .Lsra_n2, 168, .Lsra1_b1
+.Lsra1_b1:
+        .word   172, 172, .Lsra1_b1a
+.Lsra1_b1a:
+        .word   12, 12, .Lsra1_b1b
+.Lsra1_b1b:
+        .word   164, 12, .Lsra1_b1c
+.Lsra1_b1c:
+        .word   12, 172, .Lsra1_b1d
+.Lsra1_b1d:
+        .word   .Lsra_c2, 172, .Lsra1_b1e
+.Lsra1_b1e:
+        .word   176, 176, .Lsra1_b1f
+.Lsra1_b1f:
+        .word   172, 176, .Lsra1_b1s
+        .word   12, 12, .Lsra1_done
+.Lsra1_b1s:
+        .word   .Lsra_c2, 164, .Lsra1_b1t
+.Lsra1_b1t:
+        .word   .Lsra_n1, 168, .Lsra1_done
+.Lsra1_done:
+        .word   172, 172, .Lsra1_chk
+.Lsra1_chk:
+        .word   24, 180, .Lsra1_store
+        .word   172, 172, .Lsra1_un1
+.Lsra1_un1:
+        .word   168, 172, .Lsra1_un2
+.Lsra1_un2:
+        .word   168, 168, .Lsra1_un3
+.Lsra1_un3:
+        .word   12, 12, .Lsra1_un4
+.Lsra1_un4:
+        .word   172, 12, .Lsra1_un5
+.Lsra1_un5:
+        .word   12, 168, .Lsra1_un6
+.Lsra1_un6:
+        .word   .Lsra_one, 168, .Lsra1_store
+.Lsra1_store:
+        .word   28, 28, .Lsra1_st1
+.Lsra1_st1:
+        .word   12, 12, .Lsra1_st2
+.Lsra1_st2:
+        .word   168, 12, .Lsra1_st3
+.Lsra1_st3:
+        .word   12, 28, .Lsra1_st4
+.Lsra1_st4:
+        .word   24, 24, .Lsra_done
+
+.Lsra_shift_2:
+        .word   180, 180, .Lsra2_chksign
+.Lsra2_chksign:
+        .word   172, 172, .Lsra2_s1
+.Lsra2_s1:
+        .word   12, 12, .Lsra2_s2
+.Lsra2_s2:
+        .word   164, 12, .Lsra2_s3
+.Lsra2_s3:
+        .word   12, 172, .Lsra2_s4
+.Lsra2_s4:
+        .word   24, 172, .Lsra2_maybe_neg
+        .word   12, 12, .Lsra2_pos
+.Lsra2_maybe_neg:
+        .word   172, 172, .Lsra2_m1
+.Lsra2_m1:
+        .word   164, 172, .Lsra2_m2
+.Lsra2_m2:
+        .word   24, 172, .Lsra2_ambig
+        .word   12, 12, .Lsra2_neg
+.Lsra2_ambig:
+        .word   172, 172, .Lsra2_a1
+.Lsra2_a1:
+        .word   164, 172, .Lsra2_a2
+.Lsra2_a2:
+        .word   .Lsra_one, 172, .Lsra2_a3
+.Lsra2_a3:
+        .word   24, 172, .Lsra2_pos
+        .word   12, 12, .Lsra2_neg
+.Lsra2_neg:
+        .word   .Lsra_negone, 180, .Lsra2_n1
+.Lsra2_n1:
+        .word   172, 172, .Lsra2_n2
+.Lsra2_n2:
+        .word   164, 172, .Lsra2_n3
+.Lsra2_n3:
+        .word   164, 164, .Lsra2_n4
+.Lsra2_n4:
+        .word   12, 12, .Lsra2_n5
+.Lsra2_n5:
+        .word   172, 12, .Lsra2_n6
+.Lsra2_n6:
+        .word   12, 164, .Lsra2_n7
+.Lsra2_n7:
+        .word   .Lsra_one, 164, .Lsra2_pos
+.Lsra2_pos:
+        .word   168, 168, .Lsra2_start
+.Lsra2_start:
+.Lsra2_b30:
+        .word   172, 172, .Lsra2_b30a
+.Lsra2_b30a:
+        .word   12, 12, .Lsra2_b30b
+.Lsra2_b30b:
+        .word   164, 12, .Lsra2_b30c
+.Lsra2_b30c:
+        .word   12, 172, .Lsra2_b30d
+.Lsra2_b30d:
+        .word   .Lsra_c1073741824, 172, .Lsra2_b30e
+.Lsra2_b30e:
+        .word   176, 176, .Lsra2_b30f
+.Lsra2_b30f:
+        .word   172, 176, .Lsra2_b30s
+        .word   12, 12, .Lsra2_b29
+.Lsra2_b30s:
+        .word   .Lsra_c1073741824, 164, .Lsra2_b30t
+.Lsra2_b30t:
+        .word   .Lsra_n268435456, 168, .Lsra2_b29
+.Lsra2_b29:
+        .word   172, 172, .Lsra2_b29a
+.Lsra2_b29a:
+        .word   12, 12, .Lsra2_b29b
+.Lsra2_b29b:
+        .word   164, 12, .Lsra2_b29c
+.Lsra2_b29c:
+        .word   12, 172, .Lsra2_b29d
+.Lsra2_b29d:
+        .word   .Lsra_c536870912, 172, .Lsra2_b29e
+.Lsra2_b29e:
+        .word   176, 176, .Lsra2_b29f
+.Lsra2_b29f:
+        .word   172, 176, .Lsra2_b29s
+        .word   12, 12, .Lsra2_b28
+.Lsra2_b29s:
+        .word   .Lsra_c536870912, 164, .Lsra2_b29t
+.Lsra2_b29t:
+        .word   .Lsra_n134217728, 168, .Lsra2_b28
+.Lsra2_b28:
+        .word   172, 172, .Lsra2_b28a
+.Lsra2_b28a:
+        .word   12, 12, .Lsra2_b28b
+.Lsra2_b28b:
+        .word   164, 12, .Lsra2_b28c
+.Lsra2_b28c:
+        .word   12, 172, .Lsra2_b28d
+.Lsra2_b28d:
+        .word   .Lsra_c268435456, 172, .Lsra2_b28e
+.Lsra2_b28e:
+        .word   176, 176, .Lsra2_b28f
+.Lsra2_b28f:
+        .word   172, 176, .Lsra2_b28s
+        .word   12, 12, .Lsra2_b27
+.Lsra2_b28s:
+        .word   .Lsra_c268435456, 164, .Lsra2_b28t
+.Lsra2_b28t:
+        .word   .Lsra_n67108864, 168, .Lsra2_b27
+.Lsra2_b27:
+        .word   172, 172, .Lsra2_b27a
+.Lsra2_b27a:
+        .word   12, 12, .Lsra2_b27b
+.Lsra2_b27b:
+        .word   164, 12, .Lsra2_b27c
+.Lsra2_b27c:
+        .word   12, 172, .Lsra2_b27d
+.Lsra2_b27d:
+        .word   .Lsra_c134217728, 172, .Lsra2_b27e
+.Lsra2_b27e:
+        .word   176, 176, .Lsra2_b27f
+.Lsra2_b27f:
+        .word   172, 176, .Lsra2_b27s
+        .word   12, 12, .Lsra2_b26
+.Lsra2_b27s:
+        .word   .Lsra_c134217728, 164, .Lsra2_b27t
+.Lsra2_b27t:
+        .word   .Lsra_n33554432, 168, .Lsra2_b26
+.Lsra2_b26:
+        .word   172, 172, .Lsra2_b26a
+.Lsra2_b26a:
+        .word   12, 12, .Lsra2_b26b
+.Lsra2_b26b:
+        .word   164, 12, .Lsra2_b26c
+.Lsra2_b26c:
+        .word   12, 172, .Lsra2_b26d
+.Lsra2_b26d:
+        .word   .Lsra_c67108864, 172, .Lsra2_b26e
+.Lsra2_b26e:
+        .word   176, 176, .Lsra2_b26f
+.Lsra2_b26f:
+        .word   172, 176, .Lsra2_b26s
+        .word   12, 12, .Lsra2_b25
+.Lsra2_b26s:
+        .word   .Lsra_c67108864, 164, .Lsra2_b26t
+.Lsra2_b26t:
+        .word   .Lsra_n16777216, 168, .Lsra2_b25
+.Lsra2_b25:
+        .word   172, 172, .Lsra2_b25a
+.Lsra2_b25a:
+        .word   12, 12, .Lsra2_b25b
+.Lsra2_b25b:
+        .word   164, 12, .Lsra2_b25c
+.Lsra2_b25c:
+        .word   12, 172, .Lsra2_b25d
+.Lsra2_b25d:
+        .word   .Lsra_c33554432, 172, .Lsra2_b25e
+.Lsra2_b25e:
+        .word   176, 176, .Lsra2_b25f
+.Lsra2_b25f:
+        .word   172, 176, .Lsra2_b25s
+        .word   12, 12, .Lsra2_b24
+.Lsra2_b25s:
+        .word   .Lsra_c33554432, 164, .Lsra2_b25t
+.Lsra2_b25t:
+        .word   .Lsra_n8388608, 168, .Lsra2_b24
+.Lsra2_b24:
+        .word   172, 172, .Lsra2_b24a
+.Lsra2_b24a:
+        .word   12, 12, .Lsra2_b24b
+.Lsra2_b24b:
+        .word   164, 12, .Lsra2_b24c
+.Lsra2_b24c:
+        .word   12, 172, .Lsra2_b24d
+.Lsra2_b24d:
+        .word   .Lsra_c16777216, 172, .Lsra2_b24e
+.Lsra2_b24e:
+        .word   176, 176, .Lsra2_b24f
+.Lsra2_b24f:
+        .word   172, 176, .Lsra2_b24s
+        .word   12, 12, .Lsra2_b23
+.Lsra2_b24s:
+        .word   .Lsra_c16777216, 164, .Lsra2_b24t
+.Lsra2_b24t:
+        .word   .Lsra_n4194304, 168, .Lsra2_b23
+.Lsra2_b23:
+        .word   172, 172, .Lsra2_b23a
+.Lsra2_b23a:
+        .word   12, 12, .Lsra2_b23b
+.Lsra2_b23b:
+        .word   164, 12, .Lsra2_b23c
+.Lsra2_b23c:
+        .word   12, 172, .Lsra2_b23d
+.Lsra2_b23d:
+        .word   .Lsra_c8388608, 172, .Lsra2_b23e
+.Lsra2_b23e:
+        .word   176, 176, .Lsra2_b23f
+.Lsra2_b23f:
+        .word   172, 176, .Lsra2_b23s
+        .word   12, 12, .Lsra2_b22
+.Lsra2_b23s:
+        .word   .Lsra_c8388608, 164, .Lsra2_b23t
+.Lsra2_b23t:
+        .word   .Lsra_n2097152, 168, .Lsra2_b22
+.Lsra2_b22:
+        .word   172, 172, .Lsra2_b22a
+.Lsra2_b22a:
+        .word   12, 12, .Lsra2_b22b
+.Lsra2_b22b:
+        .word   164, 12, .Lsra2_b22c
+.Lsra2_b22c:
+        .word   12, 172, .Lsra2_b22d
+.Lsra2_b22d:
+        .word   .Lsra_c4194304, 172, .Lsra2_b22e
+.Lsra2_b22e:
+        .word   176, 176, .Lsra2_b22f
+.Lsra2_b22f:
+        .word   172, 176, .Lsra2_b22s
+        .word   12, 12, .Lsra2_b21
+.Lsra2_b22s:
+        .word   .Lsra_c4194304, 164, .Lsra2_b22t
+.Lsra2_b22t:
+        .word   .Lsra_n1048576, 168, .Lsra2_b21
+.Lsra2_b21:
+        .word   172, 172, .Lsra2_b21a
+.Lsra2_b21a:
+        .word   12, 12, .Lsra2_b21b
+.Lsra2_b21b:
+        .word   164, 12, .Lsra2_b21c
+.Lsra2_b21c:
+        .word   12, 172, .Lsra2_b21d
+.Lsra2_b21d:
+        .word   .Lsra_c2097152, 172, .Lsra2_b21e
+.Lsra2_b21e:
+        .word   176, 176, .Lsra2_b21f
+.Lsra2_b21f:
+        .word   172, 176, .Lsra2_b21s
+        .word   12, 12, .Lsra2_b20
+.Lsra2_b21s:
+        .word   .Lsra_c2097152, 164, .Lsra2_b21t
+.Lsra2_b21t:
+        .word   .Lsra_n524288, 168, .Lsra2_b20
+.Lsra2_b20:
+        .word   172, 172, .Lsra2_b20a
+.Lsra2_b20a:
+        .word   12, 12, .Lsra2_b20b
+.Lsra2_b20b:
+        .word   164, 12, .Lsra2_b20c
+.Lsra2_b20c:
+        .word   12, 172, .Lsra2_b20d
+.Lsra2_b20d:
+        .word   .Lsra_c1048576, 172, .Lsra2_b20e
+.Lsra2_b20e:
+        .word   176, 176, .Lsra2_b20f
+.Lsra2_b20f:
+        .word   172, 176, .Lsra2_b20s
+        .word   12, 12, .Lsra2_b19
+.Lsra2_b20s:
+        .word   .Lsra_c1048576, 164, .Lsra2_b20t
+.Lsra2_b20t:
+        .word   .Lsra_n262144, 168, .Lsra2_b19
+.Lsra2_b19:
+        .word   172, 172, .Lsra2_b19a
+.Lsra2_b19a:
+        .word   12, 12, .Lsra2_b19b
+.Lsra2_b19b:
+        .word   164, 12, .Lsra2_b19c
+.Lsra2_b19c:
+        .word   12, 172, .Lsra2_b19d
+.Lsra2_b19d:
+        .word   .Lsra_c524288, 172, .Lsra2_b19e
+.Lsra2_b19e:
+        .word   176, 176, .Lsra2_b19f
+.Lsra2_b19f:
+        .word   172, 176, .Lsra2_b19s
+        .word   12, 12, .Lsra2_b18
+.Lsra2_b19s:
+        .word   .Lsra_c524288, 164, .Lsra2_b19t
+.Lsra2_b19t:
+        .word   .Lsra_n131072, 168, .Lsra2_b18
+.Lsra2_b18:
+        .word   172, 172, .Lsra2_b18a
+.Lsra2_b18a:
+        .word   12, 12, .Lsra2_b18b
+.Lsra2_b18b:
+        .word   164, 12, .Lsra2_b18c
+.Lsra2_b18c:
+        .word   12, 172, .Lsra2_b18d
+.Lsra2_b18d:
+        .word   .Lsra_c262144, 172, .Lsra2_b18e
+.Lsra2_b18e:
+        .word   176, 176, .Lsra2_b18f
+.Lsra2_b18f:
+        .word   172, 176, .Lsra2_b18s
+        .word   12, 12, .Lsra2_b17
+.Lsra2_b18s:
+        .word   .Lsra_c262144, 164, .Lsra2_b18t
+.Lsra2_b18t:
+        .word   .Lsra_n65536, 168, .Lsra2_b17
+.Lsra2_b17:
+        .word   172, 172, .Lsra2_b17a
+.Lsra2_b17a:
+        .word   12, 12, .Lsra2_b17b
+.Lsra2_b17b:
+        .word   164, 12, .Lsra2_b17c
+.Lsra2_b17c:
+        .word   12, 172, .Lsra2_b17d
+.Lsra2_b17d:
+        .word   .Lsra_c131072, 172, .Lsra2_b17e
+.Lsra2_b17e:
+        .word   176, 176, .Lsra2_b17f
+.Lsra2_b17f:
+        .word   172, 176, .Lsra2_b17s
+        .word   12, 12, .Lsra2_b16
+.Lsra2_b17s:
+        .word   .Lsra_c131072, 164, .Lsra2_b17t
+.Lsra2_b17t:
+        .word   .Lsra_n32768, 168, .Lsra2_b16
+.Lsra2_b16:
+        .word   172, 172, .Lsra2_b16a
+.Lsra2_b16a:
+        .word   12, 12, .Lsra2_b16b
+.Lsra2_b16b:
+        .word   164, 12, .Lsra2_b16c
+.Lsra2_b16c:
+        .word   12, 172, .Lsra2_b16d
+.Lsra2_b16d:
+        .word   .Lsra_c65536, 172, .Lsra2_b16e
+.Lsra2_b16e:
+        .word   176, 176, .Lsra2_b16f
+.Lsra2_b16f:
+        .word   172, 176, .Lsra2_b16s
+        .word   12, 12, .Lsra2_b15
+.Lsra2_b16s:
+        .word   .Lsra_c65536, 164, .Lsra2_b16t
+.Lsra2_b16t:
+        .word   .Lsra_n16384, 168, .Lsra2_b15
+.Lsra2_b15:
+        .word   172, 172, .Lsra2_b15a
+.Lsra2_b15a:
+        .word   12, 12, .Lsra2_b15b
+.Lsra2_b15b:
+        .word   164, 12, .Lsra2_b15c
+.Lsra2_b15c:
+        .word   12, 172, .Lsra2_b15d
+.Lsra2_b15d:
+        .word   .Lsra_c32768, 172, .Lsra2_b15e
+.Lsra2_b15e:
+        .word   176, 176, .Lsra2_b15f
+.Lsra2_b15f:
+        .word   172, 176, .Lsra2_b15s
+        .word   12, 12, .Lsra2_b14
+.Lsra2_b15s:
+        .word   .Lsra_c32768, 164, .Lsra2_b15t
+.Lsra2_b15t:
+        .word   .Lsra_n8192, 168, .Lsra2_b14
+.Lsra2_b14:
+        .word   172, 172, .Lsra2_b14a
+.Lsra2_b14a:
+        .word   12, 12, .Lsra2_b14b
+.Lsra2_b14b:
+        .word   164, 12, .Lsra2_b14c
+.Lsra2_b14c:
+        .word   12, 172, .Lsra2_b14d
+.Lsra2_b14d:
+        .word   .Lsra_c16384, 172, .Lsra2_b14e
+.Lsra2_b14e:
+        .word   176, 176, .Lsra2_b14f
+.Lsra2_b14f:
+        .word   172, 176, .Lsra2_b14s
+        .word   12, 12, .Lsra2_b13
+.Lsra2_b14s:
+        .word   .Lsra_c16384, 164, .Lsra2_b14t
+.Lsra2_b14t:
+        .word   .Lsra_n4096, 168, .Lsra2_b13
+.Lsra2_b13:
+        .word   172, 172, .Lsra2_b13a
+.Lsra2_b13a:
+        .word   12, 12, .Lsra2_b13b
+.Lsra2_b13b:
+        .word   164, 12, .Lsra2_b13c
+.Lsra2_b13c:
+        .word   12, 172, .Lsra2_b13d
+.Lsra2_b13d:
+        .word   .Lsra_c8192, 172, .Lsra2_b13e
+.Lsra2_b13e:
+        .word   176, 176, .Lsra2_b13f
+.Lsra2_b13f:
+        .word   172, 176, .Lsra2_b13s
+        .word   12, 12, .Lsra2_b12
+.Lsra2_b13s:
+        .word   .Lsra_c8192, 164, .Lsra2_b13t
+.Lsra2_b13t:
+        .word   .Lsra_n2048, 168, .Lsra2_b12
+.Lsra2_b12:
+        .word   172, 172, .Lsra2_b12a
+.Lsra2_b12a:
+        .word   12, 12, .Lsra2_b12b
+.Lsra2_b12b:
+        .word   164, 12, .Lsra2_b12c
+.Lsra2_b12c:
+        .word   12, 172, .Lsra2_b12d
+.Lsra2_b12d:
+        .word   .Lsra_c4096, 172, .Lsra2_b12e
+.Lsra2_b12e:
+        .word   176, 176, .Lsra2_b12f
+.Lsra2_b12f:
+        .word   172, 176, .Lsra2_b12s
+        .word   12, 12, .Lsra2_b11
+.Lsra2_b12s:
+        .word   .Lsra_c4096, 164, .Lsra2_b12t
+.Lsra2_b12t:
+        .word   .Lsra_n1024, 168, .Lsra2_b11
+.Lsra2_b11:
+        .word   172, 172, .Lsra2_b11a
+.Lsra2_b11a:
+        .word   12, 12, .Lsra2_b11b
+.Lsra2_b11b:
+        .word   164, 12, .Lsra2_b11c
+.Lsra2_b11c:
+        .word   12, 172, .Lsra2_b11d
+.Lsra2_b11d:
+        .word   .Lsra_c2048, 172, .Lsra2_b11e
+.Lsra2_b11e:
+        .word   176, 176, .Lsra2_b11f
+.Lsra2_b11f:
+        .word   172, 176, .Lsra2_b11s
+        .word   12, 12, .Lsra2_b10
+.Lsra2_b11s:
+        .word   .Lsra_c2048, 164, .Lsra2_b11t
+.Lsra2_b11t:
+        .word   .Lsra_n512, 168, .Lsra2_b10
+.Lsra2_b10:
+        .word   172, 172, .Lsra2_b10a
+.Lsra2_b10a:
+        .word   12, 12, .Lsra2_b10b
+.Lsra2_b10b:
+        .word   164, 12, .Lsra2_b10c
+.Lsra2_b10c:
+        .word   12, 172, .Lsra2_b10d
+.Lsra2_b10d:
+        .word   .Lsra_c1024, 172, .Lsra2_b10e
+.Lsra2_b10e:
+        .word   176, 176, .Lsra2_b10f
+.Lsra2_b10f:
+        .word   172, 176, .Lsra2_b10s
+        .word   12, 12, .Lsra2_b9
+.Lsra2_b10s:
+        .word   .Lsra_c1024, 164, .Lsra2_b10t
+.Lsra2_b10t:
+        .word   .Lsra_n256, 168, .Lsra2_b9
+.Lsra2_b9:
+        .word   172, 172, .Lsra2_b9a
+.Lsra2_b9a:
+        .word   12, 12, .Lsra2_b9b
+.Lsra2_b9b:
+        .word   164, 12, .Lsra2_b9c
+.Lsra2_b9c:
+        .word   12, 172, .Lsra2_b9d
+.Lsra2_b9d:
+        .word   .Lsra_c512, 172, .Lsra2_b9e
+.Lsra2_b9e:
+        .word   176, 176, .Lsra2_b9f
+.Lsra2_b9f:
+        .word   172, 176, .Lsra2_b9s
+        .word   12, 12, .Lsra2_b8
+.Lsra2_b9s:
+        .word   .Lsra_c512, 164, .Lsra2_b9t
+.Lsra2_b9t:
+        .word   .Lsra_n128, 168, .Lsra2_b8
+.Lsra2_b8:
+        .word   172, 172, .Lsra2_b8a
+.Lsra2_b8a:
+        .word   12, 12, .Lsra2_b8b
+.Lsra2_b8b:
+        .word   164, 12, .Lsra2_b8c
+.Lsra2_b8c:
+        .word   12, 172, .Lsra2_b8d
+.Lsra2_b8d:
+        .word   .Lsra_c256, 172, .Lsra2_b8e
+.Lsra2_b8e:
+        .word   176, 176, .Lsra2_b8f
+.Lsra2_b8f:
+        .word   172, 176, .Lsra2_b8s
+        .word   12, 12, .Lsra2_b7
+.Lsra2_b8s:
+        .word   .Lsra_c256, 164, .Lsra2_b8t
+.Lsra2_b8t:
+        .word   .Lsra_n64, 168, .Lsra2_b7
+.Lsra2_b7:
+        .word   172, 172, .Lsra2_b7a
+.Lsra2_b7a:
+        .word   12, 12, .Lsra2_b7b
+.Lsra2_b7b:
+        .word   164, 12, .Lsra2_b7c
+.Lsra2_b7c:
+        .word   12, 172, .Lsra2_b7d
+.Lsra2_b7d:
+        .word   .Lsra_c128, 172, .Lsra2_b7e
+.Lsra2_b7e:
+        .word   176, 176, .Lsra2_b7f
+.Lsra2_b7f:
+        .word   172, 176, .Lsra2_b7s
+        .word   12, 12, .Lsra2_b6
+.Lsra2_b7s:
+        .word   .Lsra_c128, 164, .Lsra2_b7t
+.Lsra2_b7t:
+        .word   .Lsra_n32, 168, .Lsra2_b6
+.Lsra2_b6:
+        .word   172, 172, .Lsra2_b6a
+.Lsra2_b6a:
+        .word   12, 12, .Lsra2_b6b
+.Lsra2_b6b:
+        .word   164, 12, .Lsra2_b6c
+.Lsra2_b6c:
+        .word   12, 172, .Lsra2_b6d
+.Lsra2_b6d:
+        .word   .Lsra_c64, 172, .Lsra2_b6e
+.Lsra2_b6e:
+        .word   176, 176, .Lsra2_b6f
+.Lsra2_b6f:
+        .word   172, 176, .Lsra2_b6s
+        .word   12, 12, .Lsra2_b5
+.Lsra2_b6s:
+        .word   .Lsra_c64, 164, .Lsra2_b6t
+.Lsra2_b6t:
+        .word   .Lsra_n16, 168, .Lsra2_b5
+.Lsra2_b5:
+        .word   172, 172, .Lsra2_b5a
+.Lsra2_b5a:
+        .word   12, 12, .Lsra2_b5b
+.Lsra2_b5b:
+        .word   164, 12, .Lsra2_b5c
+.Lsra2_b5c:
+        .word   12, 172, .Lsra2_b5d
+.Lsra2_b5d:
+        .word   .Lsra_c32, 172, .Lsra2_b5e
+.Lsra2_b5e:
+        .word   176, 176, .Lsra2_b5f
+.Lsra2_b5f:
+        .word   172, 176, .Lsra2_b5s
+        .word   12, 12, .Lsra2_b4
+.Lsra2_b5s:
+        .word   .Lsra_c32, 164, .Lsra2_b5t
+.Lsra2_b5t:
+        .word   .Lsra_n8, 168, .Lsra2_b4
+.Lsra2_b4:
+        .word   172, 172, .Lsra2_b4a
+.Lsra2_b4a:
+        .word   12, 12, .Lsra2_b4b
+.Lsra2_b4b:
+        .word   164, 12, .Lsra2_b4c
+.Lsra2_b4c:
+        .word   12, 172, .Lsra2_b4d
+.Lsra2_b4d:
+        .word   .Lsra_c16, 172, .Lsra2_b4e
+.Lsra2_b4e:
+        .word   176, 176, .Lsra2_b4f
+.Lsra2_b4f:
+        .word   172, 176, .Lsra2_b4s
+        .word   12, 12, .Lsra2_b3
+.Lsra2_b4s:
+        .word   .Lsra_c16, 164, .Lsra2_b4t
+.Lsra2_b4t:
+        .word   .Lsra_n4, 168, .Lsra2_b3
+.Lsra2_b3:
+        .word   172, 172, .Lsra2_b3a
+.Lsra2_b3a:
+        .word   12, 12, .Lsra2_b3b
+.Lsra2_b3b:
+        .word   164, 12, .Lsra2_b3c
+.Lsra2_b3c:
+        .word   12, 172, .Lsra2_b3d
+.Lsra2_b3d:
+        .word   .Lsra_c8, 172, .Lsra2_b3e
+.Lsra2_b3e:
+        .word   176, 176, .Lsra2_b3f
+.Lsra2_b3f:
+        .word   172, 176, .Lsra2_b3s
+        .word   12, 12, .Lsra2_b2
+.Lsra2_b3s:
+        .word   .Lsra_c8, 164, .Lsra2_b3t
+.Lsra2_b3t:
+        .word   .Lsra_n2, 168, .Lsra2_b2
+.Lsra2_b2:
+        .word   172, 172, .Lsra2_b2a
+.Lsra2_b2a:
+        .word   12, 12, .Lsra2_b2b
+.Lsra2_b2b:
+        .word   164, 12, .Lsra2_b2c
+.Lsra2_b2c:
+        .word   12, 172, .Lsra2_b2d
+.Lsra2_b2d:
+        .word   .Lsra_c4, 172, .Lsra2_b2e
+.Lsra2_b2e:
+        .word   176, 176, .Lsra2_b2f
+.Lsra2_b2f:
+        .word   172, 176, .Lsra2_b2s
+        .word   12, 12, .Lsra2_done
+.Lsra2_b2s:
+        .word   .Lsra_c4, 164, .Lsra2_b2t
+.Lsra2_b2t:
+        .word   .Lsra_n1, 168, .Lsra2_done
+.Lsra2_done:
+        .word   172, 172, .Lsra2_chk
+.Lsra2_chk:
+        .word   24, 180, .Lsra2_store
+        .word   172, 172, .Lsra2_un1
+.Lsra2_un1:
+        .word   168, 172, .Lsra2_un2
+.Lsra2_un2:
+        .word   168, 168, .Lsra2_un3
+.Lsra2_un3:
+        .word   12, 12, .Lsra2_un4
+.Lsra2_un4:
+        .word   172, 12, .Lsra2_un5
+.Lsra2_un5:
+        .word   12, 168, .Lsra2_un6
+.Lsra2_un6:
+        .word   .Lsra_one, 168, .Lsra2_store
+.Lsra2_store:
+        .word   28, 28, .Lsra2_st1
+.Lsra2_st1:
+        .word   12, 12, .Lsra2_st2
+.Lsra2_st2:
+        .word   168, 12, .Lsra2_st3
+.Lsra2_st3:
+        .word   12, 28, .Lsra2_st4
+.Lsra2_st4:
+        .word   24, 24, .Lsra_done
+
+.Lsra_shift_3:
+        .word   180, 180, .Lsra3_chksign
+.Lsra3_chksign:
+        .word   172, 172, .Lsra3_s1
+.Lsra3_s1:
+        .word   12, 12, .Lsra3_s2
+.Lsra3_s2:
+        .word   164, 12, .Lsra3_s3
+.Lsra3_s3:
+        .word   12, 172, .Lsra3_s4
+.Lsra3_s4:
+        .word   24, 172, .Lsra3_maybe_neg
+        .word   12, 12, .Lsra3_pos
+.Lsra3_maybe_neg:
+        .word   172, 172, .Lsra3_m1
+.Lsra3_m1:
+        .word   164, 172, .Lsra3_m2
+.Lsra3_m2:
+        .word   24, 172, .Lsra3_ambig
+        .word   12, 12, .Lsra3_neg
+.Lsra3_ambig:
+        .word   172, 172, .Lsra3_a1
+.Lsra3_a1:
+        .word   164, 172, .Lsra3_a2
+.Lsra3_a2:
+        .word   .Lsra_one, 172, .Lsra3_a3
+.Lsra3_a3:
+        .word   24, 172, .Lsra3_pos
+        .word   12, 12, .Lsra3_neg
+.Lsra3_neg:
+        .word   .Lsra_negone, 180, .Lsra3_n1
+.Lsra3_n1:
+        .word   172, 172, .Lsra3_n2
+.Lsra3_n2:
+        .word   164, 172, .Lsra3_n3
+.Lsra3_n3:
+        .word   164, 164, .Lsra3_n4
+.Lsra3_n4:
+        .word   12, 12, .Lsra3_n5
+.Lsra3_n5:
+        .word   172, 12, .Lsra3_n6
+.Lsra3_n6:
+        .word   12, 164, .Lsra3_n7
+.Lsra3_n7:
+        .word   .Lsra_one, 164, .Lsra3_pos
+.Lsra3_pos:
+        .word   168, 168, .Lsra3_start
+.Lsra3_start:
+.Lsra3_b30:
+        .word   172, 172, .Lsra3_b30a
+.Lsra3_b30a:
+        .word   12, 12, .Lsra3_b30b
+.Lsra3_b30b:
+        .word   164, 12, .Lsra3_b30c
+.Lsra3_b30c:
+        .word   12, 172, .Lsra3_b30d
+.Lsra3_b30d:
+        .word   .Lsra_c1073741824, 172, .Lsra3_b30e
+.Lsra3_b30e:
+        .word   176, 176, .Lsra3_b30f
+.Lsra3_b30f:
+        .word   172, 176, .Lsra3_b30s
+        .word   12, 12, .Lsra3_b29
+.Lsra3_b30s:
+        .word   .Lsra_c1073741824, 164, .Lsra3_b30t
+.Lsra3_b30t:
+        .word   .Lsra_n134217728, 168, .Lsra3_b29
+.Lsra3_b29:
+        .word   172, 172, .Lsra3_b29a
+.Lsra3_b29a:
+        .word   12, 12, .Lsra3_b29b
+.Lsra3_b29b:
+        .word   164, 12, .Lsra3_b29c
+.Lsra3_b29c:
+        .word   12, 172, .Lsra3_b29d
+.Lsra3_b29d:
+        .word   .Lsra_c536870912, 172, .Lsra3_b29e
+.Lsra3_b29e:
+        .word   176, 176, .Lsra3_b29f
+.Lsra3_b29f:
+        .word   172, 176, .Lsra3_b29s
+        .word   12, 12, .Lsra3_b28
+.Lsra3_b29s:
+        .word   .Lsra_c536870912, 164, .Lsra3_b29t
+.Lsra3_b29t:
+        .word   .Lsra_n67108864, 168, .Lsra3_b28
+.Lsra3_b28:
+        .word   172, 172, .Lsra3_b28a
+.Lsra3_b28a:
+        .word   12, 12, .Lsra3_b28b
+.Lsra3_b28b:
+        .word   164, 12, .Lsra3_b28c
+.Lsra3_b28c:
+        .word   12, 172, .Lsra3_b28d
+.Lsra3_b28d:
+        .word   .Lsra_c268435456, 172, .Lsra3_b28e
+.Lsra3_b28e:
+        .word   176, 176, .Lsra3_b28f
+.Lsra3_b28f:
+        .word   172, 176, .Lsra3_b28s
+        .word   12, 12, .Lsra3_b27
+.Lsra3_b28s:
+        .word   .Lsra_c268435456, 164, .Lsra3_b28t
+.Lsra3_b28t:
+        .word   .Lsra_n33554432, 168, .Lsra3_b27
+.Lsra3_b27:
+        .word   172, 172, .Lsra3_b27a
+.Lsra3_b27a:
+        .word   12, 12, .Lsra3_b27b
+.Lsra3_b27b:
+        .word   164, 12, .Lsra3_b27c
+.Lsra3_b27c:
+        .word   12, 172, .Lsra3_b27d
+.Lsra3_b27d:
+        .word   .Lsra_c134217728, 172, .Lsra3_b27e
+.Lsra3_b27e:
+        .word   176, 176, .Lsra3_b27f
+.Lsra3_b27f:
+        .word   172, 176, .Lsra3_b27s
+        .word   12, 12, .Lsra3_b26
+.Lsra3_b27s:
+        .word   .Lsra_c134217728, 164, .Lsra3_b27t
+.Lsra3_b27t:
+        .word   .Lsra_n16777216, 168, .Lsra3_b26
+.Lsra3_b26:
+        .word   172, 172, .Lsra3_b26a
+.Lsra3_b26a:
+        .word   12, 12, .Lsra3_b26b
+.Lsra3_b26b:
+        .word   164, 12, .Lsra3_b26c
+.Lsra3_b26c:
+        .word   12, 172, .Lsra3_b26d
+.Lsra3_b26d:
+        .word   .Lsra_c67108864, 172, .Lsra3_b26e
+.Lsra3_b26e:
+        .word   176, 176, .Lsra3_b26f
+.Lsra3_b26f:
+        .word   172, 176, .Lsra3_b26s
+        .word   12, 12, .Lsra3_b25
+.Lsra3_b26s:
+        .word   .Lsra_c67108864, 164, .Lsra3_b26t
+.Lsra3_b26t:
+        .word   .Lsra_n8388608, 168, .Lsra3_b25
+.Lsra3_b25:
+        .word   172, 172, .Lsra3_b25a
+.Lsra3_b25a:
+        .word   12, 12, .Lsra3_b25b
+.Lsra3_b25b:
+        .word   164, 12, .Lsra3_b25c
+.Lsra3_b25c:
+        .word   12, 172, .Lsra3_b25d
+.Lsra3_b25d:
+        .word   .Lsra_c33554432, 172, .Lsra3_b25e
+.Lsra3_b25e:
+        .word   176, 176, .Lsra3_b25f
+.Lsra3_b25f:
+        .word   172, 176, .Lsra3_b25s
+        .word   12, 12, .Lsra3_b24
+.Lsra3_b25s:
+        .word   .Lsra_c33554432, 164, .Lsra3_b25t
+.Lsra3_b25t:
+        .word   .Lsra_n4194304, 168, .Lsra3_b24
+.Lsra3_b24:
+        .word   172, 172, .Lsra3_b24a
+.Lsra3_b24a:
+        .word   12, 12, .Lsra3_b24b
+.Lsra3_b24b:
+        .word   164, 12, .Lsra3_b24c
+.Lsra3_b24c:
+        .word   12, 172, .Lsra3_b24d
+.Lsra3_b24d:
+        .word   .Lsra_c16777216, 172, .Lsra3_b24e
+.Lsra3_b24e:
+        .word   176, 176, .Lsra3_b24f
+.Lsra3_b24f:
+        .word   172, 176, .Lsra3_b24s
+        .word   12, 12, .Lsra3_b23
+.Lsra3_b24s:
+        .word   .Lsra_c16777216, 164, .Lsra3_b24t
+.Lsra3_b24t:
+        .word   .Lsra_n2097152, 168, .Lsra3_b23
+.Lsra3_b23:
+        .word   172, 172, .Lsra3_b23a
+.Lsra3_b23a:
+        .word   12, 12, .Lsra3_b23b
+.Lsra3_b23b:
+        .word   164, 12, .Lsra3_b23c
+.Lsra3_b23c:
+        .word   12, 172, .Lsra3_b23d
+.Lsra3_b23d:
+        .word   .Lsra_c8388608, 172, .Lsra3_b23e
+.Lsra3_b23e:
+        .word   176, 176, .Lsra3_b23f
+.Lsra3_b23f:
+        .word   172, 176, .Lsra3_b23s
+        .word   12, 12, .Lsra3_b22
+.Lsra3_b23s:
+        .word   .Lsra_c8388608, 164, .Lsra3_b23t
+.Lsra3_b23t:
+        .word   .Lsra_n1048576, 168, .Lsra3_b22
+.Lsra3_b22:
+        .word   172, 172, .Lsra3_b22a
+.Lsra3_b22a:
+        .word   12, 12, .Lsra3_b22b
+.Lsra3_b22b:
+        .word   164, 12, .Lsra3_b22c
+.Lsra3_b22c:
+        .word   12, 172, .Lsra3_b22d
+.Lsra3_b22d:
+        .word   .Lsra_c4194304, 172, .Lsra3_b22e
+.Lsra3_b22e:
+        .word   176, 176, .Lsra3_b22f
+.Lsra3_b22f:
+        .word   172, 176, .Lsra3_b22s
+        .word   12, 12, .Lsra3_b21
+.Lsra3_b22s:
+        .word   .Lsra_c4194304, 164, .Lsra3_b22t
+.Lsra3_b22t:
+        .word   .Lsra_n524288, 168, .Lsra3_b21
+.Lsra3_b21:
+        .word   172, 172, .Lsra3_b21a
+.Lsra3_b21a:
+        .word   12, 12, .Lsra3_b21b
+.Lsra3_b21b:
+        .word   164, 12, .Lsra3_b21c
+.Lsra3_b21c:
+        .word   12, 172, .Lsra3_b21d
+.Lsra3_b21d:
+        .word   .Lsra_c2097152, 172, .Lsra3_b21e
+.Lsra3_b21e:
+        .word   176, 176, .Lsra3_b21f
+.Lsra3_b21f:
+        .word   172, 176, .Lsra3_b21s
+        .word   12, 12, .Lsra3_b20
+.Lsra3_b21s:
+        .word   .Lsra_c2097152, 164, .Lsra3_b21t
+.Lsra3_b21t:
+        .word   .Lsra_n262144, 168, .Lsra3_b20
+.Lsra3_b20:
+        .word   172, 172, .Lsra3_b20a
+.Lsra3_b20a:
+        .word   12, 12, .Lsra3_b20b
+.Lsra3_b20b:
+        .word   164, 12, .Lsra3_b20c
+.Lsra3_b20c:
+        .word   12, 172, .Lsra3_b20d
+.Lsra3_b20d:
+        .word   .Lsra_c1048576, 172, .Lsra3_b20e
+.Lsra3_b20e:
+        .word   176, 176, .Lsra3_b20f
+.Lsra3_b20f:
+        .word   172, 176, .Lsra3_b20s
+        .word   12, 12, .Lsra3_b19
+.Lsra3_b20s:
+        .word   .Lsra_c1048576, 164, .Lsra3_b20t
+.Lsra3_b20t:
+        .word   .Lsra_n131072, 168, .Lsra3_b19
+.Lsra3_b19:
+        .word   172, 172, .Lsra3_b19a
+.Lsra3_b19a:
+        .word   12, 12, .Lsra3_b19b
+.Lsra3_b19b:
+        .word   164, 12, .Lsra3_b19c
+.Lsra3_b19c:
+        .word   12, 172, .Lsra3_b19d
+.Lsra3_b19d:
+        .word   .Lsra_c524288, 172, .Lsra3_b19e
+.Lsra3_b19e:
+        .word   176, 176, .Lsra3_b19f
+.Lsra3_b19f:
+        .word   172, 176, .Lsra3_b19s
+        .word   12, 12, .Lsra3_b18
+.Lsra3_b19s:
+        .word   .Lsra_c524288, 164, .Lsra3_b19t
+.Lsra3_b19t:
+        .word   .Lsra_n65536, 168, .Lsra3_b18
+.Lsra3_b18:
+        .word   172, 172, .Lsra3_b18a
+.Lsra3_b18a:
+        .word   12, 12, .Lsra3_b18b
+.Lsra3_b18b:
+        .word   164, 12, .Lsra3_b18c
+.Lsra3_b18c:
+        .word   12, 172, .Lsra3_b18d
+.Lsra3_b18d:
+        .word   .Lsra_c262144, 172, .Lsra3_b18e
+.Lsra3_b18e:
+        .word   176, 176, .Lsra3_b18f
+.Lsra3_b18f:
+        .word   172, 176, .Lsra3_b18s
+        .word   12, 12, .Lsra3_b17
+.Lsra3_b18s:
+        .word   .Lsra_c262144, 164, .Lsra3_b18t
+.Lsra3_b18t:
+        .word   .Lsra_n32768, 168, .Lsra3_b17
+.Lsra3_b17:
+        .word   172, 172, .Lsra3_b17a
+.Lsra3_b17a:
+        .word   12, 12, .Lsra3_b17b
+.Lsra3_b17b:
+        .word   164, 12, .Lsra3_b17c
+.Lsra3_b17c:
+        .word   12, 172, .Lsra3_b17d
+.Lsra3_b17d:
+        .word   .Lsra_c131072, 172, .Lsra3_b17e
+.Lsra3_b17e:
+        .word   176, 176, .Lsra3_b17f
+.Lsra3_b17f:
+        .word   172, 176, .Lsra3_b17s
+        .word   12, 12, .Lsra3_b16
+.Lsra3_b17s:
+        .word   .Lsra_c131072, 164, .Lsra3_b17t
+.Lsra3_b17t:
+        .word   .Lsra_n16384, 168, .Lsra3_b16
+.Lsra3_b16:
+        .word   172, 172, .Lsra3_b16a
+.Lsra3_b16a:
+        .word   12, 12, .Lsra3_b16b
+.Lsra3_b16b:
+        .word   164, 12, .Lsra3_b16c
+.Lsra3_b16c:
+        .word   12, 172, .Lsra3_b16d
+.Lsra3_b16d:
+        .word   .Lsra_c65536, 172, .Lsra3_b16e
+.Lsra3_b16e:
+        .word   176, 176, .Lsra3_b16f
+.Lsra3_b16f:
+        .word   172, 176, .Lsra3_b16s
+        .word   12, 12, .Lsra3_b15
+.Lsra3_b16s:
+        .word   .Lsra_c65536, 164, .Lsra3_b16t
+.Lsra3_b16t:
+        .word   .Lsra_n8192, 168, .Lsra3_b15
+.Lsra3_b15:
+        .word   172, 172, .Lsra3_b15a
+.Lsra3_b15a:
+        .word   12, 12, .Lsra3_b15b
+.Lsra3_b15b:
+        .word   164, 12, .Lsra3_b15c
+.Lsra3_b15c:
+        .word   12, 172, .Lsra3_b15d
+.Lsra3_b15d:
+        .word   .Lsra_c32768, 172, .Lsra3_b15e
+.Lsra3_b15e:
+        .word   176, 176, .Lsra3_b15f
+.Lsra3_b15f:
+        .word   172, 176, .Lsra3_b15s
+        .word   12, 12, .Lsra3_b14
+.Lsra3_b15s:
+        .word   .Lsra_c32768, 164, .Lsra3_b15t
+.Lsra3_b15t:
+        .word   .Lsra_n4096, 168, .Lsra3_b14
+.Lsra3_b14:
+        .word   172, 172, .Lsra3_b14a
+.Lsra3_b14a:
+        .word   12, 12, .Lsra3_b14b
+.Lsra3_b14b:
+        .word   164, 12, .Lsra3_b14c
+.Lsra3_b14c:
+        .word   12, 172, .Lsra3_b14d
+.Lsra3_b14d:
+        .word   .Lsra_c16384, 172, .Lsra3_b14e
+.Lsra3_b14e:
+        .word   176, 176, .Lsra3_b14f
+.Lsra3_b14f:
+        .word   172, 176, .Lsra3_b14s
+        .word   12, 12, .Lsra3_b13
+.Lsra3_b14s:
+        .word   .Lsra_c16384, 164, .Lsra3_b14t
+.Lsra3_b14t:
+        .word   .Lsra_n2048, 168, .Lsra3_b13
+.Lsra3_b13:
+        .word   172, 172, .Lsra3_b13a
+.Lsra3_b13a:
+        .word   12, 12, .Lsra3_b13b
+.Lsra3_b13b:
+        .word   164, 12, .Lsra3_b13c
+.Lsra3_b13c:
+        .word   12, 172, .Lsra3_b13d
+.Lsra3_b13d:
+        .word   .Lsra_c8192, 172, .Lsra3_b13e
+.Lsra3_b13e:
+        .word   176, 176, .Lsra3_b13f
+.Lsra3_b13f:
+        .word   172, 176, .Lsra3_b13s
+        .word   12, 12, .Lsra3_b12
+.Lsra3_b13s:
+        .word   .Lsra_c8192, 164, .Lsra3_b13t
+.Lsra3_b13t:
+        .word   .Lsra_n1024, 168, .Lsra3_b12
+.Lsra3_b12:
+        .word   172, 172, .Lsra3_b12a
+.Lsra3_b12a:
+        .word   12, 12, .Lsra3_b12b
+.Lsra3_b12b:
+        .word   164, 12, .Lsra3_b12c
+.Lsra3_b12c:
+        .word   12, 172, .Lsra3_b12d
+.Lsra3_b12d:
+        .word   .Lsra_c4096, 172, .Lsra3_b12e
+.Lsra3_b12e:
+        .word   176, 176, .Lsra3_b12f
+.Lsra3_b12f:
+        .word   172, 176, .Lsra3_b12s
+        .word   12, 12, .Lsra3_b11
+.Lsra3_b12s:
+        .word   .Lsra_c4096, 164, .Lsra3_b12t
+.Lsra3_b12t:
+        .word   .Lsra_n512, 168, .Lsra3_b11
+.Lsra3_b11:
+        .word   172, 172, .Lsra3_b11a
+.Lsra3_b11a:
+        .word   12, 12, .Lsra3_b11b
+.Lsra3_b11b:
+        .word   164, 12, .Lsra3_b11c
+.Lsra3_b11c:
+        .word   12, 172, .Lsra3_b11d
+.Lsra3_b11d:
+        .word   .Lsra_c2048, 172, .Lsra3_b11e
+.Lsra3_b11e:
+        .word   176, 176, .Lsra3_b11f
+.Lsra3_b11f:
+        .word   172, 176, .Lsra3_b11s
+        .word   12, 12, .Lsra3_b10
+.Lsra3_b11s:
+        .word   .Lsra_c2048, 164, .Lsra3_b11t
+.Lsra3_b11t:
+        .word   .Lsra_n256, 168, .Lsra3_b10
+.Lsra3_b10:
+        .word   172, 172, .Lsra3_b10a
+.Lsra3_b10a:
+        .word   12, 12, .Lsra3_b10b
+.Lsra3_b10b:
+        .word   164, 12, .Lsra3_b10c
+.Lsra3_b10c:
+        .word   12, 172, .Lsra3_b10d
+.Lsra3_b10d:
+        .word   .Lsra_c1024, 172, .Lsra3_b10e
+.Lsra3_b10e:
+        .word   176, 176, .Lsra3_b10f
+.Lsra3_b10f:
+        .word   172, 176, .Lsra3_b10s
+        .word   12, 12, .Lsra3_b9
+.Lsra3_b10s:
+        .word   .Lsra_c1024, 164, .Lsra3_b10t
+.Lsra3_b10t:
+        .word   .Lsra_n128, 168, .Lsra3_b9
+.Lsra3_b9:
+        .word   172, 172, .Lsra3_b9a
+.Lsra3_b9a:
+        .word   12, 12, .Lsra3_b9b
+.Lsra3_b9b:
+        .word   164, 12, .Lsra3_b9c
+.Lsra3_b9c:
+        .word   12, 172, .Lsra3_b9d
+.Lsra3_b9d:
+        .word   .Lsra_c512, 172, .Lsra3_b9e
+.Lsra3_b9e:
+        .word   176, 176, .Lsra3_b9f
+.Lsra3_b9f:
+        .word   172, 176, .Lsra3_b9s
+        .word   12, 12, .Lsra3_b8
+.Lsra3_b9s:
+        .word   .Lsra_c512, 164, .Lsra3_b9t
+.Lsra3_b9t:
+        .word   .Lsra_n64, 168, .Lsra3_b8
+.Lsra3_b8:
+        .word   172, 172, .Lsra3_b8a
+.Lsra3_b8a:
+        .word   12, 12, .Lsra3_b8b
+.Lsra3_b8b:
+        .word   164, 12, .Lsra3_b8c
+.Lsra3_b8c:
+        .word   12, 172, .Lsra3_b8d
+.Lsra3_b8d:
+        .word   .Lsra_c256, 172, .Lsra3_b8e
+.Lsra3_b8e:
+        .word   176, 176, .Lsra3_b8f
+.Lsra3_b8f:
+        .word   172, 176, .Lsra3_b8s
+        .word   12, 12, .Lsra3_b7
+.Lsra3_b8s:
+        .word   .Lsra_c256, 164, .Lsra3_b8t
+.Lsra3_b8t:
+        .word   .Lsra_n32, 168, .Lsra3_b7
+.Lsra3_b7:
+        .word   172, 172, .Lsra3_b7a
+.Lsra3_b7a:
+        .word   12, 12, .Lsra3_b7b
+.Lsra3_b7b:
+        .word   164, 12, .Lsra3_b7c
+.Lsra3_b7c:
+        .word   12, 172, .Lsra3_b7d
+.Lsra3_b7d:
+        .word   .Lsra_c128, 172, .Lsra3_b7e
+.Lsra3_b7e:
+        .word   176, 176, .Lsra3_b7f
+.Lsra3_b7f:
+        .word   172, 176, .Lsra3_b7s
+        .word   12, 12, .Lsra3_b6
+.Lsra3_b7s:
+        .word   .Lsra_c128, 164, .Lsra3_b7t
+.Lsra3_b7t:
+        .word   .Lsra_n16, 168, .Lsra3_b6
+.Lsra3_b6:
+        .word   172, 172, .Lsra3_b6a
+.Lsra3_b6a:
+        .word   12, 12, .Lsra3_b6b
+.Lsra3_b6b:
+        .word   164, 12, .Lsra3_b6c
+.Lsra3_b6c:
+        .word   12, 172, .Lsra3_b6d
+.Lsra3_b6d:
+        .word   .Lsra_c64, 172, .Lsra3_b6e
+.Lsra3_b6e:
+        .word   176, 176, .Lsra3_b6f
+.Lsra3_b6f:
+        .word   172, 176, .Lsra3_b6s
+        .word   12, 12, .Lsra3_b5
+.Lsra3_b6s:
+        .word   .Lsra_c64, 164, .Lsra3_b6t
+.Lsra3_b6t:
+        .word   .Lsra_n8, 168, .Lsra3_b5
+.Lsra3_b5:
+        .word   172, 172, .Lsra3_b5a
+.Lsra3_b5a:
+        .word   12, 12, .Lsra3_b5b
+.Lsra3_b5b:
+        .word   164, 12, .Lsra3_b5c
+.Lsra3_b5c:
+        .word   12, 172, .Lsra3_b5d
+.Lsra3_b5d:
+        .word   .Lsra_c32, 172, .Lsra3_b5e
+.Lsra3_b5e:
+        .word   176, 176, .Lsra3_b5f
+.Lsra3_b5f:
+        .word   172, 176, .Lsra3_b5s
+        .word   12, 12, .Lsra3_b4
+.Lsra3_b5s:
+        .word   .Lsra_c32, 164, .Lsra3_b5t
+.Lsra3_b5t:
+        .word   .Lsra_n4, 168, .Lsra3_b4
+.Lsra3_b4:
+        .word   172, 172, .Lsra3_b4a
+.Lsra3_b4a:
+        .word   12, 12, .Lsra3_b4b
+.Lsra3_b4b:
+        .word   164, 12, .Lsra3_b4c
+.Lsra3_b4c:
+        .word   12, 172, .Lsra3_b4d
+.Lsra3_b4d:
+        .word   .Lsra_c16, 172, .Lsra3_b4e
+.Lsra3_b4e:
+        .word   176, 176, .Lsra3_b4f
+.Lsra3_b4f:
+        .word   172, 176, .Lsra3_b4s
+        .word   12, 12, .Lsra3_b3
+.Lsra3_b4s:
+        .word   .Lsra_c16, 164, .Lsra3_b4t
+.Lsra3_b4t:
+        .word   .Lsra_n2, 168, .Lsra3_b3
+.Lsra3_b3:
+        .word   172, 172, .Lsra3_b3a
+.Lsra3_b3a:
+        .word   12, 12, .Lsra3_b3b
+.Lsra3_b3b:
+        .word   164, 12, .Lsra3_b3c
+.Lsra3_b3c:
+        .word   12, 172, .Lsra3_b3d
+.Lsra3_b3d:
+        .word   .Lsra_c8, 172, .Lsra3_b3e
+.Lsra3_b3e:
+        .word   176, 176, .Lsra3_b3f
+.Lsra3_b3f:
+        .word   172, 176, .Lsra3_b3s
+        .word   12, 12, .Lsra3_done
+.Lsra3_b3s:
+        .word   .Lsra_c8, 164, .Lsra3_b3t
+.Lsra3_b3t:
+        .word   .Lsra_n1, 168, .Lsra3_done
+.Lsra3_done:
+        .word   172, 172, .Lsra3_chk
+.Lsra3_chk:
+        .word   24, 180, .Lsra3_store
+        .word   172, 172, .Lsra3_un1
+.Lsra3_un1:
+        .word   168, 172, .Lsra3_un2
+.Lsra3_un2:
+        .word   168, 168, .Lsra3_un3
+.Lsra3_un3:
+        .word   12, 12, .Lsra3_un4
+.Lsra3_un4:
+        .word   172, 12, .Lsra3_un5
+.Lsra3_un5:
+        .word   12, 168, .Lsra3_un6
+.Lsra3_un6:
+        .word   .Lsra_one, 168, .Lsra3_store
+.Lsra3_store:
+        .word   28, 28, .Lsra3_st1
+.Lsra3_st1:
+        .word   12, 12, .Lsra3_st2
+.Lsra3_st2:
+        .word   168, 12, .Lsra3_st3
+.Lsra3_st3:
+        .word   12, 28, .Lsra3_st4
+.Lsra3_st4:
+        .word   24, 24, .Lsra_done
+
+.Lsra_shift_4:
+        .word   180, 180, .Lsra4_chksign
+.Lsra4_chksign:
+        .word   172, 172, .Lsra4_s1
+.Lsra4_s1:
+        .word   12, 12, .Lsra4_s2
+.Lsra4_s2:
+        .word   164, 12, .Lsra4_s3
+.Lsra4_s3:
+        .word   12, 172, .Lsra4_s4
+.Lsra4_s4:
+        .word   24, 172, .Lsra4_maybe_neg
+        .word   12, 12, .Lsra4_pos
+.Lsra4_maybe_neg:
+        .word   172, 172, .Lsra4_m1
+.Lsra4_m1:
+        .word   164, 172, .Lsra4_m2
+.Lsra4_m2:
+        .word   24, 172, .Lsra4_ambig
+        .word   12, 12, .Lsra4_neg
+.Lsra4_ambig:
+        .word   172, 172, .Lsra4_a1
+.Lsra4_a1:
+        .word   164, 172, .Lsra4_a2
+.Lsra4_a2:
+        .word   .Lsra_one, 172, .Lsra4_a3
+.Lsra4_a3:
+        .word   24, 172, .Lsra4_pos
+        .word   12, 12, .Lsra4_neg
+.Lsra4_neg:
+        .word   .Lsra_negone, 180, .Lsra4_n1
+.Lsra4_n1:
+        .word   172, 172, .Lsra4_n2
+.Lsra4_n2:
+        .word   164, 172, .Lsra4_n3
+.Lsra4_n3:
+        .word   164, 164, .Lsra4_n4
+.Lsra4_n4:
+        .word   12, 12, .Lsra4_n5
+.Lsra4_n5:
+        .word   172, 12, .Lsra4_n6
+.Lsra4_n6:
+        .word   12, 164, .Lsra4_n7
+.Lsra4_n7:
+        .word   .Lsra_one, 164, .Lsra4_pos
+.Lsra4_pos:
+        .word   168, 168, .Lsra4_start
+.Lsra4_start:
+.Lsra4_b30:
+        .word   172, 172, .Lsra4_b30a
+.Lsra4_b30a:
+        .word   12, 12, .Lsra4_b30b
+.Lsra4_b30b:
+        .word   164, 12, .Lsra4_b30c
+.Lsra4_b30c:
+        .word   12, 172, .Lsra4_b30d
+.Lsra4_b30d:
+        .word   .Lsra_c1073741824, 172, .Lsra4_b30e
+.Lsra4_b30e:
+        .word   176, 176, .Lsra4_b30f
+.Lsra4_b30f:
+        .word   172, 176, .Lsra4_b30s
+        .word   12, 12, .Lsra4_b29
+.Lsra4_b30s:
+        .word   .Lsra_c1073741824, 164, .Lsra4_b30t
+.Lsra4_b30t:
+        .word   .Lsra_n67108864, 168, .Lsra4_b29
+.Lsra4_b29:
+        .word   172, 172, .Lsra4_b29a
+.Lsra4_b29a:
+        .word   12, 12, .Lsra4_b29b
+.Lsra4_b29b:
+        .word   164, 12, .Lsra4_b29c
+.Lsra4_b29c:
+        .word   12, 172, .Lsra4_b29d
+.Lsra4_b29d:
+        .word   .Lsra_c536870912, 172, .Lsra4_b29e
+.Lsra4_b29e:
+        .word   176, 176, .Lsra4_b29f
+.Lsra4_b29f:
+        .word   172, 176, .Lsra4_b29s
+        .word   12, 12, .Lsra4_b28
+.Lsra4_b29s:
+        .word   .Lsra_c536870912, 164, .Lsra4_b29t
+.Lsra4_b29t:
+        .word   .Lsra_n33554432, 168, .Lsra4_b28
+.Lsra4_b28:
+        .word   172, 172, .Lsra4_b28a
+.Lsra4_b28a:
+        .word   12, 12, .Lsra4_b28b
+.Lsra4_b28b:
+        .word   164, 12, .Lsra4_b28c
+.Lsra4_b28c:
+        .word   12, 172, .Lsra4_b28d
+.Lsra4_b28d:
+        .word   .Lsra_c268435456, 172, .Lsra4_b28e
+.Lsra4_b28e:
+        .word   176, 176, .Lsra4_b28f
+.Lsra4_b28f:
+        .word   172, 176, .Lsra4_b28s
+        .word   12, 12, .Lsra4_b27
+.Lsra4_b28s:
+        .word   .Lsra_c268435456, 164, .Lsra4_b28t
+.Lsra4_b28t:
+        .word   .Lsra_n16777216, 168, .Lsra4_b27
+.Lsra4_b27:
+        .word   172, 172, .Lsra4_b27a
+.Lsra4_b27a:
+        .word   12, 12, .Lsra4_b27b
+.Lsra4_b27b:
+        .word   164, 12, .Lsra4_b27c
+.Lsra4_b27c:
+        .word   12, 172, .Lsra4_b27d
+.Lsra4_b27d:
+        .word   .Lsra_c134217728, 172, .Lsra4_b27e
+.Lsra4_b27e:
+        .word   176, 176, .Lsra4_b27f
+.Lsra4_b27f:
+        .word   172, 176, .Lsra4_b27s
+        .word   12, 12, .Lsra4_b26
+.Lsra4_b27s:
+        .word   .Lsra_c134217728, 164, .Lsra4_b27t
+.Lsra4_b27t:
+        .word   .Lsra_n8388608, 168, .Lsra4_b26
+.Lsra4_b26:
+        .word   172, 172, .Lsra4_b26a
+.Lsra4_b26a:
+        .word   12, 12, .Lsra4_b26b
+.Lsra4_b26b:
+        .word   164, 12, .Lsra4_b26c
+.Lsra4_b26c:
+        .word   12, 172, .Lsra4_b26d
+.Lsra4_b26d:
+        .word   .Lsra_c67108864, 172, .Lsra4_b26e
+.Lsra4_b26e:
+        .word   176, 176, .Lsra4_b26f
+.Lsra4_b26f:
+        .word   172, 176, .Lsra4_b26s
+        .word   12, 12, .Lsra4_b25
+.Lsra4_b26s:
+        .word   .Lsra_c67108864, 164, .Lsra4_b26t
+.Lsra4_b26t:
+        .word   .Lsra_n4194304, 168, .Lsra4_b25
+.Lsra4_b25:
+        .word   172, 172, .Lsra4_b25a
+.Lsra4_b25a:
+        .word   12, 12, .Lsra4_b25b
+.Lsra4_b25b:
+        .word   164, 12, .Lsra4_b25c
+.Lsra4_b25c:
+        .word   12, 172, .Lsra4_b25d
+.Lsra4_b25d:
+        .word   .Lsra_c33554432, 172, .Lsra4_b25e
+.Lsra4_b25e:
+        .word   176, 176, .Lsra4_b25f
+.Lsra4_b25f:
+        .word   172, 176, .Lsra4_b25s
+        .word   12, 12, .Lsra4_b24
+.Lsra4_b25s:
+        .word   .Lsra_c33554432, 164, .Lsra4_b25t
+.Lsra4_b25t:
+        .word   .Lsra_n2097152, 168, .Lsra4_b24
+.Lsra4_b24:
+        .word   172, 172, .Lsra4_b24a
+.Lsra4_b24a:
+        .word   12, 12, .Lsra4_b24b
+.Lsra4_b24b:
+        .word   164, 12, .Lsra4_b24c
+.Lsra4_b24c:
+        .word   12, 172, .Lsra4_b24d
+.Lsra4_b24d:
+        .word   .Lsra_c16777216, 172, .Lsra4_b24e
+.Lsra4_b24e:
+        .word   176, 176, .Lsra4_b24f
+.Lsra4_b24f:
+        .word   172, 176, .Lsra4_b24s
+        .word   12, 12, .Lsra4_b23
+.Lsra4_b24s:
+        .word   .Lsra_c16777216, 164, .Lsra4_b24t
+.Lsra4_b24t:
+        .word   .Lsra_n1048576, 168, .Lsra4_b23
+.Lsra4_b23:
+        .word   172, 172, .Lsra4_b23a
+.Lsra4_b23a:
+        .word   12, 12, .Lsra4_b23b
+.Lsra4_b23b:
+        .word   164, 12, .Lsra4_b23c
+.Lsra4_b23c:
+        .word   12, 172, .Lsra4_b23d
+.Lsra4_b23d:
+        .word   .Lsra_c8388608, 172, .Lsra4_b23e
+.Lsra4_b23e:
+        .word   176, 176, .Lsra4_b23f
+.Lsra4_b23f:
+        .word   172, 176, .Lsra4_b23s
+        .word   12, 12, .Lsra4_b22
+.Lsra4_b23s:
+        .word   .Lsra_c8388608, 164, .Lsra4_b23t
+.Lsra4_b23t:
+        .word   .Lsra_n524288, 168, .Lsra4_b22
+.Lsra4_b22:
+        .word   172, 172, .Lsra4_b22a
+.Lsra4_b22a:
+        .word   12, 12, .Lsra4_b22b
+.Lsra4_b22b:
+        .word   164, 12, .Lsra4_b22c
+.Lsra4_b22c:
+        .word   12, 172, .Lsra4_b22d
+.Lsra4_b22d:
+        .word   .Lsra_c4194304, 172, .Lsra4_b22e
+.Lsra4_b22e:
+        .word   176, 176, .Lsra4_b22f
+.Lsra4_b22f:
+        .word   172, 176, .Lsra4_b22s
+        .word   12, 12, .Lsra4_b21
+.Lsra4_b22s:
+        .word   .Lsra_c4194304, 164, .Lsra4_b22t
+.Lsra4_b22t:
+        .word   .Lsra_n262144, 168, .Lsra4_b21
+.Lsra4_b21:
+        .word   172, 172, .Lsra4_b21a
+.Lsra4_b21a:
+        .word   12, 12, .Lsra4_b21b
+.Lsra4_b21b:
+        .word   164, 12, .Lsra4_b21c
+.Lsra4_b21c:
+        .word   12, 172, .Lsra4_b21d
+.Lsra4_b21d:
+        .word   .Lsra_c2097152, 172, .Lsra4_b21e
+.Lsra4_b21e:
+        .word   176, 176, .Lsra4_b21f
+.Lsra4_b21f:
+        .word   172, 176, .Lsra4_b21s
+        .word   12, 12, .Lsra4_b20
+.Lsra4_b21s:
+        .word   .Lsra_c2097152, 164, .Lsra4_b21t
+.Lsra4_b21t:
+        .word   .Lsra_n131072, 168, .Lsra4_b20
+.Lsra4_b20:
+        .word   172, 172, .Lsra4_b20a
+.Lsra4_b20a:
+        .word   12, 12, .Lsra4_b20b
+.Lsra4_b20b:
+        .word   164, 12, .Lsra4_b20c
+.Lsra4_b20c:
+        .word   12, 172, .Lsra4_b20d
+.Lsra4_b20d:
+        .word   .Lsra_c1048576, 172, .Lsra4_b20e
+.Lsra4_b20e:
+        .word   176, 176, .Lsra4_b20f
+.Lsra4_b20f:
+        .word   172, 176, .Lsra4_b20s
+        .word   12, 12, .Lsra4_b19
+.Lsra4_b20s:
+        .word   .Lsra_c1048576, 164, .Lsra4_b20t
+.Lsra4_b20t:
+        .word   .Lsra_n65536, 168, .Lsra4_b19
+.Lsra4_b19:
+        .word   172, 172, .Lsra4_b19a
+.Lsra4_b19a:
+        .word   12, 12, .Lsra4_b19b
+.Lsra4_b19b:
+        .word   164, 12, .Lsra4_b19c
+.Lsra4_b19c:
+        .word   12, 172, .Lsra4_b19d
+.Lsra4_b19d:
+        .word   .Lsra_c524288, 172, .Lsra4_b19e
+.Lsra4_b19e:
+        .word   176, 176, .Lsra4_b19f
+.Lsra4_b19f:
+        .word   172, 176, .Lsra4_b19s
+        .word   12, 12, .Lsra4_b18
+.Lsra4_b19s:
+        .word   .Lsra_c524288, 164, .Lsra4_b19t
+.Lsra4_b19t:
+        .word   .Lsra_n32768, 168, .Lsra4_b18
+.Lsra4_b18:
+        .word   172, 172, .Lsra4_b18a
+.Lsra4_b18a:
+        .word   12, 12, .Lsra4_b18b
+.Lsra4_b18b:
+        .word   164, 12, .Lsra4_b18c
+.Lsra4_b18c:
+        .word   12, 172, .Lsra4_b18d
+.Lsra4_b18d:
+        .word   .Lsra_c262144, 172, .Lsra4_b18e
+.Lsra4_b18e:
+        .word   176, 176, .Lsra4_b18f
+.Lsra4_b18f:
+        .word   172, 176, .Lsra4_b18s
+        .word   12, 12, .Lsra4_b17
+.Lsra4_b18s:
+        .word   .Lsra_c262144, 164, .Lsra4_b18t
+.Lsra4_b18t:
+        .word   .Lsra_n16384, 168, .Lsra4_b17
+.Lsra4_b17:
+        .word   172, 172, .Lsra4_b17a
+.Lsra4_b17a:
+        .word   12, 12, .Lsra4_b17b
+.Lsra4_b17b:
+        .word   164, 12, .Lsra4_b17c
+.Lsra4_b17c:
+        .word   12, 172, .Lsra4_b17d
+.Lsra4_b17d:
+        .word   .Lsra_c131072, 172, .Lsra4_b17e
+.Lsra4_b17e:
+        .word   176, 176, .Lsra4_b17f
+.Lsra4_b17f:
+        .word   172, 176, .Lsra4_b17s
+        .word   12, 12, .Lsra4_b16
+.Lsra4_b17s:
+        .word   .Lsra_c131072, 164, .Lsra4_b17t
+.Lsra4_b17t:
+        .word   .Lsra_n8192, 168, .Lsra4_b16
+.Lsra4_b16:
+        .word   172, 172, .Lsra4_b16a
+.Lsra4_b16a:
+        .word   12, 12, .Lsra4_b16b
+.Lsra4_b16b:
+        .word   164, 12, .Lsra4_b16c
+.Lsra4_b16c:
+        .word   12, 172, .Lsra4_b16d
+.Lsra4_b16d:
+        .word   .Lsra_c65536, 172, .Lsra4_b16e
+.Lsra4_b16e:
+        .word   176, 176, .Lsra4_b16f
+.Lsra4_b16f:
+        .word   172, 176, .Lsra4_b16s
+        .word   12, 12, .Lsra4_b15
+.Lsra4_b16s:
+        .word   .Lsra_c65536, 164, .Lsra4_b16t
+.Lsra4_b16t:
+        .word   .Lsra_n4096, 168, .Lsra4_b15
+.Lsra4_b15:
+        .word   172, 172, .Lsra4_b15a
+.Lsra4_b15a:
+        .word   12, 12, .Lsra4_b15b
+.Lsra4_b15b:
+        .word   164, 12, .Lsra4_b15c
+.Lsra4_b15c:
+        .word   12, 172, .Lsra4_b15d
+.Lsra4_b15d:
+        .word   .Lsra_c32768, 172, .Lsra4_b15e
+.Lsra4_b15e:
+        .word   176, 176, .Lsra4_b15f
+.Lsra4_b15f:
+        .word   172, 176, .Lsra4_b15s
+        .word   12, 12, .Lsra4_b14
+.Lsra4_b15s:
+        .word   .Lsra_c32768, 164, .Lsra4_b15t
+.Lsra4_b15t:
+        .word   .Lsra_n2048, 168, .Lsra4_b14
+.Lsra4_b14:
+        .word   172, 172, .Lsra4_b14a
+.Lsra4_b14a:
+        .word   12, 12, .Lsra4_b14b
+.Lsra4_b14b:
+        .word   164, 12, .Lsra4_b14c
+.Lsra4_b14c:
+        .word   12, 172, .Lsra4_b14d
+.Lsra4_b14d:
+        .word   .Lsra_c16384, 172, .Lsra4_b14e
+.Lsra4_b14e:
+        .word   176, 176, .Lsra4_b14f
+.Lsra4_b14f:
+        .word   172, 176, .Lsra4_b14s
+        .word   12, 12, .Lsra4_b13
+.Lsra4_b14s:
+        .word   .Lsra_c16384, 164, .Lsra4_b14t
+.Lsra4_b14t:
+        .word   .Lsra_n1024, 168, .Lsra4_b13
+.Lsra4_b13:
+        .word   172, 172, .Lsra4_b13a
+.Lsra4_b13a:
+        .word   12, 12, .Lsra4_b13b
+.Lsra4_b13b:
+        .word   164, 12, .Lsra4_b13c
+.Lsra4_b13c:
+        .word   12, 172, .Lsra4_b13d
+.Lsra4_b13d:
+        .word   .Lsra_c8192, 172, .Lsra4_b13e
+.Lsra4_b13e:
+        .word   176, 176, .Lsra4_b13f
+.Lsra4_b13f:
+        .word   172, 176, .Lsra4_b13s
+        .word   12, 12, .Lsra4_b12
+.Lsra4_b13s:
+        .word   .Lsra_c8192, 164, .Lsra4_b13t
+.Lsra4_b13t:
+        .word   .Lsra_n512, 168, .Lsra4_b12
+.Lsra4_b12:
+        .word   172, 172, .Lsra4_b12a
+.Lsra4_b12a:
+        .word   12, 12, .Lsra4_b12b
+.Lsra4_b12b:
+        .word   164, 12, .Lsra4_b12c
+.Lsra4_b12c:
+        .word   12, 172, .Lsra4_b12d
+.Lsra4_b12d:
+        .word   .Lsra_c4096, 172, .Lsra4_b12e
+.Lsra4_b12e:
+        .word   176, 176, .Lsra4_b12f
+.Lsra4_b12f:
+        .word   172, 176, .Lsra4_b12s
+        .word   12, 12, .Lsra4_b11
+.Lsra4_b12s:
+        .word   .Lsra_c4096, 164, .Lsra4_b12t
+.Lsra4_b12t:
+        .word   .Lsra_n256, 168, .Lsra4_b11
+.Lsra4_b11:
+        .word   172, 172, .Lsra4_b11a
+.Lsra4_b11a:
+        .word   12, 12, .Lsra4_b11b
+.Lsra4_b11b:
+        .word   164, 12, .Lsra4_b11c
+.Lsra4_b11c:
+        .word   12, 172, .Lsra4_b11d
+.Lsra4_b11d:
+        .word   .Lsra_c2048, 172, .Lsra4_b11e
+.Lsra4_b11e:
+        .word   176, 176, .Lsra4_b11f
+.Lsra4_b11f:
+        .word   172, 176, .Lsra4_b11s
+        .word   12, 12, .Lsra4_b10
+.Lsra4_b11s:
+        .word   .Lsra_c2048, 164, .Lsra4_b11t
+.Lsra4_b11t:
+        .word   .Lsra_n128, 168, .Lsra4_b10
+.Lsra4_b10:
+        .word   172, 172, .Lsra4_b10a
+.Lsra4_b10a:
+        .word   12, 12, .Lsra4_b10b
+.Lsra4_b10b:
+        .word   164, 12, .Lsra4_b10c
+.Lsra4_b10c:
+        .word   12, 172, .Lsra4_b10d
+.Lsra4_b10d:
+        .word   .Lsra_c1024, 172, .Lsra4_b10e
+.Lsra4_b10e:
+        .word   176, 176, .Lsra4_b10f
+.Lsra4_b10f:
+        .word   172, 176, .Lsra4_b10s
+        .word   12, 12, .Lsra4_b9
+.Lsra4_b10s:
+        .word   .Lsra_c1024, 164, .Lsra4_b10t
+.Lsra4_b10t:
+        .word   .Lsra_n64, 168, .Lsra4_b9
+.Lsra4_b9:
+        .word   172, 172, .Lsra4_b9a
+.Lsra4_b9a:
+        .word   12, 12, .Lsra4_b9b
+.Lsra4_b9b:
+        .word   164, 12, .Lsra4_b9c
+.Lsra4_b9c:
+        .word   12, 172, .Lsra4_b9d
+.Lsra4_b9d:
+        .word   .Lsra_c512, 172, .Lsra4_b9e
+.Lsra4_b9e:
+        .word   176, 176, .Lsra4_b9f
+.Lsra4_b9f:
+        .word   172, 176, .Lsra4_b9s
+        .word   12, 12, .Lsra4_b8
+.Lsra4_b9s:
+        .word   .Lsra_c512, 164, .Lsra4_b9t
+.Lsra4_b9t:
+        .word   .Lsra_n32, 168, .Lsra4_b8
+.Lsra4_b8:
+        .word   172, 172, .Lsra4_b8a
+.Lsra4_b8a:
+        .word   12, 12, .Lsra4_b8b
+.Lsra4_b8b:
+        .word   164, 12, .Lsra4_b8c
+.Lsra4_b8c:
+        .word   12, 172, .Lsra4_b8d
+.Lsra4_b8d:
+        .word   .Lsra_c256, 172, .Lsra4_b8e
+.Lsra4_b8e:
+        .word   176, 176, .Lsra4_b8f
+.Lsra4_b8f:
+        .word   172, 176, .Lsra4_b8s
+        .word   12, 12, .Lsra4_b7
+.Lsra4_b8s:
+        .word   .Lsra_c256, 164, .Lsra4_b8t
+.Lsra4_b8t:
+        .word   .Lsra_n16, 168, .Lsra4_b7
+.Lsra4_b7:
+        .word   172, 172, .Lsra4_b7a
+.Lsra4_b7a:
+        .word   12, 12, .Lsra4_b7b
+.Lsra4_b7b:
+        .word   164, 12, .Lsra4_b7c
+.Lsra4_b7c:
+        .word   12, 172, .Lsra4_b7d
+.Lsra4_b7d:
+        .word   .Lsra_c128, 172, .Lsra4_b7e
+.Lsra4_b7e:
+        .word   176, 176, .Lsra4_b7f
+.Lsra4_b7f:
+        .word   172, 176, .Lsra4_b7s
+        .word   12, 12, .Lsra4_b6
+.Lsra4_b7s:
+        .word   .Lsra_c128, 164, .Lsra4_b7t
+.Lsra4_b7t:
+        .word   .Lsra_n8, 168, .Lsra4_b6
+.Lsra4_b6:
+        .word   172, 172, .Lsra4_b6a
+.Lsra4_b6a:
+        .word   12, 12, .Lsra4_b6b
+.Lsra4_b6b:
+        .word   164, 12, .Lsra4_b6c
+.Lsra4_b6c:
+        .word   12, 172, .Lsra4_b6d
+.Lsra4_b6d:
+        .word   .Lsra_c64, 172, .Lsra4_b6e
+.Lsra4_b6e:
+        .word   176, 176, .Lsra4_b6f
+.Lsra4_b6f:
+        .word   172, 176, .Lsra4_b6s
+        .word   12, 12, .Lsra4_b5
+.Lsra4_b6s:
+        .word   .Lsra_c64, 164, .Lsra4_b6t
+.Lsra4_b6t:
+        .word   .Lsra_n4, 168, .Lsra4_b5
+.Lsra4_b5:
+        .word   172, 172, .Lsra4_b5a
+.Lsra4_b5a:
+        .word   12, 12, .Lsra4_b5b
+.Lsra4_b5b:
+        .word   164, 12, .Lsra4_b5c
+.Lsra4_b5c:
+        .word   12, 172, .Lsra4_b5d
+.Lsra4_b5d:
+        .word   .Lsra_c32, 172, .Lsra4_b5e
+.Lsra4_b5e:
+        .word   176, 176, .Lsra4_b5f
+.Lsra4_b5f:
+        .word   172, 176, .Lsra4_b5s
+        .word   12, 12, .Lsra4_b4
+.Lsra4_b5s:
+        .word   .Lsra_c32, 164, .Lsra4_b5t
+.Lsra4_b5t:
+        .word   .Lsra_n2, 168, .Lsra4_b4
+.Lsra4_b4:
+        .word   172, 172, .Lsra4_b4a
+.Lsra4_b4a:
+        .word   12, 12, .Lsra4_b4b
+.Lsra4_b4b:
+        .word   164, 12, .Lsra4_b4c
+.Lsra4_b4c:
+        .word   12, 172, .Lsra4_b4d
+.Lsra4_b4d:
+        .word   .Lsra_c16, 172, .Lsra4_b4e
+.Lsra4_b4e:
+        .word   176, 176, .Lsra4_b4f
+.Lsra4_b4f:
+        .word   172, 176, .Lsra4_b4s
+        .word   12, 12, .Lsra4_done
+.Lsra4_b4s:
+        .word   .Lsra_c16, 164, .Lsra4_b4t
+.Lsra4_b4t:
+        .word   .Lsra_n1, 168, .Lsra4_done
+.Lsra4_done:
+        .word   172, 172, .Lsra4_chk
+.Lsra4_chk:
+        .word   24, 180, .Lsra4_store
+        .word   172, 172, .Lsra4_un1
+.Lsra4_un1:
+        .word   168, 172, .Lsra4_un2
+.Lsra4_un2:
+        .word   168, 168, .Lsra4_un3
+.Lsra4_un3:
+        .word   12, 12, .Lsra4_un4
+.Lsra4_un4:
+        .word   172, 12, .Lsra4_un5
+.Lsra4_un5:
+        .word   12, 168, .Lsra4_un6
+.Lsra4_un6:
+        .word   .Lsra_one, 168, .Lsra4_store
+.Lsra4_store:
+        .word   28, 28, .Lsra4_st1
+.Lsra4_st1:
+        .word   12, 12, .Lsra4_st2
+.Lsra4_st2:
+        .word   168, 12, .Lsra4_st3
+.Lsra4_st3:
+        .word   12, 28, .Lsra4_st4
+.Lsra4_st4:
+        .word   24, 24, .Lsra_done
+
+.Lsra_shift_5:
+        .word   180, 180, .Lsra5_chksign
+.Lsra5_chksign:
+        .word   172, 172, .Lsra5_s1
+.Lsra5_s1:
+        .word   12, 12, .Lsra5_s2
+.Lsra5_s2:
+        .word   164, 12, .Lsra5_s3
+.Lsra5_s3:
+        .word   12, 172, .Lsra5_s4
+.Lsra5_s4:
+        .word   24, 172, .Lsra5_maybe_neg
+        .word   12, 12, .Lsra5_pos
+.Lsra5_maybe_neg:
+        .word   172, 172, .Lsra5_m1
+.Lsra5_m1:
+        .word   164, 172, .Lsra5_m2
+.Lsra5_m2:
+        .word   24, 172, .Lsra5_ambig
+        .word   12, 12, .Lsra5_neg
+.Lsra5_ambig:
+        .word   172, 172, .Lsra5_a1
+.Lsra5_a1:
+        .word   164, 172, .Lsra5_a2
+.Lsra5_a2:
+        .word   .Lsra_one, 172, .Lsra5_a3
+.Lsra5_a3:
+        .word   24, 172, .Lsra5_pos
+        .word   12, 12, .Lsra5_neg
+.Lsra5_neg:
+        .word   .Lsra_negone, 180, .Lsra5_n1
+.Lsra5_n1:
+        .word   172, 172, .Lsra5_n2
+.Lsra5_n2:
+        .word   164, 172, .Lsra5_n3
+.Lsra5_n3:
+        .word   164, 164, .Lsra5_n4
+.Lsra5_n4:
+        .word   12, 12, .Lsra5_n5
+.Lsra5_n5:
+        .word   172, 12, .Lsra5_n6
+.Lsra5_n6:
+        .word   12, 164, .Lsra5_n7
+.Lsra5_n7:
+        .word   .Lsra_one, 164, .Lsra5_pos
+.Lsra5_pos:
+        .word   168, 168, .Lsra5_start
+.Lsra5_start:
+.Lsra5_b30:
+        .word   172, 172, .Lsra5_b30a
+.Lsra5_b30a:
+        .word   12, 12, .Lsra5_b30b
+.Lsra5_b30b:
+        .word   164, 12, .Lsra5_b30c
+.Lsra5_b30c:
+        .word   12, 172, .Lsra5_b30d
+.Lsra5_b30d:
+        .word   .Lsra_c1073741824, 172, .Lsra5_b30e
+.Lsra5_b30e:
+        .word   176, 176, .Lsra5_b30f
+.Lsra5_b30f:
+        .word   172, 176, .Lsra5_b30s
+        .word   12, 12, .Lsra5_b29
+.Lsra5_b30s:
+        .word   .Lsra_c1073741824, 164, .Lsra5_b30t
+.Lsra5_b30t:
+        .word   .Lsra_n33554432, 168, .Lsra5_b29
+.Lsra5_b29:
+        .word   172, 172, .Lsra5_b29a
+.Lsra5_b29a:
+        .word   12, 12, .Lsra5_b29b
+.Lsra5_b29b:
+        .word   164, 12, .Lsra5_b29c
+.Lsra5_b29c:
+        .word   12, 172, .Lsra5_b29d
+.Lsra5_b29d:
+        .word   .Lsra_c536870912, 172, .Lsra5_b29e
+.Lsra5_b29e:
+        .word   176, 176, .Lsra5_b29f
+.Lsra5_b29f:
+        .word   172, 176, .Lsra5_b29s
+        .word   12, 12, .Lsra5_b28
+.Lsra5_b29s:
+        .word   .Lsra_c536870912, 164, .Lsra5_b29t
+.Lsra5_b29t:
+        .word   .Lsra_n16777216, 168, .Lsra5_b28
+.Lsra5_b28:
+        .word   172, 172, .Lsra5_b28a
+.Lsra5_b28a:
+        .word   12, 12, .Lsra5_b28b
+.Lsra5_b28b:
+        .word   164, 12, .Lsra5_b28c
+.Lsra5_b28c:
+        .word   12, 172, .Lsra5_b28d
+.Lsra5_b28d:
+        .word   .Lsra_c268435456, 172, .Lsra5_b28e
+.Lsra5_b28e:
+        .word   176, 176, .Lsra5_b28f
+.Lsra5_b28f:
+        .word   172, 176, .Lsra5_b28s
+        .word   12, 12, .Lsra5_b27
+.Lsra5_b28s:
+        .word   .Lsra_c268435456, 164, .Lsra5_b28t
+.Lsra5_b28t:
+        .word   .Lsra_n8388608, 168, .Lsra5_b27
+.Lsra5_b27:
+        .word   172, 172, .Lsra5_b27a
+.Lsra5_b27a:
+        .word   12, 12, .Lsra5_b27b
+.Lsra5_b27b:
+        .word   164, 12, .Lsra5_b27c
+.Lsra5_b27c:
+        .word   12, 172, .Lsra5_b27d
+.Lsra5_b27d:
+        .word   .Lsra_c134217728, 172, .Lsra5_b27e
+.Lsra5_b27e:
+        .word   176, 176, .Lsra5_b27f
+.Lsra5_b27f:
+        .word   172, 176, .Lsra5_b27s
+        .word   12, 12, .Lsra5_b26
+.Lsra5_b27s:
+        .word   .Lsra_c134217728, 164, .Lsra5_b27t
+.Lsra5_b27t:
+        .word   .Lsra_n4194304, 168, .Lsra5_b26
+.Lsra5_b26:
+        .word   172, 172, .Lsra5_b26a
+.Lsra5_b26a:
+        .word   12, 12, .Lsra5_b26b
+.Lsra5_b26b:
+        .word   164, 12, .Lsra5_b26c
+.Lsra5_b26c:
+        .word   12, 172, .Lsra5_b26d
+.Lsra5_b26d:
+        .word   .Lsra_c67108864, 172, .Lsra5_b26e
+.Lsra5_b26e:
+        .word   176, 176, .Lsra5_b26f
+.Lsra5_b26f:
+        .word   172, 176, .Lsra5_b26s
+        .word   12, 12, .Lsra5_b25
+.Lsra5_b26s:
+        .word   .Lsra_c67108864, 164, .Lsra5_b26t
+.Lsra5_b26t:
+        .word   .Lsra_n2097152, 168, .Lsra5_b25
+.Lsra5_b25:
+        .word   172, 172, .Lsra5_b25a
+.Lsra5_b25a:
+        .word   12, 12, .Lsra5_b25b
+.Lsra5_b25b:
+        .word   164, 12, .Lsra5_b25c
+.Lsra5_b25c:
+        .word   12, 172, .Lsra5_b25d
+.Lsra5_b25d:
+        .word   .Lsra_c33554432, 172, .Lsra5_b25e
+.Lsra5_b25e:
+        .word   176, 176, .Lsra5_b25f
+.Lsra5_b25f:
+        .word   172, 176, .Lsra5_b25s
+        .word   12, 12, .Lsra5_b24
+.Lsra5_b25s:
+        .word   .Lsra_c33554432, 164, .Lsra5_b25t
+.Lsra5_b25t:
+        .word   .Lsra_n1048576, 168, .Lsra5_b24
+.Lsra5_b24:
+        .word   172, 172, .Lsra5_b24a
+.Lsra5_b24a:
+        .word   12, 12, .Lsra5_b24b
+.Lsra5_b24b:
+        .word   164, 12, .Lsra5_b24c
+.Lsra5_b24c:
+        .word   12, 172, .Lsra5_b24d
+.Lsra5_b24d:
+        .word   .Lsra_c16777216, 172, .Lsra5_b24e
+.Lsra5_b24e:
+        .word   176, 176, .Lsra5_b24f
+.Lsra5_b24f:
+        .word   172, 176, .Lsra5_b24s
+        .word   12, 12, .Lsra5_b23
+.Lsra5_b24s:
+        .word   .Lsra_c16777216, 164, .Lsra5_b24t
+.Lsra5_b24t:
+        .word   .Lsra_n524288, 168, .Lsra5_b23
+.Lsra5_b23:
+        .word   172, 172, .Lsra5_b23a
+.Lsra5_b23a:
+        .word   12, 12, .Lsra5_b23b
+.Lsra5_b23b:
+        .word   164, 12, .Lsra5_b23c
+.Lsra5_b23c:
+        .word   12, 172, .Lsra5_b23d
+.Lsra5_b23d:
+        .word   .Lsra_c8388608, 172, .Lsra5_b23e
+.Lsra5_b23e:
+        .word   176, 176, .Lsra5_b23f
+.Lsra5_b23f:
+        .word   172, 176, .Lsra5_b23s
+        .word   12, 12, .Lsra5_b22
+.Lsra5_b23s:
+        .word   .Lsra_c8388608, 164, .Lsra5_b23t
+.Lsra5_b23t:
+        .word   .Lsra_n262144, 168, .Lsra5_b22
+.Lsra5_b22:
+        .word   172, 172, .Lsra5_b22a
+.Lsra5_b22a:
+        .word   12, 12, .Lsra5_b22b
+.Lsra5_b22b:
+        .word   164, 12, .Lsra5_b22c
+.Lsra5_b22c:
+        .word   12, 172, .Lsra5_b22d
+.Lsra5_b22d:
+        .word   .Lsra_c4194304, 172, .Lsra5_b22e
+.Lsra5_b22e:
+        .word   176, 176, .Lsra5_b22f
+.Lsra5_b22f:
+        .word   172, 176, .Lsra5_b22s
+        .word   12, 12, .Lsra5_b21
+.Lsra5_b22s:
+        .word   .Lsra_c4194304, 164, .Lsra5_b22t
+.Lsra5_b22t:
+        .word   .Lsra_n131072, 168, .Lsra5_b21
+.Lsra5_b21:
+        .word   172, 172, .Lsra5_b21a
+.Lsra5_b21a:
+        .word   12, 12, .Lsra5_b21b
+.Lsra5_b21b:
+        .word   164, 12, .Lsra5_b21c
+.Lsra5_b21c:
+        .word   12, 172, .Lsra5_b21d
+.Lsra5_b21d:
+        .word   .Lsra_c2097152, 172, .Lsra5_b21e
+.Lsra5_b21e:
+        .word   176, 176, .Lsra5_b21f
+.Lsra5_b21f:
+        .word   172, 176, .Lsra5_b21s
+        .word   12, 12, .Lsra5_b20
+.Lsra5_b21s:
+        .word   .Lsra_c2097152, 164, .Lsra5_b21t
+.Lsra5_b21t:
+        .word   .Lsra_n65536, 168, .Lsra5_b20
+.Lsra5_b20:
+        .word   172, 172, .Lsra5_b20a
+.Lsra5_b20a:
+        .word   12, 12, .Lsra5_b20b
+.Lsra5_b20b:
+        .word   164, 12, .Lsra5_b20c
+.Lsra5_b20c:
+        .word   12, 172, .Lsra5_b20d
+.Lsra5_b20d:
+        .word   .Lsra_c1048576, 172, .Lsra5_b20e
+.Lsra5_b20e:
+        .word   176, 176, .Lsra5_b20f
+.Lsra5_b20f:
+        .word   172, 176, .Lsra5_b20s
+        .word   12, 12, .Lsra5_b19
+.Lsra5_b20s:
+        .word   .Lsra_c1048576, 164, .Lsra5_b20t
+.Lsra5_b20t:
+        .word   .Lsra_n32768, 168, .Lsra5_b19
+.Lsra5_b19:
+        .word   172, 172, .Lsra5_b19a
+.Lsra5_b19a:
+        .word   12, 12, .Lsra5_b19b
+.Lsra5_b19b:
+        .word   164, 12, .Lsra5_b19c
+.Lsra5_b19c:
+        .word   12, 172, .Lsra5_b19d
+.Lsra5_b19d:
+        .word   .Lsra_c524288, 172, .Lsra5_b19e
+.Lsra5_b19e:
+        .word   176, 176, .Lsra5_b19f
+.Lsra5_b19f:
+        .word   172, 176, .Lsra5_b19s
+        .word   12, 12, .Lsra5_b18
+.Lsra5_b19s:
+        .word   .Lsra_c524288, 164, .Lsra5_b19t
+.Lsra5_b19t:
+        .word   .Lsra_n16384, 168, .Lsra5_b18
+.Lsra5_b18:
+        .word   172, 172, .Lsra5_b18a
+.Lsra5_b18a:
+        .word   12, 12, .Lsra5_b18b
+.Lsra5_b18b:
+        .word   164, 12, .Lsra5_b18c
+.Lsra5_b18c:
+        .word   12, 172, .Lsra5_b18d
+.Lsra5_b18d:
+        .word   .Lsra_c262144, 172, .Lsra5_b18e
+.Lsra5_b18e:
+        .word   176, 176, .Lsra5_b18f
+.Lsra5_b18f:
+        .word   172, 176, .Lsra5_b18s
+        .word   12, 12, .Lsra5_b17
+.Lsra5_b18s:
+        .word   .Lsra_c262144, 164, .Lsra5_b18t
+.Lsra5_b18t:
+        .word   .Lsra_n8192, 168, .Lsra5_b17
+.Lsra5_b17:
+        .word   172, 172, .Lsra5_b17a
+.Lsra5_b17a:
+        .word   12, 12, .Lsra5_b17b
+.Lsra5_b17b:
+        .word   164, 12, .Lsra5_b17c
+.Lsra5_b17c:
+        .word   12, 172, .Lsra5_b17d
+.Lsra5_b17d:
+        .word   .Lsra_c131072, 172, .Lsra5_b17e
+.Lsra5_b17e:
+        .word   176, 176, .Lsra5_b17f
+.Lsra5_b17f:
+        .word   172, 176, .Lsra5_b17s
+        .word   12, 12, .Lsra5_b16
+.Lsra5_b17s:
+        .word   .Lsra_c131072, 164, .Lsra5_b17t
+.Lsra5_b17t:
+        .word   .Lsra_n4096, 168, .Lsra5_b16
+.Lsra5_b16:
+        .word   172, 172, .Lsra5_b16a
+.Lsra5_b16a:
+        .word   12, 12, .Lsra5_b16b
+.Lsra5_b16b:
+        .word   164, 12, .Lsra5_b16c
+.Lsra5_b16c:
+        .word   12, 172, .Lsra5_b16d
+.Lsra5_b16d:
+        .word   .Lsra_c65536, 172, .Lsra5_b16e
+.Lsra5_b16e:
+        .word   176, 176, .Lsra5_b16f
+.Lsra5_b16f:
+        .word   172, 176, .Lsra5_b16s
+        .word   12, 12, .Lsra5_b15
+.Lsra5_b16s:
+        .word   .Lsra_c65536, 164, .Lsra5_b16t
+.Lsra5_b16t:
+        .word   .Lsra_n2048, 168, .Lsra5_b15
+.Lsra5_b15:
+        .word   172, 172, .Lsra5_b15a
+.Lsra5_b15a:
+        .word   12, 12, .Lsra5_b15b
+.Lsra5_b15b:
+        .word   164, 12, .Lsra5_b15c
+.Lsra5_b15c:
+        .word   12, 172, .Lsra5_b15d
+.Lsra5_b15d:
+        .word   .Lsra_c32768, 172, .Lsra5_b15e
+.Lsra5_b15e:
+        .word   176, 176, .Lsra5_b15f
+.Lsra5_b15f:
+        .word   172, 176, .Lsra5_b15s
+        .word   12, 12, .Lsra5_b14
+.Lsra5_b15s:
+        .word   .Lsra_c32768, 164, .Lsra5_b15t
+.Lsra5_b15t:
+        .word   .Lsra_n1024, 168, .Lsra5_b14
+.Lsra5_b14:
+        .word   172, 172, .Lsra5_b14a
+.Lsra5_b14a:
+        .word   12, 12, .Lsra5_b14b
+.Lsra5_b14b:
+        .word   164, 12, .Lsra5_b14c
+.Lsra5_b14c:
+        .word   12, 172, .Lsra5_b14d
+.Lsra5_b14d:
+        .word   .Lsra_c16384, 172, .Lsra5_b14e
+.Lsra5_b14e:
+        .word   176, 176, .Lsra5_b14f
+.Lsra5_b14f:
+        .word   172, 176, .Lsra5_b14s
+        .word   12, 12, .Lsra5_b13
+.Lsra5_b14s:
+        .word   .Lsra_c16384, 164, .Lsra5_b14t
+.Lsra5_b14t:
+        .word   .Lsra_n512, 168, .Lsra5_b13
+.Lsra5_b13:
+        .word   172, 172, .Lsra5_b13a
+.Lsra5_b13a:
+        .word   12, 12, .Lsra5_b13b
+.Lsra5_b13b:
+        .word   164, 12, .Lsra5_b13c
+.Lsra5_b13c:
+        .word   12, 172, .Lsra5_b13d
+.Lsra5_b13d:
+        .word   .Lsra_c8192, 172, .Lsra5_b13e
+.Lsra5_b13e:
+        .word   176, 176, .Lsra5_b13f
+.Lsra5_b13f:
+        .word   172, 176, .Lsra5_b13s
+        .word   12, 12, .Lsra5_b12
+.Lsra5_b13s:
+        .word   .Lsra_c8192, 164, .Lsra5_b13t
+.Lsra5_b13t:
+        .word   .Lsra_n256, 168, .Lsra5_b12
+.Lsra5_b12:
+        .word   172, 172, .Lsra5_b12a
+.Lsra5_b12a:
+        .word   12, 12, .Lsra5_b12b
+.Lsra5_b12b:
+        .word   164, 12, .Lsra5_b12c
+.Lsra5_b12c:
+        .word   12, 172, .Lsra5_b12d
+.Lsra5_b12d:
+        .word   .Lsra_c4096, 172, .Lsra5_b12e
+.Lsra5_b12e:
+        .word   176, 176, .Lsra5_b12f
+.Lsra5_b12f:
+        .word   172, 176, .Lsra5_b12s
+        .word   12, 12, .Lsra5_b11
+.Lsra5_b12s:
+        .word   .Lsra_c4096, 164, .Lsra5_b12t
+.Lsra5_b12t:
+        .word   .Lsra_n128, 168, .Lsra5_b11
+.Lsra5_b11:
+        .word   172, 172, .Lsra5_b11a
+.Lsra5_b11a:
+        .word   12, 12, .Lsra5_b11b
+.Lsra5_b11b:
+        .word   164, 12, .Lsra5_b11c
+.Lsra5_b11c:
+        .word   12, 172, .Lsra5_b11d
+.Lsra5_b11d:
+        .word   .Lsra_c2048, 172, .Lsra5_b11e
+.Lsra5_b11e:
+        .word   176, 176, .Lsra5_b11f
+.Lsra5_b11f:
+        .word   172, 176, .Lsra5_b11s
+        .word   12, 12, .Lsra5_b10
+.Lsra5_b11s:
+        .word   .Lsra_c2048, 164, .Lsra5_b11t
+.Lsra5_b11t:
+        .word   .Lsra_n64, 168, .Lsra5_b10
+.Lsra5_b10:
+        .word   172, 172, .Lsra5_b10a
+.Lsra5_b10a:
+        .word   12, 12, .Lsra5_b10b
+.Lsra5_b10b:
+        .word   164, 12, .Lsra5_b10c
+.Lsra5_b10c:
+        .word   12, 172, .Lsra5_b10d
+.Lsra5_b10d:
+        .word   .Lsra_c1024, 172, .Lsra5_b10e
+.Lsra5_b10e:
+        .word   176, 176, .Lsra5_b10f
+.Lsra5_b10f:
+        .word   172, 176, .Lsra5_b10s
+        .word   12, 12, .Lsra5_b9
+.Lsra5_b10s:
+        .word   .Lsra_c1024, 164, .Lsra5_b10t
+.Lsra5_b10t:
+        .word   .Lsra_n32, 168, .Lsra5_b9
+.Lsra5_b9:
+        .word   172, 172, .Lsra5_b9a
+.Lsra5_b9a:
+        .word   12, 12, .Lsra5_b9b
+.Lsra5_b9b:
+        .word   164, 12, .Lsra5_b9c
+.Lsra5_b9c:
+        .word   12, 172, .Lsra5_b9d
+.Lsra5_b9d:
+        .word   .Lsra_c512, 172, .Lsra5_b9e
+.Lsra5_b9e:
+        .word   176, 176, .Lsra5_b9f
+.Lsra5_b9f:
+        .word   172, 176, .Lsra5_b9s
+        .word   12, 12, .Lsra5_b8
+.Lsra5_b9s:
+        .word   .Lsra_c512, 164, .Lsra5_b9t
+.Lsra5_b9t:
+        .word   .Lsra_n16, 168, .Lsra5_b8
+.Lsra5_b8:
+        .word   172, 172, .Lsra5_b8a
+.Lsra5_b8a:
+        .word   12, 12, .Lsra5_b8b
+.Lsra5_b8b:
+        .word   164, 12, .Lsra5_b8c
+.Lsra5_b8c:
+        .word   12, 172, .Lsra5_b8d
+.Lsra5_b8d:
+        .word   .Lsra_c256, 172, .Lsra5_b8e
+.Lsra5_b8e:
+        .word   176, 176, .Lsra5_b8f
+.Lsra5_b8f:
+        .word   172, 176, .Lsra5_b8s
+        .word   12, 12, .Lsra5_b7
+.Lsra5_b8s:
+        .word   .Lsra_c256, 164, .Lsra5_b8t
+.Lsra5_b8t:
+        .word   .Lsra_n8, 168, .Lsra5_b7
+.Lsra5_b7:
+        .word   172, 172, .Lsra5_b7a
+.Lsra5_b7a:
+        .word   12, 12, .Lsra5_b7b
+.Lsra5_b7b:
+        .word   164, 12, .Lsra5_b7c
+.Lsra5_b7c:
+        .word   12, 172, .Lsra5_b7d
+.Lsra5_b7d:
+        .word   .Lsra_c128, 172, .Lsra5_b7e
+.Lsra5_b7e:
+        .word   176, 176, .Lsra5_b7f
+.Lsra5_b7f:
+        .word   172, 176, .Lsra5_b7s
+        .word   12, 12, .Lsra5_b6
+.Lsra5_b7s:
+        .word   .Lsra_c128, 164, .Lsra5_b7t
+.Lsra5_b7t:
+        .word   .Lsra_n4, 168, .Lsra5_b6
+.Lsra5_b6:
+        .word   172, 172, .Lsra5_b6a
+.Lsra5_b6a:
+        .word   12, 12, .Lsra5_b6b
+.Lsra5_b6b:
+        .word   164, 12, .Lsra5_b6c
+.Lsra5_b6c:
+        .word   12, 172, .Lsra5_b6d
+.Lsra5_b6d:
+        .word   .Lsra_c64, 172, .Lsra5_b6e
+.Lsra5_b6e:
+        .word   176, 176, .Lsra5_b6f
+.Lsra5_b6f:
+        .word   172, 176, .Lsra5_b6s
+        .word   12, 12, .Lsra5_b5
+.Lsra5_b6s:
+        .word   .Lsra_c64, 164, .Lsra5_b6t
+.Lsra5_b6t:
+        .word   .Lsra_n2, 168, .Lsra5_b5
+.Lsra5_b5:
+        .word   172, 172, .Lsra5_b5a
+.Lsra5_b5a:
+        .word   12, 12, .Lsra5_b5b
+.Lsra5_b5b:
+        .word   164, 12, .Lsra5_b5c
+.Lsra5_b5c:
+        .word   12, 172, .Lsra5_b5d
+.Lsra5_b5d:
+        .word   .Lsra_c32, 172, .Lsra5_b5e
+.Lsra5_b5e:
+        .word   176, 176, .Lsra5_b5f
+.Lsra5_b5f:
+        .word   172, 176, .Lsra5_b5s
+        .word   12, 12, .Lsra5_done
+.Lsra5_b5s:
+        .word   .Lsra_c32, 164, .Lsra5_b5t
+.Lsra5_b5t:
+        .word   .Lsra_n1, 168, .Lsra5_done
+.Lsra5_done:
+        .word   172, 172, .Lsra5_chk
+.Lsra5_chk:
+        .word   24, 180, .Lsra5_store
+        .word   172, 172, .Lsra5_un1
+.Lsra5_un1:
+        .word   168, 172, .Lsra5_un2
+.Lsra5_un2:
+        .word   168, 168, .Lsra5_un3
+.Lsra5_un3:
+        .word   12, 12, .Lsra5_un4
+.Lsra5_un4:
+        .word   172, 12, .Lsra5_un5
+.Lsra5_un5:
+        .word   12, 168, .Lsra5_un6
+.Lsra5_un6:
+        .word   .Lsra_one, 168, .Lsra5_store
+.Lsra5_store:
+        .word   28, 28, .Lsra5_st1
+.Lsra5_st1:
+        .word   12, 12, .Lsra5_st2
+.Lsra5_st2:
+        .word   168, 12, .Lsra5_st3
+.Lsra5_st3:
+        .word   12, 28, .Lsra5_st4
+.Lsra5_st4:
+        .word   24, 24, .Lsra_done
+
+.Lsra_shift_6:
+        .word   180, 180, .Lsra6_chksign
+.Lsra6_chksign:
+        .word   172, 172, .Lsra6_s1
+.Lsra6_s1:
+        .word   12, 12, .Lsra6_s2
+.Lsra6_s2:
+        .word   164, 12, .Lsra6_s3
+.Lsra6_s3:
+        .word   12, 172, .Lsra6_s4
+.Lsra6_s4:
+        .word   24, 172, .Lsra6_maybe_neg
+        .word   12, 12, .Lsra6_pos
+.Lsra6_maybe_neg:
+        .word   172, 172, .Lsra6_m1
+.Lsra6_m1:
+        .word   164, 172, .Lsra6_m2
+.Lsra6_m2:
+        .word   24, 172, .Lsra6_ambig
+        .word   12, 12, .Lsra6_neg
+.Lsra6_ambig:
+        .word   172, 172, .Lsra6_a1
+.Lsra6_a1:
+        .word   164, 172, .Lsra6_a2
+.Lsra6_a2:
+        .word   .Lsra_one, 172, .Lsra6_a3
+.Lsra6_a3:
+        .word   24, 172, .Lsra6_pos
+        .word   12, 12, .Lsra6_neg
+.Lsra6_neg:
+        .word   .Lsra_negone, 180, .Lsra6_n1
+.Lsra6_n1:
+        .word   172, 172, .Lsra6_n2
+.Lsra6_n2:
+        .word   164, 172, .Lsra6_n3
+.Lsra6_n3:
+        .word   164, 164, .Lsra6_n4
+.Lsra6_n4:
+        .word   12, 12, .Lsra6_n5
+.Lsra6_n5:
+        .word   172, 12, .Lsra6_n6
+.Lsra6_n6:
+        .word   12, 164, .Lsra6_n7
+.Lsra6_n7:
+        .word   .Lsra_one, 164, .Lsra6_pos
+.Lsra6_pos:
+        .word   168, 168, .Lsra6_start
+.Lsra6_start:
+.Lsra6_b30:
+        .word   172, 172, .Lsra6_b30a
+.Lsra6_b30a:
+        .word   12, 12, .Lsra6_b30b
+.Lsra6_b30b:
+        .word   164, 12, .Lsra6_b30c
+.Lsra6_b30c:
+        .word   12, 172, .Lsra6_b30d
+.Lsra6_b30d:
+        .word   .Lsra_c1073741824, 172, .Lsra6_b30e
+.Lsra6_b30e:
+        .word   176, 176, .Lsra6_b30f
+.Lsra6_b30f:
+        .word   172, 176, .Lsra6_b30s
+        .word   12, 12, .Lsra6_b29
+.Lsra6_b30s:
+        .word   .Lsra_c1073741824, 164, .Lsra6_b30t
+.Lsra6_b30t:
+        .word   .Lsra_n16777216, 168, .Lsra6_b29
+.Lsra6_b29:
+        .word   172, 172, .Lsra6_b29a
+.Lsra6_b29a:
+        .word   12, 12, .Lsra6_b29b
+.Lsra6_b29b:
+        .word   164, 12, .Lsra6_b29c
+.Lsra6_b29c:
+        .word   12, 172, .Lsra6_b29d
+.Lsra6_b29d:
+        .word   .Lsra_c536870912, 172, .Lsra6_b29e
+.Lsra6_b29e:
+        .word   176, 176, .Lsra6_b29f
+.Lsra6_b29f:
+        .word   172, 176, .Lsra6_b29s
+        .word   12, 12, .Lsra6_b28
+.Lsra6_b29s:
+        .word   .Lsra_c536870912, 164, .Lsra6_b29t
+.Lsra6_b29t:
+        .word   .Lsra_n8388608, 168, .Lsra6_b28
+.Lsra6_b28:
+        .word   172, 172, .Lsra6_b28a
+.Lsra6_b28a:
+        .word   12, 12, .Lsra6_b28b
+.Lsra6_b28b:
+        .word   164, 12, .Lsra6_b28c
+.Lsra6_b28c:
+        .word   12, 172, .Lsra6_b28d
+.Lsra6_b28d:
+        .word   .Lsra_c268435456, 172, .Lsra6_b28e
+.Lsra6_b28e:
+        .word   176, 176, .Lsra6_b28f
+.Lsra6_b28f:
+        .word   172, 176, .Lsra6_b28s
+        .word   12, 12, .Lsra6_b27
+.Lsra6_b28s:
+        .word   .Lsra_c268435456, 164, .Lsra6_b28t
+.Lsra6_b28t:
+        .word   .Lsra_n4194304, 168, .Lsra6_b27
+.Lsra6_b27:
+        .word   172, 172, .Lsra6_b27a
+.Lsra6_b27a:
+        .word   12, 12, .Lsra6_b27b
+.Lsra6_b27b:
+        .word   164, 12, .Lsra6_b27c
+.Lsra6_b27c:
+        .word   12, 172, .Lsra6_b27d
+.Lsra6_b27d:
+        .word   .Lsra_c134217728, 172, .Lsra6_b27e
+.Lsra6_b27e:
+        .word   176, 176, .Lsra6_b27f
+.Lsra6_b27f:
+        .word   172, 176, .Lsra6_b27s
+        .word   12, 12, .Lsra6_b26
+.Lsra6_b27s:
+        .word   .Lsra_c134217728, 164, .Lsra6_b27t
+.Lsra6_b27t:
+        .word   .Lsra_n2097152, 168, .Lsra6_b26
+.Lsra6_b26:
+        .word   172, 172, .Lsra6_b26a
+.Lsra6_b26a:
+        .word   12, 12, .Lsra6_b26b
+.Lsra6_b26b:
+        .word   164, 12, .Lsra6_b26c
+.Lsra6_b26c:
+        .word   12, 172, .Lsra6_b26d
+.Lsra6_b26d:
+        .word   .Lsra_c67108864, 172, .Lsra6_b26e
+.Lsra6_b26e:
+        .word   176, 176, .Lsra6_b26f
+.Lsra6_b26f:
+        .word   172, 176, .Lsra6_b26s
+        .word   12, 12, .Lsra6_b25
+.Lsra6_b26s:
+        .word   .Lsra_c67108864, 164, .Lsra6_b26t
+.Lsra6_b26t:
+        .word   .Lsra_n1048576, 168, .Lsra6_b25
+.Lsra6_b25:
+        .word   172, 172, .Lsra6_b25a
+.Lsra6_b25a:
+        .word   12, 12, .Lsra6_b25b
+.Lsra6_b25b:
+        .word   164, 12, .Lsra6_b25c
+.Lsra6_b25c:
+        .word   12, 172, .Lsra6_b25d
+.Lsra6_b25d:
+        .word   .Lsra_c33554432, 172, .Lsra6_b25e
+.Lsra6_b25e:
+        .word   176, 176, .Lsra6_b25f
+.Lsra6_b25f:
+        .word   172, 176, .Lsra6_b25s
+        .word   12, 12, .Lsra6_b24
+.Lsra6_b25s:
+        .word   .Lsra_c33554432, 164, .Lsra6_b25t
+.Lsra6_b25t:
+        .word   .Lsra_n524288, 168, .Lsra6_b24
+.Lsra6_b24:
+        .word   172, 172, .Lsra6_b24a
+.Lsra6_b24a:
+        .word   12, 12, .Lsra6_b24b
+.Lsra6_b24b:
+        .word   164, 12, .Lsra6_b24c
+.Lsra6_b24c:
+        .word   12, 172, .Lsra6_b24d
+.Lsra6_b24d:
+        .word   .Lsra_c16777216, 172, .Lsra6_b24e
+.Lsra6_b24e:
+        .word   176, 176, .Lsra6_b24f
+.Lsra6_b24f:
+        .word   172, 176, .Lsra6_b24s
+        .word   12, 12, .Lsra6_b23
+.Lsra6_b24s:
+        .word   .Lsra_c16777216, 164, .Lsra6_b24t
+.Lsra6_b24t:
+        .word   .Lsra_n262144, 168, .Lsra6_b23
+.Lsra6_b23:
+        .word   172, 172, .Lsra6_b23a
+.Lsra6_b23a:
+        .word   12, 12, .Lsra6_b23b
+.Lsra6_b23b:
+        .word   164, 12, .Lsra6_b23c
+.Lsra6_b23c:
+        .word   12, 172, .Lsra6_b23d
+.Lsra6_b23d:
+        .word   .Lsra_c8388608, 172, .Lsra6_b23e
+.Lsra6_b23e:
+        .word   176, 176, .Lsra6_b23f
+.Lsra6_b23f:
+        .word   172, 176, .Lsra6_b23s
+        .word   12, 12, .Lsra6_b22
+.Lsra6_b23s:
+        .word   .Lsra_c8388608, 164, .Lsra6_b23t
+.Lsra6_b23t:
+        .word   .Lsra_n131072, 168, .Lsra6_b22
+.Lsra6_b22:
+        .word   172, 172, .Lsra6_b22a
+.Lsra6_b22a:
+        .word   12, 12, .Lsra6_b22b
+.Lsra6_b22b:
+        .word   164, 12, .Lsra6_b22c
+.Lsra6_b22c:
+        .word   12, 172, .Lsra6_b22d
+.Lsra6_b22d:
+        .word   .Lsra_c4194304, 172, .Lsra6_b22e
+.Lsra6_b22e:
+        .word   176, 176, .Lsra6_b22f
+.Lsra6_b22f:
+        .word   172, 176, .Lsra6_b22s
+        .word   12, 12, .Lsra6_b21
+.Lsra6_b22s:
+        .word   .Lsra_c4194304, 164, .Lsra6_b22t
+.Lsra6_b22t:
+        .word   .Lsra_n65536, 168, .Lsra6_b21
+.Lsra6_b21:
+        .word   172, 172, .Lsra6_b21a
+.Lsra6_b21a:
+        .word   12, 12, .Lsra6_b21b
+.Lsra6_b21b:
+        .word   164, 12, .Lsra6_b21c
+.Lsra6_b21c:
+        .word   12, 172, .Lsra6_b21d
+.Lsra6_b21d:
+        .word   .Lsra_c2097152, 172, .Lsra6_b21e
+.Lsra6_b21e:
+        .word   176, 176, .Lsra6_b21f
+.Lsra6_b21f:
+        .word   172, 176, .Lsra6_b21s
+        .word   12, 12, .Lsra6_b20
+.Lsra6_b21s:
+        .word   .Lsra_c2097152, 164, .Lsra6_b21t
+.Lsra6_b21t:
+        .word   .Lsra_n32768, 168, .Lsra6_b20
+.Lsra6_b20:
+        .word   172, 172, .Lsra6_b20a
+.Lsra6_b20a:
+        .word   12, 12, .Lsra6_b20b
+.Lsra6_b20b:
+        .word   164, 12, .Lsra6_b20c
+.Lsra6_b20c:
+        .word   12, 172, .Lsra6_b20d
+.Lsra6_b20d:
+        .word   .Lsra_c1048576, 172, .Lsra6_b20e
+.Lsra6_b20e:
+        .word   176, 176, .Lsra6_b20f
+.Lsra6_b20f:
+        .word   172, 176, .Lsra6_b20s
+        .word   12, 12, .Lsra6_b19
+.Lsra6_b20s:
+        .word   .Lsra_c1048576, 164, .Lsra6_b20t
+.Lsra6_b20t:
+        .word   .Lsra_n16384, 168, .Lsra6_b19
+.Lsra6_b19:
+        .word   172, 172, .Lsra6_b19a
+.Lsra6_b19a:
+        .word   12, 12, .Lsra6_b19b
+.Lsra6_b19b:
+        .word   164, 12, .Lsra6_b19c
+.Lsra6_b19c:
+        .word   12, 172, .Lsra6_b19d
+.Lsra6_b19d:
+        .word   .Lsra_c524288, 172, .Lsra6_b19e
+.Lsra6_b19e:
+        .word   176, 176, .Lsra6_b19f
+.Lsra6_b19f:
+        .word   172, 176, .Lsra6_b19s
+        .word   12, 12, .Lsra6_b18
+.Lsra6_b19s:
+        .word   .Lsra_c524288, 164, .Lsra6_b19t
+.Lsra6_b19t:
+        .word   .Lsra_n8192, 168, .Lsra6_b18
+.Lsra6_b18:
+        .word   172, 172, .Lsra6_b18a
+.Lsra6_b18a:
+        .word   12, 12, .Lsra6_b18b
+.Lsra6_b18b:
+        .word   164, 12, .Lsra6_b18c
+.Lsra6_b18c:
+        .word   12, 172, .Lsra6_b18d
+.Lsra6_b18d:
+        .word   .Lsra_c262144, 172, .Lsra6_b18e
+.Lsra6_b18e:
+        .word   176, 176, .Lsra6_b18f
+.Lsra6_b18f:
+        .word   172, 176, .Lsra6_b18s
+        .word   12, 12, .Lsra6_b17
+.Lsra6_b18s:
+        .word   .Lsra_c262144, 164, .Lsra6_b18t
+.Lsra6_b18t:
+        .word   .Lsra_n4096, 168, .Lsra6_b17
+.Lsra6_b17:
+        .word   172, 172, .Lsra6_b17a
+.Lsra6_b17a:
+        .word   12, 12, .Lsra6_b17b
+.Lsra6_b17b:
+        .word   164, 12, .Lsra6_b17c
+.Lsra6_b17c:
+        .word   12, 172, .Lsra6_b17d
+.Lsra6_b17d:
+        .word   .Lsra_c131072, 172, .Lsra6_b17e
+.Lsra6_b17e:
+        .word   176, 176, .Lsra6_b17f
+.Lsra6_b17f:
+        .word   172, 176, .Lsra6_b17s
+        .word   12, 12, .Lsra6_b16
+.Lsra6_b17s:
+        .word   .Lsra_c131072, 164, .Lsra6_b17t
+.Lsra6_b17t:
+        .word   .Lsra_n2048, 168, .Lsra6_b16
+.Lsra6_b16:
+        .word   172, 172, .Lsra6_b16a
+.Lsra6_b16a:
+        .word   12, 12, .Lsra6_b16b
+.Lsra6_b16b:
+        .word   164, 12, .Lsra6_b16c
+.Lsra6_b16c:
+        .word   12, 172, .Lsra6_b16d
+.Lsra6_b16d:
+        .word   .Lsra_c65536, 172, .Lsra6_b16e
+.Lsra6_b16e:
+        .word   176, 176, .Lsra6_b16f
+.Lsra6_b16f:
+        .word   172, 176, .Lsra6_b16s
+        .word   12, 12, .Lsra6_b15
+.Lsra6_b16s:
+        .word   .Lsra_c65536, 164, .Lsra6_b16t
+.Lsra6_b16t:
+        .word   .Lsra_n1024, 168, .Lsra6_b15
+.Lsra6_b15:
+        .word   172, 172, .Lsra6_b15a
+.Lsra6_b15a:
+        .word   12, 12, .Lsra6_b15b
+.Lsra6_b15b:
+        .word   164, 12, .Lsra6_b15c
+.Lsra6_b15c:
+        .word   12, 172, .Lsra6_b15d
+.Lsra6_b15d:
+        .word   .Lsra_c32768, 172, .Lsra6_b15e
+.Lsra6_b15e:
+        .word   176, 176, .Lsra6_b15f
+.Lsra6_b15f:
+        .word   172, 176, .Lsra6_b15s
+        .word   12, 12, .Lsra6_b14
+.Lsra6_b15s:
+        .word   .Lsra_c32768, 164, .Lsra6_b15t
+.Lsra6_b15t:
+        .word   .Lsra_n512, 168, .Lsra6_b14
+.Lsra6_b14:
+        .word   172, 172, .Lsra6_b14a
+.Lsra6_b14a:
+        .word   12, 12, .Lsra6_b14b
+.Lsra6_b14b:
+        .word   164, 12, .Lsra6_b14c
+.Lsra6_b14c:
+        .word   12, 172, .Lsra6_b14d
+.Lsra6_b14d:
+        .word   .Lsra_c16384, 172, .Lsra6_b14e
+.Lsra6_b14e:
+        .word   176, 176, .Lsra6_b14f
+.Lsra6_b14f:
+        .word   172, 176, .Lsra6_b14s
+        .word   12, 12, .Lsra6_b13
+.Lsra6_b14s:
+        .word   .Lsra_c16384, 164, .Lsra6_b14t
+.Lsra6_b14t:
+        .word   .Lsra_n256, 168, .Lsra6_b13
+.Lsra6_b13:
+        .word   172, 172, .Lsra6_b13a
+.Lsra6_b13a:
+        .word   12, 12, .Lsra6_b13b
+.Lsra6_b13b:
+        .word   164, 12, .Lsra6_b13c
+.Lsra6_b13c:
+        .word   12, 172, .Lsra6_b13d
+.Lsra6_b13d:
+        .word   .Lsra_c8192, 172, .Lsra6_b13e
+.Lsra6_b13e:
+        .word   176, 176, .Lsra6_b13f
+.Lsra6_b13f:
+        .word   172, 176, .Lsra6_b13s
+        .word   12, 12, .Lsra6_b12
+.Lsra6_b13s:
+        .word   .Lsra_c8192, 164, .Lsra6_b13t
+.Lsra6_b13t:
+        .word   .Lsra_n128, 168, .Lsra6_b12
+.Lsra6_b12:
+        .word   172, 172, .Lsra6_b12a
+.Lsra6_b12a:
+        .word   12, 12, .Lsra6_b12b
+.Lsra6_b12b:
+        .word   164, 12, .Lsra6_b12c
+.Lsra6_b12c:
+        .word   12, 172, .Lsra6_b12d
+.Lsra6_b12d:
+        .word   .Lsra_c4096, 172, .Lsra6_b12e
+.Lsra6_b12e:
+        .word   176, 176, .Lsra6_b12f
+.Lsra6_b12f:
+        .word   172, 176, .Lsra6_b12s
+        .word   12, 12, .Lsra6_b11
+.Lsra6_b12s:
+        .word   .Lsra_c4096, 164, .Lsra6_b12t
+.Lsra6_b12t:
+        .word   .Lsra_n64, 168, .Lsra6_b11
+.Lsra6_b11:
+        .word   172, 172, .Lsra6_b11a
+.Lsra6_b11a:
+        .word   12, 12, .Lsra6_b11b
+.Lsra6_b11b:
+        .word   164, 12, .Lsra6_b11c
+.Lsra6_b11c:
+        .word   12, 172, .Lsra6_b11d
+.Lsra6_b11d:
+        .word   .Lsra_c2048, 172, .Lsra6_b11e
+.Lsra6_b11e:
+        .word   176, 176, .Lsra6_b11f
+.Lsra6_b11f:
+        .word   172, 176, .Lsra6_b11s
+        .word   12, 12, .Lsra6_b10
+.Lsra6_b11s:
+        .word   .Lsra_c2048, 164, .Lsra6_b11t
+.Lsra6_b11t:
+        .word   .Lsra_n32, 168, .Lsra6_b10
+.Lsra6_b10:
+        .word   172, 172, .Lsra6_b10a
+.Lsra6_b10a:
+        .word   12, 12, .Lsra6_b10b
+.Lsra6_b10b:
+        .word   164, 12, .Lsra6_b10c
+.Lsra6_b10c:
+        .word   12, 172, .Lsra6_b10d
+.Lsra6_b10d:
+        .word   .Lsra_c1024, 172, .Lsra6_b10e
+.Lsra6_b10e:
+        .word   176, 176, .Lsra6_b10f
+.Lsra6_b10f:
+        .word   172, 176, .Lsra6_b10s
+        .word   12, 12, .Lsra6_b9
+.Lsra6_b10s:
+        .word   .Lsra_c1024, 164, .Lsra6_b10t
+.Lsra6_b10t:
+        .word   .Lsra_n16, 168, .Lsra6_b9
+.Lsra6_b9:
+        .word   172, 172, .Lsra6_b9a
+.Lsra6_b9a:
+        .word   12, 12, .Lsra6_b9b
+.Lsra6_b9b:
+        .word   164, 12, .Lsra6_b9c
+.Lsra6_b9c:
+        .word   12, 172, .Lsra6_b9d
+.Lsra6_b9d:
+        .word   .Lsra_c512, 172, .Lsra6_b9e
+.Lsra6_b9e:
+        .word   176, 176, .Lsra6_b9f
+.Lsra6_b9f:
+        .word   172, 176, .Lsra6_b9s
+        .word   12, 12, .Lsra6_b8
+.Lsra6_b9s:
+        .word   .Lsra_c512, 164, .Lsra6_b9t
+.Lsra6_b9t:
+        .word   .Lsra_n8, 168, .Lsra6_b8
+.Lsra6_b8:
+        .word   172, 172, .Lsra6_b8a
+.Lsra6_b8a:
+        .word   12, 12, .Lsra6_b8b
+.Lsra6_b8b:
+        .word   164, 12, .Lsra6_b8c
+.Lsra6_b8c:
+        .word   12, 172, .Lsra6_b8d
+.Lsra6_b8d:
+        .word   .Lsra_c256, 172, .Lsra6_b8e
+.Lsra6_b8e:
+        .word   176, 176, .Lsra6_b8f
+.Lsra6_b8f:
+        .word   172, 176, .Lsra6_b8s
+        .word   12, 12, .Lsra6_b7
+.Lsra6_b8s:
+        .word   .Lsra_c256, 164, .Lsra6_b8t
+.Lsra6_b8t:
+        .word   .Lsra_n4, 168, .Lsra6_b7
+.Lsra6_b7:
+        .word   172, 172, .Lsra6_b7a
+.Lsra6_b7a:
+        .word   12, 12, .Lsra6_b7b
+.Lsra6_b7b:
+        .word   164, 12, .Lsra6_b7c
+.Lsra6_b7c:
+        .word   12, 172, .Lsra6_b7d
+.Lsra6_b7d:
+        .word   .Lsra_c128, 172, .Lsra6_b7e
+.Lsra6_b7e:
+        .word   176, 176, .Lsra6_b7f
+.Lsra6_b7f:
+        .word   172, 176, .Lsra6_b7s
+        .word   12, 12, .Lsra6_b6
+.Lsra6_b7s:
+        .word   .Lsra_c128, 164, .Lsra6_b7t
+.Lsra6_b7t:
+        .word   .Lsra_n2, 168, .Lsra6_b6
+.Lsra6_b6:
+        .word   172, 172, .Lsra6_b6a
+.Lsra6_b6a:
+        .word   12, 12, .Lsra6_b6b
+.Lsra6_b6b:
+        .word   164, 12, .Lsra6_b6c
+.Lsra6_b6c:
+        .word   12, 172, .Lsra6_b6d
+.Lsra6_b6d:
+        .word   .Lsra_c64, 172, .Lsra6_b6e
+.Lsra6_b6e:
+        .word   176, 176, .Lsra6_b6f
+.Lsra6_b6f:
+        .word   172, 176, .Lsra6_b6s
+        .word   12, 12, .Lsra6_done
+.Lsra6_b6s:
+        .word   .Lsra_c64, 164, .Lsra6_b6t
+.Lsra6_b6t:
+        .word   .Lsra_n1, 168, .Lsra6_done
+.Lsra6_done:
+        .word   172, 172, .Lsra6_chk
+.Lsra6_chk:
+        .word   24, 180, .Lsra6_store
+        .word   172, 172, .Lsra6_un1
+.Lsra6_un1:
+        .word   168, 172, .Lsra6_un2
+.Lsra6_un2:
+        .word   168, 168, .Lsra6_un3
+.Lsra6_un3:
+        .word   12, 12, .Lsra6_un4
+.Lsra6_un4:
+        .word   172, 12, .Lsra6_un5
+.Lsra6_un5:
+        .word   12, 168, .Lsra6_un6
+.Lsra6_un6:
+        .word   .Lsra_one, 168, .Lsra6_store
+.Lsra6_store:
+        .word   28, 28, .Lsra6_st1
+.Lsra6_st1:
+        .word   12, 12, .Lsra6_st2
+.Lsra6_st2:
+        .word   168, 12, .Lsra6_st3
+.Lsra6_st3:
+        .word   12, 28, .Lsra6_st4
+.Lsra6_st4:
+        .word   24, 24, .Lsra_done
+
+.Lsra_shift_7:
+        .word   180, 180, .Lsra7_chksign
+.Lsra7_chksign:
+        .word   172, 172, .Lsra7_s1
+.Lsra7_s1:
+        .word   12, 12, .Lsra7_s2
+.Lsra7_s2:
+        .word   164, 12, .Lsra7_s3
+.Lsra7_s3:
+        .word   12, 172, .Lsra7_s4
+.Lsra7_s4:
+        .word   24, 172, .Lsra7_maybe_neg
+        .word   12, 12, .Lsra7_pos
+.Lsra7_maybe_neg:
+        .word   172, 172, .Lsra7_m1
+.Lsra7_m1:
+        .word   164, 172, .Lsra7_m2
+.Lsra7_m2:
+        .word   24, 172, .Lsra7_ambig
+        .word   12, 12, .Lsra7_neg
+.Lsra7_ambig:
+        .word   172, 172, .Lsra7_a1
+.Lsra7_a1:
+        .word   164, 172, .Lsra7_a2
+.Lsra7_a2:
+        .word   .Lsra_one, 172, .Lsra7_a3
+.Lsra7_a3:
+        .word   24, 172, .Lsra7_pos
+        .word   12, 12, .Lsra7_neg
+.Lsra7_neg:
+        .word   .Lsra_negone, 180, .Lsra7_n1
+.Lsra7_n1:
+        .word   172, 172, .Lsra7_n2
+.Lsra7_n2:
+        .word   164, 172, .Lsra7_n3
+.Lsra7_n3:
+        .word   164, 164, .Lsra7_n4
+.Lsra7_n4:
+        .word   12, 12, .Lsra7_n5
+.Lsra7_n5:
+        .word   172, 12, .Lsra7_n6
+.Lsra7_n6:
+        .word   12, 164, .Lsra7_n7
+.Lsra7_n7:
+        .word   .Lsra_one, 164, .Lsra7_pos
+.Lsra7_pos:
+        .word   168, 168, .Lsra7_start
+.Lsra7_start:
+.Lsra7_b30:
+        .word   172, 172, .Lsra7_b30a
+.Lsra7_b30a:
+        .word   12, 12, .Lsra7_b30b
+.Lsra7_b30b:
+        .word   164, 12, .Lsra7_b30c
+.Lsra7_b30c:
+        .word   12, 172, .Lsra7_b30d
+.Lsra7_b30d:
+        .word   .Lsra_c1073741824, 172, .Lsra7_b30e
+.Lsra7_b30e:
+        .word   176, 176, .Lsra7_b30f
+.Lsra7_b30f:
+        .word   172, 176, .Lsra7_b30s
+        .word   12, 12, .Lsra7_b29
+.Lsra7_b30s:
+        .word   .Lsra_c1073741824, 164, .Lsra7_b30t
+.Lsra7_b30t:
+        .word   .Lsra_n8388608, 168, .Lsra7_b29
+.Lsra7_b29:
+        .word   172, 172, .Lsra7_b29a
+.Lsra7_b29a:
+        .word   12, 12, .Lsra7_b29b
+.Lsra7_b29b:
+        .word   164, 12, .Lsra7_b29c
+.Lsra7_b29c:
+        .word   12, 172, .Lsra7_b29d
+.Lsra7_b29d:
+        .word   .Lsra_c536870912, 172, .Lsra7_b29e
+.Lsra7_b29e:
+        .word   176, 176, .Lsra7_b29f
+.Lsra7_b29f:
+        .word   172, 176, .Lsra7_b29s
+        .word   12, 12, .Lsra7_b28
+.Lsra7_b29s:
+        .word   .Lsra_c536870912, 164, .Lsra7_b29t
+.Lsra7_b29t:
+        .word   .Lsra_n4194304, 168, .Lsra7_b28
+.Lsra7_b28:
+        .word   172, 172, .Lsra7_b28a
+.Lsra7_b28a:
+        .word   12, 12, .Lsra7_b28b
+.Lsra7_b28b:
+        .word   164, 12, .Lsra7_b28c
+.Lsra7_b28c:
+        .word   12, 172, .Lsra7_b28d
+.Lsra7_b28d:
+        .word   .Lsra_c268435456, 172, .Lsra7_b28e
+.Lsra7_b28e:
+        .word   176, 176, .Lsra7_b28f
+.Lsra7_b28f:
+        .word   172, 176, .Lsra7_b28s
+        .word   12, 12, .Lsra7_b27
+.Lsra7_b28s:
+        .word   .Lsra_c268435456, 164, .Lsra7_b28t
+.Lsra7_b28t:
+        .word   .Lsra_n2097152, 168, .Lsra7_b27
+.Lsra7_b27:
+        .word   172, 172, .Lsra7_b27a
+.Lsra7_b27a:
+        .word   12, 12, .Lsra7_b27b
+.Lsra7_b27b:
+        .word   164, 12, .Lsra7_b27c
+.Lsra7_b27c:
+        .word   12, 172, .Lsra7_b27d
+.Lsra7_b27d:
+        .word   .Lsra_c134217728, 172, .Lsra7_b27e
+.Lsra7_b27e:
+        .word   176, 176, .Lsra7_b27f
+.Lsra7_b27f:
+        .word   172, 176, .Lsra7_b27s
+        .word   12, 12, .Lsra7_b26
+.Lsra7_b27s:
+        .word   .Lsra_c134217728, 164, .Lsra7_b27t
+.Lsra7_b27t:
+        .word   .Lsra_n1048576, 168, .Lsra7_b26
+.Lsra7_b26:
+        .word   172, 172, .Lsra7_b26a
+.Lsra7_b26a:
+        .word   12, 12, .Lsra7_b26b
+.Lsra7_b26b:
+        .word   164, 12, .Lsra7_b26c
+.Lsra7_b26c:
+        .word   12, 172, .Lsra7_b26d
+.Lsra7_b26d:
+        .word   .Lsra_c67108864, 172, .Lsra7_b26e
+.Lsra7_b26e:
+        .word   176, 176, .Lsra7_b26f
+.Lsra7_b26f:
+        .word   172, 176, .Lsra7_b26s
+        .word   12, 12, .Lsra7_b25
+.Lsra7_b26s:
+        .word   .Lsra_c67108864, 164, .Lsra7_b26t
+.Lsra7_b26t:
+        .word   .Lsra_n524288, 168, .Lsra7_b25
+.Lsra7_b25:
+        .word   172, 172, .Lsra7_b25a
+.Lsra7_b25a:
+        .word   12, 12, .Lsra7_b25b
+.Lsra7_b25b:
+        .word   164, 12, .Lsra7_b25c
+.Lsra7_b25c:
+        .word   12, 172, .Lsra7_b25d
+.Lsra7_b25d:
+        .word   .Lsra_c33554432, 172, .Lsra7_b25e
+.Lsra7_b25e:
+        .word   176, 176, .Lsra7_b25f
+.Lsra7_b25f:
+        .word   172, 176, .Lsra7_b25s
+        .word   12, 12, .Lsra7_b24
+.Lsra7_b25s:
+        .word   .Lsra_c33554432, 164, .Lsra7_b25t
+.Lsra7_b25t:
+        .word   .Lsra_n262144, 168, .Lsra7_b24
+.Lsra7_b24:
+        .word   172, 172, .Lsra7_b24a
+.Lsra7_b24a:
+        .word   12, 12, .Lsra7_b24b
+.Lsra7_b24b:
+        .word   164, 12, .Lsra7_b24c
+.Lsra7_b24c:
+        .word   12, 172, .Lsra7_b24d
+.Lsra7_b24d:
+        .word   .Lsra_c16777216, 172, .Lsra7_b24e
+.Lsra7_b24e:
+        .word   176, 176, .Lsra7_b24f
+.Lsra7_b24f:
+        .word   172, 176, .Lsra7_b24s
+        .word   12, 12, .Lsra7_b23
+.Lsra7_b24s:
+        .word   .Lsra_c16777216, 164, .Lsra7_b24t
+.Lsra7_b24t:
+        .word   .Lsra_n131072, 168, .Lsra7_b23
+.Lsra7_b23:
+        .word   172, 172, .Lsra7_b23a
+.Lsra7_b23a:
+        .word   12, 12, .Lsra7_b23b
+.Lsra7_b23b:
+        .word   164, 12, .Lsra7_b23c
+.Lsra7_b23c:
+        .word   12, 172, .Lsra7_b23d
+.Lsra7_b23d:
+        .word   .Lsra_c8388608, 172, .Lsra7_b23e
+.Lsra7_b23e:
+        .word   176, 176, .Lsra7_b23f
+.Lsra7_b23f:
+        .word   172, 176, .Lsra7_b23s
+        .word   12, 12, .Lsra7_b22
+.Lsra7_b23s:
+        .word   .Lsra_c8388608, 164, .Lsra7_b23t
+.Lsra7_b23t:
+        .word   .Lsra_n65536, 168, .Lsra7_b22
+.Lsra7_b22:
+        .word   172, 172, .Lsra7_b22a
+.Lsra7_b22a:
+        .word   12, 12, .Lsra7_b22b
+.Lsra7_b22b:
+        .word   164, 12, .Lsra7_b22c
+.Lsra7_b22c:
+        .word   12, 172, .Lsra7_b22d
+.Lsra7_b22d:
+        .word   .Lsra_c4194304, 172, .Lsra7_b22e
+.Lsra7_b22e:
+        .word   176, 176, .Lsra7_b22f
+.Lsra7_b22f:
+        .word   172, 176, .Lsra7_b22s
+        .word   12, 12, .Lsra7_b21
+.Lsra7_b22s:
+        .word   .Lsra_c4194304, 164, .Lsra7_b22t
+.Lsra7_b22t:
+        .word   .Lsra_n32768, 168, .Lsra7_b21
+.Lsra7_b21:
+        .word   172, 172, .Lsra7_b21a
+.Lsra7_b21a:
+        .word   12, 12, .Lsra7_b21b
+.Lsra7_b21b:
+        .word   164, 12, .Lsra7_b21c
+.Lsra7_b21c:
+        .word   12, 172, .Lsra7_b21d
+.Lsra7_b21d:
+        .word   .Lsra_c2097152, 172, .Lsra7_b21e
+.Lsra7_b21e:
+        .word   176, 176, .Lsra7_b21f
+.Lsra7_b21f:
+        .word   172, 176, .Lsra7_b21s
+        .word   12, 12, .Lsra7_b20
+.Lsra7_b21s:
+        .word   .Lsra_c2097152, 164, .Lsra7_b21t
+.Lsra7_b21t:
+        .word   .Lsra_n16384, 168, .Lsra7_b20
+.Lsra7_b20:
+        .word   172, 172, .Lsra7_b20a
+.Lsra7_b20a:
+        .word   12, 12, .Lsra7_b20b
+.Lsra7_b20b:
+        .word   164, 12, .Lsra7_b20c
+.Lsra7_b20c:
+        .word   12, 172, .Lsra7_b20d
+.Lsra7_b20d:
+        .word   .Lsra_c1048576, 172, .Lsra7_b20e
+.Lsra7_b20e:
+        .word   176, 176, .Lsra7_b20f
+.Lsra7_b20f:
+        .word   172, 176, .Lsra7_b20s
+        .word   12, 12, .Lsra7_b19
+.Lsra7_b20s:
+        .word   .Lsra_c1048576, 164, .Lsra7_b20t
+.Lsra7_b20t:
+        .word   .Lsra_n8192, 168, .Lsra7_b19
+.Lsra7_b19:
+        .word   172, 172, .Lsra7_b19a
+.Lsra7_b19a:
+        .word   12, 12, .Lsra7_b19b
+.Lsra7_b19b:
+        .word   164, 12, .Lsra7_b19c
+.Lsra7_b19c:
+        .word   12, 172, .Lsra7_b19d
+.Lsra7_b19d:
+        .word   .Lsra_c524288, 172, .Lsra7_b19e
+.Lsra7_b19e:
+        .word   176, 176, .Lsra7_b19f
+.Lsra7_b19f:
+        .word   172, 176, .Lsra7_b19s
+        .word   12, 12, .Lsra7_b18
+.Lsra7_b19s:
+        .word   .Lsra_c524288, 164, .Lsra7_b19t
+.Lsra7_b19t:
+        .word   .Lsra_n4096, 168, .Lsra7_b18
+.Lsra7_b18:
+        .word   172, 172, .Lsra7_b18a
+.Lsra7_b18a:
+        .word   12, 12, .Lsra7_b18b
+.Lsra7_b18b:
+        .word   164, 12, .Lsra7_b18c
+.Lsra7_b18c:
+        .word   12, 172, .Lsra7_b18d
+.Lsra7_b18d:
+        .word   .Lsra_c262144, 172, .Lsra7_b18e
+.Lsra7_b18e:
+        .word   176, 176, .Lsra7_b18f
+.Lsra7_b18f:
+        .word   172, 176, .Lsra7_b18s
+        .word   12, 12, .Lsra7_b17
+.Lsra7_b18s:
+        .word   .Lsra_c262144, 164, .Lsra7_b18t
+.Lsra7_b18t:
+        .word   .Lsra_n2048, 168, .Lsra7_b17
+.Lsra7_b17:
+        .word   172, 172, .Lsra7_b17a
+.Lsra7_b17a:
+        .word   12, 12, .Lsra7_b17b
+.Lsra7_b17b:
+        .word   164, 12, .Lsra7_b17c
+.Lsra7_b17c:
+        .word   12, 172, .Lsra7_b17d
+.Lsra7_b17d:
+        .word   .Lsra_c131072, 172, .Lsra7_b17e
+.Lsra7_b17e:
+        .word   176, 176, .Lsra7_b17f
+.Lsra7_b17f:
+        .word   172, 176, .Lsra7_b17s
+        .word   12, 12, .Lsra7_b16
+.Lsra7_b17s:
+        .word   .Lsra_c131072, 164, .Lsra7_b17t
+.Lsra7_b17t:
+        .word   .Lsra_n1024, 168, .Lsra7_b16
+.Lsra7_b16:
+        .word   172, 172, .Lsra7_b16a
+.Lsra7_b16a:
+        .word   12, 12, .Lsra7_b16b
+.Lsra7_b16b:
+        .word   164, 12, .Lsra7_b16c
+.Lsra7_b16c:
+        .word   12, 172, .Lsra7_b16d
+.Lsra7_b16d:
+        .word   .Lsra_c65536, 172, .Lsra7_b16e
+.Lsra7_b16e:
+        .word   176, 176, .Lsra7_b16f
+.Lsra7_b16f:
+        .word   172, 176, .Lsra7_b16s
+        .word   12, 12, .Lsra7_b15
+.Lsra7_b16s:
+        .word   .Lsra_c65536, 164, .Lsra7_b16t
+.Lsra7_b16t:
+        .word   .Lsra_n512, 168, .Lsra7_b15
+.Lsra7_b15:
+        .word   172, 172, .Lsra7_b15a
+.Lsra7_b15a:
+        .word   12, 12, .Lsra7_b15b
+.Lsra7_b15b:
+        .word   164, 12, .Lsra7_b15c
+.Lsra7_b15c:
+        .word   12, 172, .Lsra7_b15d
+.Lsra7_b15d:
+        .word   .Lsra_c32768, 172, .Lsra7_b15e
+.Lsra7_b15e:
+        .word   176, 176, .Lsra7_b15f
+.Lsra7_b15f:
+        .word   172, 176, .Lsra7_b15s
+        .word   12, 12, .Lsra7_b14
+.Lsra7_b15s:
+        .word   .Lsra_c32768, 164, .Lsra7_b15t
+.Lsra7_b15t:
+        .word   .Lsra_n256, 168, .Lsra7_b14
+.Lsra7_b14:
+        .word   172, 172, .Lsra7_b14a
+.Lsra7_b14a:
+        .word   12, 12, .Lsra7_b14b
+.Lsra7_b14b:
+        .word   164, 12, .Lsra7_b14c
+.Lsra7_b14c:
+        .word   12, 172, .Lsra7_b14d
+.Lsra7_b14d:
+        .word   .Lsra_c16384, 172, .Lsra7_b14e
+.Lsra7_b14e:
+        .word   176, 176, .Lsra7_b14f
+.Lsra7_b14f:
+        .word   172, 176, .Lsra7_b14s
+        .word   12, 12, .Lsra7_b13
+.Lsra7_b14s:
+        .word   .Lsra_c16384, 164, .Lsra7_b14t
+.Lsra7_b14t:
+        .word   .Lsra_n128, 168, .Lsra7_b13
+.Lsra7_b13:
+        .word   172, 172, .Lsra7_b13a
+.Lsra7_b13a:
+        .word   12, 12, .Lsra7_b13b
+.Lsra7_b13b:
+        .word   164, 12, .Lsra7_b13c
+.Lsra7_b13c:
+        .word   12, 172, .Lsra7_b13d
+.Lsra7_b13d:
+        .word   .Lsra_c8192, 172, .Lsra7_b13e
+.Lsra7_b13e:
+        .word   176, 176, .Lsra7_b13f
+.Lsra7_b13f:
+        .word   172, 176, .Lsra7_b13s
+        .word   12, 12, .Lsra7_b12
+.Lsra7_b13s:
+        .word   .Lsra_c8192, 164, .Lsra7_b13t
+.Lsra7_b13t:
+        .word   .Lsra_n64, 168, .Lsra7_b12
+.Lsra7_b12:
+        .word   172, 172, .Lsra7_b12a
+.Lsra7_b12a:
+        .word   12, 12, .Lsra7_b12b
+.Lsra7_b12b:
+        .word   164, 12, .Lsra7_b12c
+.Lsra7_b12c:
+        .word   12, 172, .Lsra7_b12d
+.Lsra7_b12d:
+        .word   .Lsra_c4096, 172, .Lsra7_b12e
+.Lsra7_b12e:
+        .word   176, 176, .Lsra7_b12f
+.Lsra7_b12f:
+        .word   172, 176, .Lsra7_b12s
+        .word   12, 12, .Lsra7_b11
+.Lsra7_b12s:
+        .word   .Lsra_c4096, 164, .Lsra7_b12t
+.Lsra7_b12t:
+        .word   .Lsra_n32, 168, .Lsra7_b11
+.Lsra7_b11:
+        .word   172, 172, .Lsra7_b11a
+.Lsra7_b11a:
+        .word   12, 12, .Lsra7_b11b
+.Lsra7_b11b:
+        .word   164, 12, .Lsra7_b11c
+.Lsra7_b11c:
+        .word   12, 172, .Lsra7_b11d
+.Lsra7_b11d:
+        .word   .Lsra_c2048, 172, .Lsra7_b11e
+.Lsra7_b11e:
+        .word   176, 176, .Lsra7_b11f
+.Lsra7_b11f:
+        .word   172, 176, .Lsra7_b11s
+        .word   12, 12, .Lsra7_b10
+.Lsra7_b11s:
+        .word   .Lsra_c2048, 164, .Lsra7_b11t
+.Lsra7_b11t:
+        .word   .Lsra_n16, 168, .Lsra7_b10
+.Lsra7_b10:
+        .word   172, 172, .Lsra7_b10a
+.Lsra7_b10a:
+        .word   12, 12, .Lsra7_b10b
+.Lsra7_b10b:
+        .word   164, 12, .Lsra7_b10c
+.Lsra7_b10c:
+        .word   12, 172, .Lsra7_b10d
+.Lsra7_b10d:
+        .word   .Lsra_c1024, 172, .Lsra7_b10e
+.Lsra7_b10e:
+        .word   176, 176, .Lsra7_b10f
+.Lsra7_b10f:
+        .word   172, 176, .Lsra7_b10s
+        .word   12, 12, .Lsra7_b9
+.Lsra7_b10s:
+        .word   .Lsra_c1024, 164, .Lsra7_b10t
+.Lsra7_b10t:
+        .word   .Lsra_n8, 168, .Lsra7_b9
+.Lsra7_b9:
+        .word   172, 172, .Lsra7_b9a
+.Lsra7_b9a:
+        .word   12, 12, .Lsra7_b9b
+.Lsra7_b9b:
+        .word   164, 12, .Lsra7_b9c
+.Lsra7_b9c:
+        .word   12, 172, .Lsra7_b9d
+.Lsra7_b9d:
+        .word   .Lsra_c512, 172, .Lsra7_b9e
+.Lsra7_b9e:
+        .word   176, 176, .Lsra7_b9f
+.Lsra7_b9f:
+        .word   172, 176, .Lsra7_b9s
+        .word   12, 12, .Lsra7_b8
+.Lsra7_b9s:
+        .word   .Lsra_c512, 164, .Lsra7_b9t
+.Lsra7_b9t:
+        .word   .Lsra_n4, 168, .Lsra7_b8
+.Lsra7_b8:
+        .word   172, 172, .Lsra7_b8a
+.Lsra7_b8a:
+        .word   12, 12, .Lsra7_b8b
+.Lsra7_b8b:
+        .word   164, 12, .Lsra7_b8c
+.Lsra7_b8c:
+        .word   12, 172, .Lsra7_b8d
+.Lsra7_b8d:
+        .word   .Lsra_c256, 172, .Lsra7_b8e
+.Lsra7_b8e:
+        .word   176, 176, .Lsra7_b8f
+.Lsra7_b8f:
+        .word   172, 176, .Lsra7_b8s
+        .word   12, 12, .Lsra7_b7
+.Lsra7_b8s:
+        .word   .Lsra_c256, 164, .Lsra7_b8t
+.Lsra7_b8t:
+        .word   .Lsra_n2, 168, .Lsra7_b7
+.Lsra7_b7:
+        .word   172, 172, .Lsra7_b7a
+.Lsra7_b7a:
+        .word   12, 12, .Lsra7_b7b
+.Lsra7_b7b:
+        .word   164, 12, .Lsra7_b7c
+.Lsra7_b7c:
+        .word   12, 172, .Lsra7_b7d
+.Lsra7_b7d:
+        .word   .Lsra_c128, 172, .Lsra7_b7e
+.Lsra7_b7e:
+        .word   176, 176, .Lsra7_b7f
+.Lsra7_b7f:
+        .word   172, 176, .Lsra7_b7s
+        .word   12, 12, .Lsra7_done
+.Lsra7_b7s:
+        .word   .Lsra_c128, 164, .Lsra7_b7t
+.Lsra7_b7t:
+        .word   .Lsra_n1, 168, .Lsra7_done
+.Lsra7_done:
+        .word   172, 172, .Lsra7_chk
+.Lsra7_chk:
+        .word   24, 180, .Lsra7_store
+        .word   172, 172, .Lsra7_un1
+.Lsra7_un1:
+        .word   168, 172, .Lsra7_un2
+.Lsra7_un2:
+        .word   168, 168, .Lsra7_un3
+.Lsra7_un3:
+        .word   12, 12, .Lsra7_un4
+.Lsra7_un4:
+        .word   172, 12, .Lsra7_un5
+.Lsra7_un5:
+        .word   12, 168, .Lsra7_un6
+.Lsra7_un6:
+        .word   .Lsra_one, 168, .Lsra7_store
+.Lsra7_store:
+        .word   28, 28, .Lsra7_st1
+.Lsra7_st1:
+        .word   12, 12, .Lsra7_st2
+.Lsra7_st2:
+        .word   168, 12, .Lsra7_st3
+.Lsra7_st3:
+        .word   12, 28, .Lsra7_st4
+.Lsra7_st4:
+        .word   24, 24, .Lsra_done
+
+.Lsra_shift_8:
+        .word   180, 180, .Lsra8_chksign
+.Lsra8_chksign:
+        .word   172, 172, .Lsra8_s1
+.Lsra8_s1:
+        .word   12, 12, .Lsra8_s2
+.Lsra8_s2:
+        .word   164, 12, .Lsra8_s3
+.Lsra8_s3:
+        .word   12, 172, .Lsra8_s4
+.Lsra8_s4:
+        .word   24, 172, .Lsra8_maybe_neg
+        .word   12, 12, .Lsra8_pos
+.Lsra8_maybe_neg:
+        .word   172, 172, .Lsra8_m1
+.Lsra8_m1:
+        .word   164, 172, .Lsra8_m2
+.Lsra8_m2:
+        .word   24, 172, .Lsra8_ambig
+        .word   12, 12, .Lsra8_neg
+.Lsra8_ambig:
+        .word   172, 172, .Lsra8_a1
+.Lsra8_a1:
+        .word   164, 172, .Lsra8_a2
+.Lsra8_a2:
+        .word   .Lsra_one, 172, .Lsra8_a3
+.Lsra8_a3:
+        .word   24, 172, .Lsra8_pos
+        .word   12, 12, .Lsra8_neg
+.Lsra8_neg:
+        .word   .Lsra_negone, 180, .Lsra8_n1
+.Lsra8_n1:
+        .word   172, 172, .Lsra8_n2
+.Lsra8_n2:
+        .word   164, 172, .Lsra8_n3
+.Lsra8_n3:
+        .word   164, 164, .Lsra8_n4
+.Lsra8_n4:
+        .word   12, 12, .Lsra8_n5
+.Lsra8_n5:
+        .word   172, 12, .Lsra8_n6
+.Lsra8_n6:
+        .word   12, 164, .Lsra8_n7
+.Lsra8_n7:
+        .word   .Lsra_one, 164, .Lsra8_pos
+.Lsra8_pos:
+        .word   168, 168, .Lsra8_start
+.Lsra8_start:
+.Lsra8_b30:
+        .word   172, 172, .Lsra8_b30a
+.Lsra8_b30a:
+        .word   12, 12, .Lsra8_b30b
+.Lsra8_b30b:
+        .word   164, 12, .Lsra8_b30c
+.Lsra8_b30c:
+        .word   12, 172, .Lsra8_b30d
+.Lsra8_b30d:
+        .word   .Lsra_c1073741824, 172, .Lsra8_b30e
+.Lsra8_b30e:
+        .word   176, 176, .Lsra8_b30f
+.Lsra8_b30f:
+        .word   172, 176, .Lsra8_b30s
+        .word   12, 12, .Lsra8_b29
+.Lsra8_b30s:
+        .word   .Lsra_c1073741824, 164, .Lsra8_b30t
+.Lsra8_b30t:
+        .word   .Lsra_n4194304, 168, .Lsra8_b29
+.Lsra8_b29:
+        .word   172, 172, .Lsra8_b29a
+.Lsra8_b29a:
+        .word   12, 12, .Lsra8_b29b
+.Lsra8_b29b:
+        .word   164, 12, .Lsra8_b29c
+.Lsra8_b29c:
+        .word   12, 172, .Lsra8_b29d
+.Lsra8_b29d:
+        .word   .Lsra_c536870912, 172, .Lsra8_b29e
+.Lsra8_b29e:
+        .word   176, 176, .Lsra8_b29f
+.Lsra8_b29f:
+        .word   172, 176, .Lsra8_b29s
+        .word   12, 12, .Lsra8_b28
+.Lsra8_b29s:
+        .word   .Lsra_c536870912, 164, .Lsra8_b29t
+.Lsra8_b29t:
+        .word   .Lsra_n2097152, 168, .Lsra8_b28
+.Lsra8_b28:
+        .word   172, 172, .Lsra8_b28a
+.Lsra8_b28a:
+        .word   12, 12, .Lsra8_b28b
+.Lsra8_b28b:
+        .word   164, 12, .Lsra8_b28c
+.Lsra8_b28c:
+        .word   12, 172, .Lsra8_b28d
+.Lsra8_b28d:
+        .word   .Lsra_c268435456, 172, .Lsra8_b28e
+.Lsra8_b28e:
+        .word   176, 176, .Lsra8_b28f
+.Lsra8_b28f:
+        .word   172, 176, .Lsra8_b28s
+        .word   12, 12, .Lsra8_b27
+.Lsra8_b28s:
+        .word   .Lsra_c268435456, 164, .Lsra8_b28t
+.Lsra8_b28t:
+        .word   .Lsra_n1048576, 168, .Lsra8_b27
+.Lsra8_b27:
+        .word   172, 172, .Lsra8_b27a
+.Lsra8_b27a:
+        .word   12, 12, .Lsra8_b27b
+.Lsra8_b27b:
+        .word   164, 12, .Lsra8_b27c
+.Lsra8_b27c:
+        .word   12, 172, .Lsra8_b27d
+.Lsra8_b27d:
+        .word   .Lsra_c134217728, 172, .Lsra8_b27e
+.Lsra8_b27e:
+        .word   176, 176, .Lsra8_b27f
+.Lsra8_b27f:
+        .word   172, 176, .Lsra8_b27s
+        .word   12, 12, .Lsra8_b26
+.Lsra8_b27s:
+        .word   .Lsra_c134217728, 164, .Lsra8_b27t
+.Lsra8_b27t:
+        .word   .Lsra_n524288, 168, .Lsra8_b26
+.Lsra8_b26:
+        .word   172, 172, .Lsra8_b26a
+.Lsra8_b26a:
+        .word   12, 12, .Lsra8_b26b
+.Lsra8_b26b:
+        .word   164, 12, .Lsra8_b26c
+.Lsra8_b26c:
+        .word   12, 172, .Lsra8_b26d
+.Lsra8_b26d:
+        .word   .Lsra_c67108864, 172, .Lsra8_b26e
+.Lsra8_b26e:
+        .word   176, 176, .Lsra8_b26f
+.Lsra8_b26f:
+        .word   172, 176, .Lsra8_b26s
+        .word   12, 12, .Lsra8_b25
+.Lsra8_b26s:
+        .word   .Lsra_c67108864, 164, .Lsra8_b26t
+.Lsra8_b26t:
+        .word   .Lsra_n262144, 168, .Lsra8_b25
+.Lsra8_b25:
+        .word   172, 172, .Lsra8_b25a
+.Lsra8_b25a:
+        .word   12, 12, .Lsra8_b25b
+.Lsra8_b25b:
+        .word   164, 12, .Lsra8_b25c
+.Lsra8_b25c:
+        .word   12, 172, .Lsra8_b25d
+.Lsra8_b25d:
+        .word   .Lsra_c33554432, 172, .Lsra8_b25e
+.Lsra8_b25e:
+        .word   176, 176, .Lsra8_b25f
+.Lsra8_b25f:
+        .word   172, 176, .Lsra8_b25s
+        .word   12, 12, .Lsra8_b24
+.Lsra8_b25s:
+        .word   .Lsra_c33554432, 164, .Lsra8_b25t
+.Lsra8_b25t:
+        .word   .Lsra_n131072, 168, .Lsra8_b24
+.Lsra8_b24:
+        .word   172, 172, .Lsra8_b24a
+.Lsra8_b24a:
+        .word   12, 12, .Lsra8_b24b
+.Lsra8_b24b:
+        .word   164, 12, .Lsra8_b24c
+.Lsra8_b24c:
+        .word   12, 172, .Lsra8_b24d
+.Lsra8_b24d:
+        .word   .Lsra_c16777216, 172, .Lsra8_b24e
+.Lsra8_b24e:
+        .word   176, 176, .Lsra8_b24f
+.Lsra8_b24f:
+        .word   172, 176, .Lsra8_b24s
+        .word   12, 12, .Lsra8_b23
+.Lsra8_b24s:
+        .word   .Lsra_c16777216, 164, .Lsra8_b24t
+.Lsra8_b24t:
+        .word   .Lsra_n65536, 168, .Lsra8_b23
+.Lsra8_b23:
+        .word   172, 172, .Lsra8_b23a
+.Lsra8_b23a:
+        .word   12, 12, .Lsra8_b23b
+.Lsra8_b23b:
+        .word   164, 12, .Lsra8_b23c
+.Lsra8_b23c:
+        .word   12, 172, .Lsra8_b23d
+.Lsra8_b23d:
+        .word   .Lsra_c8388608, 172, .Lsra8_b23e
+.Lsra8_b23e:
+        .word   176, 176, .Lsra8_b23f
+.Lsra8_b23f:
+        .word   172, 176, .Lsra8_b23s
+        .word   12, 12, .Lsra8_b22
+.Lsra8_b23s:
+        .word   .Lsra_c8388608, 164, .Lsra8_b23t
+.Lsra8_b23t:
+        .word   .Lsra_n32768, 168, .Lsra8_b22
+.Lsra8_b22:
+        .word   172, 172, .Lsra8_b22a
+.Lsra8_b22a:
+        .word   12, 12, .Lsra8_b22b
+.Lsra8_b22b:
+        .word   164, 12, .Lsra8_b22c
+.Lsra8_b22c:
+        .word   12, 172, .Lsra8_b22d
+.Lsra8_b22d:
+        .word   .Lsra_c4194304, 172, .Lsra8_b22e
+.Lsra8_b22e:
+        .word   176, 176, .Lsra8_b22f
+.Lsra8_b22f:
+        .word   172, 176, .Lsra8_b22s
+        .word   12, 12, .Lsra8_b21
+.Lsra8_b22s:
+        .word   .Lsra_c4194304, 164, .Lsra8_b22t
+.Lsra8_b22t:
+        .word   .Lsra_n16384, 168, .Lsra8_b21
+.Lsra8_b21:
+        .word   172, 172, .Lsra8_b21a
+.Lsra8_b21a:
+        .word   12, 12, .Lsra8_b21b
+.Lsra8_b21b:
+        .word   164, 12, .Lsra8_b21c
+.Lsra8_b21c:
+        .word   12, 172, .Lsra8_b21d
+.Lsra8_b21d:
+        .word   .Lsra_c2097152, 172, .Lsra8_b21e
+.Lsra8_b21e:
+        .word   176, 176, .Lsra8_b21f
+.Lsra8_b21f:
+        .word   172, 176, .Lsra8_b21s
+        .word   12, 12, .Lsra8_b20
+.Lsra8_b21s:
+        .word   .Lsra_c2097152, 164, .Lsra8_b21t
+.Lsra8_b21t:
+        .word   .Lsra_n8192, 168, .Lsra8_b20
+.Lsra8_b20:
+        .word   172, 172, .Lsra8_b20a
+.Lsra8_b20a:
+        .word   12, 12, .Lsra8_b20b
+.Lsra8_b20b:
+        .word   164, 12, .Lsra8_b20c
+.Lsra8_b20c:
+        .word   12, 172, .Lsra8_b20d
+.Lsra8_b20d:
+        .word   .Lsra_c1048576, 172, .Lsra8_b20e
+.Lsra8_b20e:
+        .word   176, 176, .Lsra8_b20f
+.Lsra8_b20f:
+        .word   172, 176, .Lsra8_b20s
+        .word   12, 12, .Lsra8_b19
+.Lsra8_b20s:
+        .word   .Lsra_c1048576, 164, .Lsra8_b20t
+.Lsra8_b20t:
+        .word   .Lsra_n4096, 168, .Lsra8_b19
+.Lsra8_b19:
+        .word   172, 172, .Lsra8_b19a
+.Lsra8_b19a:
+        .word   12, 12, .Lsra8_b19b
+.Lsra8_b19b:
+        .word   164, 12, .Lsra8_b19c
+.Lsra8_b19c:
+        .word   12, 172, .Lsra8_b19d
+.Lsra8_b19d:
+        .word   .Lsra_c524288, 172, .Lsra8_b19e
+.Lsra8_b19e:
+        .word   176, 176, .Lsra8_b19f
+.Lsra8_b19f:
+        .word   172, 176, .Lsra8_b19s
+        .word   12, 12, .Lsra8_b18
+.Lsra8_b19s:
+        .word   .Lsra_c524288, 164, .Lsra8_b19t
+.Lsra8_b19t:
+        .word   .Lsra_n2048, 168, .Lsra8_b18
+.Lsra8_b18:
+        .word   172, 172, .Lsra8_b18a
+.Lsra8_b18a:
+        .word   12, 12, .Lsra8_b18b
+.Lsra8_b18b:
+        .word   164, 12, .Lsra8_b18c
+.Lsra8_b18c:
+        .word   12, 172, .Lsra8_b18d
+.Lsra8_b18d:
+        .word   .Lsra_c262144, 172, .Lsra8_b18e
+.Lsra8_b18e:
+        .word   176, 176, .Lsra8_b18f
+.Lsra8_b18f:
+        .word   172, 176, .Lsra8_b18s
+        .word   12, 12, .Lsra8_b17
+.Lsra8_b18s:
+        .word   .Lsra_c262144, 164, .Lsra8_b18t
+.Lsra8_b18t:
+        .word   .Lsra_n1024, 168, .Lsra8_b17
+.Lsra8_b17:
+        .word   172, 172, .Lsra8_b17a
+.Lsra8_b17a:
+        .word   12, 12, .Lsra8_b17b
+.Lsra8_b17b:
+        .word   164, 12, .Lsra8_b17c
+.Lsra8_b17c:
+        .word   12, 172, .Lsra8_b17d
+.Lsra8_b17d:
+        .word   .Lsra_c131072, 172, .Lsra8_b17e
+.Lsra8_b17e:
+        .word   176, 176, .Lsra8_b17f
+.Lsra8_b17f:
+        .word   172, 176, .Lsra8_b17s
+        .word   12, 12, .Lsra8_b16
+.Lsra8_b17s:
+        .word   .Lsra_c131072, 164, .Lsra8_b17t
+.Lsra8_b17t:
+        .word   .Lsra_n512, 168, .Lsra8_b16
+.Lsra8_b16:
+        .word   172, 172, .Lsra8_b16a
+.Lsra8_b16a:
+        .word   12, 12, .Lsra8_b16b
+.Lsra8_b16b:
+        .word   164, 12, .Lsra8_b16c
+.Lsra8_b16c:
+        .word   12, 172, .Lsra8_b16d
+.Lsra8_b16d:
+        .word   .Lsra_c65536, 172, .Lsra8_b16e
+.Lsra8_b16e:
+        .word   176, 176, .Lsra8_b16f
+.Lsra8_b16f:
+        .word   172, 176, .Lsra8_b16s
+        .word   12, 12, .Lsra8_b15
+.Lsra8_b16s:
+        .word   .Lsra_c65536, 164, .Lsra8_b16t
+.Lsra8_b16t:
+        .word   .Lsra_n256, 168, .Lsra8_b15
+.Lsra8_b15:
+        .word   172, 172, .Lsra8_b15a
+.Lsra8_b15a:
+        .word   12, 12, .Lsra8_b15b
+.Lsra8_b15b:
+        .word   164, 12, .Lsra8_b15c
+.Lsra8_b15c:
+        .word   12, 172, .Lsra8_b15d
+.Lsra8_b15d:
+        .word   .Lsra_c32768, 172, .Lsra8_b15e
+.Lsra8_b15e:
+        .word   176, 176, .Lsra8_b15f
+.Lsra8_b15f:
+        .word   172, 176, .Lsra8_b15s
+        .word   12, 12, .Lsra8_b14
+.Lsra8_b15s:
+        .word   .Lsra_c32768, 164, .Lsra8_b15t
+.Lsra8_b15t:
+        .word   .Lsra_n128, 168, .Lsra8_b14
+.Lsra8_b14:
+        .word   172, 172, .Lsra8_b14a
+.Lsra8_b14a:
+        .word   12, 12, .Lsra8_b14b
+.Lsra8_b14b:
+        .word   164, 12, .Lsra8_b14c
+.Lsra8_b14c:
+        .word   12, 172, .Lsra8_b14d
+.Lsra8_b14d:
+        .word   .Lsra_c16384, 172, .Lsra8_b14e
+.Lsra8_b14e:
+        .word   176, 176, .Lsra8_b14f
+.Lsra8_b14f:
+        .word   172, 176, .Lsra8_b14s
+        .word   12, 12, .Lsra8_b13
+.Lsra8_b14s:
+        .word   .Lsra_c16384, 164, .Lsra8_b14t
+.Lsra8_b14t:
+        .word   .Lsra_n64, 168, .Lsra8_b13
+.Lsra8_b13:
+        .word   172, 172, .Lsra8_b13a
+.Lsra8_b13a:
+        .word   12, 12, .Lsra8_b13b
+.Lsra8_b13b:
+        .word   164, 12, .Lsra8_b13c
+.Lsra8_b13c:
+        .word   12, 172, .Lsra8_b13d
+.Lsra8_b13d:
+        .word   .Lsra_c8192, 172, .Lsra8_b13e
+.Lsra8_b13e:
+        .word   176, 176, .Lsra8_b13f
+.Lsra8_b13f:
+        .word   172, 176, .Lsra8_b13s
+        .word   12, 12, .Lsra8_b12
+.Lsra8_b13s:
+        .word   .Lsra_c8192, 164, .Lsra8_b13t
+.Lsra8_b13t:
+        .word   .Lsra_n32, 168, .Lsra8_b12
+.Lsra8_b12:
+        .word   172, 172, .Lsra8_b12a
+.Lsra8_b12a:
+        .word   12, 12, .Lsra8_b12b
+.Lsra8_b12b:
+        .word   164, 12, .Lsra8_b12c
+.Lsra8_b12c:
+        .word   12, 172, .Lsra8_b12d
+.Lsra8_b12d:
+        .word   .Lsra_c4096, 172, .Lsra8_b12e
+.Lsra8_b12e:
+        .word   176, 176, .Lsra8_b12f
+.Lsra8_b12f:
+        .word   172, 176, .Lsra8_b12s
+        .word   12, 12, .Lsra8_b11
+.Lsra8_b12s:
+        .word   .Lsra_c4096, 164, .Lsra8_b12t
+.Lsra8_b12t:
+        .word   .Lsra_n16, 168, .Lsra8_b11
+.Lsra8_b11:
+        .word   172, 172, .Lsra8_b11a
+.Lsra8_b11a:
+        .word   12, 12, .Lsra8_b11b
+.Lsra8_b11b:
+        .word   164, 12, .Lsra8_b11c
+.Lsra8_b11c:
+        .word   12, 172, .Lsra8_b11d
+.Lsra8_b11d:
+        .word   .Lsra_c2048, 172, .Lsra8_b11e
+.Lsra8_b11e:
+        .word   176, 176, .Lsra8_b11f
+.Lsra8_b11f:
+        .word   172, 176, .Lsra8_b11s
+        .word   12, 12, .Lsra8_b10
+.Lsra8_b11s:
+        .word   .Lsra_c2048, 164, .Lsra8_b11t
+.Lsra8_b11t:
+        .word   .Lsra_n8, 168, .Lsra8_b10
+.Lsra8_b10:
+        .word   172, 172, .Lsra8_b10a
+.Lsra8_b10a:
+        .word   12, 12, .Lsra8_b10b
+.Lsra8_b10b:
+        .word   164, 12, .Lsra8_b10c
+.Lsra8_b10c:
+        .word   12, 172, .Lsra8_b10d
+.Lsra8_b10d:
+        .word   .Lsra_c1024, 172, .Lsra8_b10e
+.Lsra8_b10e:
+        .word   176, 176, .Lsra8_b10f
+.Lsra8_b10f:
+        .word   172, 176, .Lsra8_b10s
+        .word   12, 12, .Lsra8_b9
+.Lsra8_b10s:
+        .word   .Lsra_c1024, 164, .Lsra8_b10t
+.Lsra8_b10t:
+        .word   .Lsra_n4, 168, .Lsra8_b9
+.Lsra8_b9:
+        .word   172, 172, .Lsra8_b9a
+.Lsra8_b9a:
+        .word   12, 12, .Lsra8_b9b
+.Lsra8_b9b:
+        .word   164, 12, .Lsra8_b9c
+.Lsra8_b9c:
+        .word   12, 172, .Lsra8_b9d
+.Lsra8_b9d:
+        .word   .Lsra_c512, 172, .Lsra8_b9e
+.Lsra8_b9e:
+        .word   176, 176, .Lsra8_b9f
+.Lsra8_b9f:
+        .word   172, 176, .Lsra8_b9s
+        .word   12, 12, .Lsra8_b8
+.Lsra8_b9s:
+        .word   .Lsra_c512, 164, .Lsra8_b9t
+.Lsra8_b9t:
+        .word   .Lsra_n2, 168, .Lsra8_b8
+.Lsra8_b8:
+        .word   172, 172, .Lsra8_b8a
+.Lsra8_b8a:
+        .word   12, 12, .Lsra8_b8b
+.Lsra8_b8b:
+        .word   164, 12, .Lsra8_b8c
+.Lsra8_b8c:
+        .word   12, 172, .Lsra8_b8d
+.Lsra8_b8d:
+        .word   .Lsra_c256, 172, .Lsra8_b8e
+.Lsra8_b8e:
+        .word   176, 176, .Lsra8_b8f
+.Lsra8_b8f:
+        .word   172, 176, .Lsra8_b8s
+        .word   12, 12, .Lsra8_done
+.Lsra8_b8s:
+        .word   .Lsra_c256, 164, .Lsra8_b8t
+.Lsra8_b8t:
+        .word   .Lsra_n1, 168, .Lsra8_done
+.Lsra8_done:
+        .word   172, 172, .Lsra8_chk
+.Lsra8_chk:
+        .word   24, 180, .Lsra8_store
+        .word   172, 172, .Lsra8_un1
+.Lsra8_un1:
+        .word   168, 172, .Lsra8_un2
+.Lsra8_un2:
+        .word   168, 168, .Lsra8_un3
+.Lsra8_un3:
+        .word   12, 12, .Lsra8_un4
+.Lsra8_un4:
+        .word   172, 12, .Lsra8_un5
+.Lsra8_un5:
+        .word   12, 168, .Lsra8_un6
+.Lsra8_un6:
+        .word   .Lsra_one, 168, .Lsra8_store
+.Lsra8_store:
+        .word   28, 28, .Lsra8_st1
+.Lsra8_st1:
+        .word   12, 12, .Lsra8_st2
+.Lsra8_st2:
+        .word   168, 12, .Lsra8_st3
+.Lsra8_st3:
+        .word   12, 28, .Lsra8_st4
+.Lsra8_st4:
+        .word   24, 24, .Lsra_done
+
+.Lsra_shift_9:
+        .word   180, 180, .Lsra9_chksign
+.Lsra9_chksign:
+        .word   172, 172, .Lsra9_s1
+.Lsra9_s1:
+        .word   12, 12, .Lsra9_s2
+.Lsra9_s2:
+        .word   164, 12, .Lsra9_s3
+.Lsra9_s3:
+        .word   12, 172, .Lsra9_s4
+.Lsra9_s4:
+        .word   24, 172, .Lsra9_maybe_neg
+        .word   12, 12, .Lsra9_pos
+.Lsra9_maybe_neg:
+        .word   172, 172, .Lsra9_m1
+.Lsra9_m1:
+        .word   164, 172, .Lsra9_m2
+.Lsra9_m2:
+        .word   24, 172, .Lsra9_ambig
+        .word   12, 12, .Lsra9_neg
+.Lsra9_ambig:
+        .word   172, 172, .Lsra9_a1
+.Lsra9_a1:
+        .word   164, 172, .Lsra9_a2
+.Lsra9_a2:
+        .word   .Lsra_one, 172, .Lsra9_a3
+.Lsra9_a3:
+        .word   24, 172, .Lsra9_pos
+        .word   12, 12, .Lsra9_neg
+.Lsra9_neg:
+        .word   .Lsra_negone, 180, .Lsra9_n1
+.Lsra9_n1:
+        .word   172, 172, .Lsra9_n2
+.Lsra9_n2:
+        .word   164, 172, .Lsra9_n3
+.Lsra9_n3:
+        .word   164, 164, .Lsra9_n4
+.Lsra9_n4:
+        .word   12, 12, .Lsra9_n5
+.Lsra9_n5:
+        .word   172, 12, .Lsra9_n6
+.Lsra9_n6:
+        .word   12, 164, .Lsra9_n7
+.Lsra9_n7:
+        .word   .Lsra_one, 164, .Lsra9_pos
+.Lsra9_pos:
+        .word   168, 168, .Lsra9_start
+.Lsra9_start:
+.Lsra9_b30:
+        .word   172, 172, .Lsra9_b30a
+.Lsra9_b30a:
+        .word   12, 12, .Lsra9_b30b
+.Lsra9_b30b:
+        .word   164, 12, .Lsra9_b30c
+.Lsra9_b30c:
+        .word   12, 172, .Lsra9_b30d
+.Lsra9_b30d:
+        .word   .Lsra_c1073741824, 172, .Lsra9_b30e
+.Lsra9_b30e:
+        .word   176, 176, .Lsra9_b30f
+.Lsra9_b30f:
+        .word   172, 176, .Lsra9_b30s
+        .word   12, 12, .Lsra9_b29
+.Lsra9_b30s:
+        .word   .Lsra_c1073741824, 164, .Lsra9_b30t
+.Lsra9_b30t:
+        .word   .Lsra_n2097152, 168, .Lsra9_b29
+.Lsra9_b29:
+        .word   172, 172, .Lsra9_b29a
+.Lsra9_b29a:
+        .word   12, 12, .Lsra9_b29b
+.Lsra9_b29b:
+        .word   164, 12, .Lsra9_b29c
+.Lsra9_b29c:
+        .word   12, 172, .Lsra9_b29d
+.Lsra9_b29d:
+        .word   .Lsra_c536870912, 172, .Lsra9_b29e
+.Lsra9_b29e:
+        .word   176, 176, .Lsra9_b29f
+.Lsra9_b29f:
+        .word   172, 176, .Lsra9_b29s
+        .word   12, 12, .Lsra9_b28
+.Lsra9_b29s:
+        .word   .Lsra_c536870912, 164, .Lsra9_b29t
+.Lsra9_b29t:
+        .word   .Lsra_n1048576, 168, .Lsra9_b28
+.Lsra9_b28:
+        .word   172, 172, .Lsra9_b28a
+.Lsra9_b28a:
+        .word   12, 12, .Lsra9_b28b
+.Lsra9_b28b:
+        .word   164, 12, .Lsra9_b28c
+.Lsra9_b28c:
+        .word   12, 172, .Lsra9_b28d
+.Lsra9_b28d:
+        .word   .Lsra_c268435456, 172, .Lsra9_b28e
+.Lsra9_b28e:
+        .word   176, 176, .Lsra9_b28f
+.Lsra9_b28f:
+        .word   172, 176, .Lsra9_b28s
+        .word   12, 12, .Lsra9_b27
+.Lsra9_b28s:
+        .word   .Lsra_c268435456, 164, .Lsra9_b28t
+.Lsra9_b28t:
+        .word   .Lsra_n524288, 168, .Lsra9_b27
+.Lsra9_b27:
+        .word   172, 172, .Lsra9_b27a
+.Lsra9_b27a:
+        .word   12, 12, .Lsra9_b27b
+.Lsra9_b27b:
+        .word   164, 12, .Lsra9_b27c
+.Lsra9_b27c:
+        .word   12, 172, .Lsra9_b27d
+.Lsra9_b27d:
+        .word   .Lsra_c134217728, 172, .Lsra9_b27e
+.Lsra9_b27e:
+        .word   176, 176, .Lsra9_b27f
+.Lsra9_b27f:
+        .word   172, 176, .Lsra9_b27s
+        .word   12, 12, .Lsra9_b26
+.Lsra9_b27s:
+        .word   .Lsra_c134217728, 164, .Lsra9_b27t
+.Lsra9_b27t:
+        .word   .Lsra_n262144, 168, .Lsra9_b26
+.Lsra9_b26:
+        .word   172, 172, .Lsra9_b26a
+.Lsra9_b26a:
+        .word   12, 12, .Lsra9_b26b
+.Lsra9_b26b:
+        .word   164, 12, .Lsra9_b26c
+.Lsra9_b26c:
+        .word   12, 172, .Lsra9_b26d
+.Lsra9_b26d:
+        .word   .Lsra_c67108864, 172, .Lsra9_b26e
+.Lsra9_b26e:
+        .word   176, 176, .Lsra9_b26f
+.Lsra9_b26f:
+        .word   172, 176, .Lsra9_b26s
+        .word   12, 12, .Lsra9_b25
+.Lsra9_b26s:
+        .word   .Lsra_c67108864, 164, .Lsra9_b26t
+.Lsra9_b26t:
+        .word   .Lsra_n131072, 168, .Lsra9_b25
+.Lsra9_b25:
+        .word   172, 172, .Lsra9_b25a
+.Lsra9_b25a:
+        .word   12, 12, .Lsra9_b25b
+.Lsra9_b25b:
+        .word   164, 12, .Lsra9_b25c
+.Lsra9_b25c:
+        .word   12, 172, .Lsra9_b25d
+.Lsra9_b25d:
+        .word   .Lsra_c33554432, 172, .Lsra9_b25e
+.Lsra9_b25e:
+        .word   176, 176, .Lsra9_b25f
+.Lsra9_b25f:
+        .word   172, 176, .Lsra9_b25s
+        .word   12, 12, .Lsra9_b24
+.Lsra9_b25s:
+        .word   .Lsra_c33554432, 164, .Lsra9_b25t
+.Lsra9_b25t:
+        .word   .Lsra_n65536, 168, .Lsra9_b24
+.Lsra9_b24:
+        .word   172, 172, .Lsra9_b24a
+.Lsra9_b24a:
+        .word   12, 12, .Lsra9_b24b
+.Lsra9_b24b:
+        .word   164, 12, .Lsra9_b24c
+.Lsra9_b24c:
+        .word   12, 172, .Lsra9_b24d
+.Lsra9_b24d:
+        .word   .Lsra_c16777216, 172, .Lsra9_b24e
+.Lsra9_b24e:
+        .word   176, 176, .Lsra9_b24f
+.Lsra9_b24f:
+        .word   172, 176, .Lsra9_b24s
+        .word   12, 12, .Lsra9_b23
+.Lsra9_b24s:
+        .word   .Lsra_c16777216, 164, .Lsra9_b24t
+.Lsra9_b24t:
+        .word   .Lsra_n32768, 168, .Lsra9_b23
+.Lsra9_b23:
+        .word   172, 172, .Lsra9_b23a
+.Lsra9_b23a:
+        .word   12, 12, .Lsra9_b23b
+.Lsra9_b23b:
+        .word   164, 12, .Lsra9_b23c
+.Lsra9_b23c:
+        .word   12, 172, .Lsra9_b23d
+.Lsra9_b23d:
+        .word   .Lsra_c8388608, 172, .Lsra9_b23e
+.Lsra9_b23e:
+        .word   176, 176, .Lsra9_b23f
+.Lsra9_b23f:
+        .word   172, 176, .Lsra9_b23s
+        .word   12, 12, .Lsra9_b22
+.Lsra9_b23s:
+        .word   .Lsra_c8388608, 164, .Lsra9_b23t
+.Lsra9_b23t:
+        .word   .Lsra_n16384, 168, .Lsra9_b22
+.Lsra9_b22:
+        .word   172, 172, .Lsra9_b22a
+.Lsra9_b22a:
+        .word   12, 12, .Lsra9_b22b
+.Lsra9_b22b:
+        .word   164, 12, .Lsra9_b22c
+.Lsra9_b22c:
+        .word   12, 172, .Lsra9_b22d
+.Lsra9_b22d:
+        .word   .Lsra_c4194304, 172, .Lsra9_b22e
+.Lsra9_b22e:
+        .word   176, 176, .Lsra9_b22f
+.Lsra9_b22f:
+        .word   172, 176, .Lsra9_b22s
+        .word   12, 12, .Lsra9_b21
+.Lsra9_b22s:
+        .word   .Lsra_c4194304, 164, .Lsra9_b22t
+.Lsra9_b22t:
+        .word   .Lsra_n8192, 168, .Lsra9_b21
+.Lsra9_b21:
+        .word   172, 172, .Lsra9_b21a
+.Lsra9_b21a:
+        .word   12, 12, .Lsra9_b21b
+.Lsra9_b21b:
+        .word   164, 12, .Lsra9_b21c
+.Lsra9_b21c:
+        .word   12, 172, .Lsra9_b21d
+.Lsra9_b21d:
+        .word   .Lsra_c2097152, 172, .Lsra9_b21e
+.Lsra9_b21e:
+        .word   176, 176, .Lsra9_b21f
+.Lsra9_b21f:
+        .word   172, 176, .Lsra9_b21s
+        .word   12, 12, .Lsra9_b20
+.Lsra9_b21s:
+        .word   .Lsra_c2097152, 164, .Lsra9_b21t
+.Lsra9_b21t:
+        .word   .Lsra_n4096, 168, .Lsra9_b20
+.Lsra9_b20:
+        .word   172, 172, .Lsra9_b20a
+.Lsra9_b20a:
+        .word   12, 12, .Lsra9_b20b
+.Lsra9_b20b:
+        .word   164, 12, .Lsra9_b20c
+.Lsra9_b20c:
+        .word   12, 172, .Lsra9_b20d
+.Lsra9_b20d:
+        .word   .Lsra_c1048576, 172, .Lsra9_b20e
+.Lsra9_b20e:
+        .word   176, 176, .Lsra9_b20f
+.Lsra9_b20f:
+        .word   172, 176, .Lsra9_b20s
+        .word   12, 12, .Lsra9_b19
+.Lsra9_b20s:
+        .word   .Lsra_c1048576, 164, .Lsra9_b20t
+.Lsra9_b20t:
+        .word   .Lsra_n2048, 168, .Lsra9_b19
+.Lsra9_b19:
+        .word   172, 172, .Lsra9_b19a
+.Lsra9_b19a:
+        .word   12, 12, .Lsra9_b19b
+.Lsra9_b19b:
+        .word   164, 12, .Lsra9_b19c
+.Lsra9_b19c:
+        .word   12, 172, .Lsra9_b19d
+.Lsra9_b19d:
+        .word   .Lsra_c524288, 172, .Lsra9_b19e
+.Lsra9_b19e:
+        .word   176, 176, .Lsra9_b19f
+.Lsra9_b19f:
+        .word   172, 176, .Lsra9_b19s
+        .word   12, 12, .Lsra9_b18
+.Lsra9_b19s:
+        .word   .Lsra_c524288, 164, .Lsra9_b19t
+.Lsra9_b19t:
+        .word   .Lsra_n1024, 168, .Lsra9_b18
+.Lsra9_b18:
+        .word   172, 172, .Lsra9_b18a
+.Lsra9_b18a:
+        .word   12, 12, .Lsra9_b18b
+.Lsra9_b18b:
+        .word   164, 12, .Lsra9_b18c
+.Lsra9_b18c:
+        .word   12, 172, .Lsra9_b18d
+.Lsra9_b18d:
+        .word   .Lsra_c262144, 172, .Lsra9_b18e
+.Lsra9_b18e:
+        .word   176, 176, .Lsra9_b18f
+.Lsra9_b18f:
+        .word   172, 176, .Lsra9_b18s
+        .word   12, 12, .Lsra9_b17
+.Lsra9_b18s:
+        .word   .Lsra_c262144, 164, .Lsra9_b18t
+.Lsra9_b18t:
+        .word   .Lsra_n512, 168, .Lsra9_b17
+.Lsra9_b17:
+        .word   172, 172, .Lsra9_b17a
+.Lsra9_b17a:
+        .word   12, 12, .Lsra9_b17b
+.Lsra9_b17b:
+        .word   164, 12, .Lsra9_b17c
+.Lsra9_b17c:
+        .word   12, 172, .Lsra9_b17d
+.Lsra9_b17d:
+        .word   .Lsra_c131072, 172, .Lsra9_b17e
+.Lsra9_b17e:
+        .word   176, 176, .Lsra9_b17f
+.Lsra9_b17f:
+        .word   172, 176, .Lsra9_b17s
+        .word   12, 12, .Lsra9_b16
+.Lsra9_b17s:
+        .word   .Lsra_c131072, 164, .Lsra9_b17t
+.Lsra9_b17t:
+        .word   .Lsra_n256, 168, .Lsra9_b16
+.Lsra9_b16:
+        .word   172, 172, .Lsra9_b16a
+.Lsra9_b16a:
+        .word   12, 12, .Lsra9_b16b
+.Lsra9_b16b:
+        .word   164, 12, .Lsra9_b16c
+.Lsra9_b16c:
+        .word   12, 172, .Lsra9_b16d
+.Lsra9_b16d:
+        .word   .Lsra_c65536, 172, .Lsra9_b16e
+.Lsra9_b16e:
+        .word   176, 176, .Lsra9_b16f
+.Lsra9_b16f:
+        .word   172, 176, .Lsra9_b16s
+        .word   12, 12, .Lsra9_b15
+.Lsra9_b16s:
+        .word   .Lsra_c65536, 164, .Lsra9_b16t
+.Lsra9_b16t:
+        .word   .Lsra_n128, 168, .Lsra9_b15
+.Lsra9_b15:
+        .word   172, 172, .Lsra9_b15a
+.Lsra9_b15a:
+        .word   12, 12, .Lsra9_b15b
+.Lsra9_b15b:
+        .word   164, 12, .Lsra9_b15c
+.Lsra9_b15c:
+        .word   12, 172, .Lsra9_b15d
+.Lsra9_b15d:
+        .word   .Lsra_c32768, 172, .Lsra9_b15e
+.Lsra9_b15e:
+        .word   176, 176, .Lsra9_b15f
+.Lsra9_b15f:
+        .word   172, 176, .Lsra9_b15s
+        .word   12, 12, .Lsra9_b14
+.Lsra9_b15s:
+        .word   .Lsra_c32768, 164, .Lsra9_b15t
+.Lsra9_b15t:
+        .word   .Lsra_n64, 168, .Lsra9_b14
+.Lsra9_b14:
+        .word   172, 172, .Lsra9_b14a
+.Lsra9_b14a:
+        .word   12, 12, .Lsra9_b14b
+.Lsra9_b14b:
+        .word   164, 12, .Lsra9_b14c
+.Lsra9_b14c:
+        .word   12, 172, .Lsra9_b14d
+.Lsra9_b14d:
+        .word   .Lsra_c16384, 172, .Lsra9_b14e
+.Lsra9_b14e:
+        .word   176, 176, .Lsra9_b14f
+.Lsra9_b14f:
+        .word   172, 176, .Lsra9_b14s
+        .word   12, 12, .Lsra9_b13
+.Lsra9_b14s:
+        .word   .Lsra_c16384, 164, .Lsra9_b14t
+.Lsra9_b14t:
+        .word   .Lsra_n32, 168, .Lsra9_b13
+.Lsra9_b13:
+        .word   172, 172, .Lsra9_b13a
+.Lsra9_b13a:
+        .word   12, 12, .Lsra9_b13b
+.Lsra9_b13b:
+        .word   164, 12, .Lsra9_b13c
+.Lsra9_b13c:
+        .word   12, 172, .Lsra9_b13d
+.Lsra9_b13d:
+        .word   .Lsra_c8192, 172, .Lsra9_b13e
+.Lsra9_b13e:
+        .word   176, 176, .Lsra9_b13f
+.Lsra9_b13f:
+        .word   172, 176, .Lsra9_b13s
+        .word   12, 12, .Lsra9_b12
+.Lsra9_b13s:
+        .word   .Lsra_c8192, 164, .Lsra9_b13t
+.Lsra9_b13t:
+        .word   .Lsra_n16, 168, .Lsra9_b12
+.Lsra9_b12:
+        .word   172, 172, .Lsra9_b12a
+.Lsra9_b12a:
+        .word   12, 12, .Lsra9_b12b
+.Lsra9_b12b:
+        .word   164, 12, .Lsra9_b12c
+.Lsra9_b12c:
+        .word   12, 172, .Lsra9_b12d
+.Lsra9_b12d:
+        .word   .Lsra_c4096, 172, .Lsra9_b12e
+.Lsra9_b12e:
+        .word   176, 176, .Lsra9_b12f
+.Lsra9_b12f:
+        .word   172, 176, .Lsra9_b12s
+        .word   12, 12, .Lsra9_b11
+.Lsra9_b12s:
+        .word   .Lsra_c4096, 164, .Lsra9_b12t
+.Lsra9_b12t:
+        .word   .Lsra_n8, 168, .Lsra9_b11
+.Lsra9_b11:
+        .word   172, 172, .Lsra9_b11a
+.Lsra9_b11a:
+        .word   12, 12, .Lsra9_b11b
+.Lsra9_b11b:
+        .word   164, 12, .Lsra9_b11c
+.Lsra9_b11c:
+        .word   12, 172, .Lsra9_b11d
+.Lsra9_b11d:
+        .word   .Lsra_c2048, 172, .Lsra9_b11e
+.Lsra9_b11e:
+        .word   176, 176, .Lsra9_b11f
+.Lsra9_b11f:
+        .word   172, 176, .Lsra9_b11s
+        .word   12, 12, .Lsra9_b10
+.Lsra9_b11s:
+        .word   .Lsra_c2048, 164, .Lsra9_b11t
+.Lsra9_b11t:
+        .word   .Lsra_n4, 168, .Lsra9_b10
+.Lsra9_b10:
+        .word   172, 172, .Lsra9_b10a
+.Lsra9_b10a:
+        .word   12, 12, .Lsra9_b10b
+.Lsra9_b10b:
+        .word   164, 12, .Lsra9_b10c
+.Lsra9_b10c:
+        .word   12, 172, .Lsra9_b10d
+.Lsra9_b10d:
+        .word   .Lsra_c1024, 172, .Lsra9_b10e
+.Lsra9_b10e:
+        .word   176, 176, .Lsra9_b10f
+.Lsra9_b10f:
+        .word   172, 176, .Lsra9_b10s
+        .word   12, 12, .Lsra9_b9
+.Lsra9_b10s:
+        .word   .Lsra_c1024, 164, .Lsra9_b10t
+.Lsra9_b10t:
+        .word   .Lsra_n2, 168, .Lsra9_b9
+.Lsra9_b9:
+        .word   172, 172, .Lsra9_b9a
+.Lsra9_b9a:
+        .word   12, 12, .Lsra9_b9b
+.Lsra9_b9b:
+        .word   164, 12, .Lsra9_b9c
+.Lsra9_b9c:
+        .word   12, 172, .Lsra9_b9d
+.Lsra9_b9d:
+        .word   .Lsra_c512, 172, .Lsra9_b9e
+.Lsra9_b9e:
+        .word   176, 176, .Lsra9_b9f
+.Lsra9_b9f:
+        .word   172, 176, .Lsra9_b9s
+        .word   12, 12, .Lsra9_done
+.Lsra9_b9s:
+        .word   .Lsra_c512, 164, .Lsra9_b9t
+.Lsra9_b9t:
+        .word   .Lsra_n1, 168, .Lsra9_done
+.Lsra9_done:
+        .word   172, 172, .Lsra9_chk
+.Lsra9_chk:
+        .word   24, 180, .Lsra9_store
+        .word   172, 172, .Lsra9_un1
+.Lsra9_un1:
+        .word   168, 172, .Lsra9_un2
+.Lsra9_un2:
+        .word   168, 168, .Lsra9_un3
+.Lsra9_un3:
+        .word   12, 12, .Lsra9_un4
+.Lsra9_un4:
+        .word   172, 12, .Lsra9_un5
+.Lsra9_un5:
+        .word   12, 168, .Lsra9_un6
+.Lsra9_un6:
+        .word   .Lsra_one, 168, .Lsra9_store
+.Lsra9_store:
+        .word   28, 28, .Lsra9_st1
+.Lsra9_st1:
+        .word   12, 12, .Lsra9_st2
+.Lsra9_st2:
+        .word   168, 12, .Lsra9_st3
+.Lsra9_st3:
+        .word   12, 28, .Lsra9_st4
+.Lsra9_st4:
+        .word   24, 24, .Lsra_done
+
+.Lsra_shift_10:
+        .word   180, 180, .Lsra10_chksign
+.Lsra10_chksign:
+        .word   172, 172, .Lsra10_s1
+.Lsra10_s1:
+        .word   12, 12, .Lsra10_s2
+.Lsra10_s2:
+        .word   164, 12, .Lsra10_s3
+.Lsra10_s3:
+        .word   12, 172, .Lsra10_s4
+.Lsra10_s4:
+        .word   24, 172, .Lsra10_maybe_neg
+        .word   12, 12, .Lsra10_pos
+.Lsra10_maybe_neg:
+        .word   172, 172, .Lsra10_m1
+.Lsra10_m1:
+        .word   164, 172, .Lsra10_m2
+.Lsra10_m2:
+        .word   24, 172, .Lsra10_ambig
+        .word   12, 12, .Lsra10_neg
+.Lsra10_ambig:
+        .word   172, 172, .Lsra10_a1
+.Lsra10_a1:
+        .word   164, 172, .Lsra10_a2
+.Lsra10_a2:
+        .word   .Lsra_one, 172, .Lsra10_a3
+.Lsra10_a3:
+        .word   24, 172, .Lsra10_pos
+        .word   12, 12, .Lsra10_neg
+.Lsra10_neg:
+        .word   .Lsra_negone, 180, .Lsra10_n1
+.Lsra10_n1:
+        .word   172, 172, .Lsra10_n2
+.Lsra10_n2:
+        .word   164, 172, .Lsra10_n3
+.Lsra10_n3:
+        .word   164, 164, .Lsra10_n4
+.Lsra10_n4:
+        .word   12, 12, .Lsra10_n5
+.Lsra10_n5:
+        .word   172, 12, .Lsra10_n6
+.Lsra10_n6:
+        .word   12, 164, .Lsra10_n7
+.Lsra10_n7:
+        .word   .Lsra_one, 164, .Lsra10_pos
+.Lsra10_pos:
+        .word   168, 168, .Lsra10_start
+.Lsra10_start:
+.Lsra10_b30:
+        .word   172, 172, .Lsra10_b30a
+.Lsra10_b30a:
+        .word   12, 12, .Lsra10_b30b
+.Lsra10_b30b:
+        .word   164, 12, .Lsra10_b30c
+.Lsra10_b30c:
+        .word   12, 172, .Lsra10_b30d
+.Lsra10_b30d:
+        .word   .Lsra_c1073741824, 172, .Lsra10_b30e
+.Lsra10_b30e:
+        .word   176, 176, .Lsra10_b30f
+.Lsra10_b30f:
+        .word   172, 176, .Lsra10_b30s
+        .word   12, 12, .Lsra10_b29
+.Lsra10_b30s:
+        .word   .Lsra_c1073741824, 164, .Lsra10_b30t
+.Lsra10_b30t:
+        .word   .Lsra_n1048576, 168, .Lsra10_b29
+.Lsra10_b29:
+        .word   172, 172, .Lsra10_b29a
+.Lsra10_b29a:
+        .word   12, 12, .Lsra10_b29b
+.Lsra10_b29b:
+        .word   164, 12, .Lsra10_b29c
+.Lsra10_b29c:
+        .word   12, 172, .Lsra10_b29d
+.Lsra10_b29d:
+        .word   .Lsra_c536870912, 172, .Lsra10_b29e
+.Lsra10_b29e:
+        .word   176, 176, .Lsra10_b29f
+.Lsra10_b29f:
+        .word   172, 176, .Lsra10_b29s
+        .word   12, 12, .Lsra10_b28
+.Lsra10_b29s:
+        .word   .Lsra_c536870912, 164, .Lsra10_b29t
+.Lsra10_b29t:
+        .word   .Lsra_n524288, 168, .Lsra10_b28
+.Lsra10_b28:
+        .word   172, 172, .Lsra10_b28a
+.Lsra10_b28a:
+        .word   12, 12, .Lsra10_b28b
+.Lsra10_b28b:
+        .word   164, 12, .Lsra10_b28c
+.Lsra10_b28c:
+        .word   12, 172, .Lsra10_b28d
+.Lsra10_b28d:
+        .word   .Lsra_c268435456, 172, .Lsra10_b28e
+.Lsra10_b28e:
+        .word   176, 176, .Lsra10_b28f
+.Lsra10_b28f:
+        .word   172, 176, .Lsra10_b28s
+        .word   12, 12, .Lsra10_b27
+.Lsra10_b28s:
+        .word   .Lsra_c268435456, 164, .Lsra10_b28t
+.Lsra10_b28t:
+        .word   .Lsra_n262144, 168, .Lsra10_b27
+.Lsra10_b27:
+        .word   172, 172, .Lsra10_b27a
+.Lsra10_b27a:
+        .word   12, 12, .Lsra10_b27b
+.Lsra10_b27b:
+        .word   164, 12, .Lsra10_b27c
+.Lsra10_b27c:
+        .word   12, 172, .Lsra10_b27d
+.Lsra10_b27d:
+        .word   .Lsra_c134217728, 172, .Lsra10_b27e
+.Lsra10_b27e:
+        .word   176, 176, .Lsra10_b27f
+.Lsra10_b27f:
+        .word   172, 176, .Lsra10_b27s
+        .word   12, 12, .Lsra10_b26
+.Lsra10_b27s:
+        .word   .Lsra_c134217728, 164, .Lsra10_b27t
+.Lsra10_b27t:
+        .word   .Lsra_n131072, 168, .Lsra10_b26
+.Lsra10_b26:
+        .word   172, 172, .Lsra10_b26a
+.Lsra10_b26a:
+        .word   12, 12, .Lsra10_b26b
+.Lsra10_b26b:
+        .word   164, 12, .Lsra10_b26c
+.Lsra10_b26c:
+        .word   12, 172, .Lsra10_b26d
+.Lsra10_b26d:
+        .word   .Lsra_c67108864, 172, .Lsra10_b26e
+.Lsra10_b26e:
+        .word   176, 176, .Lsra10_b26f
+.Lsra10_b26f:
+        .word   172, 176, .Lsra10_b26s
+        .word   12, 12, .Lsra10_b25
+.Lsra10_b26s:
+        .word   .Lsra_c67108864, 164, .Lsra10_b26t
+.Lsra10_b26t:
+        .word   .Lsra_n65536, 168, .Lsra10_b25
+.Lsra10_b25:
+        .word   172, 172, .Lsra10_b25a
+.Lsra10_b25a:
+        .word   12, 12, .Lsra10_b25b
+.Lsra10_b25b:
+        .word   164, 12, .Lsra10_b25c
+.Lsra10_b25c:
+        .word   12, 172, .Lsra10_b25d
+.Lsra10_b25d:
+        .word   .Lsra_c33554432, 172, .Lsra10_b25e
+.Lsra10_b25e:
+        .word   176, 176, .Lsra10_b25f
+.Lsra10_b25f:
+        .word   172, 176, .Lsra10_b25s
+        .word   12, 12, .Lsra10_b24
+.Lsra10_b25s:
+        .word   .Lsra_c33554432, 164, .Lsra10_b25t
+.Lsra10_b25t:
+        .word   .Lsra_n32768, 168, .Lsra10_b24
+.Lsra10_b24:
+        .word   172, 172, .Lsra10_b24a
+.Lsra10_b24a:
+        .word   12, 12, .Lsra10_b24b
+.Lsra10_b24b:
+        .word   164, 12, .Lsra10_b24c
+.Lsra10_b24c:
+        .word   12, 172, .Lsra10_b24d
+.Lsra10_b24d:
+        .word   .Lsra_c16777216, 172, .Lsra10_b24e
+.Lsra10_b24e:
+        .word   176, 176, .Lsra10_b24f
+.Lsra10_b24f:
+        .word   172, 176, .Lsra10_b24s
+        .word   12, 12, .Lsra10_b23
+.Lsra10_b24s:
+        .word   .Lsra_c16777216, 164, .Lsra10_b24t
+.Lsra10_b24t:
+        .word   .Lsra_n16384, 168, .Lsra10_b23
+.Lsra10_b23:
+        .word   172, 172, .Lsra10_b23a
+.Lsra10_b23a:
+        .word   12, 12, .Lsra10_b23b
+.Lsra10_b23b:
+        .word   164, 12, .Lsra10_b23c
+.Lsra10_b23c:
+        .word   12, 172, .Lsra10_b23d
+.Lsra10_b23d:
+        .word   .Lsra_c8388608, 172, .Lsra10_b23e
+.Lsra10_b23e:
+        .word   176, 176, .Lsra10_b23f
+.Lsra10_b23f:
+        .word   172, 176, .Lsra10_b23s
+        .word   12, 12, .Lsra10_b22
+.Lsra10_b23s:
+        .word   .Lsra_c8388608, 164, .Lsra10_b23t
+.Lsra10_b23t:
+        .word   .Lsra_n8192, 168, .Lsra10_b22
+.Lsra10_b22:
+        .word   172, 172, .Lsra10_b22a
+.Lsra10_b22a:
+        .word   12, 12, .Lsra10_b22b
+.Lsra10_b22b:
+        .word   164, 12, .Lsra10_b22c
+.Lsra10_b22c:
+        .word   12, 172, .Lsra10_b22d
+.Lsra10_b22d:
+        .word   .Lsra_c4194304, 172, .Lsra10_b22e
+.Lsra10_b22e:
+        .word   176, 176, .Lsra10_b22f
+.Lsra10_b22f:
+        .word   172, 176, .Lsra10_b22s
+        .word   12, 12, .Lsra10_b21
+.Lsra10_b22s:
+        .word   .Lsra_c4194304, 164, .Lsra10_b22t
+.Lsra10_b22t:
+        .word   .Lsra_n4096, 168, .Lsra10_b21
+.Lsra10_b21:
+        .word   172, 172, .Lsra10_b21a
+.Lsra10_b21a:
+        .word   12, 12, .Lsra10_b21b
+.Lsra10_b21b:
+        .word   164, 12, .Lsra10_b21c
+.Lsra10_b21c:
+        .word   12, 172, .Lsra10_b21d
+.Lsra10_b21d:
+        .word   .Lsra_c2097152, 172, .Lsra10_b21e
+.Lsra10_b21e:
+        .word   176, 176, .Lsra10_b21f
+.Lsra10_b21f:
+        .word   172, 176, .Lsra10_b21s
+        .word   12, 12, .Lsra10_b20
+.Lsra10_b21s:
+        .word   .Lsra_c2097152, 164, .Lsra10_b21t
+.Lsra10_b21t:
+        .word   .Lsra_n2048, 168, .Lsra10_b20
+.Lsra10_b20:
+        .word   172, 172, .Lsra10_b20a
+.Lsra10_b20a:
+        .word   12, 12, .Lsra10_b20b
+.Lsra10_b20b:
+        .word   164, 12, .Lsra10_b20c
+.Lsra10_b20c:
+        .word   12, 172, .Lsra10_b20d
+.Lsra10_b20d:
+        .word   .Lsra_c1048576, 172, .Lsra10_b20e
+.Lsra10_b20e:
+        .word   176, 176, .Lsra10_b20f
+.Lsra10_b20f:
+        .word   172, 176, .Lsra10_b20s
+        .word   12, 12, .Lsra10_b19
+.Lsra10_b20s:
+        .word   .Lsra_c1048576, 164, .Lsra10_b20t
+.Lsra10_b20t:
+        .word   .Lsra_n1024, 168, .Lsra10_b19
+.Lsra10_b19:
+        .word   172, 172, .Lsra10_b19a
+.Lsra10_b19a:
+        .word   12, 12, .Lsra10_b19b
+.Lsra10_b19b:
+        .word   164, 12, .Lsra10_b19c
+.Lsra10_b19c:
+        .word   12, 172, .Lsra10_b19d
+.Lsra10_b19d:
+        .word   .Lsra_c524288, 172, .Lsra10_b19e
+.Lsra10_b19e:
+        .word   176, 176, .Lsra10_b19f
+.Lsra10_b19f:
+        .word   172, 176, .Lsra10_b19s
+        .word   12, 12, .Lsra10_b18
+.Lsra10_b19s:
+        .word   .Lsra_c524288, 164, .Lsra10_b19t
+.Lsra10_b19t:
+        .word   .Lsra_n512, 168, .Lsra10_b18
+.Lsra10_b18:
+        .word   172, 172, .Lsra10_b18a
+.Lsra10_b18a:
+        .word   12, 12, .Lsra10_b18b
+.Lsra10_b18b:
+        .word   164, 12, .Lsra10_b18c
+.Lsra10_b18c:
+        .word   12, 172, .Lsra10_b18d
+.Lsra10_b18d:
+        .word   .Lsra_c262144, 172, .Lsra10_b18e
+.Lsra10_b18e:
+        .word   176, 176, .Lsra10_b18f
+.Lsra10_b18f:
+        .word   172, 176, .Lsra10_b18s
+        .word   12, 12, .Lsra10_b17
+.Lsra10_b18s:
+        .word   .Lsra_c262144, 164, .Lsra10_b18t
+.Lsra10_b18t:
+        .word   .Lsra_n256, 168, .Lsra10_b17
+.Lsra10_b17:
+        .word   172, 172, .Lsra10_b17a
+.Lsra10_b17a:
+        .word   12, 12, .Lsra10_b17b
+.Lsra10_b17b:
+        .word   164, 12, .Lsra10_b17c
+.Lsra10_b17c:
+        .word   12, 172, .Lsra10_b17d
+.Lsra10_b17d:
+        .word   .Lsra_c131072, 172, .Lsra10_b17e
+.Lsra10_b17e:
+        .word   176, 176, .Lsra10_b17f
+.Lsra10_b17f:
+        .word   172, 176, .Lsra10_b17s
+        .word   12, 12, .Lsra10_b16
+.Lsra10_b17s:
+        .word   .Lsra_c131072, 164, .Lsra10_b17t
+.Lsra10_b17t:
+        .word   .Lsra_n128, 168, .Lsra10_b16
+.Lsra10_b16:
+        .word   172, 172, .Lsra10_b16a
+.Lsra10_b16a:
+        .word   12, 12, .Lsra10_b16b
+.Lsra10_b16b:
+        .word   164, 12, .Lsra10_b16c
+.Lsra10_b16c:
+        .word   12, 172, .Lsra10_b16d
+.Lsra10_b16d:
+        .word   .Lsra_c65536, 172, .Lsra10_b16e
+.Lsra10_b16e:
+        .word   176, 176, .Lsra10_b16f
+.Lsra10_b16f:
+        .word   172, 176, .Lsra10_b16s
+        .word   12, 12, .Lsra10_b15
+.Lsra10_b16s:
+        .word   .Lsra_c65536, 164, .Lsra10_b16t
+.Lsra10_b16t:
+        .word   .Lsra_n64, 168, .Lsra10_b15
+.Lsra10_b15:
+        .word   172, 172, .Lsra10_b15a
+.Lsra10_b15a:
+        .word   12, 12, .Lsra10_b15b
+.Lsra10_b15b:
+        .word   164, 12, .Lsra10_b15c
+.Lsra10_b15c:
+        .word   12, 172, .Lsra10_b15d
+.Lsra10_b15d:
+        .word   .Lsra_c32768, 172, .Lsra10_b15e
+.Lsra10_b15e:
+        .word   176, 176, .Lsra10_b15f
+.Lsra10_b15f:
+        .word   172, 176, .Lsra10_b15s
+        .word   12, 12, .Lsra10_b14
+.Lsra10_b15s:
+        .word   .Lsra_c32768, 164, .Lsra10_b15t
+.Lsra10_b15t:
+        .word   .Lsra_n32, 168, .Lsra10_b14
+.Lsra10_b14:
+        .word   172, 172, .Lsra10_b14a
+.Lsra10_b14a:
+        .word   12, 12, .Lsra10_b14b
+.Lsra10_b14b:
+        .word   164, 12, .Lsra10_b14c
+.Lsra10_b14c:
+        .word   12, 172, .Lsra10_b14d
+.Lsra10_b14d:
+        .word   .Lsra_c16384, 172, .Lsra10_b14e
+.Lsra10_b14e:
+        .word   176, 176, .Lsra10_b14f
+.Lsra10_b14f:
+        .word   172, 176, .Lsra10_b14s
+        .word   12, 12, .Lsra10_b13
+.Lsra10_b14s:
+        .word   .Lsra_c16384, 164, .Lsra10_b14t
+.Lsra10_b14t:
+        .word   .Lsra_n16, 168, .Lsra10_b13
+.Lsra10_b13:
+        .word   172, 172, .Lsra10_b13a
+.Lsra10_b13a:
+        .word   12, 12, .Lsra10_b13b
+.Lsra10_b13b:
+        .word   164, 12, .Lsra10_b13c
+.Lsra10_b13c:
+        .word   12, 172, .Lsra10_b13d
+.Lsra10_b13d:
+        .word   .Lsra_c8192, 172, .Lsra10_b13e
+.Lsra10_b13e:
+        .word   176, 176, .Lsra10_b13f
+.Lsra10_b13f:
+        .word   172, 176, .Lsra10_b13s
+        .word   12, 12, .Lsra10_b12
+.Lsra10_b13s:
+        .word   .Lsra_c8192, 164, .Lsra10_b13t
+.Lsra10_b13t:
+        .word   .Lsra_n8, 168, .Lsra10_b12
+.Lsra10_b12:
+        .word   172, 172, .Lsra10_b12a
+.Lsra10_b12a:
+        .word   12, 12, .Lsra10_b12b
+.Lsra10_b12b:
+        .word   164, 12, .Lsra10_b12c
+.Lsra10_b12c:
+        .word   12, 172, .Lsra10_b12d
+.Lsra10_b12d:
+        .word   .Lsra_c4096, 172, .Lsra10_b12e
+.Lsra10_b12e:
+        .word   176, 176, .Lsra10_b12f
+.Lsra10_b12f:
+        .word   172, 176, .Lsra10_b12s
+        .word   12, 12, .Lsra10_b11
+.Lsra10_b12s:
+        .word   .Lsra_c4096, 164, .Lsra10_b12t
+.Lsra10_b12t:
+        .word   .Lsra_n4, 168, .Lsra10_b11
+.Lsra10_b11:
+        .word   172, 172, .Lsra10_b11a
+.Lsra10_b11a:
+        .word   12, 12, .Lsra10_b11b
+.Lsra10_b11b:
+        .word   164, 12, .Lsra10_b11c
+.Lsra10_b11c:
+        .word   12, 172, .Lsra10_b11d
+.Lsra10_b11d:
+        .word   .Lsra_c2048, 172, .Lsra10_b11e
+.Lsra10_b11e:
+        .word   176, 176, .Lsra10_b11f
+.Lsra10_b11f:
+        .word   172, 176, .Lsra10_b11s
+        .word   12, 12, .Lsra10_b10
+.Lsra10_b11s:
+        .word   .Lsra_c2048, 164, .Lsra10_b11t
+.Lsra10_b11t:
+        .word   .Lsra_n2, 168, .Lsra10_b10
+.Lsra10_b10:
+        .word   172, 172, .Lsra10_b10a
+.Lsra10_b10a:
+        .word   12, 12, .Lsra10_b10b
+.Lsra10_b10b:
+        .word   164, 12, .Lsra10_b10c
+.Lsra10_b10c:
+        .word   12, 172, .Lsra10_b10d
+.Lsra10_b10d:
+        .word   .Lsra_c1024, 172, .Lsra10_b10e
+.Lsra10_b10e:
+        .word   176, 176, .Lsra10_b10f
+.Lsra10_b10f:
+        .word   172, 176, .Lsra10_b10s
+        .word   12, 12, .Lsra10_done
+.Lsra10_b10s:
+        .word   .Lsra_c1024, 164, .Lsra10_b10t
+.Lsra10_b10t:
+        .word   .Lsra_n1, 168, .Lsra10_done
+.Lsra10_done:
+        .word   172, 172, .Lsra10_chk
+.Lsra10_chk:
+        .word   24, 180, .Lsra10_store
+        .word   172, 172, .Lsra10_un1
+.Lsra10_un1:
+        .word   168, 172, .Lsra10_un2
+.Lsra10_un2:
+        .word   168, 168, .Lsra10_un3
+.Lsra10_un3:
+        .word   12, 12, .Lsra10_un4
+.Lsra10_un4:
+        .word   172, 12, .Lsra10_un5
+.Lsra10_un5:
+        .word   12, 168, .Lsra10_un6
+.Lsra10_un6:
+        .word   .Lsra_one, 168, .Lsra10_store
+.Lsra10_store:
+        .word   28, 28, .Lsra10_st1
+.Lsra10_st1:
+        .word   12, 12, .Lsra10_st2
+.Lsra10_st2:
+        .word   168, 12, .Lsra10_st3
+.Lsra10_st3:
+        .word   12, 28, .Lsra10_st4
+.Lsra10_st4:
+        .word   24, 24, .Lsra_done
+
+.Lsra_shift_11:
+        .word   180, 180, .Lsra11_chksign
+.Lsra11_chksign:
+        .word   172, 172, .Lsra11_s1
+.Lsra11_s1:
+        .word   12, 12, .Lsra11_s2
+.Lsra11_s2:
+        .word   164, 12, .Lsra11_s3
+.Lsra11_s3:
+        .word   12, 172, .Lsra11_s4
+.Lsra11_s4:
+        .word   24, 172, .Lsra11_maybe_neg
+        .word   12, 12, .Lsra11_pos
+.Lsra11_maybe_neg:
+        .word   172, 172, .Lsra11_m1
+.Lsra11_m1:
+        .word   164, 172, .Lsra11_m2
+.Lsra11_m2:
+        .word   24, 172, .Lsra11_ambig
+        .word   12, 12, .Lsra11_neg
+.Lsra11_ambig:
+        .word   172, 172, .Lsra11_a1
+.Lsra11_a1:
+        .word   164, 172, .Lsra11_a2
+.Lsra11_a2:
+        .word   .Lsra_one, 172, .Lsra11_a3
+.Lsra11_a3:
+        .word   24, 172, .Lsra11_pos
+        .word   12, 12, .Lsra11_neg
+.Lsra11_neg:
+        .word   .Lsra_negone, 180, .Lsra11_n1
+.Lsra11_n1:
+        .word   172, 172, .Lsra11_n2
+.Lsra11_n2:
+        .word   164, 172, .Lsra11_n3
+.Lsra11_n3:
+        .word   164, 164, .Lsra11_n4
+.Lsra11_n4:
+        .word   12, 12, .Lsra11_n5
+.Lsra11_n5:
+        .word   172, 12, .Lsra11_n6
+.Lsra11_n6:
+        .word   12, 164, .Lsra11_n7
+.Lsra11_n7:
+        .word   .Lsra_one, 164, .Lsra11_pos
+.Lsra11_pos:
+        .word   168, 168, .Lsra11_start
+.Lsra11_start:
+.Lsra11_b30:
+        .word   172, 172, .Lsra11_b30a
+.Lsra11_b30a:
+        .word   12, 12, .Lsra11_b30b
+.Lsra11_b30b:
+        .word   164, 12, .Lsra11_b30c
+.Lsra11_b30c:
+        .word   12, 172, .Lsra11_b30d
+.Lsra11_b30d:
+        .word   .Lsra_c1073741824, 172, .Lsra11_b30e
+.Lsra11_b30e:
+        .word   176, 176, .Lsra11_b30f
+.Lsra11_b30f:
+        .word   172, 176, .Lsra11_b30s
+        .word   12, 12, .Lsra11_b29
+.Lsra11_b30s:
+        .word   .Lsra_c1073741824, 164, .Lsra11_b30t
+.Lsra11_b30t:
+        .word   .Lsra_n524288, 168, .Lsra11_b29
+.Lsra11_b29:
+        .word   172, 172, .Lsra11_b29a
+.Lsra11_b29a:
+        .word   12, 12, .Lsra11_b29b
+.Lsra11_b29b:
+        .word   164, 12, .Lsra11_b29c
+.Lsra11_b29c:
+        .word   12, 172, .Lsra11_b29d
+.Lsra11_b29d:
+        .word   .Lsra_c536870912, 172, .Lsra11_b29e
+.Lsra11_b29e:
+        .word   176, 176, .Lsra11_b29f
+.Lsra11_b29f:
+        .word   172, 176, .Lsra11_b29s
+        .word   12, 12, .Lsra11_b28
+.Lsra11_b29s:
+        .word   .Lsra_c536870912, 164, .Lsra11_b29t
+.Lsra11_b29t:
+        .word   .Lsra_n262144, 168, .Lsra11_b28
+.Lsra11_b28:
+        .word   172, 172, .Lsra11_b28a
+.Lsra11_b28a:
+        .word   12, 12, .Lsra11_b28b
+.Lsra11_b28b:
+        .word   164, 12, .Lsra11_b28c
+.Lsra11_b28c:
+        .word   12, 172, .Lsra11_b28d
+.Lsra11_b28d:
+        .word   .Lsra_c268435456, 172, .Lsra11_b28e
+.Lsra11_b28e:
+        .word   176, 176, .Lsra11_b28f
+.Lsra11_b28f:
+        .word   172, 176, .Lsra11_b28s
+        .word   12, 12, .Lsra11_b27
+.Lsra11_b28s:
+        .word   .Lsra_c268435456, 164, .Lsra11_b28t
+.Lsra11_b28t:
+        .word   .Lsra_n131072, 168, .Lsra11_b27
+.Lsra11_b27:
+        .word   172, 172, .Lsra11_b27a
+.Lsra11_b27a:
+        .word   12, 12, .Lsra11_b27b
+.Lsra11_b27b:
+        .word   164, 12, .Lsra11_b27c
+.Lsra11_b27c:
+        .word   12, 172, .Lsra11_b27d
+.Lsra11_b27d:
+        .word   .Lsra_c134217728, 172, .Lsra11_b27e
+.Lsra11_b27e:
+        .word   176, 176, .Lsra11_b27f
+.Lsra11_b27f:
+        .word   172, 176, .Lsra11_b27s
+        .word   12, 12, .Lsra11_b26
+.Lsra11_b27s:
+        .word   .Lsra_c134217728, 164, .Lsra11_b27t
+.Lsra11_b27t:
+        .word   .Lsra_n65536, 168, .Lsra11_b26
+.Lsra11_b26:
+        .word   172, 172, .Lsra11_b26a
+.Lsra11_b26a:
+        .word   12, 12, .Lsra11_b26b
+.Lsra11_b26b:
+        .word   164, 12, .Lsra11_b26c
+.Lsra11_b26c:
+        .word   12, 172, .Lsra11_b26d
+.Lsra11_b26d:
+        .word   .Lsra_c67108864, 172, .Lsra11_b26e
+.Lsra11_b26e:
+        .word   176, 176, .Lsra11_b26f
+.Lsra11_b26f:
+        .word   172, 176, .Lsra11_b26s
+        .word   12, 12, .Lsra11_b25
+.Lsra11_b26s:
+        .word   .Lsra_c67108864, 164, .Lsra11_b26t
+.Lsra11_b26t:
+        .word   .Lsra_n32768, 168, .Lsra11_b25
+.Lsra11_b25:
+        .word   172, 172, .Lsra11_b25a
+.Lsra11_b25a:
+        .word   12, 12, .Lsra11_b25b
+.Lsra11_b25b:
+        .word   164, 12, .Lsra11_b25c
+.Lsra11_b25c:
+        .word   12, 172, .Lsra11_b25d
+.Lsra11_b25d:
+        .word   .Lsra_c33554432, 172, .Lsra11_b25e
+.Lsra11_b25e:
+        .word   176, 176, .Lsra11_b25f
+.Lsra11_b25f:
+        .word   172, 176, .Lsra11_b25s
+        .word   12, 12, .Lsra11_b24
+.Lsra11_b25s:
+        .word   .Lsra_c33554432, 164, .Lsra11_b25t
+.Lsra11_b25t:
+        .word   .Lsra_n16384, 168, .Lsra11_b24
+.Lsra11_b24:
+        .word   172, 172, .Lsra11_b24a
+.Lsra11_b24a:
+        .word   12, 12, .Lsra11_b24b
+.Lsra11_b24b:
+        .word   164, 12, .Lsra11_b24c
+.Lsra11_b24c:
+        .word   12, 172, .Lsra11_b24d
+.Lsra11_b24d:
+        .word   .Lsra_c16777216, 172, .Lsra11_b24e
+.Lsra11_b24e:
+        .word   176, 176, .Lsra11_b24f
+.Lsra11_b24f:
+        .word   172, 176, .Lsra11_b24s
+        .word   12, 12, .Lsra11_b23
+.Lsra11_b24s:
+        .word   .Lsra_c16777216, 164, .Lsra11_b24t
+.Lsra11_b24t:
+        .word   .Lsra_n8192, 168, .Lsra11_b23
+.Lsra11_b23:
+        .word   172, 172, .Lsra11_b23a
+.Lsra11_b23a:
+        .word   12, 12, .Lsra11_b23b
+.Lsra11_b23b:
+        .word   164, 12, .Lsra11_b23c
+.Lsra11_b23c:
+        .word   12, 172, .Lsra11_b23d
+.Lsra11_b23d:
+        .word   .Lsra_c8388608, 172, .Lsra11_b23e
+.Lsra11_b23e:
+        .word   176, 176, .Lsra11_b23f
+.Lsra11_b23f:
+        .word   172, 176, .Lsra11_b23s
+        .word   12, 12, .Lsra11_b22
+.Lsra11_b23s:
+        .word   .Lsra_c8388608, 164, .Lsra11_b23t
+.Lsra11_b23t:
+        .word   .Lsra_n4096, 168, .Lsra11_b22
+.Lsra11_b22:
+        .word   172, 172, .Lsra11_b22a
+.Lsra11_b22a:
+        .word   12, 12, .Lsra11_b22b
+.Lsra11_b22b:
+        .word   164, 12, .Lsra11_b22c
+.Lsra11_b22c:
+        .word   12, 172, .Lsra11_b22d
+.Lsra11_b22d:
+        .word   .Lsra_c4194304, 172, .Lsra11_b22e
+.Lsra11_b22e:
+        .word   176, 176, .Lsra11_b22f
+.Lsra11_b22f:
+        .word   172, 176, .Lsra11_b22s
+        .word   12, 12, .Lsra11_b21
+.Lsra11_b22s:
+        .word   .Lsra_c4194304, 164, .Lsra11_b22t
+.Lsra11_b22t:
+        .word   .Lsra_n2048, 168, .Lsra11_b21
+.Lsra11_b21:
+        .word   172, 172, .Lsra11_b21a
+.Lsra11_b21a:
+        .word   12, 12, .Lsra11_b21b
+.Lsra11_b21b:
+        .word   164, 12, .Lsra11_b21c
+.Lsra11_b21c:
+        .word   12, 172, .Lsra11_b21d
+.Lsra11_b21d:
+        .word   .Lsra_c2097152, 172, .Lsra11_b21e
+.Lsra11_b21e:
+        .word   176, 176, .Lsra11_b21f
+.Lsra11_b21f:
+        .word   172, 176, .Lsra11_b21s
+        .word   12, 12, .Lsra11_b20
+.Lsra11_b21s:
+        .word   .Lsra_c2097152, 164, .Lsra11_b21t
+.Lsra11_b21t:
+        .word   .Lsra_n1024, 168, .Lsra11_b20
+.Lsra11_b20:
+        .word   172, 172, .Lsra11_b20a
+.Lsra11_b20a:
+        .word   12, 12, .Lsra11_b20b
+.Lsra11_b20b:
+        .word   164, 12, .Lsra11_b20c
+.Lsra11_b20c:
+        .word   12, 172, .Lsra11_b20d
+.Lsra11_b20d:
+        .word   .Lsra_c1048576, 172, .Lsra11_b20e
+.Lsra11_b20e:
+        .word   176, 176, .Lsra11_b20f
+.Lsra11_b20f:
+        .word   172, 176, .Lsra11_b20s
+        .word   12, 12, .Lsra11_b19
+.Lsra11_b20s:
+        .word   .Lsra_c1048576, 164, .Lsra11_b20t
+.Lsra11_b20t:
+        .word   .Lsra_n512, 168, .Lsra11_b19
+.Lsra11_b19:
+        .word   172, 172, .Lsra11_b19a
+.Lsra11_b19a:
+        .word   12, 12, .Lsra11_b19b
+.Lsra11_b19b:
+        .word   164, 12, .Lsra11_b19c
+.Lsra11_b19c:
+        .word   12, 172, .Lsra11_b19d
+.Lsra11_b19d:
+        .word   .Lsra_c524288, 172, .Lsra11_b19e
+.Lsra11_b19e:
+        .word   176, 176, .Lsra11_b19f
+.Lsra11_b19f:
+        .word   172, 176, .Lsra11_b19s
+        .word   12, 12, .Lsra11_b18
+.Lsra11_b19s:
+        .word   .Lsra_c524288, 164, .Lsra11_b19t
+.Lsra11_b19t:
+        .word   .Lsra_n256, 168, .Lsra11_b18
+.Lsra11_b18:
+        .word   172, 172, .Lsra11_b18a
+.Lsra11_b18a:
+        .word   12, 12, .Lsra11_b18b
+.Lsra11_b18b:
+        .word   164, 12, .Lsra11_b18c
+.Lsra11_b18c:
+        .word   12, 172, .Lsra11_b18d
+.Lsra11_b18d:
+        .word   .Lsra_c262144, 172, .Lsra11_b18e
+.Lsra11_b18e:
+        .word   176, 176, .Lsra11_b18f
+.Lsra11_b18f:
+        .word   172, 176, .Lsra11_b18s
+        .word   12, 12, .Lsra11_b17
+.Lsra11_b18s:
+        .word   .Lsra_c262144, 164, .Lsra11_b18t
+.Lsra11_b18t:
+        .word   .Lsra_n128, 168, .Lsra11_b17
+.Lsra11_b17:
+        .word   172, 172, .Lsra11_b17a
+.Lsra11_b17a:
+        .word   12, 12, .Lsra11_b17b
+.Lsra11_b17b:
+        .word   164, 12, .Lsra11_b17c
+.Lsra11_b17c:
+        .word   12, 172, .Lsra11_b17d
+.Lsra11_b17d:
+        .word   .Lsra_c131072, 172, .Lsra11_b17e
+.Lsra11_b17e:
+        .word   176, 176, .Lsra11_b17f
+.Lsra11_b17f:
+        .word   172, 176, .Lsra11_b17s
+        .word   12, 12, .Lsra11_b16
+.Lsra11_b17s:
+        .word   .Lsra_c131072, 164, .Lsra11_b17t
+.Lsra11_b17t:
+        .word   .Lsra_n64, 168, .Lsra11_b16
+.Lsra11_b16:
+        .word   172, 172, .Lsra11_b16a
+.Lsra11_b16a:
+        .word   12, 12, .Lsra11_b16b
+.Lsra11_b16b:
+        .word   164, 12, .Lsra11_b16c
+.Lsra11_b16c:
+        .word   12, 172, .Lsra11_b16d
+.Lsra11_b16d:
+        .word   .Lsra_c65536, 172, .Lsra11_b16e
+.Lsra11_b16e:
+        .word   176, 176, .Lsra11_b16f
+.Lsra11_b16f:
+        .word   172, 176, .Lsra11_b16s
+        .word   12, 12, .Lsra11_b15
+.Lsra11_b16s:
+        .word   .Lsra_c65536, 164, .Lsra11_b16t
+.Lsra11_b16t:
+        .word   .Lsra_n32, 168, .Lsra11_b15
+.Lsra11_b15:
+        .word   172, 172, .Lsra11_b15a
+.Lsra11_b15a:
+        .word   12, 12, .Lsra11_b15b
+.Lsra11_b15b:
+        .word   164, 12, .Lsra11_b15c
+.Lsra11_b15c:
+        .word   12, 172, .Lsra11_b15d
+.Lsra11_b15d:
+        .word   .Lsra_c32768, 172, .Lsra11_b15e
+.Lsra11_b15e:
+        .word   176, 176, .Lsra11_b15f
+.Lsra11_b15f:
+        .word   172, 176, .Lsra11_b15s
+        .word   12, 12, .Lsra11_b14
+.Lsra11_b15s:
+        .word   .Lsra_c32768, 164, .Lsra11_b15t
+.Lsra11_b15t:
+        .word   .Lsra_n16, 168, .Lsra11_b14
+.Lsra11_b14:
+        .word   172, 172, .Lsra11_b14a
+.Lsra11_b14a:
+        .word   12, 12, .Lsra11_b14b
+.Lsra11_b14b:
+        .word   164, 12, .Lsra11_b14c
+.Lsra11_b14c:
+        .word   12, 172, .Lsra11_b14d
+.Lsra11_b14d:
+        .word   .Lsra_c16384, 172, .Lsra11_b14e
+.Lsra11_b14e:
+        .word   176, 176, .Lsra11_b14f
+.Lsra11_b14f:
+        .word   172, 176, .Lsra11_b14s
+        .word   12, 12, .Lsra11_b13
+.Lsra11_b14s:
+        .word   .Lsra_c16384, 164, .Lsra11_b14t
+.Lsra11_b14t:
+        .word   .Lsra_n8, 168, .Lsra11_b13
+.Lsra11_b13:
+        .word   172, 172, .Lsra11_b13a
+.Lsra11_b13a:
+        .word   12, 12, .Lsra11_b13b
+.Lsra11_b13b:
+        .word   164, 12, .Lsra11_b13c
+.Lsra11_b13c:
+        .word   12, 172, .Lsra11_b13d
+.Lsra11_b13d:
+        .word   .Lsra_c8192, 172, .Lsra11_b13e
+.Lsra11_b13e:
+        .word   176, 176, .Lsra11_b13f
+.Lsra11_b13f:
+        .word   172, 176, .Lsra11_b13s
+        .word   12, 12, .Lsra11_b12
+.Lsra11_b13s:
+        .word   .Lsra_c8192, 164, .Lsra11_b13t
+.Lsra11_b13t:
+        .word   .Lsra_n4, 168, .Lsra11_b12
+.Lsra11_b12:
+        .word   172, 172, .Lsra11_b12a
+.Lsra11_b12a:
+        .word   12, 12, .Lsra11_b12b
+.Lsra11_b12b:
+        .word   164, 12, .Lsra11_b12c
+.Lsra11_b12c:
+        .word   12, 172, .Lsra11_b12d
+.Lsra11_b12d:
+        .word   .Lsra_c4096, 172, .Lsra11_b12e
+.Lsra11_b12e:
+        .word   176, 176, .Lsra11_b12f
+.Lsra11_b12f:
+        .word   172, 176, .Lsra11_b12s
+        .word   12, 12, .Lsra11_b11
+.Lsra11_b12s:
+        .word   .Lsra_c4096, 164, .Lsra11_b12t
+.Lsra11_b12t:
+        .word   .Lsra_n2, 168, .Lsra11_b11
+.Lsra11_b11:
+        .word   172, 172, .Lsra11_b11a
+.Lsra11_b11a:
+        .word   12, 12, .Lsra11_b11b
+.Lsra11_b11b:
+        .word   164, 12, .Lsra11_b11c
+.Lsra11_b11c:
+        .word   12, 172, .Lsra11_b11d
+.Lsra11_b11d:
+        .word   .Lsra_c2048, 172, .Lsra11_b11e
+.Lsra11_b11e:
+        .word   176, 176, .Lsra11_b11f
+.Lsra11_b11f:
+        .word   172, 176, .Lsra11_b11s
+        .word   12, 12, .Lsra11_done
+.Lsra11_b11s:
+        .word   .Lsra_c2048, 164, .Lsra11_b11t
+.Lsra11_b11t:
+        .word   .Lsra_n1, 168, .Lsra11_done
+.Lsra11_done:
+        .word   172, 172, .Lsra11_chk
+.Lsra11_chk:
+        .word   24, 180, .Lsra11_store
+        .word   172, 172, .Lsra11_un1
+.Lsra11_un1:
+        .word   168, 172, .Lsra11_un2
+.Lsra11_un2:
+        .word   168, 168, .Lsra11_un3
+.Lsra11_un3:
+        .word   12, 12, .Lsra11_un4
+.Lsra11_un4:
+        .word   172, 12, .Lsra11_un5
+.Lsra11_un5:
+        .word   12, 168, .Lsra11_un6
+.Lsra11_un6:
+        .word   .Lsra_one, 168, .Lsra11_store
+.Lsra11_store:
+        .word   28, 28, .Lsra11_st1
+.Lsra11_st1:
+        .word   12, 12, .Lsra11_st2
+.Lsra11_st2:
+        .word   168, 12, .Lsra11_st3
+.Lsra11_st3:
+        .word   12, 28, .Lsra11_st4
+.Lsra11_st4:
+        .word   24, 24, .Lsra_done
+
+.Lsra_shift_12:
+        .word   180, 180, .Lsra12_chksign
+.Lsra12_chksign:
+        .word   172, 172, .Lsra12_s1
+.Lsra12_s1:
+        .word   12, 12, .Lsra12_s2
+.Lsra12_s2:
+        .word   164, 12, .Lsra12_s3
+.Lsra12_s3:
+        .word   12, 172, .Lsra12_s4
+.Lsra12_s4:
+        .word   24, 172, .Lsra12_maybe_neg
+        .word   12, 12, .Lsra12_pos
+.Lsra12_maybe_neg:
+        .word   172, 172, .Lsra12_m1
+.Lsra12_m1:
+        .word   164, 172, .Lsra12_m2
+.Lsra12_m2:
+        .word   24, 172, .Lsra12_ambig
+        .word   12, 12, .Lsra12_neg
+.Lsra12_ambig:
+        .word   172, 172, .Lsra12_a1
+.Lsra12_a1:
+        .word   164, 172, .Lsra12_a2
+.Lsra12_a2:
+        .word   .Lsra_one, 172, .Lsra12_a3
+.Lsra12_a3:
+        .word   24, 172, .Lsra12_pos
+        .word   12, 12, .Lsra12_neg
+.Lsra12_neg:
+        .word   .Lsra_negone, 180, .Lsra12_n1
+.Lsra12_n1:
+        .word   172, 172, .Lsra12_n2
+.Lsra12_n2:
+        .word   164, 172, .Lsra12_n3
+.Lsra12_n3:
+        .word   164, 164, .Lsra12_n4
+.Lsra12_n4:
+        .word   12, 12, .Lsra12_n5
+.Lsra12_n5:
+        .word   172, 12, .Lsra12_n6
+.Lsra12_n6:
+        .word   12, 164, .Lsra12_n7
+.Lsra12_n7:
+        .word   .Lsra_one, 164, .Lsra12_pos
+.Lsra12_pos:
+        .word   168, 168, .Lsra12_start
+.Lsra12_start:
+.Lsra12_b30:
+        .word   172, 172, .Lsra12_b30a
+.Lsra12_b30a:
+        .word   12, 12, .Lsra12_b30b
+.Lsra12_b30b:
+        .word   164, 12, .Lsra12_b30c
+.Lsra12_b30c:
+        .word   12, 172, .Lsra12_b30d
+.Lsra12_b30d:
+        .word   .Lsra_c1073741824, 172, .Lsra12_b30e
+.Lsra12_b30e:
+        .word   176, 176, .Lsra12_b30f
+.Lsra12_b30f:
+        .word   172, 176, .Lsra12_b30s
+        .word   12, 12, .Lsra12_b29
+.Lsra12_b30s:
+        .word   .Lsra_c1073741824, 164, .Lsra12_b30t
+.Lsra12_b30t:
+        .word   .Lsra_n262144, 168, .Lsra12_b29
+.Lsra12_b29:
+        .word   172, 172, .Lsra12_b29a
+.Lsra12_b29a:
+        .word   12, 12, .Lsra12_b29b
+.Lsra12_b29b:
+        .word   164, 12, .Lsra12_b29c
+.Lsra12_b29c:
+        .word   12, 172, .Lsra12_b29d
+.Lsra12_b29d:
+        .word   .Lsra_c536870912, 172, .Lsra12_b29e
+.Lsra12_b29e:
+        .word   176, 176, .Lsra12_b29f
+.Lsra12_b29f:
+        .word   172, 176, .Lsra12_b29s
+        .word   12, 12, .Lsra12_b28
+.Lsra12_b29s:
+        .word   .Lsra_c536870912, 164, .Lsra12_b29t
+.Lsra12_b29t:
+        .word   .Lsra_n131072, 168, .Lsra12_b28
+.Lsra12_b28:
+        .word   172, 172, .Lsra12_b28a
+.Lsra12_b28a:
+        .word   12, 12, .Lsra12_b28b
+.Lsra12_b28b:
+        .word   164, 12, .Lsra12_b28c
+.Lsra12_b28c:
+        .word   12, 172, .Lsra12_b28d
+.Lsra12_b28d:
+        .word   .Lsra_c268435456, 172, .Lsra12_b28e
+.Lsra12_b28e:
+        .word   176, 176, .Lsra12_b28f
+.Lsra12_b28f:
+        .word   172, 176, .Lsra12_b28s
+        .word   12, 12, .Lsra12_b27
+.Lsra12_b28s:
+        .word   .Lsra_c268435456, 164, .Lsra12_b28t
+.Lsra12_b28t:
+        .word   .Lsra_n65536, 168, .Lsra12_b27
+.Lsra12_b27:
+        .word   172, 172, .Lsra12_b27a
+.Lsra12_b27a:
+        .word   12, 12, .Lsra12_b27b
+.Lsra12_b27b:
+        .word   164, 12, .Lsra12_b27c
+.Lsra12_b27c:
+        .word   12, 172, .Lsra12_b27d
+.Lsra12_b27d:
+        .word   .Lsra_c134217728, 172, .Lsra12_b27e
+.Lsra12_b27e:
+        .word   176, 176, .Lsra12_b27f
+.Lsra12_b27f:
+        .word   172, 176, .Lsra12_b27s
+        .word   12, 12, .Lsra12_b26
+.Lsra12_b27s:
+        .word   .Lsra_c134217728, 164, .Lsra12_b27t
+.Lsra12_b27t:
+        .word   .Lsra_n32768, 168, .Lsra12_b26
+.Lsra12_b26:
+        .word   172, 172, .Lsra12_b26a
+.Lsra12_b26a:
+        .word   12, 12, .Lsra12_b26b
+.Lsra12_b26b:
+        .word   164, 12, .Lsra12_b26c
+.Lsra12_b26c:
+        .word   12, 172, .Lsra12_b26d
+.Lsra12_b26d:
+        .word   .Lsra_c67108864, 172, .Lsra12_b26e
+.Lsra12_b26e:
+        .word   176, 176, .Lsra12_b26f
+.Lsra12_b26f:
+        .word   172, 176, .Lsra12_b26s
+        .word   12, 12, .Lsra12_b25
+.Lsra12_b26s:
+        .word   .Lsra_c67108864, 164, .Lsra12_b26t
+.Lsra12_b26t:
+        .word   .Lsra_n16384, 168, .Lsra12_b25
+.Lsra12_b25:
+        .word   172, 172, .Lsra12_b25a
+.Lsra12_b25a:
+        .word   12, 12, .Lsra12_b25b
+.Lsra12_b25b:
+        .word   164, 12, .Lsra12_b25c
+.Lsra12_b25c:
+        .word   12, 172, .Lsra12_b25d
+.Lsra12_b25d:
+        .word   .Lsra_c33554432, 172, .Lsra12_b25e
+.Lsra12_b25e:
+        .word   176, 176, .Lsra12_b25f
+.Lsra12_b25f:
+        .word   172, 176, .Lsra12_b25s
+        .word   12, 12, .Lsra12_b24
+.Lsra12_b25s:
+        .word   .Lsra_c33554432, 164, .Lsra12_b25t
+.Lsra12_b25t:
+        .word   .Lsra_n8192, 168, .Lsra12_b24
+.Lsra12_b24:
+        .word   172, 172, .Lsra12_b24a
+.Lsra12_b24a:
+        .word   12, 12, .Lsra12_b24b
+.Lsra12_b24b:
+        .word   164, 12, .Lsra12_b24c
+.Lsra12_b24c:
+        .word   12, 172, .Lsra12_b24d
+.Lsra12_b24d:
+        .word   .Lsra_c16777216, 172, .Lsra12_b24e
+.Lsra12_b24e:
+        .word   176, 176, .Lsra12_b24f
+.Lsra12_b24f:
+        .word   172, 176, .Lsra12_b24s
+        .word   12, 12, .Lsra12_b23
+.Lsra12_b24s:
+        .word   .Lsra_c16777216, 164, .Lsra12_b24t
+.Lsra12_b24t:
+        .word   .Lsra_n4096, 168, .Lsra12_b23
+.Lsra12_b23:
+        .word   172, 172, .Lsra12_b23a
+.Lsra12_b23a:
+        .word   12, 12, .Lsra12_b23b
+.Lsra12_b23b:
+        .word   164, 12, .Lsra12_b23c
+.Lsra12_b23c:
+        .word   12, 172, .Lsra12_b23d
+.Lsra12_b23d:
+        .word   .Lsra_c8388608, 172, .Lsra12_b23e
+.Lsra12_b23e:
+        .word   176, 176, .Lsra12_b23f
+.Lsra12_b23f:
+        .word   172, 176, .Lsra12_b23s
+        .word   12, 12, .Lsra12_b22
+.Lsra12_b23s:
+        .word   .Lsra_c8388608, 164, .Lsra12_b23t
+.Lsra12_b23t:
+        .word   .Lsra_n2048, 168, .Lsra12_b22
+.Lsra12_b22:
+        .word   172, 172, .Lsra12_b22a
+.Lsra12_b22a:
+        .word   12, 12, .Lsra12_b22b
+.Lsra12_b22b:
+        .word   164, 12, .Lsra12_b22c
+.Lsra12_b22c:
+        .word   12, 172, .Lsra12_b22d
+.Lsra12_b22d:
+        .word   .Lsra_c4194304, 172, .Lsra12_b22e
+.Lsra12_b22e:
+        .word   176, 176, .Lsra12_b22f
+.Lsra12_b22f:
+        .word   172, 176, .Lsra12_b22s
+        .word   12, 12, .Lsra12_b21
+.Lsra12_b22s:
+        .word   .Lsra_c4194304, 164, .Lsra12_b22t
+.Lsra12_b22t:
+        .word   .Lsra_n1024, 168, .Lsra12_b21
+.Lsra12_b21:
+        .word   172, 172, .Lsra12_b21a
+.Lsra12_b21a:
+        .word   12, 12, .Lsra12_b21b
+.Lsra12_b21b:
+        .word   164, 12, .Lsra12_b21c
+.Lsra12_b21c:
+        .word   12, 172, .Lsra12_b21d
+.Lsra12_b21d:
+        .word   .Lsra_c2097152, 172, .Lsra12_b21e
+.Lsra12_b21e:
+        .word   176, 176, .Lsra12_b21f
+.Lsra12_b21f:
+        .word   172, 176, .Lsra12_b21s
+        .word   12, 12, .Lsra12_b20
+.Lsra12_b21s:
+        .word   .Lsra_c2097152, 164, .Lsra12_b21t
+.Lsra12_b21t:
+        .word   .Lsra_n512, 168, .Lsra12_b20
+.Lsra12_b20:
+        .word   172, 172, .Lsra12_b20a
+.Lsra12_b20a:
+        .word   12, 12, .Lsra12_b20b
+.Lsra12_b20b:
+        .word   164, 12, .Lsra12_b20c
+.Lsra12_b20c:
+        .word   12, 172, .Lsra12_b20d
+.Lsra12_b20d:
+        .word   .Lsra_c1048576, 172, .Lsra12_b20e
+.Lsra12_b20e:
+        .word   176, 176, .Lsra12_b20f
+.Lsra12_b20f:
+        .word   172, 176, .Lsra12_b20s
+        .word   12, 12, .Lsra12_b19
+.Lsra12_b20s:
+        .word   .Lsra_c1048576, 164, .Lsra12_b20t
+.Lsra12_b20t:
+        .word   .Lsra_n256, 168, .Lsra12_b19
+.Lsra12_b19:
+        .word   172, 172, .Lsra12_b19a
+.Lsra12_b19a:
+        .word   12, 12, .Lsra12_b19b
+.Lsra12_b19b:
+        .word   164, 12, .Lsra12_b19c
+.Lsra12_b19c:
+        .word   12, 172, .Lsra12_b19d
+.Lsra12_b19d:
+        .word   .Lsra_c524288, 172, .Lsra12_b19e
+.Lsra12_b19e:
+        .word   176, 176, .Lsra12_b19f
+.Lsra12_b19f:
+        .word   172, 176, .Lsra12_b19s
+        .word   12, 12, .Lsra12_b18
+.Lsra12_b19s:
+        .word   .Lsra_c524288, 164, .Lsra12_b19t
+.Lsra12_b19t:
+        .word   .Lsra_n128, 168, .Lsra12_b18
+.Lsra12_b18:
+        .word   172, 172, .Lsra12_b18a
+.Lsra12_b18a:
+        .word   12, 12, .Lsra12_b18b
+.Lsra12_b18b:
+        .word   164, 12, .Lsra12_b18c
+.Lsra12_b18c:
+        .word   12, 172, .Lsra12_b18d
+.Lsra12_b18d:
+        .word   .Lsra_c262144, 172, .Lsra12_b18e
+.Lsra12_b18e:
+        .word   176, 176, .Lsra12_b18f
+.Lsra12_b18f:
+        .word   172, 176, .Lsra12_b18s
+        .word   12, 12, .Lsra12_b17
+.Lsra12_b18s:
+        .word   .Lsra_c262144, 164, .Lsra12_b18t
+.Lsra12_b18t:
+        .word   .Lsra_n64, 168, .Lsra12_b17
+.Lsra12_b17:
+        .word   172, 172, .Lsra12_b17a
+.Lsra12_b17a:
+        .word   12, 12, .Lsra12_b17b
+.Lsra12_b17b:
+        .word   164, 12, .Lsra12_b17c
+.Lsra12_b17c:
+        .word   12, 172, .Lsra12_b17d
+.Lsra12_b17d:
+        .word   .Lsra_c131072, 172, .Lsra12_b17e
+.Lsra12_b17e:
+        .word   176, 176, .Lsra12_b17f
+.Lsra12_b17f:
+        .word   172, 176, .Lsra12_b17s
+        .word   12, 12, .Lsra12_b16
+.Lsra12_b17s:
+        .word   .Lsra_c131072, 164, .Lsra12_b17t
+.Lsra12_b17t:
+        .word   .Lsra_n32, 168, .Lsra12_b16
+.Lsra12_b16:
+        .word   172, 172, .Lsra12_b16a
+.Lsra12_b16a:
+        .word   12, 12, .Lsra12_b16b
+.Lsra12_b16b:
+        .word   164, 12, .Lsra12_b16c
+.Lsra12_b16c:
+        .word   12, 172, .Lsra12_b16d
+.Lsra12_b16d:
+        .word   .Lsra_c65536, 172, .Lsra12_b16e
+.Lsra12_b16e:
+        .word   176, 176, .Lsra12_b16f
+.Lsra12_b16f:
+        .word   172, 176, .Lsra12_b16s
+        .word   12, 12, .Lsra12_b15
+.Lsra12_b16s:
+        .word   .Lsra_c65536, 164, .Lsra12_b16t
+.Lsra12_b16t:
+        .word   .Lsra_n16, 168, .Lsra12_b15
+.Lsra12_b15:
+        .word   172, 172, .Lsra12_b15a
+.Lsra12_b15a:
+        .word   12, 12, .Lsra12_b15b
+.Lsra12_b15b:
+        .word   164, 12, .Lsra12_b15c
+.Lsra12_b15c:
+        .word   12, 172, .Lsra12_b15d
+.Lsra12_b15d:
+        .word   .Lsra_c32768, 172, .Lsra12_b15e
+.Lsra12_b15e:
+        .word   176, 176, .Lsra12_b15f
+.Lsra12_b15f:
+        .word   172, 176, .Lsra12_b15s
+        .word   12, 12, .Lsra12_b14
+.Lsra12_b15s:
+        .word   .Lsra_c32768, 164, .Lsra12_b15t
+.Lsra12_b15t:
+        .word   .Lsra_n8, 168, .Lsra12_b14
+.Lsra12_b14:
+        .word   172, 172, .Lsra12_b14a
+.Lsra12_b14a:
+        .word   12, 12, .Lsra12_b14b
+.Lsra12_b14b:
+        .word   164, 12, .Lsra12_b14c
+.Lsra12_b14c:
+        .word   12, 172, .Lsra12_b14d
+.Lsra12_b14d:
+        .word   .Lsra_c16384, 172, .Lsra12_b14e
+.Lsra12_b14e:
+        .word   176, 176, .Lsra12_b14f
+.Lsra12_b14f:
+        .word   172, 176, .Lsra12_b14s
+        .word   12, 12, .Lsra12_b13
+.Lsra12_b14s:
+        .word   .Lsra_c16384, 164, .Lsra12_b14t
+.Lsra12_b14t:
+        .word   .Lsra_n4, 168, .Lsra12_b13
+.Lsra12_b13:
+        .word   172, 172, .Lsra12_b13a
+.Lsra12_b13a:
+        .word   12, 12, .Lsra12_b13b
+.Lsra12_b13b:
+        .word   164, 12, .Lsra12_b13c
+.Lsra12_b13c:
+        .word   12, 172, .Lsra12_b13d
+.Lsra12_b13d:
+        .word   .Lsra_c8192, 172, .Lsra12_b13e
+.Lsra12_b13e:
+        .word   176, 176, .Lsra12_b13f
+.Lsra12_b13f:
+        .word   172, 176, .Lsra12_b13s
+        .word   12, 12, .Lsra12_b12
+.Lsra12_b13s:
+        .word   .Lsra_c8192, 164, .Lsra12_b13t
+.Lsra12_b13t:
+        .word   .Lsra_n2, 168, .Lsra12_b12
+.Lsra12_b12:
+        .word   172, 172, .Lsra12_b12a
+.Lsra12_b12a:
+        .word   12, 12, .Lsra12_b12b
+.Lsra12_b12b:
+        .word   164, 12, .Lsra12_b12c
+.Lsra12_b12c:
+        .word   12, 172, .Lsra12_b12d
+.Lsra12_b12d:
+        .word   .Lsra_c4096, 172, .Lsra12_b12e
+.Lsra12_b12e:
+        .word   176, 176, .Lsra12_b12f
+.Lsra12_b12f:
+        .word   172, 176, .Lsra12_b12s
+        .word   12, 12, .Lsra12_done
+.Lsra12_b12s:
+        .word   .Lsra_c4096, 164, .Lsra12_b12t
+.Lsra12_b12t:
+        .word   .Lsra_n1, 168, .Lsra12_done
+.Lsra12_done:
+        .word   172, 172, .Lsra12_chk
+.Lsra12_chk:
+        .word   24, 180, .Lsra12_store
+        .word   172, 172, .Lsra12_un1
+.Lsra12_un1:
+        .word   168, 172, .Lsra12_un2
+.Lsra12_un2:
+        .word   168, 168, .Lsra12_un3
+.Lsra12_un3:
+        .word   12, 12, .Lsra12_un4
+.Lsra12_un4:
+        .word   172, 12, .Lsra12_un5
+.Lsra12_un5:
+        .word   12, 168, .Lsra12_un6
+.Lsra12_un6:
+        .word   .Lsra_one, 168, .Lsra12_store
+.Lsra12_store:
+        .word   28, 28, .Lsra12_st1
+.Lsra12_st1:
+        .word   12, 12, .Lsra12_st2
+.Lsra12_st2:
+        .word   168, 12, .Lsra12_st3
+.Lsra12_st3:
+        .word   12, 28, .Lsra12_st4
+.Lsra12_st4:
+        .word   24, 24, .Lsra_done
+
+.Lsra_shift_13:
+        .word   180, 180, .Lsra13_chksign
+.Lsra13_chksign:
+        .word   172, 172, .Lsra13_s1
+.Lsra13_s1:
+        .word   12, 12, .Lsra13_s2
+.Lsra13_s2:
+        .word   164, 12, .Lsra13_s3
+.Lsra13_s3:
+        .word   12, 172, .Lsra13_s4
+.Lsra13_s4:
+        .word   24, 172, .Lsra13_maybe_neg
+        .word   12, 12, .Lsra13_pos
+.Lsra13_maybe_neg:
+        .word   172, 172, .Lsra13_m1
+.Lsra13_m1:
+        .word   164, 172, .Lsra13_m2
+.Lsra13_m2:
+        .word   24, 172, .Lsra13_ambig
+        .word   12, 12, .Lsra13_neg
+.Lsra13_ambig:
+        .word   172, 172, .Lsra13_a1
+.Lsra13_a1:
+        .word   164, 172, .Lsra13_a2
+.Lsra13_a2:
+        .word   .Lsra_one, 172, .Lsra13_a3
+.Lsra13_a3:
+        .word   24, 172, .Lsra13_pos
+        .word   12, 12, .Lsra13_neg
+.Lsra13_neg:
+        .word   .Lsra_negone, 180, .Lsra13_n1
+.Lsra13_n1:
+        .word   172, 172, .Lsra13_n2
+.Lsra13_n2:
+        .word   164, 172, .Lsra13_n3
+.Lsra13_n3:
+        .word   164, 164, .Lsra13_n4
+.Lsra13_n4:
+        .word   12, 12, .Lsra13_n5
+.Lsra13_n5:
+        .word   172, 12, .Lsra13_n6
+.Lsra13_n6:
+        .word   12, 164, .Lsra13_n7
+.Lsra13_n7:
+        .word   .Lsra_one, 164, .Lsra13_pos
+.Lsra13_pos:
+        .word   168, 168, .Lsra13_start
+.Lsra13_start:
+.Lsra13_b30:
+        .word   172, 172, .Lsra13_b30a
+.Lsra13_b30a:
+        .word   12, 12, .Lsra13_b30b
+.Lsra13_b30b:
+        .word   164, 12, .Lsra13_b30c
+.Lsra13_b30c:
+        .word   12, 172, .Lsra13_b30d
+.Lsra13_b30d:
+        .word   .Lsra_c1073741824, 172, .Lsra13_b30e
+.Lsra13_b30e:
+        .word   176, 176, .Lsra13_b30f
+.Lsra13_b30f:
+        .word   172, 176, .Lsra13_b30s
+        .word   12, 12, .Lsra13_b29
+.Lsra13_b30s:
+        .word   .Lsra_c1073741824, 164, .Lsra13_b30t
+.Lsra13_b30t:
+        .word   .Lsra_n131072, 168, .Lsra13_b29
+.Lsra13_b29:
+        .word   172, 172, .Lsra13_b29a
+.Lsra13_b29a:
+        .word   12, 12, .Lsra13_b29b
+.Lsra13_b29b:
+        .word   164, 12, .Lsra13_b29c
+.Lsra13_b29c:
+        .word   12, 172, .Lsra13_b29d
+.Lsra13_b29d:
+        .word   .Lsra_c536870912, 172, .Lsra13_b29e
+.Lsra13_b29e:
+        .word   176, 176, .Lsra13_b29f
+.Lsra13_b29f:
+        .word   172, 176, .Lsra13_b29s
+        .word   12, 12, .Lsra13_b28
+.Lsra13_b29s:
+        .word   .Lsra_c536870912, 164, .Lsra13_b29t
+.Lsra13_b29t:
+        .word   .Lsra_n65536, 168, .Lsra13_b28
+.Lsra13_b28:
+        .word   172, 172, .Lsra13_b28a
+.Lsra13_b28a:
+        .word   12, 12, .Lsra13_b28b
+.Lsra13_b28b:
+        .word   164, 12, .Lsra13_b28c
+.Lsra13_b28c:
+        .word   12, 172, .Lsra13_b28d
+.Lsra13_b28d:
+        .word   .Lsra_c268435456, 172, .Lsra13_b28e
+.Lsra13_b28e:
+        .word   176, 176, .Lsra13_b28f
+.Lsra13_b28f:
+        .word   172, 176, .Lsra13_b28s
+        .word   12, 12, .Lsra13_b27
+.Lsra13_b28s:
+        .word   .Lsra_c268435456, 164, .Lsra13_b28t
+.Lsra13_b28t:
+        .word   .Lsra_n32768, 168, .Lsra13_b27
+.Lsra13_b27:
+        .word   172, 172, .Lsra13_b27a
+.Lsra13_b27a:
+        .word   12, 12, .Lsra13_b27b
+.Lsra13_b27b:
+        .word   164, 12, .Lsra13_b27c
+.Lsra13_b27c:
+        .word   12, 172, .Lsra13_b27d
+.Lsra13_b27d:
+        .word   .Lsra_c134217728, 172, .Lsra13_b27e
+.Lsra13_b27e:
+        .word   176, 176, .Lsra13_b27f
+.Lsra13_b27f:
+        .word   172, 176, .Lsra13_b27s
+        .word   12, 12, .Lsra13_b26
+.Lsra13_b27s:
+        .word   .Lsra_c134217728, 164, .Lsra13_b27t
+.Lsra13_b27t:
+        .word   .Lsra_n16384, 168, .Lsra13_b26
+.Lsra13_b26:
+        .word   172, 172, .Lsra13_b26a
+.Lsra13_b26a:
+        .word   12, 12, .Lsra13_b26b
+.Lsra13_b26b:
+        .word   164, 12, .Lsra13_b26c
+.Lsra13_b26c:
+        .word   12, 172, .Lsra13_b26d
+.Lsra13_b26d:
+        .word   .Lsra_c67108864, 172, .Lsra13_b26e
+.Lsra13_b26e:
+        .word   176, 176, .Lsra13_b26f
+.Lsra13_b26f:
+        .word   172, 176, .Lsra13_b26s
+        .word   12, 12, .Lsra13_b25
+.Lsra13_b26s:
+        .word   .Lsra_c67108864, 164, .Lsra13_b26t
+.Lsra13_b26t:
+        .word   .Lsra_n8192, 168, .Lsra13_b25
+.Lsra13_b25:
+        .word   172, 172, .Lsra13_b25a
+.Lsra13_b25a:
+        .word   12, 12, .Lsra13_b25b
+.Lsra13_b25b:
+        .word   164, 12, .Lsra13_b25c
+.Lsra13_b25c:
+        .word   12, 172, .Lsra13_b25d
+.Lsra13_b25d:
+        .word   .Lsra_c33554432, 172, .Lsra13_b25e
+.Lsra13_b25e:
+        .word   176, 176, .Lsra13_b25f
+.Lsra13_b25f:
+        .word   172, 176, .Lsra13_b25s
+        .word   12, 12, .Lsra13_b24
+.Lsra13_b25s:
+        .word   .Lsra_c33554432, 164, .Lsra13_b25t
+.Lsra13_b25t:
+        .word   .Lsra_n4096, 168, .Lsra13_b24
+.Lsra13_b24:
+        .word   172, 172, .Lsra13_b24a
+.Lsra13_b24a:
+        .word   12, 12, .Lsra13_b24b
+.Lsra13_b24b:
+        .word   164, 12, .Lsra13_b24c
+.Lsra13_b24c:
+        .word   12, 172, .Lsra13_b24d
+.Lsra13_b24d:
+        .word   .Lsra_c16777216, 172, .Lsra13_b24e
+.Lsra13_b24e:
+        .word   176, 176, .Lsra13_b24f
+.Lsra13_b24f:
+        .word   172, 176, .Lsra13_b24s
+        .word   12, 12, .Lsra13_b23
+.Lsra13_b24s:
+        .word   .Lsra_c16777216, 164, .Lsra13_b24t
+.Lsra13_b24t:
+        .word   .Lsra_n2048, 168, .Lsra13_b23
+.Lsra13_b23:
+        .word   172, 172, .Lsra13_b23a
+.Lsra13_b23a:
+        .word   12, 12, .Lsra13_b23b
+.Lsra13_b23b:
+        .word   164, 12, .Lsra13_b23c
+.Lsra13_b23c:
+        .word   12, 172, .Lsra13_b23d
+.Lsra13_b23d:
+        .word   .Lsra_c8388608, 172, .Lsra13_b23e
+.Lsra13_b23e:
+        .word   176, 176, .Lsra13_b23f
+.Lsra13_b23f:
+        .word   172, 176, .Lsra13_b23s
+        .word   12, 12, .Lsra13_b22
+.Lsra13_b23s:
+        .word   .Lsra_c8388608, 164, .Lsra13_b23t
+.Lsra13_b23t:
+        .word   .Lsra_n1024, 168, .Lsra13_b22
+.Lsra13_b22:
+        .word   172, 172, .Lsra13_b22a
+.Lsra13_b22a:
+        .word   12, 12, .Lsra13_b22b
+.Lsra13_b22b:
+        .word   164, 12, .Lsra13_b22c
+.Lsra13_b22c:
+        .word   12, 172, .Lsra13_b22d
+.Lsra13_b22d:
+        .word   .Lsra_c4194304, 172, .Lsra13_b22e
+.Lsra13_b22e:
+        .word   176, 176, .Lsra13_b22f
+.Lsra13_b22f:
+        .word   172, 176, .Lsra13_b22s
+        .word   12, 12, .Lsra13_b21
+.Lsra13_b22s:
+        .word   .Lsra_c4194304, 164, .Lsra13_b22t
+.Lsra13_b22t:
+        .word   .Lsra_n512, 168, .Lsra13_b21
+.Lsra13_b21:
+        .word   172, 172, .Lsra13_b21a
+.Lsra13_b21a:
+        .word   12, 12, .Lsra13_b21b
+.Lsra13_b21b:
+        .word   164, 12, .Lsra13_b21c
+.Lsra13_b21c:
+        .word   12, 172, .Lsra13_b21d
+.Lsra13_b21d:
+        .word   .Lsra_c2097152, 172, .Lsra13_b21e
+.Lsra13_b21e:
+        .word   176, 176, .Lsra13_b21f
+.Lsra13_b21f:
+        .word   172, 176, .Lsra13_b21s
+        .word   12, 12, .Lsra13_b20
+.Lsra13_b21s:
+        .word   .Lsra_c2097152, 164, .Lsra13_b21t
+.Lsra13_b21t:
+        .word   .Lsra_n256, 168, .Lsra13_b20
+.Lsra13_b20:
+        .word   172, 172, .Lsra13_b20a
+.Lsra13_b20a:
+        .word   12, 12, .Lsra13_b20b
+.Lsra13_b20b:
+        .word   164, 12, .Lsra13_b20c
+.Lsra13_b20c:
+        .word   12, 172, .Lsra13_b20d
+.Lsra13_b20d:
+        .word   .Lsra_c1048576, 172, .Lsra13_b20e
+.Lsra13_b20e:
+        .word   176, 176, .Lsra13_b20f
+.Lsra13_b20f:
+        .word   172, 176, .Lsra13_b20s
+        .word   12, 12, .Lsra13_b19
+.Lsra13_b20s:
+        .word   .Lsra_c1048576, 164, .Lsra13_b20t
+.Lsra13_b20t:
+        .word   .Lsra_n128, 168, .Lsra13_b19
+.Lsra13_b19:
+        .word   172, 172, .Lsra13_b19a
+.Lsra13_b19a:
+        .word   12, 12, .Lsra13_b19b
+.Lsra13_b19b:
+        .word   164, 12, .Lsra13_b19c
+.Lsra13_b19c:
+        .word   12, 172, .Lsra13_b19d
+.Lsra13_b19d:
+        .word   .Lsra_c524288, 172, .Lsra13_b19e
+.Lsra13_b19e:
+        .word   176, 176, .Lsra13_b19f
+.Lsra13_b19f:
+        .word   172, 176, .Lsra13_b19s
+        .word   12, 12, .Lsra13_b18
+.Lsra13_b19s:
+        .word   .Lsra_c524288, 164, .Lsra13_b19t
+.Lsra13_b19t:
+        .word   .Lsra_n64, 168, .Lsra13_b18
+.Lsra13_b18:
+        .word   172, 172, .Lsra13_b18a
+.Lsra13_b18a:
+        .word   12, 12, .Lsra13_b18b
+.Lsra13_b18b:
+        .word   164, 12, .Lsra13_b18c
+.Lsra13_b18c:
+        .word   12, 172, .Lsra13_b18d
+.Lsra13_b18d:
+        .word   .Lsra_c262144, 172, .Lsra13_b18e
+.Lsra13_b18e:
+        .word   176, 176, .Lsra13_b18f
+.Lsra13_b18f:
+        .word   172, 176, .Lsra13_b18s
+        .word   12, 12, .Lsra13_b17
+.Lsra13_b18s:
+        .word   .Lsra_c262144, 164, .Lsra13_b18t
+.Lsra13_b18t:
+        .word   .Lsra_n32, 168, .Lsra13_b17
+.Lsra13_b17:
+        .word   172, 172, .Lsra13_b17a
+.Lsra13_b17a:
+        .word   12, 12, .Lsra13_b17b
+.Lsra13_b17b:
+        .word   164, 12, .Lsra13_b17c
+.Lsra13_b17c:
+        .word   12, 172, .Lsra13_b17d
+.Lsra13_b17d:
+        .word   .Lsra_c131072, 172, .Lsra13_b17e
+.Lsra13_b17e:
+        .word   176, 176, .Lsra13_b17f
+.Lsra13_b17f:
+        .word   172, 176, .Lsra13_b17s
+        .word   12, 12, .Lsra13_b16
+.Lsra13_b17s:
+        .word   .Lsra_c131072, 164, .Lsra13_b17t
+.Lsra13_b17t:
+        .word   .Lsra_n16, 168, .Lsra13_b16
+.Lsra13_b16:
+        .word   172, 172, .Lsra13_b16a
+.Lsra13_b16a:
+        .word   12, 12, .Lsra13_b16b
+.Lsra13_b16b:
+        .word   164, 12, .Lsra13_b16c
+.Lsra13_b16c:
+        .word   12, 172, .Lsra13_b16d
+.Lsra13_b16d:
+        .word   .Lsra_c65536, 172, .Lsra13_b16e
+.Lsra13_b16e:
+        .word   176, 176, .Lsra13_b16f
+.Lsra13_b16f:
+        .word   172, 176, .Lsra13_b16s
+        .word   12, 12, .Lsra13_b15
+.Lsra13_b16s:
+        .word   .Lsra_c65536, 164, .Lsra13_b16t
+.Lsra13_b16t:
+        .word   .Lsra_n8, 168, .Lsra13_b15
+.Lsra13_b15:
+        .word   172, 172, .Lsra13_b15a
+.Lsra13_b15a:
+        .word   12, 12, .Lsra13_b15b
+.Lsra13_b15b:
+        .word   164, 12, .Lsra13_b15c
+.Lsra13_b15c:
+        .word   12, 172, .Lsra13_b15d
+.Lsra13_b15d:
+        .word   .Lsra_c32768, 172, .Lsra13_b15e
+.Lsra13_b15e:
+        .word   176, 176, .Lsra13_b15f
+.Lsra13_b15f:
+        .word   172, 176, .Lsra13_b15s
+        .word   12, 12, .Lsra13_b14
+.Lsra13_b15s:
+        .word   .Lsra_c32768, 164, .Lsra13_b15t
+.Lsra13_b15t:
+        .word   .Lsra_n4, 168, .Lsra13_b14
+.Lsra13_b14:
+        .word   172, 172, .Lsra13_b14a
+.Lsra13_b14a:
+        .word   12, 12, .Lsra13_b14b
+.Lsra13_b14b:
+        .word   164, 12, .Lsra13_b14c
+.Lsra13_b14c:
+        .word   12, 172, .Lsra13_b14d
+.Lsra13_b14d:
+        .word   .Lsra_c16384, 172, .Lsra13_b14e
+.Lsra13_b14e:
+        .word   176, 176, .Lsra13_b14f
+.Lsra13_b14f:
+        .word   172, 176, .Lsra13_b14s
+        .word   12, 12, .Lsra13_b13
+.Lsra13_b14s:
+        .word   .Lsra_c16384, 164, .Lsra13_b14t
+.Lsra13_b14t:
+        .word   .Lsra_n2, 168, .Lsra13_b13
+.Lsra13_b13:
+        .word   172, 172, .Lsra13_b13a
+.Lsra13_b13a:
+        .word   12, 12, .Lsra13_b13b
+.Lsra13_b13b:
+        .word   164, 12, .Lsra13_b13c
+.Lsra13_b13c:
+        .word   12, 172, .Lsra13_b13d
+.Lsra13_b13d:
+        .word   .Lsra_c8192, 172, .Lsra13_b13e
+.Lsra13_b13e:
+        .word   176, 176, .Lsra13_b13f
+.Lsra13_b13f:
+        .word   172, 176, .Lsra13_b13s
+        .word   12, 12, .Lsra13_done
+.Lsra13_b13s:
+        .word   .Lsra_c8192, 164, .Lsra13_b13t
+.Lsra13_b13t:
+        .word   .Lsra_n1, 168, .Lsra13_done
+.Lsra13_done:
+        .word   172, 172, .Lsra13_chk
+.Lsra13_chk:
+        .word   24, 180, .Lsra13_store
+        .word   172, 172, .Lsra13_un1
+.Lsra13_un1:
+        .word   168, 172, .Lsra13_un2
+.Lsra13_un2:
+        .word   168, 168, .Lsra13_un3
+.Lsra13_un3:
+        .word   12, 12, .Lsra13_un4
+.Lsra13_un4:
+        .word   172, 12, .Lsra13_un5
+.Lsra13_un5:
+        .word   12, 168, .Lsra13_un6
+.Lsra13_un6:
+        .word   .Lsra_one, 168, .Lsra13_store
+.Lsra13_store:
+        .word   28, 28, .Lsra13_st1
+.Lsra13_st1:
+        .word   12, 12, .Lsra13_st2
+.Lsra13_st2:
+        .word   168, 12, .Lsra13_st3
+.Lsra13_st3:
+        .word   12, 28, .Lsra13_st4
+.Lsra13_st4:
+        .word   24, 24, .Lsra_done
+
+.Lsra_shift_14:
+        .word   180, 180, .Lsra14_chksign
+.Lsra14_chksign:
+        .word   172, 172, .Lsra14_s1
+.Lsra14_s1:
+        .word   12, 12, .Lsra14_s2
+.Lsra14_s2:
+        .word   164, 12, .Lsra14_s3
+.Lsra14_s3:
+        .word   12, 172, .Lsra14_s4
+.Lsra14_s4:
+        .word   24, 172, .Lsra14_maybe_neg
+        .word   12, 12, .Lsra14_pos
+.Lsra14_maybe_neg:
+        .word   172, 172, .Lsra14_m1
+.Lsra14_m1:
+        .word   164, 172, .Lsra14_m2
+.Lsra14_m2:
+        .word   24, 172, .Lsra14_ambig
+        .word   12, 12, .Lsra14_neg
+.Lsra14_ambig:
+        .word   172, 172, .Lsra14_a1
+.Lsra14_a1:
+        .word   164, 172, .Lsra14_a2
+.Lsra14_a2:
+        .word   .Lsra_one, 172, .Lsra14_a3
+.Lsra14_a3:
+        .word   24, 172, .Lsra14_pos
+        .word   12, 12, .Lsra14_neg
+.Lsra14_neg:
+        .word   .Lsra_negone, 180, .Lsra14_n1
+.Lsra14_n1:
+        .word   172, 172, .Lsra14_n2
+.Lsra14_n2:
+        .word   164, 172, .Lsra14_n3
+.Lsra14_n3:
+        .word   164, 164, .Lsra14_n4
+.Lsra14_n4:
+        .word   12, 12, .Lsra14_n5
+.Lsra14_n5:
+        .word   172, 12, .Lsra14_n6
+.Lsra14_n6:
+        .word   12, 164, .Lsra14_n7
+.Lsra14_n7:
+        .word   .Lsra_one, 164, .Lsra14_pos
+.Lsra14_pos:
+        .word   168, 168, .Lsra14_start
+.Lsra14_start:
+.Lsra14_b30:
+        .word   172, 172, .Lsra14_b30a
+.Lsra14_b30a:
+        .word   12, 12, .Lsra14_b30b
+.Lsra14_b30b:
+        .word   164, 12, .Lsra14_b30c
+.Lsra14_b30c:
+        .word   12, 172, .Lsra14_b30d
+.Lsra14_b30d:
+        .word   .Lsra_c1073741824, 172, .Lsra14_b30e
+.Lsra14_b30e:
+        .word   176, 176, .Lsra14_b30f
+.Lsra14_b30f:
+        .word   172, 176, .Lsra14_b30s
+        .word   12, 12, .Lsra14_b29
+.Lsra14_b30s:
+        .word   .Lsra_c1073741824, 164, .Lsra14_b30t
+.Lsra14_b30t:
+        .word   .Lsra_n65536, 168, .Lsra14_b29
+.Lsra14_b29:
+        .word   172, 172, .Lsra14_b29a
+.Lsra14_b29a:
+        .word   12, 12, .Lsra14_b29b
+.Lsra14_b29b:
+        .word   164, 12, .Lsra14_b29c
+.Lsra14_b29c:
+        .word   12, 172, .Lsra14_b29d
+.Lsra14_b29d:
+        .word   .Lsra_c536870912, 172, .Lsra14_b29e
+.Lsra14_b29e:
+        .word   176, 176, .Lsra14_b29f
+.Lsra14_b29f:
+        .word   172, 176, .Lsra14_b29s
+        .word   12, 12, .Lsra14_b28
+.Lsra14_b29s:
+        .word   .Lsra_c536870912, 164, .Lsra14_b29t
+.Lsra14_b29t:
+        .word   .Lsra_n32768, 168, .Lsra14_b28
+.Lsra14_b28:
+        .word   172, 172, .Lsra14_b28a
+.Lsra14_b28a:
+        .word   12, 12, .Lsra14_b28b
+.Lsra14_b28b:
+        .word   164, 12, .Lsra14_b28c
+.Lsra14_b28c:
+        .word   12, 172, .Lsra14_b28d
+.Lsra14_b28d:
+        .word   .Lsra_c268435456, 172, .Lsra14_b28e
+.Lsra14_b28e:
+        .word   176, 176, .Lsra14_b28f
+.Lsra14_b28f:
+        .word   172, 176, .Lsra14_b28s
+        .word   12, 12, .Lsra14_b27
+.Lsra14_b28s:
+        .word   .Lsra_c268435456, 164, .Lsra14_b28t
+.Lsra14_b28t:
+        .word   .Lsra_n16384, 168, .Lsra14_b27
+.Lsra14_b27:
+        .word   172, 172, .Lsra14_b27a
+.Lsra14_b27a:
+        .word   12, 12, .Lsra14_b27b
+.Lsra14_b27b:
+        .word   164, 12, .Lsra14_b27c
+.Lsra14_b27c:
+        .word   12, 172, .Lsra14_b27d
+.Lsra14_b27d:
+        .word   .Lsra_c134217728, 172, .Lsra14_b27e
+.Lsra14_b27e:
+        .word   176, 176, .Lsra14_b27f
+.Lsra14_b27f:
+        .word   172, 176, .Lsra14_b27s
+        .word   12, 12, .Lsra14_b26
+.Lsra14_b27s:
+        .word   .Lsra_c134217728, 164, .Lsra14_b27t
+.Lsra14_b27t:
+        .word   .Lsra_n8192, 168, .Lsra14_b26
+.Lsra14_b26:
+        .word   172, 172, .Lsra14_b26a
+.Lsra14_b26a:
+        .word   12, 12, .Lsra14_b26b
+.Lsra14_b26b:
+        .word   164, 12, .Lsra14_b26c
+.Lsra14_b26c:
+        .word   12, 172, .Lsra14_b26d
+.Lsra14_b26d:
+        .word   .Lsra_c67108864, 172, .Lsra14_b26e
+.Lsra14_b26e:
+        .word   176, 176, .Lsra14_b26f
+.Lsra14_b26f:
+        .word   172, 176, .Lsra14_b26s
+        .word   12, 12, .Lsra14_b25
+.Lsra14_b26s:
+        .word   .Lsra_c67108864, 164, .Lsra14_b26t
+.Lsra14_b26t:
+        .word   .Lsra_n4096, 168, .Lsra14_b25
+.Lsra14_b25:
+        .word   172, 172, .Lsra14_b25a
+.Lsra14_b25a:
+        .word   12, 12, .Lsra14_b25b
+.Lsra14_b25b:
+        .word   164, 12, .Lsra14_b25c
+.Lsra14_b25c:
+        .word   12, 172, .Lsra14_b25d
+.Lsra14_b25d:
+        .word   .Lsra_c33554432, 172, .Lsra14_b25e
+.Lsra14_b25e:
+        .word   176, 176, .Lsra14_b25f
+.Lsra14_b25f:
+        .word   172, 176, .Lsra14_b25s
+        .word   12, 12, .Lsra14_b24
+.Lsra14_b25s:
+        .word   .Lsra_c33554432, 164, .Lsra14_b25t
+.Lsra14_b25t:
+        .word   .Lsra_n2048, 168, .Lsra14_b24
+.Lsra14_b24:
+        .word   172, 172, .Lsra14_b24a
+.Lsra14_b24a:
+        .word   12, 12, .Lsra14_b24b
+.Lsra14_b24b:
+        .word   164, 12, .Lsra14_b24c
+.Lsra14_b24c:
+        .word   12, 172, .Lsra14_b24d
+.Lsra14_b24d:
+        .word   .Lsra_c16777216, 172, .Lsra14_b24e
+.Lsra14_b24e:
+        .word   176, 176, .Lsra14_b24f
+.Lsra14_b24f:
+        .word   172, 176, .Lsra14_b24s
+        .word   12, 12, .Lsra14_b23
+.Lsra14_b24s:
+        .word   .Lsra_c16777216, 164, .Lsra14_b24t
+.Lsra14_b24t:
+        .word   .Lsra_n1024, 168, .Lsra14_b23
+.Lsra14_b23:
+        .word   172, 172, .Lsra14_b23a
+.Lsra14_b23a:
+        .word   12, 12, .Lsra14_b23b
+.Lsra14_b23b:
+        .word   164, 12, .Lsra14_b23c
+.Lsra14_b23c:
+        .word   12, 172, .Lsra14_b23d
+.Lsra14_b23d:
+        .word   .Lsra_c8388608, 172, .Lsra14_b23e
+.Lsra14_b23e:
+        .word   176, 176, .Lsra14_b23f
+.Lsra14_b23f:
+        .word   172, 176, .Lsra14_b23s
+        .word   12, 12, .Lsra14_b22
+.Lsra14_b23s:
+        .word   .Lsra_c8388608, 164, .Lsra14_b23t
+.Lsra14_b23t:
+        .word   .Lsra_n512, 168, .Lsra14_b22
+.Lsra14_b22:
+        .word   172, 172, .Lsra14_b22a
+.Lsra14_b22a:
+        .word   12, 12, .Lsra14_b22b
+.Lsra14_b22b:
+        .word   164, 12, .Lsra14_b22c
+.Lsra14_b22c:
+        .word   12, 172, .Lsra14_b22d
+.Lsra14_b22d:
+        .word   .Lsra_c4194304, 172, .Lsra14_b22e
+.Lsra14_b22e:
+        .word   176, 176, .Lsra14_b22f
+.Lsra14_b22f:
+        .word   172, 176, .Lsra14_b22s
+        .word   12, 12, .Lsra14_b21
+.Lsra14_b22s:
+        .word   .Lsra_c4194304, 164, .Lsra14_b22t
+.Lsra14_b22t:
+        .word   .Lsra_n256, 168, .Lsra14_b21
+.Lsra14_b21:
+        .word   172, 172, .Lsra14_b21a
+.Lsra14_b21a:
+        .word   12, 12, .Lsra14_b21b
+.Lsra14_b21b:
+        .word   164, 12, .Lsra14_b21c
+.Lsra14_b21c:
+        .word   12, 172, .Lsra14_b21d
+.Lsra14_b21d:
+        .word   .Lsra_c2097152, 172, .Lsra14_b21e
+.Lsra14_b21e:
+        .word   176, 176, .Lsra14_b21f
+.Lsra14_b21f:
+        .word   172, 176, .Lsra14_b21s
+        .word   12, 12, .Lsra14_b20
+.Lsra14_b21s:
+        .word   .Lsra_c2097152, 164, .Lsra14_b21t
+.Lsra14_b21t:
+        .word   .Lsra_n128, 168, .Lsra14_b20
+.Lsra14_b20:
+        .word   172, 172, .Lsra14_b20a
+.Lsra14_b20a:
+        .word   12, 12, .Lsra14_b20b
+.Lsra14_b20b:
+        .word   164, 12, .Lsra14_b20c
+.Lsra14_b20c:
+        .word   12, 172, .Lsra14_b20d
+.Lsra14_b20d:
+        .word   .Lsra_c1048576, 172, .Lsra14_b20e
+.Lsra14_b20e:
+        .word   176, 176, .Lsra14_b20f
+.Lsra14_b20f:
+        .word   172, 176, .Lsra14_b20s
+        .word   12, 12, .Lsra14_b19
+.Lsra14_b20s:
+        .word   .Lsra_c1048576, 164, .Lsra14_b20t
+.Lsra14_b20t:
+        .word   .Lsra_n64, 168, .Lsra14_b19
+.Lsra14_b19:
+        .word   172, 172, .Lsra14_b19a
+.Lsra14_b19a:
+        .word   12, 12, .Lsra14_b19b
+.Lsra14_b19b:
+        .word   164, 12, .Lsra14_b19c
+.Lsra14_b19c:
+        .word   12, 172, .Lsra14_b19d
+.Lsra14_b19d:
+        .word   .Lsra_c524288, 172, .Lsra14_b19e
+.Lsra14_b19e:
+        .word   176, 176, .Lsra14_b19f
+.Lsra14_b19f:
+        .word   172, 176, .Lsra14_b19s
+        .word   12, 12, .Lsra14_b18
+.Lsra14_b19s:
+        .word   .Lsra_c524288, 164, .Lsra14_b19t
+.Lsra14_b19t:
+        .word   .Lsra_n32, 168, .Lsra14_b18
+.Lsra14_b18:
+        .word   172, 172, .Lsra14_b18a
+.Lsra14_b18a:
+        .word   12, 12, .Lsra14_b18b
+.Lsra14_b18b:
+        .word   164, 12, .Lsra14_b18c
+.Lsra14_b18c:
+        .word   12, 172, .Lsra14_b18d
+.Lsra14_b18d:
+        .word   .Lsra_c262144, 172, .Lsra14_b18e
+.Lsra14_b18e:
+        .word   176, 176, .Lsra14_b18f
+.Lsra14_b18f:
+        .word   172, 176, .Lsra14_b18s
+        .word   12, 12, .Lsra14_b17
+.Lsra14_b18s:
+        .word   .Lsra_c262144, 164, .Lsra14_b18t
+.Lsra14_b18t:
+        .word   .Lsra_n16, 168, .Lsra14_b17
+.Lsra14_b17:
+        .word   172, 172, .Lsra14_b17a
+.Lsra14_b17a:
+        .word   12, 12, .Lsra14_b17b
+.Lsra14_b17b:
+        .word   164, 12, .Lsra14_b17c
+.Lsra14_b17c:
+        .word   12, 172, .Lsra14_b17d
+.Lsra14_b17d:
+        .word   .Lsra_c131072, 172, .Lsra14_b17e
+.Lsra14_b17e:
+        .word   176, 176, .Lsra14_b17f
+.Lsra14_b17f:
+        .word   172, 176, .Lsra14_b17s
+        .word   12, 12, .Lsra14_b16
+.Lsra14_b17s:
+        .word   .Lsra_c131072, 164, .Lsra14_b17t
+.Lsra14_b17t:
+        .word   .Lsra_n8, 168, .Lsra14_b16
+.Lsra14_b16:
+        .word   172, 172, .Lsra14_b16a
+.Lsra14_b16a:
+        .word   12, 12, .Lsra14_b16b
+.Lsra14_b16b:
+        .word   164, 12, .Lsra14_b16c
+.Lsra14_b16c:
+        .word   12, 172, .Lsra14_b16d
+.Lsra14_b16d:
+        .word   .Lsra_c65536, 172, .Lsra14_b16e
+.Lsra14_b16e:
+        .word   176, 176, .Lsra14_b16f
+.Lsra14_b16f:
+        .word   172, 176, .Lsra14_b16s
+        .word   12, 12, .Lsra14_b15
+.Lsra14_b16s:
+        .word   .Lsra_c65536, 164, .Lsra14_b16t
+.Lsra14_b16t:
+        .word   .Lsra_n4, 168, .Lsra14_b15
+.Lsra14_b15:
+        .word   172, 172, .Lsra14_b15a
+.Lsra14_b15a:
+        .word   12, 12, .Lsra14_b15b
+.Lsra14_b15b:
+        .word   164, 12, .Lsra14_b15c
+.Lsra14_b15c:
+        .word   12, 172, .Lsra14_b15d
+.Lsra14_b15d:
+        .word   .Lsra_c32768, 172, .Lsra14_b15e
+.Lsra14_b15e:
+        .word   176, 176, .Lsra14_b15f
+.Lsra14_b15f:
+        .word   172, 176, .Lsra14_b15s
+        .word   12, 12, .Lsra14_b14
+.Lsra14_b15s:
+        .word   .Lsra_c32768, 164, .Lsra14_b15t
+.Lsra14_b15t:
+        .word   .Lsra_n2, 168, .Lsra14_b14
+.Lsra14_b14:
+        .word   172, 172, .Lsra14_b14a
+.Lsra14_b14a:
+        .word   12, 12, .Lsra14_b14b
+.Lsra14_b14b:
+        .word   164, 12, .Lsra14_b14c
+.Lsra14_b14c:
+        .word   12, 172, .Lsra14_b14d
+.Lsra14_b14d:
+        .word   .Lsra_c16384, 172, .Lsra14_b14e
+.Lsra14_b14e:
+        .word   176, 176, .Lsra14_b14f
+.Lsra14_b14f:
+        .word   172, 176, .Lsra14_b14s
+        .word   12, 12, .Lsra14_done
+.Lsra14_b14s:
+        .word   .Lsra_c16384, 164, .Lsra14_b14t
+.Lsra14_b14t:
+        .word   .Lsra_n1, 168, .Lsra14_done
+.Lsra14_done:
+        .word   172, 172, .Lsra14_chk
+.Lsra14_chk:
+        .word   24, 180, .Lsra14_store
+        .word   172, 172, .Lsra14_un1
+.Lsra14_un1:
+        .word   168, 172, .Lsra14_un2
+.Lsra14_un2:
+        .word   168, 168, .Lsra14_un3
+.Lsra14_un3:
+        .word   12, 12, .Lsra14_un4
+.Lsra14_un4:
+        .word   172, 12, .Lsra14_un5
+.Lsra14_un5:
+        .word   12, 168, .Lsra14_un6
+.Lsra14_un6:
+        .word   .Lsra_one, 168, .Lsra14_store
+.Lsra14_store:
+        .word   28, 28, .Lsra14_st1
+.Lsra14_st1:
+        .word   12, 12, .Lsra14_st2
+.Lsra14_st2:
+        .word   168, 12, .Lsra14_st3
+.Lsra14_st3:
+        .word   12, 28, .Lsra14_st4
+.Lsra14_st4:
+        .word   24, 24, .Lsra_done
+
+.Lsra_shift_15:
+        .word   180, 180, .Lsra15_chksign
+.Lsra15_chksign:
+        .word   172, 172, .Lsra15_s1
+.Lsra15_s1:
+        .word   12, 12, .Lsra15_s2
+.Lsra15_s2:
+        .word   164, 12, .Lsra15_s3
+.Lsra15_s3:
+        .word   12, 172, .Lsra15_s4
+.Lsra15_s4:
+        .word   24, 172, .Lsra15_maybe_neg
+        .word   12, 12, .Lsra15_pos
+.Lsra15_maybe_neg:
+        .word   172, 172, .Lsra15_m1
+.Lsra15_m1:
+        .word   164, 172, .Lsra15_m2
+.Lsra15_m2:
+        .word   24, 172, .Lsra15_ambig
+        .word   12, 12, .Lsra15_neg
+.Lsra15_ambig:
+        .word   172, 172, .Lsra15_a1
+.Lsra15_a1:
+        .word   164, 172, .Lsra15_a2
+.Lsra15_a2:
+        .word   .Lsra_one, 172, .Lsra15_a3
+.Lsra15_a3:
+        .word   24, 172, .Lsra15_pos
+        .word   12, 12, .Lsra15_neg
+.Lsra15_neg:
+        .word   .Lsra_negone, 180, .Lsra15_n1
+.Lsra15_n1:
+        .word   172, 172, .Lsra15_n2
+.Lsra15_n2:
+        .word   164, 172, .Lsra15_n3
+.Lsra15_n3:
+        .word   164, 164, .Lsra15_n4
+.Lsra15_n4:
+        .word   12, 12, .Lsra15_n5
+.Lsra15_n5:
+        .word   172, 12, .Lsra15_n6
+.Lsra15_n6:
+        .word   12, 164, .Lsra15_n7
+.Lsra15_n7:
+        .word   .Lsra_one, 164, .Lsra15_pos
+.Lsra15_pos:
+        .word   168, 168, .Lsra15_start
+.Lsra15_start:
+.Lsra15_b30:
+        .word   172, 172, .Lsra15_b30a
+.Lsra15_b30a:
+        .word   12, 12, .Lsra15_b30b
+.Lsra15_b30b:
+        .word   164, 12, .Lsra15_b30c
+.Lsra15_b30c:
+        .word   12, 172, .Lsra15_b30d
+.Lsra15_b30d:
+        .word   .Lsra_c1073741824, 172, .Lsra15_b30e
+.Lsra15_b30e:
+        .word   176, 176, .Lsra15_b30f
+.Lsra15_b30f:
+        .word   172, 176, .Lsra15_b30s
+        .word   12, 12, .Lsra15_b29
+.Lsra15_b30s:
+        .word   .Lsra_c1073741824, 164, .Lsra15_b30t
+.Lsra15_b30t:
+        .word   .Lsra_n32768, 168, .Lsra15_b29
+.Lsra15_b29:
+        .word   172, 172, .Lsra15_b29a
+.Lsra15_b29a:
+        .word   12, 12, .Lsra15_b29b
+.Lsra15_b29b:
+        .word   164, 12, .Lsra15_b29c
+.Lsra15_b29c:
+        .word   12, 172, .Lsra15_b29d
+.Lsra15_b29d:
+        .word   .Lsra_c536870912, 172, .Lsra15_b29e
+.Lsra15_b29e:
+        .word   176, 176, .Lsra15_b29f
+.Lsra15_b29f:
+        .word   172, 176, .Lsra15_b29s
+        .word   12, 12, .Lsra15_b28
+.Lsra15_b29s:
+        .word   .Lsra_c536870912, 164, .Lsra15_b29t
+.Lsra15_b29t:
+        .word   .Lsra_n16384, 168, .Lsra15_b28
+.Lsra15_b28:
+        .word   172, 172, .Lsra15_b28a
+.Lsra15_b28a:
+        .word   12, 12, .Lsra15_b28b
+.Lsra15_b28b:
+        .word   164, 12, .Lsra15_b28c
+.Lsra15_b28c:
+        .word   12, 172, .Lsra15_b28d
+.Lsra15_b28d:
+        .word   .Lsra_c268435456, 172, .Lsra15_b28e
+.Lsra15_b28e:
+        .word   176, 176, .Lsra15_b28f
+.Lsra15_b28f:
+        .word   172, 176, .Lsra15_b28s
+        .word   12, 12, .Lsra15_b27
+.Lsra15_b28s:
+        .word   .Lsra_c268435456, 164, .Lsra15_b28t
+.Lsra15_b28t:
+        .word   .Lsra_n8192, 168, .Lsra15_b27
+.Lsra15_b27:
+        .word   172, 172, .Lsra15_b27a
+.Lsra15_b27a:
+        .word   12, 12, .Lsra15_b27b
+.Lsra15_b27b:
+        .word   164, 12, .Lsra15_b27c
+.Lsra15_b27c:
+        .word   12, 172, .Lsra15_b27d
+.Lsra15_b27d:
+        .word   .Lsra_c134217728, 172, .Lsra15_b27e
+.Lsra15_b27e:
+        .word   176, 176, .Lsra15_b27f
+.Lsra15_b27f:
+        .word   172, 176, .Lsra15_b27s
+        .word   12, 12, .Lsra15_b26
+.Lsra15_b27s:
+        .word   .Lsra_c134217728, 164, .Lsra15_b27t
+.Lsra15_b27t:
+        .word   .Lsra_n4096, 168, .Lsra15_b26
+.Lsra15_b26:
+        .word   172, 172, .Lsra15_b26a
+.Lsra15_b26a:
+        .word   12, 12, .Lsra15_b26b
+.Lsra15_b26b:
+        .word   164, 12, .Lsra15_b26c
+.Lsra15_b26c:
+        .word   12, 172, .Lsra15_b26d
+.Lsra15_b26d:
+        .word   .Lsra_c67108864, 172, .Lsra15_b26e
+.Lsra15_b26e:
+        .word   176, 176, .Lsra15_b26f
+.Lsra15_b26f:
+        .word   172, 176, .Lsra15_b26s
+        .word   12, 12, .Lsra15_b25
+.Lsra15_b26s:
+        .word   .Lsra_c67108864, 164, .Lsra15_b26t
+.Lsra15_b26t:
+        .word   .Lsra_n2048, 168, .Lsra15_b25
+.Lsra15_b25:
+        .word   172, 172, .Lsra15_b25a
+.Lsra15_b25a:
+        .word   12, 12, .Lsra15_b25b
+.Lsra15_b25b:
+        .word   164, 12, .Lsra15_b25c
+.Lsra15_b25c:
+        .word   12, 172, .Lsra15_b25d
+.Lsra15_b25d:
+        .word   .Lsra_c33554432, 172, .Lsra15_b25e
+.Lsra15_b25e:
+        .word   176, 176, .Lsra15_b25f
+.Lsra15_b25f:
+        .word   172, 176, .Lsra15_b25s
+        .word   12, 12, .Lsra15_b24
+.Lsra15_b25s:
+        .word   .Lsra_c33554432, 164, .Lsra15_b25t
+.Lsra15_b25t:
+        .word   .Lsra_n1024, 168, .Lsra15_b24
+.Lsra15_b24:
+        .word   172, 172, .Lsra15_b24a
+.Lsra15_b24a:
+        .word   12, 12, .Lsra15_b24b
+.Lsra15_b24b:
+        .word   164, 12, .Lsra15_b24c
+.Lsra15_b24c:
+        .word   12, 172, .Lsra15_b24d
+.Lsra15_b24d:
+        .word   .Lsra_c16777216, 172, .Lsra15_b24e
+.Lsra15_b24e:
+        .word   176, 176, .Lsra15_b24f
+.Lsra15_b24f:
+        .word   172, 176, .Lsra15_b24s
+        .word   12, 12, .Lsra15_b23
+.Lsra15_b24s:
+        .word   .Lsra_c16777216, 164, .Lsra15_b24t
+.Lsra15_b24t:
+        .word   .Lsra_n512, 168, .Lsra15_b23
+.Lsra15_b23:
+        .word   172, 172, .Lsra15_b23a
+.Lsra15_b23a:
+        .word   12, 12, .Lsra15_b23b
+.Lsra15_b23b:
+        .word   164, 12, .Lsra15_b23c
+.Lsra15_b23c:
+        .word   12, 172, .Lsra15_b23d
+.Lsra15_b23d:
+        .word   .Lsra_c8388608, 172, .Lsra15_b23e
+.Lsra15_b23e:
+        .word   176, 176, .Lsra15_b23f
+.Lsra15_b23f:
+        .word   172, 176, .Lsra15_b23s
+        .word   12, 12, .Lsra15_b22
+.Lsra15_b23s:
+        .word   .Lsra_c8388608, 164, .Lsra15_b23t
+.Lsra15_b23t:
+        .word   .Lsra_n256, 168, .Lsra15_b22
+.Lsra15_b22:
+        .word   172, 172, .Lsra15_b22a
+.Lsra15_b22a:
+        .word   12, 12, .Lsra15_b22b
+.Lsra15_b22b:
+        .word   164, 12, .Lsra15_b22c
+.Lsra15_b22c:
+        .word   12, 172, .Lsra15_b22d
+.Lsra15_b22d:
+        .word   .Lsra_c4194304, 172, .Lsra15_b22e
+.Lsra15_b22e:
+        .word   176, 176, .Lsra15_b22f
+.Lsra15_b22f:
+        .word   172, 176, .Lsra15_b22s
+        .word   12, 12, .Lsra15_b21
+.Lsra15_b22s:
+        .word   .Lsra_c4194304, 164, .Lsra15_b22t
+.Lsra15_b22t:
+        .word   .Lsra_n128, 168, .Lsra15_b21
+.Lsra15_b21:
+        .word   172, 172, .Lsra15_b21a
+.Lsra15_b21a:
+        .word   12, 12, .Lsra15_b21b
+.Lsra15_b21b:
+        .word   164, 12, .Lsra15_b21c
+.Lsra15_b21c:
+        .word   12, 172, .Lsra15_b21d
+.Lsra15_b21d:
+        .word   .Lsra_c2097152, 172, .Lsra15_b21e
+.Lsra15_b21e:
+        .word   176, 176, .Lsra15_b21f
+.Lsra15_b21f:
+        .word   172, 176, .Lsra15_b21s
+        .word   12, 12, .Lsra15_b20
+.Lsra15_b21s:
+        .word   .Lsra_c2097152, 164, .Lsra15_b21t
+.Lsra15_b21t:
+        .word   .Lsra_n64, 168, .Lsra15_b20
+.Lsra15_b20:
+        .word   172, 172, .Lsra15_b20a
+.Lsra15_b20a:
+        .word   12, 12, .Lsra15_b20b
+.Lsra15_b20b:
+        .word   164, 12, .Lsra15_b20c
+.Lsra15_b20c:
+        .word   12, 172, .Lsra15_b20d
+.Lsra15_b20d:
+        .word   .Lsra_c1048576, 172, .Lsra15_b20e
+.Lsra15_b20e:
+        .word   176, 176, .Lsra15_b20f
+.Lsra15_b20f:
+        .word   172, 176, .Lsra15_b20s
+        .word   12, 12, .Lsra15_b19
+.Lsra15_b20s:
+        .word   .Lsra_c1048576, 164, .Lsra15_b20t
+.Lsra15_b20t:
+        .word   .Lsra_n32, 168, .Lsra15_b19
+.Lsra15_b19:
+        .word   172, 172, .Lsra15_b19a
+.Lsra15_b19a:
+        .word   12, 12, .Lsra15_b19b
+.Lsra15_b19b:
+        .word   164, 12, .Lsra15_b19c
+.Lsra15_b19c:
+        .word   12, 172, .Lsra15_b19d
+.Lsra15_b19d:
+        .word   .Lsra_c524288, 172, .Lsra15_b19e
+.Lsra15_b19e:
+        .word   176, 176, .Lsra15_b19f
+.Lsra15_b19f:
+        .word   172, 176, .Lsra15_b19s
+        .word   12, 12, .Lsra15_b18
+.Lsra15_b19s:
+        .word   .Lsra_c524288, 164, .Lsra15_b19t
+.Lsra15_b19t:
+        .word   .Lsra_n16, 168, .Lsra15_b18
+.Lsra15_b18:
+        .word   172, 172, .Lsra15_b18a
+.Lsra15_b18a:
+        .word   12, 12, .Lsra15_b18b
+.Lsra15_b18b:
+        .word   164, 12, .Lsra15_b18c
+.Lsra15_b18c:
+        .word   12, 172, .Lsra15_b18d
+.Lsra15_b18d:
+        .word   .Lsra_c262144, 172, .Lsra15_b18e
+.Lsra15_b18e:
+        .word   176, 176, .Lsra15_b18f
+.Lsra15_b18f:
+        .word   172, 176, .Lsra15_b18s
+        .word   12, 12, .Lsra15_b17
+.Lsra15_b18s:
+        .word   .Lsra_c262144, 164, .Lsra15_b18t
+.Lsra15_b18t:
+        .word   .Lsra_n8, 168, .Lsra15_b17
+.Lsra15_b17:
+        .word   172, 172, .Lsra15_b17a
+.Lsra15_b17a:
+        .word   12, 12, .Lsra15_b17b
+.Lsra15_b17b:
+        .word   164, 12, .Lsra15_b17c
+.Lsra15_b17c:
+        .word   12, 172, .Lsra15_b17d
+.Lsra15_b17d:
+        .word   .Lsra_c131072, 172, .Lsra15_b17e
+.Lsra15_b17e:
+        .word   176, 176, .Lsra15_b17f
+.Lsra15_b17f:
+        .word   172, 176, .Lsra15_b17s
+        .word   12, 12, .Lsra15_b16
+.Lsra15_b17s:
+        .word   .Lsra_c131072, 164, .Lsra15_b17t
+.Lsra15_b17t:
+        .word   .Lsra_n4, 168, .Lsra15_b16
+.Lsra15_b16:
+        .word   172, 172, .Lsra15_b16a
+.Lsra15_b16a:
+        .word   12, 12, .Lsra15_b16b
+.Lsra15_b16b:
+        .word   164, 12, .Lsra15_b16c
+.Lsra15_b16c:
+        .word   12, 172, .Lsra15_b16d
+.Lsra15_b16d:
+        .word   .Lsra_c65536, 172, .Lsra15_b16e
+.Lsra15_b16e:
+        .word   176, 176, .Lsra15_b16f
+.Lsra15_b16f:
+        .word   172, 176, .Lsra15_b16s
+        .word   12, 12, .Lsra15_b15
+.Lsra15_b16s:
+        .word   .Lsra_c65536, 164, .Lsra15_b16t
+.Lsra15_b16t:
+        .word   .Lsra_n2, 168, .Lsra15_b15
+.Lsra15_b15:
+        .word   172, 172, .Lsra15_b15a
+.Lsra15_b15a:
+        .word   12, 12, .Lsra15_b15b
+.Lsra15_b15b:
+        .word   164, 12, .Lsra15_b15c
+.Lsra15_b15c:
+        .word   12, 172, .Lsra15_b15d
+.Lsra15_b15d:
+        .word   .Lsra_c32768, 172, .Lsra15_b15e
+.Lsra15_b15e:
+        .word   176, 176, .Lsra15_b15f
+.Lsra15_b15f:
+        .word   172, 176, .Lsra15_b15s
+        .word   12, 12, .Lsra15_done
+.Lsra15_b15s:
+        .word   .Lsra_c32768, 164, .Lsra15_b15t
+.Lsra15_b15t:
+        .word   .Lsra_n1, 168, .Lsra15_done
+.Lsra15_done:
+        .word   172, 172, .Lsra15_chk
+.Lsra15_chk:
+        .word   24, 180, .Lsra15_store
+        .word   172, 172, .Lsra15_un1
+.Lsra15_un1:
+        .word   168, 172, .Lsra15_un2
+.Lsra15_un2:
+        .word   168, 168, .Lsra15_un3
+.Lsra15_un3:
+        .word   12, 12, .Lsra15_un4
+.Lsra15_un4:
+        .word   172, 12, .Lsra15_un5
+.Lsra15_un5:
+        .word   12, 168, .Lsra15_un6
+.Lsra15_un6:
+        .word   .Lsra_one, 168, .Lsra15_store
+.Lsra15_store:
+        .word   28, 28, .Lsra15_st1
+.Lsra15_st1:
+        .word   12, 12, .Lsra15_st2
+.Lsra15_st2:
+        .word   168, 12, .Lsra15_st3
+.Lsra15_st3:
+        .word   12, 28, .Lsra15_st4
+.Lsra15_st4:
+        .word   24, 24, .Lsra_done
+
+.Lsra_shift_16:
+        .word   180, 180, .Lsra16_chksign
+.Lsra16_chksign:
+        .word   172, 172, .Lsra16_s1
+.Lsra16_s1:
+        .word   12, 12, .Lsra16_s2
+.Lsra16_s2:
+        .word   164, 12, .Lsra16_s3
+.Lsra16_s3:
+        .word   12, 172, .Lsra16_s4
+.Lsra16_s4:
+        .word   24, 172, .Lsra16_maybe_neg
+        .word   12, 12, .Lsra16_pos
+.Lsra16_maybe_neg:
+        .word   172, 172, .Lsra16_m1
+.Lsra16_m1:
+        .word   164, 172, .Lsra16_m2
+.Lsra16_m2:
+        .word   24, 172, .Lsra16_ambig
+        .word   12, 12, .Lsra16_neg
+.Lsra16_ambig:
+        .word   172, 172, .Lsra16_a1
+.Lsra16_a1:
+        .word   164, 172, .Lsra16_a2
+.Lsra16_a2:
+        .word   .Lsra_one, 172, .Lsra16_a3
+.Lsra16_a3:
+        .word   24, 172, .Lsra16_pos
+        .word   12, 12, .Lsra16_neg
+.Lsra16_neg:
+        .word   .Lsra_negone, 180, .Lsra16_n1
+.Lsra16_n1:
+        .word   172, 172, .Lsra16_n2
+.Lsra16_n2:
+        .word   164, 172, .Lsra16_n3
+.Lsra16_n3:
+        .word   164, 164, .Lsra16_n4
+.Lsra16_n4:
+        .word   12, 12, .Lsra16_n5
+.Lsra16_n5:
+        .word   172, 12, .Lsra16_n6
+.Lsra16_n6:
+        .word   12, 164, .Lsra16_n7
+.Lsra16_n7:
+        .word   .Lsra_one, 164, .Lsra16_pos
+.Lsra16_pos:
+        .word   168, 168, .Lsra16_start
+.Lsra16_start:
+.Lsra16_b30:
+        .word   172, 172, .Lsra16_b30a
+.Lsra16_b30a:
+        .word   12, 12, .Lsra16_b30b
+.Lsra16_b30b:
+        .word   164, 12, .Lsra16_b30c
+.Lsra16_b30c:
+        .word   12, 172, .Lsra16_b30d
+.Lsra16_b30d:
+        .word   .Lsra_c1073741824, 172, .Lsra16_b30e
+.Lsra16_b30e:
+        .word   176, 176, .Lsra16_b30f
+.Lsra16_b30f:
+        .word   172, 176, .Lsra16_b30s
+        .word   12, 12, .Lsra16_b29
+.Lsra16_b30s:
+        .word   .Lsra_c1073741824, 164, .Lsra16_b30t
+.Lsra16_b30t:
+        .word   .Lsra_n16384, 168, .Lsra16_b29
+.Lsra16_b29:
+        .word   172, 172, .Lsra16_b29a
+.Lsra16_b29a:
+        .word   12, 12, .Lsra16_b29b
+.Lsra16_b29b:
+        .word   164, 12, .Lsra16_b29c
+.Lsra16_b29c:
+        .word   12, 172, .Lsra16_b29d
+.Lsra16_b29d:
+        .word   .Lsra_c536870912, 172, .Lsra16_b29e
+.Lsra16_b29e:
+        .word   176, 176, .Lsra16_b29f
+.Lsra16_b29f:
+        .word   172, 176, .Lsra16_b29s
+        .word   12, 12, .Lsra16_b28
+.Lsra16_b29s:
+        .word   .Lsra_c536870912, 164, .Lsra16_b29t
+.Lsra16_b29t:
+        .word   .Lsra_n8192, 168, .Lsra16_b28
+.Lsra16_b28:
+        .word   172, 172, .Lsra16_b28a
+.Lsra16_b28a:
+        .word   12, 12, .Lsra16_b28b
+.Lsra16_b28b:
+        .word   164, 12, .Lsra16_b28c
+.Lsra16_b28c:
+        .word   12, 172, .Lsra16_b28d
+.Lsra16_b28d:
+        .word   .Lsra_c268435456, 172, .Lsra16_b28e
+.Lsra16_b28e:
+        .word   176, 176, .Lsra16_b28f
+.Lsra16_b28f:
+        .word   172, 176, .Lsra16_b28s
+        .word   12, 12, .Lsra16_b27
+.Lsra16_b28s:
+        .word   .Lsra_c268435456, 164, .Lsra16_b28t
+.Lsra16_b28t:
+        .word   .Lsra_n4096, 168, .Lsra16_b27
+.Lsra16_b27:
+        .word   172, 172, .Lsra16_b27a
+.Lsra16_b27a:
+        .word   12, 12, .Lsra16_b27b
+.Lsra16_b27b:
+        .word   164, 12, .Lsra16_b27c
+.Lsra16_b27c:
+        .word   12, 172, .Lsra16_b27d
+.Lsra16_b27d:
+        .word   .Lsra_c134217728, 172, .Lsra16_b27e
+.Lsra16_b27e:
+        .word   176, 176, .Lsra16_b27f
+.Lsra16_b27f:
+        .word   172, 176, .Lsra16_b27s
+        .word   12, 12, .Lsra16_b26
+.Lsra16_b27s:
+        .word   .Lsra_c134217728, 164, .Lsra16_b27t
+.Lsra16_b27t:
+        .word   .Lsra_n2048, 168, .Lsra16_b26
+.Lsra16_b26:
+        .word   172, 172, .Lsra16_b26a
+.Lsra16_b26a:
+        .word   12, 12, .Lsra16_b26b
+.Lsra16_b26b:
+        .word   164, 12, .Lsra16_b26c
+.Lsra16_b26c:
+        .word   12, 172, .Lsra16_b26d
+.Lsra16_b26d:
+        .word   .Lsra_c67108864, 172, .Lsra16_b26e
+.Lsra16_b26e:
+        .word   176, 176, .Lsra16_b26f
+.Lsra16_b26f:
+        .word   172, 176, .Lsra16_b26s
+        .word   12, 12, .Lsra16_b25
+.Lsra16_b26s:
+        .word   .Lsra_c67108864, 164, .Lsra16_b26t
+.Lsra16_b26t:
+        .word   .Lsra_n1024, 168, .Lsra16_b25
+.Lsra16_b25:
+        .word   172, 172, .Lsra16_b25a
+.Lsra16_b25a:
+        .word   12, 12, .Lsra16_b25b
+.Lsra16_b25b:
+        .word   164, 12, .Lsra16_b25c
+.Lsra16_b25c:
+        .word   12, 172, .Lsra16_b25d
+.Lsra16_b25d:
+        .word   .Lsra_c33554432, 172, .Lsra16_b25e
+.Lsra16_b25e:
+        .word   176, 176, .Lsra16_b25f
+.Lsra16_b25f:
+        .word   172, 176, .Lsra16_b25s
+        .word   12, 12, .Lsra16_b24
+.Lsra16_b25s:
+        .word   .Lsra_c33554432, 164, .Lsra16_b25t
+.Lsra16_b25t:
+        .word   .Lsra_n512, 168, .Lsra16_b24
+.Lsra16_b24:
+        .word   172, 172, .Lsra16_b24a
+.Lsra16_b24a:
+        .word   12, 12, .Lsra16_b24b
+.Lsra16_b24b:
+        .word   164, 12, .Lsra16_b24c
+.Lsra16_b24c:
+        .word   12, 172, .Lsra16_b24d
+.Lsra16_b24d:
+        .word   .Lsra_c16777216, 172, .Lsra16_b24e
+.Lsra16_b24e:
+        .word   176, 176, .Lsra16_b24f
+.Lsra16_b24f:
+        .word   172, 176, .Lsra16_b24s
+        .word   12, 12, .Lsra16_b23
+.Lsra16_b24s:
+        .word   .Lsra_c16777216, 164, .Lsra16_b24t
+.Lsra16_b24t:
+        .word   .Lsra_n256, 168, .Lsra16_b23
+.Lsra16_b23:
+        .word   172, 172, .Lsra16_b23a
+.Lsra16_b23a:
+        .word   12, 12, .Lsra16_b23b
+.Lsra16_b23b:
+        .word   164, 12, .Lsra16_b23c
+.Lsra16_b23c:
+        .word   12, 172, .Lsra16_b23d
+.Lsra16_b23d:
+        .word   .Lsra_c8388608, 172, .Lsra16_b23e
+.Lsra16_b23e:
+        .word   176, 176, .Lsra16_b23f
+.Lsra16_b23f:
+        .word   172, 176, .Lsra16_b23s
+        .word   12, 12, .Lsra16_b22
+.Lsra16_b23s:
+        .word   .Lsra_c8388608, 164, .Lsra16_b23t
+.Lsra16_b23t:
+        .word   .Lsra_n128, 168, .Lsra16_b22
+.Lsra16_b22:
+        .word   172, 172, .Lsra16_b22a
+.Lsra16_b22a:
+        .word   12, 12, .Lsra16_b22b
+.Lsra16_b22b:
+        .word   164, 12, .Lsra16_b22c
+.Lsra16_b22c:
+        .word   12, 172, .Lsra16_b22d
+.Lsra16_b22d:
+        .word   .Lsra_c4194304, 172, .Lsra16_b22e
+.Lsra16_b22e:
+        .word   176, 176, .Lsra16_b22f
+.Lsra16_b22f:
+        .word   172, 176, .Lsra16_b22s
+        .word   12, 12, .Lsra16_b21
+.Lsra16_b22s:
+        .word   .Lsra_c4194304, 164, .Lsra16_b22t
+.Lsra16_b22t:
+        .word   .Lsra_n64, 168, .Lsra16_b21
+.Lsra16_b21:
+        .word   172, 172, .Lsra16_b21a
+.Lsra16_b21a:
+        .word   12, 12, .Lsra16_b21b
+.Lsra16_b21b:
+        .word   164, 12, .Lsra16_b21c
+.Lsra16_b21c:
+        .word   12, 172, .Lsra16_b21d
+.Lsra16_b21d:
+        .word   .Lsra_c2097152, 172, .Lsra16_b21e
+.Lsra16_b21e:
+        .word   176, 176, .Lsra16_b21f
+.Lsra16_b21f:
+        .word   172, 176, .Lsra16_b21s
+        .word   12, 12, .Lsra16_b20
+.Lsra16_b21s:
+        .word   .Lsra_c2097152, 164, .Lsra16_b21t
+.Lsra16_b21t:
+        .word   .Lsra_n32, 168, .Lsra16_b20
+.Lsra16_b20:
+        .word   172, 172, .Lsra16_b20a
+.Lsra16_b20a:
+        .word   12, 12, .Lsra16_b20b
+.Lsra16_b20b:
+        .word   164, 12, .Lsra16_b20c
+.Lsra16_b20c:
+        .word   12, 172, .Lsra16_b20d
+.Lsra16_b20d:
+        .word   .Lsra_c1048576, 172, .Lsra16_b20e
+.Lsra16_b20e:
+        .word   176, 176, .Lsra16_b20f
+.Lsra16_b20f:
+        .word   172, 176, .Lsra16_b20s
+        .word   12, 12, .Lsra16_b19
+.Lsra16_b20s:
+        .word   .Lsra_c1048576, 164, .Lsra16_b20t
+.Lsra16_b20t:
+        .word   .Lsra_n16, 168, .Lsra16_b19
+.Lsra16_b19:
+        .word   172, 172, .Lsra16_b19a
+.Lsra16_b19a:
+        .word   12, 12, .Lsra16_b19b
+.Lsra16_b19b:
+        .word   164, 12, .Lsra16_b19c
+.Lsra16_b19c:
+        .word   12, 172, .Lsra16_b19d
+.Lsra16_b19d:
+        .word   .Lsra_c524288, 172, .Lsra16_b19e
+.Lsra16_b19e:
+        .word   176, 176, .Lsra16_b19f
+.Lsra16_b19f:
+        .word   172, 176, .Lsra16_b19s
+        .word   12, 12, .Lsra16_b18
+.Lsra16_b19s:
+        .word   .Lsra_c524288, 164, .Lsra16_b19t
+.Lsra16_b19t:
+        .word   .Lsra_n8, 168, .Lsra16_b18
+.Lsra16_b18:
+        .word   172, 172, .Lsra16_b18a
+.Lsra16_b18a:
+        .word   12, 12, .Lsra16_b18b
+.Lsra16_b18b:
+        .word   164, 12, .Lsra16_b18c
+.Lsra16_b18c:
+        .word   12, 172, .Lsra16_b18d
+.Lsra16_b18d:
+        .word   .Lsra_c262144, 172, .Lsra16_b18e
+.Lsra16_b18e:
+        .word   176, 176, .Lsra16_b18f
+.Lsra16_b18f:
+        .word   172, 176, .Lsra16_b18s
+        .word   12, 12, .Lsra16_b17
+.Lsra16_b18s:
+        .word   .Lsra_c262144, 164, .Lsra16_b18t
+.Lsra16_b18t:
+        .word   .Lsra_n4, 168, .Lsra16_b17
+.Lsra16_b17:
+        .word   172, 172, .Lsra16_b17a
+.Lsra16_b17a:
+        .word   12, 12, .Lsra16_b17b
+.Lsra16_b17b:
+        .word   164, 12, .Lsra16_b17c
+.Lsra16_b17c:
+        .word   12, 172, .Lsra16_b17d
+.Lsra16_b17d:
+        .word   .Lsra_c131072, 172, .Lsra16_b17e
+.Lsra16_b17e:
+        .word   176, 176, .Lsra16_b17f
+.Lsra16_b17f:
+        .word   172, 176, .Lsra16_b17s
+        .word   12, 12, .Lsra16_b16
+.Lsra16_b17s:
+        .word   .Lsra_c131072, 164, .Lsra16_b17t
+.Lsra16_b17t:
+        .word   .Lsra_n2, 168, .Lsra16_b16
+.Lsra16_b16:
+        .word   172, 172, .Lsra16_b16a
+.Lsra16_b16a:
+        .word   12, 12, .Lsra16_b16b
+.Lsra16_b16b:
+        .word   164, 12, .Lsra16_b16c
+.Lsra16_b16c:
+        .word   12, 172, .Lsra16_b16d
+.Lsra16_b16d:
+        .word   .Lsra_c65536, 172, .Lsra16_b16e
+.Lsra16_b16e:
+        .word   176, 176, .Lsra16_b16f
+.Lsra16_b16f:
+        .word   172, 176, .Lsra16_b16s
+        .word   12, 12, .Lsra16_done
+.Lsra16_b16s:
+        .word   .Lsra_c65536, 164, .Lsra16_b16t
+.Lsra16_b16t:
+        .word   .Lsra_n1, 168, .Lsra16_done
+.Lsra16_done:
+        .word   172, 172, .Lsra16_chk
+.Lsra16_chk:
+        .word   24, 180, .Lsra16_store
+        .word   172, 172, .Lsra16_un1
+.Lsra16_un1:
+        .word   168, 172, .Lsra16_un2
+.Lsra16_un2:
+        .word   168, 168, .Lsra16_un3
+.Lsra16_un3:
+        .word   12, 12, .Lsra16_un4
+.Lsra16_un4:
+        .word   172, 12, .Lsra16_un5
+.Lsra16_un5:
+        .word   12, 168, .Lsra16_un6
+.Lsra16_un6:
+        .word   .Lsra_one, 168, .Lsra16_store
+.Lsra16_store:
+        .word   28, 28, .Lsra16_st1
+.Lsra16_st1:
+        .word   12, 12, .Lsra16_st2
+.Lsra16_st2:
+        .word   168, 12, .Lsra16_st3
+.Lsra16_st3:
+        .word   12, 28, .Lsra16_st4
+.Lsra16_st4:
+        .word   24, 24, .Lsra_done
+
+.Lsra_shift_17:
+        .word   180, 180, .Lsra17_chksign
+.Lsra17_chksign:
+        .word   172, 172, .Lsra17_s1
+.Lsra17_s1:
+        .word   12, 12, .Lsra17_s2
+.Lsra17_s2:
+        .word   164, 12, .Lsra17_s3
+.Lsra17_s3:
+        .word   12, 172, .Lsra17_s4
+.Lsra17_s4:
+        .word   24, 172, .Lsra17_maybe_neg
+        .word   12, 12, .Lsra17_pos
+.Lsra17_maybe_neg:
+        .word   172, 172, .Lsra17_m1
+.Lsra17_m1:
+        .word   164, 172, .Lsra17_m2
+.Lsra17_m2:
+        .word   24, 172, .Lsra17_ambig
+        .word   12, 12, .Lsra17_neg
+.Lsra17_ambig:
+        .word   172, 172, .Lsra17_a1
+.Lsra17_a1:
+        .word   164, 172, .Lsra17_a2
+.Lsra17_a2:
+        .word   .Lsra_one, 172, .Lsra17_a3
+.Lsra17_a3:
+        .word   24, 172, .Lsra17_pos
+        .word   12, 12, .Lsra17_neg
+.Lsra17_neg:
+        .word   .Lsra_negone, 180, .Lsra17_n1
+.Lsra17_n1:
+        .word   172, 172, .Lsra17_n2
+.Lsra17_n2:
+        .word   164, 172, .Lsra17_n3
+.Lsra17_n3:
+        .word   164, 164, .Lsra17_n4
+.Lsra17_n4:
+        .word   12, 12, .Lsra17_n5
+.Lsra17_n5:
+        .word   172, 12, .Lsra17_n6
+.Lsra17_n6:
+        .word   12, 164, .Lsra17_n7
+.Lsra17_n7:
+        .word   .Lsra_one, 164, .Lsra17_pos
+.Lsra17_pos:
+        .word   168, 168, .Lsra17_start
+.Lsra17_start:
+.Lsra17_b30:
+        .word   172, 172, .Lsra17_b30a
+.Lsra17_b30a:
+        .word   12, 12, .Lsra17_b30b
+.Lsra17_b30b:
+        .word   164, 12, .Lsra17_b30c
+.Lsra17_b30c:
+        .word   12, 172, .Lsra17_b30d
+.Lsra17_b30d:
+        .word   .Lsra_c1073741824, 172, .Lsra17_b30e
+.Lsra17_b30e:
+        .word   176, 176, .Lsra17_b30f
+.Lsra17_b30f:
+        .word   172, 176, .Lsra17_b30s
+        .word   12, 12, .Lsra17_b29
+.Lsra17_b30s:
+        .word   .Lsra_c1073741824, 164, .Lsra17_b30t
+.Lsra17_b30t:
+        .word   .Lsra_n8192, 168, .Lsra17_b29
+.Lsra17_b29:
+        .word   172, 172, .Lsra17_b29a
+.Lsra17_b29a:
+        .word   12, 12, .Lsra17_b29b
+.Lsra17_b29b:
+        .word   164, 12, .Lsra17_b29c
+.Lsra17_b29c:
+        .word   12, 172, .Lsra17_b29d
+.Lsra17_b29d:
+        .word   .Lsra_c536870912, 172, .Lsra17_b29e
+.Lsra17_b29e:
+        .word   176, 176, .Lsra17_b29f
+.Lsra17_b29f:
+        .word   172, 176, .Lsra17_b29s
+        .word   12, 12, .Lsra17_b28
+.Lsra17_b29s:
+        .word   .Lsra_c536870912, 164, .Lsra17_b29t
+.Lsra17_b29t:
+        .word   .Lsra_n4096, 168, .Lsra17_b28
+.Lsra17_b28:
+        .word   172, 172, .Lsra17_b28a
+.Lsra17_b28a:
+        .word   12, 12, .Lsra17_b28b
+.Lsra17_b28b:
+        .word   164, 12, .Lsra17_b28c
+.Lsra17_b28c:
+        .word   12, 172, .Lsra17_b28d
+.Lsra17_b28d:
+        .word   .Lsra_c268435456, 172, .Lsra17_b28e
+.Lsra17_b28e:
+        .word   176, 176, .Lsra17_b28f
+.Lsra17_b28f:
+        .word   172, 176, .Lsra17_b28s
+        .word   12, 12, .Lsra17_b27
+.Lsra17_b28s:
+        .word   .Lsra_c268435456, 164, .Lsra17_b28t
+.Lsra17_b28t:
+        .word   .Lsra_n2048, 168, .Lsra17_b27
+.Lsra17_b27:
+        .word   172, 172, .Lsra17_b27a
+.Lsra17_b27a:
+        .word   12, 12, .Lsra17_b27b
+.Lsra17_b27b:
+        .word   164, 12, .Lsra17_b27c
+.Lsra17_b27c:
+        .word   12, 172, .Lsra17_b27d
+.Lsra17_b27d:
+        .word   .Lsra_c134217728, 172, .Lsra17_b27e
+.Lsra17_b27e:
+        .word   176, 176, .Lsra17_b27f
+.Lsra17_b27f:
+        .word   172, 176, .Lsra17_b27s
+        .word   12, 12, .Lsra17_b26
+.Lsra17_b27s:
+        .word   .Lsra_c134217728, 164, .Lsra17_b27t
+.Lsra17_b27t:
+        .word   .Lsra_n1024, 168, .Lsra17_b26
+.Lsra17_b26:
+        .word   172, 172, .Lsra17_b26a
+.Lsra17_b26a:
+        .word   12, 12, .Lsra17_b26b
+.Lsra17_b26b:
+        .word   164, 12, .Lsra17_b26c
+.Lsra17_b26c:
+        .word   12, 172, .Lsra17_b26d
+.Lsra17_b26d:
+        .word   .Lsra_c67108864, 172, .Lsra17_b26e
+.Lsra17_b26e:
+        .word   176, 176, .Lsra17_b26f
+.Lsra17_b26f:
+        .word   172, 176, .Lsra17_b26s
+        .word   12, 12, .Lsra17_b25
+.Lsra17_b26s:
+        .word   .Lsra_c67108864, 164, .Lsra17_b26t
+.Lsra17_b26t:
+        .word   .Lsra_n512, 168, .Lsra17_b25
+.Lsra17_b25:
+        .word   172, 172, .Lsra17_b25a
+.Lsra17_b25a:
+        .word   12, 12, .Lsra17_b25b
+.Lsra17_b25b:
+        .word   164, 12, .Lsra17_b25c
+.Lsra17_b25c:
+        .word   12, 172, .Lsra17_b25d
+.Lsra17_b25d:
+        .word   .Lsra_c33554432, 172, .Lsra17_b25e
+.Lsra17_b25e:
+        .word   176, 176, .Lsra17_b25f
+.Lsra17_b25f:
+        .word   172, 176, .Lsra17_b25s
+        .word   12, 12, .Lsra17_b24
+.Lsra17_b25s:
+        .word   .Lsra_c33554432, 164, .Lsra17_b25t
+.Lsra17_b25t:
+        .word   .Lsra_n256, 168, .Lsra17_b24
+.Lsra17_b24:
+        .word   172, 172, .Lsra17_b24a
+.Lsra17_b24a:
+        .word   12, 12, .Lsra17_b24b
+.Lsra17_b24b:
+        .word   164, 12, .Lsra17_b24c
+.Lsra17_b24c:
+        .word   12, 172, .Lsra17_b24d
+.Lsra17_b24d:
+        .word   .Lsra_c16777216, 172, .Lsra17_b24e
+.Lsra17_b24e:
+        .word   176, 176, .Lsra17_b24f
+.Lsra17_b24f:
+        .word   172, 176, .Lsra17_b24s
+        .word   12, 12, .Lsra17_b23
+.Lsra17_b24s:
+        .word   .Lsra_c16777216, 164, .Lsra17_b24t
+.Lsra17_b24t:
+        .word   .Lsra_n128, 168, .Lsra17_b23
+.Lsra17_b23:
+        .word   172, 172, .Lsra17_b23a
+.Lsra17_b23a:
+        .word   12, 12, .Lsra17_b23b
+.Lsra17_b23b:
+        .word   164, 12, .Lsra17_b23c
+.Lsra17_b23c:
+        .word   12, 172, .Lsra17_b23d
+.Lsra17_b23d:
+        .word   .Lsra_c8388608, 172, .Lsra17_b23e
+.Lsra17_b23e:
+        .word   176, 176, .Lsra17_b23f
+.Lsra17_b23f:
+        .word   172, 176, .Lsra17_b23s
+        .word   12, 12, .Lsra17_b22
+.Lsra17_b23s:
+        .word   .Lsra_c8388608, 164, .Lsra17_b23t
+.Lsra17_b23t:
+        .word   .Lsra_n64, 168, .Lsra17_b22
+.Lsra17_b22:
+        .word   172, 172, .Lsra17_b22a
+.Lsra17_b22a:
+        .word   12, 12, .Lsra17_b22b
+.Lsra17_b22b:
+        .word   164, 12, .Lsra17_b22c
+.Lsra17_b22c:
+        .word   12, 172, .Lsra17_b22d
+.Lsra17_b22d:
+        .word   .Lsra_c4194304, 172, .Lsra17_b22e
+.Lsra17_b22e:
+        .word   176, 176, .Lsra17_b22f
+.Lsra17_b22f:
+        .word   172, 176, .Lsra17_b22s
+        .word   12, 12, .Lsra17_b21
+.Lsra17_b22s:
+        .word   .Lsra_c4194304, 164, .Lsra17_b22t
+.Lsra17_b22t:
+        .word   .Lsra_n32, 168, .Lsra17_b21
+.Lsra17_b21:
+        .word   172, 172, .Lsra17_b21a
+.Lsra17_b21a:
+        .word   12, 12, .Lsra17_b21b
+.Lsra17_b21b:
+        .word   164, 12, .Lsra17_b21c
+.Lsra17_b21c:
+        .word   12, 172, .Lsra17_b21d
+.Lsra17_b21d:
+        .word   .Lsra_c2097152, 172, .Lsra17_b21e
+.Lsra17_b21e:
+        .word   176, 176, .Lsra17_b21f
+.Lsra17_b21f:
+        .word   172, 176, .Lsra17_b21s
+        .word   12, 12, .Lsra17_b20
+.Lsra17_b21s:
+        .word   .Lsra_c2097152, 164, .Lsra17_b21t
+.Lsra17_b21t:
+        .word   .Lsra_n16, 168, .Lsra17_b20
+.Lsra17_b20:
+        .word   172, 172, .Lsra17_b20a
+.Lsra17_b20a:
+        .word   12, 12, .Lsra17_b20b
+.Lsra17_b20b:
+        .word   164, 12, .Lsra17_b20c
+.Lsra17_b20c:
+        .word   12, 172, .Lsra17_b20d
+.Lsra17_b20d:
+        .word   .Lsra_c1048576, 172, .Lsra17_b20e
+.Lsra17_b20e:
+        .word   176, 176, .Lsra17_b20f
+.Lsra17_b20f:
+        .word   172, 176, .Lsra17_b20s
+        .word   12, 12, .Lsra17_b19
+.Lsra17_b20s:
+        .word   .Lsra_c1048576, 164, .Lsra17_b20t
+.Lsra17_b20t:
+        .word   .Lsra_n8, 168, .Lsra17_b19
+.Lsra17_b19:
+        .word   172, 172, .Lsra17_b19a
+.Lsra17_b19a:
+        .word   12, 12, .Lsra17_b19b
+.Lsra17_b19b:
+        .word   164, 12, .Lsra17_b19c
+.Lsra17_b19c:
+        .word   12, 172, .Lsra17_b19d
+.Lsra17_b19d:
+        .word   .Lsra_c524288, 172, .Lsra17_b19e
+.Lsra17_b19e:
+        .word   176, 176, .Lsra17_b19f
+.Lsra17_b19f:
+        .word   172, 176, .Lsra17_b19s
+        .word   12, 12, .Lsra17_b18
+.Lsra17_b19s:
+        .word   .Lsra_c524288, 164, .Lsra17_b19t
+.Lsra17_b19t:
+        .word   .Lsra_n4, 168, .Lsra17_b18
+.Lsra17_b18:
+        .word   172, 172, .Lsra17_b18a
+.Lsra17_b18a:
+        .word   12, 12, .Lsra17_b18b
+.Lsra17_b18b:
+        .word   164, 12, .Lsra17_b18c
+.Lsra17_b18c:
+        .word   12, 172, .Lsra17_b18d
+.Lsra17_b18d:
+        .word   .Lsra_c262144, 172, .Lsra17_b18e
+.Lsra17_b18e:
+        .word   176, 176, .Lsra17_b18f
+.Lsra17_b18f:
+        .word   172, 176, .Lsra17_b18s
+        .word   12, 12, .Lsra17_b17
+.Lsra17_b18s:
+        .word   .Lsra_c262144, 164, .Lsra17_b18t
+.Lsra17_b18t:
+        .word   .Lsra_n2, 168, .Lsra17_b17
+.Lsra17_b17:
+        .word   172, 172, .Lsra17_b17a
+.Lsra17_b17a:
+        .word   12, 12, .Lsra17_b17b
+.Lsra17_b17b:
+        .word   164, 12, .Lsra17_b17c
+.Lsra17_b17c:
+        .word   12, 172, .Lsra17_b17d
+.Lsra17_b17d:
+        .word   .Lsra_c131072, 172, .Lsra17_b17e
+.Lsra17_b17e:
+        .word   176, 176, .Lsra17_b17f
+.Lsra17_b17f:
+        .word   172, 176, .Lsra17_b17s
+        .word   12, 12, .Lsra17_done
+.Lsra17_b17s:
+        .word   .Lsra_c131072, 164, .Lsra17_b17t
+.Lsra17_b17t:
+        .word   .Lsra_n1, 168, .Lsra17_done
+.Lsra17_done:
+        .word   172, 172, .Lsra17_chk
+.Lsra17_chk:
+        .word   24, 180, .Lsra17_store
+        .word   172, 172, .Lsra17_un1
+.Lsra17_un1:
+        .word   168, 172, .Lsra17_un2
+.Lsra17_un2:
+        .word   168, 168, .Lsra17_un3
+.Lsra17_un3:
+        .word   12, 12, .Lsra17_un4
+.Lsra17_un4:
+        .word   172, 12, .Lsra17_un5
+.Lsra17_un5:
+        .word   12, 168, .Lsra17_un6
+.Lsra17_un6:
+        .word   .Lsra_one, 168, .Lsra17_store
+.Lsra17_store:
+        .word   28, 28, .Lsra17_st1
+.Lsra17_st1:
+        .word   12, 12, .Lsra17_st2
+.Lsra17_st2:
+        .word   168, 12, .Lsra17_st3
+.Lsra17_st3:
+        .word   12, 28, .Lsra17_st4
+.Lsra17_st4:
+        .word   24, 24, .Lsra_done
+
+.Lsra_shift_18:
+        .word   180, 180, .Lsra18_chksign
+.Lsra18_chksign:
+        .word   172, 172, .Lsra18_s1
+.Lsra18_s1:
+        .word   12, 12, .Lsra18_s2
+.Lsra18_s2:
+        .word   164, 12, .Lsra18_s3
+.Lsra18_s3:
+        .word   12, 172, .Lsra18_s4
+.Lsra18_s4:
+        .word   24, 172, .Lsra18_maybe_neg
+        .word   12, 12, .Lsra18_pos
+.Lsra18_maybe_neg:
+        .word   172, 172, .Lsra18_m1
+.Lsra18_m1:
+        .word   164, 172, .Lsra18_m2
+.Lsra18_m2:
+        .word   24, 172, .Lsra18_ambig
+        .word   12, 12, .Lsra18_neg
+.Lsra18_ambig:
+        .word   172, 172, .Lsra18_a1
+.Lsra18_a1:
+        .word   164, 172, .Lsra18_a2
+.Lsra18_a2:
+        .word   .Lsra_one, 172, .Lsra18_a3
+.Lsra18_a3:
+        .word   24, 172, .Lsra18_pos
+        .word   12, 12, .Lsra18_neg
+.Lsra18_neg:
+        .word   .Lsra_negone, 180, .Lsra18_n1
+.Lsra18_n1:
+        .word   172, 172, .Lsra18_n2
+.Lsra18_n2:
+        .word   164, 172, .Lsra18_n3
+.Lsra18_n3:
+        .word   164, 164, .Lsra18_n4
+.Lsra18_n4:
+        .word   12, 12, .Lsra18_n5
+.Lsra18_n5:
+        .word   172, 12, .Lsra18_n6
+.Lsra18_n6:
+        .word   12, 164, .Lsra18_n7
+.Lsra18_n7:
+        .word   .Lsra_one, 164, .Lsra18_pos
+.Lsra18_pos:
+        .word   168, 168, .Lsra18_start
+.Lsra18_start:
+.Lsra18_b30:
+        .word   172, 172, .Lsra18_b30a
+.Lsra18_b30a:
+        .word   12, 12, .Lsra18_b30b
+.Lsra18_b30b:
+        .word   164, 12, .Lsra18_b30c
+.Lsra18_b30c:
+        .word   12, 172, .Lsra18_b30d
+.Lsra18_b30d:
+        .word   .Lsra_c1073741824, 172, .Lsra18_b30e
+.Lsra18_b30e:
+        .word   176, 176, .Lsra18_b30f
+.Lsra18_b30f:
+        .word   172, 176, .Lsra18_b30s
+        .word   12, 12, .Lsra18_b29
+.Lsra18_b30s:
+        .word   .Lsra_c1073741824, 164, .Lsra18_b30t
+.Lsra18_b30t:
+        .word   .Lsra_n4096, 168, .Lsra18_b29
+.Lsra18_b29:
+        .word   172, 172, .Lsra18_b29a
+.Lsra18_b29a:
+        .word   12, 12, .Lsra18_b29b
+.Lsra18_b29b:
+        .word   164, 12, .Lsra18_b29c
+.Lsra18_b29c:
+        .word   12, 172, .Lsra18_b29d
+.Lsra18_b29d:
+        .word   .Lsra_c536870912, 172, .Lsra18_b29e
+.Lsra18_b29e:
+        .word   176, 176, .Lsra18_b29f
+.Lsra18_b29f:
+        .word   172, 176, .Lsra18_b29s
+        .word   12, 12, .Lsra18_b28
+.Lsra18_b29s:
+        .word   .Lsra_c536870912, 164, .Lsra18_b29t
+.Lsra18_b29t:
+        .word   .Lsra_n2048, 168, .Lsra18_b28
+.Lsra18_b28:
+        .word   172, 172, .Lsra18_b28a
+.Lsra18_b28a:
+        .word   12, 12, .Lsra18_b28b
+.Lsra18_b28b:
+        .word   164, 12, .Lsra18_b28c
+.Lsra18_b28c:
+        .word   12, 172, .Lsra18_b28d
+.Lsra18_b28d:
+        .word   .Lsra_c268435456, 172, .Lsra18_b28e
+.Lsra18_b28e:
+        .word   176, 176, .Lsra18_b28f
+.Lsra18_b28f:
+        .word   172, 176, .Lsra18_b28s
+        .word   12, 12, .Lsra18_b27
+.Lsra18_b28s:
+        .word   .Lsra_c268435456, 164, .Lsra18_b28t
+.Lsra18_b28t:
+        .word   .Lsra_n1024, 168, .Lsra18_b27
+.Lsra18_b27:
+        .word   172, 172, .Lsra18_b27a
+.Lsra18_b27a:
+        .word   12, 12, .Lsra18_b27b
+.Lsra18_b27b:
+        .word   164, 12, .Lsra18_b27c
+.Lsra18_b27c:
+        .word   12, 172, .Lsra18_b27d
+.Lsra18_b27d:
+        .word   .Lsra_c134217728, 172, .Lsra18_b27e
+.Lsra18_b27e:
+        .word   176, 176, .Lsra18_b27f
+.Lsra18_b27f:
+        .word   172, 176, .Lsra18_b27s
+        .word   12, 12, .Lsra18_b26
+.Lsra18_b27s:
+        .word   .Lsra_c134217728, 164, .Lsra18_b27t
+.Lsra18_b27t:
+        .word   .Lsra_n512, 168, .Lsra18_b26
+.Lsra18_b26:
+        .word   172, 172, .Lsra18_b26a
+.Lsra18_b26a:
+        .word   12, 12, .Lsra18_b26b
+.Lsra18_b26b:
+        .word   164, 12, .Lsra18_b26c
+.Lsra18_b26c:
+        .word   12, 172, .Lsra18_b26d
+.Lsra18_b26d:
+        .word   .Lsra_c67108864, 172, .Lsra18_b26e
+.Lsra18_b26e:
+        .word   176, 176, .Lsra18_b26f
+.Lsra18_b26f:
+        .word   172, 176, .Lsra18_b26s
+        .word   12, 12, .Lsra18_b25
+.Lsra18_b26s:
+        .word   .Lsra_c67108864, 164, .Lsra18_b26t
+.Lsra18_b26t:
+        .word   .Lsra_n256, 168, .Lsra18_b25
+.Lsra18_b25:
+        .word   172, 172, .Lsra18_b25a
+.Lsra18_b25a:
+        .word   12, 12, .Lsra18_b25b
+.Lsra18_b25b:
+        .word   164, 12, .Lsra18_b25c
+.Lsra18_b25c:
+        .word   12, 172, .Lsra18_b25d
+.Lsra18_b25d:
+        .word   .Lsra_c33554432, 172, .Lsra18_b25e
+.Lsra18_b25e:
+        .word   176, 176, .Lsra18_b25f
+.Lsra18_b25f:
+        .word   172, 176, .Lsra18_b25s
+        .word   12, 12, .Lsra18_b24
+.Lsra18_b25s:
+        .word   .Lsra_c33554432, 164, .Lsra18_b25t
+.Lsra18_b25t:
+        .word   .Lsra_n128, 168, .Lsra18_b24
+.Lsra18_b24:
+        .word   172, 172, .Lsra18_b24a
+.Lsra18_b24a:
+        .word   12, 12, .Lsra18_b24b
+.Lsra18_b24b:
+        .word   164, 12, .Lsra18_b24c
+.Lsra18_b24c:
+        .word   12, 172, .Lsra18_b24d
+.Lsra18_b24d:
+        .word   .Lsra_c16777216, 172, .Lsra18_b24e
+.Lsra18_b24e:
+        .word   176, 176, .Lsra18_b24f
+.Lsra18_b24f:
+        .word   172, 176, .Lsra18_b24s
+        .word   12, 12, .Lsra18_b23
+.Lsra18_b24s:
+        .word   .Lsra_c16777216, 164, .Lsra18_b24t
+.Lsra18_b24t:
+        .word   .Lsra_n64, 168, .Lsra18_b23
+.Lsra18_b23:
+        .word   172, 172, .Lsra18_b23a
+.Lsra18_b23a:
+        .word   12, 12, .Lsra18_b23b
+.Lsra18_b23b:
+        .word   164, 12, .Lsra18_b23c
+.Lsra18_b23c:
+        .word   12, 172, .Lsra18_b23d
+.Lsra18_b23d:
+        .word   .Lsra_c8388608, 172, .Lsra18_b23e
+.Lsra18_b23e:
+        .word   176, 176, .Lsra18_b23f
+.Lsra18_b23f:
+        .word   172, 176, .Lsra18_b23s
+        .word   12, 12, .Lsra18_b22
+.Lsra18_b23s:
+        .word   .Lsra_c8388608, 164, .Lsra18_b23t
+.Lsra18_b23t:
+        .word   .Lsra_n32, 168, .Lsra18_b22
+.Lsra18_b22:
+        .word   172, 172, .Lsra18_b22a
+.Lsra18_b22a:
+        .word   12, 12, .Lsra18_b22b
+.Lsra18_b22b:
+        .word   164, 12, .Lsra18_b22c
+.Lsra18_b22c:
+        .word   12, 172, .Lsra18_b22d
+.Lsra18_b22d:
+        .word   .Lsra_c4194304, 172, .Lsra18_b22e
+.Lsra18_b22e:
+        .word   176, 176, .Lsra18_b22f
+.Lsra18_b22f:
+        .word   172, 176, .Lsra18_b22s
+        .word   12, 12, .Lsra18_b21
+.Lsra18_b22s:
+        .word   .Lsra_c4194304, 164, .Lsra18_b22t
+.Lsra18_b22t:
+        .word   .Lsra_n16, 168, .Lsra18_b21
+.Lsra18_b21:
+        .word   172, 172, .Lsra18_b21a
+.Lsra18_b21a:
+        .word   12, 12, .Lsra18_b21b
+.Lsra18_b21b:
+        .word   164, 12, .Lsra18_b21c
+.Lsra18_b21c:
+        .word   12, 172, .Lsra18_b21d
+.Lsra18_b21d:
+        .word   .Lsra_c2097152, 172, .Lsra18_b21e
+.Lsra18_b21e:
+        .word   176, 176, .Lsra18_b21f
+.Lsra18_b21f:
+        .word   172, 176, .Lsra18_b21s
+        .word   12, 12, .Lsra18_b20
+.Lsra18_b21s:
+        .word   .Lsra_c2097152, 164, .Lsra18_b21t
+.Lsra18_b21t:
+        .word   .Lsra_n8, 168, .Lsra18_b20
+.Lsra18_b20:
+        .word   172, 172, .Lsra18_b20a
+.Lsra18_b20a:
+        .word   12, 12, .Lsra18_b20b
+.Lsra18_b20b:
+        .word   164, 12, .Lsra18_b20c
+.Lsra18_b20c:
+        .word   12, 172, .Lsra18_b20d
+.Lsra18_b20d:
+        .word   .Lsra_c1048576, 172, .Lsra18_b20e
+.Lsra18_b20e:
+        .word   176, 176, .Lsra18_b20f
+.Lsra18_b20f:
+        .word   172, 176, .Lsra18_b20s
+        .word   12, 12, .Lsra18_b19
+.Lsra18_b20s:
+        .word   .Lsra_c1048576, 164, .Lsra18_b20t
+.Lsra18_b20t:
+        .word   .Lsra_n4, 168, .Lsra18_b19
+.Lsra18_b19:
+        .word   172, 172, .Lsra18_b19a
+.Lsra18_b19a:
+        .word   12, 12, .Lsra18_b19b
+.Lsra18_b19b:
+        .word   164, 12, .Lsra18_b19c
+.Lsra18_b19c:
+        .word   12, 172, .Lsra18_b19d
+.Lsra18_b19d:
+        .word   .Lsra_c524288, 172, .Lsra18_b19e
+.Lsra18_b19e:
+        .word   176, 176, .Lsra18_b19f
+.Lsra18_b19f:
+        .word   172, 176, .Lsra18_b19s
+        .word   12, 12, .Lsra18_b18
+.Lsra18_b19s:
+        .word   .Lsra_c524288, 164, .Lsra18_b19t
+.Lsra18_b19t:
+        .word   .Lsra_n2, 168, .Lsra18_b18
+.Lsra18_b18:
+        .word   172, 172, .Lsra18_b18a
+.Lsra18_b18a:
+        .word   12, 12, .Lsra18_b18b
+.Lsra18_b18b:
+        .word   164, 12, .Lsra18_b18c
+.Lsra18_b18c:
+        .word   12, 172, .Lsra18_b18d
+.Lsra18_b18d:
+        .word   .Lsra_c262144, 172, .Lsra18_b18e
+.Lsra18_b18e:
+        .word   176, 176, .Lsra18_b18f
+.Lsra18_b18f:
+        .word   172, 176, .Lsra18_b18s
+        .word   12, 12, .Lsra18_done
+.Lsra18_b18s:
+        .word   .Lsra_c262144, 164, .Lsra18_b18t
+.Lsra18_b18t:
+        .word   .Lsra_n1, 168, .Lsra18_done
+.Lsra18_done:
+        .word   172, 172, .Lsra18_chk
+.Lsra18_chk:
+        .word   24, 180, .Lsra18_store
+        .word   172, 172, .Lsra18_un1
+.Lsra18_un1:
+        .word   168, 172, .Lsra18_un2
+.Lsra18_un2:
+        .word   168, 168, .Lsra18_un3
+.Lsra18_un3:
+        .word   12, 12, .Lsra18_un4
+.Lsra18_un4:
+        .word   172, 12, .Lsra18_un5
+.Lsra18_un5:
+        .word   12, 168, .Lsra18_un6
+.Lsra18_un6:
+        .word   .Lsra_one, 168, .Lsra18_store
+.Lsra18_store:
+        .word   28, 28, .Lsra18_st1
+.Lsra18_st1:
+        .word   12, 12, .Lsra18_st2
+.Lsra18_st2:
+        .word   168, 12, .Lsra18_st3
+.Lsra18_st3:
+        .word   12, 28, .Lsra18_st4
+.Lsra18_st4:
+        .word   24, 24, .Lsra_done
+
+.Lsra_shift_19:
+        .word   180, 180, .Lsra19_chksign
+.Lsra19_chksign:
+        .word   172, 172, .Lsra19_s1
+.Lsra19_s1:
+        .word   12, 12, .Lsra19_s2
+.Lsra19_s2:
+        .word   164, 12, .Lsra19_s3
+.Lsra19_s3:
+        .word   12, 172, .Lsra19_s4
+.Lsra19_s4:
+        .word   24, 172, .Lsra19_maybe_neg
+        .word   12, 12, .Lsra19_pos
+.Lsra19_maybe_neg:
+        .word   172, 172, .Lsra19_m1
+.Lsra19_m1:
+        .word   164, 172, .Lsra19_m2
+.Lsra19_m2:
+        .word   24, 172, .Lsra19_ambig
+        .word   12, 12, .Lsra19_neg
+.Lsra19_ambig:
+        .word   172, 172, .Lsra19_a1
+.Lsra19_a1:
+        .word   164, 172, .Lsra19_a2
+.Lsra19_a2:
+        .word   .Lsra_one, 172, .Lsra19_a3
+.Lsra19_a3:
+        .word   24, 172, .Lsra19_pos
+        .word   12, 12, .Lsra19_neg
+.Lsra19_neg:
+        .word   .Lsra_negone, 180, .Lsra19_n1
+.Lsra19_n1:
+        .word   172, 172, .Lsra19_n2
+.Lsra19_n2:
+        .word   164, 172, .Lsra19_n3
+.Lsra19_n3:
+        .word   164, 164, .Lsra19_n4
+.Lsra19_n4:
+        .word   12, 12, .Lsra19_n5
+.Lsra19_n5:
+        .word   172, 12, .Lsra19_n6
+.Lsra19_n6:
+        .word   12, 164, .Lsra19_n7
+.Lsra19_n7:
+        .word   .Lsra_one, 164, .Lsra19_pos
+.Lsra19_pos:
+        .word   168, 168, .Lsra19_start
+.Lsra19_start:
+.Lsra19_b30:
+        .word   172, 172, .Lsra19_b30a
+.Lsra19_b30a:
+        .word   12, 12, .Lsra19_b30b
+.Lsra19_b30b:
+        .word   164, 12, .Lsra19_b30c
+.Lsra19_b30c:
+        .word   12, 172, .Lsra19_b30d
+.Lsra19_b30d:
+        .word   .Lsra_c1073741824, 172, .Lsra19_b30e
+.Lsra19_b30e:
+        .word   176, 176, .Lsra19_b30f
+.Lsra19_b30f:
+        .word   172, 176, .Lsra19_b30s
+        .word   12, 12, .Lsra19_b29
+.Lsra19_b30s:
+        .word   .Lsra_c1073741824, 164, .Lsra19_b30t
+.Lsra19_b30t:
+        .word   .Lsra_n2048, 168, .Lsra19_b29
+.Lsra19_b29:
+        .word   172, 172, .Lsra19_b29a
+.Lsra19_b29a:
+        .word   12, 12, .Lsra19_b29b
+.Lsra19_b29b:
+        .word   164, 12, .Lsra19_b29c
+.Lsra19_b29c:
+        .word   12, 172, .Lsra19_b29d
+.Lsra19_b29d:
+        .word   .Lsra_c536870912, 172, .Lsra19_b29e
+.Lsra19_b29e:
+        .word   176, 176, .Lsra19_b29f
+.Lsra19_b29f:
+        .word   172, 176, .Lsra19_b29s
+        .word   12, 12, .Lsra19_b28
+.Lsra19_b29s:
+        .word   .Lsra_c536870912, 164, .Lsra19_b29t
+.Lsra19_b29t:
+        .word   .Lsra_n1024, 168, .Lsra19_b28
+.Lsra19_b28:
+        .word   172, 172, .Lsra19_b28a
+.Lsra19_b28a:
+        .word   12, 12, .Lsra19_b28b
+.Lsra19_b28b:
+        .word   164, 12, .Lsra19_b28c
+.Lsra19_b28c:
+        .word   12, 172, .Lsra19_b28d
+.Lsra19_b28d:
+        .word   .Lsra_c268435456, 172, .Lsra19_b28e
+.Lsra19_b28e:
+        .word   176, 176, .Lsra19_b28f
+.Lsra19_b28f:
+        .word   172, 176, .Lsra19_b28s
+        .word   12, 12, .Lsra19_b27
+.Lsra19_b28s:
+        .word   .Lsra_c268435456, 164, .Lsra19_b28t
+.Lsra19_b28t:
+        .word   .Lsra_n512, 168, .Lsra19_b27
+.Lsra19_b27:
+        .word   172, 172, .Lsra19_b27a
+.Lsra19_b27a:
+        .word   12, 12, .Lsra19_b27b
+.Lsra19_b27b:
+        .word   164, 12, .Lsra19_b27c
+.Lsra19_b27c:
+        .word   12, 172, .Lsra19_b27d
+.Lsra19_b27d:
+        .word   .Lsra_c134217728, 172, .Lsra19_b27e
+.Lsra19_b27e:
+        .word   176, 176, .Lsra19_b27f
+.Lsra19_b27f:
+        .word   172, 176, .Lsra19_b27s
+        .word   12, 12, .Lsra19_b26
+.Lsra19_b27s:
+        .word   .Lsra_c134217728, 164, .Lsra19_b27t
+.Lsra19_b27t:
+        .word   .Lsra_n256, 168, .Lsra19_b26
+.Lsra19_b26:
+        .word   172, 172, .Lsra19_b26a
+.Lsra19_b26a:
+        .word   12, 12, .Lsra19_b26b
+.Lsra19_b26b:
+        .word   164, 12, .Lsra19_b26c
+.Lsra19_b26c:
+        .word   12, 172, .Lsra19_b26d
+.Lsra19_b26d:
+        .word   .Lsra_c67108864, 172, .Lsra19_b26e
+.Lsra19_b26e:
+        .word   176, 176, .Lsra19_b26f
+.Lsra19_b26f:
+        .word   172, 176, .Lsra19_b26s
+        .word   12, 12, .Lsra19_b25
+.Lsra19_b26s:
+        .word   .Lsra_c67108864, 164, .Lsra19_b26t
+.Lsra19_b26t:
+        .word   .Lsra_n128, 168, .Lsra19_b25
+.Lsra19_b25:
+        .word   172, 172, .Lsra19_b25a
+.Lsra19_b25a:
+        .word   12, 12, .Lsra19_b25b
+.Lsra19_b25b:
+        .word   164, 12, .Lsra19_b25c
+.Lsra19_b25c:
+        .word   12, 172, .Lsra19_b25d
+.Lsra19_b25d:
+        .word   .Lsra_c33554432, 172, .Lsra19_b25e
+.Lsra19_b25e:
+        .word   176, 176, .Lsra19_b25f
+.Lsra19_b25f:
+        .word   172, 176, .Lsra19_b25s
+        .word   12, 12, .Lsra19_b24
+.Lsra19_b25s:
+        .word   .Lsra_c33554432, 164, .Lsra19_b25t
+.Lsra19_b25t:
+        .word   .Lsra_n64, 168, .Lsra19_b24
+.Lsra19_b24:
+        .word   172, 172, .Lsra19_b24a
+.Lsra19_b24a:
+        .word   12, 12, .Lsra19_b24b
+.Lsra19_b24b:
+        .word   164, 12, .Lsra19_b24c
+.Lsra19_b24c:
+        .word   12, 172, .Lsra19_b24d
+.Lsra19_b24d:
+        .word   .Lsra_c16777216, 172, .Lsra19_b24e
+.Lsra19_b24e:
+        .word   176, 176, .Lsra19_b24f
+.Lsra19_b24f:
+        .word   172, 176, .Lsra19_b24s
+        .word   12, 12, .Lsra19_b23
+.Lsra19_b24s:
+        .word   .Lsra_c16777216, 164, .Lsra19_b24t
+.Lsra19_b24t:
+        .word   .Lsra_n32, 168, .Lsra19_b23
+.Lsra19_b23:
+        .word   172, 172, .Lsra19_b23a
+.Lsra19_b23a:
+        .word   12, 12, .Lsra19_b23b
+.Lsra19_b23b:
+        .word   164, 12, .Lsra19_b23c
+.Lsra19_b23c:
+        .word   12, 172, .Lsra19_b23d
+.Lsra19_b23d:
+        .word   .Lsra_c8388608, 172, .Lsra19_b23e
+.Lsra19_b23e:
+        .word   176, 176, .Lsra19_b23f
+.Lsra19_b23f:
+        .word   172, 176, .Lsra19_b23s
+        .word   12, 12, .Lsra19_b22
+.Lsra19_b23s:
+        .word   .Lsra_c8388608, 164, .Lsra19_b23t
+.Lsra19_b23t:
+        .word   .Lsra_n16, 168, .Lsra19_b22
+.Lsra19_b22:
+        .word   172, 172, .Lsra19_b22a
+.Lsra19_b22a:
+        .word   12, 12, .Lsra19_b22b
+.Lsra19_b22b:
+        .word   164, 12, .Lsra19_b22c
+.Lsra19_b22c:
+        .word   12, 172, .Lsra19_b22d
+.Lsra19_b22d:
+        .word   .Lsra_c4194304, 172, .Lsra19_b22e
+.Lsra19_b22e:
+        .word   176, 176, .Lsra19_b22f
+.Lsra19_b22f:
+        .word   172, 176, .Lsra19_b22s
+        .word   12, 12, .Lsra19_b21
+.Lsra19_b22s:
+        .word   .Lsra_c4194304, 164, .Lsra19_b22t
+.Lsra19_b22t:
+        .word   .Lsra_n8, 168, .Lsra19_b21
+.Lsra19_b21:
+        .word   172, 172, .Lsra19_b21a
+.Lsra19_b21a:
+        .word   12, 12, .Lsra19_b21b
+.Lsra19_b21b:
+        .word   164, 12, .Lsra19_b21c
+.Lsra19_b21c:
+        .word   12, 172, .Lsra19_b21d
+.Lsra19_b21d:
+        .word   .Lsra_c2097152, 172, .Lsra19_b21e
+.Lsra19_b21e:
+        .word   176, 176, .Lsra19_b21f
+.Lsra19_b21f:
+        .word   172, 176, .Lsra19_b21s
+        .word   12, 12, .Lsra19_b20
+.Lsra19_b21s:
+        .word   .Lsra_c2097152, 164, .Lsra19_b21t
+.Lsra19_b21t:
+        .word   .Lsra_n4, 168, .Lsra19_b20
+.Lsra19_b20:
+        .word   172, 172, .Lsra19_b20a
+.Lsra19_b20a:
+        .word   12, 12, .Lsra19_b20b
+.Lsra19_b20b:
+        .word   164, 12, .Lsra19_b20c
+.Lsra19_b20c:
+        .word   12, 172, .Lsra19_b20d
+.Lsra19_b20d:
+        .word   .Lsra_c1048576, 172, .Lsra19_b20e
+.Lsra19_b20e:
+        .word   176, 176, .Lsra19_b20f
+.Lsra19_b20f:
+        .word   172, 176, .Lsra19_b20s
+        .word   12, 12, .Lsra19_b19
+.Lsra19_b20s:
+        .word   .Lsra_c1048576, 164, .Lsra19_b20t
+.Lsra19_b20t:
+        .word   .Lsra_n2, 168, .Lsra19_b19
+.Lsra19_b19:
+        .word   172, 172, .Lsra19_b19a
+.Lsra19_b19a:
+        .word   12, 12, .Lsra19_b19b
+.Lsra19_b19b:
+        .word   164, 12, .Lsra19_b19c
+.Lsra19_b19c:
+        .word   12, 172, .Lsra19_b19d
+.Lsra19_b19d:
+        .word   .Lsra_c524288, 172, .Lsra19_b19e
+.Lsra19_b19e:
+        .word   176, 176, .Lsra19_b19f
+.Lsra19_b19f:
+        .word   172, 176, .Lsra19_b19s
+        .word   12, 12, .Lsra19_done
+.Lsra19_b19s:
+        .word   .Lsra_c524288, 164, .Lsra19_b19t
+.Lsra19_b19t:
+        .word   .Lsra_n1, 168, .Lsra19_done
+.Lsra19_done:
+        .word   172, 172, .Lsra19_chk
+.Lsra19_chk:
+        .word   24, 180, .Lsra19_store
+        .word   172, 172, .Lsra19_un1
+.Lsra19_un1:
+        .word   168, 172, .Lsra19_un2
+.Lsra19_un2:
+        .word   168, 168, .Lsra19_un3
+.Lsra19_un3:
+        .word   12, 12, .Lsra19_un4
+.Lsra19_un4:
+        .word   172, 12, .Lsra19_un5
+.Lsra19_un5:
+        .word   12, 168, .Lsra19_un6
+.Lsra19_un6:
+        .word   .Lsra_one, 168, .Lsra19_store
+.Lsra19_store:
+        .word   28, 28, .Lsra19_st1
+.Lsra19_st1:
+        .word   12, 12, .Lsra19_st2
+.Lsra19_st2:
+        .word   168, 12, .Lsra19_st3
+.Lsra19_st3:
+        .word   12, 28, .Lsra19_st4
+.Lsra19_st4:
+        .word   24, 24, .Lsra_done
+
+.Lsra_shift_20:
+        .word   180, 180, .Lsra20_chksign
+.Lsra20_chksign:
+        .word   172, 172, .Lsra20_s1
+.Lsra20_s1:
+        .word   12, 12, .Lsra20_s2
+.Lsra20_s2:
+        .word   164, 12, .Lsra20_s3
+.Lsra20_s3:
+        .word   12, 172, .Lsra20_s4
+.Lsra20_s4:
+        .word   24, 172, .Lsra20_maybe_neg
+        .word   12, 12, .Lsra20_pos
+.Lsra20_maybe_neg:
+        .word   172, 172, .Lsra20_m1
+.Lsra20_m1:
+        .word   164, 172, .Lsra20_m2
+.Lsra20_m2:
+        .word   24, 172, .Lsra20_ambig
+        .word   12, 12, .Lsra20_neg
+.Lsra20_ambig:
+        .word   172, 172, .Lsra20_a1
+.Lsra20_a1:
+        .word   164, 172, .Lsra20_a2
+.Lsra20_a2:
+        .word   .Lsra_one, 172, .Lsra20_a3
+.Lsra20_a3:
+        .word   24, 172, .Lsra20_pos
+        .word   12, 12, .Lsra20_neg
+.Lsra20_neg:
+        .word   .Lsra_negone, 180, .Lsra20_n1
+.Lsra20_n1:
+        .word   172, 172, .Lsra20_n2
+.Lsra20_n2:
+        .word   164, 172, .Lsra20_n3
+.Lsra20_n3:
+        .word   164, 164, .Lsra20_n4
+.Lsra20_n4:
+        .word   12, 12, .Lsra20_n5
+.Lsra20_n5:
+        .word   172, 12, .Lsra20_n6
+.Lsra20_n6:
+        .word   12, 164, .Lsra20_n7
+.Lsra20_n7:
+        .word   .Lsra_one, 164, .Lsra20_pos
+.Lsra20_pos:
+        .word   168, 168, .Lsra20_start
+.Lsra20_start:
+.Lsra20_b30:
+        .word   172, 172, .Lsra20_b30a
+.Lsra20_b30a:
+        .word   12, 12, .Lsra20_b30b
+.Lsra20_b30b:
+        .word   164, 12, .Lsra20_b30c
+.Lsra20_b30c:
+        .word   12, 172, .Lsra20_b30d
+.Lsra20_b30d:
+        .word   .Lsra_c1073741824, 172, .Lsra20_b30e
+.Lsra20_b30e:
+        .word   176, 176, .Lsra20_b30f
+.Lsra20_b30f:
+        .word   172, 176, .Lsra20_b30s
+        .word   12, 12, .Lsra20_b29
+.Lsra20_b30s:
+        .word   .Lsra_c1073741824, 164, .Lsra20_b30t
+.Lsra20_b30t:
+        .word   .Lsra_n1024, 168, .Lsra20_b29
+.Lsra20_b29:
+        .word   172, 172, .Lsra20_b29a
+.Lsra20_b29a:
+        .word   12, 12, .Lsra20_b29b
+.Lsra20_b29b:
+        .word   164, 12, .Lsra20_b29c
+.Lsra20_b29c:
+        .word   12, 172, .Lsra20_b29d
+.Lsra20_b29d:
+        .word   .Lsra_c536870912, 172, .Lsra20_b29e
+.Lsra20_b29e:
+        .word   176, 176, .Lsra20_b29f
+.Lsra20_b29f:
+        .word   172, 176, .Lsra20_b29s
+        .word   12, 12, .Lsra20_b28
+.Lsra20_b29s:
+        .word   .Lsra_c536870912, 164, .Lsra20_b29t
+.Lsra20_b29t:
+        .word   .Lsra_n512, 168, .Lsra20_b28
+.Lsra20_b28:
+        .word   172, 172, .Lsra20_b28a
+.Lsra20_b28a:
+        .word   12, 12, .Lsra20_b28b
+.Lsra20_b28b:
+        .word   164, 12, .Lsra20_b28c
+.Lsra20_b28c:
+        .word   12, 172, .Lsra20_b28d
+.Lsra20_b28d:
+        .word   .Lsra_c268435456, 172, .Lsra20_b28e
+.Lsra20_b28e:
+        .word   176, 176, .Lsra20_b28f
+.Lsra20_b28f:
+        .word   172, 176, .Lsra20_b28s
+        .word   12, 12, .Lsra20_b27
+.Lsra20_b28s:
+        .word   .Lsra_c268435456, 164, .Lsra20_b28t
+.Lsra20_b28t:
+        .word   .Lsra_n256, 168, .Lsra20_b27
+.Lsra20_b27:
+        .word   172, 172, .Lsra20_b27a
+.Lsra20_b27a:
+        .word   12, 12, .Lsra20_b27b
+.Lsra20_b27b:
+        .word   164, 12, .Lsra20_b27c
+.Lsra20_b27c:
+        .word   12, 172, .Lsra20_b27d
+.Lsra20_b27d:
+        .word   .Lsra_c134217728, 172, .Lsra20_b27e
+.Lsra20_b27e:
+        .word   176, 176, .Lsra20_b27f
+.Lsra20_b27f:
+        .word   172, 176, .Lsra20_b27s
+        .word   12, 12, .Lsra20_b26
+.Lsra20_b27s:
+        .word   .Lsra_c134217728, 164, .Lsra20_b27t
+.Lsra20_b27t:
+        .word   .Lsra_n128, 168, .Lsra20_b26
+.Lsra20_b26:
+        .word   172, 172, .Lsra20_b26a
+.Lsra20_b26a:
+        .word   12, 12, .Lsra20_b26b
+.Lsra20_b26b:
+        .word   164, 12, .Lsra20_b26c
+.Lsra20_b26c:
+        .word   12, 172, .Lsra20_b26d
+.Lsra20_b26d:
+        .word   .Lsra_c67108864, 172, .Lsra20_b26e
+.Lsra20_b26e:
+        .word   176, 176, .Lsra20_b26f
+.Lsra20_b26f:
+        .word   172, 176, .Lsra20_b26s
+        .word   12, 12, .Lsra20_b25
+.Lsra20_b26s:
+        .word   .Lsra_c67108864, 164, .Lsra20_b26t
+.Lsra20_b26t:
+        .word   .Lsra_n64, 168, .Lsra20_b25
+.Lsra20_b25:
+        .word   172, 172, .Lsra20_b25a
+.Lsra20_b25a:
+        .word   12, 12, .Lsra20_b25b
+.Lsra20_b25b:
+        .word   164, 12, .Lsra20_b25c
+.Lsra20_b25c:
+        .word   12, 172, .Lsra20_b25d
+.Lsra20_b25d:
+        .word   .Lsra_c33554432, 172, .Lsra20_b25e
+.Lsra20_b25e:
+        .word   176, 176, .Lsra20_b25f
+.Lsra20_b25f:
+        .word   172, 176, .Lsra20_b25s
+        .word   12, 12, .Lsra20_b24
+.Lsra20_b25s:
+        .word   .Lsra_c33554432, 164, .Lsra20_b25t
+.Lsra20_b25t:
+        .word   .Lsra_n32, 168, .Lsra20_b24
+.Lsra20_b24:
+        .word   172, 172, .Lsra20_b24a
+.Lsra20_b24a:
+        .word   12, 12, .Lsra20_b24b
+.Lsra20_b24b:
+        .word   164, 12, .Lsra20_b24c
+.Lsra20_b24c:
+        .word   12, 172, .Lsra20_b24d
+.Lsra20_b24d:
+        .word   .Lsra_c16777216, 172, .Lsra20_b24e
+.Lsra20_b24e:
+        .word   176, 176, .Lsra20_b24f
+.Lsra20_b24f:
+        .word   172, 176, .Lsra20_b24s
+        .word   12, 12, .Lsra20_b23
+.Lsra20_b24s:
+        .word   .Lsra_c16777216, 164, .Lsra20_b24t
+.Lsra20_b24t:
+        .word   .Lsra_n16, 168, .Lsra20_b23
+.Lsra20_b23:
+        .word   172, 172, .Lsra20_b23a
+.Lsra20_b23a:
+        .word   12, 12, .Lsra20_b23b
+.Lsra20_b23b:
+        .word   164, 12, .Lsra20_b23c
+.Lsra20_b23c:
+        .word   12, 172, .Lsra20_b23d
+.Lsra20_b23d:
+        .word   .Lsra_c8388608, 172, .Lsra20_b23e
+.Lsra20_b23e:
+        .word   176, 176, .Lsra20_b23f
+.Lsra20_b23f:
+        .word   172, 176, .Lsra20_b23s
+        .word   12, 12, .Lsra20_b22
+.Lsra20_b23s:
+        .word   .Lsra_c8388608, 164, .Lsra20_b23t
+.Lsra20_b23t:
+        .word   .Lsra_n8, 168, .Lsra20_b22
+.Lsra20_b22:
+        .word   172, 172, .Lsra20_b22a
+.Lsra20_b22a:
+        .word   12, 12, .Lsra20_b22b
+.Lsra20_b22b:
+        .word   164, 12, .Lsra20_b22c
+.Lsra20_b22c:
+        .word   12, 172, .Lsra20_b22d
+.Lsra20_b22d:
+        .word   .Lsra_c4194304, 172, .Lsra20_b22e
+.Lsra20_b22e:
+        .word   176, 176, .Lsra20_b22f
+.Lsra20_b22f:
+        .word   172, 176, .Lsra20_b22s
+        .word   12, 12, .Lsra20_b21
+.Lsra20_b22s:
+        .word   .Lsra_c4194304, 164, .Lsra20_b22t
+.Lsra20_b22t:
+        .word   .Lsra_n4, 168, .Lsra20_b21
+.Lsra20_b21:
+        .word   172, 172, .Lsra20_b21a
+.Lsra20_b21a:
+        .word   12, 12, .Lsra20_b21b
+.Lsra20_b21b:
+        .word   164, 12, .Lsra20_b21c
+.Lsra20_b21c:
+        .word   12, 172, .Lsra20_b21d
+.Lsra20_b21d:
+        .word   .Lsra_c2097152, 172, .Lsra20_b21e
+.Lsra20_b21e:
+        .word   176, 176, .Lsra20_b21f
+.Lsra20_b21f:
+        .word   172, 176, .Lsra20_b21s
+        .word   12, 12, .Lsra20_b20
+.Lsra20_b21s:
+        .word   .Lsra_c2097152, 164, .Lsra20_b21t
+.Lsra20_b21t:
+        .word   .Lsra_n2, 168, .Lsra20_b20
+.Lsra20_b20:
+        .word   172, 172, .Lsra20_b20a
+.Lsra20_b20a:
+        .word   12, 12, .Lsra20_b20b
+.Lsra20_b20b:
+        .word   164, 12, .Lsra20_b20c
+.Lsra20_b20c:
+        .word   12, 172, .Lsra20_b20d
+.Lsra20_b20d:
+        .word   .Lsra_c1048576, 172, .Lsra20_b20e
+.Lsra20_b20e:
+        .word   176, 176, .Lsra20_b20f
+.Lsra20_b20f:
+        .word   172, 176, .Lsra20_b20s
+        .word   12, 12, .Lsra20_done
+.Lsra20_b20s:
+        .word   .Lsra_c1048576, 164, .Lsra20_b20t
+.Lsra20_b20t:
+        .word   .Lsra_n1, 168, .Lsra20_done
+.Lsra20_done:
+        .word   172, 172, .Lsra20_chk
+.Lsra20_chk:
+        .word   24, 180, .Lsra20_store
+        .word   172, 172, .Lsra20_un1
+.Lsra20_un1:
+        .word   168, 172, .Lsra20_un2
+.Lsra20_un2:
+        .word   168, 168, .Lsra20_un3
+.Lsra20_un3:
+        .word   12, 12, .Lsra20_un4
+.Lsra20_un4:
+        .word   172, 12, .Lsra20_un5
+.Lsra20_un5:
+        .word   12, 168, .Lsra20_un6
+.Lsra20_un6:
+        .word   .Lsra_one, 168, .Lsra20_store
+.Lsra20_store:
+        .word   28, 28, .Lsra20_st1
+.Lsra20_st1:
+        .word   12, 12, .Lsra20_st2
+.Lsra20_st2:
+        .word   168, 12, .Lsra20_st3
+.Lsra20_st3:
+        .word   12, 28, .Lsra20_st4
+.Lsra20_st4:
+        .word   24, 24, .Lsra_done
+
+.Lsra_shift_21:
+        .word   180, 180, .Lsra21_chksign
+.Lsra21_chksign:
+        .word   172, 172, .Lsra21_s1
+.Lsra21_s1:
+        .word   12, 12, .Lsra21_s2
+.Lsra21_s2:
+        .word   164, 12, .Lsra21_s3
+.Lsra21_s3:
+        .word   12, 172, .Lsra21_s4
+.Lsra21_s4:
+        .word   24, 172, .Lsra21_maybe_neg
+        .word   12, 12, .Lsra21_pos
+.Lsra21_maybe_neg:
+        .word   172, 172, .Lsra21_m1
+.Lsra21_m1:
+        .word   164, 172, .Lsra21_m2
+.Lsra21_m2:
+        .word   24, 172, .Lsra21_ambig
+        .word   12, 12, .Lsra21_neg
+.Lsra21_ambig:
+        .word   172, 172, .Lsra21_a1
+.Lsra21_a1:
+        .word   164, 172, .Lsra21_a2
+.Lsra21_a2:
+        .word   .Lsra_one, 172, .Lsra21_a3
+.Lsra21_a3:
+        .word   24, 172, .Lsra21_pos
+        .word   12, 12, .Lsra21_neg
+.Lsra21_neg:
+        .word   .Lsra_negone, 180, .Lsra21_n1
+.Lsra21_n1:
+        .word   172, 172, .Lsra21_n2
+.Lsra21_n2:
+        .word   164, 172, .Lsra21_n3
+.Lsra21_n3:
+        .word   164, 164, .Lsra21_n4
+.Lsra21_n4:
+        .word   12, 12, .Lsra21_n5
+.Lsra21_n5:
+        .word   172, 12, .Lsra21_n6
+.Lsra21_n6:
+        .word   12, 164, .Lsra21_n7
+.Lsra21_n7:
+        .word   .Lsra_one, 164, .Lsra21_pos
+.Lsra21_pos:
+        .word   168, 168, .Lsra21_start
+.Lsra21_start:
+.Lsra21_b30:
+        .word   172, 172, .Lsra21_b30a
+.Lsra21_b30a:
+        .word   12, 12, .Lsra21_b30b
+.Lsra21_b30b:
+        .word   164, 12, .Lsra21_b30c
+.Lsra21_b30c:
+        .word   12, 172, .Lsra21_b30d
+.Lsra21_b30d:
+        .word   .Lsra_c1073741824, 172, .Lsra21_b30e
+.Lsra21_b30e:
+        .word   176, 176, .Lsra21_b30f
+.Lsra21_b30f:
+        .word   172, 176, .Lsra21_b30s
+        .word   12, 12, .Lsra21_b29
+.Lsra21_b30s:
+        .word   .Lsra_c1073741824, 164, .Lsra21_b30t
+.Lsra21_b30t:
+        .word   .Lsra_n512, 168, .Lsra21_b29
+.Lsra21_b29:
+        .word   172, 172, .Lsra21_b29a
+.Lsra21_b29a:
+        .word   12, 12, .Lsra21_b29b
+.Lsra21_b29b:
+        .word   164, 12, .Lsra21_b29c
+.Lsra21_b29c:
+        .word   12, 172, .Lsra21_b29d
+.Lsra21_b29d:
+        .word   .Lsra_c536870912, 172, .Lsra21_b29e
+.Lsra21_b29e:
+        .word   176, 176, .Lsra21_b29f
+.Lsra21_b29f:
+        .word   172, 176, .Lsra21_b29s
+        .word   12, 12, .Lsra21_b28
+.Lsra21_b29s:
+        .word   .Lsra_c536870912, 164, .Lsra21_b29t
+.Lsra21_b29t:
+        .word   .Lsra_n256, 168, .Lsra21_b28
+.Lsra21_b28:
+        .word   172, 172, .Lsra21_b28a
+.Lsra21_b28a:
+        .word   12, 12, .Lsra21_b28b
+.Lsra21_b28b:
+        .word   164, 12, .Lsra21_b28c
+.Lsra21_b28c:
+        .word   12, 172, .Lsra21_b28d
+.Lsra21_b28d:
+        .word   .Lsra_c268435456, 172, .Lsra21_b28e
+.Lsra21_b28e:
+        .word   176, 176, .Lsra21_b28f
+.Lsra21_b28f:
+        .word   172, 176, .Lsra21_b28s
+        .word   12, 12, .Lsra21_b27
+.Lsra21_b28s:
+        .word   .Lsra_c268435456, 164, .Lsra21_b28t
+.Lsra21_b28t:
+        .word   .Lsra_n128, 168, .Lsra21_b27
+.Lsra21_b27:
+        .word   172, 172, .Lsra21_b27a
+.Lsra21_b27a:
+        .word   12, 12, .Lsra21_b27b
+.Lsra21_b27b:
+        .word   164, 12, .Lsra21_b27c
+.Lsra21_b27c:
+        .word   12, 172, .Lsra21_b27d
+.Lsra21_b27d:
+        .word   .Lsra_c134217728, 172, .Lsra21_b27e
+.Lsra21_b27e:
+        .word   176, 176, .Lsra21_b27f
+.Lsra21_b27f:
+        .word   172, 176, .Lsra21_b27s
+        .word   12, 12, .Lsra21_b26
+.Lsra21_b27s:
+        .word   .Lsra_c134217728, 164, .Lsra21_b27t
+.Lsra21_b27t:
+        .word   .Lsra_n64, 168, .Lsra21_b26
+.Lsra21_b26:
+        .word   172, 172, .Lsra21_b26a
+.Lsra21_b26a:
+        .word   12, 12, .Lsra21_b26b
+.Lsra21_b26b:
+        .word   164, 12, .Lsra21_b26c
+.Lsra21_b26c:
+        .word   12, 172, .Lsra21_b26d
+.Lsra21_b26d:
+        .word   .Lsra_c67108864, 172, .Lsra21_b26e
+.Lsra21_b26e:
+        .word   176, 176, .Lsra21_b26f
+.Lsra21_b26f:
+        .word   172, 176, .Lsra21_b26s
+        .word   12, 12, .Lsra21_b25
+.Lsra21_b26s:
+        .word   .Lsra_c67108864, 164, .Lsra21_b26t
+.Lsra21_b26t:
+        .word   .Lsra_n32, 168, .Lsra21_b25
+.Lsra21_b25:
+        .word   172, 172, .Lsra21_b25a
+.Lsra21_b25a:
+        .word   12, 12, .Lsra21_b25b
+.Lsra21_b25b:
+        .word   164, 12, .Lsra21_b25c
+.Lsra21_b25c:
+        .word   12, 172, .Lsra21_b25d
+.Lsra21_b25d:
+        .word   .Lsra_c33554432, 172, .Lsra21_b25e
+.Lsra21_b25e:
+        .word   176, 176, .Lsra21_b25f
+.Lsra21_b25f:
+        .word   172, 176, .Lsra21_b25s
+        .word   12, 12, .Lsra21_b24
+.Lsra21_b25s:
+        .word   .Lsra_c33554432, 164, .Lsra21_b25t
+.Lsra21_b25t:
+        .word   .Lsra_n16, 168, .Lsra21_b24
+.Lsra21_b24:
+        .word   172, 172, .Lsra21_b24a
+.Lsra21_b24a:
+        .word   12, 12, .Lsra21_b24b
+.Lsra21_b24b:
+        .word   164, 12, .Lsra21_b24c
+.Lsra21_b24c:
+        .word   12, 172, .Lsra21_b24d
+.Lsra21_b24d:
+        .word   .Lsra_c16777216, 172, .Lsra21_b24e
+.Lsra21_b24e:
+        .word   176, 176, .Lsra21_b24f
+.Lsra21_b24f:
+        .word   172, 176, .Lsra21_b24s
+        .word   12, 12, .Lsra21_b23
+.Lsra21_b24s:
+        .word   .Lsra_c16777216, 164, .Lsra21_b24t
+.Lsra21_b24t:
+        .word   .Lsra_n8, 168, .Lsra21_b23
+.Lsra21_b23:
+        .word   172, 172, .Lsra21_b23a
+.Lsra21_b23a:
+        .word   12, 12, .Lsra21_b23b
+.Lsra21_b23b:
+        .word   164, 12, .Lsra21_b23c
+.Lsra21_b23c:
+        .word   12, 172, .Lsra21_b23d
+.Lsra21_b23d:
+        .word   .Lsra_c8388608, 172, .Lsra21_b23e
+.Lsra21_b23e:
+        .word   176, 176, .Lsra21_b23f
+.Lsra21_b23f:
+        .word   172, 176, .Lsra21_b23s
+        .word   12, 12, .Lsra21_b22
+.Lsra21_b23s:
+        .word   .Lsra_c8388608, 164, .Lsra21_b23t
+.Lsra21_b23t:
+        .word   .Lsra_n4, 168, .Lsra21_b22
+.Lsra21_b22:
+        .word   172, 172, .Lsra21_b22a
+.Lsra21_b22a:
+        .word   12, 12, .Lsra21_b22b
+.Lsra21_b22b:
+        .word   164, 12, .Lsra21_b22c
+.Lsra21_b22c:
+        .word   12, 172, .Lsra21_b22d
+.Lsra21_b22d:
+        .word   .Lsra_c4194304, 172, .Lsra21_b22e
+.Lsra21_b22e:
+        .word   176, 176, .Lsra21_b22f
+.Lsra21_b22f:
+        .word   172, 176, .Lsra21_b22s
+        .word   12, 12, .Lsra21_b21
+.Lsra21_b22s:
+        .word   .Lsra_c4194304, 164, .Lsra21_b22t
+.Lsra21_b22t:
+        .word   .Lsra_n2, 168, .Lsra21_b21
+.Lsra21_b21:
+        .word   172, 172, .Lsra21_b21a
+.Lsra21_b21a:
+        .word   12, 12, .Lsra21_b21b
+.Lsra21_b21b:
+        .word   164, 12, .Lsra21_b21c
+.Lsra21_b21c:
+        .word   12, 172, .Lsra21_b21d
+.Lsra21_b21d:
+        .word   .Lsra_c2097152, 172, .Lsra21_b21e
+.Lsra21_b21e:
+        .word   176, 176, .Lsra21_b21f
+.Lsra21_b21f:
+        .word   172, 176, .Lsra21_b21s
+        .word   12, 12, .Lsra21_done
+.Lsra21_b21s:
+        .word   .Lsra_c2097152, 164, .Lsra21_b21t
+.Lsra21_b21t:
+        .word   .Lsra_n1, 168, .Lsra21_done
+.Lsra21_done:
+        .word   172, 172, .Lsra21_chk
+.Lsra21_chk:
+        .word   24, 180, .Lsra21_store
+        .word   172, 172, .Lsra21_un1
+.Lsra21_un1:
+        .word   168, 172, .Lsra21_un2
+.Lsra21_un2:
+        .word   168, 168, .Lsra21_un3
+.Lsra21_un3:
+        .word   12, 12, .Lsra21_un4
+.Lsra21_un4:
+        .word   172, 12, .Lsra21_un5
+.Lsra21_un5:
+        .word   12, 168, .Lsra21_un6
+.Lsra21_un6:
+        .word   .Lsra_one, 168, .Lsra21_store
+.Lsra21_store:
+        .word   28, 28, .Lsra21_st1
+.Lsra21_st1:
+        .word   12, 12, .Lsra21_st2
+.Lsra21_st2:
+        .word   168, 12, .Lsra21_st3
+.Lsra21_st3:
+        .word   12, 28, .Lsra21_st4
+.Lsra21_st4:
+        .word   24, 24, .Lsra_done
+
+.Lsra_shift_22:
+        .word   180, 180, .Lsra22_chksign
+.Lsra22_chksign:
+        .word   172, 172, .Lsra22_s1
+.Lsra22_s1:
+        .word   12, 12, .Lsra22_s2
+.Lsra22_s2:
+        .word   164, 12, .Lsra22_s3
+.Lsra22_s3:
+        .word   12, 172, .Lsra22_s4
+.Lsra22_s4:
+        .word   24, 172, .Lsra22_maybe_neg
+        .word   12, 12, .Lsra22_pos
+.Lsra22_maybe_neg:
+        .word   172, 172, .Lsra22_m1
+.Lsra22_m1:
+        .word   164, 172, .Lsra22_m2
+.Lsra22_m2:
+        .word   24, 172, .Lsra22_ambig
+        .word   12, 12, .Lsra22_neg
+.Lsra22_ambig:
+        .word   172, 172, .Lsra22_a1
+.Lsra22_a1:
+        .word   164, 172, .Lsra22_a2
+.Lsra22_a2:
+        .word   .Lsra_one, 172, .Lsra22_a3
+.Lsra22_a3:
+        .word   24, 172, .Lsra22_pos
+        .word   12, 12, .Lsra22_neg
+.Lsra22_neg:
+        .word   .Lsra_negone, 180, .Lsra22_n1
+.Lsra22_n1:
+        .word   172, 172, .Lsra22_n2
+.Lsra22_n2:
+        .word   164, 172, .Lsra22_n3
+.Lsra22_n3:
+        .word   164, 164, .Lsra22_n4
+.Lsra22_n4:
+        .word   12, 12, .Lsra22_n5
+.Lsra22_n5:
+        .word   172, 12, .Lsra22_n6
+.Lsra22_n6:
+        .word   12, 164, .Lsra22_n7
+.Lsra22_n7:
+        .word   .Lsra_one, 164, .Lsra22_pos
+.Lsra22_pos:
+        .word   168, 168, .Lsra22_start
+.Lsra22_start:
+.Lsra22_b30:
+        .word   172, 172, .Lsra22_b30a
+.Lsra22_b30a:
+        .word   12, 12, .Lsra22_b30b
+.Lsra22_b30b:
+        .word   164, 12, .Lsra22_b30c
+.Lsra22_b30c:
+        .word   12, 172, .Lsra22_b30d
+.Lsra22_b30d:
+        .word   .Lsra_c1073741824, 172, .Lsra22_b30e
+.Lsra22_b30e:
+        .word   176, 176, .Lsra22_b30f
+.Lsra22_b30f:
+        .word   172, 176, .Lsra22_b30s
+        .word   12, 12, .Lsra22_b29
+.Lsra22_b30s:
+        .word   .Lsra_c1073741824, 164, .Lsra22_b30t
+.Lsra22_b30t:
+        .word   .Lsra_n256, 168, .Lsra22_b29
+.Lsra22_b29:
+        .word   172, 172, .Lsra22_b29a
+.Lsra22_b29a:
+        .word   12, 12, .Lsra22_b29b
+.Lsra22_b29b:
+        .word   164, 12, .Lsra22_b29c
+.Lsra22_b29c:
+        .word   12, 172, .Lsra22_b29d
+.Lsra22_b29d:
+        .word   .Lsra_c536870912, 172, .Lsra22_b29e
+.Lsra22_b29e:
+        .word   176, 176, .Lsra22_b29f
+.Lsra22_b29f:
+        .word   172, 176, .Lsra22_b29s
+        .word   12, 12, .Lsra22_b28
+.Lsra22_b29s:
+        .word   .Lsra_c536870912, 164, .Lsra22_b29t
+.Lsra22_b29t:
+        .word   .Lsra_n128, 168, .Lsra22_b28
+.Lsra22_b28:
+        .word   172, 172, .Lsra22_b28a
+.Lsra22_b28a:
+        .word   12, 12, .Lsra22_b28b
+.Lsra22_b28b:
+        .word   164, 12, .Lsra22_b28c
+.Lsra22_b28c:
+        .word   12, 172, .Lsra22_b28d
+.Lsra22_b28d:
+        .word   .Lsra_c268435456, 172, .Lsra22_b28e
+.Lsra22_b28e:
+        .word   176, 176, .Lsra22_b28f
+.Lsra22_b28f:
+        .word   172, 176, .Lsra22_b28s
+        .word   12, 12, .Lsra22_b27
+.Lsra22_b28s:
+        .word   .Lsra_c268435456, 164, .Lsra22_b28t
+.Lsra22_b28t:
+        .word   .Lsra_n64, 168, .Lsra22_b27
+.Lsra22_b27:
+        .word   172, 172, .Lsra22_b27a
+.Lsra22_b27a:
+        .word   12, 12, .Lsra22_b27b
+.Lsra22_b27b:
+        .word   164, 12, .Lsra22_b27c
+.Lsra22_b27c:
+        .word   12, 172, .Lsra22_b27d
+.Lsra22_b27d:
+        .word   .Lsra_c134217728, 172, .Lsra22_b27e
+.Lsra22_b27e:
+        .word   176, 176, .Lsra22_b27f
+.Lsra22_b27f:
+        .word   172, 176, .Lsra22_b27s
+        .word   12, 12, .Lsra22_b26
+.Lsra22_b27s:
+        .word   .Lsra_c134217728, 164, .Lsra22_b27t
+.Lsra22_b27t:
+        .word   .Lsra_n32, 168, .Lsra22_b26
+.Lsra22_b26:
+        .word   172, 172, .Lsra22_b26a
+.Lsra22_b26a:
+        .word   12, 12, .Lsra22_b26b
+.Lsra22_b26b:
+        .word   164, 12, .Lsra22_b26c
+.Lsra22_b26c:
+        .word   12, 172, .Lsra22_b26d
+.Lsra22_b26d:
+        .word   .Lsra_c67108864, 172, .Lsra22_b26e
+.Lsra22_b26e:
+        .word   176, 176, .Lsra22_b26f
+.Lsra22_b26f:
+        .word   172, 176, .Lsra22_b26s
+        .word   12, 12, .Lsra22_b25
+.Lsra22_b26s:
+        .word   .Lsra_c67108864, 164, .Lsra22_b26t
+.Lsra22_b26t:
+        .word   .Lsra_n16, 168, .Lsra22_b25
+.Lsra22_b25:
+        .word   172, 172, .Lsra22_b25a
+.Lsra22_b25a:
+        .word   12, 12, .Lsra22_b25b
+.Lsra22_b25b:
+        .word   164, 12, .Lsra22_b25c
+.Lsra22_b25c:
+        .word   12, 172, .Lsra22_b25d
+.Lsra22_b25d:
+        .word   .Lsra_c33554432, 172, .Lsra22_b25e
+.Lsra22_b25e:
+        .word   176, 176, .Lsra22_b25f
+.Lsra22_b25f:
+        .word   172, 176, .Lsra22_b25s
+        .word   12, 12, .Lsra22_b24
+.Lsra22_b25s:
+        .word   .Lsra_c33554432, 164, .Lsra22_b25t
+.Lsra22_b25t:
+        .word   .Lsra_n8, 168, .Lsra22_b24
+.Lsra22_b24:
+        .word   172, 172, .Lsra22_b24a
+.Lsra22_b24a:
+        .word   12, 12, .Lsra22_b24b
+.Lsra22_b24b:
+        .word   164, 12, .Lsra22_b24c
+.Lsra22_b24c:
+        .word   12, 172, .Lsra22_b24d
+.Lsra22_b24d:
+        .word   .Lsra_c16777216, 172, .Lsra22_b24e
+.Lsra22_b24e:
+        .word   176, 176, .Lsra22_b24f
+.Lsra22_b24f:
+        .word   172, 176, .Lsra22_b24s
+        .word   12, 12, .Lsra22_b23
+.Lsra22_b24s:
+        .word   .Lsra_c16777216, 164, .Lsra22_b24t
+.Lsra22_b24t:
+        .word   .Lsra_n4, 168, .Lsra22_b23
+.Lsra22_b23:
+        .word   172, 172, .Lsra22_b23a
+.Lsra22_b23a:
+        .word   12, 12, .Lsra22_b23b
+.Lsra22_b23b:
+        .word   164, 12, .Lsra22_b23c
+.Lsra22_b23c:
+        .word   12, 172, .Lsra22_b23d
+.Lsra22_b23d:
+        .word   .Lsra_c8388608, 172, .Lsra22_b23e
+.Lsra22_b23e:
+        .word   176, 176, .Lsra22_b23f
+.Lsra22_b23f:
+        .word   172, 176, .Lsra22_b23s
+        .word   12, 12, .Lsra22_b22
+.Lsra22_b23s:
+        .word   .Lsra_c8388608, 164, .Lsra22_b23t
+.Lsra22_b23t:
+        .word   .Lsra_n2, 168, .Lsra22_b22
+.Lsra22_b22:
+        .word   172, 172, .Lsra22_b22a
+.Lsra22_b22a:
+        .word   12, 12, .Lsra22_b22b
+.Lsra22_b22b:
+        .word   164, 12, .Lsra22_b22c
+.Lsra22_b22c:
+        .word   12, 172, .Lsra22_b22d
+.Lsra22_b22d:
+        .word   .Lsra_c4194304, 172, .Lsra22_b22e
+.Lsra22_b22e:
+        .word   176, 176, .Lsra22_b22f
+.Lsra22_b22f:
+        .word   172, 176, .Lsra22_b22s
+        .word   12, 12, .Lsra22_done
+.Lsra22_b22s:
+        .word   .Lsra_c4194304, 164, .Lsra22_b22t
+.Lsra22_b22t:
+        .word   .Lsra_n1, 168, .Lsra22_done
+.Lsra22_done:
+        .word   172, 172, .Lsra22_chk
+.Lsra22_chk:
+        .word   24, 180, .Lsra22_store
+        .word   172, 172, .Lsra22_un1
+.Lsra22_un1:
+        .word   168, 172, .Lsra22_un2
+.Lsra22_un2:
+        .word   168, 168, .Lsra22_un3
+.Lsra22_un3:
+        .word   12, 12, .Lsra22_un4
+.Lsra22_un4:
+        .word   172, 12, .Lsra22_un5
+.Lsra22_un5:
+        .word   12, 168, .Lsra22_un6
+.Lsra22_un6:
+        .word   .Lsra_one, 168, .Lsra22_store
+.Lsra22_store:
+        .word   28, 28, .Lsra22_st1
+.Lsra22_st1:
+        .word   12, 12, .Lsra22_st2
+.Lsra22_st2:
+        .word   168, 12, .Lsra22_st3
+.Lsra22_st3:
+        .word   12, 28, .Lsra22_st4
+.Lsra22_st4:
+        .word   24, 24, .Lsra_done
+
+.Lsra_shift_23:
+        .word   180, 180, .Lsra23_chksign
+.Lsra23_chksign:
+        .word   172, 172, .Lsra23_s1
+.Lsra23_s1:
+        .word   12, 12, .Lsra23_s2
+.Lsra23_s2:
+        .word   164, 12, .Lsra23_s3
+.Lsra23_s3:
+        .word   12, 172, .Lsra23_s4
+.Lsra23_s4:
+        .word   24, 172, .Lsra23_maybe_neg
+        .word   12, 12, .Lsra23_pos
+.Lsra23_maybe_neg:
+        .word   172, 172, .Lsra23_m1
+.Lsra23_m1:
+        .word   164, 172, .Lsra23_m2
+.Lsra23_m2:
+        .word   24, 172, .Lsra23_ambig
+        .word   12, 12, .Lsra23_neg
+.Lsra23_ambig:
+        .word   172, 172, .Lsra23_a1
+.Lsra23_a1:
+        .word   164, 172, .Lsra23_a2
+.Lsra23_a2:
+        .word   .Lsra_one, 172, .Lsra23_a3
+.Lsra23_a3:
+        .word   24, 172, .Lsra23_pos
+        .word   12, 12, .Lsra23_neg
+.Lsra23_neg:
+        .word   .Lsra_negone, 180, .Lsra23_n1
+.Lsra23_n1:
+        .word   172, 172, .Lsra23_n2
+.Lsra23_n2:
+        .word   164, 172, .Lsra23_n3
+.Lsra23_n3:
+        .word   164, 164, .Lsra23_n4
+.Lsra23_n4:
+        .word   12, 12, .Lsra23_n5
+.Lsra23_n5:
+        .word   172, 12, .Lsra23_n6
+.Lsra23_n6:
+        .word   12, 164, .Lsra23_n7
+.Lsra23_n7:
+        .word   .Lsra_one, 164, .Lsra23_pos
+.Lsra23_pos:
+        .word   168, 168, .Lsra23_start
+.Lsra23_start:
+.Lsra23_b30:
+        .word   172, 172, .Lsra23_b30a
+.Lsra23_b30a:
+        .word   12, 12, .Lsra23_b30b
+.Lsra23_b30b:
+        .word   164, 12, .Lsra23_b30c
+.Lsra23_b30c:
+        .word   12, 172, .Lsra23_b30d
+.Lsra23_b30d:
+        .word   .Lsra_c1073741824, 172, .Lsra23_b30e
+.Lsra23_b30e:
+        .word   176, 176, .Lsra23_b30f
+.Lsra23_b30f:
+        .word   172, 176, .Lsra23_b30s
+        .word   12, 12, .Lsra23_b29
+.Lsra23_b30s:
+        .word   .Lsra_c1073741824, 164, .Lsra23_b30t
+.Lsra23_b30t:
+        .word   .Lsra_n128, 168, .Lsra23_b29
+.Lsra23_b29:
+        .word   172, 172, .Lsra23_b29a
+.Lsra23_b29a:
+        .word   12, 12, .Lsra23_b29b
+.Lsra23_b29b:
+        .word   164, 12, .Lsra23_b29c
+.Lsra23_b29c:
+        .word   12, 172, .Lsra23_b29d
+.Lsra23_b29d:
+        .word   .Lsra_c536870912, 172, .Lsra23_b29e
+.Lsra23_b29e:
+        .word   176, 176, .Lsra23_b29f
+.Lsra23_b29f:
+        .word   172, 176, .Lsra23_b29s
+        .word   12, 12, .Lsra23_b28
+.Lsra23_b29s:
+        .word   .Lsra_c536870912, 164, .Lsra23_b29t
+.Lsra23_b29t:
+        .word   .Lsra_n64, 168, .Lsra23_b28
+.Lsra23_b28:
+        .word   172, 172, .Lsra23_b28a
+.Lsra23_b28a:
+        .word   12, 12, .Lsra23_b28b
+.Lsra23_b28b:
+        .word   164, 12, .Lsra23_b28c
+.Lsra23_b28c:
+        .word   12, 172, .Lsra23_b28d
+.Lsra23_b28d:
+        .word   .Lsra_c268435456, 172, .Lsra23_b28e
+.Lsra23_b28e:
+        .word   176, 176, .Lsra23_b28f
+.Lsra23_b28f:
+        .word   172, 176, .Lsra23_b28s
+        .word   12, 12, .Lsra23_b27
+.Lsra23_b28s:
+        .word   .Lsra_c268435456, 164, .Lsra23_b28t
+.Lsra23_b28t:
+        .word   .Lsra_n32, 168, .Lsra23_b27
+.Lsra23_b27:
+        .word   172, 172, .Lsra23_b27a
+.Lsra23_b27a:
+        .word   12, 12, .Lsra23_b27b
+.Lsra23_b27b:
+        .word   164, 12, .Lsra23_b27c
+.Lsra23_b27c:
+        .word   12, 172, .Lsra23_b27d
+.Lsra23_b27d:
+        .word   .Lsra_c134217728, 172, .Lsra23_b27e
+.Lsra23_b27e:
+        .word   176, 176, .Lsra23_b27f
+.Lsra23_b27f:
+        .word   172, 176, .Lsra23_b27s
+        .word   12, 12, .Lsra23_b26
+.Lsra23_b27s:
+        .word   .Lsra_c134217728, 164, .Lsra23_b27t
+.Lsra23_b27t:
+        .word   .Lsra_n16, 168, .Lsra23_b26
+.Lsra23_b26:
+        .word   172, 172, .Lsra23_b26a
+.Lsra23_b26a:
+        .word   12, 12, .Lsra23_b26b
+.Lsra23_b26b:
+        .word   164, 12, .Lsra23_b26c
+.Lsra23_b26c:
+        .word   12, 172, .Lsra23_b26d
+.Lsra23_b26d:
+        .word   .Lsra_c67108864, 172, .Lsra23_b26e
+.Lsra23_b26e:
+        .word   176, 176, .Lsra23_b26f
+.Lsra23_b26f:
+        .word   172, 176, .Lsra23_b26s
+        .word   12, 12, .Lsra23_b25
+.Lsra23_b26s:
+        .word   .Lsra_c67108864, 164, .Lsra23_b26t
+.Lsra23_b26t:
+        .word   .Lsra_n8, 168, .Lsra23_b25
+.Lsra23_b25:
+        .word   172, 172, .Lsra23_b25a
+.Lsra23_b25a:
+        .word   12, 12, .Lsra23_b25b
+.Lsra23_b25b:
+        .word   164, 12, .Lsra23_b25c
+.Lsra23_b25c:
+        .word   12, 172, .Lsra23_b25d
+.Lsra23_b25d:
+        .word   .Lsra_c33554432, 172, .Lsra23_b25e
+.Lsra23_b25e:
+        .word   176, 176, .Lsra23_b25f
+.Lsra23_b25f:
+        .word   172, 176, .Lsra23_b25s
+        .word   12, 12, .Lsra23_b24
+.Lsra23_b25s:
+        .word   .Lsra_c33554432, 164, .Lsra23_b25t
+.Lsra23_b25t:
+        .word   .Lsra_n4, 168, .Lsra23_b24
+.Lsra23_b24:
+        .word   172, 172, .Lsra23_b24a
+.Lsra23_b24a:
+        .word   12, 12, .Lsra23_b24b
+.Lsra23_b24b:
+        .word   164, 12, .Lsra23_b24c
+.Lsra23_b24c:
+        .word   12, 172, .Lsra23_b24d
+.Lsra23_b24d:
+        .word   .Lsra_c16777216, 172, .Lsra23_b24e
+.Lsra23_b24e:
+        .word   176, 176, .Lsra23_b24f
+.Lsra23_b24f:
+        .word   172, 176, .Lsra23_b24s
+        .word   12, 12, .Lsra23_b23
+.Lsra23_b24s:
+        .word   .Lsra_c16777216, 164, .Lsra23_b24t
+.Lsra23_b24t:
+        .word   .Lsra_n2, 168, .Lsra23_b23
+.Lsra23_b23:
+        .word   172, 172, .Lsra23_b23a
+.Lsra23_b23a:
+        .word   12, 12, .Lsra23_b23b
+.Lsra23_b23b:
+        .word   164, 12, .Lsra23_b23c
+.Lsra23_b23c:
+        .word   12, 172, .Lsra23_b23d
+.Lsra23_b23d:
+        .word   .Lsra_c8388608, 172, .Lsra23_b23e
+.Lsra23_b23e:
+        .word   176, 176, .Lsra23_b23f
+.Lsra23_b23f:
+        .word   172, 176, .Lsra23_b23s
+        .word   12, 12, .Lsra23_done
+.Lsra23_b23s:
+        .word   .Lsra_c8388608, 164, .Lsra23_b23t
+.Lsra23_b23t:
+        .word   .Lsra_n1, 168, .Lsra23_done
+.Lsra23_done:
+        .word   172, 172, .Lsra23_chk
+.Lsra23_chk:
+        .word   24, 180, .Lsra23_store
+        .word   172, 172, .Lsra23_un1
+.Lsra23_un1:
+        .word   168, 172, .Lsra23_un2
+.Lsra23_un2:
+        .word   168, 168, .Lsra23_un3
+.Lsra23_un3:
+        .word   12, 12, .Lsra23_un4
+.Lsra23_un4:
+        .word   172, 12, .Lsra23_un5
+.Lsra23_un5:
+        .word   12, 168, .Lsra23_un6
+.Lsra23_un6:
+        .word   .Lsra_one, 168, .Lsra23_store
+.Lsra23_store:
+        .word   28, 28, .Lsra23_st1
+.Lsra23_st1:
+        .word   12, 12, .Lsra23_st2
+.Lsra23_st2:
+        .word   168, 12, .Lsra23_st3
+.Lsra23_st3:
+        .word   12, 28, .Lsra23_st4
+.Lsra23_st4:
+        .word   24, 24, .Lsra_done
+
+.Lsra_shift_24:
+        .word   180, 180, .Lsra24_chksign
+.Lsra24_chksign:
+        .word   172, 172, .Lsra24_s1
+.Lsra24_s1:
+        .word   12, 12, .Lsra24_s2
+.Lsra24_s2:
+        .word   164, 12, .Lsra24_s3
+.Lsra24_s3:
+        .word   12, 172, .Lsra24_s4
+.Lsra24_s4:
+        .word   24, 172, .Lsra24_maybe_neg
+        .word   12, 12, .Lsra24_pos
+.Lsra24_maybe_neg:
+        .word   172, 172, .Lsra24_m1
+.Lsra24_m1:
+        .word   164, 172, .Lsra24_m2
+.Lsra24_m2:
+        .word   24, 172, .Lsra24_ambig
+        .word   12, 12, .Lsra24_neg
+.Lsra24_ambig:
+        .word   172, 172, .Lsra24_a1
+.Lsra24_a1:
+        .word   164, 172, .Lsra24_a2
+.Lsra24_a2:
+        .word   .Lsra_one, 172, .Lsra24_a3
+.Lsra24_a3:
+        .word   24, 172, .Lsra24_pos
+        .word   12, 12, .Lsra24_neg
+.Lsra24_neg:
+        .word   .Lsra_negone, 180, .Lsra24_n1
+.Lsra24_n1:
+        .word   172, 172, .Lsra24_n2
+.Lsra24_n2:
+        .word   164, 172, .Lsra24_n3
+.Lsra24_n3:
+        .word   164, 164, .Lsra24_n4
+.Lsra24_n4:
+        .word   12, 12, .Lsra24_n5
+.Lsra24_n5:
+        .word   172, 12, .Lsra24_n6
+.Lsra24_n6:
+        .word   12, 164, .Lsra24_n7
+.Lsra24_n7:
+        .word   .Lsra_one, 164, .Lsra24_pos
+.Lsra24_pos:
+        .word   168, 168, .Lsra24_start
+.Lsra24_start:
+.Lsra24_b30:
+        .word   172, 172, .Lsra24_b30a
+.Lsra24_b30a:
+        .word   12, 12, .Lsra24_b30b
+.Lsra24_b30b:
+        .word   164, 12, .Lsra24_b30c
+.Lsra24_b30c:
+        .word   12, 172, .Lsra24_b30d
+.Lsra24_b30d:
+        .word   .Lsra_c1073741824, 172, .Lsra24_b30e
+.Lsra24_b30e:
+        .word   176, 176, .Lsra24_b30f
+.Lsra24_b30f:
+        .word   172, 176, .Lsra24_b30s
+        .word   12, 12, .Lsra24_b29
+.Lsra24_b30s:
+        .word   .Lsra_c1073741824, 164, .Lsra24_b30t
+.Lsra24_b30t:
+        .word   .Lsra_n64, 168, .Lsra24_b29
+.Lsra24_b29:
+        .word   172, 172, .Lsra24_b29a
+.Lsra24_b29a:
+        .word   12, 12, .Lsra24_b29b
+.Lsra24_b29b:
+        .word   164, 12, .Lsra24_b29c
+.Lsra24_b29c:
+        .word   12, 172, .Lsra24_b29d
+.Lsra24_b29d:
+        .word   .Lsra_c536870912, 172, .Lsra24_b29e
+.Lsra24_b29e:
+        .word   176, 176, .Lsra24_b29f
+.Lsra24_b29f:
+        .word   172, 176, .Lsra24_b29s
+        .word   12, 12, .Lsra24_b28
+.Lsra24_b29s:
+        .word   .Lsra_c536870912, 164, .Lsra24_b29t
+.Lsra24_b29t:
+        .word   .Lsra_n32, 168, .Lsra24_b28
+.Lsra24_b28:
+        .word   172, 172, .Lsra24_b28a
+.Lsra24_b28a:
+        .word   12, 12, .Lsra24_b28b
+.Lsra24_b28b:
+        .word   164, 12, .Lsra24_b28c
+.Lsra24_b28c:
+        .word   12, 172, .Lsra24_b28d
+.Lsra24_b28d:
+        .word   .Lsra_c268435456, 172, .Lsra24_b28e
+.Lsra24_b28e:
+        .word   176, 176, .Lsra24_b28f
+.Lsra24_b28f:
+        .word   172, 176, .Lsra24_b28s
+        .word   12, 12, .Lsra24_b27
+.Lsra24_b28s:
+        .word   .Lsra_c268435456, 164, .Lsra24_b28t
+.Lsra24_b28t:
+        .word   .Lsra_n16, 168, .Lsra24_b27
+.Lsra24_b27:
+        .word   172, 172, .Lsra24_b27a
+.Lsra24_b27a:
+        .word   12, 12, .Lsra24_b27b
+.Lsra24_b27b:
+        .word   164, 12, .Lsra24_b27c
+.Lsra24_b27c:
+        .word   12, 172, .Lsra24_b27d
+.Lsra24_b27d:
+        .word   .Lsra_c134217728, 172, .Lsra24_b27e
+.Lsra24_b27e:
+        .word   176, 176, .Lsra24_b27f
+.Lsra24_b27f:
+        .word   172, 176, .Lsra24_b27s
+        .word   12, 12, .Lsra24_b26
+.Lsra24_b27s:
+        .word   .Lsra_c134217728, 164, .Lsra24_b27t
+.Lsra24_b27t:
+        .word   .Lsra_n8, 168, .Lsra24_b26
+.Lsra24_b26:
+        .word   172, 172, .Lsra24_b26a
+.Lsra24_b26a:
+        .word   12, 12, .Lsra24_b26b
+.Lsra24_b26b:
+        .word   164, 12, .Lsra24_b26c
+.Lsra24_b26c:
+        .word   12, 172, .Lsra24_b26d
+.Lsra24_b26d:
+        .word   .Lsra_c67108864, 172, .Lsra24_b26e
+.Lsra24_b26e:
+        .word   176, 176, .Lsra24_b26f
+.Lsra24_b26f:
+        .word   172, 176, .Lsra24_b26s
+        .word   12, 12, .Lsra24_b25
+.Lsra24_b26s:
+        .word   .Lsra_c67108864, 164, .Lsra24_b26t
+.Lsra24_b26t:
+        .word   .Lsra_n4, 168, .Lsra24_b25
+.Lsra24_b25:
+        .word   172, 172, .Lsra24_b25a
+.Lsra24_b25a:
+        .word   12, 12, .Lsra24_b25b
+.Lsra24_b25b:
+        .word   164, 12, .Lsra24_b25c
+.Lsra24_b25c:
+        .word   12, 172, .Lsra24_b25d
+.Lsra24_b25d:
+        .word   .Lsra_c33554432, 172, .Lsra24_b25e
+.Lsra24_b25e:
+        .word   176, 176, .Lsra24_b25f
+.Lsra24_b25f:
+        .word   172, 176, .Lsra24_b25s
+        .word   12, 12, .Lsra24_b24
+.Lsra24_b25s:
+        .word   .Lsra_c33554432, 164, .Lsra24_b25t
+.Lsra24_b25t:
+        .word   .Lsra_n2, 168, .Lsra24_b24
+.Lsra24_b24:
+        .word   172, 172, .Lsra24_b24a
+.Lsra24_b24a:
+        .word   12, 12, .Lsra24_b24b
+.Lsra24_b24b:
+        .word   164, 12, .Lsra24_b24c
+.Lsra24_b24c:
+        .word   12, 172, .Lsra24_b24d
+.Lsra24_b24d:
+        .word   .Lsra_c16777216, 172, .Lsra24_b24e
+.Lsra24_b24e:
+        .word   176, 176, .Lsra24_b24f
+.Lsra24_b24f:
+        .word   172, 176, .Lsra24_b24s
+        .word   12, 12, .Lsra24_done
+.Lsra24_b24s:
+        .word   .Lsra_c16777216, 164, .Lsra24_b24t
+.Lsra24_b24t:
+        .word   .Lsra_n1, 168, .Lsra24_done
+.Lsra24_done:
+        .word   172, 172, .Lsra24_chk
+.Lsra24_chk:
+        .word   24, 180, .Lsra24_store
+        .word   172, 172, .Lsra24_un1
+.Lsra24_un1:
+        .word   168, 172, .Lsra24_un2
+.Lsra24_un2:
+        .word   168, 168, .Lsra24_un3
+.Lsra24_un3:
+        .word   12, 12, .Lsra24_un4
+.Lsra24_un4:
+        .word   172, 12, .Lsra24_un5
+.Lsra24_un5:
+        .word   12, 168, .Lsra24_un6
+.Lsra24_un6:
+        .word   .Lsra_one, 168, .Lsra24_store
+.Lsra24_store:
+        .word   28, 28, .Lsra24_st1
+.Lsra24_st1:
+        .word   12, 12, .Lsra24_st2
+.Lsra24_st2:
+        .word   168, 12, .Lsra24_st3
+.Lsra24_st3:
+        .word   12, 28, .Lsra24_st4
+.Lsra24_st4:
+        .word   24, 24, .Lsra_done
+
+.Lsra_shift_25:
+        .word   180, 180, .Lsra25_chksign
+.Lsra25_chksign:
+        .word   172, 172, .Lsra25_s1
+.Lsra25_s1:
+        .word   12, 12, .Lsra25_s2
+.Lsra25_s2:
+        .word   164, 12, .Lsra25_s3
+.Lsra25_s3:
+        .word   12, 172, .Lsra25_s4
+.Lsra25_s4:
+        .word   24, 172, .Lsra25_maybe_neg
+        .word   12, 12, .Lsra25_pos
+.Lsra25_maybe_neg:
+        .word   172, 172, .Lsra25_m1
+.Lsra25_m1:
+        .word   164, 172, .Lsra25_m2
+.Lsra25_m2:
+        .word   24, 172, .Lsra25_ambig
+        .word   12, 12, .Lsra25_neg
+.Lsra25_ambig:
+        .word   172, 172, .Lsra25_a1
+.Lsra25_a1:
+        .word   164, 172, .Lsra25_a2
+.Lsra25_a2:
+        .word   .Lsra_one, 172, .Lsra25_a3
+.Lsra25_a3:
+        .word   24, 172, .Lsra25_pos
+        .word   12, 12, .Lsra25_neg
+.Lsra25_neg:
+        .word   .Lsra_negone, 180, .Lsra25_n1
+.Lsra25_n1:
+        .word   172, 172, .Lsra25_n2
+.Lsra25_n2:
+        .word   164, 172, .Lsra25_n3
+.Lsra25_n3:
+        .word   164, 164, .Lsra25_n4
+.Lsra25_n4:
+        .word   12, 12, .Lsra25_n5
+.Lsra25_n5:
+        .word   172, 12, .Lsra25_n6
+.Lsra25_n6:
+        .word   12, 164, .Lsra25_n7
+.Lsra25_n7:
+        .word   .Lsra_one, 164, .Lsra25_pos
+.Lsra25_pos:
+        .word   168, 168, .Lsra25_start
+.Lsra25_start:
+.Lsra25_b30:
+        .word   172, 172, .Lsra25_b30a
+.Lsra25_b30a:
+        .word   12, 12, .Lsra25_b30b
+.Lsra25_b30b:
+        .word   164, 12, .Lsra25_b30c
+.Lsra25_b30c:
+        .word   12, 172, .Lsra25_b30d
+.Lsra25_b30d:
+        .word   .Lsra_c1073741824, 172, .Lsra25_b30e
+.Lsra25_b30e:
+        .word   176, 176, .Lsra25_b30f
+.Lsra25_b30f:
+        .word   172, 176, .Lsra25_b30s
+        .word   12, 12, .Lsra25_b29
+.Lsra25_b30s:
+        .word   .Lsra_c1073741824, 164, .Lsra25_b30t
+.Lsra25_b30t:
+        .word   .Lsra_n32, 168, .Lsra25_b29
+.Lsra25_b29:
+        .word   172, 172, .Lsra25_b29a
+.Lsra25_b29a:
+        .word   12, 12, .Lsra25_b29b
+.Lsra25_b29b:
+        .word   164, 12, .Lsra25_b29c
+.Lsra25_b29c:
+        .word   12, 172, .Lsra25_b29d
+.Lsra25_b29d:
+        .word   .Lsra_c536870912, 172, .Lsra25_b29e
+.Lsra25_b29e:
+        .word   176, 176, .Lsra25_b29f
+.Lsra25_b29f:
+        .word   172, 176, .Lsra25_b29s
+        .word   12, 12, .Lsra25_b28
+.Lsra25_b29s:
+        .word   .Lsra_c536870912, 164, .Lsra25_b29t
+.Lsra25_b29t:
+        .word   .Lsra_n16, 168, .Lsra25_b28
+.Lsra25_b28:
+        .word   172, 172, .Lsra25_b28a
+.Lsra25_b28a:
+        .word   12, 12, .Lsra25_b28b
+.Lsra25_b28b:
+        .word   164, 12, .Lsra25_b28c
+.Lsra25_b28c:
+        .word   12, 172, .Lsra25_b28d
+.Lsra25_b28d:
+        .word   .Lsra_c268435456, 172, .Lsra25_b28e
+.Lsra25_b28e:
+        .word   176, 176, .Lsra25_b28f
+.Lsra25_b28f:
+        .word   172, 176, .Lsra25_b28s
+        .word   12, 12, .Lsra25_b27
+.Lsra25_b28s:
+        .word   .Lsra_c268435456, 164, .Lsra25_b28t
+.Lsra25_b28t:
+        .word   .Lsra_n8, 168, .Lsra25_b27
+.Lsra25_b27:
+        .word   172, 172, .Lsra25_b27a
+.Lsra25_b27a:
+        .word   12, 12, .Lsra25_b27b
+.Lsra25_b27b:
+        .word   164, 12, .Lsra25_b27c
+.Lsra25_b27c:
+        .word   12, 172, .Lsra25_b27d
+.Lsra25_b27d:
+        .word   .Lsra_c134217728, 172, .Lsra25_b27e
+.Lsra25_b27e:
+        .word   176, 176, .Lsra25_b27f
+.Lsra25_b27f:
+        .word   172, 176, .Lsra25_b27s
+        .word   12, 12, .Lsra25_b26
+.Lsra25_b27s:
+        .word   .Lsra_c134217728, 164, .Lsra25_b27t
+.Lsra25_b27t:
+        .word   .Lsra_n4, 168, .Lsra25_b26
+.Lsra25_b26:
+        .word   172, 172, .Lsra25_b26a
+.Lsra25_b26a:
+        .word   12, 12, .Lsra25_b26b
+.Lsra25_b26b:
+        .word   164, 12, .Lsra25_b26c
+.Lsra25_b26c:
+        .word   12, 172, .Lsra25_b26d
+.Lsra25_b26d:
+        .word   .Lsra_c67108864, 172, .Lsra25_b26e
+.Lsra25_b26e:
+        .word   176, 176, .Lsra25_b26f
+.Lsra25_b26f:
+        .word   172, 176, .Lsra25_b26s
+        .word   12, 12, .Lsra25_b25
+.Lsra25_b26s:
+        .word   .Lsra_c67108864, 164, .Lsra25_b26t
+.Lsra25_b26t:
+        .word   .Lsra_n2, 168, .Lsra25_b25
+.Lsra25_b25:
+        .word   172, 172, .Lsra25_b25a
+.Lsra25_b25a:
+        .word   12, 12, .Lsra25_b25b
+.Lsra25_b25b:
+        .word   164, 12, .Lsra25_b25c
+.Lsra25_b25c:
+        .word   12, 172, .Lsra25_b25d
+.Lsra25_b25d:
+        .word   .Lsra_c33554432, 172, .Lsra25_b25e
+.Lsra25_b25e:
+        .word   176, 176, .Lsra25_b25f
+.Lsra25_b25f:
+        .word   172, 176, .Lsra25_b25s
+        .word   12, 12, .Lsra25_done
+.Lsra25_b25s:
+        .word   .Lsra_c33554432, 164, .Lsra25_b25t
+.Lsra25_b25t:
+        .word   .Lsra_n1, 168, .Lsra25_done
+.Lsra25_done:
+        .word   172, 172, .Lsra25_chk
+.Lsra25_chk:
+        .word   24, 180, .Lsra25_store
+        .word   172, 172, .Lsra25_un1
+.Lsra25_un1:
+        .word   168, 172, .Lsra25_un2
+.Lsra25_un2:
+        .word   168, 168, .Lsra25_un3
+.Lsra25_un3:
+        .word   12, 12, .Lsra25_un4
+.Lsra25_un4:
+        .word   172, 12, .Lsra25_un5
+.Lsra25_un5:
+        .word   12, 168, .Lsra25_un6
+.Lsra25_un6:
+        .word   .Lsra_one, 168, .Lsra25_store
+.Lsra25_store:
+        .word   28, 28, .Lsra25_st1
+.Lsra25_st1:
+        .word   12, 12, .Lsra25_st2
+.Lsra25_st2:
+        .word   168, 12, .Lsra25_st3
+.Lsra25_st3:
+        .word   12, 28, .Lsra25_st4
+.Lsra25_st4:
+        .word   24, 24, .Lsra_done
+
+.Lsra_shift_26:
+        .word   180, 180, .Lsra26_chksign
+.Lsra26_chksign:
+        .word   172, 172, .Lsra26_s1
+.Lsra26_s1:
+        .word   12, 12, .Lsra26_s2
+.Lsra26_s2:
+        .word   164, 12, .Lsra26_s3
+.Lsra26_s3:
+        .word   12, 172, .Lsra26_s4
+.Lsra26_s4:
+        .word   24, 172, .Lsra26_maybe_neg
+        .word   12, 12, .Lsra26_pos
+.Lsra26_maybe_neg:
+        .word   172, 172, .Lsra26_m1
+.Lsra26_m1:
+        .word   164, 172, .Lsra26_m2
+.Lsra26_m2:
+        .word   24, 172, .Lsra26_ambig
+        .word   12, 12, .Lsra26_neg
+.Lsra26_ambig:
+        .word   172, 172, .Lsra26_a1
+.Lsra26_a1:
+        .word   164, 172, .Lsra26_a2
+.Lsra26_a2:
+        .word   .Lsra_one, 172, .Lsra26_a3
+.Lsra26_a3:
+        .word   24, 172, .Lsra26_pos
+        .word   12, 12, .Lsra26_neg
+.Lsra26_neg:
+        .word   .Lsra_negone, 180, .Lsra26_n1
+.Lsra26_n1:
+        .word   172, 172, .Lsra26_n2
+.Lsra26_n2:
+        .word   164, 172, .Lsra26_n3
+.Lsra26_n3:
+        .word   164, 164, .Lsra26_n4
+.Lsra26_n4:
+        .word   12, 12, .Lsra26_n5
+.Lsra26_n5:
+        .word   172, 12, .Lsra26_n6
+.Lsra26_n6:
+        .word   12, 164, .Lsra26_n7
+.Lsra26_n7:
+        .word   .Lsra_one, 164, .Lsra26_pos
+.Lsra26_pos:
+        .word   168, 168, .Lsra26_start
+.Lsra26_start:
+.Lsra26_b30:
+        .word   172, 172, .Lsra26_b30a
+.Lsra26_b30a:
+        .word   12, 12, .Lsra26_b30b
+.Lsra26_b30b:
+        .word   164, 12, .Lsra26_b30c
+.Lsra26_b30c:
+        .word   12, 172, .Lsra26_b30d
+.Lsra26_b30d:
+        .word   .Lsra_c1073741824, 172, .Lsra26_b30e
+.Lsra26_b30e:
+        .word   176, 176, .Lsra26_b30f
+.Lsra26_b30f:
+        .word   172, 176, .Lsra26_b30s
+        .word   12, 12, .Lsra26_b29
+.Lsra26_b30s:
+        .word   .Lsra_c1073741824, 164, .Lsra26_b30t
+.Lsra26_b30t:
+        .word   .Lsra_n16, 168, .Lsra26_b29
+.Lsra26_b29:
+        .word   172, 172, .Lsra26_b29a
+.Lsra26_b29a:
+        .word   12, 12, .Lsra26_b29b
+.Lsra26_b29b:
+        .word   164, 12, .Lsra26_b29c
+.Lsra26_b29c:
+        .word   12, 172, .Lsra26_b29d
+.Lsra26_b29d:
+        .word   .Lsra_c536870912, 172, .Lsra26_b29e
+.Lsra26_b29e:
+        .word   176, 176, .Lsra26_b29f
+.Lsra26_b29f:
+        .word   172, 176, .Lsra26_b29s
+        .word   12, 12, .Lsra26_b28
+.Lsra26_b29s:
+        .word   .Lsra_c536870912, 164, .Lsra26_b29t
+.Lsra26_b29t:
+        .word   .Lsra_n8, 168, .Lsra26_b28
+.Lsra26_b28:
+        .word   172, 172, .Lsra26_b28a
+.Lsra26_b28a:
+        .word   12, 12, .Lsra26_b28b
+.Lsra26_b28b:
+        .word   164, 12, .Lsra26_b28c
+.Lsra26_b28c:
+        .word   12, 172, .Lsra26_b28d
+.Lsra26_b28d:
+        .word   .Lsra_c268435456, 172, .Lsra26_b28e
+.Lsra26_b28e:
+        .word   176, 176, .Lsra26_b28f
+.Lsra26_b28f:
+        .word   172, 176, .Lsra26_b28s
+        .word   12, 12, .Lsra26_b27
+.Lsra26_b28s:
+        .word   .Lsra_c268435456, 164, .Lsra26_b28t
+.Lsra26_b28t:
+        .word   .Lsra_n4, 168, .Lsra26_b27
+.Lsra26_b27:
+        .word   172, 172, .Lsra26_b27a
+.Lsra26_b27a:
+        .word   12, 12, .Lsra26_b27b
+.Lsra26_b27b:
+        .word   164, 12, .Lsra26_b27c
+.Lsra26_b27c:
+        .word   12, 172, .Lsra26_b27d
+.Lsra26_b27d:
+        .word   .Lsra_c134217728, 172, .Lsra26_b27e
+.Lsra26_b27e:
+        .word   176, 176, .Lsra26_b27f
+.Lsra26_b27f:
+        .word   172, 176, .Lsra26_b27s
+        .word   12, 12, .Lsra26_b26
+.Lsra26_b27s:
+        .word   .Lsra_c134217728, 164, .Lsra26_b27t
+.Lsra26_b27t:
+        .word   .Lsra_n2, 168, .Lsra26_b26
+.Lsra26_b26:
+        .word   172, 172, .Lsra26_b26a
+.Lsra26_b26a:
+        .word   12, 12, .Lsra26_b26b
+.Lsra26_b26b:
+        .word   164, 12, .Lsra26_b26c
+.Lsra26_b26c:
+        .word   12, 172, .Lsra26_b26d
+.Lsra26_b26d:
+        .word   .Lsra_c67108864, 172, .Lsra26_b26e
+.Lsra26_b26e:
+        .word   176, 176, .Lsra26_b26f
+.Lsra26_b26f:
+        .word   172, 176, .Lsra26_b26s
+        .word   12, 12, .Lsra26_done
+.Lsra26_b26s:
+        .word   .Lsra_c67108864, 164, .Lsra26_b26t
+.Lsra26_b26t:
+        .word   .Lsra_n1, 168, .Lsra26_done
+.Lsra26_done:
+        .word   172, 172, .Lsra26_chk
+.Lsra26_chk:
+        .word   24, 180, .Lsra26_store
+        .word   172, 172, .Lsra26_un1
+.Lsra26_un1:
+        .word   168, 172, .Lsra26_un2
+.Lsra26_un2:
+        .word   168, 168, .Lsra26_un3
+.Lsra26_un3:
+        .word   12, 12, .Lsra26_un4
+.Lsra26_un4:
+        .word   172, 12, .Lsra26_un5
+.Lsra26_un5:
+        .word   12, 168, .Lsra26_un6
+.Lsra26_un6:
+        .word   .Lsra_one, 168, .Lsra26_store
+.Lsra26_store:
+        .word   28, 28, .Lsra26_st1
+.Lsra26_st1:
+        .word   12, 12, .Lsra26_st2
+.Lsra26_st2:
+        .word   168, 12, .Lsra26_st3
+.Lsra26_st3:
+        .word   12, 28, .Lsra26_st4
+.Lsra26_st4:
+        .word   24, 24, .Lsra_done
+
+.Lsra_shift_27:
+        .word   180, 180, .Lsra27_chksign
+.Lsra27_chksign:
+        .word   172, 172, .Lsra27_s1
+.Lsra27_s1:
+        .word   12, 12, .Lsra27_s2
+.Lsra27_s2:
+        .word   164, 12, .Lsra27_s3
+.Lsra27_s3:
+        .word   12, 172, .Lsra27_s4
+.Lsra27_s4:
+        .word   24, 172, .Lsra27_maybe_neg
+        .word   12, 12, .Lsra27_pos
+.Lsra27_maybe_neg:
+        .word   172, 172, .Lsra27_m1
+.Lsra27_m1:
+        .word   164, 172, .Lsra27_m2
+.Lsra27_m2:
+        .word   24, 172, .Lsra27_ambig
+        .word   12, 12, .Lsra27_neg
+.Lsra27_ambig:
+        .word   172, 172, .Lsra27_a1
+.Lsra27_a1:
+        .word   164, 172, .Lsra27_a2
+.Lsra27_a2:
+        .word   .Lsra_one, 172, .Lsra27_a3
+.Lsra27_a3:
+        .word   24, 172, .Lsra27_pos
+        .word   12, 12, .Lsra27_neg
+.Lsra27_neg:
+        .word   .Lsra_negone, 180, .Lsra27_n1
+.Lsra27_n1:
+        .word   172, 172, .Lsra27_n2
+.Lsra27_n2:
+        .word   164, 172, .Lsra27_n3
+.Lsra27_n3:
+        .word   164, 164, .Lsra27_n4
+.Lsra27_n4:
+        .word   12, 12, .Lsra27_n5
+.Lsra27_n5:
+        .word   172, 12, .Lsra27_n6
+.Lsra27_n6:
+        .word   12, 164, .Lsra27_n7
+.Lsra27_n7:
+        .word   .Lsra_one, 164, .Lsra27_pos
+.Lsra27_pos:
+        .word   168, 168, .Lsra27_start
+.Lsra27_start:
+.Lsra27_b30:
+        .word   172, 172, .Lsra27_b30a
+.Lsra27_b30a:
+        .word   12, 12, .Lsra27_b30b
+.Lsra27_b30b:
+        .word   164, 12, .Lsra27_b30c
+.Lsra27_b30c:
+        .word   12, 172, .Lsra27_b30d
+.Lsra27_b30d:
+        .word   .Lsra_c1073741824, 172, .Lsra27_b30e
+.Lsra27_b30e:
+        .word   176, 176, .Lsra27_b30f
+.Lsra27_b30f:
+        .word   172, 176, .Lsra27_b30s
+        .word   12, 12, .Lsra27_b29
+.Lsra27_b30s:
+        .word   .Lsra_c1073741824, 164, .Lsra27_b30t
+.Lsra27_b30t:
+        .word   .Lsra_n8, 168, .Lsra27_b29
+.Lsra27_b29:
+        .word   172, 172, .Lsra27_b29a
+.Lsra27_b29a:
+        .word   12, 12, .Lsra27_b29b
+.Lsra27_b29b:
+        .word   164, 12, .Lsra27_b29c
+.Lsra27_b29c:
+        .word   12, 172, .Lsra27_b29d
+.Lsra27_b29d:
+        .word   .Lsra_c536870912, 172, .Lsra27_b29e
+.Lsra27_b29e:
+        .word   176, 176, .Lsra27_b29f
+.Lsra27_b29f:
+        .word   172, 176, .Lsra27_b29s
+        .word   12, 12, .Lsra27_b28
+.Lsra27_b29s:
+        .word   .Lsra_c536870912, 164, .Lsra27_b29t
+.Lsra27_b29t:
+        .word   .Lsra_n4, 168, .Lsra27_b28
+.Lsra27_b28:
+        .word   172, 172, .Lsra27_b28a
+.Lsra27_b28a:
+        .word   12, 12, .Lsra27_b28b
+.Lsra27_b28b:
+        .word   164, 12, .Lsra27_b28c
+.Lsra27_b28c:
+        .word   12, 172, .Lsra27_b28d
+.Lsra27_b28d:
+        .word   .Lsra_c268435456, 172, .Lsra27_b28e
+.Lsra27_b28e:
+        .word   176, 176, .Lsra27_b28f
+.Lsra27_b28f:
+        .word   172, 176, .Lsra27_b28s
+        .word   12, 12, .Lsra27_b27
+.Lsra27_b28s:
+        .word   .Lsra_c268435456, 164, .Lsra27_b28t
+.Lsra27_b28t:
+        .word   .Lsra_n2, 168, .Lsra27_b27
+.Lsra27_b27:
+        .word   172, 172, .Lsra27_b27a
+.Lsra27_b27a:
+        .word   12, 12, .Lsra27_b27b
+.Lsra27_b27b:
+        .word   164, 12, .Lsra27_b27c
+.Lsra27_b27c:
+        .word   12, 172, .Lsra27_b27d
+.Lsra27_b27d:
+        .word   .Lsra_c134217728, 172, .Lsra27_b27e
+.Lsra27_b27e:
+        .word   176, 176, .Lsra27_b27f
+.Lsra27_b27f:
+        .word   172, 176, .Lsra27_b27s
+        .word   12, 12, .Lsra27_done
+.Lsra27_b27s:
+        .word   .Lsra_c134217728, 164, .Lsra27_b27t
+.Lsra27_b27t:
+        .word   .Lsra_n1, 168, .Lsra27_done
+.Lsra27_done:
+        .word   172, 172, .Lsra27_chk
+.Lsra27_chk:
+        .word   24, 180, .Lsra27_store
+        .word   172, 172, .Lsra27_un1
+.Lsra27_un1:
+        .word   168, 172, .Lsra27_un2
+.Lsra27_un2:
+        .word   168, 168, .Lsra27_un3
+.Lsra27_un3:
+        .word   12, 12, .Lsra27_un4
+.Lsra27_un4:
+        .word   172, 12, .Lsra27_un5
+.Lsra27_un5:
+        .word   12, 168, .Lsra27_un6
+.Lsra27_un6:
+        .word   .Lsra_one, 168, .Lsra27_store
+.Lsra27_store:
+        .word   28, 28, .Lsra27_st1
+.Lsra27_st1:
+        .word   12, 12, .Lsra27_st2
+.Lsra27_st2:
+        .word   168, 12, .Lsra27_st3
+.Lsra27_st3:
+        .word   12, 28, .Lsra27_st4
+.Lsra27_st4:
+        .word   24, 24, .Lsra_done
+
+.Lsra_shift_28:
+        .word   180, 180, .Lsra28_chksign
+.Lsra28_chksign:
+        .word   172, 172, .Lsra28_s1
+.Lsra28_s1:
+        .word   12, 12, .Lsra28_s2
+.Lsra28_s2:
+        .word   164, 12, .Lsra28_s3
+.Lsra28_s3:
+        .word   12, 172, .Lsra28_s4
+.Lsra28_s4:
+        .word   24, 172, .Lsra28_maybe_neg
+        .word   12, 12, .Lsra28_pos
+.Lsra28_maybe_neg:
+        .word   172, 172, .Lsra28_m1
+.Lsra28_m1:
+        .word   164, 172, .Lsra28_m2
+.Lsra28_m2:
+        .word   24, 172, .Lsra28_ambig
+        .word   12, 12, .Lsra28_neg
+.Lsra28_ambig:
+        .word   172, 172, .Lsra28_a1
+.Lsra28_a1:
+        .word   164, 172, .Lsra28_a2
+.Lsra28_a2:
+        .word   .Lsra_one, 172, .Lsra28_a3
+.Lsra28_a3:
+        .word   24, 172, .Lsra28_pos
+        .word   12, 12, .Lsra28_neg
+.Lsra28_neg:
+        .word   .Lsra_negone, 180, .Lsra28_n1
+.Lsra28_n1:
+        .word   172, 172, .Lsra28_n2
+.Lsra28_n2:
+        .word   164, 172, .Lsra28_n3
+.Lsra28_n3:
+        .word   164, 164, .Lsra28_n4
+.Lsra28_n4:
+        .word   12, 12, .Lsra28_n5
+.Lsra28_n5:
+        .word   172, 12, .Lsra28_n6
+.Lsra28_n6:
+        .word   12, 164, .Lsra28_n7
+.Lsra28_n7:
+        .word   .Lsra_one, 164, .Lsra28_pos
+.Lsra28_pos:
+        .word   168, 168, .Lsra28_start
+.Lsra28_start:
+.Lsra28_b30:
+        .word   172, 172, .Lsra28_b30a
+.Lsra28_b30a:
+        .word   12, 12, .Lsra28_b30b
+.Lsra28_b30b:
+        .word   164, 12, .Lsra28_b30c
+.Lsra28_b30c:
+        .word   12, 172, .Lsra28_b30d
+.Lsra28_b30d:
+        .word   .Lsra_c1073741824, 172, .Lsra28_b30e
+.Lsra28_b30e:
+        .word   176, 176, .Lsra28_b30f
+.Lsra28_b30f:
+        .word   172, 176, .Lsra28_b30s
+        .word   12, 12, .Lsra28_b29
+.Lsra28_b30s:
+        .word   .Lsra_c1073741824, 164, .Lsra28_b30t
+.Lsra28_b30t:
+        .word   .Lsra_n4, 168, .Lsra28_b29
+.Lsra28_b29:
+        .word   172, 172, .Lsra28_b29a
+.Lsra28_b29a:
+        .word   12, 12, .Lsra28_b29b
+.Lsra28_b29b:
+        .word   164, 12, .Lsra28_b29c
+.Lsra28_b29c:
+        .word   12, 172, .Lsra28_b29d
+.Lsra28_b29d:
+        .word   .Lsra_c536870912, 172, .Lsra28_b29e
+.Lsra28_b29e:
+        .word   176, 176, .Lsra28_b29f
+.Lsra28_b29f:
+        .word   172, 176, .Lsra28_b29s
+        .word   12, 12, .Lsra28_b28
+.Lsra28_b29s:
+        .word   .Lsra_c536870912, 164, .Lsra28_b29t
+.Lsra28_b29t:
+        .word   .Lsra_n2, 168, .Lsra28_b28
+.Lsra28_b28:
+        .word   172, 172, .Lsra28_b28a
+.Lsra28_b28a:
+        .word   12, 12, .Lsra28_b28b
+.Lsra28_b28b:
+        .word   164, 12, .Lsra28_b28c
+.Lsra28_b28c:
+        .word   12, 172, .Lsra28_b28d
+.Lsra28_b28d:
+        .word   .Lsra_c268435456, 172, .Lsra28_b28e
+.Lsra28_b28e:
+        .word   176, 176, .Lsra28_b28f
+.Lsra28_b28f:
+        .word   172, 176, .Lsra28_b28s
+        .word   12, 12, .Lsra28_done
+.Lsra28_b28s:
+        .word   .Lsra_c268435456, 164, .Lsra28_b28t
+.Lsra28_b28t:
+        .word   .Lsra_n1, 168, .Lsra28_done
+.Lsra28_done:
+        .word   172, 172, .Lsra28_chk
+.Lsra28_chk:
+        .word   24, 180, .Lsra28_store
+        .word   172, 172, .Lsra28_un1
+.Lsra28_un1:
+        .word   168, 172, .Lsra28_un2
+.Lsra28_un2:
+        .word   168, 168, .Lsra28_un3
+.Lsra28_un3:
+        .word   12, 12, .Lsra28_un4
+.Lsra28_un4:
+        .word   172, 12, .Lsra28_un5
+.Lsra28_un5:
+        .word   12, 168, .Lsra28_un6
+.Lsra28_un6:
+        .word   .Lsra_one, 168, .Lsra28_store
+.Lsra28_store:
+        .word   28, 28, .Lsra28_st1
+.Lsra28_st1:
+        .word   12, 12, .Lsra28_st2
+.Lsra28_st2:
+        .word   168, 12, .Lsra28_st3
+.Lsra28_st3:
+        .word   12, 28, .Lsra28_st4
+.Lsra28_st4:
+        .word   24, 24, .Lsra_done
+
+.Lsra_shift_29:
+        .word   180, 180, .Lsra29_chksign
+.Lsra29_chksign:
+        .word   172, 172, .Lsra29_s1
+.Lsra29_s1:
+        .word   12, 12, .Lsra29_s2
+.Lsra29_s2:
+        .word   164, 12, .Lsra29_s3
+.Lsra29_s3:
+        .word   12, 172, .Lsra29_s4
+.Lsra29_s4:
+        .word   24, 172, .Lsra29_maybe_neg
+        .word   12, 12, .Lsra29_pos
+.Lsra29_maybe_neg:
+        .word   172, 172, .Lsra29_m1
+.Lsra29_m1:
+        .word   164, 172, .Lsra29_m2
+.Lsra29_m2:
+        .word   24, 172, .Lsra29_ambig
+        .word   12, 12, .Lsra29_neg
+.Lsra29_ambig:
+        .word   172, 172, .Lsra29_a1
+.Lsra29_a1:
+        .word   164, 172, .Lsra29_a2
+.Lsra29_a2:
+        .word   .Lsra_one, 172, .Lsra29_a3
+.Lsra29_a3:
+        .word   24, 172, .Lsra29_pos
+        .word   12, 12, .Lsra29_neg
+.Lsra29_neg:
+        .word   .Lsra_negone, 180, .Lsra29_n1
+.Lsra29_n1:
+        .word   172, 172, .Lsra29_n2
+.Lsra29_n2:
+        .word   164, 172, .Lsra29_n3
+.Lsra29_n3:
+        .word   164, 164, .Lsra29_n4
+.Lsra29_n4:
+        .word   12, 12, .Lsra29_n5
+.Lsra29_n5:
+        .word   172, 12, .Lsra29_n6
+.Lsra29_n6:
+        .word   12, 164, .Lsra29_n7
+.Lsra29_n7:
+        .word   .Lsra_one, 164, .Lsra29_pos
+.Lsra29_pos:
+        .word   168, 168, .Lsra29_start
+.Lsra29_start:
+.Lsra29_b30:
+        .word   172, 172, .Lsra29_b30a
+.Lsra29_b30a:
+        .word   12, 12, .Lsra29_b30b
+.Lsra29_b30b:
+        .word   164, 12, .Lsra29_b30c
+.Lsra29_b30c:
+        .word   12, 172, .Lsra29_b30d
+.Lsra29_b30d:
+        .word   .Lsra_c1073741824, 172, .Lsra29_b30e
+.Lsra29_b30e:
+        .word   176, 176, .Lsra29_b30f
+.Lsra29_b30f:
+        .word   172, 176, .Lsra29_b30s
+        .word   12, 12, .Lsra29_b29
+.Lsra29_b30s:
+        .word   .Lsra_c1073741824, 164, .Lsra29_b30t
+.Lsra29_b30t:
+        .word   .Lsra_n2, 168, .Lsra29_b29
+.Lsra29_b29:
+        .word   172, 172, .Lsra29_b29a
+.Lsra29_b29a:
+        .word   12, 12, .Lsra29_b29b
+.Lsra29_b29b:
+        .word   164, 12, .Lsra29_b29c
+.Lsra29_b29c:
+        .word   12, 172, .Lsra29_b29d
+.Lsra29_b29d:
+        .word   .Lsra_c536870912, 172, .Lsra29_b29e
+.Lsra29_b29e:
+        .word   176, 176, .Lsra29_b29f
+.Lsra29_b29f:
+        .word   172, 176, .Lsra29_b29s
+        .word   12, 12, .Lsra29_done
+.Lsra29_b29s:
+        .word   .Lsra_c536870912, 164, .Lsra29_b29t
+.Lsra29_b29t:
+        .word   .Lsra_n1, 168, .Lsra29_done
+.Lsra29_done:
+        .word   172, 172, .Lsra29_chk
+.Lsra29_chk:
+        .word   24, 180, .Lsra29_store
+        .word   172, 172, .Lsra29_un1
+.Lsra29_un1:
+        .word   168, 172, .Lsra29_un2
+.Lsra29_un2:
+        .word   168, 168, .Lsra29_un3
+.Lsra29_un3:
+        .word   12, 12, .Lsra29_un4
+.Lsra29_un4:
+        .word   172, 12, .Lsra29_un5
+.Lsra29_un5:
+        .word   12, 168, .Lsra29_un6
+.Lsra29_un6:
+        .word   .Lsra_one, 168, .Lsra29_store
+.Lsra29_store:
+        .word   28, 28, .Lsra29_st1
+.Lsra29_st1:
+        .word   12, 12, .Lsra29_st2
+.Lsra29_st2:
+        .word   168, 12, .Lsra29_st3
+.Lsra29_st3:
+        .word   12, 28, .Lsra29_st4
+.Lsra29_st4:
+        .word   24, 24, .Lsra_done
+
+.Lsra_shift_30:
+        .word   180, 180, .Lsra30_chksign
+.Lsra30_chksign:
+        .word   172, 172, .Lsra30_s1
+.Lsra30_s1:
+        .word   12, 12, .Lsra30_s2
+.Lsra30_s2:
+        .word   164, 12, .Lsra30_s3
+.Lsra30_s3:
+        .word   12, 172, .Lsra30_s4
+.Lsra30_s4:
+        .word   24, 172, .Lsra30_maybe_neg
+        .word   12, 12, .Lsra30_pos
+.Lsra30_maybe_neg:
+        .word   172, 172, .Lsra30_m1
+.Lsra30_m1:
+        .word   164, 172, .Lsra30_m2
+.Lsra30_m2:
+        .word   24, 172, .Lsra30_ambig
+        .word   12, 12, .Lsra30_neg
+.Lsra30_ambig:
+        .word   172, 172, .Lsra30_a1
+.Lsra30_a1:
+        .word   164, 172, .Lsra30_a2
+.Lsra30_a2:
+        .word   .Lsra_one, 172, .Lsra30_a3
+.Lsra30_a3:
+        .word   24, 172, .Lsra30_pos
+        .word   12, 12, .Lsra30_neg
+.Lsra30_neg:
+        .word   .Lsra_negone, 180, .Lsra30_n1
+.Lsra30_n1:
+        .word   172, 172, .Lsra30_n2
+.Lsra30_n2:
+        .word   164, 172, .Lsra30_n3
+.Lsra30_n3:
+        .word   164, 164, .Lsra30_n4
+.Lsra30_n4:
+        .word   12, 12, .Lsra30_n5
+.Lsra30_n5:
+        .word   172, 12, .Lsra30_n6
+.Lsra30_n6:
+        .word   12, 164, .Lsra30_n7
+.Lsra30_n7:
+        .word   .Lsra_one, 164, .Lsra30_pos
+.Lsra30_pos:
+        .word   168, 168, .Lsra30_start
+.Lsra30_start:
+.Lsra30_b30:
+        .word   172, 172, .Lsra30_b30a
+.Lsra30_b30a:
+        .word   12, 12, .Lsra30_b30b
+.Lsra30_b30b:
+        .word   164, 12, .Lsra30_b30c
+.Lsra30_b30c:
+        .word   12, 172, .Lsra30_b30d
+.Lsra30_b30d:
+        .word   .Lsra_c1073741824, 172, .Lsra30_b30e
+.Lsra30_b30e:
+        .word   176, 176, .Lsra30_b30f
+.Lsra30_b30f:
+        .word   172, 176, .Lsra30_b30s
+        .word   12, 12, .Lsra30_done
+.Lsra30_b30s:
+        .word   .Lsra_c1073741824, 164, .Lsra30_b30t
+.Lsra30_b30t:
+        .word   .Lsra_n1, 168, .Lsra30_done
+.Lsra30_done:
+        .word   172, 172, .Lsra30_chk
+.Lsra30_chk:
+        .word   24, 180, .Lsra30_store
+        .word   172, 172, .Lsra30_un1
+.Lsra30_un1:
+        .word   168, 172, .Lsra30_un2
+.Lsra30_un2:
+        .word   168, 168, .Lsra30_un3
+.Lsra30_un3:
+        .word   12, 12, .Lsra30_un4
+.Lsra30_un4:
+        .word   172, 12, .Lsra30_un5
+.Lsra30_un5:
+        .word   12, 168, .Lsra30_un6
+.Lsra30_un6:
+        .word   .Lsra_one, 168, .Lsra30_store
+.Lsra30_store:
+        .word   28, 28, .Lsra30_st1
+.Lsra30_st1:
+        .word   12, 12, .Lsra30_st2
+.Lsra30_st2:
+        .word   168, 12, .Lsra30_st3
+.Lsra30_st3:
+        .word   12, 28, .Lsra30_st4
+.Lsra30_st4:
+        .word   24, 24, .Lsra_done
+
+.Lsra_shift_31:
+        .word   180, 180, .Lsra31_chksign
+.Lsra31_chksign:
+        .word   172, 172, .Lsra31_s1
+.Lsra31_s1:
+        .word   12, 12, .Lsra31_s2
+.Lsra31_s2:
+        .word   164, 12, .Lsra31_s3
+.Lsra31_s3:
+        .word   12, 172, .Lsra31_s4
+.Lsra31_s4:
+        .word   24, 172, .Lsra31_maybe_neg
+        .word   12, 12, .Lsra31_pos
+.Lsra31_maybe_neg:
+        .word   172, 172, .Lsra31_m1
+.Lsra31_m1:
+        .word   164, 172, .Lsra31_m2
+.Lsra31_m2:
+        .word   24, 172, .Lsra31_ambig
+        .word   12, 12, .Lsra31_neg
+.Lsra31_ambig:
+        .word   172, 172, .Lsra31_a1
+.Lsra31_a1:
+        .word   164, 172, .Lsra31_a2
+.Lsra31_a2:
+        .word   .Lsra_one, 172, .Lsra31_a3
+.Lsra31_a3:
+        .word   24, 172, .Lsra31_pos
+        .word   12, 12, .Lsra31_neg
+.Lsra31_neg:
+        .word   .Lsra_negone, 180, .Lsra31_n1
+.Lsra31_n1:
+        .word   172, 172, .Lsra31_n2
+.Lsra31_n2:
+        .word   164, 172, .Lsra31_n3
+.Lsra31_n3:
+        .word   164, 164, .Lsra31_n4
+.Lsra31_n4:
+        .word   12, 12, .Lsra31_n5
+.Lsra31_n5:
+        .word   172, 12, .Lsra31_n6
+.Lsra31_n6:
+        .word   12, 164, .Lsra31_n7
+.Lsra31_n7:
+        .word   .Lsra_one, 164, .Lsra31_pos
+.Lsra31_pos:
+        .word   168, 168, .Lsra31_start
+.Lsra31_start:
+.Lsra31_done:
+        .word   172, 172, .Lsra31_chk
+.Lsra31_chk:
+        .word   24, 180, .Lsra31_store
+        .word   172, 172, .Lsra31_un1
+.Lsra31_un1:
+        .word   168, 172, .Lsra31_un2
+.Lsra31_un2:
+        .word   168, 168, .Lsra31_un3
+.Lsra31_un3:
+        .word   12, 12, .Lsra31_un4
+.Lsra31_un4:
+        .word   172, 12, .Lsra31_un5
+.Lsra31_un5:
+        .word   12, 168, .Lsra31_un6
+.Lsra31_un6:
+        .word   .Lsra_one, 168, .Lsra31_store
+.Lsra31_store:
+        .word   28, 28, .Lsra31_st1
+.Lsra31_st1:
+        .word   12, 12, .Lsra31_st2
+.Lsra31_st2:
+        .word   168, 12, .Lsra31_st3
+.Lsra31_st3:
+        .word   12, 28, .Lsra31_st4
+.Lsra31_st4:
+        .word   24, 24, .Lsra_done
 .Lsra_done:
 .Lsra_pop:
         .word   12, 12, .Lsra_pop1
@@ -61901,7 +82318,75 @@ __subleq_sra:
         .word   -1
 .Lsra_neg4:
         .word   -4
+.Lsra_sh32:
+        .word   32
 .Lsra_one:
+        .word   1
+.Lsra_negone:
+        .word   -1
+.Lsra_sh1:
+        .word   1
+.Lsra_sh2:
+        .word   2
+.Lsra_sh3:
+        .word   3
+.Lsra_sh4:
+        .word   4
+.Lsra_sh5:
+        .word   5
+.Lsra_sh6:
+        .word   6
+.Lsra_sh7:
+        .word   7
+.Lsra_sh8:
+        .word   8
+.Lsra_sh9:
+        .word   9
+.Lsra_sh10:
+        .word   10
+.Lsra_sh11:
+        .word   11
+.Lsra_sh12:
+        .word   12
+.Lsra_sh13:
+        .word   13
+.Lsra_sh14:
+        .word   14
+.Lsra_sh15:
+        .word   15
+.Lsra_sh16:
+        .word   16
+.Lsra_sh17:
+        .word   17
+.Lsra_sh18:
+        .word   18
+.Lsra_sh19:
+        .word   19
+.Lsra_sh20:
+        .word   20
+.Lsra_sh21:
+        .word   21
+.Lsra_sh22:
+        .word   22
+.Lsra_sh23:
+        .word   23
+.Lsra_sh24:
+        .word   24
+.Lsra_sh25:
+        .word   25
+.Lsra_sh26:
+        .word   26
+.Lsra_sh27:
+        .word   27
+.Lsra_sh28:
+        .word   28
+.Lsra_sh29:
+        .word   29
+.Lsra_sh30:
+        .word   30
+.Lsra_sh31:
+        .word   31
+.Lsra_c1:
         .word   1
 .Lsra_c2:
         .word   2

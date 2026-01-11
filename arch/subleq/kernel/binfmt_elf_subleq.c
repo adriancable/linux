@@ -27,6 +27,7 @@
 #include <linux/init.h>
 #include <linux/elf.h>
 #include <linux/uaccess.h>
+#include <linux/sort.h>
 
 #include <asm/param.h>
 #include <asm/ptrace.h>
@@ -155,6 +156,18 @@ static const struct {
 static struct libsrt_symbol libsrt_symbols[MAX_LIBSRT_SYMBOLS];
 static int libsrt_symbol_count = 0;
 static unsigned long libsrt_load_addr = 0;
+static int libsrt_symbols_sorted = 0;  /* Flag: symbols need re-sorting after add */
+
+/*
+ * Comparison function for sorting libsrt_symbols alphabetically.
+ * Used by sort() to enable binary search lookups.
+ */
+static int libsrt_symbol_cmp(const void *a, const void *b)
+{
+	const struct libsrt_symbol *sa = a;
+	const struct libsrt_symbol *sb = b;
+	return strcmp(sa->name, sb->name);
+}
 
 /* Track which libraries have been loaded to avoid duplicates */
 #define MAX_LOADED_LIBS 16
@@ -211,24 +224,37 @@ static unsigned long lookup_kernel_symbol(const char *name)
 }
 
 /*
- * Look up a symbol - first check kernel runtime symbols (binary search),
- * then loaded libraries (linear search, typically few or none).
+ * Look up a symbol - check kernel runtime symbols first (binary search),
+ * then loaded libraries (also binary search after sorting).
  * Returns the address or 0 if not found.
  */
 static unsigned long lookup_libsrt_symbol(const char *name)
 {
 	unsigned long addr;
-	int i;
+	int low, high;
 
 	/* Binary search in sorted kernel runtime symbols - O(log n) */
 	addr = lookup_kernel_symbol(name);
 	if (addr)
 		return addr;
 
-	/* Linear search in dynamically loaded library symbols */
-	for (i = 0; i < libsrt_symbol_count; i++) {
-		if (strcmp(libsrt_symbols[i].name, name) == 0)
-			return libsrt_symbols[i].addr;
+	/* Binary search in sorted library symbols - O(log n) */
+	if (libsrt_symbol_count == 0)
+		return 0;
+
+	low = 0;
+	high = libsrt_symbol_count - 1;
+
+	while (low <= high) {
+		int mid = low + (high - low) / 2;
+		int cmp = strcmp(libsrt_symbols[mid].name, name);
+
+		if (cmp == 0)
+			return libsrt_symbols[mid].addr;
+		else if (cmp < 0)
+			low = mid + 1;
+		else
+			high = mid - 1;
 	}
 	return 0;
 }
@@ -550,24 +576,27 @@ static long load_elf_segments(struct file *file, struct elfhdr *hdr,
 }
 
 /*
- * Process relocations and resolve external symbols in a SINGLE PASS.
+ * Process relocations, resolve external symbols, and optionally build symbol table.
  *
- * This function combines what was previously two separate passes:
+ * This function combines multiple operations in a SINGLE PASS to minimize I/O:
  * 1. Applying load offset to absolute addresses (for defined symbols)
  * 2. Resolving undefined external symbols against kernel runtime / libsrt
+ * 3. Optionally building the symbol table for later lookups (for libraries)
  *
- * Doing this in one pass provides significant speedup by:
- * - Reading section headers from disk only once
- * - Reading each relocation section from disk only once
- * - Iterating over relocations only once instead of twice
+ * By doing all operations with a single read of section headers, symbol table,
+ * and string table, we avoid redundant disk I/O which is very expensive in Subleq.
  *
  * For each R_386_32 relocation:
  * - If symbol is defined: add load_offset to the current value
  * - If symbol is undefined: look up in kernel/libsrt and patch to that address
+ *
+ * If build_symtab is true, also extracts global function symbols from the
+ * symbol table and adds them to libsrt_symbols for use by dependent binaries.
  */
 static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr,
 					   unsigned long load_addr,
-					   unsigned long base_vaddr)
+					   unsigned long base_vaddr,
+					   int build_symtab)
 {
 	struct elf_shdr *shdrs = NULL;
 	struct elf_shdr *shdr;
@@ -696,82 +725,112 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 			return ret < 0 ? ret : -ENOEXEC;
 		}
 
-		/* Process each relocation */
+		/* Process each relocation.
+		 * OPTIMIZATION: Most relocations have r_info=1 (type=R_386_32, sym_idx=0).
+		 * For these, we just add load_offset without any bit extraction.
+		 * This avoids expensive __subleq_srl and __subleq_and calls.
+		 */
 		for (j = 0, rel = rels; j < nrels; j++, rel++) {
-			unsigned int sym_idx = ELF32_R_SYM(rel->r_info);
-			unsigned int type = ELF32_R_TYPE(rel->r_info);
 			unsigned long reloc_addr;
 			u32 *patch_addr;
-			u32 value;
-
-			/* Only process R_386_32 relocations */
-			if (type != R_386_32)
-				continue;
-
-			reloc_addr = load_addr + (rel->r_offset - base_vaddr);
-			patch_addr = (u32 *)reloc_addr;
 
 			/*
-			 * Check if this is an undefined symbol that needs
-			 * external resolution. Symbol index 0 is always the
-			 * null symbol, so skip it.
+			 * FAST PATH: r_info=1 means type=R_386_32 (1) and sym_idx=0.
+			 * This is the most common case. Skip all bit extraction.
 			 */
-			if (have_symtab && sym_idx > 0 && sym_idx < nsyms) {
-				struct elf32_sym *sym = &syms[sym_idx];
-
-				if (sym->st_shndx == SHN_UNDEF &&
-				    sym->st_name < strtab_shdr->sh_size) {
-					unsigned long sym_addr;
-					int first_resolution = 0;
-
-					/* Check cache first */
-					if (sym_cache) {
-						if (sym_cache[sym_idx] == 1) {
-							/* Not found - apply load offset */
-							goto apply_offset;
-						}
-						if (sym_cache[sym_idx] != 0) {
-							sym_addr =
-								sym_cache[sym_idx];
-							goto apply_sym;
-						}
-					}
-
-					/* Cache miss - look up */
-					sym_addr = lookup_libsrt_symbol(
-						strtab + sym->st_name);
-
-					if (sym_cache) {
-						sym_cache[sym_idx] =
-							sym_addr ? sym_addr : 1;
-					}
-
-					if (sym_addr == 0)
-						goto apply_offset;
-
-					first_resolution = 1;
-
-apply_sym:
-					*patch_addr = sym_addr;
-
-					if (first_resolution) {
-						subleq_elf_debug(
-							"Resolved %s -> 0x%lx",
-							strtab + sym->st_name,
-							sym_addr);
-					}
-					symbols_resolved++;
-					continue;
+			if (rel->r_info == 1) {
+				if (load_offset != 0) {
+					reloc_addr = load_addr + (rel->r_offset - base_vaddr);
+					patch_addr = (u32 *)reloc_addr;
+					*patch_addr += load_offset;
+					relocs_applied++;
 				}
+				continue;
 			}
 
+			/*
+			 * SLOW PATH: Need to extract type and sym_idx.
+			 * OPTIMIZATION: Avoid byte access (triggers __subleq_lb)
+			 * and bit operations where possible.
+			 *
+			 * For R_386_32 (type=1), r_info = (sym_idx << 8) | 1
+			 * Rearranged: sym_idx = (r_info - 1) >> 8
+			 * Type verification: sym_idx * 256 + 1 should equal r_info
+			 */
+			{
+				u32 r_info_minus_1 = rel->r_info - 1;
+				unsigned int sym_idx = r_info_minus_1 >> 8;
+
+				/*
+				 * Verify type is R_386_32: check if reconstruction matches.
+				 * If (sym_idx << 8) + 1 != r_info, skip this relocation.
+				 * Use multiplication instead of shift for left shift
+				 * (multiplication by 256 might be optimized to shifts by compiler).
+				 */
+				if ((sym_idx << 8) + 1 != rel->r_info)
+					continue;
+
+				reloc_addr = load_addr + (rel->r_offset - base_vaddr);
+				patch_addr = (u32 *)reloc_addr;
+
+				/*
+				 * Check if this is an undefined symbol that needs
+				 * external resolution.
+				 */
+				if (have_symtab && sym_idx > 0 && sym_idx < nsyms) {
+					struct elf32_sym *sym = &syms[sym_idx];
+
+					if (sym->st_shndx == SHN_UNDEF &&
+					    sym->st_name < strtab_shdr->sh_size) {
+						unsigned long sym_addr;
+						int first_resolution = 0;
+
+						/* Check cache first */
+						if (sym_cache) {
+							if (sym_cache[sym_idx] == 1) {
+								/* Not found - apply load offset */
+								goto apply_offset;
+							}
+							if (sym_cache[sym_idx] != 0) {
+								sym_addr = sym_cache[sym_idx];
+								goto apply_sym;
+							}
+						}
+
+						/* Cache miss - look up */
+						sym_addr = lookup_libsrt_symbol(
+							strtab + sym->st_name);
+
+						if (sym_cache) {
+							sym_cache[sym_idx] =
+								sym_addr ? sym_addr : 1;
+						}
+
+						if (sym_addr == 0)
+							goto apply_offset;
+
+						first_resolution = 1;
+
+apply_sym:
+						*patch_addr = sym_addr;
+
+						if (first_resolution) {
+							subleq_elf_debug(
+								"Resolved %s -> 0x%lx",
+								strtab + sym->st_name,
+								sym_addr);
+						}
+						symbols_resolved++;
+						continue;
+					}
+				}
+
 apply_offset:
-			/* Defined symbol or no symtab: add load offset */
-			if (load_offset != 0) {
-				value = *patch_addr;
-				value += load_offset;
-				*patch_addr = value;
-				relocs_applied++;
+				/* Defined symbol or no symtab: add load offset */
+				if (load_offset != 0) {
+					*patch_addr += load_offset;
+					relocs_applied++;
+				}
 			}
 		}
 
@@ -782,6 +841,57 @@ apply_offset:
 			 relocs_applied, load_offset);
 	subleq_elf_debug("Resolved %d external symbols", symbols_resolved);
 
+	/*
+	 * If requested, build symbol table from the already-loaded symtab/strtab.
+	 * This eliminates redundant file I/O by reusing data we already have.
+	 */
+	if (build_symtab && have_symtab && strtab_shdr) {
+		int symbols_added = 0;
+
+		libsrt_load_addr = load_addr;
+
+		/* Extract all global function symbols */
+		for (i = 0; i < nsyms && libsrt_symbol_count < MAX_LIBSRT_SYMBOLS; i++) {
+			struct elf32_sym *sym = &syms[i];
+			const char *name;
+
+			/* Skip undefined symbols */
+			if (sym->st_shndx == SHN_UNDEF)
+				continue;
+			/* Skip non-function symbols */
+			if (ELF32_ST_TYPE(sym->st_info) != STT_FUNC &&
+			    ELF32_ST_TYPE(sym->st_info) != STT_NOTYPE)
+				continue;
+			/* Only include global symbols (not local) */
+			if (ELF32_ST_BIND(sym->st_info) == STB_LOCAL)
+				continue;
+			if (sym->st_name >= strtab_shdr->sh_size)
+				continue;
+			if (sym->st_name == 0) /* Skip empty names */
+				continue;
+
+			name = strtab + sym->st_name;
+
+			/* Store symbol with adjusted address */
+			strscpy(libsrt_symbols[libsrt_symbol_count].name, name,
+				sizeof(libsrt_symbols[0].name));
+			libsrt_symbols[libsrt_symbol_count].addr =
+				load_addr + sym->st_value;
+			libsrt_symbol_count++;
+			symbols_added++;
+		}
+
+		/* Sort symbols alphabetically to enable binary search lookups */
+		if (symbols_added > 0 && libsrt_symbol_count > 1) {
+			sort(libsrt_symbols, libsrt_symbol_count,
+			     sizeof(struct libsrt_symbol), libsrt_symbol_cmp, NULL);
+			libsrt_symbols_sorted = 1;
+		}
+
+		subleq_elf_debug("Added %d lib symbols (total: %d, sorted)",
+				 symbols_added, libsrt_symbol_count);
+	}
+
 	kfree(sym_cache);
 	kfree(syms);
 	kfree(strtab);
@@ -790,148 +900,12 @@ apply_offset:
 }
 
 /*
- * NOTE: The resolve_external_symbols() function has been removed.
- * Its functionality is now integrated into process_relocations_and_symbols()
- * above, which processes relocations and resolves external symbols in a single
- * pass for better performance.
+ * NOTE: resolve_external_symbols() and build_lib_symbol_table() have been
+ * removed. Their functionality is now integrated into process_relocations_and_symbols()
+ * which handles relocation patching, symbol resolution, and symbol table building
+ * all in a single pass. This eliminates redundant file I/O (section headers,
+ * symbol table, string table were being read twice per library).
  */
-
-/*
- * Build symbol table from the library's ELF file
- * Adds all global function symbols to the shared symbol table
- * (appends to existing symbols - does NOT reset)
- */
-static int build_lib_symbol_table(struct file *file, struct elfhdr *hdr,
-				  unsigned long load_addr)
-{
-	struct elf_shdr *shdrs = NULL;
-	struct elf_shdr *shdr;
-	struct elf_shdr *symtab_shdr = NULL;
-	struct elf_shdr *strtab_shdr = NULL;
-	struct elf32_sym *syms = NULL;
-	char *strtab = NULL;
-	loff_t pos;
-	ssize_t ret;
-	int i, nsyms;
-	int symbols_added = 0;
-
-	libsrt_load_addr = load_addr;
-
-	/* Read section headers */
-	if (hdr->e_shentsize != sizeof(struct elf_shdr) || hdr->e_shnum == 0)
-		return 0;
-
-	shdrs = kmalloc_array(hdr->e_shnum, sizeof(struct elf_shdr),
-			      GFP_KERNEL);
-	if (!shdrs)
-		return -ENOMEM;
-
-	pos = hdr->e_shoff;
-	ret = kernel_read(file, shdrs, hdr->e_shnum * sizeof(struct elf_shdr),
-			  &pos);
-	if (ret != hdr->e_shnum * sizeof(struct elf_shdr)) {
-		kfree(shdrs);
-		return ret < 0 ? ret : -ENOEXEC;
-	}
-
-	/* Find .symtab section first */
-	for (i = 0, shdr = shdrs; i < hdr->e_shnum; i++, shdr++) {
-		if (shdr->sh_type == SHT_SYMTAB) {
-			symtab_shdr = shdr;
-			break;
-		}
-	}
-
-	if (!symtab_shdr) {
-		subleq_elf_debug("libsrt: No symbol table found");
-		kfree(shdrs);
-		return 0;
-	}
-
-	/* Use symtab's sh_link to find the correct string table */
-	if (symtab_shdr->sh_link < hdr->e_shnum) {
-		strtab_shdr = &shdrs[symtab_shdr->sh_link];
-	}
-
-	if (!strtab_shdr || strtab_shdr->sh_type != SHT_STRTAB) {
-		subleq_elf_debug("libsrt: No string table found");
-		kfree(shdrs);
-		return 0;
-	}
-
-	/* Read string table */
-	strtab = kmalloc(strtab_shdr->sh_size, GFP_KERNEL);
-	if (!strtab) {
-		kfree(shdrs);
-		return -ENOMEM;
-	}
-
-	pos = strtab_shdr->sh_offset;
-	ret = kernel_read(file, strtab, strtab_shdr->sh_size, &pos);
-	if (ret != strtab_shdr->sh_size) {
-		kfree(strtab);
-		kfree(shdrs);
-		return ret < 0 ? ret : -ENOEXEC;
-	}
-
-	/* Read symbol table */
-	nsyms = symtab_shdr->sh_size / sizeof(struct elf32_sym);
-	syms = kmalloc(symtab_shdr->sh_size, GFP_KERNEL);
-	if (!syms) {
-		kfree(strtab);
-		kfree(shdrs);
-		return -ENOMEM;
-	}
-
-	pos = symtab_shdr->sh_offset;
-	ret = kernel_read(file, syms, symtab_shdr->sh_size, &pos);
-	if (ret != symtab_shdr->sh_size) {
-		kfree(syms);
-		kfree(strtab);
-		kfree(shdrs);
-		return ret < 0 ? ret : -ENOEXEC;
-	}
-
-	/* Extract all global function symbols */
-	for (i = 0; i < nsyms && libsrt_symbol_count < MAX_LIBSRT_SYMBOLS;
-	     i++) {
-		struct elf32_sym *sym = &syms[i];
-		const char *name;
-
-		/* Skip undefined symbols */
-		if (sym->st_shndx == SHN_UNDEF)
-			continue;
-		/* Skip non-function symbols */
-		if (ELF32_ST_TYPE(sym->st_info) != STT_FUNC &&
-		    ELF32_ST_TYPE(sym->st_info) != STT_NOTYPE)
-			continue;
-		/* Only include global symbols (not local) */
-		if (ELF32_ST_BIND(sym->st_info) == STB_LOCAL)
-			continue;
-		if (sym->st_name >= strtab_shdr->sh_size)
-			continue;
-		if (sym->st_name == 0) /* Skip empty names */
-			continue;
-
-		name = strtab + sym->st_name;
-
-		/* Store symbol with adjusted address */
-		strscpy(libsrt_symbols[libsrt_symbol_count].name, name,
-			sizeof(libsrt_symbols[0].name));
-		libsrt_symbols[libsrt_symbol_count].addr =
-			load_addr + sym->st_value;
-		libsrt_symbol_count++;
-		symbols_added++;
-	}
-
-	subleq_elf_debug("Added %d symbols (total: %d)", symbols_added,
-			 libsrt_symbol_count);
-
-	kfree(syms);
-	kfree(strtab);
-	kfree(shdrs);
-	return 0;
-}
 
 /*
  * Load the shared runtime library if present
@@ -1000,10 +974,13 @@ static int load_libsrt(const char *lib_path, struct elf_load_info *lib_info)
 	 * to handle circular dependencies */
 	record_loaded_lib(lib_name, lib_info->load_addr);
 
-	/* Apply relocations and resolve external symbols for the library */
+	/* Apply relocations, resolve external symbols, and build symbol table.
+	 * With build_symtab=1, this also exports the library's symbols for
+	 * dependent binaries, avoiding a redundant read of section/symbol tables.
+	 */
 	ret = process_relocations_and_symbols(lib_file, &lib_hdr,
 					      lib_info->load_addr,
-					      lib_info->base_vaddr);
+					      lib_info->base_vaddr, 1);
 	if (ret < 0) {
 		fput(lib_file);
 		pr_err("SUBLEQ_ELF: Failed to process relocations for %s: %d\n",
@@ -1011,26 +988,17 @@ static int load_libsrt(const char *lib_path, struct elf_load_info *lib_info)
 		return ret;
 	}
 
-	/* Build symbol table for later lookups */
-	pos = 0;
-	ret = kernel_read(lib_file, &lib_hdr, sizeof(lib_hdr), &pos);
-	if (ret == sizeof(lib_hdr)) {
-		build_lib_symbol_table(lib_file, &lib_hdr, lib_info->load_addr);
-	}
-
-	/* Check for DT_NEEDED dependencies in this library and load them */
-	pos = 0;
-	ret = kernel_read(lib_file, &lib_hdr, sizeof(lib_hdr), &pos);
-	if (ret == sizeof(lib_hdr)) {
-		ndeps = get_elf_needed_libs(lib_file, &lib_hdr, lib_deps,
-					    MAX_NEEDED_LIBS, NULL, NULL);
-		for (i = 0; i < ndeps; i++) {
-			struct elf_load_info dep_info = { 0 };
-			snprintf(dep_path, sizeof(dep_path), "/lib/%s",
-				 lib_deps[i].name);
-			/* Recursive call - will skip if already loaded */
-			load_libsrt(dep_path, &dep_info);
-		}
+	/* Check for DT_NEEDED dependencies in this library and load them.
+	 * Reuse lib_hdr from earlier read (no need to re-read from disk).
+	 */
+	ndeps = get_elf_needed_libs(lib_file, &lib_hdr, lib_deps,
+				    MAX_NEEDED_LIBS, NULL, NULL);
+	for (i = 0; i < ndeps; i++) {
+		struct elf_load_info dep_info = { 0 };
+		snprintf(dep_path, sizeof(dep_path), "/lib/%s",
+			 lib_deps[i].name);
+		/* Recursive call - will skip if already loaded */
+		load_libsrt(dep_path, &dep_info);
 	}
 
 	fput(lib_file);
@@ -1331,14 +1299,12 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 	subleq_elf_debug("Executable loaded at 0x%lx, entry=0x%lx",
 			 exec_info.load_addr, exec_info.entry_addr);
 
-	/* Apply relocations and resolve external symbols in a single pass.
-	 * This combines what was previously two separate operations:
-	 * 1. Adjusting addresses for load offset (defined symbols)
-	 * 2. Resolving undefined symbols to kernel runtime / libsrt
+	/* Apply relocations and resolve external symbols.
+	 * build_symtab=0 since the main executable doesn't export symbols.
 	 */
 	ret = process_relocations_and_symbols(bprm->file, hdr,
 					      exec_info.load_addr,
-					      exec_info.base_vaddr);
+					      exec_info.base_vaddr, 0);
 	if (ret < 0) {
 		pr_err("SUBLEQ_ELF: Failed to process relocations/symbols: %d\n",
 		       ret);

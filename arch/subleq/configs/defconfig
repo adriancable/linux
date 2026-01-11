@@ -50,7 +50,7 @@ CONFIG_BINFMT_FLAT=y
 CONFIG_EARLY_PRINTK=y
 
 # Command line
-CONFIG_CMDLINE="console=ttyS0 initramfs_async=0 loglevel=7"
+CONFIG_CMDLINE="console=ttyS0 loglevel=7 rdinit=/bin/sh"
 CONFIG_CMDLINE_FORCE=y
 
 # Disable debugging (too much output)

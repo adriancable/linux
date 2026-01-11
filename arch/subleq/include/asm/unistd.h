@@ -6,14 +6,16 @@
 #ifndef _ASM_SUBLEQ_UNISTD_H
 #define _ASM_SUBLEQ_UNISTD_H
 
-/* Use generic system call table */
-#include <uapi/asm-generic/unistd.h>
+#include <uapi/asm/unistd.h>
 
-/* Enable 32-bit syscall variants for Subleq */
-#define __ARCH_WANT_NEW_STAT
-#define __ARCH_WANT_STAT64
-#define __ARCH_WANT_TIME32_SYSCALLS
+/*
+ * Kernel-internal flags - these enable internal syscall handling features,
+ * NOT syscall table entries (which are controlled in syscall_table.h).
+ */
 #define __ARCH_WANT_SYS_CLONE
 #define __ARCH_WANT_SYS_CLONE3
 
+#define NR_syscalls (__NR_syscalls)
+
 #endif /* _ASM_SUBLEQ_UNISTD_H */
+

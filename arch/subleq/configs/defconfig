@@ -4,7 +4,6 @@
 # CONFIG_MMU is not set
 # CONFIG_SMP is not set
 CONFIG_SUBLEQ=y
-CONFIG_SUBLEQ_SIM=y
 
 # Basic kernel features
 CONFIG_PRINTK=y
@@ -38,13 +37,15 @@ CONFIG_INITRAMFS_COMPRESSION_NONE=y
 # No networking
 # CONFIG_NET is not set
 
-# Binary format support
-CONFIG_BINFMT_FLAT=y
+# Binary format support (using custom binfmt_elf_subleq.c)
+# CONFIG_BINFMT_FLAT is not set
 
 # No drivers
 # CONFIG_SERIAL_8250 is not set
+
 # CONFIG_VT is not set
 # CONFIG_HW_CONSOLE is not set
+# CONFIG_LEGACY_PTYS is not set
 
 # Early console
 CONFIG_EARLY_PRINTK=y

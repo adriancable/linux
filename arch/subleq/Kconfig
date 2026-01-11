@@ -5,7 +5,6 @@ config SUBLEQ
 	def_bool y
 	select ARCH_32BIT_OFF_T
 	select ARCH_NO_PREEMPT
-	select ARCH_HAS_BINFMT_FLAT
 	select GENERIC_ATOMIC64
 	select GENERIC_CSUM
 	select GENERIC_HWEIGHT
@@ -70,15 +69,7 @@ config PHYS_ADDR_T_64BIT
 config ARCH_SUPPORTS_UPROBES
 	def_bool n
 
-menu "Machine selection"
 
-config SUBLEQ_SIM
-	bool "Subleq Virtual Machine"
-	default y
-	help
-	  Support for running on the Subleq VM simulator.
-
-endmenu
 
 config CMDLINE
 	string "Default kernel command string"

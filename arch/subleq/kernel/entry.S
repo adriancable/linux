@@ -2102,14 +2102,14 @@ __subleq_syscall:
 
         /*
          * STEP 1: Compute pt_regs base address
-         * pt_regs_addr = subleq_kernel_sp + 256
+         * pt_regs_addr = subleq_kernel_sp + 1024
          * Store in .Lsyscall_ptregs_addr for reuse
          */
         .word   SYSCALL_ZZ, SYSCALL_ZZ, .+4           /* ZZ = 0 */
         .word   subleq_kernel_sp, SYSCALL_ZZ, .+4     /* ZZ = -kernel_sp */
         .word   .Lsyscall_ptregs_addr, .Lsyscall_ptregs_addr, .+4  /* clear */
         .word   SYSCALL_ZZ, .Lsyscall_ptregs_addr, .+4  /* = kernel_sp */
-        .word   .Lsyscall_neg256, .Lsyscall_ptregs_addr, .+4  /* += 256 */
+        .word   .Lsyscall_neg1024, .Lsyscall_ptregs_addr, .+4  /* += 1024 */
 
         /*
          * STEP 2: Load SP from pt_regs->sp (offset 92)
@@ -2197,8 +2197,8 @@ __subleq_syscall:
 .Lsyscall_ptregs_addr:
         .word   0
 
-.Lsyscall_neg256:
-        .word   -256
+.Lsyscall_neg1024:
+        .word   -1024
 
 .Lsyscall_neg88:
         .word   -88

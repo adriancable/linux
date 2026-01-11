@@ -204,6 +204,14 @@ void start_thread(struct pt_regs *regs, unsigned long pc, unsigned long sp)
 	regs->pc = pc;
 	regs->sp = sp;
 	/* r3 = 0 is already set by memset, marking this as a user thread */
+	
+	/*
+	 * CRITICAL: Mark that we're NOT in a syscall.
+	 * Hazard 1342: memset sets syscall_nr=0, which makes in_syscall()
+	 * return true (syscall 0 = read). do_signal() would then incorrectly
+	 * try to handle syscall restart, corrupting the return context.
+	 */
+	regs->syscall_nr = -1;
 }
 
 /*
@@ -281,6 +289,8 @@ int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
 		childregs->r3 = (unsigned long)args->fn;
 		childregs->r21 = (unsigned long)args->fn_arg;
 		childregs->pc = 0;
+		/* Mark not in syscall (Hazard 1342) */
+		childregs->syscall_nr = -1;
 
 		return 0;
 	}
@@ -291,6 +301,14 @@ int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
 		childregs->sp = usp;
 	childregs->r20 = 0; /* Return 0 in child */
 	childregs->r3 = 0; /* Mark as user thread (ret_from_fork checks this) */
+	/*
+	 * Mark not in syscall for the child.
+	 * Even though the parent is in clone/fork syscall, the child is
+	 * starting fresh and should not inherit the syscall restart state.
+	 * Hazard 1342: without this, in_syscall() returns true and
+	 * do_signal() corrupts the return context.
+	 */
+	childregs->syscall_nr = -1;
 
 	return 0;
 }

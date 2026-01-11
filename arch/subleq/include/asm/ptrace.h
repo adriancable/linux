@@ -33,7 +33,7 @@ struct pt_regs {
 	unsigned long r18;
 	unsigned long r19;
 	unsigned long r20; /* Return value */
-	unsigned long r21; /* Arg 1 */
+	unsigned long r21; /* Arg 1 / syscall number */
 	unsigned long r22; /* Arg 2 */
 	unsigned long r23; /* Arg 3 */
 	unsigned long r24; /* Arg 4 */
@@ -42,7 +42,18 @@ struct pt_regs {
 	unsigned long ra;  /* Return address (link register) */
 	unsigned long pc;  /* Program counter */
 	unsigned long orig_r20; /* Original R20 for syscall restart */
+	long syscall_nr;        /* Syscall number, -1 if not in syscall */
+	unsigned long orig_r21; /* Original R21 (syscall nr) for restart */
+	unsigned long orig_r22; /* Original R22 (arg 2) for restart */
+	unsigned long orig_r23; /* Original R23 (arg 3) for restart */
+	unsigned long orig_r24; /* Original R24 (arg 4) for restart */
 };
+
+/* Check if we're returning from a syscall (vs interrupt/exception) */
+#define in_syscall(regs)	((regs)->syscall_nr >= 0)
+
+/* Mark that syscall restart should NOT happen (e.g., after sigreturn) */
+#define syscall_wont_restart(regs)	((regs)->syscall_nr = -1)
 
 #define user_mode(regs) (0) /* Always kernel mode for now */
 #define kernel_mode(regs) (1)
@@ -51,7 +62,7 @@ struct pt_regs {
 #define user_stack_pointer(regs) ((regs)->sp)
 #define profile_pc(regs) instruction_pointer(regs)
 
-#define MAX_REG_OFFSET (offsetof(struct pt_regs, orig_r20))
+#define MAX_REG_OFFSET (offsetof(struct pt_regs, orig_r24))
 
 #endif /* !__ASSEMBLY__ */
 

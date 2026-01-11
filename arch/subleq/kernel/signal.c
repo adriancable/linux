@@ -95,73 +95,27 @@ handle_restart(struct pt_regs *regs, struct k_sigaction *ka, int has_handler)
  *
  * Following the m68k pattern for proper NOMMU signal handling.
  */
-/* Instrumentation for do_signal debugging */
-extern void __subleq_putchar(int c);
-
-static void print_hex(unsigned long val)
-{
-	static const char hex[] = "0123456789ABCDEF";
-	int i;
-	for (i = 28; i >= 0; i -= 4) {
-		__subleq_putchar(hex[(val >> i) & 0xF]);
-	}
-}
-
 void do_signal(struct pt_regs *regs)
 {
 	struct ksignal ksig;
-	volatile unsigned long *fp_ptr = (volatile unsigned long *)148;  /* FP is at address 148 */
-	unsigned long fp_entry, ra_entry;
 	int got_sig;
-
-	/* Capture FP and [FP+4] (actual return address location) at function entry */
-	fp_entry = *fp_ptr;
-	ra_entry = *(volatile unsigned long *)(fp_entry + 4);  /* [FP+4] = return address */
-
-	/* Dump FP, [FP], and [FP+4] at entry to verify layout */
-	__subleq_putchar('[');
-	print_hex(*(volatile unsigned long *)fp_entry);  /* [FP] - should be saved old FP */
-	__subleq_putchar(' ');
-	print_hex(ra_entry);  /* [FP+4] - should be return address */
-	__subleq_putchar(']');
-
-	__subleq_putchar('A');  /* Entry */
 
 	/*
 	 * Check if there's a signal to deliver.
 	 * get_signal() returns true if a signal needs to be delivered.
 	 * It also handles signal stopping, coredumps, and sets up ksig.
 	 */
-	__subleq_putchar('B');  /* Before get_signal */
 	got_sig = get_signal(&ksig);
-	
-	/* Check if FP changed during get_signal (it shouldn't!) */
-	if (*fp_ptr != fp_entry) {
-		__subleq_putchar('!');
-		__subleq_putchar('F');
-		__subleq_putchar('P');
-		__subleq_putchar('!');
-	}
-	/* Check if [FP+4] (return address) was corrupted */
-	if (*(volatile unsigned long *)(fp_entry + 4) != ra_entry) {
-		__subleq_putchar('!');
-		__subleq_putchar('R');
-		__subleq_putchar('A');
-		__subleq_putchar('!');
-	}
 
 	if (got_sig) {
-		__subleq_putchar('C');  /* Signal to deliver */
 		/*
 		 * A signal wants to be delivered.
 		 *
 		 * If we came from a syscall, handle restart codes first.
 		 * Then set up the signal frame to execute the handler.
 		 */
-		if (in_syscall(regs)) {
-			__subleq_putchar('D');  /* Before handle_restart (signal path) */
+		if (in_syscall(regs))
 			handle_restart(regs, &ksig.ka, 1);
-		}
 
 		/*
 		 * TODO: Actually deliver the signal by setting up a signal frame.
@@ -175,17 +129,8 @@ void do_signal(struct pt_regs *regs)
 		 * - setup_rt_frame(&ksig, sigmask_to_save(), regs);
 		 * - signal_setup_done(err, &ksig, 0);
 		 */
-		/* Final check before return */
-		if (*(volatile unsigned long *)(fp_entry + 4) != ra_entry) {
-			__subleq_putchar('!');
-			__subleq_putchar('R');
-			__subleq_putchar('X');
-			__subleq_putchar('!');
-		}
-		__subleq_putchar('F');  /* Exit (signal delivered path) */
 		return;
 	}
-	__subleq_putchar('c');  /* After get_signal (no signal) */
 
 	/*
 	 * No signal to deliver.
@@ -194,38 +139,14 @@ void do_signal(struct pt_regs *regs)
 	 * With no signal handler, ERESTARTSYS and ERESTARTNOHAND should
 	 * both result in syscall restart.
 	 */
-	if (in_syscall(regs)) {
-		__subleq_putchar('d');  /* Before handle_restart (no signal path) */
+	if (in_syscall(regs))
 		handle_restart(regs, NULL, 0);
-	}
 
 	/*
 	 * If there's no signal to deliver, restore the saved sigmask.
 	 * This is used by sigsuspend() and related calls.
 	 */
-	__subleq_putchar('E');  /* Before restore_saved_sigmask */
 	restore_saved_sigmask();
-	
-	/* Final check before return */
-	if (*fp_ptr != fp_entry) {
-		__subleq_putchar('!');
-		__subleq_putchar('f');
-		__subleq_putchar('p');
-		__subleq_putchar('!');
-	}
-	if (*(volatile unsigned long *)(fp_entry + 4) != ra_entry) {
-		__subleq_putchar('!');
-		__subleq_putchar('r');
-		__subleq_putchar('a');
-		__subleq_putchar('!');
-	}
-	/* Dump FP and RA at exit to compare */
-	__subleq_putchar('[');
-	__subleq_putchar('E');
-	__subleq_putchar(':');
-	print_hex(*(volatile unsigned long *)(fp_entry + 4));
-	__subleq_putchar(']');
-	__subleq_putchar('f');  /* Exit (normal path) */
 }
 
 asmlinkage long sys_rt_sigreturn(void)
@@ -241,4 +162,3 @@ asmlinkage long sys_rt_sigreturn(void)
 	 */
 	return -ENOSYS;
 }
-

@@ -49,21 +49,11 @@ extern unsigned long subleq_syscall_saved_ra;
  * to the kernel stack. Returns to the trampoline which handles the
  * userspace return.
  */
-extern void __subleq_putchar(int c);
-
 asmlinkage long __subleq_syscall_c(long nr, long a1, long a2, long a3, long a4, long a5, long a6)
 {
 	syscall_fn_t fn;
 	struct pt_regs *regs;
 	long ret;
-
-	/* DEBUG: Print syscall number - disabled to reduce noise
-	__subleq_putchar('{');
-	if (nr >= 100) __subleq_putchar('0' + (nr / 100) % 10);
-	if (nr >= 10) __subleq_putchar('0' + (nr / 10) % 10);
-	__subleq_putchar('0' + nr % 10);
-	__subleq_putchar('}');
-	*/
 
 	/*
 	 * Fill in pt_regs using the saved globals.
@@ -147,21 +137,6 @@ restart_syscall:
 	 */
 	do_signal(regs);
 
-	/* DEBUG: Check if pt_regs was corrupted during do_signal */
-	__subleq_putchar('$');  /* After do_signal */
-	if (regs->pc < 0x100000) {
-		/* PC is in low memory - likely corrupted! */
-		__subleq_putchar('!');
-		__subleq_putchar('P');
-		__subleq_putchar('C');
-	}
-	if (regs->sp < 0x100000 || regs->sp > 0x10000000) {
-		/* SP looks invalid */
-		__subleq_putchar('!');
-		__subleq_putchar('S');
-		__subleq_putchar('P');
-	}
-
 	/*
 	 * Check if we need to restart the syscall.
 	 *
@@ -190,21 +165,9 @@ restart_syscall:
 		 * us up) never gets scheduled.
 		 */
 		restart_count++;
-		if (restart_count <= 3) {
-			__subleq_putchar('r');
-			if (nr >= 100) __subleq_putchar('0' + (nr / 100) % 10);
-			if (nr >= 10) __subleq_putchar('0' + (nr / 10) % 10);
-			__subleq_putchar('0' + nr % 10);
-			__subleq_putchar(':');
-		}
 		if (restart_count > 10000) {
 			/* Too many restarts - something is wrong, bail out */
-			__subleq_putchar('!');
-			__subleq_putchar('L');
-			__subleq_putchar('O');
-			__subleq_putchar('O');
-			__subleq_putchar('P');
-			__subleq_putchar('!');
+			pr_warn("SUBLEQ_SYSCALL: syscall %ld stuck in restart loop\n", nr);
 			ret = -EINTR;
 			regs->r20 = ret;
 			break;
@@ -259,18 +222,6 @@ out:
 	/* Mark that we're no longer in a syscall */
 	regs->syscall_nr = -1;
 
-	/* DEBUG: Check if our return address got corrupted */
-	{
-		volatile unsigned long *fp_ptr = (volatile unsigned long *)148;
-		unsigned long fp_val = *fp_ptr;
-		unsigned long ra_val = *(volatile unsigned long *)(fp_val + 4);
-		__subleq_putchar('<');
-		/* Print first 2 hex digits of RA to keep output short */
-		__subleq_putchar("0123456789ABCDEF"[(ra_val >> 20) & 0xF]);
-		__subleq_putchar("0123456789ABCDEF"[(ra_val >> 16) & 0xF]);
-		__subleq_putchar('>');
-	}
-
 	/* Return the final value */
 	return regs->r20;
 }
@@ -300,8 +251,4 @@ void subleq_init_kernel_sp(struct task_struct *tsk)
 	 */
 	subleq_kernel_sp = (unsigned long)task_stack_page(tsk) + THREAD_SIZE 
 			   - sizeof(struct pt_regs) - 1024;
-	/* Debug trace commented out
-	pr_info("INIT_KERNEL_SP: tsk=%px subleq_kernel_sp=0x%lx stack=%px THREAD_SIZE=0x%lx\n",
-		tsk, subleq_kernel_sp, task_stack_page(tsk), (unsigned long)THREAD_SIZE);
-	*/
 }

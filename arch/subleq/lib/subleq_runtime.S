@@ -80369,672 +80369,237 @@ __subleq_lb:
         .word   180, 184, .Llb_mod_b30
         .word   .Llb_min, 180, .Llb_mod_b30
 .Llb_mod_b30:
-        .word   184, 184, .Llb_mod_b30a
-.Llb_mod_b30a:
-        .word   12, 12, .Llb_mod_b30b
-.Llb_mod_b30b:
-        .word   180, 12, .Llb_mod_b30c
-.Llb_mod_b30c:
-        .word   12, 184, .Llb_mod_b30d
-.Llb_mod_b30d:
-        .word   .Llb_c1073741824, 184, .Llb_mod_b30e
-.Llb_mod_b30e:
-        .word   12, 12, .Llb_mod_b30f
-.Llb_mod_b30f:
-        .word   184, 12, .Llb_mod_b30g
-.Llb_mod_b30g:
-        .word   24, 12, .Llb_mod_b30s
+        .word   .Llb_c1073741824, 180, .Llb_mod_c30
         .word   12, 12, .Llb_mod_b29
-.Llb_mod_b30s:
-        .word   180, 180, .Llb_mod_b30h
-.Llb_mod_b30h:
-        .word   12, 180, .Llb_mod_b30i
-.Llb_mod_b30i:
-        .word   12, 12, .Llb_mod_b29
+.Llb_mod_c30:
+        .word   184, 184, .Llb_mod_d30
+.Llb_mod_d30:
+        .word   180, 184, .Llb_mod_b29
+        .word   .Llb_n1073741824, 180, .Llb_mod_b29
 .Llb_mod_b29:
-        .word   184, 184, .Llb_mod_b29a
-.Llb_mod_b29a:
-        .word   12, 12, .Llb_mod_b29b
-.Llb_mod_b29b:
-        .word   180, 12, .Llb_mod_b29c
-.Llb_mod_b29c:
-        .word   12, 184, .Llb_mod_b29d
-.Llb_mod_b29d:
-        .word   .Llb_c536870912, 184, .Llb_mod_b29e
-.Llb_mod_b29e:
-        .word   12, 12, .Llb_mod_b29f
-.Llb_mod_b29f:
-        .word   184, 12, .Llb_mod_b29g
-.Llb_mod_b29g:
-        .word   24, 12, .Llb_mod_b29s
+        .word   .Llb_c536870912, 180, .Llb_mod_c29
         .word   12, 12, .Llb_mod_b28
-.Llb_mod_b29s:
-        .word   180, 180, .Llb_mod_b29h
-.Llb_mod_b29h:
-        .word   12, 180, .Llb_mod_b29i
-.Llb_mod_b29i:
-        .word   12, 12, .Llb_mod_b28
+.Llb_mod_c29:
+        .word   184, 184, .Llb_mod_d29
+.Llb_mod_d29:
+        .word   180, 184, .Llb_mod_b28
+        .word   .Llb_n536870912, 180, .Llb_mod_b28
 .Llb_mod_b28:
-        .word   184, 184, .Llb_mod_b28a
-.Llb_mod_b28a:
-        .word   12, 12, .Llb_mod_b28b
-.Llb_mod_b28b:
-        .word   180, 12, .Llb_mod_b28c
-.Llb_mod_b28c:
-        .word   12, 184, .Llb_mod_b28d
-.Llb_mod_b28d:
-        .word   .Llb_c268435456, 184, .Llb_mod_b28e
-.Llb_mod_b28e:
-        .word   12, 12, .Llb_mod_b28f
-.Llb_mod_b28f:
-        .word   184, 12, .Llb_mod_b28g
-.Llb_mod_b28g:
-        .word   24, 12, .Llb_mod_b28s
+        .word   .Llb_c268435456, 180, .Llb_mod_c28
         .word   12, 12, .Llb_mod_b27
-.Llb_mod_b28s:
-        .word   180, 180, .Llb_mod_b28h
-.Llb_mod_b28h:
-        .word   12, 180, .Llb_mod_b28i
-.Llb_mod_b28i:
-        .word   12, 12, .Llb_mod_b27
+.Llb_mod_c28:
+        .word   184, 184, .Llb_mod_d28
+.Llb_mod_d28:
+        .word   180, 184, .Llb_mod_b27
+        .word   .Llb_n268435456, 180, .Llb_mod_b27
 .Llb_mod_b27:
-        .word   184, 184, .Llb_mod_b27a
-.Llb_mod_b27a:
-        .word   12, 12, .Llb_mod_b27b
-.Llb_mod_b27b:
-        .word   180, 12, .Llb_mod_b27c
-.Llb_mod_b27c:
-        .word   12, 184, .Llb_mod_b27d
-.Llb_mod_b27d:
-        .word   .Llb_c134217728, 184, .Llb_mod_b27e
-.Llb_mod_b27e:
-        .word   12, 12, .Llb_mod_b27f
-.Llb_mod_b27f:
-        .word   184, 12, .Llb_mod_b27g
-.Llb_mod_b27g:
-        .word   24, 12, .Llb_mod_b27s
+        .word   .Llb_c134217728, 180, .Llb_mod_c27
         .word   12, 12, .Llb_mod_b26
-.Llb_mod_b27s:
-        .word   180, 180, .Llb_mod_b27h
-.Llb_mod_b27h:
-        .word   12, 180, .Llb_mod_b27i
-.Llb_mod_b27i:
-        .word   12, 12, .Llb_mod_b26
+.Llb_mod_c27:
+        .word   184, 184, .Llb_mod_d27
+.Llb_mod_d27:
+        .word   180, 184, .Llb_mod_b26
+        .word   .Llb_n134217728, 180, .Llb_mod_b26
 .Llb_mod_b26:
-        .word   184, 184, .Llb_mod_b26a
-.Llb_mod_b26a:
-        .word   12, 12, .Llb_mod_b26b
-.Llb_mod_b26b:
-        .word   180, 12, .Llb_mod_b26c
-.Llb_mod_b26c:
-        .word   12, 184, .Llb_mod_b26d
-.Llb_mod_b26d:
-        .word   .Llb_c67108864, 184, .Llb_mod_b26e
-.Llb_mod_b26e:
-        .word   12, 12, .Llb_mod_b26f
-.Llb_mod_b26f:
-        .word   184, 12, .Llb_mod_b26g
-.Llb_mod_b26g:
-        .word   24, 12, .Llb_mod_b26s
+        .word   .Llb_c67108864, 180, .Llb_mod_c26
         .word   12, 12, .Llb_mod_b25
-.Llb_mod_b26s:
-        .word   180, 180, .Llb_mod_b26h
-.Llb_mod_b26h:
-        .word   12, 180, .Llb_mod_b26i
-.Llb_mod_b26i:
-        .word   12, 12, .Llb_mod_b25
+.Llb_mod_c26:
+        .word   184, 184, .Llb_mod_d26
+.Llb_mod_d26:
+        .word   180, 184, .Llb_mod_b25
+        .word   .Llb_n67108864, 180, .Llb_mod_b25
 .Llb_mod_b25:
-        .word   184, 184, .Llb_mod_b25a
-.Llb_mod_b25a:
-        .word   12, 12, .Llb_mod_b25b
-.Llb_mod_b25b:
-        .word   180, 12, .Llb_mod_b25c
-.Llb_mod_b25c:
-        .word   12, 184, .Llb_mod_b25d
-.Llb_mod_b25d:
-        .word   .Llb_c33554432, 184, .Llb_mod_b25e
-.Llb_mod_b25e:
-        .word   12, 12, .Llb_mod_b25f
-.Llb_mod_b25f:
-        .word   184, 12, .Llb_mod_b25g
-.Llb_mod_b25g:
-        .word   24, 12, .Llb_mod_b25s
+        .word   .Llb_c33554432, 180, .Llb_mod_c25
         .word   12, 12, .Llb_mod_b24
-.Llb_mod_b25s:
-        .word   180, 180, .Llb_mod_b25h
-.Llb_mod_b25h:
-        .word   12, 180, .Llb_mod_b25i
-.Llb_mod_b25i:
-        .word   12, 12, .Llb_mod_b24
+.Llb_mod_c25:
+        .word   184, 184, .Llb_mod_d25
+.Llb_mod_d25:
+        .word   180, 184, .Llb_mod_b24
+        .word   .Llb_n33554432, 180, .Llb_mod_b24
 .Llb_mod_b24:
-        .word   184, 184, .Llb_mod_b24a
-.Llb_mod_b24a:
-        .word   12, 12, .Llb_mod_b24b
-.Llb_mod_b24b:
-        .word   180, 12, .Llb_mod_b24c
-.Llb_mod_b24c:
-        .word   12, 184, .Llb_mod_b24d
-.Llb_mod_b24d:
-        .word   .Llb_c16777216, 184, .Llb_mod_b24e
-.Llb_mod_b24e:
-        .word   12, 12, .Llb_mod_b24f
-.Llb_mod_b24f:
-        .word   184, 12, .Llb_mod_b24g
-.Llb_mod_b24g:
-        .word   24, 12, .Llb_mod_b24s
+        .word   .Llb_c16777216, 180, .Llb_mod_c24
         .word   12, 12, .Llb_mod_b23
-.Llb_mod_b24s:
-        .word   180, 180, .Llb_mod_b24h
-.Llb_mod_b24h:
-        .word   12, 180, .Llb_mod_b24i
-.Llb_mod_b24i:
-        .word   12, 12, .Llb_mod_b23
+.Llb_mod_c24:
+        .word   184, 184, .Llb_mod_d24
+.Llb_mod_d24:
+        .word   180, 184, .Llb_mod_b23
+        .word   .Llb_n16777216, 180, .Llb_mod_b23
 .Llb_mod_b23:
-        .word   184, 184, .Llb_mod_b23a
-.Llb_mod_b23a:
-        .word   12, 12, .Llb_mod_b23b
-.Llb_mod_b23b:
-        .word   180, 12, .Llb_mod_b23c
-.Llb_mod_b23c:
-        .word   12, 184, .Llb_mod_b23d
-.Llb_mod_b23d:
-        .word   .Llb_c8388608, 184, .Llb_mod_b23e
-.Llb_mod_b23e:
-        .word   12, 12, .Llb_mod_b23f
-.Llb_mod_b23f:
-        .word   184, 12, .Llb_mod_b23g
-.Llb_mod_b23g:
-        .word   24, 12, .Llb_mod_b23s
+        .word   .Llb_c8388608, 180, .Llb_mod_c23
         .word   12, 12, .Llb_mod_b22
-.Llb_mod_b23s:
-        .word   180, 180, .Llb_mod_b23h
-.Llb_mod_b23h:
-        .word   12, 180, .Llb_mod_b23i
-.Llb_mod_b23i:
-        .word   12, 12, .Llb_mod_b22
+.Llb_mod_c23:
+        .word   184, 184, .Llb_mod_d23
+.Llb_mod_d23:
+        .word   180, 184, .Llb_mod_b22
+        .word   .Llb_n8388608, 180, .Llb_mod_b22
 .Llb_mod_b22:
-        .word   184, 184, .Llb_mod_b22a
-.Llb_mod_b22a:
-        .word   12, 12, .Llb_mod_b22b
-.Llb_mod_b22b:
-        .word   180, 12, .Llb_mod_b22c
-.Llb_mod_b22c:
-        .word   12, 184, .Llb_mod_b22d
-.Llb_mod_b22d:
-        .word   .Llb_c4194304, 184, .Llb_mod_b22e
-.Llb_mod_b22e:
-        .word   12, 12, .Llb_mod_b22f
-.Llb_mod_b22f:
-        .word   184, 12, .Llb_mod_b22g
-.Llb_mod_b22g:
-        .word   24, 12, .Llb_mod_b22s
+        .word   .Llb_c4194304, 180, .Llb_mod_c22
         .word   12, 12, .Llb_mod_b21
-.Llb_mod_b22s:
-        .word   180, 180, .Llb_mod_b22h
-.Llb_mod_b22h:
-        .word   12, 180, .Llb_mod_b22i
-.Llb_mod_b22i:
-        .word   12, 12, .Llb_mod_b21
+.Llb_mod_c22:
+        .word   184, 184, .Llb_mod_d22
+.Llb_mod_d22:
+        .word   180, 184, .Llb_mod_b21
+        .word   .Llb_n4194304, 180, .Llb_mod_b21
 .Llb_mod_b21:
-        .word   184, 184, .Llb_mod_b21a
-.Llb_mod_b21a:
-        .word   12, 12, .Llb_mod_b21b
-.Llb_mod_b21b:
-        .word   180, 12, .Llb_mod_b21c
-.Llb_mod_b21c:
-        .word   12, 184, .Llb_mod_b21d
-.Llb_mod_b21d:
-        .word   .Llb_c2097152, 184, .Llb_mod_b21e
-.Llb_mod_b21e:
-        .word   12, 12, .Llb_mod_b21f
-.Llb_mod_b21f:
-        .word   184, 12, .Llb_mod_b21g
-.Llb_mod_b21g:
-        .word   24, 12, .Llb_mod_b21s
+        .word   .Llb_c2097152, 180, .Llb_mod_c21
         .word   12, 12, .Llb_mod_b20
-.Llb_mod_b21s:
-        .word   180, 180, .Llb_mod_b21h
-.Llb_mod_b21h:
-        .word   12, 180, .Llb_mod_b21i
-.Llb_mod_b21i:
-        .word   12, 12, .Llb_mod_b20
+.Llb_mod_c21:
+        .word   184, 184, .Llb_mod_d21
+.Llb_mod_d21:
+        .word   180, 184, .Llb_mod_b20
+        .word   .Llb_n2097152, 180, .Llb_mod_b20
 .Llb_mod_b20:
-        .word   184, 184, .Llb_mod_b20a
-.Llb_mod_b20a:
-        .word   12, 12, .Llb_mod_b20b
-.Llb_mod_b20b:
-        .word   180, 12, .Llb_mod_b20c
-.Llb_mod_b20c:
-        .word   12, 184, .Llb_mod_b20d
-.Llb_mod_b20d:
-        .word   .Llb_c1048576, 184, .Llb_mod_b20e
-.Llb_mod_b20e:
-        .word   12, 12, .Llb_mod_b20f
-.Llb_mod_b20f:
-        .word   184, 12, .Llb_mod_b20g
-.Llb_mod_b20g:
-        .word   24, 12, .Llb_mod_b20s
+        .word   .Llb_c1048576, 180, .Llb_mod_c20
         .word   12, 12, .Llb_mod_b19
-.Llb_mod_b20s:
-        .word   180, 180, .Llb_mod_b20h
-.Llb_mod_b20h:
-        .word   12, 180, .Llb_mod_b20i
-.Llb_mod_b20i:
-        .word   12, 12, .Llb_mod_b19
+.Llb_mod_c20:
+        .word   184, 184, .Llb_mod_d20
+.Llb_mod_d20:
+        .word   180, 184, .Llb_mod_b19
+        .word   .Llb_n1048576, 180, .Llb_mod_b19
 .Llb_mod_b19:
-        .word   184, 184, .Llb_mod_b19a
-.Llb_mod_b19a:
-        .word   12, 12, .Llb_mod_b19b
-.Llb_mod_b19b:
-        .word   180, 12, .Llb_mod_b19c
-.Llb_mod_b19c:
-        .word   12, 184, .Llb_mod_b19d
-.Llb_mod_b19d:
-        .word   .Llb_c524288, 184, .Llb_mod_b19e
-.Llb_mod_b19e:
-        .word   12, 12, .Llb_mod_b19f
-.Llb_mod_b19f:
-        .word   184, 12, .Llb_mod_b19g
-.Llb_mod_b19g:
-        .word   24, 12, .Llb_mod_b19s
+        .word   .Llb_c524288, 180, .Llb_mod_c19
         .word   12, 12, .Llb_mod_b18
-.Llb_mod_b19s:
-        .word   180, 180, .Llb_mod_b19h
-.Llb_mod_b19h:
-        .word   12, 180, .Llb_mod_b19i
-.Llb_mod_b19i:
-        .word   12, 12, .Llb_mod_b18
+.Llb_mod_c19:
+        .word   184, 184, .Llb_mod_d19
+.Llb_mod_d19:
+        .word   180, 184, .Llb_mod_b18
+        .word   .Llb_n524288, 180, .Llb_mod_b18
 .Llb_mod_b18:
-        .word   184, 184, .Llb_mod_b18a
-.Llb_mod_b18a:
-        .word   12, 12, .Llb_mod_b18b
-.Llb_mod_b18b:
-        .word   180, 12, .Llb_mod_b18c
-.Llb_mod_b18c:
-        .word   12, 184, .Llb_mod_b18d
-.Llb_mod_b18d:
-        .word   .Llb_c262144, 184, .Llb_mod_b18e
-.Llb_mod_b18e:
-        .word   12, 12, .Llb_mod_b18f
-.Llb_mod_b18f:
-        .word   184, 12, .Llb_mod_b18g
-.Llb_mod_b18g:
-        .word   24, 12, .Llb_mod_b18s
+        .word   .Llb_c262144, 180, .Llb_mod_c18
         .word   12, 12, .Llb_mod_b17
-.Llb_mod_b18s:
-        .word   180, 180, .Llb_mod_b18h
-.Llb_mod_b18h:
-        .word   12, 180, .Llb_mod_b18i
-.Llb_mod_b18i:
-        .word   12, 12, .Llb_mod_b17
+.Llb_mod_c18:
+        .word   184, 184, .Llb_mod_d18
+.Llb_mod_d18:
+        .word   180, 184, .Llb_mod_b17
+        .word   .Llb_n262144, 180, .Llb_mod_b17
 .Llb_mod_b17:
-        .word   184, 184, .Llb_mod_b17a
-.Llb_mod_b17a:
-        .word   12, 12, .Llb_mod_b17b
-.Llb_mod_b17b:
-        .word   180, 12, .Llb_mod_b17c
-.Llb_mod_b17c:
-        .word   12, 184, .Llb_mod_b17d
-.Llb_mod_b17d:
-        .word   .Llb_c131072, 184, .Llb_mod_b17e
-.Llb_mod_b17e:
-        .word   12, 12, .Llb_mod_b17f
-.Llb_mod_b17f:
-        .word   184, 12, .Llb_mod_b17g
-.Llb_mod_b17g:
-        .word   24, 12, .Llb_mod_b17s
+        .word   .Llb_c131072, 180, .Llb_mod_c17
         .word   12, 12, .Llb_mod_b16
-.Llb_mod_b17s:
-        .word   180, 180, .Llb_mod_b17h
-.Llb_mod_b17h:
-        .word   12, 180, .Llb_mod_b17i
-.Llb_mod_b17i:
-        .word   12, 12, .Llb_mod_b16
+.Llb_mod_c17:
+        .word   184, 184, .Llb_mod_d17
+.Llb_mod_d17:
+        .word   180, 184, .Llb_mod_b16
+        .word   .Llb_n131072, 180, .Llb_mod_b16
 .Llb_mod_b16:
-        .word   184, 184, .Llb_mod_b16a
-.Llb_mod_b16a:
-        .word   12, 12, .Llb_mod_b16b
-.Llb_mod_b16b:
-        .word   180, 12, .Llb_mod_b16c
-.Llb_mod_b16c:
-        .word   12, 184, .Llb_mod_b16d
-.Llb_mod_b16d:
-        .word   .Llb_c65536, 184, .Llb_mod_b16e
-.Llb_mod_b16e:
-        .word   12, 12, .Llb_mod_b16f
-.Llb_mod_b16f:
-        .word   184, 12, .Llb_mod_b16g
-.Llb_mod_b16g:
-        .word   24, 12, .Llb_mod_b16s
+        .word   .Llb_c65536, 180, .Llb_mod_c16
         .word   12, 12, .Llb_mod_b15
-.Llb_mod_b16s:
-        .word   180, 180, .Llb_mod_b16h
-.Llb_mod_b16h:
-        .word   12, 180, .Llb_mod_b16i
-.Llb_mod_b16i:
-        .word   12, 12, .Llb_mod_b15
+.Llb_mod_c16:
+        .word   184, 184, .Llb_mod_d16
+.Llb_mod_d16:
+        .word   180, 184, .Llb_mod_b15
+        .word   .Llb_n65536, 180, .Llb_mod_b15
 .Llb_mod_b15:
-        .word   184, 184, .Llb_mod_b15a
-.Llb_mod_b15a:
-        .word   12, 12, .Llb_mod_b15b
-.Llb_mod_b15b:
-        .word   180, 12, .Llb_mod_b15c
-.Llb_mod_b15c:
-        .word   12, 184, .Llb_mod_b15d
-.Llb_mod_b15d:
-        .word   .Llb_c32768, 184, .Llb_mod_b15e
-.Llb_mod_b15e:
-        .word   12, 12, .Llb_mod_b15f
-.Llb_mod_b15f:
-        .word   184, 12, .Llb_mod_b15g
-.Llb_mod_b15g:
-        .word   24, 12, .Llb_mod_b15s
+        .word   .Llb_c32768, 180, .Llb_mod_c15
         .word   12, 12, .Llb_mod_b14
-.Llb_mod_b15s:
-        .word   180, 180, .Llb_mod_b15h
-.Llb_mod_b15h:
-        .word   12, 180, .Llb_mod_b15i
-.Llb_mod_b15i:
-        .word   12, 12, .Llb_mod_b14
+.Llb_mod_c15:
+        .word   184, 184, .Llb_mod_d15
+.Llb_mod_d15:
+        .word   180, 184, .Llb_mod_b14
+        .word   .Llb_n32768, 180, .Llb_mod_b14
 .Llb_mod_b14:
-        .word   184, 184, .Llb_mod_b14a
-.Llb_mod_b14a:
-        .word   12, 12, .Llb_mod_b14b
-.Llb_mod_b14b:
-        .word   180, 12, .Llb_mod_b14c
-.Llb_mod_b14c:
-        .word   12, 184, .Llb_mod_b14d
-.Llb_mod_b14d:
-        .word   .Llb_c16384, 184, .Llb_mod_b14e
-.Llb_mod_b14e:
-        .word   12, 12, .Llb_mod_b14f
-.Llb_mod_b14f:
-        .word   184, 12, .Llb_mod_b14g
-.Llb_mod_b14g:
-        .word   24, 12, .Llb_mod_b14s
+        .word   .Llb_c16384, 180, .Llb_mod_c14
         .word   12, 12, .Llb_mod_b13
-.Llb_mod_b14s:
-        .word   180, 180, .Llb_mod_b14h
-.Llb_mod_b14h:
-        .word   12, 180, .Llb_mod_b14i
-.Llb_mod_b14i:
-        .word   12, 12, .Llb_mod_b13
+.Llb_mod_c14:
+        .word   184, 184, .Llb_mod_d14
+.Llb_mod_d14:
+        .word   180, 184, .Llb_mod_b13
+        .word   .Llb_n16384, 180, .Llb_mod_b13
 .Llb_mod_b13:
-        .word   184, 184, .Llb_mod_b13a
-.Llb_mod_b13a:
-        .word   12, 12, .Llb_mod_b13b
-.Llb_mod_b13b:
-        .word   180, 12, .Llb_mod_b13c
-.Llb_mod_b13c:
-        .word   12, 184, .Llb_mod_b13d
-.Llb_mod_b13d:
-        .word   .Llb_c8192, 184, .Llb_mod_b13e
-.Llb_mod_b13e:
-        .word   12, 12, .Llb_mod_b13f
-.Llb_mod_b13f:
-        .word   184, 12, .Llb_mod_b13g
-.Llb_mod_b13g:
-        .word   24, 12, .Llb_mod_b13s
+        .word   .Llb_c8192, 180, .Llb_mod_c13
         .word   12, 12, .Llb_mod_b12
-.Llb_mod_b13s:
-        .word   180, 180, .Llb_mod_b13h
-.Llb_mod_b13h:
-        .word   12, 180, .Llb_mod_b13i
-.Llb_mod_b13i:
-        .word   12, 12, .Llb_mod_b12
+.Llb_mod_c13:
+        .word   184, 184, .Llb_mod_d13
+.Llb_mod_d13:
+        .word   180, 184, .Llb_mod_b12
+        .word   .Llb_n8192, 180, .Llb_mod_b12
 .Llb_mod_b12:
-        .word   184, 184, .Llb_mod_b12a
-.Llb_mod_b12a:
-        .word   12, 12, .Llb_mod_b12b
-.Llb_mod_b12b:
-        .word   180, 12, .Llb_mod_b12c
-.Llb_mod_b12c:
-        .word   12, 184, .Llb_mod_b12d
-.Llb_mod_b12d:
-        .word   .Llb_c4096, 184, .Llb_mod_b12e
-.Llb_mod_b12e:
-        .word   12, 12, .Llb_mod_b12f
-.Llb_mod_b12f:
-        .word   184, 12, .Llb_mod_b12g
-.Llb_mod_b12g:
-        .word   24, 12, .Llb_mod_b12s
+        .word   .Llb_c4096, 180, .Llb_mod_c12
         .word   12, 12, .Llb_mod_b11
-.Llb_mod_b12s:
-        .word   180, 180, .Llb_mod_b12h
-.Llb_mod_b12h:
-        .word   12, 180, .Llb_mod_b12i
-.Llb_mod_b12i:
-        .word   12, 12, .Llb_mod_b11
+.Llb_mod_c12:
+        .word   184, 184, .Llb_mod_d12
+.Llb_mod_d12:
+        .word   180, 184, .Llb_mod_b11
+        .word   .Llb_n4096, 180, .Llb_mod_b11
 .Llb_mod_b11:
-        .word   184, 184, .Llb_mod_b11a
-.Llb_mod_b11a:
-        .word   12, 12, .Llb_mod_b11b
-.Llb_mod_b11b:
-        .word   180, 12, .Llb_mod_b11c
-.Llb_mod_b11c:
-        .word   12, 184, .Llb_mod_b11d
-.Llb_mod_b11d:
-        .word   .Llb_c2048, 184, .Llb_mod_b11e
-.Llb_mod_b11e:
-        .word   12, 12, .Llb_mod_b11f
-.Llb_mod_b11f:
-        .word   184, 12, .Llb_mod_b11g
-.Llb_mod_b11g:
-        .word   24, 12, .Llb_mod_b11s
+        .word   .Llb_c2048, 180, .Llb_mod_c11
         .word   12, 12, .Llb_mod_b10
-.Llb_mod_b11s:
-        .word   180, 180, .Llb_mod_b11h
-.Llb_mod_b11h:
-        .word   12, 180, .Llb_mod_b11i
-.Llb_mod_b11i:
-        .word   12, 12, .Llb_mod_b10
+.Llb_mod_c11:
+        .word   184, 184, .Llb_mod_d11
+.Llb_mod_d11:
+        .word   180, 184, .Llb_mod_b10
+        .word   .Llb_n2048, 180, .Llb_mod_b10
 .Llb_mod_b10:
-        .word   184, 184, .Llb_mod_b10a
-.Llb_mod_b10a:
-        .word   12, 12, .Llb_mod_b10b
-.Llb_mod_b10b:
-        .word   180, 12, .Llb_mod_b10c
-.Llb_mod_b10c:
-        .word   12, 184, .Llb_mod_b10d
-.Llb_mod_b10d:
-        .word   .Llb_c1024, 184, .Llb_mod_b10e
-.Llb_mod_b10e:
-        .word   12, 12, .Llb_mod_b10f
-.Llb_mod_b10f:
-        .word   184, 12, .Llb_mod_b10g
-.Llb_mod_b10g:
-        .word   24, 12, .Llb_mod_b10s
+        .word   .Llb_c1024, 180, .Llb_mod_c10
         .word   12, 12, .Llb_mod_b9
-.Llb_mod_b10s:
-        .word   180, 180, .Llb_mod_b10h
-.Llb_mod_b10h:
-        .word   12, 180, .Llb_mod_b10i
-.Llb_mod_b10i:
-        .word   12, 12, .Llb_mod_b9
+.Llb_mod_c10:
+        .word   184, 184, .Llb_mod_d10
+.Llb_mod_d10:
+        .word   180, 184, .Llb_mod_b9
+        .word   .Llb_n1024, 180, .Llb_mod_b9
 .Llb_mod_b9:
-        .word   184, 184, .Llb_mod_b9a
-.Llb_mod_b9a:
-        .word   12, 12, .Llb_mod_b9b
-.Llb_mod_b9b:
-        .word   180, 12, .Llb_mod_b9c
-.Llb_mod_b9c:
-        .word   12, 184, .Llb_mod_b9d
-.Llb_mod_b9d:
-        .word   .Llb_c512, 184, .Llb_mod_b9e
-.Llb_mod_b9e:
-        .word   12, 12, .Llb_mod_b9f
-.Llb_mod_b9f:
-        .word   184, 12, .Llb_mod_b9g
-.Llb_mod_b9g:
-        .word   24, 12, .Llb_mod_b9s
+        .word   .Llb_c512, 180, .Llb_mod_c9
         .word   12, 12, .Llb_mod_b8
-.Llb_mod_b9s:
-        .word   180, 180, .Llb_mod_b9h
-.Llb_mod_b9h:
-        .word   12, 180, .Llb_mod_b9i
-.Llb_mod_b9i:
-        .word   12, 12, .Llb_mod_b8
+.Llb_mod_c9:
+        .word   184, 184, .Llb_mod_d9
+.Llb_mod_d9:
+        .word   180, 184, .Llb_mod_b8
+        .word   .Llb_n512, 180, .Llb_mod_b8
 .Llb_mod_b8:
-        .word   184, 184, .Llb_mod_b8a
-.Llb_mod_b8a:
-        .word   12, 12, .Llb_mod_b8b
-.Llb_mod_b8b:
-        .word   180, 12, .Llb_mod_b8c
-.Llb_mod_b8c:
-        .word   12, 184, .Llb_mod_b8d
-.Llb_mod_b8d:
-        .word   .Llb_c256, 184, .Llb_mod_b8e
-.Llb_mod_b8e:
-        .word   12, 12, .Llb_mod_b8f
-.Llb_mod_b8f:
-        .word   184, 12, .Llb_mod_b8g
-.Llb_mod_b8g:
-        .word   24, 12, .Llb_mod_b8s
+        .word   .Llb_c256, 180, .Llb_mod_c8
         .word   12, 12, .Llb_mod_b7
-.Llb_mod_b8s:
-        .word   180, 180, .Llb_mod_b8h
-.Llb_mod_b8h:
-        .word   12, 180, .Llb_mod_b8i
-.Llb_mod_b8i:
-        .word   12, 12, .Llb_mod_b7
+.Llb_mod_c8:
+        .word   184, 184, .Llb_mod_d8
+.Llb_mod_d8:
+        .word   180, 184, .Llb_mod_b7
+        .word   .Llb_n256, 180, .Llb_mod_b7
 .Llb_mod_b7:
-        .word   184, 184, .Llb_mod_b7a
-.Llb_mod_b7a:
-        .word   12, 12, .Llb_mod_b7b
-.Llb_mod_b7b:
-        .word   180, 12, .Llb_mod_b7c
-.Llb_mod_b7c:
-        .word   12, 184, .Llb_mod_b7d
-.Llb_mod_b7d:
-        .word   .Llb_c128, 184, .Llb_mod_b7e
-.Llb_mod_b7e:
-        .word   12, 12, .Llb_mod_b7f
-.Llb_mod_b7f:
-        .word   184, 12, .Llb_mod_b7g
-.Llb_mod_b7g:
-        .word   24, 12, .Llb_mod_b7s
+        .word   .Llb_c128, 180, .Llb_mod_c7
         .word   12, 12, .Llb_mod_b6
-.Llb_mod_b7s:
-        .word   180, 180, .Llb_mod_b7h
-.Llb_mod_b7h:
-        .word   12, 180, .Llb_mod_b7i
-.Llb_mod_b7i:
-        .word   12, 12, .Llb_mod_b6
+.Llb_mod_c7:
+        .word   184, 184, .Llb_mod_d7
+.Llb_mod_d7:
+        .word   180, 184, .Llb_mod_b6
+        .word   .Llb_n128, 180, .Llb_mod_b6
 .Llb_mod_b6:
-        .word   184, 184, .Llb_mod_b6a
-.Llb_mod_b6a:
-        .word   12, 12, .Llb_mod_b6b
-.Llb_mod_b6b:
-        .word   180, 12, .Llb_mod_b6c
-.Llb_mod_b6c:
-        .word   12, 184, .Llb_mod_b6d
-.Llb_mod_b6d:
-        .word   .Llb_c64, 184, .Llb_mod_b6e
-.Llb_mod_b6e:
-        .word   12, 12, .Llb_mod_b6f
-.Llb_mod_b6f:
-        .word   184, 12, .Llb_mod_b6g
-.Llb_mod_b6g:
-        .word   24, 12, .Llb_mod_b6s
+        .word   .Llb_c64, 180, .Llb_mod_c6
         .word   12, 12, .Llb_mod_b5
-.Llb_mod_b6s:
-        .word   180, 180, .Llb_mod_b6h
-.Llb_mod_b6h:
-        .word   12, 180, .Llb_mod_b6i
-.Llb_mod_b6i:
-        .word   12, 12, .Llb_mod_b5
+.Llb_mod_c6:
+        .word   184, 184, .Llb_mod_d6
+.Llb_mod_d6:
+        .word   180, 184, .Llb_mod_b5
+        .word   .Llb_n64, 180, .Llb_mod_b5
 .Llb_mod_b5:
-        .word   184, 184, .Llb_mod_b5a
-.Llb_mod_b5a:
-        .word   12, 12, .Llb_mod_b5b
-.Llb_mod_b5b:
-        .word   180, 12, .Llb_mod_b5c
-.Llb_mod_b5c:
-        .word   12, 184, .Llb_mod_b5d
-.Llb_mod_b5d:
-        .word   .Llb_c32, 184, .Llb_mod_b5e
-.Llb_mod_b5e:
-        .word   12, 12, .Llb_mod_b5f
-.Llb_mod_b5f:
-        .word   184, 12, .Llb_mod_b5g
-.Llb_mod_b5g:
-        .word   24, 12, .Llb_mod_b5s
+        .word   .Llb_c32, 180, .Llb_mod_c5
         .word   12, 12, .Llb_mod_b4
-.Llb_mod_b5s:
-        .word   180, 180, .Llb_mod_b5h
-.Llb_mod_b5h:
-        .word   12, 180, .Llb_mod_b5i
-.Llb_mod_b5i:
-        .word   12, 12, .Llb_mod_b4
+.Llb_mod_c5:
+        .word   184, 184, .Llb_mod_d5
+.Llb_mod_d5:
+        .word   180, 184, .Llb_mod_b4
+        .word   .Llb_n32, 180, .Llb_mod_b4
 .Llb_mod_b4:
-        .word   184, 184, .Llb_mod_b4a
-.Llb_mod_b4a:
-        .word   12, 12, .Llb_mod_b4b
-.Llb_mod_b4b:
-        .word   180, 12, .Llb_mod_b4c
-.Llb_mod_b4c:
-        .word   12, 184, .Llb_mod_b4d
-.Llb_mod_b4d:
-        .word   .Llb_c16, 184, .Llb_mod_b4e
-.Llb_mod_b4e:
-        .word   12, 12, .Llb_mod_b4f
-.Llb_mod_b4f:
-        .word   184, 12, .Llb_mod_b4g
-.Llb_mod_b4g:
-        .word   24, 12, .Llb_mod_b4s
+        .word   .Llb_c16, 180, .Llb_mod_c4
         .word   12, 12, .Llb_mod_b3
-.Llb_mod_b4s:
-        .word   180, 180, .Llb_mod_b4h
-.Llb_mod_b4h:
-        .word   12, 180, .Llb_mod_b4i
-.Llb_mod_b4i:
-        .word   12, 12, .Llb_mod_b3
+.Llb_mod_c4:
+        .word   184, 184, .Llb_mod_d4
+.Llb_mod_d4:
+        .word   180, 184, .Llb_mod_b3
+        .word   .Llb_n16, 180, .Llb_mod_b3
 .Llb_mod_b3:
-        .word   184, 184, .Llb_mod_b3a
-.Llb_mod_b3a:
-        .word   12, 12, .Llb_mod_b3b
-.Llb_mod_b3b:
-        .word   180, 12, .Llb_mod_b3c
-.Llb_mod_b3c:
-        .word   12, 184, .Llb_mod_b3d
-.Llb_mod_b3d:
-        .word   .Llb_c8, 184, .Llb_mod_b3e
-.Llb_mod_b3e:
-        .word   12, 12, .Llb_mod_b3f
-.Llb_mod_b3f:
-        .word   184, 12, .Llb_mod_b3g
-.Llb_mod_b3g:
-        .word   24, 12, .Llb_mod_b3s
+        .word   .Llb_c8, 180, .Llb_mod_c3
         .word   12, 12, .Llb_mod_b2
-.Llb_mod_b3s:
-        .word   180, 180, .Llb_mod_b3h
-.Llb_mod_b3h:
-        .word   12, 180, .Llb_mod_b3i
-.Llb_mod_b3i:
-        .word   12, 12, .Llb_mod_b2
+.Llb_mod_c3:
+        .word   184, 184, .Llb_mod_d3
+.Llb_mod_d3:
+        .word   180, 184, .Llb_mod_b2
+        .word   .Llb_n8, 180, .Llb_mod_b2
 .Llb_mod_b2:
-        .word   184, 184, .Llb_mod_b2a
-.Llb_mod_b2a:
-        .word   12, 12, .Llb_mod_b2b
-.Llb_mod_b2b:
-        .word   180, 12, .Llb_mod_b2c
-.Llb_mod_b2c:
-        .word   12, 184, .Llb_mod_b2d
-.Llb_mod_b2d:
-        .word   .Llb_c4, 184, .Llb_mod_b2e
-.Llb_mod_b2e:
-        .word   12, 12, .Llb_mod_b2f
-.Llb_mod_b2f:
-        .word   184, 12, .Llb_mod_b2g
-.Llb_mod_b2g:
-        .word   24, 12, .Llb_mod_b2s
+        .word   .Llb_c4, 180, .Llb_mod_c2
         .word   12, 12, .Llb_mod_done
-.Llb_mod_b2s:
-        .word   180, 180, .Llb_mod_b2h
-.Llb_mod_b2h:
-        .word   12, 180, .Llb_mod_b2i
-.Llb_mod_b2i:
-        .word   12, 12, .Llb_mod_done
+.Llb_mod_c2:
+        .word   184, 184, .Llb_mod_d2
+.Llb_mod_d2:
+        .word   180, 184, .Llb_mod_done
+        .word   .Llb_n4, 180, .Llb_mod_done
 .Llb_mod_done:
         .word   12, 12, .Llb_mod_cp1
 .Llb_mod_cp1:
@@ -81063,7 +80628,7 @@ __subleq_lb:
 .Llb_br3:
         .word   12, 180, .Llb_br4
 .Llb_br4:
-        .word   .Llb_one, 180, .Llb_br5
+        .word   .Llb_c1, 180, .Llb_br5
 .Llb_br5:
         .word   24, 180, .Llb_byte1
         .word   180, 180, .Llb_br6
@@ -81074,7 +80639,7 @@ __subleq_lb:
 .Llb_br8:
         .word   12, 180, .Llb_br9
 .Llb_br9:
-        .word   .Llb_two, 180, .Llb_bra
+        .word   .Llb_c2, 180, .Llb_bra
 .Llb_bra:
         .word   24, 180, .Llb_byte2
         .word   12, 12, .Llb_byte3
@@ -81109,563 +80674,362 @@ __subleq_lb:
         .word   172, 180, .Llb_b0_c30
         .word   .Llb_min, 172, .Llb_b0_c30
 .Llb_b0_c30:
-        .word   180, 180, .Llb_b0_c30a
-.Llb_b0_c30a:
-        .word   12, 12, .Llb_b0_c30b
-.Llb_b0_c30b:
-        .word   172, 12, .Llb_b0_c30c
-.Llb_b0_c30c:
-        .word   12, 180, .Llb_b0_c30d
-.Llb_b0_c30d:
-        .word   .Llb_c1073741824, 180, .Llb_b0_c30e
-.Llb_b0_c30e:
-        .word   184, 184, .Llb_b0_c30f
-.Llb_b0_c30f:
-        .word   180, 184, .Llb_b0_c30s
+        .word   .Llb_c1073741824, 172, .Llb_b0_c30chk
         .word   12, 12, .Llb_b0_c29
-.Llb_b0_c30s:
-        .word   .Llb_c1073741824, 172, .Llb_b0_c29
+.Llb_b0_c30chk:
+        .word   180, 180, .Llb_b0_c30d
+.Llb_b0_c30d:
+        .word   172, 180, .Llb_b0_c29
+        .word   .Llb_n1073741824, 172, .Llb_b0_c30r
+.Llb_b0_c30r:
+        .word   12, 12, .Llb_b0_c29
 .Llb_b0_c29:
-        .word   180, 180, .Llb_b0_c29a
-.Llb_b0_c29a:
-        .word   12, 12, .Llb_b0_c29b
-.Llb_b0_c29b:
-        .word   172, 12, .Llb_b0_c29c
-.Llb_b0_c29c:
-        .word   12, 180, .Llb_b0_c29d
-.Llb_b0_c29d:
-        .word   .Llb_c536870912, 180, .Llb_b0_c29e
-.Llb_b0_c29e:
-        .word   184, 184, .Llb_b0_c29f
-.Llb_b0_c29f:
-        .word   180, 184, .Llb_b0_c29s
+        .word   .Llb_c536870912, 172, .Llb_b0_c29chk
         .word   12, 12, .Llb_b0_c28
-.Llb_b0_c29s:
-        .word   .Llb_c536870912, 172, .Llb_b0_c28
+.Llb_b0_c29chk:
+        .word   180, 180, .Llb_b0_c29d
+.Llb_b0_c29d:
+        .word   172, 180, .Llb_b0_c28
+        .word   .Llb_n536870912, 172, .Llb_b0_c29r
+.Llb_b0_c29r:
+        .word   12, 12, .Llb_b0_c28
 .Llb_b0_c28:
-        .word   180, 180, .Llb_b0_c28a
-.Llb_b0_c28a:
-        .word   12, 12, .Llb_b0_c28b
-.Llb_b0_c28b:
-        .word   172, 12, .Llb_b0_c28c
-.Llb_b0_c28c:
-        .word   12, 180, .Llb_b0_c28d
-.Llb_b0_c28d:
-        .word   .Llb_c268435456, 180, .Llb_b0_c28e
-.Llb_b0_c28e:
-        .word   184, 184, .Llb_b0_c28f
-.Llb_b0_c28f:
-        .word   180, 184, .Llb_b0_c28s
+        .word   .Llb_c268435456, 172, .Llb_b0_c28chk
         .word   12, 12, .Llb_b0_c27
-.Llb_b0_c28s:
-        .word   .Llb_c268435456, 172, .Llb_b0_c27
+.Llb_b0_c28chk:
+        .word   180, 180, .Llb_b0_c28d
+.Llb_b0_c28d:
+        .word   172, 180, .Llb_b0_c27
+        .word   .Llb_n268435456, 172, .Llb_b0_c28r
+.Llb_b0_c28r:
+        .word   12, 12, .Llb_b0_c27
 .Llb_b0_c27:
-        .word   180, 180, .Llb_b0_c27a
-.Llb_b0_c27a:
-        .word   12, 12, .Llb_b0_c27b
-.Llb_b0_c27b:
-        .word   172, 12, .Llb_b0_c27c
-.Llb_b0_c27c:
-        .word   12, 180, .Llb_b0_c27d
-.Llb_b0_c27d:
-        .word   .Llb_c134217728, 180, .Llb_b0_c27e
-.Llb_b0_c27e:
-        .word   184, 184, .Llb_b0_c27f
-.Llb_b0_c27f:
-        .word   180, 184, .Llb_b0_c27s
+        .word   .Llb_c134217728, 172, .Llb_b0_c27chk
         .word   12, 12, .Llb_b0_c26
-.Llb_b0_c27s:
-        .word   .Llb_c134217728, 172, .Llb_b0_c26
+.Llb_b0_c27chk:
+        .word   180, 180, .Llb_b0_c27d
+.Llb_b0_c27d:
+        .word   172, 180, .Llb_b0_c26
+        .word   .Llb_n134217728, 172, .Llb_b0_c27r
+.Llb_b0_c27r:
+        .word   12, 12, .Llb_b0_c26
 .Llb_b0_c26:
-        .word   180, 180, .Llb_b0_c26a
-.Llb_b0_c26a:
-        .word   12, 12, .Llb_b0_c26b
-.Llb_b0_c26b:
-        .word   172, 12, .Llb_b0_c26c
-.Llb_b0_c26c:
-        .word   12, 180, .Llb_b0_c26d
-.Llb_b0_c26d:
-        .word   .Llb_c67108864, 180, .Llb_b0_c26e
-.Llb_b0_c26e:
-        .word   184, 184, .Llb_b0_c26f
-.Llb_b0_c26f:
-        .word   180, 184, .Llb_b0_c26s
+        .word   .Llb_c67108864, 172, .Llb_b0_c26chk
         .word   12, 12, .Llb_b0_c25
-.Llb_b0_c26s:
-        .word   .Llb_c67108864, 172, .Llb_b0_c25
+.Llb_b0_c26chk:
+        .word   180, 180, .Llb_b0_c26d
+.Llb_b0_c26d:
+        .word   172, 180, .Llb_b0_c25
+        .word   .Llb_n67108864, 172, .Llb_b0_c26r
+.Llb_b0_c26r:
+        .word   12, 12, .Llb_b0_c25
 .Llb_b0_c25:
-        .word   180, 180, .Llb_b0_c25a
-.Llb_b0_c25a:
-        .word   12, 12, .Llb_b0_c25b
-.Llb_b0_c25b:
-        .word   172, 12, .Llb_b0_c25c
-.Llb_b0_c25c:
-        .word   12, 180, .Llb_b0_c25d
-.Llb_b0_c25d:
-        .word   .Llb_c33554432, 180, .Llb_b0_c25e
-.Llb_b0_c25e:
-        .word   184, 184, .Llb_b0_c25f
-.Llb_b0_c25f:
-        .word   180, 184, .Llb_b0_c25s
+        .word   .Llb_c33554432, 172, .Llb_b0_c25chk
         .word   12, 12, .Llb_b0_c24
-.Llb_b0_c25s:
-        .word   .Llb_c33554432, 172, .Llb_b0_c24
+.Llb_b0_c25chk:
+        .word   180, 180, .Llb_b0_c25d
+.Llb_b0_c25d:
+        .word   172, 180, .Llb_b0_c24
+        .word   .Llb_n33554432, 172, .Llb_b0_c25r
+.Llb_b0_c25r:
+        .word   12, 12, .Llb_b0_c24
 .Llb_b0_c24:
-        .word   180, 180, .Llb_b0_c24a
-.Llb_b0_c24a:
-        .word   12, 12, .Llb_b0_c24b
-.Llb_b0_c24b:
-        .word   172, 12, .Llb_b0_c24c
-.Llb_b0_c24c:
-        .word   12, 180, .Llb_b0_c24d
-.Llb_b0_c24d:
-        .word   .Llb_c16777216, 180, .Llb_b0_c24e
-.Llb_b0_c24e:
-        .word   184, 184, .Llb_b0_c24f
-.Llb_b0_c24f:
-        .word   180, 184, .Llb_b0_c24s
+        .word   .Llb_c16777216, 172, .Llb_b0_c24chk
         .word   12, 12, .Llb_b0_c23
-.Llb_b0_c24s:
-        .word   .Llb_c16777216, 172, .Llb_b0_c23
+.Llb_b0_c24chk:
+        .word   180, 180, .Llb_b0_c24d
+.Llb_b0_c24d:
+        .word   172, 180, .Llb_b0_c23
+        .word   .Llb_n16777216, 172, .Llb_b0_c24r
+.Llb_b0_c24r:
+        .word   12, 12, .Llb_b0_c23
 .Llb_b0_c23:
-        .word   180, 180, .Llb_b0_c23a
-.Llb_b0_c23a:
-        .word   12, 12, .Llb_b0_c23b
-.Llb_b0_c23b:
-        .word   172, 12, .Llb_b0_c23c
-.Llb_b0_c23c:
-        .word   12, 180, .Llb_b0_c23d
-.Llb_b0_c23d:
-        .word   .Llb_c8388608, 180, .Llb_b0_c23e
-.Llb_b0_c23e:
-        .word   184, 184, .Llb_b0_c23f
-.Llb_b0_c23f:
-        .word   180, 184, .Llb_b0_c23s
+        .word   .Llb_c8388608, 172, .Llb_b0_c23chk
         .word   12, 12, .Llb_b0_c22
-.Llb_b0_c23s:
-        .word   .Llb_c8388608, 172, .Llb_b0_c22
+.Llb_b0_c23chk:
+        .word   180, 180, .Llb_b0_c23d
+.Llb_b0_c23d:
+        .word   172, 180, .Llb_b0_c22
+        .word   .Llb_n8388608, 172, .Llb_b0_c23r
+.Llb_b0_c23r:
+        .word   12, 12, .Llb_b0_c22
 .Llb_b0_c22:
-        .word   180, 180, .Llb_b0_c22a
-.Llb_b0_c22a:
-        .word   12, 12, .Llb_b0_c22b
-.Llb_b0_c22b:
-        .word   172, 12, .Llb_b0_c22c
-.Llb_b0_c22c:
-        .word   12, 180, .Llb_b0_c22d
-.Llb_b0_c22d:
-        .word   .Llb_c4194304, 180, .Llb_b0_c22e
-.Llb_b0_c22e:
-        .word   184, 184, .Llb_b0_c22f
-.Llb_b0_c22f:
-        .word   180, 184, .Llb_b0_c22s
+        .word   .Llb_c4194304, 172, .Llb_b0_c22chk
         .word   12, 12, .Llb_b0_c21
-.Llb_b0_c22s:
-        .word   .Llb_c4194304, 172, .Llb_b0_c21
+.Llb_b0_c22chk:
+        .word   180, 180, .Llb_b0_c22d
+.Llb_b0_c22d:
+        .word   172, 180, .Llb_b0_c21
+        .word   .Llb_n4194304, 172, .Llb_b0_c22r
+.Llb_b0_c22r:
+        .word   12, 12, .Llb_b0_c21
 .Llb_b0_c21:
-        .word   180, 180, .Llb_b0_c21a
-.Llb_b0_c21a:
-        .word   12, 12, .Llb_b0_c21b
-.Llb_b0_c21b:
-        .word   172, 12, .Llb_b0_c21c
-.Llb_b0_c21c:
-        .word   12, 180, .Llb_b0_c21d
-.Llb_b0_c21d:
-        .word   .Llb_c2097152, 180, .Llb_b0_c21e
-.Llb_b0_c21e:
-        .word   184, 184, .Llb_b0_c21f
-.Llb_b0_c21f:
-        .word   180, 184, .Llb_b0_c21s
+        .word   .Llb_c2097152, 172, .Llb_b0_c21chk
         .word   12, 12, .Llb_b0_c20
-.Llb_b0_c21s:
-        .word   .Llb_c2097152, 172, .Llb_b0_c20
+.Llb_b0_c21chk:
+        .word   180, 180, .Llb_b0_c21d
+.Llb_b0_c21d:
+        .word   172, 180, .Llb_b0_c20
+        .word   .Llb_n2097152, 172, .Llb_b0_c21r
+.Llb_b0_c21r:
+        .word   12, 12, .Llb_b0_c20
 .Llb_b0_c20:
-        .word   180, 180, .Llb_b0_c20a
-.Llb_b0_c20a:
-        .word   12, 12, .Llb_b0_c20b
-.Llb_b0_c20b:
-        .word   172, 12, .Llb_b0_c20c
-.Llb_b0_c20c:
-        .word   12, 180, .Llb_b0_c20d
-.Llb_b0_c20d:
-        .word   .Llb_c1048576, 180, .Llb_b0_c20e
-.Llb_b0_c20e:
-        .word   184, 184, .Llb_b0_c20f
-.Llb_b0_c20f:
-        .word   180, 184, .Llb_b0_c20s
+        .word   .Llb_c1048576, 172, .Llb_b0_c20chk
         .word   12, 12, .Llb_b0_c19
-.Llb_b0_c20s:
-        .word   .Llb_c1048576, 172, .Llb_b0_c19
+.Llb_b0_c20chk:
+        .word   180, 180, .Llb_b0_c20d
+.Llb_b0_c20d:
+        .word   172, 180, .Llb_b0_c19
+        .word   .Llb_n1048576, 172, .Llb_b0_c20r
+.Llb_b0_c20r:
+        .word   12, 12, .Llb_b0_c19
 .Llb_b0_c19:
-        .word   180, 180, .Llb_b0_c19a
-.Llb_b0_c19a:
-        .word   12, 12, .Llb_b0_c19b
-.Llb_b0_c19b:
-        .word   172, 12, .Llb_b0_c19c
-.Llb_b0_c19c:
-        .word   12, 180, .Llb_b0_c19d
-.Llb_b0_c19d:
-        .word   .Llb_c524288, 180, .Llb_b0_c19e
-.Llb_b0_c19e:
-        .word   184, 184, .Llb_b0_c19f
-.Llb_b0_c19f:
-        .word   180, 184, .Llb_b0_c19s
+        .word   .Llb_c524288, 172, .Llb_b0_c19chk
         .word   12, 12, .Llb_b0_c18
-.Llb_b0_c19s:
-        .word   .Llb_c524288, 172, .Llb_b0_c18
+.Llb_b0_c19chk:
+        .word   180, 180, .Llb_b0_c19d
+.Llb_b0_c19d:
+        .word   172, 180, .Llb_b0_c18
+        .word   .Llb_n524288, 172, .Llb_b0_c19r
+.Llb_b0_c19r:
+        .word   12, 12, .Llb_b0_c18
 .Llb_b0_c18:
-        .word   180, 180, .Llb_b0_c18a
-.Llb_b0_c18a:
-        .word   12, 12, .Llb_b0_c18b
-.Llb_b0_c18b:
-        .word   172, 12, .Llb_b0_c18c
-.Llb_b0_c18c:
-        .word   12, 180, .Llb_b0_c18d
-.Llb_b0_c18d:
-        .word   .Llb_c262144, 180, .Llb_b0_c18e
-.Llb_b0_c18e:
-        .word   184, 184, .Llb_b0_c18f
-.Llb_b0_c18f:
-        .word   180, 184, .Llb_b0_c18s
+        .word   .Llb_c262144, 172, .Llb_b0_c18chk
         .word   12, 12, .Llb_b0_c17
-.Llb_b0_c18s:
-        .word   .Llb_c262144, 172, .Llb_b0_c17
+.Llb_b0_c18chk:
+        .word   180, 180, .Llb_b0_c18d
+.Llb_b0_c18d:
+        .word   172, 180, .Llb_b0_c17
+        .word   .Llb_n262144, 172, .Llb_b0_c18r
+.Llb_b0_c18r:
+        .word   12, 12, .Llb_b0_c17
 .Llb_b0_c17:
-        .word   180, 180, .Llb_b0_c17a
-.Llb_b0_c17a:
-        .word   12, 12, .Llb_b0_c17b
-.Llb_b0_c17b:
-        .word   172, 12, .Llb_b0_c17c
-.Llb_b0_c17c:
-        .word   12, 180, .Llb_b0_c17d
-.Llb_b0_c17d:
-        .word   .Llb_c131072, 180, .Llb_b0_c17e
-.Llb_b0_c17e:
-        .word   184, 184, .Llb_b0_c17f
-.Llb_b0_c17f:
-        .word   180, 184, .Llb_b0_c17s
+        .word   .Llb_c131072, 172, .Llb_b0_c17chk
         .word   12, 12, .Llb_b0_c16
-.Llb_b0_c17s:
-        .word   .Llb_c131072, 172, .Llb_b0_c16
+.Llb_b0_c17chk:
+        .word   180, 180, .Llb_b0_c17d
+.Llb_b0_c17d:
+        .word   172, 180, .Llb_b0_c16
+        .word   .Llb_n131072, 172, .Llb_b0_c17r
+.Llb_b0_c17r:
+        .word   12, 12, .Llb_b0_c16
 .Llb_b0_c16:
-        .word   180, 180, .Llb_b0_c16a
-.Llb_b0_c16a:
-        .word   12, 12, .Llb_b0_c16b
-.Llb_b0_c16b:
-        .word   172, 12, .Llb_b0_c16c
-.Llb_b0_c16c:
-        .word   12, 180, .Llb_b0_c16d
-.Llb_b0_c16d:
-        .word   .Llb_c65536, 180, .Llb_b0_c16e
-.Llb_b0_c16e:
-        .word   184, 184, .Llb_b0_c16f
-.Llb_b0_c16f:
-        .word   180, 184, .Llb_b0_c16s
+        .word   .Llb_c65536, 172, .Llb_b0_c16chk
         .word   12, 12, .Llb_b0_c15
-.Llb_b0_c16s:
-        .word   .Llb_c65536, 172, .Llb_b0_c15
+.Llb_b0_c16chk:
+        .word   180, 180, .Llb_b0_c16d
+.Llb_b0_c16d:
+        .word   172, 180, .Llb_b0_c15
+        .word   .Llb_n65536, 172, .Llb_b0_c16r
+.Llb_b0_c16r:
+        .word   12, 12, .Llb_b0_c15
 .Llb_b0_c15:
-        .word   180, 180, .Llb_b0_c15a
-.Llb_b0_c15a:
-        .word   12, 12, .Llb_b0_c15b
-.Llb_b0_c15b:
-        .word   172, 12, .Llb_b0_c15c
-.Llb_b0_c15c:
-        .word   12, 180, .Llb_b0_c15d
-.Llb_b0_c15d:
-        .word   .Llb_c32768, 180, .Llb_b0_c15e
-.Llb_b0_c15e:
-        .word   184, 184, .Llb_b0_c15f
-.Llb_b0_c15f:
-        .word   180, 184, .Llb_b0_c15s
+        .word   .Llb_c32768, 172, .Llb_b0_c15chk
         .word   12, 12, .Llb_b0_c14
-.Llb_b0_c15s:
-        .word   .Llb_c32768, 172, .Llb_b0_c14
+.Llb_b0_c15chk:
+        .word   180, 180, .Llb_b0_c15d
+.Llb_b0_c15d:
+        .word   172, 180, .Llb_b0_c14
+        .word   .Llb_n32768, 172, .Llb_b0_c15r
+.Llb_b0_c15r:
+        .word   12, 12, .Llb_b0_c14
 .Llb_b0_c14:
-        .word   180, 180, .Llb_b0_c14a
-.Llb_b0_c14a:
-        .word   12, 12, .Llb_b0_c14b
-.Llb_b0_c14b:
-        .word   172, 12, .Llb_b0_c14c
-.Llb_b0_c14c:
-        .word   12, 180, .Llb_b0_c14d
-.Llb_b0_c14d:
-        .word   .Llb_c16384, 180, .Llb_b0_c14e
-.Llb_b0_c14e:
-        .word   184, 184, .Llb_b0_c14f
-.Llb_b0_c14f:
-        .word   180, 184, .Llb_b0_c14s
+        .word   .Llb_c16384, 172, .Llb_b0_c14chk
         .word   12, 12, .Llb_b0_c13
-.Llb_b0_c14s:
-        .word   .Llb_c16384, 172, .Llb_b0_c13
+.Llb_b0_c14chk:
+        .word   180, 180, .Llb_b0_c14d
+.Llb_b0_c14d:
+        .word   172, 180, .Llb_b0_c13
+        .word   .Llb_n16384, 172, .Llb_b0_c14r
+.Llb_b0_c14r:
+        .word   12, 12, .Llb_b0_c13
 .Llb_b0_c13:
-        .word   180, 180, .Llb_b0_c13a
-.Llb_b0_c13a:
-        .word   12, 12, .Llb_b0_c13b
-.Llb_b0_c13b:
-        .word   172, 12, .Llb_b0_c13c
-.Llb_b0_c13c:
-        .word   12, 180, .Llb_b0_c13d
-.Llb_b0_c13d:
-        .word   .Llb_c8192, 180, .Llb_b0_c13e
-.Llb_b0_c13e:
-        .word   184, 184, .Llb_b0_c13f
-.Llb_b0_c13f:
-        .word   180, 184, .Llb_b0_c13s
+        .word   .Llb_c8192, 172, .Llb_b0_c13chk
         .word   12, 12, .Llb_b0_c12
-.Llb_b0_c13s:
-        .word   .Llb_c8192, 172, .Llb_b0_c12
+.Llb_b0_c13chk:
+        .word   180, 180, .Llb_b0_c13d
+.Llb_b0_c13d:
+        .word   172, 180, .Llb_b0_c12
+        .word   .Llb_n8192, 172, .Llb_b0_c13r
+.Llb_b0_c13r:
+        .word   12, 12, .Llb_b0_c12
 .Llb_b0_c12:
-        .word   180, 180, .Llb_b0_c12a
-.Llb_b0_c12a:
-        .word   12, 12, .Llb_b0_c12b
-.Llb_b0_c12b:
-        .word   172, 12, .Llb_b0_c12c
-.Llb_b0_c12c:
-        .word   12, 180, .Llb_b0_c12d
-.Llb_b0_c12d:
-        .word   .Llb_c4096, 180, .Llb_b0_c12e
-.Llb_b0_c12e:
-        .word   184, 184, .Llb_b0_c12f
-.Llb_b0_c12f:
-        .word   180, 184, .Llb_b0_c12s
+        .word   .Llb_c4096, 172, .Llb_b0_c12chk
         .word   12, 12, .Llb_b0_c11
-.Llb_b0_c12s:
-        .word   .Llb_c4096, 172, .Llb_b0_c11
+.Llb_b0_c12chk:
+        .word   180, 180, .Llb_b0_c12d
+.Llb_b0_c12d:
+        .word   172, 180, .Llb_b0_c11
+        .word   .Llb_n4096, 172, .Llb_b0_c12r
+.Llb_b0_c12r:
+        .word   12, 12, .Llb_b0_c11
 .Llb_b0_c11:
-        .word   180, 180, .Llb_b0_c11a
-.Llb_b0_c11a:
-        .word   12, 12, .Llb_b0_c11b
-.Llb_b0_c11b:
-        .word   172, 12, .Llb_b0_c11c
-.Llb_b0_c11c:
-        .word   12, 180, .Llb_b0_c11d
-.Llb_b0_c11d:
-        .word   .Llb_c2048, 180, .Llb_b0_c11e
-.Llb_b0_c11e:
-        .word   184, 184, .Llb_b0_c11f
-.Llb_b0_c11f:
-        .word   180, 184, .Llb_b0_c11s
+        .word   .Llb_c2048, 172, .Llb_b0_c11chk
         .word   12, 12, .Llb_b0_c10
-.Llb_b0_c11s:
-        .word   .Llb_c2048, 172, .Llb_b0_c10
+.Llb_b0_c11chk:
+        .word   180, 180, .Llb_b0_c11d
+.Llb_b0_c11d:
+        .word   172, 180, .Llb_b0_c10
+        .word   .Llb_n2048, 172, .Llb_b0_c11r
+.Llb_b0_c11r:
+        .word   12, 12, .Llb_b0_c10
 .Llb_b0_c10:
-        .word   180, 180, .Llb_b0_c10a
-.Llb_b0_c10a:
-        .word   12, 12, .Llb_b0_c10b
-.Llb_b0_c10b:
-        .word   172, 12, .Llb_b0_c10c
-.Llb_b0_c10c:
-        .word   12, 180, .Llb_b0_c10d
-.Llb_b0_c10d:
-        .word   .Llb_c1024, 180, .Llb_b0_c10e
-.Llb_b0_c10e:
-        .word   184, 184, .Llb_b0_c10f
-.Llb_b0_c10f:
-        .word   180, 184, .Llb_b0_c10s
+        .word   .Llb_c1024, 172, .Llb_b0_c10chk
         .word   12, 12, .Llb_b0_c9
-.Llb_b0_c10s:
-        .word   .Llb_c1024, 172, .Llb_b0_c9
+.Llb_b0_c10chk:
+        .word   180, 180, .Llb_b0_c10d
+.Llb_b0_c10d:
+        .word   172, 180, .Llb_b0_c9
+        .word   .Llb_n1024, 172, .Llb_b0_c10r
+.Llb_b0_c10r:
+        .word   12, 12, .Llb_b0_c9
 .Llb_b0_c9:
-        .word   180, 180, .Llb_b0_c9a
-.Llb_b0_c9a:
-        .word   12, 12, .Llb_b0_c9b
-.Llb_b0_c9b:
-        .word   172, 12, .Llb_b0_c9c
-.Llb_b0_c9c:
-        .word   12, 180, .Llb_b0_c9d
-.Llb_b0_c9d:
-        .word   .Llb_c512, 180, .Llb_b0_c9e
-.Llb_b0_c9e:
-        .word   184, 184, .Llb_b0_c9f
-.Llb_b0_c9f:
-        .word   180, 184, .Llb_b0_c9s
+        .word   .Llb_c512, 172, .Llb_b0_c9chk
         .word   12, 12, .Llb_b0_c8
-.Llb_b0_c9s:
-        .word   .Llb_c512, 172, .Llb_b0_c8
+.Llb_b0_c9chk:
+        .word   180, 180, .Llb_b0_c9d
+.Llb_b0_c9d:
+        .word   172, 180, .Llb_b0_c8
+        .word   .Llb_n512, 172, .Llb_b0_c9r
+.Llb_b0_c9r:
+        .word   12, 12, .Llb_b0_c8
 .Llb_b0_c8:
-        .word   180, 180, .Llb_b0_c8a
-.Llb_b0_c8a:
-        .word   12, 12, .Llb_b0_c8b
-.Llb_b0_c8b:
-        .word   172, 12, .Llb_b0_c8c
-.Llb_b0_c8c:
-        .word   12, 180, .Llb_b0_c8d
-.Llb_b0_c8d:
-        .word   .Llb_c256, 180, .Llb_b0_c8e
-.Llb_b0_c8e:
-        .word   184, 184, .Llb_b0_c8f
-.Llb_b0_c8f:
-        .word   180, 184, .Llb_b0_c8s
+        .word   .Llb_c256, 172, .Llb_b0_c8chk
         .word   12, 12, .Llb_b0_ext7
-.Llb_b0_c8s:
-        .word   .Llb_c256, 172, .Llb_b0_ext7
+.Llb_b0_c8chk:
+        .word   180, 180, .Llb_b0_c8d
+.Llb_b0_c8d:
+        .word   172, 180, .Llb_b0_ext7
+        .word   .Llb_n256, 172, .Llb_b0_c8r
+.Llb_b0_c8r:
+        .word   12, 12, .Llb_b0_ext7
 .Llb_b0_ext7:
-        .word   180, 180, .Llb_b0_ext7a
-.Llb_b0_ext7a:
-        .word   12, 12, .Llb_b0_ext7b
-.Llb_b0_ext7b:
-        .word   172, 12, .Llb_b0_ext7c
-.Llb_b0_ext7c:
-        .word   12, 180, .Llb_b0_ext7d
-.Llb_b0_ext7d:
-        .word   .Llb_c128, 180, .Llb_b0_ext7e
-.Llb_b0_ext7e:
-        .word   184, 184, .Llb_b0_ext7f
-.Llb_b0_ext7f:
-        .word   180, 184, .Llb_b0_ext7s
+        .word   .Llb_c128, 172, .Llb_b0_ext7chk
+        .word   .Llb_n128, 28, .Llb_b0_ext7done
+.Llb_b0_ext7done:
         .word   12, 12, .Llb_b0_ext6
-.Llb_b0_ext7s:
-        .word   .Llb_c128, 172, .Llb_b0_ext7t
-.Llb_b0_ext7t:
-        .word   .Llb_n128, 28, .Llb_b0_ext7u
-.Llb_b0_ext7u:
+.Llb_b0_ext7chk:
+        .word   180, 180, .Llb_b0_ext7d
+.Llb_b0_ext7d:
+        .word   172, 180, .Llb_b0_ext7set
+        .word   .Llb_n128, 172, .Llb_b0_ext7r
+.Llb_b0_ext7r:
+        .word   12, 12, .Llb_b0_ext6
+.Llb_b0_ext7set:
+        .word   .Llb_n128, 28, .Llb_b0_ext7jmp
+.Llb_b0_ext7jmp:
         .word   12, 12, .Llb_b0_ext6
 .Llb_b0_ext6:
-        .word   180, 180, .Llb_b0_ext6a
-.Llb_b0_ext6a:
-        .word   12, 12, .Llb_b0_ext6b
-.Llb_b0_ext6b:
-        .word   172, 12, .Llb_b0_ext6c
-.Llb_b0_ext6c:
-        .word   12, 180, .Llb_b0_ext6d
-.Llb_b0_ext6d:
-        .word   .Llb_c64, 180, .Llb_b0_ext6e
-.Llb_b0_ext6e:
-        .word   184, 184, .Llb_b0_ext6f
-.Llb_b0_ext6f:
-        .word   180, 184, .Llb_b0_ext6s
+        .word   .Llb_c64, 172, .Llb_b0_ext6chk
+        .word   .Llb_n64, 28, .Llb_b0_ext6done
+.Llb_b0_ext6done:
         .word   12, 12, .Llb_b0_ext5
-.Llb_b0_ext6s:
-        .word   .Llb_c64, 172, .Llb_b0_ext6t
-.Llb_b0_ext6t:
-        .word   .Llb_n64, 28, .Llb_b0_ext6u
-.Llb_b0_ext6u:
+.Llb_b0_ext6chk:
+        .word   180, 180, .Llb_b0_ext6d
+.Llb_b0_ext6d:
+        .word   172, 180, .Llb_b0_ext6set
+        .word   .Llb_n64, 172, .Llb_b0_ext6r
+.Llb_b0_ext6r:
+        .word   12, 12, .Llb_b0_ext5
+.Llb_b0_ext6set:
+        .word   .Llb_n64, 28, .Llb_b0_ext6jmp
+.Llb_b0_ext6jmp:
         .word   12, 12, .Llb_b0_ext5
 .Llb_b0_ext5:
-        .word   180, 180, .Llb_b0_ext5a
-.Llb_b0_ext5a:
-        .word   12, 12, .Llb_b0_ext5b
-.Llb_b0_ext5b:
-        .word   172, 12, .Llb_b0_ext5c
-.Llb_b0_ext5c:
-        .word   12, 180, .Llb_b0_ext5d
-.Llb_b0_ext5d:
-        .word   .Llb_c32, 180, .Llb_b0_ext5e
-.Llb_b0_ext5e:
-        .word   184, 184, .Llb_b0_ext5f
-.Llb_b0_ext5f:
-        .word   180, 184, .Llb_b0_ext5s
+        .word   .Llb_c32, 172, .Llb_b0_ext5chk
+        .word   .Llb_n32, 28, .Llb_b0_ext5done
+.Llb_b0_ext5done:
         .word   12, 12, .Llb_b0_ext4
-.Llb_b0_ext5s:
-        .word   .Llb_c32, 172, .Llb_b0_ext5t
-.Llb_b0_ext5t:
-        .word   .Llb_n32, 28, .Llb_b0_ext5u
-.Llb_b0_ext5u:
+.Llb_b0_ext5chk:
+        .word   180, 180, .Llb_b0_ext5d
+.Llb_b0_ext5d:
+        .word   172, 180, .Llb_b0_ext5set
+        .word   .Llb_n32, 172, .Llb_b0_ext5r
+.Llb_b0_ext5r:
+        .word   12, 12, .Llb_b0_ext4
+.Llb_b0_ext5set:
+        .word   .Llb_n32, 28, .Llb_b0_ext5jmp
+.Llb_b0_ext5jmp:
         .word   12, 12, .Llb_b0_ext4
 .Llb_b0_ext4:
-        .word   180, 180, .Llb_b0_ext4a
-.Llb_b0_ext4a:
-        .word   12, 12, .Llb_b0_ext4b
-.Llb_b0_ext4b:
-        .word   172, 12, .Llb_b0_ext4c
-.Llb_b0_ext4c:
-        .word   12, 180, .Llb_b0_ext4d
-.Llb_b0_ext4d:
-        .word   .Llb_c16, 180, .Llb_b0_ext4e
-.Llb_b0_ext4e:
-        .word   184, 184, .Llb_b0_ext4f
-.Llb_b0_ext4f:
-        .word   180, 184, .Llb_b0_ext4s
+        .word   .Llb_c16, 172, .Llb_b0_ext4chk
+        .word   .Llb_n16, 28, .Llb_b0_ext4done
+.Llb_b0_ext4done:
         .word   12, 12, .Llb_b0_ext3
-.Llb_b0_ext4s:
-        .word   .Llb_c16, 172, .Llb_b0_ext4t
-.Llb_b0_ext4t:
-        .word   .Llb_n16, 28, .Llb_b0_ext4u
-.Llb_b0_ext4u:
+.Llb_b0_ext4chk:
+        .word   180, 180, .Llb_b0_ext4d
+.Llb_b0_ext4d:
+        .word   172, 180, .Llb_b0_ext4set
+        .word   .Llb_n16, 172, .Llb_b0_ext4r
+.Llb_b0_ext4r:
+        .word   12, 12, .Llb_b0_ext3
+.Llb_b0_ext4set:
+        .word   .Llb_n16, 28, .Llb_b0_ext4jmp
+.Llb_b0_ext4jmp:
         .word   12, 12, .Llb_b0_ext3
 .Llb_b0_ext3:
-        .word   180, 180, .Llb_b0_ext3a
-.Llb_b0_ext3a:
-        .word   12, 12, .Llb_b0_ext3b
-.Llb_b0_ext3b:
-        .word   172, 12, .Llb_b0_ext3c
-.Llb_b0_ext3c:
-        .word   12, 180, .Llb_b0_ext3d
-.Llb_b0_ext3d:
-        .word   .Llb_c8, 180, .Llb_b0_ext3e
-.Llb_b0_ext3e:
-        .word   184, 184, .Llb_b0_ext3f
-.Llb_b0_ext3f:
-        .word   180, 184, .Llb_b0_ext3s
+        .word   .Llb_c8, 172, .Llb_b0_ext3chk
+        .word   .Llb_n8, 28, .Llb_b0_ext3done
+.Llb_b0_ext3done:
         .word   12, 12, .Llb_b0_ext2
-.Llb_b0_ext3s:
-        .word   .Llb_c8, 172, .Llb_b0_ext3t
-.Llb_b0_ext3t:
-        .word   .Llb_n8, 28, .Llb_b0_ext3u
-.Llb_b0_ext3u:
+.Llb_b0_ext3chk:
+        .word   180, 180, .Llb_b0_ext3d
+.Llb_b0_ext3d:
+        .word   172, 180, .Llb_b0_ext3set
+        .word   .Llb_n8, 172, .Llb_b0_ext3r
+.Llb_b0_ext3r:
+        .word   12, 12, .Llb_b0_ext2
+.Llb_b0_ext3set:
+        .word   .Llb_n8, 28, .Llb_b0_ext3jmp
+.Llb_b0_ext3jmp:
         .word   12, 12, .Llb_b0_ext2
 .Llb_b0_ext2:
-        .word   180, 180, .Llb_b0_ext2a
-.Llb_b0_ext2a:
-        .word   12, 12, .Llb_b0_ext2b
-.Llb_b0_ext2b:
-        .word   172, 12, .Llb_b0_ext2c
-.Llb_b0_ext2c:
-        .word   12, 180, .Llb_b0_ext2d
-.Llb_b0_ext2d:
-        .word   .Llb_c4, 180, .Llb_b0_ext2e
-.Llb_b0_ext2e:
-        .word   184, 184, .Llb_b0_ext2f
-.Llb_b0_ext2f:
-        .word   180, 184, .Llb_b0_ext2s
+        .word   .Llb_c4, 172, .Llb_b0_ext2chk
+        .word   .Llb_n4, 28, .Llb_b0_ext2done
+.Llb_b0_ext2done:
         .word   12, 12, .Llb_b0_ext1
-.Llb_b0_ext2s:
-        .word   .Llb_c4, 172, .Llb_b0_ext2t
-.Llb_b0_ext2t:
-        .word   .Llb_n4, 28, .Llb_b0_ext2u
-.Llb_b0_ext2u:
+.Llb_b0_ext2chk:
+        .word   180, 180, .Llb_b0_ext2d
+.Llb_b0_ext2d:
+        .word   172, 180, .Llb_b0_ext2set
+        .word   .Llb_n4, 172, .Llb_b0_ext2r
+.Llb_b0_ext2r:
+        .word   12, 12, .Llb_b0_ext1
+.Llb_b0_ext2set:
+        .word   .Llb_n4, 28, .Llb_b0_ext2jmp
+.Llb_b0_ext2jmp:
         .word   12, 12, .Llb_b0_ext1
 .Llb_b0_ext1:
-        .word   180, 180, .Llb_b0_ext1a
-.Llb_b0_ext1a:
-        .word   12, 12, .Llb_b0_ext1b
-.Llb_b0_ext1b:
-        .word   172, 12, .Llb_b0_ext1c
-.Llb_b0_ext1c:
-        .word   12, 180, .Llb_b0_ext1d
-.Llb_b0_ext1d:
-        .word   .Llb_c2, 180, .Llb_b0_ext1e
-.Llb_b0_ext1e:
-        .word   184, 184, .Llb_b0_ext1f
-.Llb_b0_ext1f:
-        .word   180, 184, .Llb_b0_ext1s
+        .word   .Llb_c2, 172, .Llb_b0_ext1chk
+        .word   .Llb_n2, 28, .Llb_b0_ext1done
+.Llb_b0_ext1done:
         .word   12, 12, .Llb_b0_ext0
-.Llb_b0_ext1s:
-        .word   .Llb_c2, 172, .Llb_b0_ext1t
-.Llb_b0_ext1t:
-        .word   .Llb_n2, 28, .Llb_b0_ext1u
-.Llb_b0_ext1u:
+.Llb_b0_ext1chk:
+        .word   180, 180, .Llb_b0_ext1d
+.Llb_b0_ext1d:
+        .word   172, 180, .Llb_b0_ext1set
+        .word   .Llb_n2, 172, .Llb_b0_ext1r
+.Llb_b0_ext1r:
+        .word   12, 12, .Llb_b0_ext0
+.Llb_b0_ext1set:
+        .word   .Llb_n2, 28, .Llb_b0_ext1jmp
+.Llb_b0_ext1jmp:
         .word   12, 12, .Llb_b0_ext0
 .Llb_b0_ext0:
-        .word   180, 180, .Llb_b0_ext0a
-.Llb_b0_ext0a:
-        .word   12, 12, .Llb_b0_ext0b
-.Llb_b0_ext0b:
-        .word   172, 12, .Llb_b0_ext0c
-.Llb_b0_ext0c:
-        .word   12, 180, .Llb_b0_ext0d
-.Llb_b0_ext0d:
-        .word   .Llb_c1, 180, .Llb_b0_ext0e
-.Llb_b0_ext0e:
-        .word   184, 184, .Llb_b0_ext0f
-.Llb_b0_ext0f:
-        .word   180, 184, .Llb_b0_ext0s
+        .word   .Llb_c1, 172, .Llb_b0_ext0chk
+        .word   .Llb_n1, 28, .Llb_b0_ext0done
+.Llb_b0_ext0done:
         .word   12, 12, .Llb_done
-.Llb_b0_ext0s:
-        .word   .Llb_c1, 172, .Llb_b0_ext0t
-.Llb_b0_ext0t:
-        .word   .Llb_n1, 28, .Llb_b0_ext0u
-.Llb_b0_ext0u:
+.Llb_b0_ext0chk:
+        .word   180, 180, .Llb_b0_ext0d
+.Llb_b0_ext0d:
+        .word   172, 180, .Llb_b0_ext0set
+        .word   .Llb_n1, 172, .Llb_b0_ext0r
+.Llb_b0_ext0r:
+        .word   12, 12, .Llb_done
+.Llb_b0_ext0set:
+        .word   .Llb_n1, 28, .Llb_b0_ext0jmp
+.Llb_b0_ext0jmp:
         .word   12, 12, .Llb_done
 .Llb_byte1:
 .Llb_b1_sign:
@@ -81698,427 +81062,282 @@ __subleq_lb:
         .word   172, 180, .Llb_b1_c30
         .word   .Llb_min, 172, .Llb_b1_c30
 .Llb_b1_c30:
-        .word   180, 180, .Llb_b1_c30a
-.Llb_b1_c30a:
-        .word   12, 12, .Llb_b1_c30b
-.Llb_b1_c30b:
-        .word   172, 12, .Llb_b1_c30c
-.Llb_b1_c30c:
-        .word   12, 180, .Llb_b1_c30d
-.Llb_b1_c30d:
-        .word   .Llb_c1073741824, 180, .Llb_b1_c30e
-.Llb_b1_c30e:
-        .word   184, 184, .Llb_b1_c30f
-.Llb_b1_c30f:
-        .word   180, 184, .Llb_b1_c30s
+        .word   .Llb_c1073741824, 172, .Llb_b1_c30chk
         .word   12, 12, .Llb_b1_c29
-.Llb_b1_c30s:
-        .word   .Llb_c1073741824, 172, .Llb_b1_c29
+.Llb_b1_c30chk:
+        .word   180, 180, .Llb_b1_c30d
+.Llb_b1_c30d:
+        .word   172, 180, .Llb_b1_c29
+        .word   .Llb_n1073741824, 172, .Llb_b1_c30r
+.Llb_b1_c30r:
+        .word   12, 12, .Llb_b1_c29
 .Llb_b1_c29:
-        .word   180, 180, .Llb_b1_c29a
-.Llb_b1_c29a:
-        .word   12, 12, .Llb_b1_c29b
-.Llb_b1_c29b:
-        .word   172, 12, .Llb_b1_c29c
-.Llb_b1_c29c:
-        .word   12, 180, .Llb_b1_c29d
-.Llb_b1_c29d:
-        .word   .Llb_c536870912, 180, .Llb_b1_c29e
-.Llb_b1_c29e:
-        .word   184, 184, .Llb_b1_c29f
-.Llb_b1_c29f:
-        .word   180, 184, .Llb_b1_c29s
+        .word   .Llb_c536870912, 172, .Llb_b1_c29chk
         .word   12, 12, .Llb_b1_c28
-.Llb_b1_c29s:
-        .word   .Llb_c536870912, 172, .Llb_b1_c28
+.Llb_b1_c29chk:
+        .word   180, 180, .Llb_b1_c29d
+.Llb_b1_c29d:
+        .word   172, 180, .Llb_b1_c28
+        .word   .Llb_n536870912, 172, .Llb_b1_c29r
+.Llb_b1_c29r:
+        .word   12, 12, .Llb_b1_c28
 .Llb_b1_c28:
-        .word   180, 180, .Llb_b1_c28a
-.Llb_b1_c28a:
-        .word   12, 12, .Llb_b1_c28b
-.Llb_b1_c28b:
-        .word   172, 12, .Llb_b1_c28c
-.Llb_b1_c28c:
-        .word   12, 180, .Llb_b1_c28d
-.Llb_b1_c28d:
-        .word   .Llb_c268435456, 180, .Llb_b1_c28e
-.Llb_b1_c28e:
-        .word   184, 184, .Llb_b1_c28f
-.Llb_b1_c28f:
-        .word   180, 184, .Llb_b1_c28s
+        .word   .Llb_c268435456, 172, .Llb_b1_c28chk
         .word   12, 12, .Llb_b1_c27
-.Llb_b1_c28s:
-        .word   .Llb_c268435456, 172, .Llb_b1_c27
+.Llb_b1_c28chk:
+        .word   180, 180, .Llb_b1_c28d
+.Llb_b1_c28d:
+        .word   172, 180, .Llb_b1_c27
+        .word   .Llb_n268435456, 172, .Llb_b1_c28r
+.Llb_b1_c28r:
+        .word   12, 12, .Llb_b1_c27
 .Llb_b1_c27:
-        .word   180, 180, .Llb_b1_c27a
-.Llb_b1_c27a:
-        .word   12, 12, .Llb_b1_c27b
-.Llb_b1_c27b:
-        .word   172, 12, .Llb_b1_c27c
-.Llb_b1_c27c:
-        .word   12, 180, .Llb_b1_c27d
-.Llb_b1_c27d:
-        .word   .Llb_c134217728, 180, .Llb_b1_c27e
-.Llb_b1_c27e:
-        .word   184, 184, .Llb_b1_c27f
-.Llb_b1_c27f:
-        .word   180, 184, .Llb_b1_c27s
+        .word   .Llb_c134217728, 172, .Llb_b1_c27chk
         .word   12, 12, .Llb_b1_c26
-.Llb_b1_c27s:
-        .word   .Llb_c134217728, 172, .Llb_b1_c26
+.Llb_b1_c27chk:
+        .word   180, 180, .Llb_b1_c27d
+.Llb_b1_c27d:
+        .word   172, 180, .Llb_b1_c26
+        .word   .Llb_n134217728, 172, .Llb_b1_c27r
+.Llb_b1_c27r:
+        .word   12, 12, .Llb_b1_c26
 .Llb_b1_c26:
-        .word   180, 180, .Llb_b1_c26a
-.Llb_b1_c26a:
-        .word   12, 12, .Llb_b1_c26b
-.Llb_b1_c26b:
-        .word   172, 12, .Llb_b1_c26c
-.Llb_b1_c26c:
-        .word   12, 180, .Llb_b1_c26d
-.Llb_b1_c26d:
-        .word   .Llb_c67108864, 180, .Llb_b1_c26e
-.Llb_b1_c26e:
-        .word   184, 184, .Llb_b1_c26f
-.Llb_b1_c26f:
-        .word   180, 184, .Llb_b1_c26s
+        .word   .Llb_c67108864, 172, .Llb_b1_c26chk
         .word   12, 12, .Llb_b1_c25
-.Llb_b1_c26s:
-        .word   .Llb_c67108864, 172, .Llb_b1_c25
+.Llb_b1_c26chk:
+        .word   180, 180, .Llb_b1_c26d
+.Llb_b1_c26d:
+        .word   172, 180, .Llb_b1_c25
+        .word   .Llb_n67108864, 172, .Llb_b1_c26r
+.Llb_b1_c26r:
+        .word   12, 12, .Llb_b1_c25
 .Llb_b1_c25:
-        .word   180, 180, .Llb_b1_c25a
-.Llb_b1_c25a:
-        .word   12, 12, .Llb_b1_c25b
-.Llb_b1_c25b:
-        .word   172, 12, .Llb_b1_c25c
-.Llb_b1_c25c:
-        .word   12, 180, .Llb_b1_c25d
-.Llb_b1_c25d:
-        .word   .Llb_c33554432, 180, .Llb_b1_c25e
-.Llb_b1_c25e:
-        .word   184, 184, .Llb_b1_c25f
-.Llb_b1_c25f:
-        .word   180, 184, .Llb_b1_c25s
+        .word   .Llb_c33554432, 172, .Llb_b1_c25chk
         .word   12, 12, .Llb_b1_c24
-.Llb_b1_c25s:
-        .word   .Llb_c33554432, 172, .Llb_b1_c24
+.Llb_b1_c25chk:
+        .word   180, 180, .Llb_b1_c25d
+.Llb_b1_c25d:
+        .word   172, 180, .Llb_b1_c24
+        .word   .Llb_n33554432, 172, .Llb_b1_c25r
+.Llb_b1_c25r:
+        .word   12, 12, .Llb_b1_c24
 .Llb_b1_c24:
-        .word   180, 180, .Llb_b1_c24a
-.Llb_b1_c24a:
-        .word   12, 12, .Llb_b1_c24b
-.Llb_b1_c24b:
-        .word   172, 12, .Llb_b1_c24c
-.Llb_b1_c24c:
-        .word   12, 180, .Llb_b1_c24d
-.Llb_b1_c24d:
-        .word   .Llb_c16777216, 180, .Llb_b1_c24e
-.Llb_b1_c24e:
-        .word   184, 184, .Llb_b1_c24f
-.Llb_b1_c24f:
-        .word   180, 184, .Llb_b1_c24s
+        .word   .Llb_c16777216, 172, .Llb_b1_c24chk
         .word   12, 12, .Llb_b1_c23
-.Llb_b1_c24s:
-        .word   .Llb_c16777216, 172, .Llb_b1_c23
+.Llb_b1_c24chk:
+        .word   180, 180, .Llb_b1_c24d
+.Llb_b1_c24d:
+        .word   172, 180, .Llb_b1_c23
+        .word   .Llb_n16777216, 172, .Llb_b1_c24r
+.Llb_b1_c24r:
+        .word   12, 12, .Llb_b1_c23
 .Llb_b1_c23:
-        .word   180, 180, .Llb_b1_c23a
-.Llb_b1_c23a:
-        .word   12, 12, .Llb_b1_c23b
-.Llb_b1_c23b:
-        .word   172, 12, .Llb_b1_c23c
-.Llb_b1_c23c:
-        .word   12, 180, .Llb_b1_c23d
-.Llb_b1_c23d:
-        .word   .Llb_c8388608, 180, .Llb_b1_c23e
-.Llb_b1_c23e:
-        .word   184, 184, .Llb_b1_c23f
-.Llb_b1_c23f:
-        .word   180, 184, .Llb_b1_c23s
+        .word   .Llb_c8388608, 172, .Llb_b1_c23chk
         .word   12, 12, .Llb_b1_c22
-.Llb_b1_c23s:
-        .word   .Llb_c8388608, 172, .Llb_b1_c22
+.Llb_b1_c23chk:
+        .word   180, 180, .Llb_b1_c23d
+.Llb_b1_c23d:
+        .word   172, 180, .Llb_b1_c22
+        .word   .Llb_n8388608, 172, .Llb_b1_c23r
+.Llb_b1_c23r:
+        .word   12, 12, .Llb_b1_c22
 .Llb_b1_c22:
-        .word   180, 180, .Llb_b1_c22a
-.Llb_b1_c22a:
-        .word   12, 12, .Llb_b1_c22b
-.Llb_b1_c22b:
-        .word   172, 12, .Llb_b1_c22c
-.Llb_b1_c22c:
-        .word   12, 180, .Llb_b1_c22d
-.Llb_b1_c22d:
-        .word   .Llb_c4194304, 180, .Llb_b1_c22e
-.Llb_b1_c22e:
-        .word   184, 184, .Llb_b1_c22f
-.Llb_b1_c22f:
-        .word   180, 184, .Llb_b1_c22s
+        .word   .Llb_c4194304, 172, .Llb_b1_c22chk
         .word   12, 12, .Llb_b1_c21
-.Llb_b1_c22s:
-        .word   .Llb_c4194304, 172, .Llb_b1_c21
+.Llb_b1_c22chk:
+        .word   180, 180, .Llb_b1_c22d
+.Llb_b1_c22d:
+        .word   172, 180, .Llb_b1_c21
+        .word   .Llb_n4194304, 172, .Llb_b1_c22r
+.Llb_b1_c22r:
+        .word   12, 12, .Llb_b1_c21
 .Llb_b1_c21:
-        .word   180, 180, .Llb_b1_c21a
-.Llb_b1_c21a:
-        .word   12, 12, .Llb_b1_c21b
-.Llb_b1_c21b:
-        .word   172, 12, .Llb_b1_c21c
-.Llb_b1_c21c:
-        .word   12, 180, .Llb_b1_c21d
-.Llb_b1_c21d:
-        .word   .Llb_c2097152, 180, .Llb_b1_c21e
-.Llb_b1_c21e:
-        .word   184, 184, .Llb_b1_c21f
-.Llb_b1_c21f:
-        .word   180, 184, .Llb_b1_c21s
+        .word   .Llb_c2097152, 172, .Llb_b1_c21chk
         .word   12, 12, .Llb_b1_c20
-.Llb_b1_c21s:
-        .word   .Llb_c2097152, 172, .Llb_b1_c20
+.Llb_b1_c21chk:
+        .word   180, 180, .Llb_b1_c21d
+.Llb_b1_c21d:
+        .word   172, 180, .Llb_b1_c20
+        .word   .Llb_n2097152, 172, .Llb_b1_c21r
+.Llb_b1_c21r:
+        .word   12, 12, .Llb_b1_c20
 .Llb_b1_c20:
-        .word   180, 180, .Llb_b1_c20a
-.Llb_b1_c20a:
-        .word   12, 12, .Llb_b1_c20b
-.Llb_b1_c20b:
-        .word   172, 12, .Llb_b1_c20c
-.Llb_b1_c20c:
-        .word   12, 180, .Llb_b1_c20d
-.Llb_b1_c20d:
-        .word   .Llb_c1048576, 180, .Llb_b1_c20e
-.Llb_b1_c20e:
-        .word   184, 184, .Llb_b1_c20f
-.Llb_b1_c20f:
-        .word   180, 184, .Llb_b1_c20s
+        .word   .Llb_c1048576, 172, .Llb_b1_c20chk
         .word   12, 12, .Llb_b1_c19
-.Llb_b1_c20s:
-        .word   .Llb_c1048576, 172, .Llb_b1_c19
+.Llb_b1_c20chk:
+        .word   180, 180, .Llb_b1_c20d
+.Llb_b1_c20d:
+        .word   172, 180, .Llb_b1_c19
+        .word   .Llb_n1048576, 172, .Llb_b1_c20r
+.Llb_b1_c20r:
+        .word   12, 12, .Llb_b1_c19
 .Llb_b1_c19:
-        .word   180, 180, .Llb_b1_c19a
-.Llb_b1_c19a:
-        .word   12, 12, .Llb_b1_c19b
-.Llb_b1_c19b:
-        .word   172, 12, .Llb_b1_c19c
-.Llb_b1_c19c:
-        .word   12, 180, .Llb_b1_c19d
-.Llb_b1_c19d:
-        .word   .Llb_c524288, 180, .Llb_b1_c19e
-.Llb_b1_c19e:
-        .word   184, 184, .Llb_b1_c19f
-.Llb_b1_c19f:
-        .word   180, 184, .Llb_b1_c19s
+        .word   .Llb_c524288, 172, .Llb_b1_c19chk
         .word   12, 12, .Llb_b1_c18
-.Llb_b1_c19s:
-        .word   .Llb_c524288, 172, .Llb_b1_c18
+.Llb_b1_c19chk:
+        .word   180, 180, .Llb_b1_c19d
+.Llb_b1_c19d:
+        .word   172, 180, .Llb_b1_c18
+        .word   .Llb_n524288, 172, .Llb_b1_c19r
+.Llb_b1_c19r:
+        .word   12, 12, .Llb_b1_c18
 .Llb_b1_c18:
-        .word   180, 180, .Llb_b1_c18a
-.Llb_b1_c18a:
-        .word   12, 12, .Llb_b1_c18b
-.Llb_b1_c18b:
-        .word   172, 12, .Llb_b1_c18c
-.Llb_b1_c18c:
-        .word   12, 180, .Llb_b1_c18d
-.Llb_b1_c18d:
-        .word   .Llb_c262144, 180, .Llb_b1_c18e
-.Llb_b1_c18e:
-        .word   184, 184, .Llb_b1_c18f
-.Llb_b1_c18f:
-        .word   180, 184, .Llb_b1_c18s
+        .word   .Llb_c262144, 172, .Llb_b1_c18chk
         .word   12, 12, .Llb_b1_c17
-.Llb_b1_c18s:
-        .word   .Llb_c262144, 172, .Llb_b1_c17
+.Llb_b1_c18chk:
+        .word   180, 180, .Llb_b1_c18d
+.Llb_b1_c18d:
+        .word   172, 180, .Llb_b1_c17
+        .word   .Llb_n262144, 172, .Llb_b1_c18r
+.Llb_b1_c18r:
+        .word   12, 12, .Llb_b1_c17
 .Llb_b1_c17:
-        .word   180, 180, .Llb_b1_c17a
-.Llb_b1_c17a:
-        .word   12, 12, .Llb_b1_c17b
-.Llb_b1_c17b:
-        .word   172, 12, .Llb_b1_c17c
-.Llb_b1_c17c:
-        .word   12, 180, .Llb_b1_c17d
-.Llb_b1_c17d:
-        .word   .Llb_c131072, 180, .Llb_b1_c17e
-.Llb_b1_c17e:
-        .word   184, 184, .Llb_b1_c17f
-.Llb_b1_c17f:
-        .word   180, 184, .Llb_b1_c17s
+        .word   .Llb_c131072, 172, .Llb_b1_c17chk
         .word   12, 12, .Llb_b1_c16
-.Llb_b1_c17s:
-        .word   .Llb_c131072, 172, .Llb_b1_c16
+.Llb_b1_c17chk:
+        .word   180, 180, .Llb_b1_c17d
+.Llb_b1_c17d:
+        .word   172, 180, .Llb_b1_c16
+        .word   .Llb_n131072, 172, .Llb_b1_c17r
+.Llb_b1_c17r:
+        .word   12, 12, .Llb_b1_c16
 .Llb_b1_c16:
-        .word   180, 180, .Llb_b1_c16a
-.Llb_b1_c16a:
-        .word   12, 12, .Llb_b1_c16b
-.Llb_b1_c16b:
-        .word   172, 12, .Llb_b1_c16c
-.Llb_b1_c16c:
-        .word   12, 180, .Llb_b1_c16d
-.Llb_b1_c16d:
-        .word   .Llb_c65536, 180, .Llb_b1_c16e
-.Llb_b1_c16e:
-        .word   184, 184, .Llb_b1_c16f
-.Llb_b1_c16f:
-        .word   180, 184, .Llb_b1_c16s
+        .word   .Llb_c65536, 172, .Llb_b1_c16chk
         .word   12, 12, .Llb_b1_ext7
-.Llb_b1_c16s:
-        .word   .Llb_c65536, 172, .Llb_b1_ext7
+.Llb_b1_c16chk:
+        .word   180, 180, .Llb_b1_c16d
+.Llb_b1_c16d:
+        .word   172, 180, .Llb_b1_ext7
+        .word   .Llb_n65536, 172, .Llb_b1_c16r
+.Llb_b1_c16r:
+        .word   12, 12, .Llb_b1_ext7
 .Llb_b1_ext7:
-        .word   180, 180, .Llb_b1_ext7a
-.Llb_b1_ext7a:
-        .word   12, 12, .Llb_b1_ext7b
-.Llb_b1_ext7b:
-        .word   172, 12, .Llb_b1_ext7c
-.Llb_b1_ext7c:
-        .word   12, 180, .Llb_b1_ext7d
-.Llb_b1_ext7d:
-        .word   .Llb_c32768, 180, .Llb_b1_ext7e
-.Llb_b1_ext7e:
-        .word   184, 184, .Llb_b1_ext7f
-.Llb_b1_ext7f:
-        .word   180, 184, .Llb_b1_ext7s
+        .word   .Llb_c32768, 172, .Llb_b1_ext7chk
+        .word   .Llb_n128, 28, .Llb_b1_ext7done
+.Llb_b1_ext7done:
         .word   12, 12, .Llb_b1_ext6
-.Llb_b1_ext7s:
-        .word   .Llb_c32768, 172, .Llb_b1_ext7t
-.Llb_b1_ext7t:
-        .word   .Llb_n128, 28, .Llb_b1_ext7u
-.Llb_b1_ext7u:
+.Llb_b1_ext7chk:
+        .word   180, 180, .Llb_b1_ext7d
+.Llb_b1_ext7d:
+        .word   172, 180, .Llb_b1_ext7set
+        .word   .Llb_n32768, 172, .Llb_b1_ext7r
+.Llb_b1_ext7r:
+        .word   12, 12, .Llb_b1_ext6
+.Llb_b1_ext7set:
+        .word   .Llb_n128, 28, .Llb_b1_ext7jmp
+.Llb_b1_ext7jmp:
         .word   12, 12, .Llb_b1_ext6
 .Llb_b1_ext6:
-        .word   180, 180, .Llb_b1_ext6a
-.Llb_b1_ext6a:
-        .word   12, 12, .Llb_b1_ext6b
-.Llb_b1_ext6b:
-        .word   172, 12, .Llb_b1_ext6c
-.Llb_b1_ext6c:
-        .word   12, 180, .Llb_b1_ext6d
-.Llb_b1_ext6d:
-        .word   .Llb_c16384, 180, .Llb_b1_ext6e
-.Llb_b1_ext6e:
-        .word   184, 184, .Llb_b1_ext6f
-.Llb_b1_ext6f:
-        .word   180, 184, .Llb_b1_ext6s
+        .word   .Llb_c16384, 172, .Llb_b1_ext6chk
+        .word   .Llb_n64, 28, .Llb_b1_ext6done
+.Llb_b1_ext6done:
         .word   12, 12, .Llb_b1_ext5
-.Llb_b1_ext6s:
-        .word   .Llb_c16384, 172, .Llb_b1_ext6t
-.Llb_b1_ext6t:
-        .word   .Llb_n64, 28, .Llb_b1_ext6u
-.Llb_b1_ext6u:
+.Llb_b1_ext6chk:
+        .word   180, 180, .Llb_b1_ext6d
+.Llb_b1_ext6d:
+        .word   172, 180, .Llb_b1_ext6set
+        .word   .Llb_n16384, 172, .Llb_b1_ext6r
+.Llb_b1_ext6r:
+        .word   12, 12, .Llb_b1_ext5
+.Llb_b1_ext6set:
+        .word   .Llb_n64, 28, .Llb_b1_ext6jmp
+.Llb_b1_ext6jmp:
         .word   12, 12, .Llb_b1_ext5
 .Llb_b1_ext5:
-        .word   180, 180, .Llb_b1_ext5a
-.Llb_b1_ext5a:
-        .word   12, 12, .Llb_b1_ext5b
-.Llb_b1_ext5b:
-        .word   172, 12, .Llb_b1_ext5c
-.Llb_b1_ext5c:
-        .word   12, 180, .Llb_b1_ext5d
-.Llb_b1_ext5d:
-        .word   .Llb_c8192, 180, .Llb_b1_ext5e
-.Llb_b1_ext5e:
-        .word   184, 184, .Llb_b1_ext5f
-.Llb_b1_ext5f:
-        .word   180, 184, .Llb_b1_ext5s
+        .word   .Llb_c8192, 172, .Llb_b1_ext5chk
+        .word   .Llb_n32, 28, .Llb_b1_ext5done
+.Llb_b1_ext5done:
         .word   12, 12, .Llb_b1_ext4
-.Llb_b1_ext5s:
-        .word   .Llb_c8192, 172, .Llb_b1_ext5t
-.Llb_b1_ext5t:
-        .word   .Llb_n32, 28, .Llb_b1_ext5u
-.Llb_b1_ext5u:
+.Llb_b1_ext5chk:
+        .word   180, 180, .Llb_b1_ext5d
+.Llb_b1_ext5d:
+        .word   172, 180, .Llb_b1_ext5set
+        .word   .Llb_n8192, 172, .Llb_b1_ext5r
+.Llb_b1_ext5r:
+        .word   12, 12, .Llb_b1_ext4
+.Llb_b1_ext5set:
+        .word   .Llb_n32, 28, .Llb_b1_ext5jmp
+.Llb_b1_ext5jmp:
         .word   12, 12, .Llb_b1_ext4
 .Llb_b1_ext4:
-        .word   180, 180, .Llb_b1_ext4a
-.Llb_b1_ext4a:
-        .word   12, 12, .Llb_b1_ext4b
-.Llb_b1_ext4b:
-        .word   172, 12, .Llb_b1_ext4c
-.Llb_b1_ext4c:
-        .word   12, 180, .Llb_b1_ext4d
-.Llb_b1_ext4d:
-        .word   .Llb_c4096, 180, .Llb_b1_ext4e
-.Llb_b1_ext4e:
-        .word   184, 184, .Llb_b1_ext4f
-.Llb_b1_ext4f:
-        .word   180, 184, .Llb_b1_ext4s
+        .word   .Llb_c4096, 172, .Llb_b1_ext4chk
+        .word   .Llb_n16, 28, .Llb_b1_ext4done
+.Llb_b1_ext4done:
         .word   12, 12, .Llb_b1_ext3
-.Llb_b1_ext4s:
-        .word   .Llb_c4096, 172, .Llb_b1_ext4t
-.Llb_b1_ext4t:
-        .word   .Llb_n16, 28, .Llb_b1_ext4u
-.Llb_b1_ext4u:
+.Llb_b1_ext4chk:
+        .word   180, 180, .Llb_b1_ext4d
+.Llb_b1_ext4d:
+        .word   172, 180, .Llb_b1_ext4set
+        .word   .Llb_n4096, 172, .Llb_b1_ext4r
+.Llb_b1_ext4r:
+        .word   12, 12, .Llb_b1_ext3
+.Llb_b1_ext4set:
+        .word   .Llb_n16, 28, .Llb_b1_ext4jmp
+.Llb_b1_ext4jmp:
         .word   12, 12, .Llb_b1_ext3
 .Llb_b1_ext3:
-        .word   180, 180, .Llb_b1_ext3a
-.Llb_b1_ext3a:
-        .word   12, 12, .Llb_b1_ext3b
-.Llb_b1_ext3b:
-        .word   172, 12, .Llb_b1_ext3c
-.Llb_b1_ext3c:
-        .word   12, 180, .Llb_b1_ext3d
-.Llb_b1_ext3d:
-        .word   .Llb_c2048, 180, .Llb_b1_ext3e
-.Llb_b1_ext3e:
-        .word   184, 184, .Llb_b1_ext3f
-.Llb_b1_ext3f:
-        .word   180, 184, .Llb_b1_ext3s
+        .word   .Llb_c2048, 172, .Llb_b1_ext3chk
+        .word   .Llb_n8, 28, .Llb_b1_ext3done
+.Llb_b1_ext3done:
         .word   12, 12, .Llb_b1_ext2
-.Llb_b1_ext3s:
-        .word   .Llb_c2048, 172, .Llb_b1_ext3t
-.Llb_b1_ext3t:
-        .word   .Llb_n8, 28, .Llb_b1_ext3u
-.Llb_b1_ext3u:
+.Llb_b1_ext3chk:
+        .word   180, 180, .Llb_b1_ext3d
+.Llb_b1_ext3d:
+        .word   172, 180, .Llb_b1_ext3set
+        .word   .Llb_n2048, 172, .Llb_b1_ext3r
+.Llb_b1_ext3r:
+        .word   12, 12, .Llb_b1_ext2
+.Llb_b1_ext3set:
+        .word   .Llb_n8, 28, .Llb_b1_ext3jmp
+.Llb_b1_ext3jmp:
         .word   12, 12, .Llb_b1_ext2
 .Llb_b1_ext2:
-        .word   180, 180, .Llb_b1_ext2a
-.Llb_b1_ext2a:
-        .word   12, 12, .Llb_b1_ext2b
-.Llb_b1_ext2b:
-        .word   172, 12, .Llb_b1_ext2c
-.Llb_b1_ext2c:
-        .word   12, 180, .Llb_b1_ext2d
-.Llb_b1_ext2d:
-        .word   .Llb_c1024, 180, .Llb_b1_ext2e
-.Llb_b1_ext2e:
-        .word   184, 184, .Llb_b1_ext2f
-.Llb_b1_ext2f:
-        .word   180, 184, .Llb_b1_ext2s
+        .word   .Llb_c1024, 172, .Llb_b1_ext2chk
+        .word   .Llb_n4, 28, .Llb_b1_ext2done
+.Llb_b1_ext2done:
         .word   12, 12, .Llb_b1_ext1
-.Llb_b1_ext2s:
-        .word   .Llb_c1024, 172, .Llb_b1_ext2t
-.Llb_b1_ext2t:
-        .word   .Llb_n4, 28, .Llb_b1_ext2u
-.Llb_b1_ext2u:
+.Llb_b1_ext2chk:
+        .word   180, 180, .Llb_b1_ext2d
+.Llb_b1_ext2d:
+        .word   172, 180, .Llb_b1_ext2set
+        .word   .Llb_n1024, 172, .Llb_b1_ext2r
+.Llb_b1_ext2r:
+        .word   12, 12, .Llb_b1_ext1
+.Llb_b1_ext2set:
+        .word   .Llb_n4, 28, .Llb_b1_ext2jmp
+.Llb_b1_ext2jmp:
         .word   12, 12, .Llb_b1_ext1
 .Llb_b1_ext1:
-        .word   180, 180, .Llb_b1_ext1a
-.Llb_b1_ext1a:
-        .word   12, 12, .Llb_b1_ext1b
-.Llb_b1_ext1b:
-        .word   172, 12, .Llb_b1_ext1c
-.Llb_b1_ext1c:
-        .word   12, 180, .Llb_b1_ext1d
-.Llb_b1_ext1d:
-        .word   .Llb_c512, 180, .Llb_b1_ext1e
-.Llb_b1_ext1e:
-        .word   184, 184, .Llb_b1_ext1f
-.Llb_b1_ext1f:
-        .word   180, 184, .Llb_b1_ext1s
+        .word   .Llb_c512, 172, .Llb_b1_ext1chk
+        .word   .Llb_n2, 28, .Llb_b1_ext1done
+.Llb_b1_ext1done:
         .word   12, 12, .Llb_b1_ext0
-.Llb_b1_ext1s:
-        .word   .Llb_c512, 172, .Llb_b1_ext1t
-.Llb_b1_ext1t:
-        .word   .Llb_n2, 28, .Llb_b1_ext1u
-.Llb_b1_ext1u:
+.Llb_b1_ext1chk:
+        .word   180, 180, .Llb_b1_ext1d
+.Llb_b1_ext1d:
+        .word   172, 180, .Llb_b1_ext1set
+        .word   .Llb_n512, 172, .Llb_b1_ext1r
+.Llb_b1_ext1r:
+        .word   12, 12, .Llb_b1_ext0
+.Llb_b1_ext1set:
+        .word   .Llb_n2, 28, .Llb_b1_ext1jmp
+.Llb_b1_ext1jmp:
         .word   12, 12, .Llb_b1_ext0
 .Llb_b1_ext0:
-        .word   180, 180, .Llb_b1_ext0a
-.Llb_b1_ext0a:
-        .word   12, 12, .Llb_b1_ext0b
-.Llb_b1_ext0b:
-        .word   172, 12, .Llb_b1_ext0c
-.Llb_b1_ext0c:
-        .word   12, 180, .Llb_b1_ext0d
-.Llb_b1_ext0d:
-        .word   .Llb_c256, 180, .Llb_b1_ext0e
-.Llb_b1_ext0e:
-        .word   184, 184, .Llb_b1_ext0f
-.Llb_b1_ext0f:
-        .word   180, 184, .Llb_b1_ext0s
+        .word   .Llb_c256, 172, .Llb_b1_ext0chk
+        .word   .Llb_n1, 28, .Llb_b1_ext0done
+.Llb_b1_ext0done:
         .word   12, 12, .Llb_done
-.Llb_b1_ext0s:
-        .word   .Llb_c256, 172, .Llb_b1_ext0t
-.Llb_b1_ext0t:
-        .word   .Llb_n1, 28, .Llb_b1_ext0u
-.Llb_b1_ext0u:
+.Llb_b1_ext0chk:
+        .word   180, 180, .Llb_b1_ext0d
+.Llb_b1_ext0d:
+        .word   172, 180, .Llb_b1_ext0set
+        .word   .Llb_n256, 172, .Llb_b1_ext0r
+.Llb_b1_ext0r:
+        .word   12, 12, .Llb_done
+.Llb_b1_ext0set:
+        .word   .Llb_n1, 28, .Llb_b1_ext0jmp
+.Llb_b1_ext0jmp:
         .word   12, 12, .Llb_done
 .Llb_byte2:
 .Llb_b2_sign:
@@ -82151,291 +81370,202 @@ __subleq_lb:
         .word   172, 180, .Llb_b2_c30
         .word   .Llb_min, 172, .Llb_b2_c30
 .Llb_b2_c30:
-        .word   180, 180, .Llb_b2_c30a
-.Llb_b2_c30a:
-        .word   12, 12, .Llb_b2_c30b
-.Llb_b2_c30b:
-        .word   172, 12, .Llb_b2_c30c
-.Llb_b2_c30c:
-        .word   12, 180, .Llb_b2_c30d
-.Llb_b2_c30d:
-        .word   .Llb_c1073741824, 180, .Llb_b2_c30e
-.Llb_b2_c30e:
-        .word   184, 184, .Llb_b2_c30f
-.Llb_b2_c30f:
-        .word   180, 184, .Llb_b2_c30s
+        .word   .Llb_c1073741824, 172, .Llb_b2_c30chk
         .word   12, 12, .Llb_b2_c29
-.Llb_b2_c30s:
-        .word   .Llb_c1073741824, 172, .Llb_b2_c29
+.Llb_b2_c30chk:
+        .word   180, 180, .Llb_b2_c30d
+.Llb_b2_c30d:
+        .word   172, 180, .Llb_b2_c29
+        .word   .Llb_n1073741824, 172, .Llb_b2_c30r
+.Llb_b2_c30r:
+        .word   12, 12, .Llb_b2_c29
 .Llb_b2_c29:
-        .word   180, 180, .Llb_b2_c29a
-.Llb_b2_c29a:
-        .word   12, 12, .Llb_b2_c29b
-.Llb_b2_c29b:
-        .word   172, 12, .Llb_b2_c29c
-.Llb_b2_c29c:
-        .word   12, 180, .Llb_b2_c29d
-.Llb_b2_c29d:
-        .word   .Llb_c536870912, 180, .Llb_b2_c29e
-.Llb_b2_c29e:
-        .word   184, 184, .Llb_b2_c29f
-.Llb_b2_c29f:
-        .word   180, 184, .Llb_b2_c29s
+        .word   .Llb_c536870912, 172, .Llb_b2_c29chk
         .word   12, 12, .Llb_b2_c28
-.Llb_b2_c29s:
-        .word   .Llb_c536870912, 172, .Llb_b2_c28
+.Llb_b2_c29chk:
+        .word   180, 180, .Llb_b2_c29d
+.Llb_b2_c29d:
+        .word   172, 180, .Llb_b2_c28
+        .word   .Llb_n536870912, 172, .Llb_b2_c29r
+.Llb_b2_c29r:
+        .word   12, 12, .Llb_b2_c28
 .Llb_b2_c28:
-        .word   180, 180, .Llb_b2_c28a
-.Llb_b2_c28a:
-        .word   12, 12, .Llb_b2_c28b
-.Llb_b2_c28b:
-        .word   172, 12, .Llb_b2_c28c
-.Llb_b2_c28c:
-        .word   12, 180, .Llb_b2_c28d
-.Llb_b2_c28d:
-        .word   .Llb_c268435456, 180, .Llb_b2_c28e
-.Llb_b2_c28e:
-        .word   184, 184, .Llb_b2_c28f
-.Llb_b2_c28f:
-        .word   180, 184, .Llb_b2_c28s
+        .word   .Llb_c268435456, 172, .Llb_b2_c28chk
         .word   12, 12, .Llb_b2_c27
-.Llb_b2_c28s:
-        .word   .Llb_c268435456, 172, .Llb_b2_c27
+.Llb_b2_c28chk:
+        .word   180, 180, .Llb_b2_c28d
+.Llb_b2_c28d:
+        .word   172, 180, .Llb_b2_c27
+        .word   .Llb_n268435456, 172, .Llb_b2_c28r
+.Llb_b2_c28r:
+        .word   12, 12, .Llb_b2_c27
 .Llb_b2_c27:
-        .word   180, 180, .Llb_b2_c27a
-.Llb_b2_c27a:
-        .word   12, 12, .Llb_b2_c27b
-.Llb_b2_c27b:
-        .word   172, 12, .Llb_b2_c27c
-.Llb_b2_c27c:
-        .word   12, 180, .Llb_b2_c27d
-.Llb_b2_c27d:
-        .word   .Llb_c134217728, 180, .Llb_b2_c27e
-.Llb_b2_c27e:
-        .word   184, 184, .Llb_b2_c27f
-.Llb_b2_c27f:
-        .word   180, 184, .Llb_b2_c27s
+        .word   .Llb_c134217728, 172, .Llb_b2_c27chk
         .word   12, 12, .Llb_b2_c26
-.Llb_b2_c27s:
-        .word   .Llb_c134217728, 172, .Llb_b2_c26
+.Llb_b2_c27chk:
+        .word   180, 180, .Llb_b2_c27d
+.Llb_b2_c27d:
+        .word   172, 180, .Llb_b2_c26
+        .word   .Llb_n134217728, 172, .Llb_b2_c27r
+.Llb_b2_c27r:
+        .word   12, 12, .Llb_b2_c26
 .Llb_b2_c26:
-        .word   180, 180, .Llb_b2_c26a
-.Llb_b2_c26a:
-        .word   12, 12, .Llb_b2_c26b
-.Llb_b2_c26b:
-        .word   172, 12, .Llb_b2_c26c
-.Llb_b2_c26c:
-        .word   12, 180, .Llb_b2_c26d
-.Llb_b2_c26d:
-        .word   .Llb_c67108864, 180, .Llb_b2_c26e
-.Llb_b2_c26e:
-        .word   184, 184, .Llb_b2_c26f
-.Llb_b2_c26f:
-        .word   180, 184, .Llb_b2_c26s
+        .word   .Llb_c67108864, 172, .Llb_b2_c26chk
         .word   12, 12, .Llb_b2_c25
-.Llb_b2_c26s:
-        .word   .Llb_c67108864, 172, .Llb_b2_c25
+.Llb_b2_c26chk:
+        .word   180, 180, .Llb_b2_c26d
+.Llb_b2_c26d:
+        .word   172, 180, .Llb_b2_c25
+        .word   .Llb_n67108864, 172, .Llb_b2_c26r
+.Llb_b2_c26r:
+        .word   12, 12, .Llb_b2_c25
 .Llb_b2_c25:
-        .word   180, 180, .Llb_b2_c25a
-.Llb_b2_c25a:
-        .word   12, 12, .Llb_b2_c25b
-.Llb_b2_c25b:
-        .word   172, 12, .Llb_b2_c25c
-.Llb_b2_c25c:
-        .word   12, 180, .Llb_b2_c25d
-.Llb_b2_c25d:
-        .word   .Llb_c33554432, 180, .Llb_b2_c25e
-.Llb_b2_c25e:
-        .word   184, 184, .Llb_b2_c25f
-.Llb_b2_c25f:
-        .word   180, 184, .Llb_b2_c25s
+        .word   .Llb_c33554432, 172, .Llb_b2_c25chk
         .word   12, 12, .Llb_b2_c24
-.Llb_b2_c25s:
-        .word   .Llb_c33554432, 172, .Llb_b2_c24
+.Llb_b2_c25chk:
+        .word   180, 180, .Llb_b2_c25d
+.Llb_b2_c25d:
+        .word   172, 180, .Llb_b2_c24
+        .word   .Llb_n33554432, 172, .Llb_b2_c25r
+.Llb_b2_c25r:
+        .word   12, 12, .Llb_b2_c24
 .Llb_b2_c24:
-        .word   180, 180, .Llb_b2_c24a
-.Llb_b2_c24a:
-        .word   12, 12, .Llb_b2_c24b
-.Llb_b2_c24b:
-        .word   172, 12, .Llb_b2_c24c
-.Llb_b2_c24c:
-        .word   12, 180, .Llb_b2_c24d
-.Llb_b2_c24d:
-        .word   .Llb_c16777216, 180, .Llb_b2_c24e
-.Llb_b2_c24e:
-        .word   184, 184, .Llb_b2_c24f
-.Llb_b2_c24f:
-        .word   180, 184, .Llb_b2_c24s
+        .word   .Llb_c16777216, 172, .Llb_b2_c24chk
         .word   12, 12, .Llb_b2_ext7
-.Llb_b2_c24s:
-        .word   .Llb_c16777216, 172, .Llb_b2_ext7
+.Llb_b2_c24chk:
+        .word   180, 180, .Llb_b2_c24d
+.Llb_b2_c24d:
+        .word   172, 180, .Llb_b2_ext7
+        .word   .Llb_n16777216, 172, .Llb_b2_c24r
+.Llb_b2_c24r:
+        .word   12, 12, .Llb_b2_ext7
 .Llb_b2_ext7:
-        .word   180, 180, .Llb_b2_ext7a
-.Llb_b2_ext7a:
-        .word   12, 12, .Llb_b2_ext7b
-.Llb_b2_ext7b:
-        .word   172, 12, .Llb_b2_ext7c
-.Llb_b2_ext7c:
-        .word   12, 180, .Llb_b2_ext7d
-.Llb_b2_ext7d:
-        .word   .Llb_c8388608, 180, .Llb_b2_ext7e
-.Llb_b2_ext7e:
-        .word   184, 184, .Llb_b2_ext7f
-.Llb_b2_ext7f:
-        .word   180, 184, .Llb_b2_ext7s
+        .word   .Llb_c8388608, 172, .Llb_b2_ext7chk
+        .word   .Llb_n128, 28, .Llb_b2_ext7done
+.Llb_b2_ext7done:
         .word   12, 12, .Llb_b2_ext6
-.Llb_b2_ext7s:
-        .word   .Llb_c8388608, 172, .Llb_b2_ext7t
-.Llb_b2_ext7t:
-        .word   .Llb_n128, 28, .Llb_b2_ext7u
-.Llb_b2_ext7u:
+.Llb_b2_ext7chk:
+        .word   180, 180, .Llb_b2_ext7d
+.Llb_b2_ext7d:
+        .word   172, 180, .Llb_b2_ext7set
+        .word   .Llb_n8388608, 172, .Llb_b2_ext7r
+.Llb_b2_ext7r:
+        .word   12, 12, .Llb_b2_ext6
+.Llb_b2_ext7set:
+        .word   .Llb_n128, 28, .Llb_b2_ext7jmp
+.Llb_b2_ext7jmp:
         .word   12, 12, .Llb_b2_ext6
 .Llb_b2_ext6:
-        .word   180, 180, .Llb_b2_ext6a
-.Llb_b2_ext6a:
-        .word   12, 12, .Llb_b2_ext6b
-.Llb_b2_ext6b:
-        .word   172, 12, .Llb_b2_ext6c
-.Llb_b2_ext6c:
-        .word   12, 180, .Llb_b2_ext6d
-.Llb_b2_ext6d:
-        .word   .Llb_c4194304, 180, .Llb_b2_ext6e
-.Llb_b2_ext6e:
-        .word   184, 184, .Llb_b2_ext6f
-.Llb_b2_ext6f:
-        .word   180, 184, .Llb_b2_ext6s
+        .word   .Llb_c4194304, 172, .Llb_b2_ext6chk
+        .word   .Llb_n64, 28, .Llb_b2_ext6done
+.Llb_b2_ext6done:
         .word   12, 12, .Llb_b2_ext5
-.Llb_b2_ext6s:
-        .word   .Llb_c4194304, 172, .Llb_b2_ext6t
-.Llb_b2_ext6t:
-        .word   .Llb_n64, 28, .Llb_b2_ext6u
-.Llb_b2_ext6u:
+.Llb_b2_ext6chk:
+        .word   180, 180, .Llb_b2_ext6d
+.Llb_b2_ext6d:
+        .word   172, 180, .Llb_b2_ext6set
+        .word   .Llb_n4194304, 172, .Llb_b2_ext6r
+.Llb_b2_ext6r:
+        .word   12, 12, .Llb_b2_ext5
+.Llb_b2_ext6set:
+        .word   .Llb_n64, 28, .Llb_b2_ext6jmp
+.Llb_b2_ext6jmp:
         .word   12, 12, .Llb_b2_ext5
 .Llb_b2_ext5:
-        .word   180, 180, .Llb_b2_ext5a
-.Llb_b2_ext5a:
-        .word   12, 12, .Llb_b2_ext5b
-.Llb_b2_ext5b:
-        .word   172, 12, .Llb_b2_ext5c
-.Llb_b2_ext5c:
-        .word   12, 180, .Llb_b2_ext5d
-.Llb_b2_ext5d:
-        .word   .Llb_c2097152, 180, .Llb_b2_ext5e
-.Llb_b2_ext5e:
-        .word   184, 184, .Llb_b2_ext5f
-.Llb_b2_ext5f:
-        .word   180, 184, .Llb_b2_ext5s
+        .word   .Llb_c2097152, 172, .Llb_b2_ext5chk
+        .word   .Llb_n32, 28, .Llb_b2_ext5done
+.Llb_b2_ext5done:
         .word   12, 12, .Llb_b2_ext4
-.Llb_b2_ext5s:
-        .word   .Llb_c2097152, 172, .Llb_b2_ext5t
-.Llb_b2_ext5t:
-        .word   .Llb_n32, 28, .Llb_b2_ext5u
-.Llb_b2_ext5u:
+.Llb_b2_ext5chk:
+        .word   180, 180, .Llb_b2_ext5d
+.Llb_b2_ext5d:
+        .word   172, 180, .Llb_b2_ext5set
+        .word   .Llb_n2097152, 172, .Llb_b2_ext5r
+.Llb_b2_ext5r:
+        .word   12, 12, .Llb_b2_ext4
+.Llb_b2_ext5set:
+        .word   .Llb_n32, 28, .Llb_b2_ext5jmp
+.Llb_b2_ext5jmp:
         .word   12, 12, .Llb_b2_ext4
 .Llb_b2_ext4:
-        .word   180, 180, .Llb_b2_ext4a
-.Llb_b2_ext4a:
-        .word   12, 12, .Llb_b2_ext4b
-.Llb_b2_ext4b:
-        .word   172, 12, .Llb_b2_ext4c
-.Llb_b2_ext4c:
-        .word   12, 180, .Llb_b2_ext4d
-.Llb_b2_ext4d:
-        .word   .Llb_c1048576, 180, .Llb_b2_ext4e
-.Llb_b2_ext4e:
-        .word   184, 184, .Llb_b2_ext4f
-.Llb_b2_ext4f:
-        .word   180, 184, .Llb_b2_ext4s
+        .word   .Llb_c1048576, 172, .Llb_b2_ext4chk
+        .word   .Llb_n16, 28, .Llb_b2_ext4done
+.Llb_b2_ext4done:
         .word   12, 12, .Llb_b2_ext3
-.Llb_b2_ext4s:
-        .word   .Llb_c1048576, 172, .Llb_b2_ext4t
-.Llb_b2_ext4t:
-        .word   .Llb_n16, 28, .Llb_b2_ext4u
-.Llb_b2_ext4u:
+.Llb_b2_ext4chk:
+        .word   180, 180, .Llb_b2_ext4d
+.Llb_b2_ext4d:
+        .word   172, 180, .Llb_b2_ext4set
+        .word   .Llb_n1048576, 172, .Llb_b2_ext4r
+.Llb_b2_ext4r:
+        .word   12, 12, .Llb_b2_ext3
+.Llb_b2_ext4set:
+        .word   .Llb_n16, 28, .Llb_b2_ext4jmp
+.Llb_b2_ext4jmp:
         .word   12, 12, .Llb_b2_ext3
 .Llb_b2_ext3:
-        .word   180, 180, .Llb_b2_ext3a
-.Llb_b2_ext3a:
-        .word   12, 12, .Llb_b2_ext3b
-.Llb_b2_ext3b:
-        .word   172, 12, .Llb_b2_ext3c
-.Llb_b2_ext3c:
-        .word   12, 180, .Llb_b2_ext3d
-.Llb_b2_ext3d:
-        .word   .Llb_c524288, 180, .Llb_b2_ext3e
-.Llb_b2_ext3e:
-        .word   184, 184, .Llb_b2_ext3f
-.Llb_b2_ext3f:
-        .word   180, 184, .Llb_b2_ext3s
+        .word   .Llb_c524288, 172, .Llb_b2_ext3chk
+        .word   .Llb_n8, 28, .Llb_b2_ext3done
+.Llb_b2_ext3done:
         .word   12, 12, .Llb_b2_ext2
-.Llb_b2_ext3s:
-        .word   .Llb_c524288, 172, .Llb_b2_ext3t
-.Llb_b2_ext3t:
-        .word   .Llb_n8, 28, .Llb_b2_ext3u
-.Llb_b2_ext3u:
+.Llb_b2_ext3chk:
+        .word   180, 180, .Llb_b2_ext3d
+.Llb_b2_ext3d:
+        .word   172, 180, .Llb_b2_ext3set
+        .word   .Llb_n524288, 172, .Llb_b2_ext3r
+.Llb_b2_ext3r:
+        .word   12, 12, .Llb_b2_ext2
+.Llb_b2_ext3set:
+        .word   .Llb_n8, 28, .Llb_b2_ext3jmp
+.Llb_b2_ext3jmp:
         .word   12, 12, .Llb_b2_ext2
 .Llb_b2_ext2:
-        .word   180, 180, .Llb_b2_ext2a
-.Llb_b2_ext2a:
-        .word   12, 12, .Llb_b2_ext2b
-.Llb_b2_ext2b:
-        .word   172, 12, .Llb_b2_ext2c
-.Llb_b2_ext2c:
-        .word   12, 180, .Llb_b2_ext2d
-.Llb_b2_ext2d:
-        .word   .Llb_c262144, 180, .Llb_b2_ext2e
-.Llb_b2_ext2e:
-        .word   184, 184, .Llb_b2_ext2f
-.Llb_b2_ext2f:
-        .word   180, 184, .Llb_b2_ext2s
+        .word   .Llb_c262144, 172, .Llb_b2_ext2chk
+        .word   .Llb_n4, 28, .Llb_b2_ext2done
+.Llb_b2_ext2done:
         .word   12, 12, .Llb_b2_ext1
-.Llb_b2_ext2s:
-        .word   .Llb_c262144, 172, .Llb_b2_ext2t
-.Llb_b2_ext2t:
-        .word   .Llb_n4, 28, .Llb_b2_ext2u
-.Llb_b2_ext2u:
+.Llb_b2_ext2chk:
+        .word   180, 180, .Llb_b2_ext2d
+.Llb_b2_ext2d:
+        .word   172, 180, .Llb_b2_ext2set
+        .word   .Llb_n262144, 172, .Llb_b2_ext2r
+.Llb_b2_ext2r:
+        .word   12, 12, .Llb_b2_ext1
+.Llb_b2_ext2set:
+        .word   .Llb_n4, 28, .Llb_b2_ext2jmp
+.Llb_b2_ext2jmp:
         .word   12, 12, .Llb_b2_ext1
 .Llb_b2_ext1:
-        .word   180, 180, .Llb_b2_ext1a
-.Llb_b2_ext1a:
-        .word   12, 12, .Llb_b2_ext1b
-.Llb_b2_ext1b:
-        .word   172, 12, .Llb_b2_ext1c
-.Llb_b2_ext1c:
-        .word   12, 180, .Llb_b2_ext1d
-.Llb_b2_ext1d:
-        .word   .Llb_c131072, 180, .Llb_b2_ext1e
-.Llb_b2_ext1e:
-        .word   184, 184, .Llb_b2_ext1f
-.Llb_b2_ext1f:
-        .word   180, 184, .Llb_b2_ext1s
+        .word   .Llb_c131072, 172, .Llb_b2_ext1chk
+        .word   .Llb_n2, 28, .Llb_b2_ext1done
+.Llb_b2_ext1done:
         .word   12, 12, .Llb_b2_ext0
-.Llb_b2_ext1s:
-        .word   .Llb_c131072, 172, .Llb_b2_ext1t
-.Llb_b2_ext1t:
-        .word   .Llb_n2, 28, .Llb_b2_ext1u
-.Llb_b2_ext1u:
+.Llb_b2_ext1chk:
+        .word   180, 180, .Llb_b2_ext1d
+.Llb_b2_ext1d:
+        .word   172, 180, .Llb_b2_ext1set
+        .word   .Llb_n131072, 172, .Llb_b2_ext1r
+.Llb_b2_ext1r:
+        .word   12, 12, .Llb_b2_ext0
+.Llb_b2_ext1set:
+        .word   .Llb_n2, 28, .Llb_b2_ext1jmp
+.Llb_b2_ext1jmp:
         .word   12, 12, .Llb_b2_ext0
 .Llb_b2_ext0:
-        .word   180, 180, .Llb_b2_ext0a
-.Llb_b2_ext0a:
-        .word   12, 12, .Llb_b2_ext0b
-.Llb_b2_ext0b:
-        .word   172, 12, .Llb_b2_ext0c
-.Llb_b2_ext0c:
-        .word   12, 180, .Llb_b2_ext0d
-.Llb_b2_ext0d:
-        .word   .Llb_c65536, 180, .Llb_b2_ext0e
-.Llb_b2_ext0e:
-        .word   184, 184, .Llb_b2_ext0f
-.Llb_b2_ext0f:
-        .word   180, 184, .Llb_b2_ext0s
+        .word   .Llb_c65536, 172, .Llb_b2_ext0chk
+        .word   .Llb_n1, 28, .Llb_b2_ext0done
+.Llb_b2_ext0done:
         .word   12, 12, .Llb_done
-.Llb_b2_ext0s:
-        .word   .Llb_c65536, 172, .Llb_b2_ext0t
-.Llb_b2_ext0t:
-        .word   .Llb_n1, 28, .Llb_b2_ext0u
-.Llb_b2_ext0u:
+.Llb_b2_ext0chk:
+        .word   180, 180, .Llb_b2_ext0d
+.Llb_b2_ext0d:
+        .word   172, 180, .Llb_b2_ext0set
+        .word   .Llb_n65536, 172, .Llb_b2_ext0r
+.Llb_b2_ext0r:
+        .word   12, 12, .Llb_done
+.Llb_b2_ext0set:
+        .word   .Llb_n1, 28, .Llb_b2_ext0jmp
+.Llb_b2_ext0jmp:
         .word   12, 12, .Llb_done
 .Llb_byte3:
 .Llb_b3_sign:
@@ -82470,151 +81600,116 @@ __subleq_lb:
 .Llb_b3_sn2:
         .word   .Llb_min, 172, .Llb_b3_ext6
 .Llb_b3_ext6:
-        .word   180, 180, .Llb_b3_ext6a
-.Llb_b3_ext6a:
-        .word   12, 12, .Llb_b3_ext6b
-.Llb_b3_ext6b:
-        .word   172, 12, .Llb_b3_ext6c
-.Llb_b3_ext6c:
-        .word   12, 180, .Llb_b3_ext6d
-.Llb_b3_ext6d:
-        .word   .Llb_c1073741824, 180, .Llb_b3_ext6e
-.Llb_b3_ext6e:
-        .word   184, 184, .Llb_b3_ext6f
-.Llb_b3_ext6f:
-        .word   180, 184, .Llb_b3_ext6s
+        .word   .Llb_c1073741824, 172, .Llb_b3_ext6chk
+        .word   .Llb_n64, 28, .Llb_b3_ext6done
+.Llb_b3_ext6done:
         .word   12, 12, .Llb_b3_ext5
-.Llb_b3_ext6s:
-        .word   .Llb_c1073741824, 172, .Llb_b3_ext6t
-.Llb_b3_ext6t:
-        .word   .Llb_n64, 28, .Llb_b3_ext6u
-.Llb_b3_ext6u:
+.Llb_b3_ext6chk:
+        .word   180, 180, .Llb_b3_ext6d
+.Llb_b3_ext6d:
+        .word   172, 180, .Llb_b3_ext6set
+        .word   .Llb_n1073741824, 172, .Llb_b3_ext6r
+.Llb_b3_ext6r:
+        .word   12, 12, .Llb_b3_ext5
+.Llb_b3_ext6set:
+        .word   .Llb_n64, 28, .Llb_b3_ext6jmp
+.Llb_b3_ext6jmp:
         .word   12, 12, .Llb_b3_ext5
 .Llb_b3_ext5:
-        .word   180, 180, .Llb_b3_ext5a
-.Llb_b3_ext5a:
-        .word   12, 12, .Llb_b3_ext5b
-.Llb_b3_ext5b:
-        .word   172, 12, .Llb_b3_ext5c
-.Llb_b3_ext5c:
-        .word   12, 180, .Llb_b3_ext5d
-.Llb_b3_ext5d:
-        .word   .Llb_c536870912, 180, .Llb_b3_ext5e
-.Llb_b3_ext5e:
-        .word   184, 184, .Llb_b3_ext5f
-.Llb_b3_ext5f:
-        .word   180, 184, .Llb_b3_ext5s
+        .word   .Llb_c536870912, 172, .Llb_b3_ext5chk
+        .word   .Llb_n32, 28, .Llb_b3_ext5done
+.Llb_b3_ext5done:
         .word   12, 12, .Llb_b3_ext4
-.Llb_b3_ext5s:
-        .word   .Llb_c536870912, 172, .Llb_b3_ext5t
-.Llb_b3_ext5t:
-        .word   .Llb_n32, 28, .Llb_b3_ext5u
-.Llb_b3_ext5u:
+.Llb_b3_ext5chk:
+        .word   180, 180, .Llb_b3_ext5d
+.Llb_b3_ext5d:
+        .word   172, 180, .Llb_b3_ext5set
+        .word   .Llb_n536870912, 172, .Llb_b3_ext5r
+.Llb_b3_ext5r:
+        .word   12, 12, .Llb_b3_ext4
+.Llb_b3_ext5set:
+        .word   .Llb_n32, 28, .Llb_b3_ext5jmp
+.Llb_b3_ext5jmp:
         .word   12, 12, .Llb_b3_ext4
 .Llb_b3_ext4:
-        .word   180, 180, .Llb_b3_ext4a
-.Llb_b3_ext4a:
-        .word   12, 12, .Llb_b3_ext4b
-.Llb_b3_ext4b:
-        .word   172, 12, .Llb_b3_ext4c
-.Llb_b3_ext4c:
-        .word   12, 180, .Llb_b3_ext4d
-.Llb_b3_ext4d:
-        .word   .Llb_c268435456, 180, .Llb_b3_ext4e
-.Llb_b3_ext4e:
-        .word   184, 184, .Llb_b3_ext4f
-.Llb_b3_ext4f:
-        .word   180, 184, .Llb_b3_ext4s
+        .word   .Llb_c268435456, 172, .Llb_b3_ext4chk
+        .word   .Llb_n16, 28, .Llb_b3_ext4done
+.Llb_b3_ext4done:
         .word   12, 12, .Llb_b3_ext3
-.Llb_b3_ext4s:
-        .word   .Llb_c268435456, 172, .Llb_b3_ext4t
-.Llb_b3_ext4t:
-        .word   .Llb_n16, 28, .Llb_b3_ext4u
-.Llb_b3_ext4u:
+.Llb_b3_ext4chk:
+        .word   180, 180, .Llb_b3_ext4d
+.Llb_b3_ext4d:
+        .word   172, 180, .Llb_b3_ext4set
+        .word   .Llb_n268435456, 172, .Llb_b3_ext4r
+.Llb_b3_ext4r:
+        .word   12, 12, .Llb_b3_ext3
+.Llb_b3_ext4set:
+        .word   .Llb_n16, 28, .Llb_b3_ext4jmp
+.Llb_b3_ext4jmp:
         .word   12, 12, .Llb_b3_ext3
 .Llb_b3_ext3:
-        .word   180, 180, .Llb_b3_ext3a
-.Llb_b3_ext3a:
-        .word   12, 12, .Llb_b3_ext3b
-.Llb_b3_ext3b:
-        .word   172, 12, .Llb_b3_ext3c
-.Llb_b3_ext3c:
-        .word   12, 180, .Llb_b3_ext3d
-.Llb_b3_ext3d:
-        .word   .Llb_c134217728, 180, .Llb_b3_ext3e
-.Llb_b3_ext3e:
-        .word   184, 184, .Llb_b3_ext3f
-.Llb_b3_ext3f:
-        .word   180, 184, .Llb_b3_ext3s
+        .word   .Llb_c134217728, 172, .Llb_b3_ext3chk
+        .word   .Llb_n8, 28, .Llb_b3_ext3done
+.Llb_b3_ext3done:
         .word   12, 12, .Llb_b3_ext2
-.Llb_b3_ext3s:
-        .word   .Llb_c134217728, 172, .Llb_b3_ext3t
-.Llb_b3_ext3t:
-        .word   .Llb_n8, 28, .Llb_b3_ext3u
-.Llb_b3_ext3u:
+.Llb_b3_ext3chk:
+        .word   180, 180, .Llb_b3_ext3d
+.Llb_b3_ext3d:
+        .word   172, 180, .Llb_b3_ext3set
+        .word   .Llb_n134217728, 172, .Llb_b3_ext3r
+.Llb_b3_ext3r:
+        .word   12, 12, .Llb_b3_ext2
+.Llb_b3_ext3set:
+        .word   .Llb_n8, 28, .Llb_b3_ext3jmp
+.Llb_b3_ext3jmp:
         .word   12, 12, .Llb_b3_ext2
 .Llb_b3_ext2:
-        .word   180, 180, .Llb_b3_ext2a
-.Llb_b3_ext2a:
-        .word   12, 12, .Llb_b3_ext2b
-.Llb_b3_ext2b:
-        .word   172, 12, .Llb_b3_ext2c
-.Llb_b3_ext2c:
-        .word   12, 180, .Llb_b3_ext2d
-.Llb_b3_ext2d:
-        .word   .Llb_c67108864, 180, .Llb_b3_ext2e
-.Llb_b3_ext2e:
-        .word   184, 184, .Llb_b3_ext2f
-.Llb_b3_ext2f:
-        .word   180, 184, .Llb_b3_ext2s
+        .word   .Llb_c67108864, 172, .Llb_b3_ext2chk
+        .word   .Llb_n4, 28, .Llb_b3_ext2done
+.Llb_b3_ext2done:
         .word   12, 12, .Llb_b3_ext1
-.Llb_b3_ext2s:
-        .word   .Llb_c67108864, 172, .Llb_b3_ext2t
-.Llb_b3_ext2t:
-        .word   .Llb_n4, 28, .Llb_b3_ext2u
-.Llb_b3_ext2u:
+.Llb_b3_ext2chk:
+        .word   180, 180, .Llb_b3_ext2d
+.Llb_b3_ext2d:
+        .word   172, 180, .Llb_b3_ext2set
+        .word   .Llb_n67108864, 172, .Llb_b3_ext2r
+.Llb_b3_ext2r:
+        .word   12, 12, .Llb_b3_ext1
+.Llb_b3_ext2set:
+        .word   .Llb_n4, 28, .Llb_b3_ext2jmp
+.Llb_b3_ext2jmp:
         .word   12, 12, .Llb_b3_ext1
 .Llb_b3_ext1:
-        .word   180, 180, .Llb_b3_ext1a
-.Llb_b3_ext1a:
-        .word   12, 12, .Llb_b3_ext1b
-.Llb_b3_ext1b:
-        .word   172, 12, .Llb_b3_ext1c
-.Llb_b3_ext1c:
-        .word   12, 180, .Llb_b3_ext1d
-.Llb_b3_ext1d:
-        .word   .Llb_c33554432, 180, .Llb_b3_ext1e
-.Llb_b3_ext1e:
-        .word   184, 184, .Llb_b3_ext1f
-.Llb_b3_ext1f:
-        .word   180, 184, .Llb_b3_ext1s
+        .word   .Llb_c33554432, 172, .Llb_b3_ext1chk
+        .word   .Llb_n2, 28, .Llb_b3_ext1done
+.Llb_b3_ext1done:
         .word   12, 12, .Llb_b3_ext0
-.Llb_b3_ext1s:
-        .word   .Llb_c33554432, 172, .Llb_b3_ext1t
-.Llb_b3_ext1t:
-        .word   .Llb_n2, 28, .Llb_b3_ext1u
-.Llb_b3_ext1u:
+.Llb_b3_ext1chk:
+        .word   180, 180, .Llb_b3_ext1d
+.Llb_b3_ext1d:
+        .word   172, 180, .Llb_b3_ext1set
+        .word   .Llb_n33554432, 172, .Llb_b3_ext1r
+.Llb_b3_ext1r:
+        .word   12, 12, .Llb_b3_ext0
+.Llb_b3_ext1set:
+        .word   .Llb_n2, 28, .Llb_b3_ext1jmp
+.Llb_b3_ext1jmp:
         .word   12, 12, .Llb_b3_ext0
 .Llb_b3_ext0:
-        .word   180, 180, .Llb_b3_ext0a
-.Llb_b3_ext0a:
-        .word   12, 12, .Llb_b3_ext0b
-.Llb_b3_ext0b:
-        .word   172, 12, .Llb_b3_ext0c
-.Llb_b3_ext0c:
-        .word   12, 180, .Llb_b3_ext0d
-.Llb_b3_ext0d:
-        .word   .Llb_c16777216, 180, .Llb_b3_ext0e
-.Llb_b3_ext0e:
-        .word   184, 184, .Llb_b3_ext0f
-.Llb_b3_ext0f:
-        .word   180, 184, .Llb_b3_ext0s
+        .word   .Llb_c16777216, 172, .Llb_b3_ext0chk
+        .word   .Llb_n1, 28, .Llb_b3_ext0done
+.Llb_b3_ext0done:
         .word   12, 12, .Llb_done
-.Llb_b3_ext0s:
-        .word   .Llb_c16777216, 172, .Llb_b3_ext0t
-.Llb_b3_ext0t:
-        .word   .Llb_n1, 28, .Llb_b3_ext0u
-.Llb_b3_ext0u:
+.Llb_b3_ext0chk:
+        .word   180, 180, .Llb_b3_ext0d
+.Llb_b3_ext0d:
+        .word   172, 180, .Llb_b3_ext0set
+        .word   .Llb_n16777216, 172, .Llb_b3_ext0r
+.Llb_b3_ext0r:
+        .word   12, 12, .Llb_done
+.Llb_b3_ext0set:
+        .word   .Llb_n1, 28, .Llb_b3_ext0jmp
+.Llb_b3_ext0jmp:
         .word   12, 12, .Llb_done
 .Llb_done:
 .Llb_pop:
@@ -82715,12 +81810,52 @@ __subleq_lb:
         .word   -64
 .Llb_n128:
         .word   -128
-.Llb_one:
-        .word   1
-.Llb_two:
-        .word   2
-.Llb_four:
-        .word   4
+.Llb_n256:
+        .word   -256
+.Llb_n512:
+        .word   -512
+.Llb_n1024:
+        .word   -1024
+.Llb_n2048:
+        .word   -2048
+.Llb_n4096:
+        .word   -4096
+.Llb_n8192:
+        .word   -8192
+.Llb_n16384:
+        .word   -16384
+.Llb_n32768:
+        .word   -32768
+.Llb_n65536:
+        .word   -65536
+.Llb_n131072:
+        .word   -131072
+.Llb_n262144:
+        .word   -262144
+.Llb_n524288:
+        .word   -524288
+.Llb_n1048576:
+        .word   -1048576
+.Llb_n2097152:
+        .word   -2097152
+.Llb_n4194304:
+        .word   -4194304
+.Llb_n8388608:
+        .word   -8388608
+.Llb_n16777216:
+        .word   -16777216
+.Llb_n33554432:
+        .word   -33554432
+.Llb_n67108864:
+        .word   -67108864
+.Llb_n134217728:
+        .word   -134217728
+.Llb_n268435456:
+        .word   -268435456
+.Llb_n536870912:
+        .word   -536870912
+.Llb_n1073741824:
+        .word   -1073741824
 .Llb_min:
         .word   -2147483648
 
@@ -82749,29 +81884,194 @@ __subleq_sb:
 .Lsb_v3:
         .word   12, 164, .Lsb_mask
 .Lsb_mask:
-        .word   180, 180, .Lsb_m0
-.Lsb_m0:
-        .word   164, 180, .Lsb_m1
-        .word   12, 12, .Lsb_madd
-.Lsb_madd:
-        .word   .Lsb_n256, 164, .Lsb_mask
-.Lsb_m1:
-        .word   180, 180, .Lsb_m2
-.Lsb_m2:
-        .word   12, 12, .Lsb_m3
-.Lsb_m3:
-        .word   164, 12, .Lsb_m4
-.Lsb_m4:
-        .word   12, 180, .Lsb_m5
-.Lsb_m5:
-        .word   .Lsb_256, 180, .Lsb_m6
-.Lsb_m6:
-        .word   184, 184, .Lsb_m7
-.Lsb_m7:
-        .word   180, 184, .Lsb_msub
+        .word   180, 180, .Lsb_mask_s1
+.Lsb_mask_s1:
+        .word   164, 180, .Lsb_mask_b30
+        .word   .Lsb_min, 164, .Lsb_mask_b30
+.Lsb_mask_b30:
+        .word   .Lsb_pow1073741824, 164, .Lsb_mask_c30
+        .word   12, 12, .Lsb_mask_b29
+.Lsb_mask_c30:
+        .word   180, 180, .Lsb_mask_d30
+.Lsb_mask_d30:
+        .word   164, 180, .Lsb_mask_b29
+        .word   .Lsb_npow1073741824, 164, .Lsb_mask_b29
+.Lsb_mask_b29:
+        .word   .Lsb_pow536870912, 164, .Lsb_mask_c29
+        .word   12, 12, .Lsb_mask_b28
+.Lsb_mask_c29:
+        .word   180, 180, .Lsb_mask_d29
+.Lsb_mask_d29:
+        .word   164, 180, .Lsb_mask_b28
+        .word   .Lsb_npow536870912, 164, .Lsb_mask_b28
+.Lsb_mask_b28:
+        .word   .Lsb_pow268435456, 164, .Lsb_mask_c28
+        .word   12, 12, .Lsb_mask_b27
+.Lsb_mask_c28:
+        .word   180, 180, .Lsb_mask_d28
+.Lsb_mask_d28:
+        .word   164, 180, .Lsb_mask_b27
+        .word   .Lsb_npow268435456, 164, .Lsb_mask_b27
+.Lsb_mask_b27:
+        .word   .Lsb_pow134217728, 164, .Lsb_mask_c27
+        .word   12, 12, .Lsb_mask_b26
+.Lsb_mask_c27:
+        .word   180, 180, .Lsb_mask_d27
+.Lsb_mask_d27:
+        .word   164, 180, .Lsb_mask_b26
+        .word   .Lsb_npow134217728, 164, .Lsb_mask_b26
+.Lsb_mask_b26:
+        .word   .Lsb_pow67108864, 164, .Lsb_mask_c26
+        .word   12, 12, .Lsb_mask_b25
+.Lsb_mask_c26:
+        .word   180, 180, .Lsb_mask_d26
+.Lsb_mask_d26:
+        .word   164, 180, .Lsb_mask_b25
+        .word   .Lsb_npow67108864, 164, .Lsb_mask_b25
+.Lsb_mask_b25:
+        .word   .Lsb_pow33554432, 164, .Lsb_mask_c25
+        .word   12, 12, .Lsb_mask_b24
+.Lsb_mask_c25:
+        .word   180, 180, .Lsb_mask_d25
+.Lsb_mask_d25:
+        .word   164, 180, .Lsb_mask_b24
+        .word   .Lsb_npow33554432, 164, .Lsb_mask_b24
+.Lsb_mask_b24:
+        .word   .Lsb_pow16777216, 164, .Lsb_mask_c24
+        .word   12, 12, .Lsb_mask_b23
+.Lsb_mask_c24:
+        .word   180, 180, .Lsb_mask_d24
+.Lsb_mask_d24:
+        .word   164, 180, .Lsb_mask_b23
+        .word   .Lsb_npow16777216, 164, .Lsb_mask_b23
+.Lsb_mask_b23:
+        .word   .Lsb_pow8388608, 164, .Lsb_mask_c23
+        .word   12, 12, .Lsb_mask_b22
+.Lsb_mask_c23:
+        .word   180, 180, .Lsb_mask_d23
+.Lsb_mask_d23:
+        .word   164, 180, .Lsb_mask_b22
+        .word   .Lsb_npow8388608, 164, .Lsb_mask_b22
+.Lsb_mask_b22:
+        .word   .Lsb_pow4194304, 164, .Lsb_mask_c22
+        .word   12, 12, .Lsb_mask_b21
+.Lsb_mask_c22:
+        .word   180, 180, .Lsb_mask_d22
+.Lsb_mask_d22:
+        .word   164, 180, .Lsb_mask_b21
+        .word   .Lsb_npow4194304, 164, .Lsb_mask_b21
+.Lsb_mask_b21:
+        .word   .Lsb_pow2097152, 164, .Lsb_mask_c21
+        .word   12, 12, .Lsb_mask_b20
+.Lsb_mask_c21:
+        .word   180, 180, .Lsb_mask_d21
+.Lsb_mask_d21:
+        .word   164, 180, .Lsb_mask_b20
+        .word   .Lsb_npow2097152, 164, .Lsb_mask_b20
+.Lsb_mask_b20:
+        .word   .Lsb_pow1048576, 164, .Lsb_mask_c20
+        .word   12, 12, .Lsb_mask_b19
+.Lsb_mask_c20:
+        .word   180, 180, .Lsb_mask_d20
+.Lsb_mask_d20:
+        .word   164, 180, .Lsb_mask_b19
+        .word   .Lsb_npow1048576, 164, .Lsb_mask_b19
+.Lsb_mask_b19:
+        .word   .Lsb_pow524288, 164, .Lsb_mask_c19
+        .word   12, 12, .Lsb_mask_b18
+.Lsb_mask_c19:
+        .word   180, 180, .Lsb_mask_d19
+.Lsb_mask_d19:
+        .word   164, 180, .Lsb_mask_b18
+        .word   .Lsb_npow524288, 164, .Lsb_mask_b18
+.Lsb_mask_b18:
+        .word   .Lsb_pow262144, 164, .Lsb_mask_c18
+        .word   12, 12, .Lsb_mask_b17
+.Lsb_mask_c18:
+        .word   180, 180, .Lsb_mask_d18
+.Lsb_mask_d18:
+        .word   164, 180, .Lsb_mask_b17
+        .word   .Lsb_npow262144, 164, .Lsb_mask_b17
+.Lsb_mask_b17:
+        .word   .Lsb_pow131072, 164, .Lsb_mask_c17
+        .word   12, 12, .Lsb_mask_b16
+.Lsb_mask_c17:
+        .word   180, 180, .Lsb_mask_d17
+.Lsb_mask_d17:
+        .word   164, 180, .Lsb_mask_b16
+        .word   .Lsb_npow131072, 164, .Lsb_mask_b16
+.Lsb_mask_b16:
+        .word   .Lsb_pow65536, 164, .Lsb_mask_c16
+        .word   12, 12, .Lsb_mask_b15
+.Lsb_mask_c16:
+        .word   180, 180, .Lsb_mask_d16
+.Lsb_mask_d16:
+        .word   164, 180, .Lsb_mask_b15
+        .word   .Lsb_npow65536, 164, .Lsb_mask_b15
+.Lsb_mask_b15:
+        .word   .Lsb_pow32768, 164, .Lsb_mask_c15
+        .word   12, 12, .Lsb_mask_b14
+.Lsb_mask_c15:
+        .word   180, 180, .Lsb_mask_d15
+.Lsb_mask_d15:
+        .word   164, 180, .Lsb_mask_b14
+        .word   .Lsb_npow32768, 164, .Lsb_mask_b14
+.Lsb_mask_b14:
+        .word   .Lsb_pow16384, 164, .Lsb_mask_c14
+        .word   12, 12, .Lsb_mask_b13
+.Lsb_mask_c14:
+        .word   180, 180, .Lsb_mask_d14
+.Lsb_mask_d14:
+        .word   164, 180, .Lsb_mask_b13
+        .word   .Lsb_npow16384, 164, .Lsb_mask_b13
+.Lsb_mask_b13:
+        .word   .Lsb_pow8192, 164, .Lsb_mask_c13
+        .word   12, 12, .Lsb_mask_b12
+.Lsb_mask_c13:
+        .word   180, 180, .Lsb_mask_d13
+.Lsb_mask_d13:
+        .word   164, 180, .Lsb_mask_b12
+        .word   .Lsb_npow8192, 164, .Lsb_mask_b12
+.Lsb_mask_b12:
+        .word   .Lsb_pow4096, 164, .Lsb_mask_c12
+        .word   12, 12, .Lsb_mask_b11
+.Lsb_mask_c12:
+        .word   180, 180, .Lsb_mask_d12
+.Lsb_mask_d12:
+        .word   164, 180, .Lsb_mask_b11
+        .word   .Lsb_npow4096, 164, .Lsb_mask_b11
+.Lsb_mask_b11:
+        .word   .Lsb_pow2048, 164, .Lsb_mask_c11
+        .word   12, 12, .Lsb_mask_b10
+.Lsb_mask_c11:
+        .word   180, 180, .Lsb_mask_d11
+.Lsb_mask_d11:
+        .word   164, 180, .Lsb_mask_b10
+        .word   .Lsb_npow2048, 164, .Lsb_mask_b10
+.Lsb_mask_b10:
+        .word   .Lsb_pow1024, 164, .Lsb_mask_c10
+        .word   12, 12, .Lsb_mask_b9
+.Lsb_mask_c10:
+        .word   180, 180, .Lsb_mask_d10
+.Lsb_mask_d10:
+        .word   164, 180, .Lsb_mask_b9
+        .word   .Lsb_npow1024, 164, .Lsb_mask_b9
+.Lsb_mask_b9:
+        .word   .Lsb_pow512, 164, .Lsb_mask_c9
+        .word   12, 12, .Lsb_mask_b8
+.Lsb_mask_c9:
+        .word   180, 180, .Lsb_mask_d9
+.Lsb_mask_d9:
+        .word   164, 180, .Lsb_mask_b8
+        .word   .Lsb_npow512, 164, .Lsb_mask_b8
+.Lsb_mask_b8:
+        .word   .Lsb_pow256, 164, .Lsb_mask_c8
         .word   12, 12, .Lsb_off
-.Lsb_msub:
-        .word   .Lsb_256, 164, .Lsb_m1
+.Lsb_mask_c8:
+        .word   180, 180, .Lsb_mask_d8
+.Lsb_mask_d8:
+        .word   164, 180, .Lsb_off
+        .word   .Lsb_npow256, 164, .Lsb_off
 .Lsb_off:
         .word   168, 168, .Lsb_of1
 .Lsb_of1:
@@ -82786,672 +82086,237 @@ __subleq_sb:
         .word   168, 180, .Lsb_mb30
         .word   .Lsb_min, 168, .Lsb_mb30
 .Lsb_mb30:
-        .word   180, 180, .Lsb_mb30a
-.Lsb_mb30a:
-        .word   12, 12, .Lsb_mb30b
-.Lsb_mb30b:
-        .word   168, 12, .Lsb_mb30c
-.Lsb_mb30c:
-        .word   12, 180, .Lsb_mb30d
-.Lsb_mb30d:
-        .word   .Lsb_c1073741824, 180, .Lsb_mb30e
-.Lsb_mb30e:
-        .word   12, 12, .Lsb_mb30f
-.Lsb_mb30f:
-        .word   180, 12, .Lsb_mb30g
-.Lsb_mb30g:
-        .word   24, 12, .Lsb_mb30s
+        .word   .Lsb_pow1073741824, 168, .Lsb_mc30
         .word   12, 12, .Lsb_mb29
-.Lsb_mb30s:
-        .word   168, 168, .Lsb_mb30h
-.Lsb_mb30h:
-        .word   12, 168, .Lsb_mb30i
-.Lsb_mb30i:
-        .word   12, 12, .Lsb_mb29
+.Lsb_mc30:
+        .word   180, 180, .Lsb_md30
+.Lsb_md30:
+        .word   168, 180, .Lsb_mb29
+        .word   .Lsb_npow1073741824, 168, .Lsb_mb29
 .Lsb_mb29:
-        .word   180, 180, .Lsb_mb29a
-.Lsb_mb29a:
-        .word   12, 12, .Lsb_mb29b
-.Lsb_mb29b:
-        .word   168, 12, .Lsb_mb29c
-.Lsb_mb29c:
-        .word   12, 180, .Lsb_mb29d
-.Lsb_mb29d:
-        .word   .Lsb_c536870912, 180, .Lsb_mb29e
-.Lsb_mb29e:
-        .word   12, 12, .Lsb_mb29f
-.Lsb_mb29f:
-        .word   180, 12, .Lsb_mb29g
-.Lsb_mb29g:
-        .word   24, 12, .Lsb_mb29s
+        .word   .Lsb_pow536870912, 168, .Lsb_mc29
         .word   12, 12, .Lsb_mb28
-.Lsb_mb29s:
-        .word   168, 168, .Lsb_mb29h
-.Lsb_mb29h:
-        .word   12, 168, .Lsb_mb29i
-.Lsb_mb29i:
-        .word   12, 12, .Lsb_mb28
+.Lsb_mc29:
+        .word   180, 180, .Lsb_md29
+.Lsb_md29:
+        .word   168, 180, .Lsb_mb28
+        .word   .Lsb_npow536870912, 168, .Lsb_mb28
 .Lsb_mb28:
-        .word   180, 180, .Lsb_mb28a
-.Lsb_mb28a:
-        .word   12, 12, .Lsb_mb28b
-.Lsb_mb28b:
-        .word   168, 12, .Lsb_mb28c
-.Lsb_mb28c:
-        .word   12, 180, .Lsb_mb28d
-.Lsb_mb28d:
-        .word   .Lsb_c268435456, 180, .Lsb_mb28e
-.Lsb_mb28e:
-        .word   12, 12, .Lsb_mb28f
-.Lsb_mb28f:
-        .word   180, 12, .Lsb_mb28g
-.Lsb_mb28g:
-        .word   24, 12, .Lsb_mb28s
+        .word   .Lsb_pow268435456, 168, .Lsb_mc28
         .word   12, 12, .Lsb_mb27
-.Lsb_mb28s:
-        .word   168, 168, .Lsb_mb28h
-.Lsb_mb28h:
-        .word   12, 168, .Lsb_mb28i
-.Lsb_mb28i:
-        .word   12, 12, .Lsb_mb27
+.Lsb_mc28:
+        .word   180, 180, .Lsb_md28
+.Lsb_md28:
+        .word   168, 180, .Lsb_mb27
+        .word   .Lsb_npow268435456, 168, .Lsb_mb27
 .Lsb_mb27:
-        .word   180, 180, .Lsb_mb27a
-.Lsb_mb27a:
-        .word   12, 12, .Lsb_mb27b
-.Lsb_mb27b:
-        .word   168, 12, .Lsb_mb27c
-.Lsb_mb27c:
-        .word   12, 180, .Lsb_mb27d
-.Lsb_mb27d:
-        .word   .Lsb_c134217728, 180, .Lsb_mb27e
-.Lsb_mb27e:
-        .word   12, 12, .Lsb_mb27f
-.Lsb_mb27f:
-        .word   180, 12, .Lsb_mb27g
-.Lsb_mb27g:
-        .word   24, 12, .Lsb_mb27s
+        .word   .Lsb_pow134217728, 168, .Lsb_mc27
         .word   12, 12, .Lsb_mb26
-.Lsb_mb27s:
-        .word   168, 168, .Lsb_mb27h
-.Lsb_mb27h:
-        .word   12, 168, .Lsb_mb27i
-.Lsb_mb27i:
-        .word   12, 12, .Lsb_mb26
+.Lsb_mc27:
+        .word   180, 180, .Lsb_md27
+.Lsb_md27:
+        .word   168, 180, .Lsb_mb26
+        .word   .Lsb_npow134217728, 168, .Lsb_mb26
 .Lsb_mb26:
-        .word   180, 180, .Lsb_mb26a
-.Lsb_mb26a:
-        .word   12, 12, .Lsb_mb26b
-.Lsb_mb26b:
-        .word   168, 12, .Lsb_mb26c
-.Lsb_mb26c:
-        .word   12, 180, .Lsb_mb26d
-.Lsb_mb26d:
-        .word   .Lsb_c67108864, 180, .Lsb_mb26e
-.Lsb_mb26e:
-        .word   12, 12, .Lsb_mb26f
-.Lsb_mb26f:
-        .word   180, 12, .Lsb_mb26g
-.Lsb_mb26g:
-        .word   24, 12, .Lsb_mb26s
+        .word   .Lsb_pow67108864, 168, .Lsb_mc26
         .word   12, 12, .Lsb_mb25
-.Lsb_mb26s:
-        .word   168, 168, .Lsb_mb26h
-.Lsb_mb26h:
-        .word   12, 168, .Lsb_mb26i
-.Lsb_mb26i:
-        .word   12, 12, .Lsb_mb25
+.Lsb_mc26:
+        .word   180, 180, .Lsb_md26
+.Lsb_md26:
+        .word   168, 180, .Lsb_mb25
+        .word   .Lsb_npow67108864, 168, .Lsb_mb25
 .Lsb_mb25:
-        .word   180, 180, .Lsb_mb25a
-.Lsb_mb25a:
-        .word   12, 12, .Lsb_mb25b
-.Lsb_mb25b:
-        .word   168, 12, .Lsb_mb25c
-.Lsb_mb25c:
-        .word   12, 180, .Lsb_mb25d
-.Lsb_mb25d:
-        .word   .Lsb_c33554432, 180, .Lsb_mb25e
-.Lsb_mb25e:
-        .word   12, 12, .Lsb_mb25f
-.Lsb_mb25f:
-        .word   180, 12, .Lsb_mb25g
-.Lsb_mb25g:
-        .word   24, 12, .Lsb_mb25s
+        .word   .Lsb_pow33554432, 168, .Lsb_mc25
         .word   12, 12, .Lsb_mb24
-.Lsb_mb25s:
-        .word   168, 168, .Lsb_mb25h
-.Lsb_mb25h:
-        .word   12, 168, .Lsb_mb25i
-.Lsb_mb25i:
-        .word   12, 12, .Lsb_mb24
+.Lsb_mc25:
+        .word   180, 180, .Lsb_md25
+.Lsb_md25:
+        .word   168, 180, .Lsb_mb24
+        .word   .Lsb_npow33554432, 168, .Lsb_mb24
 .Lsb_mb24:
-        .word   180, 180, .Lsb_mb24a
-.Lsb_mb24a:
-        .word   12, 12, .Lsb_mb24b
-.Lsb_mb24b:
-        .word   168, 12, .Lsb_mb24c
-.Lsb_mb24c:
-        .word   12, 180, .Lsb_mb24d
-.Lsb_mb24d:
-        .word   .Lsb_c16777216, 180, .Lsb_mb24e
-.Lsb_mb24e:
-        .word   12, 12, .Lsb_mb24f
-.Lsb_mb24f:
-        .word   180, 12, .Lsb_mb24g
-.Lsb_mb24g:
-        .word   24, 12, .Lsb_mb24s
+        .word   .Lsb_pow16777216, 168, .Lsb_mc24
         .word   12, 12, .Lsb_mb23
-.Lsb_mb24s:
-        .word   168, 168, .Lsb_mb24h
-.Lsb_mb24h:
-        .word   12, 168, .Lsb_mb24i
-.Lsb_mb24i:
-        .word   12, 12, .Lsb_mb23
+.Lsb_mc24:
+        .word   180, 180, .Lsb_md24
+.Lsb_md24:
+        .word   168, 180, .Lsb_mb23
+        .word   .Lsb_npow16777216, 168, .Lsb_mb23
 .Lsb_mb23:
-        .word   180, 180, .Lsb_mb23a
-.Lsb_mb23a:
-        .word   12, 12, .Lsb_mb23b
-.Lsb_mb23b:
-        .word   168, 12, .Lsb_mb23c
-.Lsb_mb23c:
-        .word   12, 180, .Lsb_mb23d
-.Lsb_mb23d:
-        .word   .Lsb_c8388608, 180, .Lsb_mb23e
-.Lsb_mb23e:
-        .word   12, 12, .Lsb_mb23f
-.Lsb_mb23f:
-        .word   180, 12, .Lsb_mb23g
-.Lsb_mb23g:
-        .word   24, 12, .Lsb_mb23s
+        .word   .Lsb_pow8388608, 168, .Lsb_mc23
         .word   12, 12, .Lsb_mb22
-.Lsb_mb23s:
-        .word   168, 168, .Lsb_mb23h
-.Lsb_mb23h:
-        .word   12, 168, .Lsb_mb23i
-.Lsb_mb23i:
-        .word   12, 12, .Lsb_mb22
+.Lsb_mc23:
+        .word   180, 180, .Lsb_md23
+.Lsb_md23:
+        .word   168, 180, .Lsb_mb22
+        .word   .Lsb_npow8388608, 168, .Lsb_mb22
 .Lsb_mb22:
-        .word   180, 180, .Lsb_mb22a
-.Lsb_mb22a:
-        .word   12, 12, .Lsb_mb22b
-.Lsb_mb22b:
-        .word   168, 12, .Lsb_mb22c
-.Lsb_mb22c:
-        .word   12, 180, .Lsb_mb22d
-.Lsb_mb22d:
-        .word   .Lsb_c4194304, 180, .Lsb_mb22e
-.Lsb_mb22e:
-        .word   12, 12, .Lsb_mb22f
-.Lsb_mb22f:
-        .word   180, 12, .Lsb_mb22g
-.Lsb_mb22g:
-        .word   24, 12, .Lsb_mb22s
+        .word   .Lsb_pow4194304, 168, .Lsb_mc22
         .word   12, 12, .Lsb_mb21
-.Lsb_mb22s:
-        .word   168, 168, .Lsb_mb22h
-.Lsb_mb22h:
-        .word   12, 168, .Lsb_mb22i
-.Lsb_mb22i:
-        .word   12, 12, .Lsb_mb21
+.Lsb_mc22:
+        .word   180, 180, .Lsb_md22
+.Lsb_md22:
+        .word   168, 180, .Lsb_mb21
+        .word   .Lsb_npow4194304, 168, .Lsb_mb21
 .Lsb_mb21:
-        .word   180, 180, .Lsb_mb21a
-.Lsb_mb21a:
-        .word   12, 12, .Lsb_mb21b
-.Lsb_mb21b:
-        .word   168, 12, .Lsb_mb21c
-.Lsb_mb21c:
-        .word   12, 180, .Lsb_mb21d
-.Lsb_mb21d:
-        .word   .Lsb_c2097152, 180, .Lsb_mb21e
-.Lsb_mb21e:
-        .word   12, 12, .Lsb_mb21f
-.Lsb_mb21f:
-        .word   180, 12, .Lsb_mb21g
-.Lsb_mb21g:
-        .word   24, 12, .Lsb_mb21s
+        .word   .Lsb_pow2097152, 168, .Lsb_mc21
         .word   12, 12, .Lsb_mb20
-.Lsb_mb21s:
-        .word   168, 168, .Lsb_mb21h
-.Lsb_mb21h:
-        .word   12, 168, .Lsb_mb21i
-.Lsb_mb21i:
-        .word   12, 12, .Lsb_mb20
+.Lsb_mc21:
+        .word   180, 180, .Lsb_md21
+.Lsb_md21:
+        .word   168, 180, .Lsb_mb20
+        .word   .Lsb_npow2097152, 168, .Lsb_mb20
 .Lsb_mb20:
-        .word   180, 180, .Lsb_mb20a
-.Lsb_mb20a:
-        .word   12, 12, .Lsb_mb20b
-.Lsb_mb20b:
-        .word   168, 12, .Lsb_mb20c
-.Lsb_mb20c:
-        .word   12, 180, .Lsb_mb20d
-.Lsb_mb20d:
-        .word   .Lsb_c1048576, 180, .Lsb_mb20e
-.Lsb_mb20e:
-        .word   12, 12, .Lsb_mb20f
-.Lsb_mb20f:
-        .word   180, 12, .Lsb_mb20g
-.Lsb_mb20g:
-        .word   24, 12, .Lsb_mb20s
+        .word   .Lsb_pow1048576, 168, .Lsb_mc20
         .word   12, 12, .Lsb_mb19
-.Lsb_mb20s:
-        .word   168, 168, .Lsb_mb20h
-.Lsb_mb20h:
-        .word   12, 168, .Lsb_mb20i
-.Lsb_mb20i:
-        .word   12, 12, .Lsb_mb19
+.Lsb_mc20:
+        .word   180, 180, .Lsb_md20
+.Lsb_md20:
+        .word   168, 180, .Lsb_mb19
+        .word   .Lsb_npow1048576, 168, .Lsb_mb19
 .Lsb_mb19:
-        .word   180, 180, .Lsb_mb19a
-.Lsb_mb19a:
-        .word   12, 12, .Lsb_mb19b
-.Lsb_mb19b:
-        .word   168, 12, .Lsb_mb19c
-.Lsb_mb19c:
-        .word   12, 180, .Lsb_mb19d
-.Lsb_mb19d:
-        .word   .Lsb_c524288, 180, .Lsb_mb19e
-.Lsb_mb19e:
-        .word   12, 12, .Lsb_mb19f
-.Lsb_mb19f:
-        .word   180, 12, .Lsb_mb19g
-.Lsb_mb19g:
-        .word   24, 12, .Lsb_mb19s
+        .word   .Lsb_pow524288, 168, .Lsb_mc19
         .word   12, 12, .Lsb_mb18
-.Lsb_mb19s:
-        .word   168, 168, .Lsb_mb19h
-.Lsb_mb19h:
-        .word   12, 168, .Lsb_mb19i
-.Lsb_mb19i:
-        .word   12, 12, .Lsb_mb18
+.Lsb_mc19:
+        .word   180, 180, .Lsb_md19
+.Lsb_md19:
+        .word   168, 180, .Lsb_mb18
+        .word   .Lsb_npow524288, 168, .Lsb_mb18
 .Lsb_mb18:
-        .word   180, 180, .Lsb_mb18a
-.Lsb_mb18a:
-        .word   12, 12, .Lsb_mb18b
-.Lsb_mb18b:
-        .word   168, 12, .Lsb_mb18c
-.Lsb_mb18c:
-        .word   12, 180, .Lsb_mb18d
-.Lsb_mb18d:
-        .word   .Lsb_c262144, 180, .Lsb_mb18e
-.Lsb_mb18e:
-        .word   12, 12, .Lsb_mb18f
-.Lsb_mb18f:
-        .word   180, 12, .Lsb_mb18g
-.Lsb_mb18g:
-        .word   24, 12, .Lsb_mb18s
+        .word   .Lsb_pow262144, 168, .Lsb_mc18
         .word   12, 12, .Lsb_mb17
-.Lsb_mb18s:
-        .word   168, 168, .Lsb_mb18h
-.Lsb_mb18h:
-        .word   12, 168, .Lsb_mb18i
-.Lsb_mb18i:
-        .word   12, 12, .Lsb_mb17
+.Lsb_mc18:
+        .word   180, 180, .Lsb_md18
+.Lsb_md18:
+        .word   168, 180, .Lsb_mb17
+        .word   .Lsb_npow262144, 168, .Lsb_mb17
 .Lsb_mb17:
-        .word   180, 180, .Lsb_mb17a
-.Lsb_mb17a:
-        .word   12, 12, .Lsb_mb17b
-.Lsb_mb17b:
-        .word   168, 12, .Lsb_mb17c
-.Lsb_mb17c:
-        .word   12, 180, .Lsb_mb17d
-.Lsb_mb17d:
-        .word   .Lsb_c131072, 180, .Lsb_mb17e
-.Lsb_mb17e:
-        .word   12, 12, .Lsb_mb17f
-.Lsb_mb17f:
-        .word   180, 12, .Lsb_mb17g
-.Lsb_mb17g:
-        .word   24, 12, .Lsb_mb17s
+        .word   .Lsb_pow131072, 168, .Lsb_mc17
         .word   12, 12, .Lsb_mb16
-.Lsb_mb17s:
-        .word   168, 168, .Lsb_mb17h
-.Lsb_mb17h:
-        .word   12, 168, .Lsb_mb17i
-.Lsb_mb17i:
-        .word   12, 12, .Lsb_mb16
+.Lsb_mc17:
+        .word   180, 180, .Lsb_md17
+.Lsb_md17:
+        .word   168, 180, .Lsb_mb16
+        .word   .Lsb_npow131072, 168, .Lsb_mb16
 .Lsb_mb16:
-        .word   180, 180, .Lsb_mb16a
-.Lsb_mb16a:
-        .word   12, 12, .Lsb_mb16b
-.Lsb_mb16b:
-        .word   168, 12, .Lsb_mb16c
-.Lsb_mb16c:
-        .word   12, 180, .Lsb_mb16d
-.Lsb_mb16d:
-        .word   .Lsb_c65536, 180, .Lsb_mb16e
-.Lsb_mb16e:
-        .word   12, 12, .Lsb_mb16f
-.Lsb_mb16f:
-        .word   180, 12, .Lsb_mb16g
-.Lsb_mb16g:
-        .word   24, 12, .Lsb_mb16s
+        .word   .Lsb_pow65536, 168, .Lsb_mc16
         .word   12, 12, .Lsb_mb15
-.Lsb_mb16s:
-        .word   168, 168, .Lsb_mb16h
-.Lsb_mb16h:
-        .word   12, 168, .Lsb_mb16i
-.Lsb_mb16i:
-        .word   12, 12, .Lsb_mb15
+.Lsb_mc16:
+        .word   180, 180, .Lsb_md16
+.Lsb_md16:
+        .word   168, 180, .Lsb_mb15
+        .word   .Lsb_npow65536, 168, .Lsb_mb15
 .Lsb_mb15:
-        .word   180, 180, .Lsb_mb15a
-.Lsb_mb15a:
-        .word   12, 12, .Lsb_mb15b
-.Lsb_mb15b:
-        .word   168, 12, .Lsb_mb15c
-.Lsb_mb15c:
-        .word   12, 180, .Lsb_mb15d
-.Lsb_mb15d:
-        .word   .Lsb_c32768, 180, .Lsb_mb15e
-.Lsb_mb15e:
-        .word   12, 12, .Lsb_mb15f
-.Lsb_mb15f:
-        .word   180, 12, .Lsb_mb15g
-.Lsb_mb15g:
-        .word   24, 12, .Lsb_mb15s
+        .word   .Lsb_pow32768, 168, .Lsb_mc15
         .word   12, 12, .Lsb_mb14
-.Lsb_mb15s:
-        .word   168, 168, .Lsb_mb15h
-.Lsb_mb15h:
-        .word   12, 168, .Lsb_mb15i
-.Lsb_mb15i:
-        .word   12, 12, .Lsb_mb14
+.Lsb_mc15:
+        .word   180, 180, .Lsb_md15
+.Lsb_md15:
+        .word   168, 180, .Lsb_mb14
+        .word   .Lsb_npow32768, 168, .Lsb_mb14
 .Lsb_mb14:
-        .word   180, 180, .Lsb_mb14a
-.Lsb_mb14a:
-        .word   12, 12, .Lsb_mb14b
-.Lsb_mb14b:
-        .word   168, 12, .Lsb_mb14c
-.Lsb_mb14c:
-        .word   12, 180, .Lsb_mb14d
-.Lsb_mb14d:
-        .word   .Lsb_c16384, 180, .Lsb_mb14e
-.Lsb_mb14e:
-        .word   12, 12, .Lsb_mb14f
-.Lsb_mb14f:
-        .word   180, 12, .Lsb_mb14g
-.Lsb_mb14g:
-        .word   24, 12, .Lsb_mb14s
+        .word   .Lsb_pow16384, 168, .Lsb_mc14
         .word   12, 12, .Lsb_mb13
-.Lsb_mb14s:
-        .word   168, 168, .Lsb_mb14h
-.Lsb_mb14h:
-        .word   12, 168, .Lsb_mb14i
-.Lsb_mb14i:
-        .word   12, 12, .Lsb_mb13
+.Lsb_mc14:
+        .word   180, 180, .Lsb_md14
+.Lsb_md14:
+        .word   168, 180, .Lsb_mb13
+        .word   .Lsb_npow16384, 168, .Lsb_mb13
 .Lsb_mb13:
-        .word   180, 180, .Lsb_mb13a
-.Lsb_mb13a:
-        .word   12, 12, .Lsb_mb13b
-.Lsb_mb13b:
-        .word   168, 12, .Lsb_mb13c
-.Lsb_mb13c:
-        .word   12, 180, .Lsb_mb13d
-.Lsb_mb13d:
-        .word   .Lsb_c8192, 180, .Lsb_mb13e
-.Lsb_mb13e:
-        .word   12, 12, .Lsb_mb13f
-.Lsb_mb13f:
-        .word   180, 12, .Lsb_mb13g
-.Lsb_mb13g:
-        .word   24, 12, .Lsb_mb13s
+        .word   .Lsb_pow8192, 168, .Lsb_mc13
         .word   12, 12, .Lsb_mb12
-.Lsb_mb13s:
-        .word   168, 168, .Lsb_mb13h
-.Lsb_mb13h:
-        .word   12, 168, .Lsb_mb13i
-.Lsb_mb13i:
-        .word   12, 12, .Lsb_mb12
+.Lsb_mc13:
+        .word   180, 180, .Lsb_md13
+.Lsb_md13:
+        .word   168, 180, .Lsb_mb12
+        .word   .Lsb_npow8192, 168, .Lsb_mb12
 .Lsb_mb12:
-        .word   180, 180, .Lsb_mb12a
-.Lsb_mb12a:
-        .word   12, 12, .Lsb_mb12b
-.Lsb_mb12b:
-        .word   168, 12, .Lsb_mb12c
-.Lsb_mb12c:
-        .word   12, 180, .Lsb_mb12d
-.Lsb_mb12d:
-        .word   .Lsb_c4096, 180, .Lsb_mb12e
-.Lsb_mb12e:
-        .word   12, 12, .Lsb_mb12f
-.Lsb_mb12f:
-        .word   180, 12, .Lsb_mb12g
-.Lsb_mb12g:
-        .word   24, 12, .Lsb_mb12s
+        .word   .Lsb_pow4096, 168, .Lsb_mc12
         .word   12, 12, .Lsb_mb11
-.Lsb_mb12s:
-        .word   168, 168, .Lsb_mb12h
-.Lsb_mb12h:
-        .word   12, 168, .Lsb_mb12i
-.Lsb_mb12i:
-        .word   12, 12, .Lsb_mb11
+.Lsb_mc12:
+        .word   180, 180, .Lsb_md12
+.Lsb_md12:
+        .word   168, 180, .Lsb_mb11
+        .word   .Lsb_npow4096, 168, .Lsb_mb11
 .Lsb_mb11:
-        .word   180, 180, .Lsb_mb11a
-.Lsb_mb11a:
-        .word   12, 12, .Lsb_mb11b
-.Lsb_mb11b:
-        .word   168, 12, .Lsb_mb11c
-.Lsb_mb11c:
-        .word   12, 180, .Lsb_mb11d
-.Lsb_mb11d:
-        .word   .Lsb_c2048, 180, .Lsb_mb11e
-.Lsb_mb11e:
-        .word   12, 12, .Lsb_mb11f
-.Lsb_mb11f:
-        .word   180, 12, .Lsb_mb11g
-.Lsb_mb11g:
-        .word   24, 12, .Lsb_mb11s
+        .word   .Lsb_pow2048, 168, .Lsb_mc11
         .word   12, 12, .Lsb_mb10
-.Lsb_mb11s:
-        .word   168, 168, .Lsb_mb11h
-.Lsb_mb11h:
-        .word   12, 168, .Lsb_mb11i
-.Lsb_mb11i:
-        .word   12, 12, .Lsb_mb10
+.Lsb_mc11:
+        .word   180, 180, .Lsb_md11
+.Lsb_md11:
+        .word   168, 180, .Lsb_mb10
+        .word   .Lsb_npow2048, 168, .Lsb_mb10
 .Lsb_mb10:
-        .word   180, 180, .Lsb_mb10a
-.Lsb_mb10a:
-        .word   12, 12, .Lsb_mb10b
-.Lsb_mb10b:
-        .word   168, 12, .Lsb_mb10c
-.Lsb_mb10c:
-        .word   12, 180, .Lsb_mb10d
-.Lsb_mb10d:
-        .word   .Lsb_c1024, 180, .Lsb_mb10e
-.Lsb_mb10e:
-        .word   12, 12, .Lsb_mb10f
-.Lsb_mb10f:
-        .word   180, 12, .Lsb_mb10g
-.Lsb_mb10g:
-        .word   24, 12, .Lsb_mb10s
+        .word   .Lsb_pow1024, 168, .Lsb_mc10
         .word   12, 12, .Lsb_mb9
-.Lsb_mb10s:
-        .word   168, 168, .Lsb_mb10h
-.Lsb_mb10h:
-        .word   12, 168, .Lsb_mb10i
-.Lsb_mb10i:
-        .word   12, 12, .Lsb_mb9
+.Lsb_mc10:
+        .word   180, 180, .Lsb_md10
+.Lsb_md10:
+        .word   168, 180, .Lsb_mb9
+        .word   .Lsb_npow1024, 168, .Lsb_mb9
 .Lsb_mb9:
-        .word   180, 180, .Lsb_mb9a
-.Lsb_mb9a:
-        .word   12, 12, .Lsb_mb9b
-.Lsb_mb9b:
-        .word   168, 12, .Lsb_mb9c
-.Lsb_mb9c:
-        .word   12, 180, .Lsb_mb9d
-.Lsb_mb9d:
-        .word   .Lsb_c512, 180, .Lsb_mb9e
-.Lsb_mb9e:
-        .word   12, 12, .Lsb_mb9f
-.Lsb_mb9f:
-        .word   180, 12, .Lsb_mb9g
-.Lsb_mb9g:
-        .word   24, 12, .Lsb_mb9s
+        .word   .Lsb_pow512, 168, .Lsb_mc9
         .word   12, 12, .Lsb_mb8
-.Lsb_mb9s:
-        .word   168, 168, .Lsb_mb9h
-.Lsb_mb9h:
-        .word   12, 168, .Lsb_mb9i
-.Lsb_mb9i:
-        .word   12, 12, .Lsb_mb8
+.Lsb_mc9:
+        .word   180, 180, .Lsb_md9
+.Lsb_md9:
+        .word   168, 180, .Lsb_mb8
+        .word   .Lsb_npow512, 168, .Lsb_mb8
 .Lsb_mb8:
-        .word   180, 180, .Lsb_mb8a
-.Lsb_mb8a:
-        .word   12, 12, .Lsb_mb8b
-.Lsb_mb8b:
-        .word   168, 12, .Lsb_mb8c
-.Lsb_mb8c:
-        .word   12, 180, .Lsb_mb8d
-.Lsb_mb8d:
-        .word   .Lsb_c256, 180, .Lsb_mb8e
-.Lsb_mb8e:
-        .word   12, 12, .Lsb_mb8f
-.Lsb_mb8f:
-        .word   180, 12, .Lsb_mb8g
-.Lsb_mb8g:
-        .word   24, 12, .Lsb_mb8s
+        .word   .Lsb_pow256, 168, .Lsb_mc8
         .word   12, 12, .Lsb_mb7
-.Lsb_mb8s:
-        .word   168, 168, .Lsb_mb8h
-.Lsb_mb8h:
-        .word   12, 168, .Lsb_mb8i
-.Lsb_mb8i:
-        .word   12, 12, .Lsb_mb7
+.Lsb_mc8:
+        .word   180, 180, .Lsb_md8
+.Lsb_md8:
+        .word   168, 180, .Lsb_mb7
+        .word   .Lsb_npow256, 168, .Lsb_mb7
 .Lsb_mb7:
-        .word   180, 180, .Lsb_mb7a
-.Lsb_mb7a:
-        .word   12, 12, .Lsb_mb7b
-.Lsb_mb7b:
-        .word   168, 12, .Lsb_mb7c
-.Lsb_mb7c:
-        .word   12, 180, .Lsb_mb7d
-.Lsb_mb7d:
-        .word   .Lsb_c128, 180, .Lsb_mb7e
-.Lsb_mb7e:
-        .word   12, 12, .Lsb_mb7f
-.Lsb_mb7f:
-        .word   180, 12, .Lsb_mb7g
-.Lsb_mb7g:
-        .word   24, 12, .Lsb_mb7s
+        .word   .Lsb_pow128, 168, .Lsb_mc7
         .word   12, 12, .Lsb_mb6
-.Lsb_mb7s:
-        .word   168, 168, .Lsb_mb7h
-.Lsb_mb7h:
-        .word   12, 168, .Lsb_mb7i
-.Lsb_mb7i:
-        .word   12, 12, .Lsb_mb6
+.Lsb_mc7:
+        .word   180, 180, .Lsb_md7
+.Lsb_md7:
+        .word   168, 180, .Lsb_mb6
+        .word   .Lsb_npow128, 168, .Lsb_mb6
 .Lsb_mb6:
-        .word   180, 180, .Lsb_mb6a
-.Lsb_mb6a:
-        .word   12, 12, .Lsb_mb6b
-.Lsb_mb6b:
-        .word   168, 12, .Lsb_mb6c
-.Lsb_mb6c:
-        .word   12, 180, .Lsb_mb6d
-.Lsb_mb6d:
-        .word   .Lsb_c64, 180, .Lsb_mb6e
-.Lsb_mb6e:
-        .word   12, 12, .Lsb_mb6f
-.Lsb_mb6f:
-        .word   180, 12, .Lsb_mb6g
-.Lsb_mb6g:
-        .word   24, 12, .Lsb_mb6s
+        .word   .Lsb_pow64, 168, .Lsb_mc6
         .word   12, 12, .Lsb_mb5
-.Lsb_mb6s:
-        .word   168, 168, .Lsb_mb6h
-.Lsb_mb6h:
-        .word   12, 168, .Lsb_mb6i
-.Lsb_mb6i:
-        .word   12, 12, .Lsb_mb5
+.Lsb_mc6:
+        .word   180, 180, .Lsb_md6
+.Lsb_md6:
+        .word   168, 180, .Lsb_mb5
+        .word   .Lsb_npow64, 168, .Lsb_mb5
 .Lsb_mb5:
-        .word   180, 180, .Lsb_mb5a
-.Lsb_mb5a:
-        .word   12, 12, .Lsb_mb5b
-.Lsb_mb5b:
-        .word   168, 12, .Lsb_mb5c
-.Lsb_mb5c:
-        .word   12, 180, .Lsb_mb5d
-.Lsb_mb5d:
-        .word   .Lsb_c32, 180, .Lsb_mb5e
-.Lsb_mb5e:
-        .word   12, 12, .Lsb_mb5f
-.Lsb_mb5f:
-        .word   180, 12, .Lsb_mb5g
-.Lsb_mb5g:
-        .word   24, 12, .Lsb_mb5s
+        .word   .Lsb_pow32, 168, .Lsb_mc5
         .word   12, 12, .Lsb_mb4
-.Lsb_mb5s:
-        .word   168, 168, .Lsb_mb5h
-.Lsb_mb5h:
-        .word   12, 168, .Lsb_mb5i
-.Lsb_mb5i:
-        .word   12, 12, .Lsb_mb4
+.Lsb_mc5:
+        .word   180, 180, .Lsb_md5
+.Lsb_md5:
+        .word   168, 180, .Lsb_mb4
+        .word   .Lsb_npow32, 168, .Lsb_mb4
 .Lsb_mb4:
-        .word   180, 180, .Lsb_mb4a
-.Lsb_mb4a:
-        .word   12, 12, .Lsb_mb4b
-.Lsb_mb4b:
-        .word   168, 12, .Lsb_mb4c
-.Lsb_mb4c:
-        .word   12, 180, .Lsb_mb4d
-.Lsb_mb4d:
-        .word   .Lsb_c16, 180, .Lsb_mb4e
-.Lsb_mb4e:
-        .word   12, 12, .Lsb_mb4f
-.Lsb_mb4f:
-        .word   180, 12, .Lsb_mb4g
-.Lsb_mb4g:
-        .word   24, 12, .Lsb_mb4s
+        .word   .Lsb_pow16, 168, .Lsb_mc4
         .word   12, 12, .Lsb_mb3
-.Lsb_mb4s:
-        .word   168, 168, .Lsb_mb4h
-.Lsb_mb4h:
-        .word   12, 168, .Lsb_mb4i
-.Lsb_mb4i:
-        .word   12, 12, .Lsb_mb3
+.Lsb_mc4:
+        .word   180, 180, .Lsb_md4
+.Lsb_md4:
+        .word   168, 180, .Lsb_mb3
+        .word   .Lsb_npow16, 168, .Lsb_mb3
 .Lsb_mb3:
-        .word   180, 180, .Lsb_mb3a
-.Lsb_mb3a:
-        .word   12, 12, .Lsb_mb3b
-.Lsb_mb3b:
-        .word   168, 12, .Lsb_mb3c
-.Lsb_mb3c:
-        .word   12, 180, .Lsb_mb3d
-.Lsb_mb3d:
-        .word   .Lsb_c8, 180, .Lsb_mb3e
-.Lsb_mb3e:
-        .word   12, 12, .Lsb_mb3f
-.Lsb_mb3f:
-        .word   180, 12, .Lsb_mb3g
-.Lsb_mb3g:
-        .word   24, 12, .Lsb_mb3s
+        .word   .Lsb_pow8, 168, .Lsb_mc3
         .word   12, 12, .Lsb_mb2
-.Lsb_mb3s:
-        .word   168, 168, .Lsb_mb3h
-.Lsb_mb3h:
-        .word   12, 168, .Lsb_mb3i
-.Lsb_mb3i:
-        .word   12, 12, .Lsb_mb2
+.Lsb_mc3:
+        .word   180, 180, .Lsb_md3
+.Lsb_md3:
+        .word   168, 180, .Lsb_mb2
+        .word   .Lsb_npow8, 168, .Lsb_mb2
 .Lsb_mb2:
-        .word   180, 180, .Lsb_mb2a
-.Lsb_mb2a:
-        .word   12, 12, .Lsb_mb2b
-.Lsb_mb2b:
-        .word   168, 12, .Lsb_mb2c
-.Lsb_mb2c:
-        .word   12, 180, .Lsb_mb2d
-.Lsb_mb2d:
-        .word   .Lsb_c4, 180, .Lsb_mb2e
-.Lsb_mb2e:
-        .word   12, 12, .Lsb_mb2f
-.Lsb_mb2f:
-        .word   180, 12, .Lsb_mb2g
-.Lsb_mb2g:
-        .word   24, 12, .Lsb_mb2s
+        .word   .Lsb_pow4, 168, .Lsb_mc2
         .word   12, 12, .Lsb_align
-.Lsb_mb2s:
-        .word   168, 168, .Lsb_mb2h
-.Lsb_mb2h:
-        .word   12, 168, .Lsb_mb2i
-.Lsb_mb2i:
-        .word   12, 12, .Lsb_align
+.Lsb_mc2:
+        .word   180, 180, .Lsb_md2
+.Lsb_md2:
+        .word   168, 180, .Lsb_align
+        .word   .Lsb_npow4, 168, .Lsb_align
 .Lsb_align:
         .word   168, 160, .Lsb_ldword
 .Lsb_ldword:
@@ -86402,64 +85267,6 @@ __subleq_sb:
         .word   -256
 .Lsb_min:
         .word   -2147483648
-.Lsb_c4:
-        .word   4
-.Lsb_c8:
-        .word   8
-.Lsb_c16:
-        .word   16
-.Lsb_c32:
-        .word   32
-.Lsb_c64:
-        .word   64
-.Lsb_c128:
-        .word   128
-.Lsb_c256:
-        .word   256
-.Lsb_c512:
-        .word   512
-.Lsb_c1024:
-        .word   1024
-.Lsb_c2048:
-        .word   2048
-.Lsb_c4096:
-        .word   4096
-.Lsb_c8192:
-        .word   8192
-.Lsb_c16384:
-        .word   16384
-.Lsb_c32768:
-        .word   32768
-.Lsb_c65536:
-        .word   65536
-.Lsb_c131072:
-        .word   131072
-.Lsb_c262144:
-        .word   262144
-.Lsb_c524288:
-        .word   524288
-.Lsb_c1048576:
-        .word   1048576
-.Lsb_c2097152:
-        .word   2097152
-.Lsb_c4194304:
-        .word   4194304
-.Lsb_c8388608:
-        .word   8388608
-.Lsb_c16777216:
-        .word   16777216
-.Lsb_c33554432:
-        .word   33554432
-.Lsb_c67108864:
-        .word   67108864
-.Lsb_c134217728:
-        .word   134217728
-.Lsb_c268435456:
-        .word   268435456
-.Lsb_c536870912:
-        .word   536870912
-.Lsb_c1073741824:
-        .word   1073741824
 .Lsb_pow1:
         .word   1
 .Lsb_npow1:

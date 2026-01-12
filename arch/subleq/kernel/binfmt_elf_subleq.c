@@ -106,6 +106,57 @@ extern void __subleq_memset(void);
 extern void __subleq_memmove(void);
 extern long __subleq_syscall(long, long, long, long, long, long, long);
 
+/* Soft float functions (from subleq_runtime_softfloat.c) */
+/* Double-precision arithmetic */
+extern void __adddf3(void);
+extern void __subdf3(void);
+extern void __muldf3(void);
+extern void __divdf3(void);
+/* Single-precision arithmetic */
+extern void __addsf3(void);
+extern void __subsf3(void);
+extern void __mulsf3(void);
+extern void __divsf3(void);
+/* Double-precision comparisons */
+extern void __eqdf2(void);
+extern void __nedf2(void);
+extern void __ledf2(void);
+extern void __gedf2(void);
+extern void __ltdf2(void);
+extern void __gtdf2(void);
+extern void __unorddf2(void);
+/* Single-precision comparisons */
+extern void __eqsf2(void);
+extern void __nesf2(void);
+extern void __lesf2(void);
+extern void __gesf2(void);
+extern void __ltsf2(void);
+extern void __gtsf2(void);
+extern void __unordsf2(void);
+/* Double to int conversions */
+extern void __fixdfsi(void);
+extern void __fixdfdi(void);
+extern void __fixunsdfsi(void);
+extern void __fixunsdfdi(void);
+/* Single to int conversions */
+extern void __fixsfsi(void);
+extern void __fixsfdi(void);
+extern void __fixunssfsi(void);
+extern void __fixunssfdi(void);
+/* Int to double conversions */
+extern void __floatsidf(void);
+extern void __floatdidf(void);
+extern void __floatunsidf(void);
+extern void __floatundidf(void);
+/* Int to single conversions */
+extern void __floatsisf(void);
+extern void __floatdisf(void);
+extern void __floatunsisf(void);
+extern void __floatundisf(void);
+/* Precision conversions */
+extern void __extendsfdf2(void);
+extern void __truncdfsf2(void);
+
 /* Stub _init and _fini for static binaries without crti.o/crtn.o */
 static void __used __subleq_init(void) { }
 static void __used __subleq_fini(void) { }
@@ -118,11 +169,47 @@ static const struct {
 	const char *name;
 	void *addr;
 } kernel_runtime_symbols[] = {
+	{ "__adddf3", &__adddf3 },
+	{ "__addsf3", &__addsf3 },
 	{ "__ashldi3", &__ashldi3 },
 	{ "__ashrdi3", &__ashrdi3 },
+	{ "__divdf3", &__divdf3 },
 	{ "__divdi3", &__divdi3 },
+	{ "__divsf3", &__divsf3 },
+	{ "__eqdf2", &__eqdf2 },
+	{ "__eqsf2", &__eqsf2 },
+	{ "__extendsfdf2", &__extendsfdf2 },
+	{ "__fixdfdi", &__fixdfdi },
+	{ "__fixdfsi", &__fixdfsi },
+	{ "__fixsfdi", &__fixsfdi },
+	{ "__fixsfsi", &__fixsfsi },
+	{ "__fixunsdfdi", &__fixunsdfdi },
+	{ "__fixunsdfsi", &__fixunsdfsi },
+	{ "__fixunssfdi", &__fixunssfdi },
+	{ "__fixunssfsi", &__fixunssfsi },
+	{ "__floatdidf", &__floatdidf },
+	{ "__floatdisf", &__floatdisf },
+	{ "__floatsidf", &__floatsidf },
+	{ "__floatsisf", &__floatsisf },
+	{ "__floatundidf", &__floatundidf },
+	{ "__floatundisf", &__floatundisf },
+	{ "__floatunsidf", &__floatunsidf },
+	{ "__floatunsisf", &__floatunsisf },
+	{ "__gedf2", &__gedf2 },
+	{ "__gesf2", &__gesf2 },
+	{ "__gtdf2", &__gtdf2 },
+	{ "__gtsf2", &__gtsf2 },
+	{ "__ledf2", &__ledf2 },
+	{ "__lesf2", &__lesf2 },
 	{ "__lshrdi3", &__lshrdi3 },
+	{ "__ltdf2", &__ltdf2 },
+	{ "__ltsf2", &__ltsf2 },
 	{ "__moddi3", &__moddi3 },
+	{ "__muldf3", &__muldf3 },
+	{ "__mulsf3", &__mulsf3 },
+	{ "__nedf2", &__nedf2 },
+	{ "__nesf2", &__nesf2 },
+	{ "__subdf3", &__subdf3 },
 	{ "__subleq_and", &__subleq_and },
 	{ "__subleq_lb", &__subleq_lb },
 	{ "__subleq_lh", &__subleq_lh },
@@ -142,8 +229,12 @@ static const struct {
 	{ "__subleq_udivrem", &__subleq_udivrem },
 	{ "__subleq_udivrem64", &__subleq_udivrem64 },
 	{ "__subleq_xor", &__subleq_xor },
+	{ "__subsf3", &__subsf3 },
+	{ "__truncdfsf2", &__truncdfsf2 },
 	{ "__udivdi3", &__udivdi3 },
 	{ "__umoddi3", &__umoddi3 },
+	{ "__unorddf2", &__unorddf2 },
+	{ "__unordsf2", &__unordsf2 },
 	{ "_fini", &__subleq_fini },
 	{ "_init", &__subleq_init },
 };

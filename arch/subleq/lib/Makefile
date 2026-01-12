@@ -4,3 +4,4 @@
 obj-y += delay.o
 obj-y += mem.o
 obj-y += subleq_runtime.o
+obj-y += subleq_runtime_softfloat.o

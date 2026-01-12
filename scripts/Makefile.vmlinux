@@ -113,7 +113,7 @@ vmlinux: vmlinux.unstripped FORCE
 # what kmod expects to parse.
 quiet_cmd_modules_builtin_modinfo = GEN     $@
       cmd_modules_builtin_modinfo = $(cmd_objcopy); \
-                                    sed -i 's/\x00\+$$/\x00/g' $@; \
+                                    $(SED) -i 's/\x00\+$$/\x00/g' $@; \
                                     chmod -x $@
 
 OBJCOPYFLAGS_modules.builtin.modinfo := -j .modinfo -O binary
@@ -132,8 +132,8 @@ __default: modules.builtin
 quiet_cmd_modules_builtin = GEN     $@
       cmd_modules_builtin = \
 	tr '\0' '\n' < $< | \
-	sed -n 's/^[[:alnum:]:_]*\.file=//p' | \
-	tr ' ' '\n' | uniq | sed -e 's:^:kernel/:' -e 's/$$/.ko/' > $@
+	$(SED) -n 's/^[[:alnum:]:_]*\.file=//p' | \
+	tr ' ' '\n' | uniq | $(SED) -e 's:^:kernel/:' -e 's/$$/.ko/' > $@
 
 targets += modules.builtin
 modules.builtin: modules.builtin.modinfo FORCE

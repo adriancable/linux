@@ -42,7 +42,7 @@
 #define R_386_RELATIVE 8 /* Adjust by load base (for shared libs) */
 #endif
 
-#define SUBLEQ_ELF_DEBUG 1
+#define SUBLEQ_ELF_DEBUG 0
 
 #if SUBLEQ_ELF_DEBUG
 #define subleq_elf_debug(fmt, ...) \
@@ -157,9 +157,7 @@ extern void __floatundisf(void);
 extern void __extendsfdf2(void);
 extern void __truncdfsf2(void);
 
-/* Stub _init and _fini for static binaries without crti.o/crtn.o */
-static void __used __subleq_init(void) { }
-static void __used __subleq_fini(void) { }
+
 
 /*
  * Kernel runtime symbols - SORTED ALPHABETICALLY for binary search.
@@ -235,8 +233,6 @@ static const struct {
 	{ "__umoddi3", &__umoddi3 },
 	{ "__unorddf2", &__unorddf2 },
 	{ "__unordsf2", &__unordsf2 },
-	{ "_fini", &__subleq_fini },
-	{ "_init", &__subleq_init },
 };
 
 #define KERNEL_RUNTIME_SYMBOL_COUNT \
@@ -621,7 +617,7 @@ static long load_elf_segments(struct file *file, struct elfhdr *hdr,
 
 	/* Load each PT_LOAD segment */
 	for (i = 0, phdr = phdrs; i < phnum; i++, phdr++) {
-		pr_info("SUBLEQ_ELF: Segment loop i=%d, p_type=%d\n", i, phdr->p_type);
+		subleq_elf_debug("Segment loop i=%d, p_type=%d", i, phdr->p_type);
 		if (phdr->p_type != PT_LOAD)
 			continue;
 
@@ -1247,6 +1243,7 @@ static int create_elf_tables(struct linux_binprm *bprm, struct mm_struct *mm,
 	/*
 	 * Debug: print the stack layout for verification
 	 */
+#if SUBLEQ_ELF_DEBUG
 	pr_info("SUBLEQ_ELF: create_elf_tables debug:\n");
 	pr_info("  mm->start_stack (SP) = 0x%lx\n", mm->start_stack);
 	pr_info("  argc = %lu, envc = %lu\n", argc, envc);
@@ -1326,6 +1323,7 @@ static int create_elf_tables(struct linux_binprm *bprm, struct mm_struct *mm,
 
 	/* Flush printk buffer so we see the debug output before any crash */
 	printk_trigger_flush();
+#endif
 
 	return 0;
 }

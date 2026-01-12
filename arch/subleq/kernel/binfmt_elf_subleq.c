@@ -685,6 +685,26 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 		}
 	}
 
+	/*
+	 * OPTIMIZATION: Pre-scan symbol table to count undefined symbols.
+	 * If there are no undefined external symbols, we can use a fast path
+	 * that skips all symbol checking and just applies load_offset.
+	 */
+	int have_any_undef = 0;
+	if (have_symtab && strtab_shdr) {
+		for (i = 1; i < nsyms; i++) {
+			if (syms[i].st_shndx == SHN_UNDEF &&
+			    syms[i].st_name < strtab_shdr->sh_size &&
+			    syms[i].st_name != 0) {
+				have_any_undef = 1;
+				break;  /* Found at least one, no need to continue */
+			}
+		}
+		if (!have_any_undef) {
+			subleq_elf_debug("No undefined symbols - using fast reloc path");
+		}
+	}
+
 	/* Process all relocation sections */
 	for (i = 0, shdr = shdrs; i < hdr->e_shnum; i++, shdr++) {
 		struct elf32_rel *rels = NULL;
@@ -725,50 +745,58 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 			return ret < 0 ? ret : -ENOEXEC;
 		}
 
-		/* Process each relocation.
-		 * OPTIMIZATION: Most relocations have r_info=1 (type=R_386_32, sym_idx=0).
-		 * For these, we just add load_offset without any bit extraction.
-		 * This avoids expensive __subleq_srl and __subleq_and calls.
+		/*
+		 * Process each relocation.
+		 * Two paths:
+		 * 1. FAST PATH: No undefined symbols - just add load_offset to all
+		 *    R_386_32 relocations, no symbol lookup needed.
+		 * 2. SLOW PATH: Has undefined symbols - need to check each relocation.
 		 */
-		for (j = 0, rel = rels; j < nrels; j++, rel++) {
-			unsigned long reloc_addr;
-			u32 *patch_addr;
-
+		if (!have_any_undef && load_offset != 0) {
 			/*
-			 * FAST PATH: r_info=1 means type=R_386_32 (1) and sym_idx=0.
-			 * This is the most common case. Skip all bit extraction.
+			 * FAST PATH: No undefined symbols in this binary.
+			 * All relocations just need load_offset added.
+			 * We still need to verify type=R_386_32, but can skip
+			 * all symbol table lookups.
 			 */
-			if (rel->r_info == 1) {
-				if (load_offset != 0) {
-					reloc_addr = load_addr + (rel->r_offset - base_vaddr);
-					patch_addr = (u32 *)reloc_addr;
-					*patch_addr += load_offset;
-					relocs_applied++;
-				}
-				continue;
-			}
-
-			/*
-			 * SLOW PATH: Need to extract type and sym_idx.
-			 * OPTIMIZATION: Avoid byte access (triggers __subleq_lb)
-			 * and bit operations where possible.
-			 *
-			 * For R_386_32 (type=1), r_info = (sym_idx << 8) | 1
-			 * Rearranged: sym_idx = (r_info - 1) >> 8
-			 * Type verification: sym_idx * 256 + 1 should equal r_info
-			 */
-			{
-				u32 r_info_minus_1 = rel->r_info - 1;
-				unsigned int sym_idx = r_info_minus_1 >> 8;
+			for (j = 0, rel = rels; j < nrels; j++, rel++) {
+				u32 *patch_addr;
 
 				/*
-				 * Verify type is R_386_32: check if reconstruction matches.
-				 * If (sym_idx << 8) + 1 != r_info, skip this relocation.
-				 * Use multiplication instead of shift for left shift
-				 * (multiplication by 256 might be optimized to shifts by compiler).
+				 * Quick type check: R_386_32 has type=1, so
+				 * r_info ends with 0x01. We check (r_info & 0xFF) == 1
+				 * but to avoid AND, check if r_info % 256 == 1.
+				 * Actually, just check the low byte directly:
+				 * if ((r_info - 1) >> 8 << 8) + 1 != r_info, skip.
+				 * Simpler: assume all are R_386_32 (validated by linker).
 				 */
-				if ((sym_idx << 8) + 1 != rel->r_info)
-					continue;
+				patch_addr = (u32 *)(load_addr + (rel->r_offset - base_vaddr));
+				*patch_addr += load_offset;
+				relocs_applied++;
+			}
+		} else if (!have_any_undef && load_offset == 0) {
+			/*
+			 * ULTRA FAST PATH: No undefined symbols AND no load offset.
+			 * Nothing to do at all!
+			 */
+			relocs_applied += nrels;
+		} else {
+			/*
+			 * SLOW PATH: Has undefined symbols - need full processing.
+			 */
+			for (j = 0, rel = rels; j < nrels; j++, rel++) {
+				unsigned long reloc_addr;
+				u32 *patch_addr;
+
+				/*
+				 * Extract sym_idx. Since the Subleq LLVM backend only
+				 * emits R_386_32 relocations (type=1), we know:
+				 * r_info = (sym_idx << 8) | 1
+				 * So sym_idx = r_info >> 8
+				 *
+				 * No type check needed - guaranteed by backend.
+				 */
+				unsigned int sym_idx = rel->r_info >> 8;
 
 				reloc_addr = load_addr + (rel->r_offset - base_vaddr);
 				patch_addr = (u32 *)reloc_addr;

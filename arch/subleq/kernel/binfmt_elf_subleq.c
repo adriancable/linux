@@ -53,6 +53,18 @@
 	} while (0)
 #endif
 
+/*
+ * Check if a symbol needs runtime resolution.
+ * A symbol needs resolution if it's an absolute symbol at address 0
+ * (SHN_ABS, st_value == 0). This indicates it was defined via
+ * --defsym=symbol=0 by the toolchain and needs to be resolved to the
+ * actual kernel runtime address.
+ */
+static inline int symbol_needs_resolution(const struct elf32_sym *sym)
+{
+	return sym->st_shndx == SHN_ABS && sym->st_value == 0;
+}
+
 /* Maximum length of library path */
 #define MAX_LIB_PATH 256
 
@@ -773,14 +785,16 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 	}
 
 	/*
-	 * OPTIMIZATION: Pre-scan symbol table to count undefined symbols.
-	 * If there are no undefined external symbols, we can use a fast path
-	 * that skips all symbol checking and just applies load_offset.
+	 * OPTIMIZATION: Pre-scan symbol table to find symbols needing resolution.
+	 * If there are no symbols that need runtime resolution, we can use a fast
+	 * path that skips all symbol checking and just applies load_offset.
+	 * Symbols needing resolution are SHN_ABS with st_value == 0, which are
+	 * --defsym stubs created by the toolchain for kernel runtime symbols.
 	 */
 	int have_any_undef = 0;
 	if (have_symtab && strtab_shdr) {
 		for (i = 1; i < nsyms; i++) {
-			if (syms[i].st_shndx == SHN_UNDEF &&
+			if (symbol_needs_resolution(&syms[i]) &&
 			    syms[i].st_name < strtab_shdr->sh_size &&
 			    syms[i].st_name != 0) {
 				have_any_undef = 1;
@@ -788,7 +802,7 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 			}
 		}
 		if (!have_any_undef) {
-			subleq_elf_debug("No undefined symbols - using fast reloc path");
+			subleq_elf_debug("No symbols need resolution - using fast reloc path");
 		}
 	}
 
@@ -889,13 +903,14 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 				patch_addr = (u32 *)reloc_addr;
 
 				/*
-				 * Check if this is an undefined symbol that needs
-				 * external resolution.
+				 * Check if this symbol needs runtime resolution.
+				 * SHN_ABS at address 0 indicates a --defsym stub
+				 * that needs to be resolved to a kernel address.
 				 */
 				if (have_symtab && sym_idx > 0 && sym_idx < nsyms) {
 					struct elf32_sym *sym = &syms[sym_idx];
 
-					if (sym->st_shndx == SHN_UNDEF &&
+					if (symbol_needs_resolution(sym) &&
 					    sym->st_name < strtab_shdr->sh_size) {
 						unsigned long sym_addr;
 						int first_resolution = 0;

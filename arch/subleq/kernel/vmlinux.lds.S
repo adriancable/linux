@@ -92,9 +92,13 @@ SECTIONS
 
 	__init_end = .;
 
-	/* BSS section - uninitialized data, zeroed at runtime */
+	/*
+	 * BSS section - uninitialized data, zeroed at runtime
+	 * CRITICAL: Subleq requires ALL addresses to be 4-byte aligned.
+	 * Use alignment of 4 for sbss, bss, and stop to ensure proper alignment.
+	 */
 	. = ALIGN(PAGE_SIZE);
-	BSS_SECTION(0, 0, 0)
+	BSS_SECTION(4, 4, 4)
 
 	_end = .;
 

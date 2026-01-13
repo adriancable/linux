@@ -33,22 +33,24 @@ config INITRAMFS_FORCE
 	  your bootloader passes to the kernel.
 
 config INITRAMFS_ROOT_UID
-	int "User ID to map to 0 (user root)"
+	string "User ID to map to 0 (user root)"
 	depends on INITRAMFS_SOURCE!=""
 	default "0"
 	help
 	  If INITRAMFS_SOURCE points to a directory, files owned by this UID
 	  (-1 = current user) will be owned by root in the resulting image.
+	  Use "squash" to force all files to uid 0 regardless of source.
 
 	  If you are not sure, leave it set to "0".
 
 config INITRAMFS_ROOT_GID
-	int "Group ID to map to 0 (group root)"
+	string "Group ID to map to 0 (group root)"
 	depends on INITRAMFS_SOURCE!=""
 	default "0"
 	help
 	  If INITRAMFS_SOURCE points to a directory, files owned by this GID
 	  (-1 = current group) will be owned by root in the resulting image.
+	  Use "squash" to force all files to gid 0 regardless of source.
 
 	  If you are not sure, leave it set to "0".
 

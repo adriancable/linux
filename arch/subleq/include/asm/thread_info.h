@@ -43,11 +43,39 @@ struct thread_info {
  * Get current thread info - stored at bottom of kernel stack.
  * We use the stack pointer to find it by masking off the stack offset.
  * The stack pointer is stored at memory location 16 (word 4) in Subleq.
+ *
+ * IMPORTANT: When running on the dedicated IRQ stack, SP points to a
+ * different stack that has no thread_info. In that case, we must use
+ * the saved original SP (stored in SAVE_SP at address 232 by entry.S)
+ * to compute the correct thread_info address.
+ *
+ * We detect the IRQ stack by checking if SP falls within subleq_irq_stack_top's
+ * stack region. The IRQ stack is 8KB, so we check if SP & ~0x1FFF matches
+ * the IRQ stack base.
  */
+extern unsigned long subleq_irq_stack_top;
+
 static inline struct thread_info *current_thread_info(void)
 {
-	/* Read stack pointer from the well-known location */
+	/* Read current stack pointer from the well-known location */
 	unsigned long sp = *(volatile unsigned long *)16;
+	
+	/*
+	 * Check if we're on the IRQ stack.
+	 * IRQ stack top is at subleq_irq_stack_top.
+	 * IRQ stack base is subleq_irq_stack_top - 8192.
+	 * If SP is in this range, use saved SP instead.
+	 */
+	unsigned long irq_stack_base = subleq_irq_stack_top - 8192;
+	if (sp >= irq_stack_base && sp < subleq_irq_stack_top) {
+		/*
+		 * We're on IRQ stack - use saved original SP from SAVE_SP.
+		 * SAVE_SP is at byte address 232 (see entry.S).
+		 * It stores -SP (negated), so we negate it back.
+		 */
+		sp = -(*(volatile long *)232);
+	}
+	
 	return (struct thread_info *)(sp & ~(THREAD_SIZE - 1));
 }
 

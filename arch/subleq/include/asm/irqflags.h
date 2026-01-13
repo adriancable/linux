@@ -61,9 +61,31 @@ extern void __subleq_putchar(int c);
 #define SUBLEQ_SOFTIRQ_MASK 0x0000ff00
 #define SUBLEQ_IRQMASK (SUBLEQ_HARDIRQ_MASK | SUBLEQ_SOFTIRQ_MASK)
 
+/*
+ * IRQ stack detection constants
+ */
+#define SUBLEQ_IRQ_STACK_SIZE 8192
+#define SUBLEQ_SAVE_SP_ADDR 232  /* entry.S saves -SP here */
+
+/*
+ * External reference to IRQ stack top pointer (defined in irq.c)
+ */
+extern unsigned long subleq_irq_stack_top;
+
 static inline int __subleq_in_interrupt(void)
 {
 	unsigned long sp = *(volatile unsigned long *)16;
+	
+	/*
+	 * Check if we're on the IRQ stack.
+	 * If so, use the saved original SP to find the correct thread_info.
+	 */
+	unsigned long irq_stack_base = subleq_irq_stack_top - SUBLEQ_IRQ_STACK_SIZE;
+	if (sp >= irq_stack_base && sp < subleq_irq_stack_top) {
+		/* On IRQ stack - use saved original SP (stored as -SP) */
+		sp = -(*(volatile long *)SUBLEQ_SAVE_SP_ADDR);
+	}
+	
 	/* thread_info is at stack base; preempt_count is at offset 4 */
 	int *preempt_ptr = (int *)((sp & ~(SUBLEQ_THREAD_SIZE - 1)) + 4);
 	return (*preempt_ptr) & SUBLEQ_IRQMASK;

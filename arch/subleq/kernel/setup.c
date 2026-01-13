@@ -31,11 +31,17 @@ static char __initdata builtin_cmdline[COMMAND_LINE_SIZE] = CONFIG_CMDLINE;
 /* External early console putchar - compiler intrinsic */
 extern void __subleq_putchar(int c);
 
+/* Flag to disable early console once proper TTY is available */
+int subleq_early_disabled;
+
 /*
  * Early console - uses Subleq's putchar instruction
  */
 static void subleq_early_write(struct console *con, const char *s, unsigned n)
 {
+	if (subleq_early_disabled)
+		return;
+
 	while (n--) {
 		if (*s == '\n')
 			__subleq_putchar('\r');

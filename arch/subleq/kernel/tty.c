@@ -210,6 +210,16 @@ static int __init subleq_tty_init(void)
 		return ret;
 	}
 
+	/*
+	 * Disable the early boot console BEFORE registering the TTY console.
+	 * This prevents duplicate messages since both consoles use the same
+	 * underlying __subleq_putchar output.
+	 */
+	{
+		extern int subleq_early_disabled;
+		subleq_early_disabled = 1;
+	}
+
 	/* Register console */
 	register_console(&subleq_console);
 

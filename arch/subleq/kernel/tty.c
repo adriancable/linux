@@ -22,7 +22,7 @@
 #define SUBLEQ_TTY_NAME "console"
 
 /* Polling interval for keyboard input (in jiffies) */
-#define SUBLEQ_TTY_POLL_INTERVAL (HZ / 10) /* 100ms */
+#define SUBLEQ_TTY_POLL_INTERVAL (HZ / 100) /* 10ms */
 
 /* External I/O intrinsics from compiler */
 extern void __subleq_putchar(int c);
@@ -75,11 +75,7 @@ static void subleq_tty_close(struct tty_struct *tty, struct file *filp)
 static ssize_t subleq_tty_write(struct tty_struct *tty, const u8 *buf,
 				size_t count)
 {
-	size_t i;
-
-	for (i = 0; i < count; i++) {
-		if (buf[i] == '\n')
-			__subleq_putchar('\r');
+	for (size_t i = 0; i < count; i++) {
 		__subleq_putchar(buf[i]);
 	}
 

@@ -16,6 +16,9 @@ extern void subleq_timer_interrupt(void);
 /* C-level interrupt handler (called from assembly) */
 extern void subleq_do_IRQ(void);
 
+/* Early IRQ stack initialization (called from setup.c before start_kernel) */
+extern void early_irq_stack_init(void);
+
 #include <asm-generic/irq.h>
 
 #endif /* _ASM_SUBLEQ_IRQ_H */

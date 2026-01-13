@@ -74,9 +74,17 @@ void __init mem_init(void)
 }
 
 /*
- * Free memory from initrd etc.
+ * Free memory from init sections after boot completes.
+ * This includes:
+ * - .init.text (init functions)
+ * - .init.data (init data, including the built-in initramfs cpio archive)
+ * - .init.setup, .initcall.init, etc.
+ *
+ * The initramfs cpio archive is embedded in .init.ramfs (within .init.data)
+ * and is extracted to ramfs during boot. After extraction, this original
+ * copy is no longer needed and can be freed to avoid memory duplication.
  */
 void free_initmem(void)
 {
-	/* Nothing to free */
+	free_initmem_default(-1);
 }

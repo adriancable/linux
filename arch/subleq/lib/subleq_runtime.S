@@ -7933,8 +7933,8 @@ __subleq_udivrem:
         .type   __subleq_sdivrem64,@function
 
 # __subleq_sdivrem64: 64-bit signed divrem (inline algorithm)
-# Input: R3:R4 = dividend (lo:hi), R5:R6 = divisor (lo:hi)
-# Output: R3:R4 = quotient (lo:hi), R5:R6 = remainder (lo:hi)
+# Input: R21:R22 = dividend (lo:hi), R23:R24 = divisor (lo:hi)
+# Output: R21:R22 = quotient (lo:hi), R23:R24 = remainder (lo:hi)
 __subleq_sdivrem64:
         .word   196, 196, .Lsd64v_init1
 .Lsd64v_init1:
@@ -26579,8 +26579,8 @@ __subleq_sdivrem64:
         .type   __subleq_udivrem64,@function
 
 # __subleq_udivrem64: 64-bit unsigned divrem
-# Input: R3:R4 = dividend (lo:hi), R5:R6 = divisor (lo:hi)
-# Output: R3:R4 = quotient (lo:hi), R5:R6 = remainder (lo:hi)
+# Input: R21:R22 = dividend (lo:hi), R23:R24 = divisor (lo:hi)
+# Output: R21:R22 = quotient (lo:hi), R23:R24 = remainder (lo:hi)
 __subleq_udivrem64:
         .word   160, 160, .Lud64_init1
 .Lud64_init1:

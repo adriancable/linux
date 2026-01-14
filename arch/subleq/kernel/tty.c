@@ -76,6 +76,8 @@ static ssize_t subleq_tty_write(struct tty_struct *tty, const u8 *buf,
 				size_t count)
 {
 	for (size_t i = 0; i < count; i++) {
+		if (buf[i] == '\n')
+			__subleq_putchar('\r');
 		__subleq_putchar(buf[i]);
 	}
 

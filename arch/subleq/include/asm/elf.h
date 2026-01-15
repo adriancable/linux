@@ -55,6 +55,6 @@ typedef unsigned long elf_fpregset_t;
 
 /* We don't really support core dumps yet */
 #define ELF_CORE_COPY_REGS(dest, regs) \
-	(void)memcpy(&(dest), (regs), sizeof(struct pt_regs))
+	(void)memcpy(&(dest), (regs), sizeof(struct pt_regs));
 
 #endif /* _ASM_SUBLEQ_ELF_H */

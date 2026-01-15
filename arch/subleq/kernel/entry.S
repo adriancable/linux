@@ -1,17 +1,6 @@
 /* SPDX-License-Identifier: GPL-2.0 */
 /*
- * Subleq interrupt entry/exit code - INSTRUMENTED VERSION
- *
- * Debug trace characters:
- *   'A' = Entry, before disable
- *   'B' = After disable
- *   'C' = After save complete
- *   'D' = Before calling C handler
- *   'E' = After C handler returns
- *   'F' = After restore complete
- *   'G' = After capture return address
- *   'H' = After re-enable
- *   'I' = Before final jump
+ * Subleq interrupt entry/exit code
  */
 
 .text

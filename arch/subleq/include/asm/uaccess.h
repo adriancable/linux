@@ -9,6 +9,7 @@
 #define _ASM_SUBLEQ_UACCESS_H
 
 #include <linux/string.h>
+#include <asm/extable.h>
 
 /*
  * NOMMU: User and kernel share the same address space.

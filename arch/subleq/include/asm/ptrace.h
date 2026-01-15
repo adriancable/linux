@@ -37,6 +37,13 @@ struct pt_regs {
 	unsigned long r22; /* Arg 2 */
 	unsigned long r23; /* Arg 3 */
 	unsigned long r24; /* Arg 4 */
+	unsigned long r25; /* General purpose */
+	unsigned long r26;
+	unsigned long r27;
+	unsigned long r28;
+	unsigned long r29;
+	unsigned long r30;
+	unsigned long r31;
 	unsigned long fp;  /* Frame pointer - CRITICAL for fork! */
 	unsigned long sp;  /* Stack pointer */
 	unsigned long ra;  /* Return address (link register) */

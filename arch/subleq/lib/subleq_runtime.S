@@ -53419,6 +53419,90 @@ __subleq_mul:
 # Output: R3 = bitwise AND result
 # Algorithm: O(32) bit-by-bit testing without halving loops
 __subleq_and:
+        .word   24, 100, .Land_r21_le0_fast
+        .word   12, 12, .Land_chk_r22_fast
+.Land_r21_le0_fast:
+        .word   160, 160, .Land_r21_test1
+.Land_r21_test1:
+        .word   100, 160, .Land_r21_test2
+.Land_r21_test2:
+        .word   24, 160, .Land_r21_ambig
+        .word   12, 12, .Land_chk_r22_fast
+.Land_r21_ambig:
+        .word   160, 160, .Land_r21_amb1
+.Land_r21_amb1:
+        .word   100, 160, .Land_r21_amb2
+.Land_r21_amb2:
+        .word   .Land_one, 160, .Land_r21_amb3
+.Land_r21_amb3:
+        .word   24, 160, .Land_r21_is0
+        .word   12, 12, .Land_chk_r22_fast
+.Land_r21_is0:
+        .word   96, 96, .Land_fast_ret
+.Land_fast_ret:
+.Land_fast_pop:
+        .word   12, 12, .Land_fast_pop1
+.Land_fast_pop1:
+        .word   160, 160, .Land_fast_pop2
+.Land_fast_pop2:
+        .word   18, 12, .Land_fast_pop3
+.Land_fast_pop3:
+        .word   12, 160, .Land_fast_pop4
+.Land_fast_pop4:
+        .word   .Land_fast_neg4, 16, .Land_fast_pop5
+.Land_fast_pop5:
+        .word   12, 12, .Land_fast_jmp
+.Land_fast_jmp:
+        .word   12
+        .word   12
+        .word   162
+.Land_fast_neg1:
+        .word   -1
+.Land_fast_neg4:
+        .word   -4
+.Land_chk_r22_fast:
+        .word   24, 104, .Land_r22_le0_fast
+        .word   12, 12, .Land_main
+.Land_r22_le0_fast:
+        .word   160, 160, .Land_r22_test1
+.Land_r22_test1:
+        .word   104, 160, .Land_r22_test2
+.Land_r22_test2:
+        .word   24, 160, .Land_r22_ambig
+        .word   12, 12, .Land_main
+.Land_r22_ambig:
+        .word   160, 160, .Land_r22_amb1
+.Land_r22_amb1:
+        .word   104, 160, .Land_r22_amb2
+.Land_r22_amb2:
+        .word   .Land_one, 160, .Land_r22_amb3
+.Land_r22_amb3:
+        .word   24, 160, .Land_r22_is0
+        .word   12, 12, .Land_main
+.Land_r22_is0:
+        .word   96, 96, .Land_fast_ret2
+.Land_fast_ret2:
+.Land_fast2_pop:
+        .word   12, 12, .Land_fast2_pop1
+.Land_fast2_pop1:
+        .word   160, 160, .Land_fast2_pop2
+.Land_fast2_pop2:
+        .word   18, 12, .Land_fast2_pop3
+.Land_fast2_pop3:
+        .word   12, 160, .Land_fast2_pop4
+.Land_fast2_pop4:
+        .word   .Land_fast2_neg4, 16, .Land_fast2_pop5
+.Land_fast2_pop5:
+        .word   12, 12, .Land_fast2_jmp
+.Land_fast2_jmp:
+        .word   12
+        .word   12
+        .word   162
+.Land_fast2_neg1:
+        .word   -1
+.Land_fast2_neg4:
+        .word   -4
+.Land_main:
         .word   160, 160, .Land_init1
 .Land_init1:
         .word   168, 168, .Land_bit31_1

@@ -116,7 +116,39 @@ __subleq_sdivrem:
 .Lsdivrem_init5:
         .word   100, 12, .Lsdivrem_init6
 .Lsdivrem_init6:
-        .word   12, 172, .Lsdivrem_bit31
+        .word   12, 172, .Lsdivrem_chk_small
+.Lsdivrem_chk_small:
+        .word   24, 172, .Lsdivrem_bit31
+        .word   168, 168, .Lsdivrem_sm1
+.Lsdivrem_sm1:
+        .word   12, 12, .Lsdivrem_sm2
+.Lsdivrem_sm2:
+        .word   172, 12, .Lsdivrem_sm3
+.Lsdivrem_sm3:
+        .word   12, 168, .Lsdivrem_sm4
+.Lsdivrem_sm4:
+        .word   .Lsdivrem_c256, 168, .Lsdivrem_sm5
+.Lsdivrem_sm5:
+        .word   176, 176, .Lsdivrem_sm6
+.Lsdivrem_sm6:
+        .word   168, 176, .Lsdivrem_chk_16bit
+        .word   12, 12, .Lsdivrem_bit7
+.Lsdivrem_chk_16bit:
+        .word   24, 172, .Lsdivrem_bit31
+        .word   168, 168, .Lsdivrem_16_1
+.Lsdivrem_16_1:
+        .word   12, 12, .Lsdivrem_16_2
+.Lsdivrem_16_2:
+        .word   172, 12, .Lsdivrem_16_3
+.Lsdivrem_16_3:
+        .word   12, 168, .Lsdivrem_16_4
+.Lsdivrem_16_4:
+        .word   .Lsdivrem_c65536, 168, .Lsdivrem_16_5
+.Lsdivrem_16_5:
+        .word   176, 176, .Lsdivrem_16_6
+.Lsdivrem_16_6:
+        .word   168, 176, .Lsdivrem_bit31
+        .word   12, 12, .Lsdivrem_bit15
 .Lsdivrem_bit31:
         .word   12, 12, .Lsdivrem_31_dbl1
 .Lsdivrem_31_dbl1:
@@ -2885,7 +2917,39 @@ __subleq_udivrem:
 .Ludivrem_init4:
         .word   100, 12, .Ludivrem_init5
 .Ludivrem_init5:
-        .word   12, 172, .Ludivrem_bit31
+        .word   12, 172, .Ludivrem_chk_small
+.Ludivrem_chk_small:
+        .word   24, 172, .Ludivrem_bit31
+        .word   168, 168, .Ludivrem_sm1
+.Ludivrem_sm1:
+        .word   12, 12, .Ludivrem_sm2
+.Ludivrem_sm2:
+        .word   172, 12, .Ludivrem_sm3
+.Ludivrem_sm3:
+        .word   12, 168, .Ludivrem_sm4
+.Ludivrem_sm4:
+        .word   .Ludivrem_c256, 168, .Ludivrem_sm5
+.Ludivrem_sm5:
+        .word   176, 176, .Ludivrem_sm6
+.Ludivrem_sm6:
+        .word   168, 176, .Ludivrem_chk_16bit
+        .word   12, 12, .Ludivrem_bit7
+.Ludivrem_chk_16bit:
+        .word   24, 172, .Ludivrem_bit31
+        .word   168, 168, .Ludivrem_16_1
+.Ludivrem_16_1:
+        .word   12, 12, .Ludivrem_16_2
+.Ludivrem_16_2:
+        .word   172, 12, .Ludivrem_16_3
+.Ludivrem_16_3:
+        .word   12, 168, .Ludivrem_16_4
+.Ludivrem_16_4:
+        .word   .Ludivrem_c65536, 168, .Ludivrem_16_5
+.Ludivrem_16_5:
+        .word   176, 176, .Ludivrem_16_6
+.Ludivrem_16_6:
+        .word   168, 176, .Ludivrem_bit31
+        .word   12, 12, .Ludivrem_bit15
 .Ludivrem_bit31:
         .word   12, 12, .Ludivrem_31_d1
 .Ludivrem_31_d1:
@@ -52342,7 +52406,67 @@ __subleq_mul:
 .Lmul_main3:
         .word   12, 164, .Lmul_main4
 .Lmul_main4:
-        .word   160, 160, .Lmul_bit31
+        .word   160, 160, .Lmul_chk_small
+.Lmul_chk_small:
+        .word   24, 100, .Lmul_bit31
+        .word   168, 168, .Lmul_sm1
+.Lmul_sm1:
+        .word   12, 12, .Lmul_sm2
+.Lmul_sm2:
+        .word   100, 12, .Lmul_sm3
+.Lmul_sm3:
+        .word   12, 168, .Lmul_sm4
+.Lmul_sm4:
+        .word   .Lmul_c256, 168, .Lmul_sm5
+.Lmul_sm5:
+        .word   176, 176, .Lmul_sm6
+.Lmul_sm6:
+        .word   168, 176, .Lmul_chk_16bit
+        .word   24, 104, .Lmul_bit31
+        .word   168, 168, .Lmul_sm7
+.Lmul_sm7:
+        .word   12, 12, .Lmul_sm8
+.Lmul_sm8:
+        .word   104, 12, .Lmul_sm9
+.Lmul_sm9:
+        .word   12, 168, .Lmul_sm10
+.Lmul_sm10:
+        .word   .Lmul_c256, 168, .Lmul_sm11
+.Lmul_sm11:
+        .word   176, 176, .Lmul_sm12
+.Lmul_sm12:
+        .word   168, 176, .Lmul_bit31
+        .word   12, 12, .Lmul_bit7
+.Lmul_chk_16bit:
+        .word   24, 100, .Lmul_bit31
+        .word   168, 168, .Lmul_16_1
+.Lmul_16_1:
+        .word   12, 12, .Lmul_16_2
+.Lmul_16_2:
+        .word   100, 12, .Lmul_16_3
+.Lmul_16_3:
+        .word   12, 168, .Lmul_16_4
+.Lmul_16_4:
+        .word   .Lmul_c65536, 168, .Lmul_16_5
+.Lmul_16_5:
+        .word   176, 176, .Lmul_16_6
+.Lmul_16_6:
+        .word   168, 176, .Lmul_bit31
+        .word   24, 104, .Lmul_bit31
+        .word   168, 168, .Lmul_16_7
+.Lmul_16_7:
+        .word   12, 12, .Lmul_16_8
+.Lmul_16_8:
+        .word   104, 12, .Lmul_16_9
+.Lmul_16_9:
+        .word   12, 168, .Lmul_16_10
+.Lmul_16_10:
+        .word   .Lmul_c65536, 168, .Lmul_16_11
+.Lmul_16_11:
+        .word   176, 176, .Lmul_16_12
+.Lmul_16_12:
+        .word   168, 176, .Lmul_bit31
+        .word   12, 12, .Lmul_bit15
 .Lmul_bit31:
         .word   12, 12, .Lmul_b31_dbl1
 .Lmul_b31_dbl1:
@@ -53462,14 +53586,14 @@ __subleq_and:
         .word   -4
 .Land_chk_r22_fast:
         .word   24, 104, .Land_r22_le0_fast
-        .word   12, 12, .Land_main
+        .word   12, 12, .Land_chk_small
 .Land_r22_le0_fast:
         .word   160, 160, .Land_r22_test1
 .Land_r22_test1:
         .word   104, 160, .Land_r22_test2
 .Land_r22_test2:
         .word   24, 160, .Land_r22_ambig
-        .word   12, 12, .Land_main
+        .word   12, 12, .Land_chk_small
 .Land_r22_ambig:
         .word   160, 160, .Land_r22_amb1
 .Land_r22_amb1:
@@ -53478,7 +53602,7 @@ __subleq_and:
         .word   .Land_one, 160, .Land_r22_amb3
 .Land_r22_amb3:
         .word   24, 160, .Land_r22_is0
-        .word   12, 12, .Land_main
+        .word   12, 12, .Land_chk_small
 .Land_r22_is0:
         .word   96, 96, .Land_fast_ret2
 .Land_fast_ret2:
@@ -53502,6 +53626,70 @@ __subleq_and:
         .word   -1
 .Land_fast2_neg4:
         .word   -4
+.Land_chk_small:
+        .word   160, 160, .Land_small1
+.Land_small1:
+        .word   12, 12, .Land_small2
+.Land_small2:
+        .word   100, 12, .Land_small3
+.Land_small3:
+        .word   12, 160, .Land_small4
+.Land_small4:
+        .word   24, 160, .Land_main
+        .word   .Land_c256, 160, .Land_small5
+.Land_small5:
+        .word   164, 164, .Land_small6
+.Land_small6:
+        .word   160, 164, .Land_chk_16bit
+        .word   160, 160, .Land_small7
+.Land_small7:
+        .word   12, 12, .Land_small8
+.Land_small8:
+        .word   104, 12, .Land_small9
+.Land_small9:
+        .word   12, 160, .Land_small10
+.Land_small10:
+        .word   24, 160, .Land_main
+        .word   .Land_c256, 160, .Land_small11
+.Land_small11:
+        .word   164, 164, .Land_small12
+.Land_small12:
+        .word   160, 164, .Land_chk_16bit
+        .word   160, 160, .Land_small_start
+.Land_small_start:
+        .word   12, 12, .Land_b7_a
+.Land_chk_16bit:
+        .word   24, 100, .Land_main
+        .word   168, 168, .Land_16_1
+.Land_16_1:
+        .word   12, 12, .Land_16_2
+.Land_16_2:
+        .word   100, 12, .Land_16_3
+.Land_16_3:
+        .word   12, 168, .Land_16_4
+.Land_16_4:
+        .word   .Land_c65536, 168, .Land_16_5
+.Land_16_5:
+        .word   172, 172, .Land_16_6
+.Land_16_6:
+        .word   168, 172, .Land_main
+        .word   24, 104, .Land_main
+        .word   168, 168, .Land_16_7
+.Land_16_7:
+        .word   12, 12, .Land_16_8
+.Land_16_8:
+        .word   104, 12, .Land_16_9
+.Land_16_9:
+        .word   12, 168, .Land_16_10
+.Land_16_10:
+        .word   .Land_c65536, 168, .Land_16_11
+.Land_16_11:
+        .word   172, 172, .Land_16_12
+.Land_16_12:
+        .word   168, 172, .Land_main
+        .word   160, 160, .Land_16_start
+.Land_16_start:
+        .word   12, 12, .Land_b15_a
 .Land_main:
         .word   160, 160, .Land_init1
 .Land_init1:
@@ -54719,6 +54907,10 @@ __subleq_and:
         .word   -4
 .Land_c80:
         .word   -2147483648
+.Land_c256:
+        .word   256
+.Land_c65536:
+        .word   65536
 .Land_one:
         .word   1
 .Land_b30_pow:
@@ -54858,6 +55050,66 @@ __subleq_and:
 __subleq_or:
         .word   160, 160, .Lor_init1
 .Lor_init1:
+        .word   24, 100, .Lor_full
+        .word   168, 168, .Lor_sm1
+.Lor_sm1:
+        .word   12, 12, .Lor_sm2
+.Lor_sm2:
+        .word   100, 12, .Lor_sm3
+.Lor_sm3:
+        .word   12, 168, .Lor_sm4
+.Lor_sm4:
+        .word   .Lor_c256, 168, .Lor_sm5
+.Lor_sm5:
+        .word   172, 172, .Lor_sm6
+.Lor_sm6:
+        .word   168, 172, .Lor_chk_16bit
+        .word   24, 104, .Lor_full
+        .word   168, 168, .Lor_sm7
+.Lor_sm7:
+        .word   12, 12, .Lor_sm8
+.Lor_sm8:
+        .word   104, 12, .Lor_sm9
+.Lor_sm9:
+        .word   12, 168, .Lor_sm10
+.Lor_sm10:
+        .word   .Lor_c256, 168, .Lor_sm11
+.Lor_sm11:
+        .word   172, 172, .Lor_sm12
+.Lor_sm12:
+        .word   168, 172, .Lor_full
+        .word   12, 12, .Lor_b7_a
+.Lor_chk_16bit:
+        .word   24, 100, .Lor_full
+        .word   168, 168, .Lor_16_1
+.Lor_16_1:
+        .word   12, 12, .Lor_16_2
+.Lor_16_2:
+        .word   100, 12, .Lor_16_3
+.Lor_16_3:
+        .word   12, 168, .Lor_16_4
+.Lor_16_4:
+        .word   .Lor_c65536, 168, .Lor_16_5
+.Lor_16_5:
+        .word   172, 172, .Lor_16_6
+.Lor_16_6:
+        .word   168, 172, .Lor_full
+        .word   24, 104, .Lor_full
+        .word   168, 168, .Lor_16_7
+.Lor_16_7:
+        .word   12, 12, .Lor_16_8
+.Lor_16_8:
+        .word   104, 12, .Lor_16_9
+.Lor_16_9:
+        .word   12, 168, .Lor_16_10
+.Lor_16_10:
+        .word   .Lor_c65536, 168, .Lor_16_11
+.Lor_16_11:
+        .word   172, 172, .Lor_16_12
+.Lor_16_12:
+        .word   168, 172, .Lor_full
+        .word   12, 12, .Lor_b15_a
+.Lor_full:
         .word   168, 168, .Lor_r3_step1
 .Lor_r3_step1:
         .word   12, 12, .Lor_r3_step2
@@ -56039,6 +56291,10 @@ __subleq_or:
         .word   -4
 .Lor_c80:
         .word   -2147483648
+.Lor_c256:
+        .word   256
+.Lor_c65536:
+        .word   65536
 .Lor_one:
         .word   1
 .Lor_m1:
@@ -56180,6 +56436,66 @@ __subleq_or:
 __subleq_xor:
         .word   160, 160, .Lxor_init1
 .Lxor_init1:
+        .word   24, 100, .Lxor_full
+        .word   168, 168, .Lxor_sm1
+.Lxor_sm1:
+        .word   12, 12, .Lxor_sm2
+.Lxor_sm2:
+        .word   100, 12, .Lxor_sm3
+.Lxor_sm3:
+        .word   12, 168, .Lxor_sm4
+.Lxor_sm4:
+        .word   .Lxor_c256, 168, .Lxor_sm5
+.Lxor_sm5:
+        .word   172, 172, .Lxor_sm6
+.Lxor_sm6:
+        .word   168, 172, .Lxor_chk_16bit
+        .word   24, 104, .Lxor_full
+        .word   168, 168, .Lxor_sm7
+.Lxor_sm7:
+        .word   12, 12, .Lxor_sm8
+.Lxor_sm8:
+        .word   104, 12, .Lxor_sm9
+.Lxor_sm9:
+        .word   12, 168, .Lxor_sm10
+.Lxor_sm10:
+        .word   .Lxor_c256, 168, .Lxor_sm11
+.Lxor_sm11:
+        .word   172, 172, .Lxor_sm12
+.Lxor_sm12:
+        .word   168, 172, .Lxor_full
+        .word   12, 12, .Lxor_b7_a
+.Lxor_chk_16bit:
+        .word   24, 100, .Lxor_full
+        .word   168, 168, .Lxor_16_1
+.Lxor_16_1:
+        .word   12, 12, .Lxor_16_2
+.Lxor_16_2:
+        .word   100, 12, .Lxor_16_3
+.Lxor_16_3:
+        .word   12, 168, .Lxor_16_4
+.Lxor_16_4:
+        .word   .Lxor_c65536, 168, .Lxor_16_5
+.Lxor_16_5:
+        .word   172, 172, .Lxor_16_6
+.Lxor_16_6:
+        .word   168, 172, .Lxor_full
+        .word   24, 104, .Lxor_full
+        .word   168, 168, .Lxor_16_7
+.Lxor_16_7:
+        .word   12, 12, .Lxor_16_8
+.Lxor_16_8:
+        .word   104, 12, .Lxor_16_9
+.Lxor_16_9:
+        .word   12, 168, .Lxor_16_10
+.Lxor_16_10:
+        .word   .Lxor_c65536, 168, .Lxor_16_11
+.Lxor_16_11:
+        .word   172, 172, .Lxor_16_12
+.Lxor_16_12:
+        .word   168, 172, .Lxor_full
+        .word   12, 12, .Lxor_b15_a
+.Lxor_full:
         .word   164, 164, .Lxor_init_cnt
 .Lxor_init_cnt:
         .word   168, 168, .Lxor_r3_step1
@@ -57284,6 +57600,10 @@ __subleq_xor:
         .word   -4
 .Lxor_c80:
         .word   -2147483648
+.Lxor_c256:
+        .word   256
+.Lxor_c65536:
+        .word   65536
 .Lxor_minus1:
         .word   -1
 .Lxor_one:
@@ -57590,6 +57910,38 @@ __subleq_srl:
 .Lsrl_shift_1:
         .word   168, 168, .Lsrl1_start
 .Lsrl1_start:
+        .word   24, 164, .Lsrl1_full
+        .word   172, 172, .Lsrl1_sm1
+.Lsrl1_sm1:
+        .word   12, 12, .Lsrl1_sm2
+.Lsrl1_sm2:
+        .word   164, 12, .Lsrl1_sm3
+.Lsrl1_sm3:
+        .word   12, 172, .Lsrl1_sm4
+.Lsrl1_sm4:
+        .word   .Lsrl_c256, 172, .Lsrl1_sm5
+.Lsrl1_sm5:
+        .word   176, 176, .Lsrl1_sm6
+.Lsrl1_sm6:
+        .word   172, 176, .Lsrl1_chk16
+        .word   12, 12, .Lsrl1_b7
+.Lsrl1_chk16:
+        .word   24, 164, .Lsrl1_full
+        .word   172, 172, .Lsrl1_16_1
+.Lsrl1_16_1:
+        .word   12, 12, .Lsrl1_16_2
+.Lsrl1_16_2:
+        .word   164, 12, .Lsrl1_16_3
+.Lsrl1_16_3:
+        .word   12, 172, .Lsrl1_16_4
+.Lsrl1_16_4:
+        .word   .Lsrl_c65536, 172, .Lsrl1_16_5
+.Lsrl1_16_5:
+        .word   176, 176, .Lsrl1_16_6
+.Lsrl1_16_6:
+        .word   172, 176, .Lsrl1_full
+        .word   12, 12, .Lsrl1_b15
+.Lsrl1_full:
 .Lsrl1_b31:
         .word   172, 172, .Lsrl1_b31a
 .Lsrl1_b31a:
@@ -58115,6 +58467,38 @@ __subleq_srl:
 .Lsrl_shift_2:
         .word   168, 168, .Lsrl2_start
 .Lsrl2_start:
+        .word   24, 164, .Lsrl2_full
+        .word   172, 172, .Lsrl2_sm1
+.Lsrl2_sm1:
+        .word   12, 12, .Lsrl2_sm2
+.Lsrl2_sm2:
+        .word   164, 12, .Lsrl2_sm3
+.Lsrl2_sm3:
+        .word   12, 172, .Lsrl2_sm4
+.Lsrl2_sm4:
+        .word   .Lsrl_c256, 172, .Lsrl2_sm5
+.Lsrl2_sm5:
+        .word   176, 176, .Lsrl2_sm6
+.Lsrl2_sm6:
+        .word   172, 176, .Lsrl2_chk16
+        .word   12, 12, .Lsrl2_b7
+.Lsrl2_chk16:
+        .word   24, 164, .Lsrl2_full
+        .word   172, 172, .Lsrl2_16_1
+.Lsrl2_16_1:
+        .word   12, 12, .Lsrl2_16_2
+.Lsrl2_16_2:
+        .word   164, 12, .Lsrl2_16_3
+.Lsrl2_16_3:
+        .word   12, 172, .Lsrl2_16_4
+.Lsrl2_16_4:
+        .word   .Lsrl_c65536, 172, .Lsrl2_16_5
+.Lsrl2_16_5:
+        .word   176, 176, .Lsrl2_16_6
+.Lsrl2_16_6:
+        .word   172, 176, .Lsrl2_full
+        .word   12, 12, .Lsrl2_b15
+.Lsrl2_full:
 .Lsrl2_b31:
         .word   172, 172, .Lsrl2_b31a
 .Lsrl2_b31a:
@@ -58624,6 +59008,38 @@ __subleq_srl:
 .Lsrl_shift_3:
         .word   168, 168, .Lsrl3_start
 .Lsrl3_start:
+        .word   24, 164, .Lsrl3_full
+        .word   172, 172, .Lsrl3_sm1
+.Lsrl3_sm1:
+        .word   12, 12, .Lsrl3_sm2
+.Lsrl3_sm2:
+        .word   164, 12, .Lsrl3_sm3
+.Lsrl3_sm3:
+        .word   12, 172, .Lsrl3_sm4
+.Lsrl3_sm4:
+        .word   .Lsrl_c256, 172, .Lsrl3_sm5
+.Lsrl3_sm5:
+        .word   176, 176, .Lsrl3_sm6
+.Lsrl3_sm6:
+        .word   172, 176, .Lsrl3_chk16
+        .word   12, 12, .Lsrl3_b7
+.Lsrl3_chk16:
+        .word   24, 164, .Lsrl3_full
+        .word   172, 172, .Lsrl3_16_1
+.Lsrl3_16_1:
+        .word   12, 12, .Lsrl3_16_2
+.Lsrl3_16_2:
+        .word   164, 12, .Lsrl3_16_3
+.Lsrl3_16_3:
+        .word   12, 172, .Lsrl3_16_4
+.Lsrl3_16_4:
+        .word   .Lsrl_c65536, 172, .Lsrl3_16_5
+.Lsrl3_16_5:
+        .word   176, 176, .Lsrl3_16_6
+.Lsrl3_16_6:
+        .word   172, 176, .Lsrl3_full
+        .word   12, 12, .Lsrl3_b15
+.Lsrl3_full:
 .Lsrl3_b31:
         .word   172, 172, .Lsrl3_b31a
 .Lsrl3_b31a:
@@ -59117,6 +59533,38 @@ __subleq_srl:
 .Lsrl_shift_4:
         .word   168, 168, .Lsrl4_start
 .Lsrl4_start:
+        .word   24, 164, .Lsrl4_full
+        .word   172, 172, .Lsrl4_sm1
+.Lsrl4_sm1:
+        .word   12, 12, .Lsrl4_sm2
+.Lsrl4_sm2:
+        .word   164, 12, .Lsrl4_sm3
+.Lsrl4_sm3:
+        .word   12, 172, .Lsrl4_sm4
+.Lsrl4_sm4:
+        .word   .Lsrl_c256, 172, .Lsrl4_sm5
+.Lsrl4_sm5:
+        .word   176, 176, .Lsrl4_sm6
+.Lsrl4_sm6:
+        .word   172, 176, .Lsrl4_chk16
+        .word   12, 12, .Lsrl4_b7
+.Lsrl4_chk16:
+        .word   24, 164, .Lsrl4_full
+        .word   172, 172, .Lsrl4_16_1
+.Lsrl4_16_1:
+        .word   12, 12, .Lsrl4_16_2
+.Lsrl4_16_2:
+        .word   164, 12, .Lsrl4_16_3
+.Lsrl4_16_3:
+        .word   12, 172, .Lsrl4_16_4
+.Lsrl4_16_4:
+        .word   .Lsrl_c65536, 172, .Lsrl4_16_5
+.Lsrl4_16_5:
+        .word   176, 176, .Lsrl4_16_6
+.Lsrl4_16_6:
+        .word   172, 176, .Lsrl4_full
+        .word   12, 12, .Lsrl4_b15
+.Lsrl4_full:
 .Lsrl4_b31:
         .word   172, 172, .Lsrl4_b31a
 .Lsrl4_b31a:
@@ -59594,6 +60042,38 @@ __subleq_srl:
 .Lsrl_shift_5:
         .word   168, 168, .Lsrl5_start
 .Lsrl5_start:
+        .word   24, 164, .Lsrl5_full
+        .word   172, 172, .Lsrl5_sm1
+.Lsrl5_sm1:
+        .word   12, 12, .Lsrl5_sm2
+.Lsrl5_sm2:
+        .word   164, 12, .Lsrl5_sm3
+.Lsrl5_sm3:
+        .word   12, 172, .Lsrl5_sm4
+.Lsrl5_sm4:
+        .word   .Lsrl_c256, 172, .Lsrl5_sm5
+.Lsrl5_sm5:
+        .word   176, 176, .Lsrl5_sm6
+.Lsrl5_sm6:
+        .word   172, 176, .Lsrl5_chk16
+        .word   12, 12, .Lsrl5_b7
+.Lsrl5_chk16:
+        .word   24, 164, .Lsrl5_full
+        .word   172, 172, .Lsrl5_16_1
+.Lsrl5_16_1:
+        .word   12, 12, .Lsrl5_16_2
+.Lsrl5_16_2:
+        .word   164, 12, .Lsrl5_16_3
+.Lsrl5_16_3:
+        .word   12, 172, .Lsrl5_16_4
+.Lsrl5_16_4:
+        .word   .Lsrl_c65536, 172, .Lsrl5_16_5
+.Lsrl5_16_5:
+        .word   176, 176, .Lsrl5_16_6
+.Lsrl5_16_6:
+        .word   172, 176, .Lsrl5_full
+        .word   12, 12, .Lsrl5_b15
+.Lsrl5_full:
 .Lsrl5_b31:
         .word   172, 172, .Lsrl5_b31a
 .Lsrl5_b31a:
@@ -60055,6 +60535,38 @@ __subleq_srl:
 .Lsrl_shift_6:
         .word   168, 168, .Lsrl6_start
 .Lsrl6_start:
+        .word   24, 164, .Lsrl6_full
+        .word   172, 172, .Lsrl6_sm1
+.Lsrl6_sm1:
+        .word   12, 12, .Lsrl6_sm2
+.Lsrl6_sm2:
+        .word   164, 12, .Lsrl6_sm3
+.Lsrl6_sm3:
+        .word   12, 172, .Lsrl6_sm4
+.Lsrl6_sm4:
+        .word   .Lsrl_c256, 172, .Lsrl6_sm5
+.Lsrl6_sm5:
+        .word   176, 176, .Lsrl6_sm6
+.Lsrl6_sm6:
+        .word   172, 176, .Lsrl6_chk16
+        .word   12, 12, .Lsrl6_b7
+.Lsrl6_chk16:
+        .word   24, 164, .Lsrl6_full
+        .word   172, 172, .Lsrl6_16_1
+.Lsrl6_16_1:
+        .word   12, 12, .Lsrl6_16_2
+.Lsrl6_16_2:
+        .word   164, 12, .Lsrl6_16_3
+.Lsrl6_16_3:
+        .word   12, 172, .Lsrl6_16_4
+.Lsrl6_16_4:
+        .word   .Lsrl_c65536, 172, .Lsrl6_16_5
+.Lsrl6_16_5:
+        .word   176, 176, .Lsrl6_16_6
+.Lsrl6_16_6:
+        .word   172, 176, .Lsrl6_full
+        .word   12, 12, .Lsrl6_b15
+.Lsrl6_full:
 .Lsrl6_b31:
         .word   172, 172, .Lsrl6_b31a
 .Lsrl6_b31a:
@@ -60500,6 +61012,38 @@ __subleq_srl:
 .Lsrl_shift_7:
         .word   168, 168, .Lsrl7_start
 .Lsrl7_start:
+        .word   24, 164, .Lsrl7_full
+        .word   172, 172, .Lsrl7_sm1
+.Lsrl7_sm1:
+        .word   12, 12, .Lsrl7_sm2
+.Lsrl7_sm2:
+        .word   164, 12, .Lsrl7_sm3
+.Lsrl7_sm3:
+        .word   12, 172, .Lsrl7_sm4
+.Lsrl7_sm4:
+        .word   .Lsrl_c256, 172, .Lsrl7_sm5
+.Lsrl7_sm5:
+        .word   176, 176, .Lsrl7_sm6
+.Lsrl7_sm6:
+        .word   172, 176, .Lsrl7_chk16
+        .word   12, 12, .Lsrl7_b7
+.Lsrl7_chk16:
+        .word   24, 164, .Lsrl7_full
+        .word   172, 172, .Lsrl7_16_1
+.Lsrl7_16_1:
+        .word   12, 12, .Lsrl7_16_2
+.Lsrl7_16_2:
+        .word   164, 12, .Lsrl7_16_3
+.Lsrl7_16_3:
+        .word   12, 172, .Lsrl7_16_4
+.Lsrl7_16_4:
+        .word   .Lsrl_c65536, 172, .Lsrl7_16_5
+.Lsrl7_16_5:
+        .word   176, 176, .Lsrl7_16_6
+.Lsrl7_16_6:
+        .word   172, 176, .Lsrl7_full
+        .word   12, 12, .Lsrl7_b15
+.Lsrl7_full:
 .Lsrl7_b31:
         .word   172, 172, .Lsrl7_b31a
 .Lsrl7_b31a:
@@ -60929,6 +61473,38 @@ __subleq_srl:
 .Lsrl_shift_8:
         .word   168, 168, .Lsrl8_start
 .Lsrl8_start:
+        .word   24, 164, .Lsrl8_full
+        .word   172, 172, .Lsrl8_sm1
+.Lsrl8_sm1:
+        .word   12, 12, .Lsrl8_sm2
+.Lsrl8_sm2:
+        .word   164, 12, .Lsrl8_sm3
+.Lsrl8_sm3:
+        .word   12, 172, .Lsrl8_sm4
+.Lsrl8_sm4:
+        .word   .Lsrl_c256, 172, .Lsrl8_sm5
+.Lsrl8_sm5:
+        .word   176, 176, .Lsrl8_sm6
+.Lsrl8_sm6:
+        .word   172, 176, .Lsrl8_chk16
+        .word   12, 12, .Lsrl8_store
+.Lsrl8_chk16:
+        .word   24, 164, .Lsrl8_full
+        .word   172, 172, .Lsrl8_16_1
+.Lsrl8_16_1:
+        .word   12, 12, .Lsrl8_16_2
+.Lsrl8_16_2:
+        .word   164, 12, .Lsrl8_16_3
+.Lsrl8_16_3:
+        .word   12, 172, .Lsrl8_16_4
+.Lsrl8_16_4:
+        .word   .Lsrl_c65536, 172, .Lsrl8_16_5
+.Lsrl8_16_5:
+        .word   176, 176, .Lsrl8_16_6
+.Lsrl8_16_6:
+        .word   172, 176, .Lsrl8_full
+        .word   12, 12, .Lsrl8_b15
+.Lsrl8_full:
 .Lsrl8_b31:
         .word   172, 172, .Lsrl8_b31a
 .Lsrl8_b31a:
@@ -61342,6 +61918,38 @@ __subleq_srl:
 .Lsrl_shift_9:
         .word   168, 168, .Lsrl9_start
 .Lsrl9_start:
+        .word   24, 164, .Lsrl9_full
+        .word   172, 172, .Lsrl9_sm1
+.Lsrl9_sm1:
+        .word   12, 12, .Lsrl9_sm2
+.Lsrl9_sm2:
+        .word   164, 12, .Lsrl9_sm3
+.Lsrl9_sm3:
+        .word   12, 172, .Lsrl9_sm4
+.Lsrl9_sm4:
+        .word   .Lsrl_c256, 172, .Lsrl9_sm5
+.Lsrl9_sm5:
+        .word   176, 176, .Lsrl9_sm6
+.Lsrl9_sm6:
+        .word   172, 176, .Lsrl9_chk16
+        .word   12, 12, .Lsrl9_store
+.Lsrl9_chk16:
+        .word   24, 164, .Lsrl9_full
+        .word   172, 172, .Lsrl9_16_1
+.Lsrl9_16_1:
+        .word   12, 12, .Lsrl9_16_2
+.Lsrl9_16_2:
+        .word   164, 12, .Lsrl9_16_3
+.Lsrl9_16_3:
+        .word   12, 172, .Lsrl9_16_4
+.Lsrl9_16_4:
+        .word   .Lsrl_c65536, 172, .Lsrl9_16_5
+.Lsrl9_16_5:
+        .word   176, 176, .Lsrl9_16_6
+.Lsrl9_16_6:
+        .word   172, 176, .Lsrl9_full
+        .word   12, 12, .Lsrl9_b15
+.Lsrl9_full:
 .Lsrl9_b31:
         .word   172, 172, .Lsrl9_b31a
 .Lsrl9_b31a:
@@ -61739,6 +62347,38 @@ __subleq_srl:
 .Lsrl_shift_10:
         .word   168, 168, .Lsrl10_start
 .Lsrl10_start:
+        .word   24, 164, .Lsrl10_full
+        .word   172, 172, .Lsrl10_sm1
+.Lsrl10_sm1:
+        .word   12, 12, .Lsrl10_sm2
+.Lsrl10_sm2:
+        .word   164, 12, .Lsrl10_sm3
+.Lsrl10_sm3:
+        .word   12, 172, .Lsrl10_sm4
+.Lsrl10_sm4:
+        .word   .Lsrl_c256, 172, .Lsrl10_sm5
+.Lsrl10_sm5:
+        .word   176, 176, .Lsrl10_sm6
+.Lsrl10_sm6:
+        .word   172, 176, .Lsrl10_chk16
+        .word   12, 12, .Lsrl10_store
+.Lsrl10_chk16:
+        .word   24, 164, .Lsrl10_full
+        .word   172, 172, .Lsrl10_16_1
+.Lsrl10_16_1:
+        .word   12, 12, .Lsrl10_16_2
+.Lsrl10_16_2:
+        .word   164, 12, .Lsrl10_16_3
+.Lsrl10_16_3:
+        .word   12, 172, .Lsrl10_16_4
+.Lsrl10_16_4:
+        .word   .Lsrl_c65536, 172, .Lsrl10_16_5
+.Lsrl10_16_5:
+        .word   176, 176, .Lsrl10_16_6
+.Lsrl10_16_6:
+        .word   172, 176, .Lsrl10_full
+        .word   12, 12, .Lsrl10_b15
+.Lsrl10_full:
 .Lsrl10_b31:
         .word   172, 172, .Lsrl10_b31a
 .Lsrl10_b31a:
@@ -62120,6 +62760,38 @@ __subleq_srl:
 .Lsrl_shift_11:
         .word   168, 168, .Lsrl11_start
 .Lsrl11_start:
+        .word   24, 164, .Lsrl11_full
+        .word   172, 172, .Lsrl11_sm1
+.Lsrl11_sm1:
+        .word   12, 12, .Lsrl11_sm2
+.Lsrl11_sm2:
+        .word   164, 12, .Lsrl11_sm3
+.Lsrl11_sm3:
+        .word   12, 172, .Lsrl11_sm4
+.Lsrl11_sm4:
+        .word   .Lsrl_c256, 172, .Lsrl11_sm5
+.Lsrl11_sm5:
+        .word   176, 176, .Lsrl11_sm6
+.Lsrl11_sm6:
+        .word   172, 176, .Lsrl11_chk16
+        .word   12, 12, .Lsrl11_store
+.Lsrl11_chk16:
+        .word   24, 164, .Lsrl11_full
+        .word   172, 172, .Lsrl11_16_1
+.Lsrl11_16_1:
+        .word   12, 12, .Lsrl11_16_2
+.Lsrl11_16_2:
+        .word   164, 12, .Lsrl11_16_3
+.Lsrl11_16_3:
+        .word   12, 172, .Lsrl11_16_4
+.Lsrl11_16_4:
+        .word   .Lsrl_c65536, 172, .Lsrl11_16_5
+.Lsrl11_16_5:
+        .word   176, 176, .Lsrl11_16_6
+.Lsrl11_16_6:
+        .word   172, 176, .Lsrl11_full
+        .word   12, 12, .Lsrl11_b15
+.Lsrl11_full:
 .Lsrl11_b31:
         .word   172, 172, .Lsrl11_b31a
 .Lsrl11_b31a:
@@ -62485,6 +63157,38 @@ __subleq_srl:
 .Lsrl_shift_12:
         .word   168, 168, .Lsrl12_start
 .Lsrl12_start:
+        .word   24, 164, .Lsrl12_full
+        .word   172, 172, .Lsrl12_sm1
+.Lsrl12_sm1:
+        .word   12, 12, .Lsrl12_sm2
+.Lsrl12_sm2:
+        .word   164, 12, .Lsrl12_sm3
+.Lsrl12_sm3:
+        .word   12, 172, .Lsrl12_sm4
+.Lsrl12_sm4:
+        .word   .Lsrl_c256, 172, .Lsrl12_sm5
+.Lsrl12_sm5:
+        .word   176, 176, .Lsrl12_sm6
+.Lsrl12_sm6:
+        .word   172, 176, .Lsrl12_chk16
+        .word   12, 12, .Lsrl12_store
+.Lsrl12_chk16:
+        .word   24, 164, .Lsrl12_full
+        .word   172, 172, .Lsrl12_16_1
+.Lsrl12_16_1:
+        .word   12, 12, .Lsrl12_16_2
+.Lsrl12_16_2:
+        .word   164, 12, .Lsrl12_16_3
+.Lsrl12_16_3:
+        .word   12, 172, .Lsrl12_16_4
+.Lsrl12_16_4:
+        .word   .Lsrl_c65536, 172, .Lsrl12_16_5
+.Lsrl12_16_5:
+        .word   176, 176, .Lsrl12_16_6
+.Lsrl12_16_6:
+        .word   172, 176, .Lsrl12_full
+        .word   12, 12, .Lsrl12_b15
+.Lsrl12_full:
 .Lsrl12_b31:
         .word   172, 172, .Lsrl12_b31a
 .Lsrl12_b31a:
@@ -62834,6 +63538,38 @@ __subleq_srl:
 .Lsrl_shift_13:
         .word   168, 168, .Lsrl13_start
 .Lsrl13_start:
+        .word   24, 164, .Lsrl13_full
+        .word   172, 172, .Lsrl13_sm1
+.Lsrl13_sm1:
+        .word   12, 12, .Lsrl13_sm2
+.Lsrl13_sm2:
+        .word   164, 12, .Lsrl13_sm3
+.Lsrl13_sm3:
+        .word   12, 172, .Lsrl13_sm4
+.Lsrl13_sm4:
+        .word   .Lsrl_c256, 172, .Lsrl13_sm5
+.Lsrl13_sm5:
+        .word   176, 176, .Lsrl13_sm6
+.Lsrl13_sm6:
+        .word   172, 176, .Lsrl13_chk16
+        .word   12, 12, .Lsrl13_store
+.Lsrl13_chk16:
+        .word   24, 164, .Lsrl13_full
+        .word   172, 172, .Lsrl13_16_1
+.Lsrl13_16_1:
+        .word   12, 12, .Lsrl13_16_2
+.Lsrl13_16_2:
+        .word   164, 12, .Lsrl13_16_3
+.Lsrl13_16_3:
+        .word   12, 172, .Lsrl13_16_4
+.Lsrl13_16_4:
+        .word   .Lsrl_c65536, 172, .Lsrl13_16_5
+.Lsrl13_16_5:
+        .word   176, 176, .Lsrl13_16_6
+.Lsrl13_16_6:
+        .word   172, 176, .Lsrl13_full
+        .word   12, 12, .Lsrl13_b15
+.Lsrl13_full:
 .Lsrl13_b31:
         .word   172, 172, .Lsrl13_b31a
 .Lsrl13_b31a:
@@ -63167,6 +63903,38 @@ __subleq_srl:
 .Lsrl_shift_14:
         .word   168, 168, .Lsrl14_start
 .Lsrl14_start:
+        .word   24, 164, .Lsrl14_full
+        .word   172, 172, .Lsrl14_sm1
+.Lsrl14_sm1:
+        .word   12, 12, .Lsrl14_sm2
+.Lsrl14_sm2:
+        .word   164, 12, .Lsrl14_sm3
+.Lsrl14_sm3:
+        .word   12, 172, .Lsrl14_sm4
+.Lsrl14_sm4:
+        .word   .Lsrl_c256, 172, .Lsrl14_sm5
+.Lsrl14_sm5:
+        .word   176, 176, .Lsrl14_sm6
+.Lsrl14_sm6:
+        .word   172, 176, .Lsrl14_chk16
+        .word   12, 12, .Lsrl14_store
+.Lsrl14_chk16:
+        .word   24, 164, .Lsrl14_full
+        .word   172, 172, .Lsrl14_16_1
+.Lsrl14_16_1:
+        .word   12, 12, .Lsrl14_16_2
+.Lsrl14_16_2:
+        .word   164, 12, .Lsrl14_16_3
+.Lsrl14_16_3:
+        .word   12, 172, .Lsrl14_16_4
+.Lsrl14_16_4:
+        .word   .Lsrl_c65536, 172, .Lsrl14_16_5
+.Lsrl14_16_5:
+        .word   176, 176, .Lsrl14_16_6
+.Lsrl14_16_6:
+        .word   172, 176, .Lsrl14_full
+        .word   12, 12, .Lsrl14_b15
+.Lsrl14_full:
 .Lsrl14_b31:
         .word   172, 172, .Lsrl14_b31a
 .Lsrl14_b31a:
@@ -63484,6 +64252,38 @@ __subleq_srl:
 .Lsrl_shift_15:
         .word   168, 168, .Lsrl15_start
 .Lsrl15_start:
+        .word   24, 164, .Lsrl15_full
+        .word   172, 172, .Lsrl15_sm1
+.Lsrl15_sm1:
+        .word   12, 12, .Lsrl15_sm2
+.Lsrl15_sm2:
+        .word   164, 12, .Lsrl15_sm3
+.Lsrl15_sm3:
+        .word   12, 172, .Lsrl15_sm4
+.Lsrl15_sm4:
+        .word   .Lsrl_c256, 172, .Lsrl15_sm5
+.Lsrl15_sm5:
+        .word   176, 176, .Lsrl15_sm6
+.Lsrl15_sm6:
+        .word   172, 176, .Lsrl15_chk16
+        .word   12, 12, .Lsrl15_store
+.Lsrl15_chk16:
+        .word   24, 164, .Lsrl15_full
+        .word   172, 172, .Lsrl15_16_1
+.Lsrl15_16_1:
+        .word   12, 12, .Lsrl15_16_2
+.Lsrl15_16_2:
+        .word   164, 12, .Lsrl15_16_3
+.Lsrl15_16_3:
+        .word   12, 172, .Lsrl15_16_4
+.Lsrl15_16_4:
+        .word   .Lsrl_c65536, 172, .Lsrl15_16_5
+.Lsrl15_16_5:
+        .word   176, 176, .Lsrl15_16_6
+.Lsrl15_16_6:
+        .word   172, 176, .Lsrl15_full
+        .word   12, 12, .Lsrl15_b15
+.Lsrl15_full:
 .Lsrl15_b31:
         .word   172, 172, .Lsrl15_b31a
 .Lsrl15_b31a:
@@ -63785,6 +64585,38 @@ __subleq_srl:
 .Lsrl_shift_16:
         .word   168, 168, .Lsrl16_start
 .Lsrl16_start:
+        .word   24, 164, .Lsrl16_full
+        .word   172, 172, .Lsrl16_sm1
+.Lsrl16_sm1:
+        .word   12, 12, .Lsrl16_sm2
+.Lsrl16_sm2:
+        .word   164, 12, .Lsrl16_sm3
+.Lsrl16_sm3:
+        .word   12, 172, .Lsrl16_sm4
+.Lsrl16_sm4:
+        .word   .Lsrl_c256, 172, .Lsrl16_sm5
+.Lsrl16_sm5:
+        .word   176, 176, .Lsrl16_sm6
+.Lsrl16_sm6:
+        .word   172, 176, .Lsrl16_chk16
+        .word   12, 12, .Lsrl16_store
+.Lsrl16_chk16:
+        .word   24, 164, .Lsrl16_full
+        .word   172, 172, .Lsrl16_16_1
+.Lsrl16_16_1:
+        .word   12, 12, .Lsrl16_16_2
+.Lsrl16_16_2:
+        .word   164, 12, .Lsrl16_16_3
+.Lsrl16_16_3:
+        .word   12, 172, .Lsrl16_16_4
+.Lsrl16_16_4:
+        .word   .Lsrl_c65536, 172, .Lsrl16_16_5
+.Lsrl16_16_5:
+        .word   176, 176, .Lsrl16_16_6
+.Lsrl16_16_6:
+        .word   172, 176, .Lsrl16_full
+        .word   12, 12, .Lsrl16_store
+.Lsrl16_full:
 .Lsrl16_b31:
         .word   172, 172, .Lsrl16_b31a
 .Lsrl16_b31a:
@@ -64070,6 +64902,38 @@ __subleq_srl:
 .Lsrl_shift_17:
         .word   168, 168, .Lsrl17_start
 .Lsrl17_start:
+        .word   24, 164, .Lsrl17_full
+        .word   172, 172, .Lsrl17_sm1
+.Lsrl17_sm1:
+        .word   12, 12, .Lsrl17_sm2
+.Lsrl17_sm2:
+        .word   164, 12, .Lsrl17_sm3
+.Lsrl17_sm3:
+        .word   12, 172, .Lsrl17_sm4
+.Lsrl17_sm4:
+        .word   .Lsrl_c256, 172, .Lsrl17_sm5
+.Lsrl17_sm5:
+        .word   176, 176, .Lsrl17_sm6
+.Lsrl17_sm6:
+        .word   172, 176, .Lsrl17_chk16
+        .word   12, 12, .Lsrl17_store
+.Lsrl17_chk16:
+        .word   24, 164, .Lsrl17_full
+        .word   172, 172, .Lsrl17_16_1
+.Lsrl17_16_1:
+        .word   12, 12, .Lsrl17_16_2
+.Lsrl17_16_2:
+        .word   164, 12, .Lsrl17_16_3
+.Lsrl17_16_3:
+        .word   12, 172, .Lsrl17_16_4
+.Lsrl17_16_4:
+        .word   .Lsrl_c65536, 172, .Lsrl17_16_5
+.Lsrl17_16_5:
+        .word   176, 176, .Lsrl17_16_6
+.Lsrl17_16_6:
+        .word   172, 176, .Lsrl17_full
+        .word   12, 12, .Lsrl17_store
+.Lsrl17_full:
 .Lsrl17_b31:
         .word   172, 172, .Lsrl17_b31a
 .Lsrl17_b31a:
@@ -64339,6 +65203,38 @@ __subleq_srl:
 .Lsrl_shift_18:
         .word   168, 168, .Lsrl18_start
 .Lsrl18_start:
+        .word   24, 164, .Lsrl18_full
+        .word   172, 172, .Lsrl18_sm1
+.Lsrl18_sm1:
+        .word   12, 12, .Lsrl18_sm2
+.Lsrl18_sm2:
+        .word   164, 12, .Lsrl18_sm3
+.Lsrl18_sm3:
+        .word   12, 172, .Lsrl18_sm4
+.Lsrl18_sm4:
+        .word   .Lsrl_c256, 172, .Lsrl18_sm5
+.Lsrl18_sm5:
+        .word   176, 176, .Lsrl18_sm6
+.Lsrl18_sm6:
+        .word   172, 176, .Lsrl18_chk16
+        .word   12, 12, .Lsrl18_store
+.Lsrl18_chk16:
+        .word   24, 164, .Lsrl18_full
+        .word   172, 172, .Lsrl18_16_1
+.Lsrl18_16_1:
+        .word   12, 12, .Lsrl18_16_2
+.Lsrl18_16_2:
+        .word   164, 12, .Lsrl18_16_3
+.Lsrl18_16_3:
+        .word   12, 172, .Lsrl18_16_4
+.Lsrl18_16_4:
+        .word   .Lsrl_c65536, 172, .Lsrl18_16_5
+.Lsrl18_16_5:
+        .word   176, 176, .Lsrl18_16_6
+.Lsrl18_16_6:
+        .word   172, 176, .Lsrl18_full
+        .word   12, 12, .Lsrl18_store
+.Lsrl18_full:
 .Lsrl18_b31:
         .word   172, 172, .Lsrl18_b31a
 .Lsrl18_b31a:
@@ -64592,6 +65488,38 @@ __subleq_srl:
 .Lsrl_shift_19:
         .word   168, 168, .Lsrl19_start
 .Lsrl19_start:
+        .word   24, 164, .Lsrl19_full
+        .word   172, 172, .Lsrl19_sm1
+.Lsrl19_sm1:
+        .word   12, 12, .Lsrl19_sm2
+.Lsrl19_sm2:
+        .word   164, 12, .Lsrl19_sm3
+.Lsrl19_sm3:
+        .word   12, 172, .Lsrl19_sm4
+.Lsrl19_sm4:
+        .word   .Lsrl_c256, 172, .Lsrl19_sm5
+.Lsrl19_sm5:
+        .word   176, 176, .Lsrl19_sm6
+.Lsrl19_sm6:
+        .word   172, 176, .Lsrl19_chk16
+        .word   12, 12, .Lsrl19_store
+.Lsrl19_chk16:
+        .word   24, 164, .Lsrl19_full
+        .word   172, 172, .Lsrl19_16_1
+.Lsrl19_16_1:
+        .word   12, 12, .Lsrl19_16_2
+.Lsrl19_16_2:
+        .word   164, 12, .Lsrl19_16_3
+.Lsrl19_16_3:
+        .word   12, 172, .Lsrl19_16_4
+.Lsrl19_16_4:
+        .word   .Lsrl_c65536, 172, .Lsrl19_16_5
+.Lsrl19_16_5:
+        .word   176, 176, .Lsrl19_16_6
+.Lsrl19_16_6:
+        .word   172, 176, .Lsrl19_full
+        .word   12, 12, .Lsrl19_store
+.Lsrl19_full:
 .Lsrl19_b31:
         .word   172, 172, .Lsrl19_b31a
 .Lsrl19_b31a:
@@ -64829,6 +65757,38 @@ __subleq_srl:
 .Lsrl_shift_20:
         .word   168, 168, .Lsrl20_start
 .Lsrl20_start:
+        .word   24, 164, .Lsrl20_full
+        .word   172, 172, .Lsrl20_sm1
+.Lsrl20_sm1:
+        .word   12, 12, .Lsrl20_sm2
+.Lsrl20_sm2:
+        .word   164, 12, .Lsrl20_sm3
+.Lsrl20_sm3:
+        .word   12, 172, .Lsrl20_sm4
+.Lsrl20_sm4:
+        .word   .Lsrl_c256, 172, .Lsrl20_sm5
+.Lsrl20_sm5:
+        .word   176, 176, .Lsrl20_sm6
+.Lsrl20_sm6:
+        .word   172, 176, .Lsrl20_chk16
+        .word   12, 12, .Lsrl20_store
+.Lsrl20_chk16:
+        .word   24, 164, .Lsrl20_full
+        .word   172, 172, .Lsrl20_16_1
+.Lsrl20_16_1:
+        .word   12, 12, .Lsrl20_16_2
+.Lsrl20_16_2:
+        .word   164, 12, .Lsrl20_16_3
+.Lsrl20_16_3:
+        .word   12, 172, .Lsrl20_16_4
+.Lsrl20_16_4:
+        .word   .Lsrl_c65536, 172, .Lsrl20_16_5
+.Lsrl20_16_5:
+        .word   176, 176, .Lsrl20_16_6
+.Lsrl20_16_6:
+        .word   172, 176, .Lsrl20_full
+        .word   12, 12, .Lsrl20_store
+.Lsrl20_full:
 .Lsrl20_b31:
         .word   172, 172, .Lsrl20_b31a
 .Lsrl20_b31a:
@@ -65050,6 +66010,38 @@ __subleq_srl:
 .Lsrl_shift_21:
         .word   168, 168, .Lsrl21_start
 .Lsrl21_start:
+        .word   24, 164, .Lsrl21_full
+        .word   172, 172, .Lsrl21_sm1
+.Lsrl21_sm1:
+        .word   12, 12, .Lsrl21_sm2
+.Lsrl21_sm2:
+        .word   164, 12, .Lsrl21_sm3
+.Lsrl21_sm3:
+        .word   12, 172, .Lsrl21_sm4
+.Lsrl21_sm4:
+        .word   .Lsrl_c256, 172, .Lsrl21_sm5
+.Lsrl21_sm5:
+        .word   176, 176, .Lsrl21_sm6
+.Lsrl21_sm6:
+        .word   172, 176, .Lsrl21_chk16
+        .word   12, 12, .Lsrl21_store
+.Lsrl21_chk16:
+        .word   24, 164, .Lsrl21_full
+        .word   172, 172, .Lsrl21_16_1
+.Lsrl21_16_1:
+        .word   12, 12, .Lsrl21_16_2
+.Lsrl21_16_2:
+        .word   164, 12, .Lsrl21_16_3
+.Lsrl21_16_3:
+        .word   12, 172, .Lsrl21_16_4
+.Lsrl21_16_4:
+        .word   .Lsrl_c65536, 172, .Lsrl21_16_5
+.Lsrl21_16_5:
+        .word   176, 176, .Lsrl21_16_6
+.Lsrl21_16_6:
+        .word   172, 176, .Lsrl21_full
+        .word   12, 12, .Lsrl21_store
+.Lsrl21_full:
 .Lsrl21_b31:
         .word   172, 172, .Lsrl21_b31a
 .Lsrl21_b31a:
@@ -65255,6 +66247,38 @@ __subleq_srl:
 .Lsrl_shift_22:
         .word   168, 168, .Lsrl22_start
 .Lsrl22_start:
+        .word   24, 164, .Lsrl22_full
+        .word   172, 172, .Lsrl22_sm1
+.Lsrl22_sm1:
+        .word   12, 12, .Lsrl22_sm2
+.Lsrl22_sm2:
+        .word   164, 12, .Lsrl22_sm3
+.Lsrl22_sm3:
+        .word   12, 172, .Lsrl22_sm4
+.Lsrl22_sm4:
+        .word   .Lsrl_c256, 172, .Lsrl22_sm5
+.Lsrl22_sm5:
+        .word   176, 176, .Lsrl22_sm6
+.Lsrl22_sm6:
+        .word   172, 176, .Lsrl22_chk16
+        .word   12, 12, .Lsrl22_store
+.Lsrl22_chk16:
+        .word   24, 164, .Lsrl22_full
+        .word   172, 172, .Lsrl22_16_1
+.Lsrl22_16_1:
+        .word   12, 12, .Lsrl22_16_2
+.Lsrl22_16_2:
+        .word   164, 12, .Lsrl22_16_3
+.Lsrl22_16_3:
+        .word   12, 172, .Lsrl22_16_4
+.Lsrl22_16_4:
+        .word   .Lsrl_c65536, 172, .Lsrl22_16_5
+.Lsrl22_16_5:
+        .word   176, 176, .Lsrl22_16_6
+.Lsrl22_16_6:
+        .word   172, 176, .Lsrl22_full
+        .word   12, 12, .Lsrl22_store
+.Lsrl22_full:
 .Lsrl22_b31:
         .word   172, 172, .Lsrl22_b31a
 .Lsrl22_b31a:
@@ -65444,6 +66468,38 @@ __subleq_srl:
 .Lsrl_shift_23:
         .word   168, 168, .Lsrl23_start
 .Lsrl23_start:
+        .word   24, 164, .Lsrl23_full
+        .word   172, 172, .Lsrl23_sm1
+.Lsrl23_sm1:
+        .word   12, 12, .Lsrl23_sm2
+.Lsrl23_sm2:
+        .word   164, 12, .Lsrl23_sm3
+.Lsrl23_sm3:
+        .word   12, 172, .Lsrl23_sm4
+.Lsrl23_sm4:
+        .word   .Lsrl_c256, 172, .Lsrl23_sm5
+.Lsrl23_sm5:
+        .word   176, 176, .Lsrl23_sm6
+.Lsrl23_sm6:
+        .word   172, 176, .Lsrl23_chk16
+        .word   12, 12, .Lsrl23_store
+.Lsrl23_chk16:
+        .word   24, 164, .Lsrl23_full
+        .word   172, 172, .Lsrl23_16_1
+.Lsrl23_16_1:
+        .word   12, 12, .Lsrl23_16_2
+.Lsrl23_16_2:
+        .word   164, 12, .Lsrl23_16_3
+.Lsrl23_16_3:
+        .word   12, 172, .Lsrl23_16_4
+.Lsrl23_16_4:
+        .word   .Lsrl_c65536, 172, .Lsrl23_16_5
+.Lsrl23_16_5:
+        .word   176, 176, .Lsrl23_16_6
+.Lsrl23_16_6:
+        .word   172, 176, .Lsrl23_full
+        .word   12, 12, .Lsrl23_store
+.Lsrl23_full:
 .Lsrl23_b31:
         .word   172, 172, .Lsrl23_b31a
 .Lsrl23_b31a:
@@ -65617,6 +66673,38 @@ __subleq_srl:
 .Lsrl_shift_24:
         .word   168, 168, .Lsrl24_start
 .Lsrl24_start:
+        .word   24, 164, .Lsrl24_full
+        .word   172, 172, .Lsrl24_sm1
+.Lsrl24_sm1:
+        .word   12, 12, .Lsrl24_sm2
+.Lsrl24_sm2:
+        .word   164, 12, .Lsrl24_sm3
+.Lsrl24_sm3:
+        .word   12, 172, .Lsrl24_sm4
+.Lsrl24_sm4:
+        .word   .Lsrl_c256, 172, .Lsrl24_sm5
+.Lsrl24_sm5:
+        .word   176, 176, .Lsrl24_sm6
+.Lsrl24_sm6:
+        .word   172, 176, .Lsrl24_chk16
+        .word   12, 12, .Lsrl24_store
+.Lsrl24_chk16:
+        .word   24, 164, .Lsrl24_full
+        .word   172, 172, .Lsrl24_16_1
+.Lsrl24_16_1:
+        .word   12, 12, .Lsrl24_16_2
+.Lsrl24_16_2:
+        .word   164, 12, .Lsrl24_16_3
+.Lsrl24_16_3:
+        .word   12, 172, .Lsrl24_16_4
+.Lsrl24_16_4:
+        .word   .Lsrl_c65536, 172, .Lsrl24_16_5
+.Lsrl24_16_5:
+        .word   176, 176, .Lsrl24_16_6
+.Lsrl24_16_6:
+        .word   172, 176, .Lsrl24_full
+        .word   12, 12, .Lsrl24_store
+.Lsrl24_full:
 .Lsrl24_b31:
         .word   172, 172, .Lsrl24_b31a
 .Lsrl24_b31a:
@@ -65774,6 +66862,38 @@ __subleq_srl:
 .Lsrl_shift_25:
         .word   168, 168, .Lsrl25_start
 .Lsrl25_start:
+        .word   24, 164, .Lsrl25_full
+        .word   172, 172, .Lsrl25_sm1
+.Lsrl25_sm1:
+        .word   12, 12, .Lsrl25_sm2
+.Lsrl25_sm2:
+        .word   164, 12, .Lsrl25_sm3
+.Lsrl25_sm3:
+        .word   12, 172, .Lsrl25_sm4
+.Lsrl25_sm4:
+        .word   .Lsrl_c256, 172, .Lsrl25_sm5
+.Lsrl25_sm5:
+        .word   176, 176, .Lsrl25_sm6
+.Lsrl25_sm6:
+        .word   172, 176, .Lsrl25_chk16
+        .word   12, 12, .Lsrl25_store
+.Lsrl25_chk16:
+        .word   24, 164, .Lsrl25_full
+        .word   172, 172, .Lsrl25_16_1
+.Lsrl25_16_1:
+        .word   12, 12, .Lsrl25_16_2
+.Lsrl25_16_2:
+        .word   164, 12, .Lsrl25_16_3
+.Lsrl25_16_3:
+        .word   12, 172, .Lsrl25_16_4
+.Lsrl25_16_4:
+        .word   .Lsrl_c65536, 172, .Lsrl25_16_5
+.Lsrl25_16_5:
+        .word   176, 176, .Lsrl25_16_6
+.Lsrl25_16_6:
+        .word   172, 176, .Lsrl25_full
+        .word   12, 12, .Lsrl25_store
+.Lsrl25_full:
 .Lsrl25_b31:
         .word   172, 172, .Lsrl25_b31a
 .Lsrl25_b31a:
@@ -65915,6 +67035,38 @@ __subleq_srl:
 .Lsrl_shift_26:
         .word   168, 168, .Lsrl26_start
 .Lsrl26_start:
+        .word   24, 164, .Lsrl26_full
+        .word   172, 172, .Lsrl26_sm1
+.Lsrl26_sm1:
+        .word   12, 12, .Lsrl26_sm2
+.Lsrl26_sm2:
+        .word   164, 12, .Lsrl26_sm3
+.Lsrl26_sm3:
+        .word   12, 172, .Lsrl26_sm4
+.Lsrl26_sm4:
+        .word   .Lsrl_c256, 172, .Lsrl26_sm5
+.Lsrl26_sm5:
+        .word   176, 176, .Lsrl26_sm6
+.Lsrl26_sm6:
+        .word   172, 176, .Lsrl26_chk16
+        .word   12, 12, .Lsrl26_store
+.Lsrl26_chk16:
+        .word   24, 164, .Lsrl26_full
+        .word   172, 172, .Lsrl26_16_1
+.Lsrl26_16_1:
+        .word   12, 12, .Lsrl26_16_2
+.Lsrl26_16_2:
+        .word   164, 12, .Lsrl26_16_3
+.Lsrl26_16_3:
+        .word   12, 172, .Lsrl26_16_4
+.Lsrl26_16_4:
+        .word   .Lsrl_c65536, 172, .Lsrl26_16_5
+.Lsrl26_16_5:
+        .word   176, 176, .Lsrl26_16_6
+.Lsrl26_16_6:
+        .word   172, 176, .Lsrl26_full
+        .word   12, 12, .Lsrl26_store
+.Lsrl26_full:
 .Lsrl26_b31:
         .word   172, 172, .Lsrl26_b31a
 .Lsrl26_b31a:
@@ -66040,6 +67192,38 @@ __subleq_srl:
 .Lsrl_shift_27:
         .word   168, 168, .Lsrl27_start
 .Lsrl27_start:
+        .word   24, 164, .Lsrl27_full
+        .word   172, 172, .Lsrl27_sm1
+.Lsrl27_sm1:
+        .word   12, 12, .Lsrl27_sm2
+.Lsrl27_sm2:
+        .word   164, 12, .Lsrl27_sm3
+.Lsrl27_sm3:
+        .word   12, 172, .Lsrl27_sm4
+.Lsrl27_sm4:
+        .word   .Lsrl_c256, 172, .Lsrl27_sm5
+.Lsrl27_sm5:
+        .word   176, 176, .Lsrl27_sm6
+.Lsrl27_sm6:
+        .word   172, 176, .Lsrl27_chk16
+        .word   12, 12, .Lsrl27_store
+.Lsrl27_chk16:
+        .word   24, 164, .Lsrl27_full
+        .word   172, 172, .Lsrl27_16_1
+.Lsrl27_16_1:
+        .word   12, 12, .Lsrl27_16_2
+.Lsrl27_16_2:
+        .word   164, 12, .Lsrl27_16_3
+.Lsrl27_16_3:
+        .word   12, 172, .Lsrl27_16_4
+.Lsrl27_16_4:
+        .word   .Lsrl_c65536, 172, .Lsrl27_16_5
+.Lsrl27_16_5:
+        .word   176, 176, .Lsrl27_16_6
+.Lsrl27_16_6:
+        .word   172, 176, .Lsrl27_full
+        .word   12, 12, .Lsrl27_store
+.Lsrl27_full:
 .Lsrl27_b31:
         .word   172, 172, .Lsrl27_b31a
 .Lsrl27_b31a:
@@ -66149,6 +67333,38 @@ __subleq_srl:
 .Lsrl_shift_28:
         .word   168, 168, .Lsrl28_start
 .Lsrl28_start:
+        .word   24, 164, .Lsrl28_full
+        .word   172, 172, .Lsrl28_sm1
+.Lsrl28_sm1:
+        .word   12, 12, .Lsrl28_sm2
+.Lsrl28_sm2:
+        .word   164, 12, .Lsrl28_sm3
+.Lsrl28_sm3:
+        .word   12, 172, .Lsrl28_sm4
+.Lsrl28_sm4:
+        .word   .Lsrl_c256, 172, .Lsrl28_sm5
+.Lsrl28_sm5:
+        .word   176, 176, .Lsrl28_sm6
+.Lsrl28_sm6:
+        .word   172, 176, .Lsrl28_chk16
+        .word   12, 12, .Lsrl28_store
+.Lsrl28_chk16:
+        .word   24, 164, .Lsrl28_full
+        .word   172, 172, .Lsrl28_16_1
+.Lsrl28_16_1:
+        .word   12, 12, .Lsrl28_16_2
+.Lsrl28_16_2:
+        .word   164, 12, .Lsrl28_16_3
+.Lsrl28_16_3:
+        .word   12, 172, .Lsrl28_16_4
+.Lsrl28_16_4:
+        .word   .Lsrl_c65536, 172, .Lsrl28_16_5
+.Lsrl28_16_5:
+        .word   176, 176, .Lsrl28_16_6
+.Lsrl28_16_6:
+        .word   172, 176, .Lsrl28_full
+        .word   12, 12, .Lsrl28_store
+.Lsrl28_full:
 .Lsrl28_b31:
         .word   172, 172, .Lsrl28_b31a
 .Lsrl28_b31a:
@@ -66242,6 +67458,38 @@ __subleq_srl:
 .Lsrl_shift_29:
         .word   168, 168, .Lsrl29_start
 .Lsrl29_start:
+        .word   24, 164, .Lsrl29_full
+        .word   172, 172, .Lsrl29_sm1
+.Lsrl29_sm1:
+        .word   12, 12, .Lsrl29_sm2
+.Lsrl29_sm2:
+        .word   164, 12, .Lsrl29_sm3
+.Lsrl29_sm3:
+        .word   12, 172, .Lsrl29_sm4
+.Lsrl29_sm4:
+        .word   .Lsrl_c256, 172, .Lsrl29_sm5
+.Lsrl29_sm5:
+        .word   176, 176, .Lsrl29_sm6
+.Lsrl29_sm6:
+        .word   172, 176, .Lsrl29_chk16
+        .word   12, 12, .Lsrl29_store
+.Lsrl29_chk16:
+        .word   24, 164, .Lsrl29_full
+        .word   172, 172, .Lsrl29_16_1
+.Lsrl29_16_1:
+        .word   12, 12, .Lsrl29_16_2
+.Lsrl29_16_2:
+        .word   164, 12, .Lsrl29_16_3
+.Lsrl29_16_3:
+        .word   12, 172, .Lsrl29_16_4
+.Lsrl29_16_4:
+        .word   .Lsrl_c65536, 172, .Lsrl29_16_5
+.Lsrl29_16_5:
+        .word   176, 176, .Lsrl29_16_6
+.Lsrl29_16_6:
+        .word   172, 176, .Lsrl29_full
+        .word   12, 12, .Lsrl29_store
+.Lsrl29_full:
 .Lsrl29_b31:
         .word   172, 172, .Lsrl29_b31a
 .Lsrl29_b31a:
@@ -66319,6 +67567,38 @@ __subleq_srl:
 .Lsrl_shift_30:
         .word   168, 168, .Lsrl30_start
 .Lsrl30_start:
+        .word   24, 164, .Lsrl30_full
+        .word   172, 172, .Lsrl30_sm1
+.Lsrl30_sm1:
+        .word   12, 12, .Lsrl30_sm2
+.Lsrl30_sm2:
+        .word   164, 12, .Lsrl30_sm3
+.Lsrl30_sm3:
+        .word   12, 172, .Lsrl30_sm4
+.Lsrl30_sm4:
+        .word   .Lsrl_c256, 172, .Lsrl30_sm5
+.Lsrl30_sm5:
+        .word   176, 176, .Lsrl30_sm6
+.Lsrl30_sm6:
+        .word   172, 176, .Lsrl30_chk16
+        .word   12, 12, .Lsrl30_store
+.Lsrl30_chk16:
+        .word   24, 164, .Lsrl30_full
+        .word   172, 172, .Lsrl30_16_1
+.Lsrl30_16_1:
+        .word   12, 12, .Lsrl30_16_2
+.Lsrl30_16_2:
+        .word   164, 12, .Lsrl30_16_3
+.Lsrl30_16_3:
+        .word   12, 172, .Lsrl30_16_4
+.Lsrl30_16_4:
+        .word   .Lsrl_c65536, 172, .Lsrl30_16_5
+.Lsrl30_16_5:
+        .word   176, 176, .Lsrl30_16_6
+.Lsrl30_16_6:
+        .word   172, 176, .Lsrl30_full
+        .word   12, 12, .Lsrl30_store
+.Lsrl30_full:
 .Lsrl30_b31:
         .word   172, 172, .Lsrl30_b31a
 .Lsrl30_b31a:
@@ -66380,6 +67660,38 @@ __subleq_srl:
 .Lsrl_shift_31:
         .word   168, 168, .Lsrl31_start
 .Lsrl31_start:
+        .word   24, 164, .Lsrl31_full
+        .word   172, 172, .Lsrl31_sm1
+.Lsrl31_sm1:
+        .word   12, 12, .Lsrl31_sm2
+.Lsrl31_sm2:
+        .word   164, 12, .Lsrl31_sm3
+.Lsrl31_sm3:
+        .word   12, 172, .Lsrl31_sm4
+.Lsrl31_sm4:
+        .word   .Lsrl_c256, 172, .Lsrl31_sm5
+.Lsrl31_sm5:
+        .word   176, 176, .Lsrl31_sm6
+.Lsrl31_sm6:
+        .word   172, 176, .Lsrl31_chk16
+        .word   12, 12, .Lsrl31_store
+.Lsrl31_chk16:
+        .word   24, 164, .Lsrl31_full
+        .word   172, 172, .Lsrl31_16_1
+.Lsrl31_16_1:
+        .word   12, 12, .Lsrl31_16_2
+.Lsrl31_16_2:
+        .word   164, 12, .Lsrl31_16_3
+.Lsrl31_16_3:
+        .word   12, 172, .Lsrl31_16_4
+.Lsrl31_16_4:
+        .word   .Lsrl_c65536, 172, .Lsrl31_16_5
+.Lsrl31_16_5:
+        .word   176, 176, .Lsrl31_16_6
+.Lsrl31_16_6:
+        .word   172, 176, .Lsrl31_full
+        .word   12, 12, .Lsrl31_store
+.Lsrl31_full:
 .Lsrl31_b31:
         .word   172, 172, .Lsrl31_b31a
 .Lsrl31_b31a:
@@ -66835,6 +68147,38 @@ __subleq_sra:
 .Lsra1_pos:
         .word   168, 168, .Lsra1_start
 .Lsra1_start:
+        .word   24, 164, .Lsra1_full
+        .word   172, 172, .Lsra1_sm1
+.Lsra1_sm1:
+        .word   12, 12, .Lsra1_sm2
+.Lsra1_sm2:
+        .word   164, 12, .Lsra1_sm3
+.Lsra1_sm3:
+        .word   12, 172, .Lsra1_sm4
+.Lsra1_sm4:
+        .word   .Lsra_c256, 172, .Lsra1_sm5
+.Lsra1_sm5:
+        .word   176, 176, .Lsra1_sm6
+.Lsra1_sm6:
+        .word   172, 176, .Lsra1_chk16
+        .word   12, 12, .Lsra1_b7
+.Lsra1_chk16:
+        .word   24, 164, .Lsra1_full
+        .word   172, 172, .Lsra1_16_1
+.Lsra1_16_1:
+        .word   12, 12, .Lsra1_16_2
+.Lsra1_16_2:
+        .word   164, 12, .Lsra1_16_3
+.Lsra1_16_3:
+        .word   12, 172, .Lsra1_16_4
+.Lsra1_16_4:
+        .word   .Lsra_c65536, 172, .Lsra1_16_5
+.Lsra1_16_5:
+        .word   176, 176, .Lsra1_16_6
+.Lsra1_16_6:
+        .word   172, 176, .Lsra1_full
+        .word   12, 12, .Lsra1_b15
+.Lsra1_full:
 .Lsra1_b30:
         .word   .Lsra_c1073741824, 164, .Lsra1_b30chk
         .word   .Lsra_n536870912, 168, .Lsra1_b30done
@@ -67391,6 +68735,38 @@ __subleq_sra:
 .Lsra2_pos:
         .word   168, 168, .Lsra2_start
 .Lsra2_start:
+        .word   24, 164, .Lsra2_full
+        .word   172, 172, .Lsra2_sm1
+.Lsra2_sm1:
+        .word   12, 12, .Lsra2_sm2
+.Lsra2_sm2:
+        .word   164, 12, .Lsra2_sm3
+.Lsra2_sm3:
+        .word   12, 172, .Lsra2_sm4
+.Lsra2_sm4:
+        .word   .Lsra_c256, 172, .Lsra2_sm5
+.Lsra2_sm5:
+        .word   176, 176, .Lsra2_sm6
+.Lsra2_sm6:
+        .word   172, 176, .Lsra2_chk16
+        .word   12, 12, .Lsra2_b7
+.Lsra2_chk16:
+        .word   24, 164, .Lsra2_full
+        .word   172, 172, .Lsra2_16_1
+.Lsra2_16_1:
+        .word   12, 12, .Lsra2_16_2
+.Lsra2_16_2:
+        .word   164, 12, .Lsra2_16_3
+.Lsra2_16_3:
+        .word   12, 172, .Lsra2_16_4
+.Lsra2_16_4:
+        .word   .Lsra_c65536, 172, .Lsra2_16_5
+.Lsra2_16_5:
+        .word   176, 176, .Lsra2_16_6
+.Lsra2_16_6:
+        .word   172, 176, .Lsra2_full
+        .word   12, 12, .Lsra2_b15
+.Lsra2_full:
 .Lsra2_b30:
         .word   .Lsra_c1073741824, 164, .Lsra2_b30chk
         .word   .Lsra_n268435456, 168, .Lsra2_b30done
@@ -67931,6 +69307,38 @@ __subleq_sra:
 .Lsra3_pos:
         .word   168, 168, .Lsra3_start
 .Lsra3_start:
+        .word   24, 164, .Lsra3_full
+        .word   172, 172, .Lsra3_sm1
+.Lsra3_sm1:
+        .word   12, 12, .Lsra3_sm2
+.Lsra3_sm2:
+        .word   164, 12, .Lsra3_sm3
+.Lsra3_sm3:
+        .word   12, 172, .Lsra3_sm4
+.Lsra3_sm4:
+        .word   .Lsra_c256, 172, .Lsra3_sm5
+.Lsra3_sm5:
+        .word   176, 176, .Lsra3_sm6
+.Lsra3_sm6:
+        .word   172, 176, .Lsra3_chk16
+        .word   12, 12, .Lsra3_b7
+.Lsra3_chk16:
+        .word   24, 164, .Lsra3_full
+        .word   172, 172, .Lsra3_16_1
+.Lsra3_16_1:
+        .word   12, 12, .Lsra3_16_2
+.Lsra3_16_2:
+        .word   164, 12, .Lsra3_16_3
+.Lsra3_16_3:
+        .word   12, 172, .Lsra3_16_4
+.Lsra3_16_4:
+        .word   .Lsra_c65536, 172, .Lsra3_16_5
+.Lsra3_16_5:
+        .word   176, 176, .Lsra3_16_6
+.Lsra3_16_6:
+        .word   172, 176, .Lsra3_full
+        .word   12, 12, .Lsra3_b15
+.Lsra3_full:
 .Lsra3_b30:
         .word   .Lsra_c1073741824, 164, .Lsra3_b30chk
         .word   .Lsra_n134217728, 168, .Lsra3_b30done
@@ -68455,6 +69863,38 @@ __subleq_sra:
 .Lsra4_pos:
         .word   168, 168, .Lsra4_start
 .Lsra4_start:
+        .word   24, 164, .Lsra4_full
+        .word   172, 172, .Lsra4_sm1
+.Lsra4_sm1:
+        .word   12, 12, .Lsra4_sm2
+.Lsra4_sm2:
+        .word   164, 12, .Lsra4_sm3
+.Lsra4_sm3:
+        .word   12, 172, .Lsra4_sm4
+.Lsra4_sm4:
+        .word   .Lsra_c256, 172, .Lsra4_sm5
+.Lsra4_sm5:
+        .word   176, 176, .Lsra4_sm6
+.Lsra4_sm6:
+        .word   172, 176, .Lsra4_chk16
+        .word   12, 12, .Lsra4_b7
+.Lsra4_chk16:
+        .word   24, 164, .Lsra4_full
+        .word   172, 172, .Lsra4_16_1
+.Lsra4_16_1:
+        .word   12, 12, .Lsra4_16_2
+.Lsra4_16_2:
+        .word   164, 12, .Lsra4_16_3
+.Lsra4_16_3:
+        .word   12, 172, .Lsra4_16_4
+.Lsra4_16_4:
+        .word   .Lsra_c65536, 172, .Lsra4_16_5
+.Lsra4_16_5:
+        .word   176, 176, .Lsra4_16_6
+.Lsra4_16_6:
+        .word   172, 176, .Lsra4_full
+        .word   12, 12, .Lsra4_b15
+.Lsra4_full:
 .Lsra4_b30:
         .word   .Lsra_c1073741824, 164, .Lsra4_b30chk
         .word   .Lsra_n67108864, 168, .Lsra4_b30done
@@ -68963,6 +70403,38 @@ __subleq_sra:
 .Lsra5_pos:
         .word   168, 168, .Lsra5_start
 .Lsra5_start:
+        .word   24, 164, .Lsra5_full
+        .word   172, 172, .Lsra5_sm1
+.Lsra5_sm1:
+        .word   12, 12, .Lsra5_sm2
+.Lsra5_sm2:
+        .word   164, 12, .Lsra5_sm3
+.Lsra5_sm3:
+        .word   12, 172, .Lsra5_sm4
+.Lsra5_sm4:
+        .word   .Lsra_c256, 172, .Lsra5_sm5
+.Lsra5_sm5:
+        .word   176, 176, .Lsra5_sm6
+.Lsra5_sm6:
+        .word   172, 176, .Lsra5_chk16
+        .word   12, 12, .Lsra5_b7
+.Lsra5_chk16:
+        .word   24, 164, .Lsra5_full
+        .word   172, 172, .Lsra5_16_1
+.Lsra5_16_1:
+        .word   12, 12, .Lsra5_16_2
+.Lsra5_16_2:
+        .word   164, 12, .Lsra5_16_3
+.Lsra5_16_3:
+        .word   12, 172, .Lsra5_16_4
+.Lsra5_16_4:
+        .word   .Lsra_c65536, 172, .Lsra5_16_5
+.Lsra5_16_5:
+        .word   176, 176, .Lsra5_16_6
+.Lsra5_16_6:
+        .word   172, 176, .Lsra5_full
+        .word   12, 12, .Lsra5_b15
+.Lsra5_full:
 .Lsra5_b30:
         .word   .Lsra_c1073741824, 164, .Lsra5_b30chk
         .word   .Lsra_n33554432, 168, .Lsra5_b30done
@@ -69455,6 +70927,38 @@ __subleq_sra:
 .Lsra6_pos:
         .word   168, 168, .Lsra6_start
 .Lsra6_start:
+        .word   24, 164, .Lsra6_full
+        .word   172, 172, .Lsra6_sm1
+.Lsra6_sm1:
+        .word   12, 12, .Lsra6_sm2
+.Lsra6_sm2:
+        .word   164, 12, .Lsra6_sm3
+.Lsra6_sm3:
+        .word   12, 172, .Lsra6_sm4
+.Lsra6_sm4:
+        .word   .Lsra_c256, 172, .Lsra6_sm5
+.Lsra6_sm5:
+        .word   176, 176, .Lsra6_sm6
+.Lsra6_sm6:
+        .word   172, 176, .Lsra6_chk16
+        .word   12, 12, .Lsra6_b7
+.Lsra6_chk16:
+        .word   24, 164, .Lsra6_full
+        .word   172, 172, .Lsra6_16_1
+.Lsra6_16_1:
+        .word   12, 12, .Lsra6_16_2
+.Lsra6_16_2:
+        .word   164, 12, .Lsra6_16_3
+.Lsra6_16_3:
+        .word   12, 172, .Lsra6_16_4
+.Lsra6_16_4:
+        .word   .Lsra_c65536, 172, .Lsra6_16_5
+.Lsra6_16_5:
+        .word   176, 176, .Lsra6_16_6
+.Lsra6_16_6:
+        .word   172, 176, .Lsra6_full
+        .word   12, 12, .Lsra6_b15
+.Lsra6_full:
 .Lsra6_b30:
         .word   .Lsra_c1073741824, 164, .Lsra6_b30chk
         .word   .Lsra_n16777216, 168, .Lsra6_b30done
@@ -69931,6 +71435,38 @@ __subleq_sra:
 .Lsra7_pos:
         .word   168, 168, .Lsra7_start
 .Lsra7_start:
+        .word   24, 164, .Lsra7_full
+        .word   172, 172, .Lsra7_sm1
+.Lsra7_sm1:
+        .word   12, 12, .Lsra7_sm2
+.Lsra7_sm2:
+        .word   164, 12, .Lsra7_sm3
+.Lsra7_sm3:
+        .word   12, 172, .Lsra7_sm4
+.Lsra7_sm4:
+        .word   .Lsra_c256, 172, .Lsra7_sm5
+.Lsra7_sm5:
+        .word   176, 176, .Lsra7_sm6
+.Lsra7_sm6:
+        .word   172, 176, .Lsra7_chk16
+        .word   12, 12, .Lsra7_b7
+.Lsra7_chk16:
+        .word   24, 164, .Lsra7_full
+        .word   172, 172, .Lsra7_16_1
+.Lsra7_16_1:
+        .word   12, 12, .Lsra7_16_2
+.Lsra7_16_2:
+        .word   164, 12, .Lsra7_16_3
+.Lsra7_16_3:
+        .word   12, 172, .Lsra7_16_4
+.Lsra7_16_4:
+        .word   .Lsra_c65536, 172, .Lsra7_16_5
+.Lsra7_16_5:
+        .word   176, 176, .Lsra7_16_6
+.Lsra7_16_6:
+        .word   172, 176, .Lsra7_full
+        .word   12, 12, .Lsra7_b15
+.Lsra7_full:
 .Lsra7_b30:
         .word   .Lsra_c1073741824, 164, .Lsra7_b30chk
         .word   .Lsra_n8388608, 168, .Lsra7_b30done
@@ -70391,6 +71927,38 @@ __subleq_sra:
 .Lsra8_pos:
         .word   168, 168, .Lsra8_start
 .Lsra8_start:
+        .word   24, 164, .Lsra8_full
+        .word   172, 172, .Lsra8_sm1
+.Lsra8_sm1:
+        .word   12, 12, .Lsra8_sm2
+.Lsra8_sm2:
+        .word   164, 12, .Lsra8_sm3
+.Lsra8_sm3:
+        .word   12, 172, .Lsra8_sm4
+.Lsra8_sm4:
+        .word   .Lsra_c256, 172, .Lsra8_sm5
+.Lsra8_sm5:
+        .word   176, 176, .Lsra8_sm6
+.Lsra8_sm6:
+        .word   172, 176, .Lsra8_chk16
+        .word   12, 12, .Lsra8_done
+.Lsra8_chk16:
+        .word   24, 164, .Lsra8_full
+        .word   172, 172, .Lsra8_16_1
+.Lsra8_16_1:
+        .word   12, 12, .Lsra8_16_2
+.Lsra8_16_2:
+        .word   164, 12, .Lsra8_16_3
+.Lsra8_16_3:
+        .word   12, 172, .Lsra8_16_4
+.Lsra8_16_4:
+        .word   .Lsra_c65536, 172, .Lsra8_16_5
+.Lsra8_16_5:
+        .word   176, 176, .Lsra8_16_6
+.Lsra8_16_6:
+        .word   172, 176, .Lsra8_full
+        .word   12, 12, .Lsra8_b15
+.Lsra8_full:
 .Lsra8_b30:
         .word   .Lsra_c1073741824, 164, .Lsra8_b30chk
         .word   .Lsra_n4194304, 168, .Lsra8_b30done
@@ -70835,6 +72403,38 @@ __subleq_sra:
 .Lsra9_pos:
         .word   168, 168, .Lsra9_start
 .Lsra9_start:
+        .word   24, 164, .Lsra9_full
+        .word   172, 172, .Lsra9_sm1
+.Lsra9_sm1:
+        .word   12, 12, .Lsra9_sm2
+.Lsra9_sm2:
+        .word   164, 12, .Lsra9_sm3
+.Lsra9_sm3:
+        .word   12, 172, .Lsra9_sm4
+.Lsra9_sm4:
+        .word   .Lsra_c256, 172, .Lsra9_sm5
+.Lsra9_sm5:
+        .word   176, 176, .Lsra9_sm6
+.Lsra9_sm6:
+        .word   172, 176, .Lsra9_chk16
+        .word   12, 12, .Lsra9_done
+.Lsra9_chk16:
+        .word   24, 164, .Lsra9_full
+        .word   172, 172, .Lsra9_16_1
+.Lsra9_16_1:
+        .word   12, 12, .Lsra9_16_2
+.Lsra9_16_2:
+        .word   164, 12, .Lsra9_16_3
+.Lsra9_16_3:
+        .word   12, 172, .Lsra9_16_4
+.Lsra9_16_4:
+        .word   .Lsra_c65536, 172, .Lsra9_16_5
+.Lsra9_16_5:
+        .word   176, 176, .Lsra9_16_6
+.Lsra9_16_6:
+        .word   172, 176, .Lsra9_full
+        .word   12, 12, .Lsra9_b15
+.Lsra9_full:
 .Lsra9_b30:
         .word   .Lsra_c1073741824, 164, .Lsra9_b30chk
         .word   .Lsra_n2097152, 168, .Lsra9_b30done
@@ -71263,6 +72863,38 @@ __subleq_sra:
 .Lsra10_pos:
         .word   168, 168, .Lsra10_start
 .Lsra10_start:
+        .word   24, 164, .Lsra10_full
+        .word   172, 172, .Lsra10_sm1
+.Lsra10_sm1:
+        .word   12, 12, .Lsra10_sm2
+.Lsra10_sm2:
+        .word   164, 12, .Lsra10_sm3
+.Lsra10_sm3:
+        .word   12, 172, .Lsra10_sm4
+.Lsra10_sm4:
+        .word   .Lsra_c256, 172, .Lsra10_sm5
+.Lsra10_sm5:
+        .word   176, 176, .Lsra10_sm6
+.Lsra10_sm6:
+        .word   172, 176, .Lsra10_chk16
+        .word   12, 12, .Lsra10_done
+.Lsra10_chk16:
+        .word   24, 164, .Lsra10_full
+        .word   172, 172, .Lsra10_16_1
+.Lsra10_16_1:
+        .word   12, 12, .Lsra10_16_2
+.Lsra10_16_2:
+        .word   164, 12, .Lsra10_16_3
+.Lsra10_16_3:
+        .word   12, 172, .Lsra10_16_4
+.Lsra10_16_4:
+        .word   .Lsra_c65536, 172, .Lsra10_16_5
+.Lsra10_16_5:
+        .word   176, 176, .Lsra10_16_6
+.Lsra10_16_6:
+        .word   172, 176, .Lsra10_full
+        .word   12, 12, .Lsra10_b15
+.Lsra10_full:
 .Lsra10_b30:
         .word   .Lsra_c1073741824, 164, .Lsra10_b30chk
         .word   .Lsra_n1048576, 168, .Lsra10_b30done
@@ -71675,6 +73307,38 @@ __subleq_sra:
 .Lsra11_pos:
         .word   168, 168, .Lsra11_start
 .Lsra11_start:
+        .word   24, 164, .Lsra11_full
+        .word   172, 172, .Lsra11_sm1
+.Lsra11_sm1:
+        .word   12, 12, .Lsra11_sm2
+.Lsra11_sm2:
+        .word   164, 12, .Lsra11_sm3
+.Lsra11_sm3:
+        .word   12, 172, .Lsra11_sm4
+.Lsra11_sm4:
+        .word   .Lsra_c256, 172, .Lsra11_sm5
+.Lsra11_sm5:
+        .word   176, 176, .Lsra11_sm6
+.Lsra11_sm6:
+        .word   172, 176, .Lsra11_chk16
+        .word   12, 12, .Lsra11_done
+.Lsra11_chk16:
+        .word   24, 164, .Lsra11_full
+        .word   172, 172, .Lsra11_16_1
+.Lsra11_16_1:
+        .word   12, 12, .Lsra11_16_2
+.Lsra11_16_2:
+        .word   164, 12, .Lsra11_16_3
+.Lsra11_16_3:
+        .word   12, 172, .Lsra11_16_4
+.Lsra11_16_4:
+        .word   .Lsra_c65536, 172, .Lsra11_16_5
+.Lsra11_16_5:
+        .word   176, 176, .Lsra11_16_6
+.Lsra11_16_6:
+        .word   172, 176, .Lsra11_full
+        .word   12, 12, .Lsra11_b15
+.Lsra11_full:
 .Lsra11_b30:
         .word   .Lsra_c1073741824, 164, .Lsra11_b30chk
         .word   .Lsra_n524288, 168, .Lsra11_b30done
@@ -72071,6 +73735,38 @@ __subleq_sra:
 .Lsra12_pos:
         .word   168, 168, .Lsra12_start
 .Lsra12_start:
+        .word   24, 164, .Lsra12_full
+        .word   172, 172, .Lsra12_sm1
+.Lsra12_sm1:
+        .word   12, 12, .Lsra12_sm2
+.Lsra12_sm2:
+        .word   164, 12, .Lsra12_sm3
+.Lsra12_sm3:
+        .word   12, 172, .Lsra12_sm4
+.Lsra12_sm4:
+        .word   .Lsra_c256, 172, .Lsra12_sm5
+.Lsra12_sm5:
+        .word   176, 176, .Lsra12_sm6
+.Lsra12_sm6:
+        .word   172, 176, .Lsra12_chk16
+        .word   12, 12, .Lsra12_done
+.Lsra12_chk16:
+        .word   24, 164, .Lsra12_full
+        .word   172, 172, .Lsra12_16_1
+.Lsra12_16_1:
+        .word   12, 12, .Lsra12_16_2
+.Lsra12_16_2:
+        .word   164, 12, .Lsra12_16_3
+.Lsra12_16_3:
+        .word   12, 172, .Lsra12_16_4
+.Lsra12_16_4:
+        .word   .Lsra_c65536, 172, .Lsra12_16_5
+.Lsra12_16_5:
+        .word   176, 176, .Lsra12_16_6
+.Lsra12_16_6:
+        .word   172, 176, .Lsra12_full
+        .word   12, 12, .Lsra12_b15
+.Lsra12_full:
 .Lsra12_b30:
         .word   .Lsra_c1073741824, 164, .Lsra12_b30chk
         .word   .Lsra_n262144, 168, .Lsra12_b30done
@@ -72451,6 +74147,38 @@ __subleq_sra:
 .Lsra13_pos:
         .word   168, 168, .Lsra13_start
 .Lsra13_start:
+        .word   24, 164, .Lsra13_full
+        .word   172, 172, .Lsra13_sm1
+.Lsra13_sm1:
+        .word   12, 12, .Lsra13_sm2
+.Lsra13_sm2:
+        .word   164, 12, .Lsra13_sm3
+.Lsra13_sm3:
+        .word   12, 172, .Lsra13_sm4
+.Lsra13_sm4:
+        .word   .Lsra_c256, 172, .Lsra13_sm5
+.Lsra13_sm5:
+        .word   176, 176, .Lsra13_sm6
+.Lsra13_sm6:
+        .word   172, 176, .Lsra13_chk16
+        .word   12, 12, .Lsra13_done
+.Lsra13_chk16:
+        .word   24, 164, .Lsra13_full
+        .word   172, 172, .Lsra13_16_1
+.Lsra13_16_1:
+        .word   12, 12, .Lsra13_16_2
+.Lsra13_16_2:
+        .word   164, 12, .Lsra13_16_3
+.Lsra13_16_3:
+        .word   12, 172, .Lsra13_16_4
+.Lsra13_16_4:
+        .word   .Lsra_c65536, 172, .Lsra13_16_5
+.Lsra13_16_5:
+        .word   176, 176, .Lsra13_16_6
+.Lsra13_16_6:
+        .word   172, 176, .Lsra13_full
+        .word   12, 12, .Lsra13_b15
+.Lsra13_full:
 .Lsra13_b30:
         .word   .Lsra_c1073741824, 164, .Lsra13_b30chk
         .word   .Lsra_n131072, 168, .Lsra13_b30done
@@ -72815,6 +74543,38 @@ __subleq_sra:
 .Lsra14_pos:
         .word   168, 168, .Lsra14_start
 .Lsra14_start:
+        .word   24, 164, .Lsra14_full
+        .word   172, 172, .Lsra14_sm1
+.Lsra14_sm1:
+        .word   12, 12, .Lsra14_sm2
+.Lsra14_sm2:
+        .word   164, 12, .Lsra14_sm3
+.Lsra14_sm3:
+        .word   12, 172, .Lsra14_sm4
+.Lsra14_sm4:
+        .word   .Lsra_c256, 172, .Lsra14_sm5
+.Lsra14_sm5:
+        .word   176, 176, .Lsra14_sm6
+.Lsra14_sm6:
+        .word   172, 176, .Lsra14_chk16
+        .word   12, 12, .Lsra14_done
+.Lsra14_chk16:
+        .word   24, 164, .Lsra14_full
+        .word   172, 172, .Lsra14_16_1
+.Lsra14_16_1:
+        .word   12, 12, .Lsra14_16_2
+.Lsra14_16_2:
+        .word   164, 12, .Lsra14_16_3
+.Lsra14_16_3:
+        .word   12, 172, .Lsra14_16_4
+.Lsra14_16_4:
+        .word   .Lsra_c65536, 172, .Lsra14_16_5
+.Lsra14_16_5:
+        .word   176, 176, .Lsra14_16_6
+.Lsra14_16_6:
+        .word   172, 176, .Lsra14_full
+        .word   12, 12, .Lsra14_b15
+.Lsra14_full:
 .Lsra14_b30:
         .word   .Lsra_c1073741824, 164, .Lsra14_b30chk
         .word   .Lsra_n65536, 168, .Lsra14_b30done
@@ -73163,6 +74923,38 @@ __subleq_sra:
 .Lsra15_pos:
         .word   168, 168, .Lsra15_start
 .Lsra15_start:
+        .word   24, 164, .Lsra15_full
+        .word   172, 172, .Lsra15_sm1
+.Lsra15_sm1:
+        .word   12, 12, .Lsra15_sm2
+.Lsra15_sm2:
+        .word   164, 12, .Lsra15_sm3
+.Lsra15_sm3:
+        .word   12, 172, .Lsra15_sm4
+.Lsra15_sm4:
+        .word   .Lsra_c256, 172, .Lsra15_sm5
+.Lsra15_sm5:
+        .word   176, 176, .Lsra15_sm6
+.Lsra15_sm6:
+        .word   172, 176, .Lsra15_chk16
+        .word   12, 12, .Lsra15_done
+.Lsra15_chk16:
+        .word   24, 164, .Lsra15_full
+        .word   172, 172, .Lsra15_16_1
+.Lsra15_16_1:
+        .word   12, 12, .Lsra15_16_2
+.Lsra15_16_2:
+        .word   164, 12, .Lsra15_16_3
+.Lsra15_16_3:
+        .word   12, 172, .Lsra15_16_4
+.Lsra15_16_4:
+        .word   .Lsra_c65536, 172, .Lsra15_16_5
+.Lsra15_16_5:
+        .word   176, 176, .Lsra15_16_6
+.Lsra15_16_6:
+        .word   172, 176, .Lsra15_full
+        .word   12, 12, .Lsra15_b15
+.Lsra15_full:
 .Lsra15_b30:
         .word   .Lsra_c1073741824, 164, .Lsra15_b30chk
         .word   .Lsra_n32768, 168, .Lsra15_b30done
@@ -73495,6 +75287,38 @@ __subleq_sra:
 .Lsra16_pos:
         .word   168, 168, .Lsra16_start
 .Lsra16_start:
+        .word   24, 164, .Lsra16_full
+        .word   172, 172, .Lsra16_sm1
+.Lsra16_sm1:
+        .word   12, 12, .Lsra16_sm2
+.Lsra16_sm2:
+        .word   164, 12, .Lsra16_sm3
+.Lsra16_sm3:
+        .word   12, 172, .Lsra16_sm4
+.Lsra16_sm4:
+        .word   .Lsra_c256, 172, .Lsra16_sm5
+.Lsra16_sm5:
+        .word   176, 176, .Lsra16_sm6
+.Lsra16_sm6:
+        .word   172, 176, .Lsra16_chk16
+        .word   12, 12, .Lsra16_done
+.Lsra16_chk16:
+        .word   24, 164, .Lsra16_full
+        .word   172, 172, .Lsra16_16_1
+.Lsra16_16_1:
+        .word   12, 12, .Lsra16_16_2
+.Lsra16_16_2:
+        .word   164, 12, .Lsra16_16_3
+.Lsra16_16_3:
+        .word   12, 172, .Lsra16_16_4
+.Lsra16_16_4:
+        .word   .Lsra_c65536, 172, .Lsra16_16_5
+.Lsra16_16_5:
+        .word   176, 176, .Lsra16_16_6
+.Lsra16_16_6:
+        .word   172, 176, .Lsra16_full
+        .word   12, 12, .Lsra16_done
+.Lsra16_full:
 .Lsra16_b30:
         .word   .Lsra_c1073741824, 164, .Lsra16_b30chk
         .word   .Lsra_n16384, 168, .Lsra16_b30done
@@ -73811,6 +75635,38 @@ __subleq_sra:
 .Lsra17_pos:
         .word   168, 168, .Lsra17_start
 .Lsra17_start:
+        .word   24, 164, .Lsra17_full
+        .word   172, 172, .Lsra17_sm1
+.Lsra17_sm1:
+        .word   12, 12, .Lsra17_sm2
+.Lsra17_sm2:
+        .word   164, 12, .Lsra17_sm3
+.Lsra17_sm3:
+        .word   12, 172, .Lsra17_sm4
+.Lsra17_sm4:
+        .word   .Lsra_c256, 172, .Lsra17_sm5
+.Lsra17_sm5:
+        .word   176, 176, .Lsra17_sm6
+.Lsra17_sm6:
+        .word   172, 176, .Lsra17_chk16
+        .word   12, 12, .Lsra17_done
+.Lsra17_chk16:
+        .word   24, 164, .Lsra17_full
+        .word   172, 172, .Lsra17_16_1
+.Lsra17_16_1:
+        .word   12, 12, .Lsra17_16_2
+.Lsra17_16_2:
+        .word   164, 12, .Lsra17_16_3
+.Lsra17_16_3:
+        .word   12, 172, .Lsra17_16_4
+.Lsra17_16_4:
+        .word   .Lsra_c65536, 172, .Lsra17_16_5
+.Lsra17_16_5:
+        .word   176, 176, .Lsra17_16_6
+.Lsra17_16_6:
+        .word   172, 176, .Lsra17_full
+        .word   12, 12, .Lsra17_done
+.Lsra17_full:
 .Lsra17_b30:
         .word   .Lsra_c1073741824, 164, .Lsra17_b30chk
         .word   .Lsra_n8192, 168, .Lsra17_b30done
@@ -74111,6 +75967,38 @@ __subleq_sra:
 .Lsra18_pos:
         .word   168, 168, .Lsra18_start
 .Lsra18_start:
+        .word   24, 164, .Lsra18_full
+        .word   172, 172, .Lsra18_sm1
+.Lsra18_sm1:
+        .word   12, 12, .Lsra18_sm2
+.Lsra18_sm2:
+        .word   164, 12, .Lsra18_sm3
+.Lsra18_sm3:
+        .word   12, 172, .Lsra18_sm4
+.Lsra18_sm4:
+        .word   .Lsra_c256, 172, .Lsra18_sm5
+.Lsra18_sm5:
+        .word   176, 176, .Lsra18_sm6
+.Lsra18_sm6:
+        .word   172, 176, .Lsra18_chk16
+        .word   12, 12, .Lsra18_done
+.Lsra18_chk16:
+        .word   24, 164, .Lsra18_full
+        .word   172, 172, .Lsra18_16_1
+.Lsra18_16_1:
+        .word   12, 12, .Lsra18_16_2
+.Lsra18_16_2:
+        .word   164, 12, .Lsra18_16_3
+.Lsra18_16_3:
+        .word   12, 172, .Lsra18_16_4
+.Lsra18_16_4:
+        .word   .Lsra_c65536, 172, .Lsra18_16_5
+.Lsra18_16_5:
+        .word   176, 176, .Lsra18_16_6
+.Lsra18_16_6:
+        .word   172, 176, .Lsra18_full
+        .word   12, 12, .Lsra18_done
+.Lsra18_full:
 .Lsra18_b30:
         .word   .Lsra_c1073741824, 164, .Lsra18_b30chk
         .word   .Lsra_n4096, 168, .Lsra18_b30done
@@ -74395,6 +76283,38 @@ __subleq_sra:
 .Lsra19_pos:
         .word   168, 168, .Lsra19_start
 .Lsra19_start:
+        .word   24, 164, .Lsra19_full
+        .word   172, 172, .Lsra19_sm1
+.Lsra19_sm1:
+        .word   12, 12, .Lsra19_sm2
+.Lsra19_sm2:
+        .word   164, 12, .Lsra19_sm3
+.Lsra19_sm3:
+        .word   12, 172, .Lsra19_sm4
+.Lsra19_sm4:
+        .word   .Lsra_c256, 172, .Lsra19_sm5
+.Lsra19_sm5:
+        .word   176, 176, .Lsra19_sm6
+.Lsra19_sm6:
+        .word   172, 176, .Lsra19_chk16
+        .word   12, 12, .Lsra19_done
+.Lsra19_chk16:
+        .word   24, 164, .Lsra19_full
+        .word   172, 172, .Lsra19_16_1
+.Lsra19_16_1:
+        .word   12, 12, .Lsra19_16_2
+.Lsra19_16_2:
+        .word   164, 12, .Lsra19_16_3
+.Lsra19_16_3:
+        .word   12, 172, .Lsra19_16_4
+.Lsra19_16_4:
+        .word   .Lsra_c65536, 172, .Lsra19_16_5
+.Lsra19_16_5:
+        .word   176, 176, .Lsra19_16_6
+.Lsra19_16_6:
+        .word   172, 176, .Lsra19_full
+        .word   12, 12, .Lsra19_done
+.Lsra19_full:
 .Lsra19_b30:
         .word   .Lsra_c1073741824, 164, .Lsra19_b30chk
         .word   .Lsra_n2048, 168, .Lsra19_b30done
@@ -74663,6 +76583,38 @@ __subleq_sra:
 .Lsra20_pos:
         .word   168, 168, .Lsra20_start
 .Lsra20_start:
+        .word   24, 164, .Lsra20_full
+        .word   172, 172, .Lsra20_sm1
+.Lsra20_sm1:
+        .word   12, 12, .Lsra20_sm2
+.Lsra20_sm2:
+        .word   164, 12, .Lsra20_sm3
+.Lsra20_sm3:
+        .word   12, 172, .Lsra20_sm4
+.Lsra20_sm4:
+        .word   .Lsra_c256, 172, .Lsra20_sm5
+.Lsra20_sm5:
+        .word   176, 176, .Lsra20_sm6
+.Lsra20_sm6:
+        .word   172, 176, .Lsra20_chk16
+        .word   12, 12, .Lsra20_done
+.Lsra20_chk16:
+        .word   24, 164, .Lsra20_full
+        .word   172, 172, .Lsra20_16_1
+.Lsra20_16_1:
+        .word   12, 12, .Lsra20_16_2
+.Lsra20_16_2:
+        .word   164, 12, .Lsra20_16_3
+.Lsra20_16_3:
+        .word   12, 172, .Lsra20_16_4
+.Lsra20_16_4:
+        .word   .Lsra_c65536, 172, .Lsra20_16_5
+.Lsra20_16_5:
+        .word   176, 176, .Lsra20_16_6
+.Lsra20_16_6:
+        .word   172, 176, .Lsra20_full
+        .word   12, 12, .Lsra20_done
+.Lsra20_full:
 .Lsra20_b30:
         .word   .Lsra_c1073741824, 164, .Lsra20_b30chk
         .word   .Lsra_n1024, 168, .Lsra20_b30done
@@ -74915,6 +76867,38 @@ __subleq_sra:
 .Lsra21_pos:
         .word   168, 168, .Lsra21_start
 .Lsra21_start:
+        .word   24, 164, .Lsra21_full
+        .word   172, 172, .Lsra21_sm1
+.Lsra21_sm1:
+        .word   12, 12, .Lsra21_sm2
+.Lsra21_sm2:
+        .word   164, 12, .Lsra21_sm3
+.Lsra21_sm3:
+        .word   12, 172, .Lsra21_sm4
+.Lsra21_sm4:
+        .word   .Lsra_c256, 172, .Lsra21_sm5
+.Lsra21_sm5:
+        .word   176, 176, .Lsra21_sm6
+.Lsra21_sm6:
+        .word   172, 176, .Lsra21_chk16
+        .word   12, 12, .Lsra21_done
+.Lsra21_chk16:
+        .word   24, 164, .Lsra21_full
+        .word   172, 172, .Lsra21_16_1
+.Lsra21_16_1:
+        .word   12, 12, .Lsra21_16_2
+.Lsra21_16_2:
+        .word   164, 12, .Lsra21_16_3
+.Lsra21_16_3:
+        .word   12, 172, .Lsra21_16_4
+.Lsra21_16_4:
+        .word   .Lsra_c65536, 172, .Lsra21_16_5
+.Lsra21_16_5:
+        .word   176, 176, .Lsra21_16_6
+.Lsra21_16_6:
+        .word   172, 176, .Lsra21_full
+        .word   12, 12, .Lsra21_done
+.Lsra21_full:
 .Lsra21_b30:
         .word   .Lsra_c1073741824, 164, .Lsra21_b30chk
         .word   .Lsra_n512, 168, .Lsra21_b30done
@@ -75151,6 +77135,38 @@ __subleq_sra:
 .Lsra22_pos:
         .word   168, 168, .Lsra22_start
 .Lsra22_start:
+        .word   24, 164, .Lsra22_full
+        .word   172, 172, .Lsra22_sm1
+.Lsra22_sm1:
+        .word   12, 12, .Lsra22_sm2
+.Lsra22_sm2:
+        .word   164, 12, .Lsra22_sm3
+.Lsra22_sm3:
+        .word   12, 172, .Lsra22_sm4
+.Lsra22_sm4:
+        .word   .Lsra_c256, 172, .Lsra22_sm5
+.Lsra22_sm5:
+        .word   176, 176, .Lsra22_sm6
+.Lsra22_sm6:
+        .word   172, 176, .Lsra22_chk16
+        .word   12, 12, .Lsra22_done
+.Lsra22_chk16:
+        .word   24, 164, .Lsra22_full
+        .word   172, 172, .Lsra22_16_1
+.Lsra22_16_1:
+        .word   12, 12, .Lsra22_16_2
+.Lsra22_16_2:
+        .word   164, 12, .Lsra22_16_3
+.Lsra22_16_3:
+        .word   12, 172, .Lsra22_16_4
+.Lsra22_16_4:
+        .word   .Lsra_c65536, 172, .Lsra22_16_5
+.Lsra22_16_5:
+        .word   176, 176, .Lsra22_16_6
+.Lsra22_16_6:
+        .word   172, 176, .Lsra22_full
+        .word   12, 12, .Lsra22_done
+.Lsra22_full:
 .Lsra22_b30:
         .word   .Lsra_c1073741824, 164, .Lsra22_b30chk
         .word   .Lsra_n256, 168, .Lsra22_b30done
@@ -75371,6 +77387,38 @@ __subleq_sra:
 .Lsra23_pos:
         .word   168, 168, .Lsra23_start
 .Lsra23_start:
+        .word   24, 164, .Lsra23_full
+        .word   172, 172, .Lsra23_sm1
+.Lsra23_sm1:
+        .word   12, 12, .Lsra23_sm2
+.Lsra23_sm2:
+        .word   164, 12, .Lsra23_sm3
+.Lsra23_sm3:
+        .word   12, 172, .Lsra23_sm4
+.Lsra23_sm4:
+        .word   .Lsra_c256, 172, .Lsra23_sm5
+.Lsra23_sm5:
+        .word   176, 176, .Lsra23_sm6
+.Lsra23_sm6:
+        .word   172, 176, .Lsra23_chk16
+        .word   12, 12, .Lsra23_done
+.Lsra23_chk16:
+        .word   24, 164, .Lsra23_full
+        .word   172, 172, .Lsra23_16_1
+.Lsra23_16_1:
+        .word   12, 12, .Lsra23_16_2
+.Lsra23_16_2:
+        .word   164, 12, .Lsra23_16_3
+.Lsra23_16_3:
+        .word   12, 172, .Lsra23_16_4
+.Lsra23_16_4:
+        .word   .Lsra_c65536, 172, .Lsra23_16_5
+.Lsra23_16_5:
+        .word   176, 176, .Lsra23_16_6
+.Lsra23_16_6:
+        .word   172, 176, .Lsra23_full
+        .word   12, 12, .Lsra23_done
+.Lsra23_full:
 .Lsra23_b30:
         .word   .Lsra_c1073741824, 164, .Lsra23_b30chk
         .word   .Lsra_n128, 168, .Lsra23_b30done
@@ -75575,6 +77623,38 @@ __subleq_sra:
 .Lsra24_pos:
         .word   168, 168, .Lsra24_start
 .Lsra24_start:
+        .word   24, 164, .Lsra24_full
+        .word   172, 172, .Lsra24_sm1
+.Lsra24_sm1:
+        .word   12, 12, .Lsra24_sm2
+.Lsra24_sm2:
+        .word   164, 12, .Lsra24_sm3
+.Lsra24_sm3:
+        .word   12, 172, .Lsra24_sm4
+.Lsra24_sm4:
+        .word   .Lsra_c256, 172, .Lsra24_sm5
+.Lsra24_sm5:
+        .word   176, 176, .Lsra24_sm6
+.Lsra24_sm6:
+        .word   172, 176, .Lsra24_chk16
+        .word   12, 12, .Lsra24_done
+.Lsra24_chk16:
+        .word   24, 164, .Lsra24_full
+        .word   172, 172, .Lsra24_16_1
+.Lsra24_16_1:
+        .word   12, 12, .Lsra24_16_2
+.Lsra24_16_2:
+        .word   164, 12, .Lsra24_16_3
+.Lsra24_16_3:
+        .word   12, 172, .Lsra24_16_4
+.Lsra24_16_4:
+        .word   .Lsra_c65536, 172, .Lsra24_16_5
+.Lsra24_16_5:
+        .word   176, 176, .Lsra24_16_6
+.Lsra24_16_6:
+        .word   172, 176, .Lsra24_full
+        .word   12, 12, .Lsra24_done
+.Lsra24_full:
 .Lsra24_b30:
         .word   .Lsra_c1073741824, 164, .Lsra24_b30chk
         .word   .Lsra_n64, 168, .Lsra24_b30done
@@ -75763,6 +77843,38 @@ __subleq_sra:
 .Lsra25_pos:
         .word   168, 168, .Lsra25_start
 .Lsra25_start:
+        .word   24, 164, .Lsra25_full
+        .word   172, 172, .Lsra25_sm1
+.Lsra25_sm1:
+        .word   12, 12, .Lsra25_sm2
+.Lsra25_sm2:
+        .word   164, 12, .Lsra25_sm3
+.Lsra25_sm3:
+        .word   12, 172, .Lsra25_sm4
+.Lsra25_sm4:
+        .word   .Lsra_c256, 172, .Lsra25_sm5
+.Lsra25_sm5:
+        .word   176, 176, .Lsra25_sm6
+.Lsra25_sm6:
+        .word   172, 176, .Lsra25_chk16
+        .word   12, 12, .Lsra25_done
+.Lsra25_chk16:
+        .word   24, 164, .Lsra25_full
+        .word   172, 172, .Lsra25_16_1
+.Lsra25_16_1:
+        .word   12, 12, .Lsra25_16_2
+.Lsra25_16_2:
+        .word   164, 12, .Lsra25_16_3
+.Lsra25_16_3:
+        .word   12, 172, .Lsra25_16_4
+.Lsra25_16_4:
+        .word   .Lsra_c65536, 172, .Lsra25_16_5
+.Lsra25_16_5:
+        .word   176, 176, .Lsra25_16_6
+.Lsra25_16_6:
+        .word   172, 176, .Lsra25_full
+        .word   12, 12, .Lsra25_done
+.Lsra25_full:
 .Lsra25_b30:
         .word   .Lsra_c1073741824, 164, .Lsra25_b30chk
         .word   .Lsra_n32, 168, .Lsra25_b30done
@@ -75935,6 +78047,38 @@ __subleq_sra:
 .Lsra26_pos:
         .word   168, 168, .Lsra26_start
 .Lsra26_start:
+        .word   24, 164, .Lsra26_full
+        .word   172, 172, .Lsra26_sm1
+.Lsra26_sm1:
+        .word   12, 12, .Lsra26_sm2
+.Lsra26_sm2:
+        .word   164, 12, .Lsra26_sm3
+.Lsra26_sm3:
+        .word   12, 172, .Lsra26_sm4
+.Lsra26_sm4:
+        .word   .Lsra_c256, 172, .Lsra26_sm5
+.Lsra26_sm5:
+        .word   176, 176, .Lsra26_sm6
+.Lsra26_sm6:
+        .word   172, 176, .Lsra26_chk16
+        .word   12, 12, .Lsra26_done
+.Lsra26_chk16:
+        .word   24, 164, .Lsra26_full
+        .word   172, 172, .Lsra26_16_1
+.Lsra26_16_1:
+        .word   12, 12, .Lsra26_16_2
+.Lsra26_16_2:
+        .word   164, 12, .Lsra26_16_3
+.Lsra26_16_3:
+        .word   12, 172, .Lsra26_16_4
+.Lsra26_16_4:
+        .word   .Lsra_c65536, 172, .Lsra26_16_5
+.Lsra26_16_5:
+        .word   176, 176, .Lsra26_16_6
+.Lsra26_16_6:
+        .word   172, 176, .Lsra26_full
+        .word   12, 12, .Lsra26_done
+.Lsra26_full:
 .Lsra26_b30:
         .word   .Lsra_c1073741824, 164, .Lsra26_b30chk
         .word   .Lsra_n16, 168, .Lsra26_b30done
@@ -76091,6 +78235,38 @@ __subleq_sra:
 .Lsra27_pos:
         .word   168, 168, .Lsra27_start
 .Lsra27_start:
+        .word   24, 164, .Lsra27_full
+        .word   172, 172, .Lsra27_sm1
+.Lsra27_sm1:
+        .word   12, 12, .Lsra27_sm2
+.Lsra27_sm2:
+        .word   164, 12, .Lsra27_sm3
+.Lsra27_sm3:
+        .word   12, 172, .Lsra27_sm4
+.Lsra27_sm4:
+        .word   .Lsra_c256, 172, .Lsra27_sm5
+.Lsra27_sm5:
+        .word   176, 176, .Lsra27_sm6
+.Lsra27_sm6:
+        .word   172, 176, .Lsra27_chk16
+        .word   12, 12, .Lsra27_done
+.Lsra27_chk16:
+        .word   24, 164, .Lsra27_full
+        .word   172, 172, .Lsra27_16_1
+.Lsra27_16_1:
+        .word   12, 12, .Lsra27_16_2
+.Lsra27_16_2:
+        .word   164, 12, .Lsra27_16_3
+.Lsra27_16_3:
+        .word   12, 172, .Lsra27_16_4
+.Lsra27_16_4:
+        .word   .Lsra_c65536, 172, .Lsra27_16_5
+.Lsra27_16_5:
+        .word   176, 176, .Lsra27_16_6
+.Lsra27_16_6:
+        .word   172, 176, .Lsra27_full
+        .word   12, 12, .Lsra27_done
+.Lsra27_full:
 .Lsra27_b30:
         .word   .Lsra_c1073741824, 164, .Lsra27_b30chk
         .word   .Lsra_n8, 168, .Lsra27_b30done
@@ -76231,6 +78407,38 @@ __subleq_sra:
 .Lsra28_pos:
         .word   168, 168, .Lsra28_start
 .Lsra28_start:
+        .word   24, 164, .Lsra28_full
+        .word   172, 172, .Lsra28_sm1
+.Lsra28_sm1:
+        .word   12, 12, .Lsra28_sm2
+.Lsra28_sm2:
+        .word   164, 12, .Lsra28_sm3
+.Lsra28_sm3:
+        .word   12, 172, .Lsra28_sm4
+.Lsra28_sm4:
+        .word   .Lsra_c256, 172, .Lsra28_sm5
+.Lsra28_sm5:
+        .word   176, 176, .Lsra28_sm6
+.Lsra28_sm6:
+        .word   172, 176, .Lsra28_chk16
+        .word   12, 12, .Lsra28_done
+.Lsra28_chk16:
+        .word   24, 164, .Lsra28_full
+        .word   172, 172, .Lsra28_16_1
+.Lsra28_16_1:
+        .word   12, 12, .Lsra28_16_2
+.Lsra28_16_2:
+        .word   164, 12, .Lsra28_16_3
+.Lsra28_16_3:
+        .word   12, 172, .Lsra28_16_4
+.Lsra28_16_4:
+        .word   .Lsra_c65536, 172, .Lsra28_16_5
+.Lsra28_16_5:
+        .word   176, 176, .Lsra28_16_6
+.Lsra28_16_6:
+        .word   172, 176, .Lsra28_full
+        .word   12, 12, .Lsra28_done
+.Lsra28_full:
 .Lsra28_b30:
         .word   .Lsra_c1073741824, 164, .Lsra28_b30chk
         .word   .Lsra_n4, 168, .Lsra28_b30done
@@ -76355,6 +78563,38 @@ __subleq_sra:
 .Lsra29_pos:
         .word   168, 168, .Lsra29_start
 .Lsra29_start:
+        .word   24, 164, .Lsra29_full
+        .word   172, 172, .Lsra29_sm1
+.Lsra29_sm1:
+        .word   12, 12, .Lsra29_sm2
+.Lsra29_sm2:
+        .word   164, 12, .Lsra29_sm3
+.Lsra29_sm3:
+        .word   12, 172, .Lsra29_sm4
+.Lsra29_sm4:
+        .word   .Lsra_c256, 172, .Lsra29_sm5
+.Lsra29_sm5:
+        .word   176, 176, .Lsra29_sm6
+.Lsra29_sm6:
+        .word   172, 176, .Lsra29_chk16
+        .word   12, 12, .Lsra29_done
+.Lsra29_chk16:
+        .word   24, 164, .Lsra29_full
+        .word   172, 172, .Lsra29_16_1
+.Lsra29_16_1:
+        .word   12, 12, .Lsra29_16_2
+.Lsra29_16_2:
+        .word   164, 12, .Lsra29_16_3
+.Lsra29_16_3:
+        .word   12, 172, .Lsra29_16_4
+.Lsra29_16_4:
+        .word   .Lsra_c65536, 172, .Lsra29_16_5
+.Lsra29_16_5:
+        .word   176, 176, .Lsra29_16_6
+.Lsra29_16_6:
+        .word   172, 176, .Lsra29_full
+        .word   12, 12, .Lsra29_done
+.Lsra29_full:
 .Lsra29_b30:
         .word   .Lsra_c1073741824, 164, .Lsra29_b30chk
         .word   .Lsra_n2, 168, .Lsra29_b30done
@@ -76463,6 +78703,38 @@ __subleq_sra:
 .Lsra30_pos:
         .word   168, 168, .Lsra30_start
 .Lsra30_start:
+        .word   24, 164, .Lsra30_full
+        .word   172, 172, .Lsra30_sm1
+.Lsra30_sm1:
+        .word   12, 12, .Lsra30_sm2
+.Lsra30_sm2:
+        .word   164, 12, .Lsra30_sm3
+.Lsra30_sm3:
+        .word   12, 172, .Lsra30_sm4
+.Lsra30_sm4:
+        .word   .Lsra_c256, 172, .Lsra30_sm5
+.Lsra30_sm5:
+        .word   176, 176, .Lsra30_sm6
+.Lsra30_sm6:
+        .word   172, 176, .Lsra30_chk16
+        .word   12, 12, .Lsra30_done
+.Lsra30_chk16:
+        .word   24, 164, .Lsra30_full
+        .word   172, 172, .Lsra30_16_1
+.Lsra30_16_1:
+        .word   12, 12, .Lsra30_16_2
+.Lsra30_16_2:
+        .word   164, 12, .Lsra30_16_3
+.Lsra30_16_3:
+        .word   12, 172, .Lsra30_16_4
+.Lsra30_16_4:
+        .word   .Lsra_c65536, 172, .Lsra30_16_5
+.Lsra30_16_5:
+        .word   176, 176, .Lsra30_16_6
+.Lsra30_16_6:
+        .word   172, 176, .Lsra30_full
+        .word   12, 12, .Lsra30_done
+.Lsra30_full:
 .Lsra30_b30:
         .word   .Lsra_c1073741824, 164, .Lsra30_b30chk
         .word   .Lsra_n1, 168, .Lsra30_b30done
@@ -76555,6 +78827,38 @@ __subleq_sra:
 .Lsra31_pos:
         .word   168, 168, .Lsra31_start
 .Lsra31_start:
+        .word   24, 164, .Lsra31_full
+        .word   172, 172, .Lsra31_sm1
+.Lsra31_sm1:
+        .word   12, 12, .Lsra31_sm2
+.Lsra31_sm2:
+        .word   164, 12, .Lsra31_sm3
+.Lsra31_sm3:
+        .word   12, 172, .Lsra31_sm4
+.Lsra31_sm4:
+        .word   .Lsra_c256, 172, .Lsra31_sm5
+.Lsra31_sm5:
+        .word   176, 176, .Lsra31_sm6
+.Lsra31_sm6:
+        .word   172, 176, .Lsra31_chk16
+        .word   12, 12, .Lsra31_done
+.Lsra31_chk16:
+        .word   24, 164, .Lsra31_full
+        .word   172, 172, .Lsra31_16_1
+.Lsra31_16_1:
+        .word   12, 12, .Lsra31_16_2
+.Lsra31_16_2:
+        .word   164, 12, .Lsra31_16_3
+.Lsra31_16_3:
+        .word   12, 172, .Lsra31_16_4
+.Lsra31_16_4:
+        .word   .Lsra_c65536, 172, .Lsra31_16_5
+.Lsra31_16_5:
+        .word   176, 176, .Lsra31_16_6
+.Lsra31_16_6:
+        .word   172, 176, .Lsra31_full
+        .word   12, 12, .Lsra31_done
+.Lsra31_full:
 .Lsra31_done:
         .word   172, 172, .Lsra31_chk
 .Lsra31_chk:

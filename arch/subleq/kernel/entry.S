@@ -2152,6 +2152,47 @@ __subleq_syscall:
 
 
 /*
+ * ===========================================================================
+ * SIGNAL RETURN TRAMPOLINE
+ * ===========================================================================
+ *
+ * ret_from_user_rt_signal - Return trampoline for signal handlers
+ *
+ * When a signal is delivered, the kernel sets up a signal frame on the user
+ * stack and sets the return address (pretcode) to point here. When the
+ * signal handler returns, execution comes here.
+ *
+ * This function invokes sys_rt_sigreturn (syscall 139) to restore the
+ * original register state and return to the interrupted code.
+ *
+ * NOTE: This is called from userspace with SP pointing to the signal frame.
+ * We must NOT modify SP before calling the syscall.
+ */
+.globl ret_from_user_rt_signal
+.type ret_from_user_rt_signal, @function
+ret_from_user_rt_signal:
+        /*
+         * Load syscall number into R21 (first argument = syscall number)
+         * __NR_rt_sigreturn = 139
+         */
+        .word   REG_R21, REG_R21, .+4           /* R21 = 0 */
+        .word   .Lconst_neg139, REG_R21, .+4    /* R21 = 139 */
+
+        /*
+         * Jump to __subleq_syscall which will:
+         * 1. Switch to kernel stack
+         * 2. Call __subleq_syscall_c with syscall 139
+         * 3. sys_rt_sigreturn restores context from signal frame
+         * 4. Return to original interrupted code
+         */
+        .word   SYSCALL_ZZ, SYSCALL_ZZ, __subleq_syscall
+
+.Lconst_neg139:
+        .word   -139    /* Negative value for syscall number via subtraction */
+
+.size ret_from_user_rt_signal, .-ret_from_user_rt_signal
+
+/*
  * Global variables for syscall entry
  *
  * NOTE: These globals are ONLY used to temporarily save context at syscall

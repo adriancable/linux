@@ -3,6 +3,8 @@
  * Subleq interrupt entry/exit code
  */
 
+#include <asm/asm-offsets.h>
+
 .text
 .globl subleq_irq_entry
 .type subleq_irq_entry, @function
@@ -530,10 +532,12 @@ subleq_irq_entry:
  *   5. Returns (to the return address saved by next's previous switch)
  */
 
-/* Offset of thread.sp in task_struct (TASK_THREAD + THREAD_SP = 1180 + 0) */
-.set TASK_THREAD_SP, 1180
-/* Offset of thread.fp in task_struct (TASK_THREAD + THREAD_FP = 1180 + 4) */
-.set TASK_THREAD_FP, 1184
+/*
+ * TASK_THREAD_SP and TASK_THREAD_FP are now generated in asm-offsets.h
+ * and included via #include <asm/asm-offsets.h> at the top of this file.
+ * This ensures the offsets are always correct regardless of kernel config
+ * (e.g., CONFIG_PREEMPT=y adds fields to task_struct, shifting thread).
+ */
 
 /* Subleq+ indirect addressing flag (bit 1) */
 .set INDIRECT, 2
@@ -721,7 +725,7 @@ __switch_to:
         .word   REG_R21, SW_ZZ, .+4
         .word   SW_ZZ2, SW_ZZ2, .+4
         .word   SW_ZZ, SW_ZZ2, .+4              /* SW_ZZ2 = prev */
-        .word   .Lconst_neg1180, SW_ZZ2, .+4       /* SW_ZZ2 = &prev->thread.sp */
+        .word   .Lconst_neg_task_thread_sp, SW_ZZ2, .+4       /* SW_ZZ2 = &prev->thread.sp */
         /* Clear and store SP */
         .word   SW_ZZ2 | INDIRECT, SW_ZZ2 | INDIRECT, .+4
         .word   SW_ZZ, SW_ZZ, .+4
@@ -736,7 +740,7 @@ __switch_to:
         .word   REG_R21, SW_ZZ, .+4
         .word   SW_ZZ2, SW_ZZ2, .+4
         .word   SW_ZZ, SW_ZZ2, .+4
-        .word   .Lconst_neg1184, SW_ZZ2, .+4    /* SW_ZZ2 = &prev->thread.fp */
+        .word   .Lconst_neg_task_thread_fp, SW_ZZ2, .+4    /* SW_ZZ2 = &prev->thread.fp */
         .word   SW_ZZ2 | INDIRECT, SW_ZZ2 | INDIRECT, .+4
         .word   SW_ZZ, SW_ZZ, .+4
         .word   REG_FP, SW_ZZ, .+4
@@ -759,7 +763,7 @@ __switch_to:
         .word   REG_R22, SW_ZZ, .+4
         .word   SW_ZZ2, SW_ZZ2, .+4
         .word   SW_ZZ, SW_ZZ2, .+4
-        .word   .Lconst_neg1180, SW_ZZ2, .+4       /* SW_ZZ2 = &next->thread.sp */
+        .word   .Lconst_neg_task_thread_sp, SW_ZZ2, .+4       /* SW_ZZ2 = &next->thread.sp */
         /* Load [SW_ZZ2] into SP */
         .word   SW_ZZ, SW_ZZ, .+4
         .word   SW_ZZ2 | INDIRECT, SW_ZZ, .+4
@@ -774,7 +778,7 @@ __switch_to:
         .word   REG_R22, SW_ZZ, .+4
         .word   SW_ZZ2, SW_ZZ2, .+4
         .word   SW_ZZ, SW_ZZ2, .+4
-        .word   .Lconst_neg1184, SW_ZZ2, .+4    /* SW_ZZ2 = &next->thread.fp */
+        .word   .Lconst_neg_task_thread_fp, SW_ZZ2, .+4    /* SW_ZZ2 = &next->thread.fp */
         .word   SW_ZZ, SW_ZZ, .+4
         .word   SW_ZZ2 | INDIRECT, SW_ZZ, .+4
         .word   REG_FP, REG_FP, .+4
@@ -2104,11 +2108,11 @@ __subleq_syscall:
 .Lconst_neg128:
         .word   -128            /* pt_regs->pc */
 
-/* task_struct offsets */
-.Lconst_neg1180:
-        .word   -1180           /* TASK_THREAD_SP offset */
-.Lconst_neg1184:
-        .word   -1184           /* TASK_THREAD_FP offset */
+/* task_struct offsets - computed from asm-offsets.h */
+.Lconst_neg_task_thread_sp:
+        .word   -(TASK_THREAD_SP)       /* -offsetof(task_struct, thread.sp) */
+.Lconst_neg_task_thread_fp:
+        .word   -(TASK_THREAD_FP)       /* -offsetof(task_struct, thread.fp) */
 
 /* Syscall-specific offsets */
 .Lconst_neg2:

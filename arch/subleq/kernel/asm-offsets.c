@@ -27,6 +27,10 @@ int main(void)
 	COMMENT("Subleq task_struct offsets");
 	OFFSET(TASK_THREAD, task_struct, thread);
 	OFFSET(THREAD_SP, thread_struct, sp);
+	OFFSET(THREAD_FP, thread_struct, fp);
+	/* Combined offsets for direct access from task_struct pointer */
+	DEFINE(TASK_THREAD_SP, offsetof(struct task_struct, thread.sp));
+	DEFINE(TASK_THREAD_FP, offsetof(struct task_struct, thread.fp));
 	BLANK();
 
 	return 0;

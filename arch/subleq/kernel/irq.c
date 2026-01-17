@@ -17,6 +17,7 @@
 #include <linux/irq.h>
 #include <linux/interrupt.h>
 #include <linux/hardirq.h>
+#include <linux/preempt.h>
 #include <linux/sched.h>
 #include <linux/sched/signal.h>
 
@@ -83,28 +84,28 @@ extern void subleq_irq_entry(void);
 /* Timer interrupt handler (in time.c) - just calls legacy_timer_tick */
 extern void subleq_timer_interrupt(void);
 
-/*
- * Dummy pt_regs for interrupt context.
- * Since Subleq doesn't have hardware registers and we're always in kernel
- * mode, we use a static dummy structure.
- */
-static struct pt_regs subleq_irq_regs;
+/* do_notify_resume is defined in signal.c */
+extern asmlinkage void do_notify_resume(struct pt_regs *regs);
 
 /* Forward declaration */
-static void subleq_work_pending(void);
+static void subleq_work_pending(struct pt_regs *regs);
 
 /*
  * C-level interrupt handler - called from assembly entry.S
  *
  * This function wraps the actual interrupt handlers with irq_enter()/irq_exit().
- * Following the m68k do_IRQ() pattern in arch/m68k/kernel/irq.c.
+ * Following the m68k do_IRQ() pattern.
+ *
+ * @regs: pt_regs structure containing the saved state of the interrupted code.
+ *        This is built by entry.S from the saved registers.
+ *        Signal delivery may modify this to redirect to a signal handler.
  */
-void subleq_do_IRQ(void)
+void subleq_do_IRQ(struct pt_regs *regs)
 {
 	struct pt_regs *old_regs;
 
-	/* Set up irq_regs for get_irq_regs() - must be done BEFORE irq_enter */
-	old_regs = set_irq_regs(&subleq_irq_regs);
+	/* Set up irq_regs for get_irq_regs() */
+	old_regs = set_irq_regs(regs);
 
 	/* Enter IRQ context - increments preempt_count hardirq bits */
 	irq_enter();
@@ -119,16 +120,16 @@ void subleq_do_IRQ(void)
 	set_irq_regs(old_regs);
 
 	/*
-	 * Check for pending work (reschedule, signals) before returning
-	 * to the interrupted code. This enables preemptive multitasking.
-	 * Must be done AFTER irq_exit() so we're no longer in hardirq context.
+	 * Check for pending work before returning to the interrupted code.
+	 * Skip during early boot when the scheduler isn't ready.
 	 *
-	 * Only do this after the system has finished booting - during early
-	 * boot, the scheduler isn't ready and current_thread_info() may not
-	 * be valid.
+	 * Following the m68k pattern from coldfire/entry.S:
+	 * 1. Check preempt_count for preemption safety
+	 * 2. Check TIF_NEED_RESCHED for rescheduling
+	 * 3. Check TIF_SIGPENDING for signal delivery
 	 */
-	// if (system_state >= SYSTEM_RUNNING)
-	// 	subleq_work_pending();
+	if (system_state >= SYSTEM_RUNNING)
+		subleq_work_pending(regs);
 }
 
 /*
@@ -155,41 +156,66 @@ void __init init_IRQ(void)
 /*
  * subleq_work_pending - Check for and handle pending work after interrupt
  *
- * Called from the interrupt return path in entry.S, after registers are
- * restored but before re-enabling interrupts and returning.
+ * Called from the interrupt return path, after irq_exit() has returned.
+ * Following the m68k pattern from coldfire/entry.S and kernel/signal.c.
  *
- * This follows the m68k/ColdFire pattern: check thread_info flags and
- * handle reschedule/signals before returning to userspace.
- *
- * For NOMMU Subleq, there's no user/kernel distinction, so we always
- * check for pending work.
+ * @regs: pt_regs of the interrupted context. Signal delivery will modify
+ *        this to redirect execution to the signal handler.
  */
-static void subleq_work_pending(void)
+static void subleq_work_pending(struct pt_regs *regs)
 {
-	struct thread_info *ti = current_thread_info();
+	struct thread_info *ti;
+	unsigned long flags;
 
 	/*
-	 * Loop until no more work is pending.
-	 * This is necessary because handling signals or rescheduling
-	 * may set new flags.
+	 * Disable IRQs for the checks.
+	 * preempt_schedule_irq() requires IRQs disabled.
 	 */
-	while (ti->flags & (_TIF_NEED_RESCHED | _TIF_SIGPENDING | _TIF_NOTIFY_RESUME)) {
-		
-		/* Check for rescheduling first */
-		if (ti->flags & _TIF_NEED_RESCHED) {
-			schedule();
-			continue;
-		}
+	local_irq_save(flags);
 
-		/* Handle pending signals */
-		if (ti->flags & (_TIF_SIGPENDING | _TIF_NOTIFY_RESUME)) {
-			/*
-			 * For now, just clear these flags.
-			 * Full signal delivery would call do_signal() here.
-			 * TODO: Implement proper signal delivery for Subleq.
-			 */
-			break;
-		}
+	/*
+	 * Check preempt_count - must be 0 to safely reschedule or deliver signals.
+	 * If it's non-zero, we're in an atomic context.
+	 */
+	if (preempt_count() != 0) {
+		local_irq_restore(flags);
+		return;
 	}
+
+	ti = current_thread_info();
+
+	/*
+	 * Check for rescheduling first.
+	 * preempt_schedule_irq() handles the actual context switch.
+	 */
+	if (ti->flags & _TIF_NEED_RESCHED) {
+		preempt_schedule_irq();
+	}
+
+	/*
+	 * Check for pending signals.
+	 * do_notify_resume() calls do_signal() which will modify regs
+	 * to redirect execution to the signal handler.
+	 *
+	 * This is what makes Ctrl+C work for busy-looping processes!
+	 */
+	if (ti->flags & (_TIF_SIGPENDING | _TIF_NOTIFY_RESUME | _TIF_NOTIFY_SIGNAL)) {
+		local_irq_restore(flags);
+
+		/*
+		 * Mark that we're NOT in a syscall for signal delivery.
+		 * This prevents do_signal from attempting syscall restart.
+		 */
+		regs->syscall_nr = -1;
+
+		/*
+		 * Deliver signals. This may modify regs to redirect
+		 * execution to a signal handler.
+		 */
+		do_notify_resume(regs);
+		return;
+	}
+
+	local_irq_restore(flags);
 }
 

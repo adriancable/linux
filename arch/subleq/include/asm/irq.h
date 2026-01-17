@@ -14,7 +14,8 @@
 extern void subleq_timer_interrupt(void);
 
 /* C-level interrupt handler (called from assembly) */
-extern void subleq_do_IRQ(void);
+struct pt_regs;
+extern void subleq_do_IRQ(struct pt_regs *regs);
 
 /* Early IRQ stack initialization (called from setup.c before start_kernel) */
 extern void early_irq_stack_init(void);

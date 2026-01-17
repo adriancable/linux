@@ -391,6 +391,27 @@ void do_signal(struct pt_regs *regs)
 }
 
 /*
+ * do_notify_resume - Handle pending work before returning to user mode
+ *
+ * Called from the interrupt/exception return path (in entry.S or irq.c)
+ * when there is pending work to do (TIF_SIGPENDING, TIF_NOTIFY_RESUME).
+ *
+ * Following the m68k pattern from arch/m68k/kernel/signal.c.
+ *
+ * @regs: pt_regs of the interrupted context. Signal delivery will modify
+ *        this to redirect execution to the signal handler.
+ */
+asmlinkage void do_notify_resume(struct pt_regs *regs)
+{
+	if (test_thread_flag(TIF_NOTIFY_SIGNAL) ||
+	    test_thread_flag(TIF_SIGPENDING))
+		do_signal(regs);
+
+	if (test_thread_flag(TIF_NOTIFY_RESUME))
+		resume_user_mode_work(regs);
+}
+
+/*
  * sys_rt_sigreturn - Restore context after signal handler returns
  *
  * This is called when the signal handler returns via the trampoline.

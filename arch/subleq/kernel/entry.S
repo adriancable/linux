@@ -153,6 +153,7 @@
  * task's frame. Frames are naturally unwound as interrupts return.
  */
 .set INT_SP, 460        /* Interrupt stack pointer (runs from top down) */
+.set IRQ_PTREGS_ADDR, 464       /* Pointer to pt_regs structure for signal delivery */
 
 /* Interrupt frame size: all registers we save */
 .set IRQ_FRAME_SIZE, 200   /* 50 words × 4 bytes */
@@ -318,62 +319,224 @@ subleq_irq_entry:
         .word   INT_ZZ, REG_SP, .+4             /* SP = INT_SP */
 
 .Lsave_done:
-        /* PHASE 2: CALL C HANDLER */
-.Lirq_call:
         /*
-         * STACK-BASED CALL to subleq_do_IRQ using Subleq+ indirect addressing
+         * PHASE 2: BUILD pt_regs ON IRQ STACK
          *
-         * The C compiler expects the return address to be ON THE STACK,
-         * not in RA. We must:
-         * 1. SP -= 4 (make room)
-         * 2. Clear [SP] using indirect addressing
-         * 3. Store return address at [SP] using indirect addressing
-         * 4. Jump to function
+         * We allocate PT_SIZE (156) bytes on the IRQ stack and build a
+         * pt_regs structure that C code can read and modify.
          *
-         * Subleq+ indirect addressing avoids self-modifying code entirely.
+         * CRITICAL: C code expects POSITIVE values in pt_regs fields.
+         * Subleq's natural store pattern (subleq A, B) stores -A.
+         * We use double-negation to store positive values:
+         *   TEMP = -value; [dest] = -TEMP = +value
+         *
+         * The pt_regs is re-entrant because it's on the IRQ stack,
+         * which grows with each nested interrupt.
          */
 
-.Lirq_do_call:
-        /* Step 1: SP -= 4 (decrement stack pointer) */
+        /* Allocate pt_regs: SP -= PT_SIZE (156 bytes) */
+        .word   .Lconst_pt_size, REG_SP, .+4
+
+        /* Save pt_regs pointer for later use */
+        .word   IRQ_PTREGS_ADDR, IRQ_PTREGS_ADDR, .+4
+        .word   INT_ZZ, INT_ZZ, .+4
+        .word   REG_SP, INT_ZZ, .+4
+        .word   INT_ZZ, IRQ_PTREGS_ADDR, .+4   /* IRQ_PTREGS_ADDR = SP */
+
+        /*
+         * Fill pt_regs fields with POSITIVE values using double-negation.
+         * We only fill the fields that signal delivery actually needs:
+         *   - pc (offset 128): for return address / signal handler redirect
+         *   - sp (offset 120): for stack pointer / signal frame
+         *   - ra (offset 124): for return trampoline
+         *   - r21 (offset 72): for signal number argument
+         *   - r22 (offset 76): for siginfo pointer
+         *   - r23 (offset 80): for ucontext pointer
+         *   - syscall_nr (offset 136): set to -1 for interrupts
+         *
+         * CRITICAL: To compute SP+offset, we must:
+         *   1. Copy SP via double-negation: TEMP=-SP, then RESULT=-TEMP=SP
+         *   2. Then add offset: RESULT -= (-offset)
+         */
+
+        /* Store pc = INT_SAVED_PC (offset 128) */
+        /* First compute address SAVE_SCRATCH = SP + 128 */
+        .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4    /* SAVE_SCRATCH = 0 */
+        .word   INT_ZZ, INT_ZZ, .+4                /* INT_ZZ = 0 */
+        .word   REG_SP, INT_ZZ, .+4                /* INT_ZZ = -SP */
+        .word   INT_ZZ, SAVE_SCRATCH, .+4          /* SAVE_SCRATCH = 0 - (-SP) = SP */
+        .word   .Lconst_neg128, SAVE_SCRATCH, .+4  /* SAVE_SCRATCH = SP - (-128) = SP + 128 */
+        /* Clear destination */
+        .word   SAVE_SCRATCH | INDIRECT, SAVE_SCRATCH | INDIRECT, .+4
+        /* Compute value: INT_ZZ = -pc */
+        .word   INT_ZZ, INT_ZZ, .+4
+        .word   INT_SAVED_PC, INT_ZZ, .+4
+        /* Store: [SAVE_SCRATCH] -= INT_ZZ = 0 - (-pc) = +pc */
+        .word   INT_ZZ, SAVE_SCRATCH | INDIRECT, .+4
+
+        /* Store sp = original SP (offset 120) */
+        /* Compute address SAVE_SCRATCH = SP + 120 */
+        .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
+        .word   INT_ZZ, INT_ZZ, .+4
+        .word   REG_SP, INT_ZZ, .+4
+        .word   INT_ZZ, SAVE_SCRATCH, .+4
+        .word   .Lconst_neg120, SAVE_SCRATCH, .+4
+        /* Clear destination */
+        .word   SAVE_SCRATCH | INDIRECT, SAVE_SCRATCH | INDIRECT, .+4
+        /* SAVE_SP contains -original_sp, so store -(-original_sp) = -(SAVE_SP) = +original_sp */
+        .word   SAVE_SP, SAVE_SCRATCH | INDIRECT, .+4
+
+        /* Store ra = REG_RA (offset 124) */
+        .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
+        .word   INT_ZZ, INT_ZZ, .+4
+        .word   REG_SP, INT_ZZ, .+4
+        .word   INT_ZZ, SAVE_SCRATCH, .+4
+        .word   .Lconst_neg124, SAVE_SCRATCH, .+4
+        .word   SAVE_SCRATCH | INDIRECT, SAVE_SCRATCH | INDIRECT, .+4
+        .word   INT_ZZ, INT_ZZ, .+4
+        .word   REG_RA, INT_ZZ, .+4
+        .word   INT_ZZ, SAVE_SCRATCH | INDIRECT, .+4
+
+        /* Store r21 = REG_R21 (offset 72) */
+        .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
+        .word   INT_ZZ, INT_ZZ, .+4
+        .word   REG_SP, INT_ZZ, .+4
+        .word   INT_ZZ, SAVE_SCRATCH, .+4
+        .word   .Lconst_neg72, SAVE_SCRATCH, .+4
+        .word   SAVE_SCRATCH | INDIRECT, SAVE_SCRATCH | INDIRECT, .+4
+        .word   INT_ZZ, INT_ZZ, .+4
+        .word   REG_R21, INT_ZZ, .+4
+        .word   INT_ZZ, SAVE_SCRATCH | INDIRECT, .+4
+
+        /* Store r22 = REG_R22 (offset 76) */
+        .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
+        .word   INT_ZZ, INT_ZZ, .+4
+        .word   REG_SP, INT_ZZ, .+4
+        .word   INT_ZZ, SAVE_SCRATCH, .+4
+        .word   .Lconst_neg76, SAVE_SCRATCH, .+4
+        .word   SAVE_SCRATCH | INDIRECT, SAVE_SCRATCH | INDIRECT, .+4
+        .word   INT_ZZ, INT_ZZ, .+4
+        .word   REG_R22, INT_ZZ, .+4
+        .word   INT_ZZ, SAVE_SCRATCH | INDIRECT, .+4
+
+        /* Store r23 = REG_R23 (offset 80) */
+        .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
+        .word   INT_ZZ, INT_ZZ, .+4
+        .word   REG_SP, INT_ZZ, .+4
+        .word   INT_ZZ, SAVE_SCRATCH, .+4
+        .word   .Lconst_neg80, SAVE_SCRATCH, .+4
+        .word   SAVE_SCRATCH | INDIRECT, SAVE_SCRATCH | INDIRECT, .+4
+        .word   INT_ZZ, INT_ZZ, .+4
+        .word   REG_R23, INT_ZZ, .+4
+        .word   INT_ZZ, SAVE_SCRATCH | INDIRECT, .+4
+
+        /* Store syscall_nr = -1 (offset 136) to mark as NOT a syscall */
+        .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
+        .word   INT_ZZ, INT_ZZ, .+4
+        .word   REG_SP, INT_ZZ, .+4
+        .word   INT_ZZ, SAVE_SCRATCH, .+4
+        .word   .Lconst_neg136, SAVE_SCRATCH, .+4
+        .word   SAVE_SCRATCH | INDIRECT, SAVE_SCRATCH | INDIRECT, .+4
+        /* Store -1: [addr] = 0 - (-1) = -1... wait, we want -1 stored directly */
+        /* If we do [addr] -= .Lconst_neg1 where .Lconst_neg1 = -1, we get [addr] = 0 - (-1) = 1 (wrong!) */
+        /* We need [addr] = -1. Since [addr] = 0, we need [addr] -= 1, so use .Lconst_1 */
+        .word   .Lconst_1, SAVE_SCRATCH | INDIRECT, .+4  /* [addr] = 0 - 1 = -1 */
+
+
+        /* Set R21 = pt_regs pointer (= SP) for the function call */
+        .word   REG_R21, REG_R21, .+4
+        .word   INT_ZZ, INT_ZZ, .+4
+        .word   IRQ_PTREGS_ADDR, INT_ZZ, .+4
+        .word   INT_ZZ, REG_R21, .Lirq_call
+
+.Lirq_call:
+        /* STACK-BASED CALL to subleq_do_IRQ */
         .word   .Lconst_4, REG_SP, .Lcall_push1
 
 .Lcall_push1:
-        /* Step 2: Clear [SP] using indirect addressing */
-        /* subleq(SP|I, SP|I, next) does: m[m[SP]] -= m[m[SP]] => [SP] = 0 */
         .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .Lcall_push2
 
 .Lcall_push2:
-        /* Step 3: Store .Lirq_returned at [SP] */
-        /* Get -return_addr into INT_ZZ */
         .word   INT_ZZ, INT_ZZ, .Lcall_push3
 .Lcall_push3:
         .word   .Lirq_return_addr, INT_ZZ, .Lcall_push4
 
 .Lcall_push4:
-        /* [SP] -= INT_ZZ => [SP] = return_addr */
-        /* subleq(INT_ZZ, SP|I, next) does: m[m[SP]] -= INT_ZZ => [SP] = -(-addr) = addr */
         .word   INT_ZZ, REG_SP | INDIRECT, .Lcall_jump
 
-        /* Step 4: Jump to subleq_do_IRQ */
 .Lcall_jump:
         .word   INT_ZZ, INT_ZZ, subleq_do_IRQ
 
-        /* PHASE 3: RESTORE ALL REGISTERS FROM IRQ STACK */
-.Lirq_returned:
-        /*
-         * subleq_do_IRQ() has returned (including the call to
-         * subleq_work_pending() which handles reschedule/signals).
-         *
-         * Pop registers in reverse order from the save sequence.
-         * Save order was: Z, RA, R3-R31, T0-T15, FP, SP
-         * So restore order is: SP, FP, T15-T0, R31-R3, RA, Z
-         */
 
-        /* Pop SP (goes to SAVE_SP temporarily, restored to actual SP later) */
-        POP_IRQ_REG SAVE_SP
+        /*
+         * PHASE 3: EXTRACT MODIFIED pt_regs AND RESTORE
+         *
+         * Signal delivery may have modified:
+         *   regs->pc  -> new return address (signal handler)
+         *   regs->sp  -> new stack (signal frame)
+         *   regs->r21 -> signal number
+         *   regs->r22 -> siginfo pointer
+         *   regs->r23 -> ucontext pointer
+         *   regs->ra  -> return trampoline
+         *
+         * We extract these and use them for the return.
+         */
+.Lirq_returned:
+        /* Deallocate pt_regs: SP += PT_SIZE */
+        .word   .Lconst_neg_pt_size, REG_SP, .+4
+
+        /* Read pt_regs->pc (offset 128) into SAVE_JMPTGT for return jump */
+        .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
+        .word   INT_ZZ, INT_ZZ, .+4
+        .word   IRQ_PTREGS_ADDR, INT_ZZ, .+4
+        .word   INT_ZZ, SAVE_SCRATCH, .+4
+        .word   .Lconst_neg128, SAVE_SCRATCH, .+4
+
+        /*
+         * Read +pc from memory into SAVE_JMPTGT.
+         * Memory contains +pc. To copy it we need 4 negations:
+         * 1. SAVE_JMPTGT = 0 - [mem] = -pc
+         * 2. INT_ZZ = 0 - SAVE_JMPTGT = +pc
+         * 3. Use SAVE_SCRATCH as temp: we need to recompute addr, OR just use INT_ZZ
+         * Actually simpler: after step 2, INT_ZZ = +pc. Do a proper copy:
+         * 3. SAVE_SCRATCH = 0 - INT_ZZ = -pc
+         * 4. SAVE_JMPTGT = 0 - SAVE_SCRATCH = +pc
+         */
+        .word   SAVE_JMPTGT, SAVE_JMPTGT, .+4
+        .word   SAVE_SCRATCH | INDIRECT, SAVE_JMPTGT, .+4  /* SAVE_JMPTGT = -pc (1) */
+        .word   INT_ZZ, INT_ZZ, .+4
+        .word   SAVE_JMPTGT, INT_ZZ, .+4                   /* INT_ZZ = +pc (2) */
+        .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
+        .word   INT_ZZ, SAVE_SCRATCH, .+4                   /* SAVE_SCRATCH = -pc (3) */
+        .word   SAVE_JMPTGT, SAVE_JMPTGT, .+4
+        .word   SAVE_SCRATCH, SAVE_JMPTGT, .+4              /* SAVE_JMPTGT = +pc (4) */
+
+
+        /* Read pt_regs->sp (offset 120) into SAVE_SP for SP restore */
+        .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
+        .word   INT_ZZ, INT_ZZ, .+4
+        .word   IRQ_PTREGS_ADDR, INT_ZZ, .+4
+        .word   INT_ZZ, SAVE_SCRATCH, .+4
+        .word   .Lconst_neg120, SAVE_SCRATCH, .+4
+        /* SAVE_SP needs to contain -sp for the restore (subleq(SAVE_SP, REG_SP) gives +sp) */
+        .word   SAVE_SP, SAVE_SP, .+4
+        .word   SAVE_SCRATCH | INDIRECT, SAVE_SP, .+4  /* SAVE_SP = -sp (correct for restore) */
+
+        /* Read pt_regs->r21 (offset 72) - will be loaded after POP sequence */
+        /* Read pt_regs->r22 (offset 76) - will be loaded after POP sequence */
+        /* Read pt_regs->r23 (offset 80) - will be loaded after POP sequence */
+        /* Read pt_regs->ra (offset 124) - will be loaded after POP sequence */
+
+        /* Now do the standard register restore from IRQ stack */
+        /* But SKIP the registers we'll override from pt_regs */
+
+        /* Pop SP - SKIP, we use pt_regs->sp instead */
+        .word   .Lconst_neg4, INT_SP, .+4
+
         /* Pop FP */
         POP_IRQ_REG REG_FP
-        /* Pop T15-T0 (16 registers, reverse order) */
+
+        /* Pop T15-T0 */
         POP_IRQ_REG REG_T15
         POP_IRQ_REG REG_T14
         POP_IRQ_REG REG_T13
@@ -390,7 +553,8 @@ subleq_irq_entry:
         POP_IRQ_REG REG_T2
         POP_IRQ_REG REG_T1
         POP_IRQ_REG REG_T0
-        /* Pop R31-R3 (29 registers, reverse order) */
+
+        /* Pop R31-R24 (not signal-affected) */
         POP_IRQ_REG REG_R31
         POP_IRQ_REG REG_R30
         POP_IRQ_REG REG_R29
@@ -399,9 +563,13 @@ subleq_irq_entry:
         POP_IRQ_REG REG_R26
         POP_IRQ_REG REG_R25
         POP_IRQ_REG REG_R24
-        POP_IRQ_REG REG_R23
-        POP_IRQ_REG REG_R22
-        POP_IRQ_REG REG_R21
+
+        /* R23, R22, R21 - SKIP, we'll load from pt_regs */
+        .word   .Lconst_neg4, INT_SP, .+4
+        .word   .Lconst_neg4, INT_SP, .+4
+        .word   .Lconst_neg4, INT_SP, .+4
+
+        /* Pop R20-R3 */
         POP_IRQ_REG REG_R20
         POP_IRQ_REG REG_R19
         POP_IRQ_REG REG_R18
@@ -420,55 +588,88 @@ subleq_irq_entry:
         POP_IRQ_REG REG_R5
         POP_IRQ_REG REG_R4
         POP_IRQ_REG REG_R3
-        /* Pop RA */
-        POP_IRQ_REG REG_RA
-        /* Pop Z - do this LAST since we use it for scratch */
+
+        /* RA - SKIP, we'll load from pt_regs */
+        .word   .Lconst_neg4, INT_SP, .+4
+
+        /* Pop Z */
         POP_IRQ_REG REG_Z
 
         /*
-         * Restore the original SP from SAVE_SP.
-         * SAVE_SP contains the negated original SP (from the bootstrap save).
+         * NOW load the signal-affected registers from pt_regs.
+         * These may have been modified by signal delivery.
          */
-        .word   REG_SP, REG_SP, .+4                   /* SP = 0 */
-        .word   SAVE_SP, REG_SP, .+4                  /* SP = -SAVE_SP = original SP */
+
+        /* Load R21 from pt_regs->r21 (offset 72) - need 4 negations */
+        .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
+        .word   INT_ZZ, INT_ZZ, .+4
+        .word   IRQ_PTREGS_ADDR, INT_ZZ, .+4
+        .word   INT_ZZ, SAVE_SCRATCH, .+4
+        .word   .Lconst_neg72, SAVE_SCRATCH, .+4
+        .word   REG_R21, REG_R21, .+4
+        .word   SAVE_SCRATCH | INDIRECT, REG_R21, .+4   /* R21 = -value (1) */
+        .word   INT_ZZ, INT_ZZ, .+4
+        .word   REG_R21, INT_ZZ, .+4                     /* INT_ZZ = +value (2) */
+        .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
+        .word   INT_ZZ, SAVE_SCRATCH, .+4                /* SAVE_SCRATCH = -value (3) */
+        .word   REG_R21, REG_R21, .+4
+        .word   SAVE_SCRATCH, REG_R21, .+4               /* R21 = +value (4) */
+
+        /* Load R22 from pt_regs->r22 (offset 76) */
+        .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
+        .word   INT_ZZ, INT_ZZ, .+4
+        .word   IRQ_PTREGS_ADDR, INT_ZZ, .+4
+        .word   INT_ZZ, SAVE_SCRATCH, .+4
+        .word   .Lconst_neg76, SAVE_SCRATCH, .+4
+        .word   REG_R22, REG_R22, .+4
+        .word   SAVE_SCRATCH | INDIRECT, REG_R22, .+4
+        .word   INT_ZZ, INT_ZZ, .+4
+        .word   REG_R22, INT_ZZ, .+4
+        .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
+        .word   INT_ZZ, SAVE_SCRATCH, .+4
+        .word   REG_R22, REG_R22, .+4
+        .word   SAVE_SCRATCH, REG_R22, .+4
+
+        /* Load R23 from pt_regs->r23 (offset 80) */
+        .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
+        .word   INT_ZZ, INT_ZZ, .+4
+        .word   IRQ_PTREGS_ADDR, INT_ZZ, .+4
+        .word   INT_ZZ, SAVE_SCRATCH, .+4
+        .word   .Lconst_neg80, SAVE_SCRATCH, .+4
+        .word   REG_R23, REG_R23, .+4
+        .word   SAVE_SCRATCH | INDIRECT, REG_R23, .+4
+        .word   INT_ZZ, INT_ZZ, .+4
+        .word   REG_R23, INT_ZZ, .+4
+        .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
+        .word   INT_ZZ, SAVE_SCRATCH, .+4
+        .word   REG_R23, REG_R23, .+4
+        .word   SAVE_SCRATCH, REG_R23, .+4
+
+        /* Load RA from pt_regs->ra (offset 124) */
+        .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
+        .word   INT_ZZ, INT_ZZ, .+4
+        .word   IRQ_PTREGS_ADDR, INT_ZZ, .+4
+        .word   INT_ZZ, SAVE_SCRATCH, .+4
+        .word   .Lconst_neg124, SAVE_SCRATCH, .+4
+        .word   REG_RA, REG_RA, .+4
+        .word   SAVE_SCRATCH | INDIRECT, REG_RA, .+4
+        .word   INT_ZZ, INT_ZZ, .+4
+        .word   REG_RA, INT_ZZ, .+4
+        .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
+        .word   INT_ZZ, SAVE_SCRATCH, .+4
+        .word   REG_RA, REG_RA, .+4
+        .word   SAVE_SCRATCH, REG_RA, .+4
+
+
+        /* Restore SP from SAVE_SP (which contains -(pt_regs->sp)) */
+        .word   REG_SP, REG_SP, .+4
+        .word   SAVE_SP, REG_SP, .+4
 
 .Lrestore_done:
-        /* PHASE 4: CAPTURE RETURN ADDRESS */
-.Lirq_return:
-        .word   INT_ZZ, INT_ZZ, .Lirq_ret1
-.Lirq_ret1:
-        .word   INT_SAVED_PC, INT_ZZ, .Lirq_ret2
-.Lirq_ret2:
-        .word   SAVE_JMPTGT, SAVE_JMPTGT, .Lirq_ret3
-.Lirq_ret3:
-        .word   INT_ZZ, SAVE_JMPTGT, .Lcapture_done
+        /* PHASE 4: RE-ENABLE INTERRUPTS AND RETURN */
 
-.Lcapture_done:
-        /*
-         * PHASE 5: RE-ENABLE INTERRUPTS AND RETURN
-         *
-         * At this point, subleq_do_IRQ() has returned, which means:
-         * - All C-level interrupt processing is complete
-         * - irq_exit() has finished (including any softirq processing)
-         * - The preempt_count is back to its pre-interrupt value
-         *
-         * The key to preventing re-entrancy is in irqflags.h:
-         * - arch_local_irq_enable() checks in_interrupt() (hardirq | softirq)
-         * - During irq_exit(), even though hardirq count is decremented,
-         *   the softirq bits are set during handle_softirqs()
-         * - So local_irq_enable() calls inside softirq processing are no-ops
-         *
-         * We MUST re-enable interrupts here because:
-         * - The interrupted code was running with interrupts enabled
-         *   (otherwise the interrupt wouldn't have fired)
-         * - If we don't re-enable, the system will hang with interrupts off
-         *
-         * Using Subleq+ indirect addressing for the return jump.
-         * SAVE_JMPTGT contains the return address (from INT_SAVED_PC).
-         * We use indirect jump: subleq(Z, Z, SAVE_JMPTGT|I) to jump to m[SAVE_JMPTGT].
-         */
+        /* SAVE_JMPTGT now contains the (potentially modified) return PC */
 .Ldo_jump:
-        /* Re-enable interrupts: restore handler address to m[0] */
 .Lenable_irq:
         .word   INT_ZZ, INT_ZZ, .Lenable1
 .Lenable1:
@@ -476,19 +677,15 @@ subleq_irq_entry:
 .Lenable2:
         .word   INT_HANDLER, INT_HANDLER, .Lenable3
 .Lenable3:
-        /* Re-enable interrupts: m[0] = handler address from m[2] */
         .word   INT_ZZ, INT_HANDLER, .Ldo_return
 
 .Ldo_return:
-        /* Clear INT_ZZ for unconditional jump */
         .word   INT_ZZ, INT_ZZ, .Ldo_return2
 .Ldo_return2:
-        /* Indirect jump: subleq(Z, Z, SAVE_JMPTGT|I) always jumps to m[SAVE_JMPTGT] */
         .word   INT_ZZ
         .word   INT_ZZ
         .word   SAVE_JMPTGT | INDIRECT
 
-        /* If we get here, something is very wrong! */
 .Ljump_failed:
         .word   -4, .Lconst_char_I, .Lhang
 .Lhang:
@@ -501,6 +698,7 @@ subleq_irq_entry:
 .set INDIRECT, 2
 
 .size subleq_irq_entry, .-subleq_irq_entry
+
 
 /*
  * ===========================================================================
@@ -2101,12 +2299,34 @@ __subleq_syscall:
 /* pt_regs offsets (negative for subtraction-based addition) */
 .Lconst_neg68:
         .word   -68             /* pt_regs->r20 */
+.Lconst_neg72:
+        .word   -72             /* pt_regs->r21 */
+.Lconst_neg76:
+        .word   -76             /* pt_regs->r22 */
+.Lconst_neg80:
+        .word   -80             /* pt_regs->r23 */
 .Lconst_neg116:
         .word   -116            /* pt_regs->fp */
 .Lconst_neg120:
         .word   -120            /* pt_regs->sp */
+.Lconst_neg124:
+        .word   -124            /* pt_regs->ra */
 .Lconst_neg128:
         .word   -128            /* pt_regs->pc */
+.Lconst_neg136:
+        .word   -136            /* pt_regs->syscall_nr */
+
+/* pt_regs size for allocation/deallocation */
+.Lconst_pt_size:
+        .word   156             /* PT_SIZE = sizeof(struct pt_regs) */
+.Lconst_neg_pt_size:
+        .word   -156            /* Negative for deallocation */
+
+/* Miscellaneous constants */
+.Lconst_1:
+        .word   1               /* Literal 1 */
+.Lconst_neg1:
+        .word   -1              /* Literal -1 for syscall_nr */
 
 /* task_struct offsets - computed from asm-offsets.h */
 .Lconst_neg_task_thread_sp:

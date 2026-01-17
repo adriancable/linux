@@ -12,6 +12,9 @@ CONFIG_BUG=y
 # CONFIG_MODULES is not set
 # CONFIG_BLOCK is not set
 
+# Preemption - enabled now that INT_SP supports per-task interrupt frames
+CONFIG_PREEMPT_VOLUNTARY=y
+
 # Disable complex timer features
 # CONFIG_POSIX_TIMERS is not set
 
@@ -59,3 +62,4 @@ CONFIG_CMDLINE_FORCE=y
 # Disable debugging (too much output)
 # CONFIG_DEBUG_KERNEL is not set
 # CONFIG_DEBUG_INFO is not set
+

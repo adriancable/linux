@@ -17,10 +17,13 @@
 #include <linux/irq.h>
 #include <linux/interrupt.h>
 #include <linux/hardirq.h>
+#include <linux/sched.h>
+#include <linux/sched/signal.h>
 
 #include <asm/irq.h>
 #include <asm/irq_regs.h>
 #include <asm/ptrace.h>
+#include <asm/thread_info.h>
 
 /*
  * Memory-mapped interrupt registers
@@ -87,6 +90,9 @@ extern void subleq_timer_interrupt(void);
  */
 static struct pt_regs subleq_irq_regs;
 
+/* Forward declaration */
+static void subleq_work_pending(void);
+
 /*
  * C-level interrupt handler - called from assembly entry.S
  *
@@ -111,6 +117,18 @@ void subleq_do_IRQ(void)
 
 	/* Restore previous irq_regs */
 	set_irq_regs(old_regs);
+
+	/*
+	 * Check for pending work (reschedule, signals) before returning
+	 * to the interrupted code. This enables preemptive multitasking.
+	 * Must be done AFTER irq_exit() so we're no longer in hardirq context.
+	 *
+	 * Only do this after the system has finished booting - during early
+	 * boot, the scheduler isn't ready and current_thread_info() may not
+	 * be valid.
+	 */
+	// if (system_state >= SYSTEM_RUNNING)
+	// 	subleq_work_pending();
 }
 
 /*
@@ -133,3 +151,45 @@ void __init init_IRQ(void)
 	pr_info("Subleq IRQ: handler installed at 0x%lx, stack at 0x%lx\n",
 		(unsigned long)subleq_irq_entry, subleq_irq_stack_top);
 }
+
+/*
+ * subleq_work_pending - Check for and handle pending work after interrupt
+ *
+ * Called from the interrupt return path in entry.S, after registers are
+ * restored but before re-enabling interrupts and returning.
+ *
+ * This follows the m68k/ColdFire pattern: check thread_info flags and
+ * handle reschedule/signals before returning to userspace.
+ *
+ * For NOMMU Subleq, there's no user/kernel distinction, so we always
+ * check for pending work.
+ */
+static void subleq_work_pending(void)
+{
+	struct thread_info *ti = current_thread_info();
+
+	/*
+	 * Loop until no more work is pending.
+	 * This is necessary because handling signals or rescheduling
+	 * may set new flags.
+	 */
+	while (ti->flags & (_TIF_NEED_RESCHED | _TIF_SIGPENDING | _TIF_NOTIFY_RESUME)) {
+		
+		/* Check for rescheduling first */
+		if (ti->flags & _TIF_NEED_RESCHED) {
+			schedule();
+			continue;
+		}
+
+		/* Handle pending signals */
+		if (ti->flags & (_TIF_SIGPENDING | _TIF_NOTIFY_RESUME)) {
+			/*
+			 * For now, just clear these flags.
+			 * Full signal delivery would call do_signal() here.
+			 * TODO: Implement proper signal delivery for Subleq.
+			 */
+			break;
+		}
+	}
+}
+

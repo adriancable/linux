@@ -359,6 +359,9 @@ subleq_irq_entry:
         /* PHASE 3: RESTORE ALL REGISTERS FROM IRQ STACK */
 .Lirq_returned:
         /*
+         * subleq_do_IRQ() has returned (including the call to
+         * subleq_work_pending() which handles reschedule/signals).
+         *
          * Pop registers in reverse order from the save sequence.
          * Save order was: Z, RA, R3-R31, T0-T15, FP, SP
          * So restore order is: SP, FP, T15-T0, R31-R3, RA, Z

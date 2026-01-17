@@ -4,7 +4,6 @@
 config SUBLEQ
 	def_bool y
 	select ARCH_32BIT_OFF_T
-	select ARCH_NO_PREEMPT
 	select GENERIC_ATOMIC64
 	select GENERIC_CSUM
 	select GENERIC_HWEIGHT
@@ -18,6 +17,7 @@ config SUBLEQ
 	select UACCESS_MEMCPY
 	select ARCH_HAS_STRNCPY_FROM_USER
 	select ARCH_HAS_STRNLEN_USER
+	select HAVE_PREEMPT_LAZY
 	help
 	  Subleq is a One Instruction Set Computer (OISC) where the only
 	  operation is "subtract and branch if less than or equal to zero."

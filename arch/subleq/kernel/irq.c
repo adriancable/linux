@@ -49,6 +49,16 @@ static unsigned long irq_stack[IRQ_STACK_SIZE / sizeof(unsigned long)] __aligned
 unsigned long subleq_irq_stack_top;
 
 /*
+ * INT_SP - The IRQ Stack Pointer register (byte address 460)
+ *
+ * This is a memory-mapped "register" that tracks the current position
+ * in the IRQ stack. Each interrupt push decrements it, each pop increments it.
+ * This allows multiple interrupt frames to coexist on the IRQ stack,
+ * enabling preemptive multitasking.
+ */
+#define INT_SP_ADDR ((volatile unsigned long *)460)
+
+/*
  * Early IRQ stack initialization - must be called before start_kernel()
  * This is called from subleq_start() in setup.c
  */
@@ -56,6 +66,12 @@ void __init early_irq_stack_init(void)
 {
 	/* Stack grows downward, so stack_top points to just past the end */
 	subleq_irq_stack_top = (unsigned long)&irq_stack[IRQ_STACK_SIZE / sizeof(unsigned long)];
+
+	/*
+	 * Initialize INT_SP to the top of the IRQ stack.
+	 * As interrupts fire, INT_SP will decrement with each pushed frame.
+	 */
+	*INT_SP_ADDR = subleq_irq_stack_top;
 }
 
 /* Assembly entry point from entry.S */

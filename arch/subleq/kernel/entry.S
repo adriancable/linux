@@ -138,7 +138,26 @@
 .set SUBLEQ_UFP, 452    /* Saved userspace frame pointer */
 .set SYSCALL_ZZ, 456    /* Scratch for syscall trampoline */
 
-/* Save/restore macros */
+/*
+ * INT_SP: Interrupt Stack Pointer
+ *
+ * This is the running stack pointer for the dedicated IRQ stack.
+ * Unlike the fixed SAVE_* slots, this enables multiple interrupt frames
+ * to coexist on the IRQ stack - critical for preemptive multitasking.
+ *
+ * When a task is interrupted and the handler calls schedule(), the task's
+ * interrupt frame remains on the IRQ stack (at the current INT_SP position).
+ * If the new task also gets interrupted, its frame is pushed BELOW the first
+ * task's frame. Frames are naturally unwound as interrupts return.
+ */
+.set INT_SP, 460        /* Interrupt stack pointer (runs from top down) */
+
+/* Interrupt frame size: all registers we save */
+.set IRQ_FRAME_SIZE, 200   /* 50 words × 4 bytes */
+
+/*
+ * Old SAVE_REG/RESTORE_REG macros - still used by some legacy paths
+ */
 .macro SAVE_REG reg_addr, save_addr, next_label
         .word   \save_addr, \save_addr, .+4
         .word   \reg_addr, \save_addr, \next_label
@@ -150,169 +169,151 @@
 .endm
 
 /*
+ * PUSH_IRQ_REG: Push a register onto the IRQ stack
+ *
+ * Uses INT_SP as the stack pointer. Decrements INT_SP by 4, then stores
+ * the negated register value at [INT_SP].
+ *
+ * Pattern:
+ *   INT_SP -= 4
+ *   [INT_SP] = 0
+ *   [INT_SP] -= reg  (stores -reg)
+ */
+.macro PUSH_IRQ_REG reg_addr
+        .word   .Lconst_4, INT_SP, .+4                      /* INT_SP -= 4 */
+        .word   INT_SP | INDIRECT, INT_SP | INDIRECT, .+4   /* [INT_SP] = 0 */
+        .word   \reg_addr, INT_SP | INDIRECT, .+4          /* [INT_SP] = -reg */
+.endm
+
+/*
+ * POP_IRQ_REG: Pop a register from the IRQ stack
+ *
+ * Restores the register from [INT_SP], then increments INT_SP by 4.
+ * Since PUSH stores -reg, we restore by: reg = 0; reg -= [INT_SP]
+ *
+ * Pattern:
+ *   reg = 0
+ *   reg -= [INT_SP]  (reg = -(-reg) = reg)
+ *   INT_SP += 4
+ */
+.macro POP_IRQ_REG reg_addr
+        .word   \reg_addr, \reg_addr, .+4                 /* reg = 0 */
+        .word   INT_SP | INDIRECT, \reg_addr, .+4          /* reg -= [INT_SP] = -(-orig) = orig */
+        .word   .Lconst_neg4, INT_SP, .+4                   /* INT_SP += 4 */
+.endm
+
+/*
  * Interrupt entry point
  *
- * CRITICAL: We must save SP and switch to the dedicated interrupt stack
- * IMMEDIATELY, before doing anything else. This is because an interrupt
- * can fire at any time, including when SP is in an invalid state (e.g.,
- * being cleared in preparation for reloading a new value).
+ * CRITICAL: Disable interrupts FIRST to prevent nested re-entry.
+ * Then save the interrupted SP (which may be in an invalid state).
  *
- * The dedicated interrupt stack pointer is at subleq_irq_stack_top.
+ * INT_SP tracks the IRQ stack position for pushing/popping frames.
  */
 subleq_irq_entry:
         /*
-         * PHASE 0a: SAVE SP IMMEDIATELY - before anything else!
+         * PHASE 0a: DISABLE INTERRUPTS IMMEDIATELY
          *
-         * The caller's SP might be garbage (e.g., mid-reload), so we must
-         * save it to SAVE_SP using only INT_ZZ as scratch before touching
-         * any stack operations.
+         * This MUST be first! Otherwise another interrupt could fire
+         * before we've finished saving state, corrupting everything.
          *
-         * IMPORTANT: SAVE_REG/RESTORE_REG store values as NEGATIVE.
-         * We must follow the same convention: SAVE_SP = -SP
-         *
-         * Pattern: SAVE_SP = -SP (matching SAVE_REG convention)
-         *   1. SAVE_SP = SAVE_SP - SAVE_SP = 0
-         *   2. SAVE_SP = SAVE_SP - SP = -SP
+         * Save m[0] to m[8] (INT_SAVED_HANDLER), then clear m[0].
+         * Uses only INT_ZZ as scratch (address 224).
          */
-.Lsave_sp_first:
-        .word   SAVE_SP, SAVE_SP, .Lsave_sp_first1    /* SAVE_SP = 0 */
-.Lsave_sp_first1:
-        .word   REG_SP, SAVE_SP, .Lload_irq_stack     /* SAVE_SP = -SP */
+        .word   INT_ZZ, INT_ZZ, .+4                   /* INT_ZZ = 0 */
+        .word   INT_HANDLER, INT_ZZ, .+4              /* INT_ZZ = -handler */
+        .word   INT_SAVED_HANDLER, INT_SAVED_HANDLER, .+4  /* m[8] = 0 */
+        .word   INT_ZZ, INT_SAVED_HANDLER, .+4        /* m[8] = handler */
+        .word   INT_HANDLER, INT_HANDLER, .+4         /* m[0] = 0 (disabled!) */
 
         /*
-         * PHASE 0b: SWITCH TO DEDICATED INTERRUPT STACK
+         * PHASE 0b: SAVE SP
          *
-         * Load the IRQ stack top pointer into SP.
-         * Pattern: SP = subleq_irq_stack_top
-         *   1. SP = SP - SP = 0
-         *   2. INT_ZZ = INT_ZZ - INT_ZZ = 0
-         *   3. INT_ZZ = INT_ZZ - [subleq_irq_stack_top] = -stack_top
-         *   4. SP = SP - INT_ZZ = -(-stack_top) = stack_top
+         * Now safe to save the interrupted SP. It may be garbage
+         * (mid-reload), but we capture it as-is. SAVE_SP is at address 232
+         * and is used by current_thread_info() to find the task's stack.
+         *
+         * Pattern: SAVE_SP = -SP (negated, like PUSH stores)
          */
-.Lload_irq_stack:
-        .word   REG_SP, REG_SP, .Lload_irq_stack1     /* SP = 0 */
-.Lload_irq_stack1:
-        .word   INT_ZZ, INT_ZZ, .Lload_irq_stack2     /* INT_ZZ = 0 */
-.Lload_irq_stack2:
-        .word   subleq_irq_stack_top, INT_ZZ, .Lload_irq_stack3  /* INT_ZZ = -stack_top */
-.Lload_irq_stack3:
-        .word   INT_ZZ, REG_SP, .Ldisable0            /* SP = stack_top */
+        .word   SAVE_SP, SAVE_SP, .+4                 /* SAVE_SP = 0 */
+        .word   REG_SP, SAVE_SP, .+4                  /* SAVE_SP = -SP */
 
-        /* PHASE 0c: DISABLE INTERRUPTS */
-.Ldisable0:
-        .word   INT_ZZ, INT_ZZ, .Ldisable1
-.Ldisable1:
-        .word   INT_HANDLER, INT_ZZ, .Ldisable2
-.Ldisable2:
-        .word   INT_SAVED_HANDLER, INT_SAVED_HANDLER, .Ldisable3
-.Ldisable3:
-        .word   INT_ZZ, INT_SAVED_HANDLER, .Ldisable4
-.Ldisable4:
-        .word   INT_HANDLER, INT_HANDLER, .Ldisable_done
 
-.Ldisable_done:
+
         /*
-         * PHASE 1: SAVE ALL OTHER REGISTERS
+         * PHASE 1: SAVE ALL REGISTERS TO IRQ STACK
          *
-         * Note: SP was already saved in PHASE 0a above.
-         * We skip saving SP here and proceed directly to save Z, RA, etc.
+         * Using PUSH_IRQ_REG to push each register onto the IRQ stack.
+         * INT_SP tracks the current position and decrements with each push.
+         *
+         * Order: Z, RA, R3-R31, T0-T15, FP, SP (saved SP from SAVE_SP)
+         * The restore phase will pop in reverse order.
          */
-.Lsave_z:
-        SAVE_REG REG_Z, SAVE_Z, .Lsave_ra
-.Lsave_ra:
-        SAVE_REG REG_RA, SAVE_RA, .Lsave_r3
-.Lsave_r3:
-        SAVE_REG REG_R3, SAVE_R3, .Lsave_r4
-.Lsave_r4:
-        SAVE_REG REG_R4, SAVE_R4, .Lsave_r5
-.Lsave_r5:
-        SAVE_REG REG_R5, SAVE_R5, .Lsave_r6
-.Lsave_r6:
-        SAVE_REG REG_R6, SAVE_R6, .Lsave_r7
-.Lsave_r7:
-        SAVE_REG REG_R7, SAVE_R7, .Lsave_r8
-.Lsave_r8:
-        SAVE_REG REG_R8, SAVE_R8, .Lsave_r9
-.Lsave_r9:
-        SAVE_REG REG_R9, SAVE_R9, .Lsave_r10
-.Lsave_r10:
-        SAVE_REG REG_R10, SAVE_R10, .Lsave_r11
-.Lsave_r11:
-        SAVE_REG REG_R11, SAVE_R11, .Lsave_r12
-.Lsave_r12:
-        SAVE_REG REG_R12, SAVE_R12, .Lsave_r13
-.Lsave_r13:
-        SAVE_REG REG_R13, SAVE_R13, .Lsave_r14
-.Lsave_r14:
-        SAVE_REG REG_R14, SAVE_R14, .Lsave_r15
-.Lsave_r15:
-        SAVE_REG REG_R15, SAVE_R15, .Lsave_r16
-.Lsave_r16:
-        SAVE_REG REG_R16, SAVE_R16, .Lsave_r17
-.Lsave_r17:
-        SAVE_REG REG_R17, SAVE_R17, .Lsave_r18
-.Lsave_r18:
-        SAVE_REG REG_R18, SAVE_R18, .Lsave_r19
-.Lsave_r19:
-        SAVE_REG REG_R19, SAVE_R19, .Lsave_r20
-.Lsave_r20:
-        SAVE_REG REG_R20, SAVE_R20, .Lsave_r21
-.Lsave_r21:
-        SAVE_REG REG_R21, SAVE_R21, .Lsave_r22
-.Lsave_r22:
-        SAVE_REG REG_R22, SAVE_R22, .Lsave_r23
-.Lsave_r23:
-        SAVE_REG REG_R23, SAVE_R23, .Lsave_r24
-.Lsave_r24:
-        SAVE_REG REG_R24, SAVE_R24, .Lsave_r25
-.Lsave_r25:
-        SAVE_REG REG_R25, SAVE_R25, .Lsave_r26
-.Lsave_r26:
-        SAVE_REG REG_R26, SAVE_R26, .Lsave_r27
-.Lsave_r27:
-        SAVE_REG REG_R27, SAVE_R27, .Lsave_r28
-.Lsave_r28:
-        SAVE_REG REG_R28, SAVE_R28, .Lsave_r29
-.Lsave_r29:
-        SAVE_REG REG_R29, SAVE_R29, .Lsave_r30
-.Lsave_r30:
-        SAVE_REG REG_R30, SAVE_R30, .Lsave_r31
-.Lsave_r31:
-        SAVE_REG REG_R31, SAVE_R31, .Lsave_t0
-.Lsave_t0:
-        SAVE_REG REG_T0, SAVE_T0, .Lsave_t1
-.Lsave_t1:
-        SAVE_REG REG_T1, SAVE_T1, .Lsave_t2
-.Lsave_t2:
-        SAVE_REG REG_T2, SAVE_T2, .Lsave_t3
-.Lsave_t3:
-        SAVE_REG REG_T3, SAVE_T3, .Lsave_t4
-.Lsave_t4:
-        SAVE_REG REG_T4, SAVE_T4, .Lsave_t5
-.Lsave_t5:
-        SAVE_REG REG_T5, SAVE_T5, .Lsave_t6
-.Lsave_t6:
-        SAVE_REG REG_T6, SAVE_T6, .Lsave_t7
-.Lsave_t7:
-        SAVE_REG REG_T7, SAVE_T7, .Lsave_t8
-.Lsave_t8:
-        SAVE_REG REG_T8, SAVE_T8, .Lsave_t9
-.Lsave_t9:
-        SAVE_REG REG_T9, SAVE_T9, .Lsave_t10
-.Lsave_t10:
-        SAVE_REG REG_T10, SAVE_T10, .Lsave_t11
-.Lsave_t11:
-        SAVE_REG REG_T11, SAVE_T11, .Lsave_t12
-.Lsave_t12:
-        SAVE_REG REG_T12, SAVE_T12, .Lsave_t13
-.Lsave_t13:
-        SAVE_REG REG_T13, SAVE_T13, .Lsave_t14
-.Lsave_t14:
-        SAVE_REG REG_T14, SAVE_T14, .Lsave_t15
-.Lsave_t15:
-        SAVE_REG REG_T15, SAVE_T15, .Lsave_fp
-.Lsave_fp:
-        SAVE_REG REG_FP, SAVE_FP, .Lsave_done
+
+        /* Push Z */
+        PUSH_IRQ_REG REG_Z
+        /* Push RA */
+        PUSH_IRQ_REG REG_RA
+        /* Push R3-R31 (29 registers) */
+        PUSH_IRQ_REG REG_R3
+        PUSH_IRQ_REG REG_R4
+        PUSH_IRQ_REG REG_R5
+        PUSH_IRQ_REG REG_R6
+        PUSH_IRQ_REG REG_R7
+        PUSH_IRQ_REG REG_R8
+        PUSH_IRQ_REG REG_R9
+        PUSH_IRQ_REG REG_R10
+        PUSH_IRQ_REG REG_R11
+        PUSH_IRQ_REG REG_R12
+        PUSH_IRQ_REG REG_R13
+        PUSH_IRQ_REG REG_R14
+        PUSH_IRQ_REG REG_R15
+        PUSH_IRQ_REG REG_R16
+        PUSH_IRQ_REG REG_R17
+        PUSH_IRQ_REG REG_R18
+        PUSH_IRQ_REG REG_R19
+        PUSH_IRQ_REG REG_R20
+        PUSH_IRQ_REG REG_R21
+        PUSH_IRQ_REG REG_R22
+        PUSH_IRQ_REG REG_R23
+        PUSH_IRQ_REG REG_R24
+        PUSH_IRQ_REG REG_R25
+        PUSH_IRQ_REG REG_R26
+        PUSH_IRQ_REG REG_R27
+        PUSH_IRQ_REG REG_R28
+        PUSH_IRQ_REG REG_R29
+        PUSH_IRQ_REG REG_R30
+        PUSH_IRQ_REG REG_R31
+        /* Push T0-T15 (16 registers) */
+        PUSH_IRQ_REG REG_T0
+        PUSH_IRQ_REG REG_T1
+        PUSH_IRQ_REG REG_T2
+        PUSH_IRQ_REG REG_T3
+        PUSH_IRQ_REG REG_T4
+        PUSH_IRQ_REG REG_T5
+        PUSH_IRQ_REG REG_T6
+        PUSH_IRQ_REG REG_T7
+        PUSH_IRQ_REG REG_T8
+        PUSH_IRQ_REG REG_T9
+        PUSH_IRQ_REG REG_T10
+        PUSH_IRQ_REG REG_T11
+        PUSH_IRQ_REG REG_T12
+        PUSH_IRQ_REG REG_T13
+        PUSH_IRQ_REG REG_T14
+        PUSH_IRQ_REG REG_T15
+        /* Push FP */
+        PUSH_IRQ_REG REG_FP
+        /* Push the saved original SP (from SAVE_SP at bootstrap) */
+        PUSH_IRQ_REG SAVE_SP
+
+        /*
+         * Set hardware SP = INT_SP so C handler has valid stack.
+         * After all pushes, INT_SP points to the top of our saved frame.
+         */
+        .word   REG_SP, REG_SP, .+4             /* SP = 0 */
+        .word   INT_ZZ, INT_ZZ, .+4             /* INT_ZZ = 0 */
+        .word   INT_SP, INT_ZZ, .+4             /* INT_ZZ = -INT_SP */
+        .word   INT_ZZ, REG_SP, .+4             /* SP = INT_SP */
 
 .Lsave_done:
         /* PHASE 2: CALL C HANDLER */
@@ -355,106 +356,76 @@ subleq_irq_entry:
 .Lcall_jump:
         .word   INT_ZZ, INT_ZZ, subleq_do_IRQ
 
-        /* PHASE 3: RESTORE ALL REGISTERS */
+        /* PHASE 3: RESTORE ALL REGISTERS FROM IRQ STACK */
 .Lirq_returned:
-.Lrestore_fp:
-        RESTORE_REG SAVE_FP, REG_FP, .Lrestore_t15
-.Lrestore_t15:
-        RESTORE_REG SAVE_T15, REG_T15, .Lrestore_t14
-.Lrestore_t14:
-        RESTORE_REG SAVE_T14, REG_T14, .Lrestore_t13
-.Lrestore_t13:
-        RESTORE_REG SAVE_T13, REG_T13, .Lrestore_t12
-.Lrestore_t12:
-        RESTORE_REG SAVE_T12, REG_T12, .Lrestore_t11
-.Lrestore_t11:
-        RESTORE_REG SAVE_T11, REG_T11, .Lrestore_t10
-.Lrestore_t10:
-        RESTORE_REG SAVE_T10, REG_T10, .Lrestore_t9
-.Lrestore_t9:
-        RESTORE_REG SAVE_T9, REG_T9, .Lrestore_t8
-.Lrestore_t8:
-        RESTORE_REG SAVE_T8, REG_T8, .Lrestore_t7
-.Lrestore_t7:
-        RESTORE_REG SAVE_T7, REG_T7, .Lrestore_t6
-.Lrestore_t6:
-        RESTORE_REG SAVE_T6, REG_T6, .Lrestore_t5
-.Lrestore_t5:
-        RESTORE_REG SAVE_T5, REG_T5, .Lrestore_t4
-.Lrestore_t4:
-        RESTORE_REG SAVE_T4, REG_T4, .Lrestore_t3
-.Lrestore_t3:
-        RESTORE_REG SAVE_T3, REG_T3, .Lrestore_t2
-.Lrestore_t2:
-        RESTORE_REG SAVE_T2, REG_T2, .Lrestore_t1
-.Lrestore_t1:
-        RESTORE_REG SAVE_T1, REG_T1, .Lrestore_t0
-.Lrestore_t0:
-        RESTORE_REG SAVE_T0, REG_T0, .Lrestore_r31
-.Lrestore_r31:
-        RESTORE_REG SAVE_R31, REG_R31, .Lrestore_r30
-.Lrestore_r30:
-        RESTORE_REG SAVE_R30, REG_R30, .Lrestore_r29
-.Lrestore_r29:
-        RESTORE_REG SAVE_R29, REG_R29, .Lrestore_r28
-.Lrestore_r28:
-        RESTORE_REG SAVE_R28, REG_R28, .Lrestore_r27
-.Lrestore_r27:
-        RESTORE_REG SAVE_R27, REG_R27, .Lrestore_r26
-.Lrestore_r26:
-        RESTORE_REG SAVE_R26, REG_R26, .Lrestore_r25
-.Lrestore_r25:
-        RESTORE_REG SAVE_R25, REG_R25, .Lrestore_r24
-.Lrestore_r24:
-        RESTORE_REG SAVE_R24, REG_R24, .Lrestore_r23
-.Lrestore_r23:
-        RESTORE_REG SAVE_R23, REG_R23, .Lrestore_r22
-.Lrestore_r22:
-        RESTORE_REG SAVE_R22, REG_R22, .Lrestore_r21
-.Lrestore_r21:
-        RESTORE_REG SAVE_R21, REG_R21, .Lrestore_r20
-.Lrestore_r20:
-        RESTORE_REG SAVE_R20, REG_R20, .Lrestore_r19
-.Lrestore_r19:
-        RESTORE_REG SAVE_R19, REG_R19, .Lrestore_r18
-.Lrestore_r18:
-        RESTORE_REG SAVE_R18, REG_R18, .Lrestore_r17
-.Lrestore_r17:
-        RESTORE_REG SAVE_R17, REG_R17, .Lrestore_r16
-.Lrestore_r16:
-        RESTORE_REG SAVE_R16, REG_R16, .Lrestore_r15
-.Lrestore_r15:
-        RESTORE_REG SAVE_R15, REG_R15, .Lrestore_r14
-.Lrestore_r14:
-        RESTORE_REG SAVE_R14, REG_R14, .Lrestore_r13
-.Lrestore_r13:
-        RESTORE_REG SAVE_R13, REG_R13, .Lrestore_r12
-.Lrestore_r12:
-        RESTORE_REG SAVE_R12, REG_R12, .Lrestore_r11
-.Lrestore_r11:
-        RESTORE_REG SAVE_R11, REG_R11, .Lrestore_r10
-.Lrestore_r10:
-        RESTORE_REG SAVE_R10, REG_R10, .Lrestore_r9
-.Lrestore_r9:
-        RESTORE_REG SAVE_R9, REG_R9, .Lrestore_r8
-.Lrestore_r8:
-        RESTORE_REG SAVE_R8, REG_R8, .Lrestore_r7
-.Lrestore_r7:
-        RESTORE_REG SAVE_R7, REG_R7, .Lrestore_r6
-.Lrestore_r6:
-        RESTORE_REG SAVE_R6, REG_R6, .Lrestore_r5
-.Lrestore_r5:
-        RESTORE_REG SAVE_R5, REG_R5, .Lrestore_r4
-.Lrestore_r4:
-        RESTORE_REG SAVE_R4, REG_R4, .Lrestore_r3
-.Lrestore_r3:
-        RESTORE_REG SAVE_R3, REG_R3, .Lrestore_ra
-.Lrestore_ra:
-        RESTORE_REG SAVE_RA, REG_RA, .Lrestore_sp
-.Lrestore_sp:
-        RESTORE_REG SAVE_SP, REG_SP, .Lrestore_z
-.Lrestore_z:
-        RESTORE_REG SAVE_Z, REG_Z, .Lrestore_done
+        /*
+         * Pop registers in reverse order from the save sequence.
+         * Save order was: Z, RA, R3-R31, T0-T15, FP, SP
+         * So restore order is: SP, FP, T15-T0, R31-R3, RA, Z
+         */
+
+        /* Pop SP (goes to SAVE_SP temporarily, restored to actual SP later) */
+        POP_IRQ_REG SAVE_SP
+        /* Pop FP */
+        POP_IRQ_REG REG_FP
+        /* Pop T15-T0 (16 registers, reverse order) */
+        POP_IRQ_REG REG_T15
+        POP_IRQ_REG REG_T14
+        POP_IRQ_REG REG_T13
+        POP_IRQ_REG REG_T12
+        POP_IRQ_REG REG_T11
+        POP_IRQ_REG REG_T10
+        POP_IRQ_REG REG_T9
+        POP_IRQ_REG REG_T8
+        POP_IRQ_REG REG_T7
+        POP_IRQ_REG REG_T6
+        POP_IRQ_REG REG_T5
+        POP_IRQ_REG REG_T4
+        POP_IRQ_REG REG_T3
+        POP_IRQ_REG REG_T2
+        POP_IRQ_REG REG_T1
+        POP_IRQ_REG REG_T0
+        /* Pop R31-R3 (29 registers, reverse order) */
+        POP_IRQ_REG REG_R31
+        POP_IRQ_REG REG_R30
+        POP_IRQ_REG REG_R29
+        POP_IRQ_REG REG_R28
+        POP_IRQ_REG REG_R27
+        POP_IRQ_REG REG_R26
+        POP_IRQ_REG REG_R25
+        POP_IRQ_REG REG_R24
+        POP_IRQ_REG REG_R23
+        POP_IRQ_REG REG_R22
+        POP_IRQ_REG REG_R21
+        POP_IRQ_REG REG_R20
+        POP_IRQ_REG REG_R19
+        POP_IRQ_REG REG_R18
+        POP_IRQ_REG REG_R17
+        POP_IRQ_REG REG_R16
+        POP_IRQ_REG REG_R15
+        POP_IRQ_REG REG_R14
+        POP_IRQ_REG REG_R13
+        POP_IRQ_REG REG_R12
+        POP_IRQ_REG REG_R11
+        POP_IRQ_REG REG_R10
+        POP_IRQ_REG REG_R9
+        POP_IRQ_REG REG_R8
+        POP_IRQ_REG REG_R7
+        POP_IRQ_REG REG_R6
+        POP_IRQ_REG REG_R5
+        POP_IRQ_REG REG_R4
+        POP_IRQ_REG REG_R3
+        /* Pop RA */
+        POP_IRQ_REG REG_RA
+        /* Pop Z - do this LAST since we use it for scratch */
+        POP_IRQ_REG REG_Z
+
+        /*
+         * Restore the original SP from SAVE_SP.
+         * SAVE_SP contains the negated original SP (from the bootstrap save).
+         */
+        .word   REG_SP, REG_SP, .+4                   /* SP = 0 */
+        .word   SAVE_SP, REG_SP, .+4                  /* SP = -SAVE_SP = original SP */
 
 .Lrestore_done:
         /* PHASE 4: CAPTURE RETURN ADDRESS */

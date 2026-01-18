@@ -18,6 +18,7 @@
 .set REG_Z, 12
 .set REG_SP, 16
 .set REG_RA, 20
+.set ZERO, 24              /* Read-only zero constant */
 .set REG_R3, 28
 .set REG_R4, 32
 .set REG_R5, 36
@@ -156,8 +157,8 @@
 .set IRQ_PTREGS_ADDR, 464       /* Pointer to pt_regs structure for signal delivery */
 .set SAVE_IRQ_PTREGS, 468       /* Save slot for previous IRQ_PTREGS_ADDR (re-entrancy) */
 
-/* Interrupt frame size: all registers we save */
-.set IRQ_FRAME_SIZE, 200   /* 50 words × 4 bytes */
+/* Interrupt frame size: all registers we save (excluding R21-R23, RA which only go to pt_regs) */
+.set IRQ_FRAME_SIZE, 184   /* 46 words × 4 bytes */
 
 /*
  * Old SAVE_REG/RESTORE_REG macros - still used by some legacy paths
@@ -256,9 +257,8 @@ subleq_irq_entry:
 
         /* Push Z */
         PUSH_IRQ_REG REG_Z
-        /* Push RA */
-        PUSH_IRQ_REG REG_RA
-        /* Push R3-R31 (29 registers) */
+        /* NOTE: RA is NOT pushed here - it only goes to pt_regs for signal delivery */
+        /* Push R3-R31 (excluding R21-R23 which only go to pt_regs) */
         PUSH_IRQ_REG REG_R3
         PUSH_IRQ_REG REG_R4
         PUSH_IRQ_REG REG_R5
@@ -277,9 +277,7 @@ subleq_irq_entry:
         PUSH_IRQ_REG REG_R18
         PUSH_IRQ_REG REG_R19
         PUSH_IRQ_REG REG_R20
-        PUSH_IRQ_REG REG_R21
-        PUSH_IRQ_REG REG_R22
-        PUSH_IRQ_REG REG_R23
+        /* NOTE: R21, R22, R23 are NOT pushed here - they only go to pt_regs for signal delivery */
         PUSH_IRQ_REG REG_R24
         PUSH_IRQ_REG REG_R25
         PUSH_IRQ_REG REG_R26
@@ -360,88 +358,76 @@ subleq_irq_entry:
          *   2. Then add offset: RESULT -= (-offset)
          */
 
-        /* Store pc = INT_SAVED_PC (offset 128) */
-        /* First compute address SAVE_SCRATCH = SP + 128 */
+        /*
+         * OPTIMIZED: Use running pointer for pt_regs population.
+         * Initialize SAVE_SCRATCH = SP + 72, then increment for contiguous fields.
+         * Fields reordered: r21(72), r22(76), r23(80), sp(120), ra(124), pc(128), syscall_nr(136)
+         */
+
+        /* Initialize running pointer: SAVE_SCRATCH = SP + 72 */
         .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4    /* SAVE_SCRATCH = 0 */
         .word   INT_ZZ, INT_ZZ, .+4                /* INT_ZZ = 0 */
         .word   REG_SP, INT_ZZ, .+4                /* INT_ZZ = -SP */
-        .word   INT_ZZ, SAVE_SCRATCH, .+4          /* SAVE_SCRATCH = 0 - (-SP) = SP */
-        .word   .Lconst_neg128, SAVE_SCRATCH, .+4  /* SAVE_SCRATCH = SP - (-128) = SP + 128 */
-        /* Clear destination */
-        .word   SAVE_SCRATCH | INDIRECT, SAVE_SCRATCH | INDIRECT, .+4
-        /* Compute value: INT_ZZ = -pc */
-        .word   INT_ZZ, INT_ZZ, .+4
-        .word   INT_SAVED_PC, INT_ZZ, .+4
-        /* Store: [SAVE_SCRATCH] -= INT_ZZ = 0 - (-pc) = +pc */
-        .word   INT_ZZ, SAVE_SCRATCH | INDIRECT, .+4
-
-        /* Store sp = original SP (offset 120) */
-        /* Compute address SAVE_SCRATCH = SP + 120 */
-        .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
-        .word   INT_ZZ, INT_ZZ, .+4
-        .word   REG_SP, INT_ZZ, .+4
-        .word   INT_ZZ, SAVE_SCRATCH, .+4
-        .word   .Lconst_neg120, SAVE_SCRATCH, .+4
-        /* Clear destination */
-        .word   SAVE_SCRATCH | INDIRECT, SAVE_SCRATCH | INDIRECT, .+4
-        /* SAVE_SP contains -original_sp, so store -(-original_sp) = -(SAVE_SP) = +original_sp */
-        .word   SAVE_SP, SAVE_SCRATCH | INDIRECT, .+4
-
-        /* Store ra = REG_RA (offset 124) */
-        .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
-        .word   INT_ZZ, INT_ZZ, .+4
-        .word   REG_SP, INT_ZZ, .+4
-        .word   INT_ZZ, SAVE_SCRATCH, .+4
-        .word   .Lconst_neg124, SAVE_SCRATCH, .+4
-        .word   SAVE_SCRATCH | INDIRECT, SAVE_SCRATCH | INDIRECT, .+4
-        .word   INT_ZZ, INT_ZZ, .+4
-        .word   REG_RA, INT_ZZ, .+4
-        .word   INT_ZZ, SAVE_SCRATCH | INDIRECT, .+4
+        .word   INT_ZZ, SAVE_SCRATCH, .+4          /* SAVE_SCRATCH = SP */
+        .word   .Lconst_neg72, SAVE_SCRATCH, .+4   /* SAVE_SCRATCH = SP + 72 */
 
         /* Store r21 = REG_R21 (offset 72) */
-        .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
+        .word   SAVE_SCRATCH | INDIRECT, SAVE_SCRATCH | INDIRECT, .+4  /* [ptr] = 0 */
         .word   INT_ZZ, INT_ZZ, .+4
-        .word   REG_SP, INT_ZZ, .+4
-        .word   INT_ZZ, SAVE_SCRATCH, .+4
-        .word   .Lconst_neg72, SAVE_SCRATCH, .+4
-        .word   SAVE_SCRATCH | INDIRECT, SAVE_SCRATCH | INDIRECT, .+4
-        .word   INT_ZZ, INT_ZZ, .+4
-        .word   REG_R21, INT_ZZ, .+4
-        .word   INT_ZZ, SAVE_SCRATCH | INDIRECT, .+4
+        .word   REG_R21, INT_ZZ, .+4               /* INT_ZZ = -R21 */
+        .word   INT_ZZ, SAVE_SCRATCH | INDIRECT, .+4  /* [ptr] = +R21 */
+
+        /* Advance pointer by 4: SAVE_SCRATCH += 4 */
+        .word   .Lconst_neg4, SAVE_SCRATCH, .+4
 
         /* Store r22 = REG_R22 (offset 76) */
-        .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
-        .word   INT_ZZ, INT_ZZ, .+4
-        .word   REG_SP, INT_ZZ, .+4
-        .word   INT_ZZ, SAVE_SCRATCH, .+4
-        .word   .Lconst_neg76, SAVE_SCRATCH, .+4
         .word   SAVE_SCRATCH | INDIRECT, SAVE_SCRATCH | INDIRECT, .+4
         .word   INT_ZZ, INT_ZZ, .+4
         .word   REG_R22, INT_ZZ, .+4
         .word   INT_ZZ, SAVE_SCRATCH | INDIRECT, .+4
 
+        /* Advance pointer by 4: SAVE_SCRATCH += 4 */
+        .word   .Lconst_neg4, SAVE_SCRATCH, .+4
+
         /* Store r23 = REG_R23 (offset 80) */
-        .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
-        .word   INT_ZZ, INT_ZZ, .+4
-        .word   REG_SP, INT_ZZ, .+4
-        .word   INT_ZZ, SAVE_SCRATCH, .+4
-        .word   .Lconst_neg80, SAVE_SCRATCH, .+4
         .word   SAVE_SCRATCH | INDIRECT, SAVE_SCRATCH | INDIRECT, .+4
         .word   INT_ZZ, INT_ZZ, .+4
         .word   REG_R23, INT_ZZ, .+4
         .word   INT_ZZ, SAVE_SCRATCH | INDIRECT, .+4
 
-        /* Store syscall_nr = -1 (offset 136) to mark as NOT a syscall */
-        .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
-        .word   INT_ZZ, INT_ZZ, .+4
-        .word   REG_SP, INT_ZZ, .+4
-        .word   INT_ZZ, SAVE_SCRATCH, .+4
-        .word   .Lconst_neg136, SAVE_SCRATCH, .+4
+        /* Advance pointer by 40: SAVE_SCRATCH += 40 (80 -> 120) */
+        .word   .Lconst_neg40, SAVE_SCRATCH, .+4
+
+        /* Store sp = original SP (offset 120) */
         .word   SAVE_SCRATCH | INDIRECT, SAVE_SCRATCH | INDIRECT, .+4
-        /* Store -1: [addr] = 0 - (-1) = -1... wait, we want -1 stored directly */
-        /* If we do [addr] -= .Lconst_neg1 where .Lconst_neg1 = -1, we get [addr] = 0 - (-1) = 1 (wrong!) */
-        /* We need [addr] = -1. Since [addr] = 0, we need [addr] -= 1, so use .Lconst_1 */
-        .word   .Lconst_1, SAVE_SCRATCH | INDIRECT, .+4  /* [addr] = 0 - 1 = -1 */
+        /* SAVE_SP contains -original_sp, so store -(-original_sp) = +original_sp */
+        .word   SAVE_SP, SAVE_SCRATCH | INDIRECT, .+4
+
+        /* Advance pointer by 4: SAVE_SCRATCH += 4 */
+        .word   .Lconst_neg4, SAVE_SCRATCH, .+4
+
+        /* Store ra = REG_RA (offset 124) */
+        .word   SAVE_SCRATCH | INDIRECT, SAVE_SCRATCH | INDIRECT, .+4
+        .word   INT_ZZ, INT_ZZ, .+4
+        .word   REG_RA, INT_ZZ, .+4
+        .word   INT_ZZ, SAVE_SCRATCH | INDIRECT, .+4
+
+        /* Advance pointer by 4: SAVE_SCRATCH += 4 */
+        .word   .Lconst_neg4, SAVE_SCRATCH, .+4
+
+        /* Store pc = INT_SAVED_PC (offset 128) */
+        .word   SAVE_SCRATCH | INDIRECT, SAVE_SCRATCH | INDIRECT, .+4
+        .word   INT_ZZ, INT_ZZ, .+4
+        .word   INT_SAVED_PC, INT_ZZ, .+4          /* INT_ZZ = -pc */
+        .word   INT_ZZ, SAVE_SCRATCH | INDIRECT, .+4  /* [ptr] = +pc */
+
+        /* Advance pointer by 8: SAVE_SCRATCH += 8 (128 -> 136) */
+        .word   .Lconst_neg8, SAVE_SCRATCH, .+4
+
+        /* Store syscall_nr = -1 (offset 136) to mark as NOT a syscall */
+        .word   SAVE_SCRATCH | INDIRECT, SAVE_SCRATCH | INDIRECT, .+4
+        /* [addr] = 0, need [addr] = -1, so [addr] -= 1 */
+        .word   .Lconst_1, SAVE_SCRATCH | INDIRECT, .+4
 
 
         /* Set R21 = pt_regs pointer (= SP) for the function call */
@@ -613,43 +599,32 @@ subleq_irq_entry:
 .Lno_more_work:
 
 
-        /* Read pt_regs->pc (offset 128) into SAVE_JMPTGT for return jump */
-        .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
-        .word   INT_ZZ, INT_ZZ, .+4
-        .word   REG_SP, INT_ZZ, .+4
-        .word   INT_ZZ, SAVE_SCRATCH, .+4
-        .word   .Lconst_neg128, SAVE_SCRATCH, .+4
-
         /*
-         * Read +pc from memory into SAVE_JMPTGT.
-         * Memory contains +pc. To copy it we need 4 negations:
-         * 1. SAVE_JMPTGT = 0 - [mem] = -pc
-         * 2. INT_ZZ = 0 - SAVE_JMPTGT = +pc
-         * 3. Use SAVE_SCRATCH as temp: we need to recompute addr, OR just use INT_ZZ
-         * Actually simpler: after step 2, INT_ZZ = +pc. Do a proper copy:
-         * 3. SAVE_SCRATCH = 0 - INT_ZZ = -pc
-         * 4. SAVE_JMPTGT = 0 - SAVE_SCRATCH = +pc
+         * OPTIMIZED: Use running pointer for PC/SP reading.
+         * Initialize SAVE_SCRATCH = SP + 120, read sp, advance +8, read pc.
          */
-        .word   SAVE_JMPTGT, SAVE_JMPTGT, .+4
-        .word   SAVE_SCRATCH | INDIRECT, SAVE_JMPTGT, .+4  /* SAVE_JMPTGT = -pc (1) */
-        .word   INT_ZZ, INT_ZZ, .+4
-        .word   SAVE_JMPTGT, INT_ZZ, .+4                   /* INT_ZZ = +pc (2) */
-        .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
-        .word   INT_ZZ, SAVE_SCRATCH, .+4                   /* SAVE_SCRATCH = -pc (3) */
-        .word   SAVE_JMPTGT, SAVE_JMPTGT, .+4
-        .word   SAVE_SCRATCH, SAVE_JMPTGT, .+4              /* SAVE_JMPTGT = +pc (4) */
 
-
-
-        /* Read pt_regs->sp (offset 120) into SAVE_SP for SP restore */
+        /* Initialize running pointer: SAVE_SCRATCH = SP + 120 */
         .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
         .word   INT_ZZ, INT_ZZ, .+4
         .word   REG_SP, INT_ZZ, .+4
         .word   INT_ZZ, SAVE_SCRATCH, .+4
         .word   .Lconst_neg120, SAVE_SCRATCH, .+4
+
+        /* Read pt_regs->sp (offset 120) into SAVE_SP for SP restore */
         /* SAVE_SP needs to contain -sp for the restore (subleq(SAVE_SP, REG_SP) gives +sp) */
         .word   SAVE_SP, SAVE_SP, .+4
         .word   SAVE_SCRATCH | INDIRECT, SAVE_SP, .+4  /* SAVE_SP = -sp (correct for restore) */
+
+        /* Advance pointer by 8: SAVE_SCRATCH += 8 (120 -> 128) */
+        .word   .Lconst_neg8, SAVE_SCRATCH, .+4
+
+        /* Read pt_regs->pc (offset 128) into SAVE_JMPTGT for return jump */
+        /* Using 2-negation pattern: INT_ZZ = -pc, SAVE_JMPTGT = +pc */
+        .word   INT_ZZ, INT_ZZ, .+4
+        .word   SAVE_SCRATCH | INDIRECT, INT_ZZ, .+4       /* INT_ZZ = -pc (1) */
+        .word   SAVE_JMPTGT, SAVE_JMPTGT, .+4
+        .word   INT_ZZ, SAVE_JMPTGT, .+4                   /* SAVE_JMPTGT = +pc (2) */
 
 
 
@@ -695,12 +670,7 @@ subleq_irq_entry:
         POP_IRQ_REG REG_R26
         POP_IRQ_REG REG_R25
         POP_IRQ_REG REG_R24
-
-        /* R23, R22, R21 - SKIP, we'll load from pt_regs */
-        .word   .Lconst_neg4, INT_SP, .+4
-        .word   .Lconst_neg4, INT_SP, .+4
-        .word   .Lconst_neg4, INT_SP, .+4
-
+        /* NOTE: R23, R22, R21 were not pushed - they only exist in pt_regs */
         /* Pop R20-R3 */
         POP_IRQ_REG REG_R20
         POP_IRQ_REG REG_R19
@@ -720,10 +690,7 @@ subleq_irq_entry:
         POP_IRQ_REG REG_R5
         POP_IRQ_REG REG_R4
         POP_IRQ_REG REG_R3
-
-        /* RA - SKIP, we'll load from pt_regs */
-        .word   .Lconst_neg4, INT_SP, .+4
-
+        /* NOTE: RA was not pushed - it only exists in pt_regs */
         /* Pop Z */
         POP_IRQ_REG REG_Z
 
@@ -732,65 +699,51 @@ subleq_irq_entry:
          * These may have been modified by signal delivery.
          */
 
-        /* Load R21 from pt_regs->r21 (offset 72) - need 4 negations */
+        /*
+         * OPTIMIZED: Use running pointer for pt_regs restore.
+         * Initialize SAVE_SCRATCH = SP + 72, then increment for contiguous fields.
+         * Fields: r21(72), r22(76), r23(80), then jump to ra(124)
+         */
+
+        /* Initialize running pointer: SAVE_SCRATCH = SP + 72 */
         .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
         .word   INT_ZZ, INT_ZZ, .+4
         .word   REG_SP, INT_ZZ, .+4
         .word   INT_ZZ, SAVE_SCRATCH, .+4
         .word   .Lconst_neg72, SAVE_SCRATCH, .+4
+
+        /* Load R21 from pt_regs->r21 (offset 72) using 2-negation pattern */
+        .word   INT_ZZ, INT_ZZ, .+4
+        .word   SAVE_SCRATCH | INDIRECT, INT_ZZ, .+4    /* INT_ZZ = -value (1) */
         .word   REG_R21, REG_R21, .+4
-        .word   SAVE_SCRATCH | INDIRECT, REG_R21, .+4   /* R21 = -value (1) */
-        .word   INT_ZZ, INT_ZZ, .+4
-        .word   REG_R21, INT_ZZ, .+4                     /* INT_ZZ = +value (2) */
-        .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
-        .word   INT_ZZ, SAVE_SCRATCH, .+4                /* SAVE_SCRATCH = -value (3) */
-        .word   REG_R21, REG_R21, .+4
-        .word   SAVE_SCRATCH, REG_R21, .+4               /* R21 = +value (4) */
+        .word   INT_ZZ, REG_R21, .+4                     /* R21 = +value (2) */
 
-        /* Load R22 from pt_regs->r22 (offset 76) */
-        .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
+        /* Advance pointer by 4: SAVE_SCRATCH += 4 */
+        .word   .Lconst_neg4, SAVE_SCRATCH, .+4
+
+        /* Load R22 from pt_regs->r22 (offset 76) using 2-negation pattern */
         .word   INT_ZZ, INT_ZZ, .+4
-        .word   REG_SP, INT_ZZ, .+4
-        .word   INT_ZZ, SAVE_SCRATCH, .+4
-        .word   .Lconst_neg76, SAVE_SCRATCH, .+4
+        .word   SAVE_SCRATCH | INDIRECT, INT_ZZ, .+4
         .word   REG_R22, REG_R22, .+4
-        .word   SAVE_SCRATCH | INDIRECT, REG_R22, .+4
-        .word   INT_ZZ, INT_ZZ, .+4
-        .word   REG_R22, INT_ZZ, .+4
-        .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
-        .word   INT_ZZ, SAVE_SCRATCH, .+4
-        .word   REG_R22, REG_R22, .+4
-        .word   SAVE_SCRATCH, REG_R22, .+4
+        .word   INT_ZZ, REG_R22, .+4
 
-        /* Load R23 from pt_regs->r23 (offset 80) */
-        .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
-        .word   INT_ZZ, INT_ZZ, .+4
-        .word   REG_SP, INT_ZZ, .+4
-        .word   INT_ZZ, SAVE_SCRATCH, .+4
-        .word   .Lconst_neg80, SAVE_SCRATCH, .+4
-        .word   REG_R23, REG_R23, .+4
-        .word   SAVE_SCRATCH | INDIRECT, REG_R23, .+4
-        .word   INT_ZZ, INT_ZZ, .+4
-        .word   REG_R23, INT_ZZ, .+4
-        .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
-        .word   INT_ZZ, SAVE_SCRATCH, .+4
-        .word   REG_R23, REG_R23, .+4
-        .word   SAVE_SCRATCH, REG_R23, .+4
+        /* Advance pointer by 4: SAVE_SCRATCH += 4 */
+        .word   .Lconst_neg4, SAVE_SCRATCH, .+4
 
-        /* Load RA from pt_regs->ra (offset 124) */
-        .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
+        /* Load R23 from pt_regs->r23 (offset 80) using 2-negation pattern */
         .word   INT_ZZ, INT_ZZ, .+4
-        .word   REG_SP, INT_ZZ, .+4
-        .word   INT_ZZ, SAVE_SCRATCH, .+4
-        .word   .Lconst_neg124, SAVE_SCRATCH, .+4
-        .word   REG_RA, REG_RA, .+4
-        .word   SAVE_SCRATCH | INDIRECT, REG_RA, .+4
+        .word   SAVE_SCRATCH | INDIRECT, INT_ZZ, .+4
+        .word   REG_R23, REG_R23, .+4
+        .word   INT_ZZ, REG_R23, .+4
+
+        /* Advance pointer by 44: SAVE_SCRATCH += 44 (80 -> 124) */
+        .word   .Lconst_neg44, SAVE_SCRATCH, .+4
+
+        /* Load RA from pt_regs->ra (offset 124) using 2-negation pattern */
         .word   INT_ZZ, INT_ZZ, .+4
-        .word   REG_RA, INT_ZZ, .+4
-        .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
-        .word   INT_ZZ, SAVE_SCRATCH, .+4
+        .word   SAVE_SCRATCH | INDIRECT, INT_ZZ, .+4
         .word   REG_RA, REG_RA, .+4
-        .word   SAVE_SCRATCH, REG_RA, .+4
+        .word   INT_ZZ, REG_RA, .+4
 
 
 
@@ -2434,6 +2387,10 @@ __subleq_syscall:
         .word   -8              /* For skipping slots */
 .Lconst_neg12:
         .word   -12
+.Lconst_neg40:
+        .word   -40             /* For pt_regs running pointer (80 -> 120) */
+.Lconst_neg44:
+        .word   -44             /* For pt_regs running pointer (80 -> 124) */
 .Lconst_100:
         .word   100             /* switch_stack size */
 .Lconst_neg100:

@@ -154,8 +154,6 @@
  * task's frame. Frames are naturally unwound as interrupts return.
  */
 .set INT_SP, 460        /* Interrupt stack pointer (runs from top down) */
-.set IRQ_PTREGS_ADDR, 464       /* Pointer to pt_regs structure for signal delivery */
-.set SAVE_IRQ_PTREGS, 468       /* Save slot for previous IRQ_PTREGS_ADDR (re-entrancy) */
 
 /* Interrupt frame size: all registers we save (excluding R21-R23, RA which only go to pt_regs) */
 .set IRQ_FRAME_SIZE, 184   /* 46 words × 4 bytes */
@@ -335,12 +333,9 @@ subleq_irq_entry:
 
         /* Allocate pt_regs: SP -= PT_SIZE (156 bytes) */
         .word   .Lconst_pt_size, REG_SP, .+4
-
-        /* Save pt_regs pointer for later use */
-        .word   IRQ_PTREGS_ADDR, IRQ_PTREGS_ADDR, .+4
-        .word   INT_ZZ, INT_ZZ, .+4
-        .word   REG_SP, INT_ZZ, .+4
-        .word   INT_ZZ, IRQ_PTREGS_ADDR, .+4   /* IRQ_PTREGS_ADDR = SP */
+        /* NOTE: SP now points to pt_regs base. C calling convention preserves SP,
+         * so after C calls return, SP still points to pt_regs. This is re-entrant
+         * because each interrupt level has its own pt_regs on the IRQ stack. */
 
         /*
          * Fill pt_regs fields with POSITIVE values using double-negation.
@@ -430,10 +425,11 @@ subleq_irq_entry:
         .word   .Lconst_1, SAVE_SCRATCH | INDIRECT, .+4
 
 
-        /* Set R21 = pt_regs pointer (= SP) for the function call */
+        /* Set R21 = pt_regs pointer (= SP) for the function call.
+         * Using REG_SP directly instead of a global variable for re-entrancy. */
         .word   REG_R21, REG_R21, .+4
         .word   INT_ZZ, INT_ZZ, .+4
-        .word   IRQ_PTREGS_ADDR, INT_ZZ, .+4
+        .word   REG_SP, INT_ZZ, .+4
         .word   INT_ZZ, REG_R21, .Lirq_call
 
 .Lirq_call:
@@ -468,11 +464,12 @@ subleq_irq_entry:
 .Lirq_returned:
 
 .Lwork_loop:
-        /* Call subleq_do_work(regs) - R21 has regs pointer */
-        /* First, ensure R21 has pt_regs pointer (reload from IRQ_PTREGS_ADDR) */
+        /* Call subleq_do_work(regs) - reload R21 from SP (which is pt_regs).
+         * Using REG_SP directly instead of a global variable for re-entrancy.
+         * C calling convention preserves SP, so it still points to pt_regs. */
         .word   REG_R21, REG_R21, .+4
         .word   INT_ZZ, INT_ZZ, .+4
-        .word   IRQ_PTREGS_ADDR, INT_ZZ, .+4
+        .word   REG_SP, INT_ZZ, .+4
         .word   INT_ZZ, REG_R21, .+4   /* R21 = pt_regs pointer */
 
         /* STACK-BASED CALL to subleq_do_work */

@@ -19,6 +19,8 @@
 #include <asm/sigcontext.h>
 #include <asm/ucontext.h>
 
+
+
 /* Forward declarations */
 void do_signal(struct pt_regs *regs);
 asmlinkage long sys_rt_sigreturn(void);
@@ -404,11 +406,13 @@ void do_signal(struct pt_regs *regs)
 asmlinkage void do_notify_resume(struct pt_regs *regs)
 {
 	if (test_thread_flag(TIF_NOTIFY_SIGNAL) ||
-	    test_thread_flag(TIF_SIGPENDING))
+	    test_thread_flag(TIF_SIGPENDING)) {
 		do_signal(regs);
+	}
 
-	if (test_thread_flag(TIF_NOTIFY_RESUME))
+	if (test_thread_flag(TIF_NOTIFY_RESUME)) {
 		resume_user_mode_work(regs);
+	}
 }
 
 /*

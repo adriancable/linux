@@ -17,6 +17,10 @@ extern void subleq_timer_interrupt(void);
 struct pt_regs;
 extern void subleq_do_IRQ(struct pt_regs *regs);
 
+/* Work handler for signals/reschedule - called from assembly in a loop.
+ * Returns 0 if no work done, non-zero if work was done (assembly loops back). */
+extern int subleq_do_work(struct pt_regs *regs);
+
 /* Early IRQ stack initialization (called from setup.c before start_kernel) */
 extern void early_irq_stack_init(void);
 

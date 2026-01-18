@@ -243,11 +243,8 @@ void subleq_init_kernel_sp(struct task_struct *tsk)
 	 * IMPORTANT: This margin must be large enough for the deepest kernel
 	 * call chain. The do_signal() -> get_signal() path in particular
 	 * allocates large structures (struct ksignal) and calls many nested
-	 * functions. 256 bytes was too small and caused stack overflow that
-	 * corrupted return addresses.
-	 *
-	 * Symptoms of insufficient margin: Return address gets overwritten
-	 * with values like 110,000,000 (timespec nanoseconds from timer code).
+	 * functions. 256 bytes may have been too small so we increased to
+	 * 1024.
 	 */
 	subleq_kernel_sp = (unsigned long)task_stack_page(tsk) + THREAD_SIZE 
 			   - sizeof(struct pt_regs) - 1024;

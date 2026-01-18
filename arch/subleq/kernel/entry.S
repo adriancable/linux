@@ -154,6 +154,7 @@
  */
 .set INT_SP, 460        /* Interrupt stack pointer (runs from top down) */
 .set IRQ_PTREGS_ADDR, 464       /* Pointer to pt_regs structure for signal delivery */
+.set SAVE_IRQ_PTREGS, 468       /* Save slot for previous IRQ_PTREGS_ADDR (re-entrancy) */
 
 /* Interrupt frame size: all registers we save */
 .set IRQ_FRAME_SIZE, 200   /* 50 words × 4 bytes */
@@ -467,28 +468,155 @@ subleq_irq_entry:
 .Lcall_jump:
         .word   INT_ZZ, INT_ZZ, subleq_do_IRQ
 
-
         /*
-         * PHASE 3: EXTRACT MODIFIED pt_regs AND RESTORE
+         * PHASE 2b: WORK LOOP (ColdFire pattern)
          *
-         * Signal delivery may have modified:
-         *   regs->pc  -> new return address (signal handler)
-         *   regs->sp  -> new stack (signal frame)
-         *   regs->r21 -> signal number
-         *   regs->r22 -> siginfo pointer
-         *   regs->r23 -> ucontext pointer
-         *   regs->ra  -> return trampoline
+         * After subleq_do_IRQ returns, call subleq_do_work(regs) in a loop.
+         * subleq_do_work returns:
+         *   0 = no work done, safe to return
+         *   non-zero = work was done, loop back to check for more
          *
-         * We extract these and use them for the return.
+         * R21 still contains pt_regs pointer (preserved by C calling convention).
+         * R20 receives the return value from subleq_do_work.
          */
 .Lirq_returned:
-        /* Deallocate pt_regs: SP += PT_SIZE */
-        .word   .Lconst_neg_pt_size, REG_SP, .+4
+
+.Lwork_loop:
+        /* Call subleq_do_work(regs) - R21 has regs pointer */
+        /* First, ensure R21 has pt_regs pointer (reload from IRQ_PTREGS_ADDR) */
+        .word   REG_R21, REG_R21, .+4
+        .word   INT_ZZ, INT_ZZ, .+4
+        .word   IRQ_PTREGS_ADDR, INT_ZZ, .+4
+        .word   INT_ZZ, REG_R21, .+4   /* R21 = pt_regs pointer */
+
+        /* STACK-BASED CALL to subleq_do_work */
+        .word   .Lconst_4, REG_SP, .+4         /* SP -= 4 */
+        .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .+4  /* [SP] = 0 */
+        .word   INT_ZZ, INT_ZZ, .+4
+        .word   .Lwork_return_addr, INT_ZZ, .+4
+        .word   INT_ZZ, REG_SP | INDIRECT, .+4  /* [SP] = return addr */
+        .word   INT_ZZ, INT_ZZ, subleq_do_work
+
+.Lwork_returned:
+        /*
+         * Check return value in R20.
+         * If R20 != 0, loop back to .Lwork_loop
+         * If R20 == 0, proceed to register restoration
+         *
+         * Subleq branch: subleq A, B, C jumps to C if m[B]-m[A] <= 0
+         * We want: if R20 > 0 then loop, else continue
+         * Equivalently: if R20 <= 0 then continue
+         * So: subleq R20, ZERO, .Lno_more_work jumps if 0-R20 <= 0 (i.e., R20 >= 0)
+         * But we need strict > 0 vs == 0 check.
+         *
+         * Simpler approach: if R20 == 0, continue. Otherwise loop.
+         * Copy R20 to temp, check if zero.
+         * Use: subleq REG_R20, TEMP, ... - if TEMP-R20 <= 0 (where TEMP=0)
+         *      means -R20 <= 0, i.e., R20 >= 0. Still not right.
+         *
+         * Best: copy R20 to SAVE_SCRATCH, then:
+         *   subleq .Lconst_1, SAVE_SCRATCH, .Lwork_loop
+         * This does: SAVE_SCRATCH = SAVE_SCRATCH - 1
+         * If original R20 was 1, SAVE_SCRATCH becomes 0, jump to loop (0 <= 0)
+         * If original R20 was 0, SAVE_SCRATCH becomes -1, jump to loop (-1 <= 0)
+         * Hmm, that always jumps.
+         *
+         * Alternative: use the fact that 0 is the only value where -X = X
+         * Copy R20 to SAVE_SCRATCH: SAVE_SCRATCH = -R20
+         * Then subleq REG_R20, SAVE_SCRATCH, .Lno_more_work
+         * This does: SAVE_SCRATCH = SAVE_SCRATCH - R20 = -R20 - R20 = -2*R20
+         * If R20=0: -2*0 = 0, jump (0 <= 0) -> correct, continue
+         * If R20=1: -2*1 = -2, jump (-2 <= 0) -> wrong, we want to loop
+         *
+         * Simplest: explicit zero check using subtraction
+         * SAVE_SCRATCH = 0 - R20 = -R20
+         * Then: subleq SAVE_SCRATCH, .Lconst_zero, ...
+         * If R20=0: .Lconst_zero - (-0) = 0-0 = 0, jump
+         * If R20=1: .Lconst_zero - (-1) = 0+1 = 1 > 0, no jump -> loop
+         * But that modifies .Lconst_zero!
+         *
+         * Use fresh scratch:
+         * SAVE_JMPTGT = 0
+         * SAVE_JMPTGT -= (-R20) = +R20
+         * subleq .Lconst_1, SAVE_JMPTGT, .Lno_more_work
+         * If R20=0: SAVE_JMPTGT = 0, then 0-1 = -1, jump (-1 <= 0)
+         * If R20=1: SAVE_JMPTGT = 1, then 1-1 = 0, jump (0 <= 0) -> wrong!
+         *
+         * Actually, we want to NOT jump if R20 > 0.
+         * Subleq always jumps if result <= 0.
+         * So to continue when R20 == 0 and loop when R20 > 0:
+         *   - When R20 == 0: jump past loop
+         *   - When R20 > 0: don't jump (fall through to loop)
+         *
+         * This is backwards from Subleq's default behavior.
+         * 
+         * Solution: Check if R20 > 0 by subtracting 1 from R20.
+         * TEMP = R20
+         * TEMP -= 1
+         * If R20 was 0, TEMP = -1, use subleq to detect this
+         * If R20 was 1, TEMP = 0
+         * If R20 was 2+, TEMP > 0
+         *
+         * Actually simpler: subleq REG_Z, REG_R20, .Lwork_loop
+         * This does: R20 = R20 - 0 = R20
+         * Jumps if R20 <= 0.
+         * So if R20 == 0, jumps (wrong - we want to continue)
+         * If R20 > 0, doesn't jump (falls through) -> but we want to loop!
+         *
+         * REVERSE the logic:
+         * subleq REG_Z, REG_R20, .Lno_more_work
+         * If R20 <= 0 (including == 0): jump to .Lno_more_work
+         * If R20 > 0: fall through and unconditionally loop
+         */
+
+        /* Copy -R20 to SAVE_SCRATCH for check */
+        .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
+        .word   REG_R20, SAVE_SCRATCH, .+4      /* SAVE_SCRATCH = -R20 */
+
+        /* Check: if R20 <= 0 then no more work (R20 should only be 0 or positive) */
+        /* We have SAVE_SCRATCH = -R20. If R20 >= 0 means -R20 <= 0 */
+        /* subleq REG_Z, SAVE_SCRATCH, .Lno_more_work */
+        /* SAVE_SCRATCH = SAVE_SCRATCH - 0 = -R20, jumps if -R20 <= 0 (R20 >= 0) */
+        /* But return is 0 for no work, 1 for work done - both are >= 0! */
+        
+        /* Different approach: R20 == 0 means done. R20 == 1 means loop. */
+        /* SAVE_SCRATCH = 0 - R20 - 1 = -(R20+1) */
+        /* If R20=0: -(0+1) = -1, jump because -1 <= 0 -> WRONG (should continue) */
+        /* If R20=1: -(1+1) = -2, jump because -2 <= 0 -> WRONG (should loop) */
+
+        /* Final approach: Check if -R20 == 0 directly */
+        /* If SAVE_SCRATCH == 0 (meaning R20 == 0), go to no_more_work */
+        /* subleq SAVE_SCRATCH, REG_Z, C means Z -= SAVE_SCRATCH, jump if Z <= 0 */
+        /* But Z should stay 0. Not good. */
+
+        /* CLEAR approach: Use the sign directly. */
+        /* R20 == 0: jump forward to .Lno_more_work using unconditional */
+        /* R20 != 0: loop back */
+        /* To branch only if zero: check if subtracting 0 from -R20 <= 0 */
+        /* That's always true when R20 >= 0. */
+
+        /* Use modified jump target approach: */
+        /* If R20 == 0: SAVE_SCRATCH = 0, test for zero */
+        /* If R20 != 0: SAVE_SCRATCH = negative, still <= 0 */
+        /* ALL cases would jump. Need a different check. */
+
+        /* FINAL: Use two branches. */
+        /* First test if R20 <= 0 (go to no_more_work). */
+        /* Otherwise unconditionally loop. */
+        /* subleq REG_Z, REG_R20, .Lno_more_work_check */
+        /* This: R20 = R20 - 0 = R20, jumps if R20 <= 0 */
+
+        .word   REG_Z, REG_R20, .Lno_more_work  /* If R20 <= 0, go to restore */
+        /* R20 > 0, more work was done, loop back */
+        .word   INT_ZZ, INT_ZZ, .Lwork_loop
+
+.Lno_more_work:
+
 
         /* Read pt_regs->pc (offset 128) into SAVE_JMPTGT for return jump */
         .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
         .word   INT_ZZ, INT_ZZ, .+4
-        .word   IRQ_PTREGS_ADDR, INT_ZZ, .+4
+        .word   REG_SP, INT_ZZ, .+4
         .word   INT_ZZ, SAVE_SCRATCH, .+4
         .word   .Lconst_neg128, SAVE_SCRATCH, .+4
 
@@ -512,15 +640,19 @@ subleq_irq_entry:
         .word   SAVE_SCRATCH, SAVE_JMPTGT, .+4              /* SAVE_JMPTGT = +pc (4) */
 
 
+
         /* Read pt_regs->sp (offset 120) into SAVE_SP for SP restore */
         .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
         .word   INT_ZZ, INT_ZZ, .+4
-        .word   IRQ_PTREGS_ADDR, INT_ZZ, .+4
+        .word   REG_SP, INT_ZZ, .+4
         .word   INT_ZZ, SAVE_SCRATCH, .+4
         .word   .Lconst_neg120, SAVE_SCRATCH, .+4
         /* SAVE_SP needs to contain -sp for the restore (subleq(SAVE_SP, REG_SP) gives +sp) */
         .word   SAVE_SP, SAVE_SP, .+4
         .word   SAVE_SCRATCH | INDIRECT, SAVE_SP, .+4  /* SAVE_SP = -sp (correct for restore) */
+
+
+
 
         /* Read pt_regs->r21 (offset 72) - will be loaded after POP sequence */
         /* Read pt_regs->r22 (offset 76) - will be loaded after POP sequence */
@@ -603,7 +735,7 @@ subleq_irq_entry:
         /* Load R21 from pt_regs->r21 (offset 72) - need 4 negations */
         .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
         .word   INT_ZZ, INT_ZZ, .+4
-        .word   IRQ_PTREGS_ADDR, INT_ZZ, .+4
+        .word   REG_SP, INT_ZZ, .+4
         .word   INT_ZZ, SAVE_SCRATCH, .+4
         .word   .Lconst_neg72, SAVE_SCRATCH, .+4
         .word   REG_R21, REG_R21, .+4
@@ -618,7 +750,7 @@ subleq_irq_entry:
         /* Load R22 from pt_regs->r22 (offset 76) */
         .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
         .word   INT_ZZ, INT_ZZ, .+4
-        .word   IRQ_PTREGS_ADDR, INT_ZZ, .+4
+        .word   REG_SP, INT_ZZ, .+4
         .word   INT_ZZ, SAVE_SCRATCH, .+4
         .word   .Lconst_neg76, SAVE_SCRATCH, .+4
         .word   REG_R22, REG_R22, .+4
@@ -633,7 +765,7 @@ subleq_irq_entry:
         /* Load R23 from pt_regs->r23 (offset 80) */
         .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
         .word   INT_ZZ, INT_ZZ, .+4
-        .word   IRQ_PTREGS_ADDR, INT_ZZ, .+4
+        .word   REG_SP, INT_ZZ, .+4
         .word   INT_ZZ, SAVE_SCRATCH, .+4
         .word   .Lconst_neg80, SAVE_SCRATCH, .+4
         .word   REG_R23, REG_R23, .+4
@@ -648,7 +780,7 @@ subleq_irq_entry:
         /* Load RA from pt_regs->ra (offset 124) */
         .word   SAVE_SCRATCH, SAVE_SCRATCH, .+4
         .word   INT_ZZ, INT_ZZ, .+4
-        .word   IRQ_PTREGS_ADDR, INT_ZZ, .+4
+        .word   REG_SP, INT_ZZ, .+4
         .word   INT_ZZ, SAVE_SCRATCH, .+4
         .word   .Lconst_neg124, SAVE_SCRATCH, .+4
         .word   REG_RA, REG_RA, .+4
@@ -661,9 +793,12 @@ subleq_irq_entry:
         .word   SAVE_SCRATCH, REG_RA, .+4
 
 
+
         /* Restore SP from SAVE_SP (which contains -(pt_regs->sp)) */
         .word   REG_SP, REG_SP, .+4
         .word   SAVE_SP, REG_SP, .+4
+
+
 
 .Lrestore_done:
         /* PHASE 4: RE-ENABLE INTERRUPTS AND RETURN */
@@ -679,6 +814,8 @@ subleq_irq_entry:
 .Lenable3:
         .word   INT_ZZ, INT_HANDLER, .Ldo_return
 
+
+
 .Ldo_return:
         .word   INT_ZZ, INT_ZZ, .Ldo_return2
 .Ldo_return2:
@@ -693,6 +830,12 @@ subleq_irq_entry:
 
 .Lirq_return_addr:
         .word   .Lirq_returned
+
+.Lwork_return_addr:
+        .word   .Lwork_returned
+
+.Lconst_char_W:
+        .word   87              /* 'W' for Work loop debug */
 
 /* Subleq+ indirect addressing flag */
 .set INDIRECT, 2
@@ -2345,6 +2488,18 @@ __subleq_syscall:
 /* Character constants for debug output */
 .Lconst_char_I:
         .word   73              /* 'I' */
+.Lconst_char_1:
+        .word   49              /* '1' */
+.Lconst_char_2:
+        .word   50              /* '2' */
+.Lconst_char_3:
+        .word   51              /* '3' */
+.Lconst_char_4:
+        .word   52              /* '4' */
+.Lconst_char_5:
+        .word   53              /* '5' */
+.Lconst_char_6:
+        .word   54              /* '6' */
 
 .size __subleq_syscall, .-__subleq_syscall
 

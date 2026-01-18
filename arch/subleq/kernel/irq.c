@@ -87,18 +87,17 @@ extern void subleq_timer_interrupt(void);
 /* do_notify_resume is defined in signal.c */
 extern asmlinkage void do_notify_resume(struct pt_regs *regs);
 
-/* Forward declaration */
-static void subleq_work_pending(struct pt_regs *regs);
-
 /*
  * C-level interrupt handler - called from assembly entry.S
  *
  * This function wraps the actual interrupt handlers with irq_enter()/irq_exit().
  * Following the m68k do_IRQ() pattern.
  *
+ * IMPORTANT: This function does NOT handle signal delivery or rescheduling.
+ * That is done by a separate call to subleq_do_work() from assembly, following
+ * the ColdFire coldfire/entry.S pattern where the work loop is in assembly.
+ *
  * @regs: pt_regs structure containing the saved state of the interrupted code.
- *        This is built by entry.S from the saved registers.
- *        Signal delivery may modify this to redirect to a signal handler.
  */
 void subleq_do_IRQ(struct pt_regs *regs)
 {
@@ -119,17 +118,10 @@ void subleq_do_IRQ(struct pt_regs *regs)
 	/* Restore previous irq_regs */
 	set_irq_regs(old_regs);
 
-	/*
-	 * Check for pending work before returning to the interrupted code.
-	 * Skip during early boot when the scheduler isn't ready.
-	 *
-	 * Following the m68k pattern from coldfire/entry.S:
-	 * 1. Check preempt_count for preemption safety
-	 * 2. Check TIF_NEED_RESCHED for rescheduling
-	 * 3. Check TIF_SIGPENDING for signal delivery
+	/* 
+	 * NOTE: Work checking (signals, reschedule) is now done by assembly
+	 * calling subleq_do_work() in a loop, following ColdFire pattern.
 	 */
-	if (system_state >= SYSTEM_RUNNING)
-		subleq_work_pending(regs);
 }
 
 /*
@@ -154,54 +146,90 @@ void __init init_IRQ(void)
 }
 
 /*
- * subleq_work_pending - Check for and handle pending work after interrupt
+ * subleq_do_work - Handle pending work before returning to user
  *
- * Called from the interrupt return path, after irq_exit() has returned.
- * Following the m68k pattern from coldfire/entry.S and kernel/signal.c.
+ * Called from the interrupt return path in entry.S, AFTER subleq_do_IRQ returns.
+ * This follows the ColdFire coldfire/entry.S pattern where assembly calls this
+ * in a loop until no work remains.
  *
- * @regs: pt_regs of the interrupted context. Signal delivery will modify
+ * @regs: pt_regs of the interrupted context. Signal delivery may modify
  *        this to redirect execution to the signal handler.
+ *
+ * Returns: 0 if no work done (safe to return to user)
+ *          non-zero if work was done (assembly should loop back and check again)
  */
-static void subleq_work_pending(struct pt_regs *regs)
+int subleq_do_work(struct pt_regs *regs)
 {
 	struct thread_info *ti;
-	unsigned long flags;
+	unsigned long work_flags;
 
-	/*
-	 * Disable IRQs for the checks.
-	 * preempt_schedule_irq() requires IRQs disabled.
-	 */
-	local_irq_save(flags);
+	/* Skip during early boot when the scheduler isn't ready */
+	if (system_state < SYSTEM_RUNNING)
+		return 0;
 
 	/*
 	 * Check preempt_count - must be 0 to safely reschedule or deliver signals.
 	 * If it's non-zero, we're in an atomic context.
 	 */
-	if (preempt_count() != 0) {
-		local_irq_restore(flags);
-		return;
-	}
+	if (preempt_count() != 0)
+		return 0;
+
+	/*
+	 * CRITICAL: Only deliver signals when returning to USERSPACE.
+	 * If we're returning to kernel code (e.g., interrupted syscall),
+	 * skip signal delivery. Signals will be delivered when that
+	 * kernel code eventually returns to userspace via the syscall path.
+	 *
+	 * This follows the ColdFire pattern in coldfire/entry.S:
+	 *   btst #5,%sp@(PT_OFF_SR)  ; check if returning to kernel
+	 *   jeq  Luser_return        ; if user mode, check for work
+	 */
+	if (!user_mode(regs))
+		return 0;
+
+	/*
+	 * Check for transient invalid SP.
+	 *
+	 * In Subleq, SP updates are non-atomic: SP is cleared to 0 before
+	 * being set to the new value. If an interrupt fires between these
+	 * operations, SP will be 0 or garbage.
+	 *
+	 * If SP is invalid (0 or in low memory), skip signal delivery.
+	 * The signal will be delivered on the next interrupt when SP is valid.
+	 * This is safe because signals are edge-triggered - they'll still
+	 * be pending on the next check.
+	 *
+	 * We consider SP invalid if it's below 4KB (0x1000), as valid user
+	 * stacks are in higher memory.
+	 */
+	if (regs->sp < 0x1000)
+		return 0;
 
 	ti = current_thread_info();
+	work_flags = ti->flags & _TIF_WORK_MASK;
+
+	/* No work to do */
+	if (!work_flags)
+		return 0;
 
 	/*
-	 * Check for rescheduling first.
-	 * preempt_schedule_irq() handles the actual context switch.
+	 * Handle rescheduling first.
+	 * preempt_schedule_irq() requires IRQs disabled, handles that internally.
 	 */
-	if (ti->flags & _TIF_NEED_RESCHED) {
+	if (work_flags & _TIF_NEED_RESCHED) {
 		preempt_schedule_irq();
+		/* Return 1 to recheck flags - reschedule may have cleared flag */
+		return 1;
 	}
 
 	/*
-	 * Check for pending signals.
+	 * Handle signals.
 	 * do_notify_resume() calls do_signal() which will modify regs
 	 * to redirect execution to the signal handler.
 	 *
 	 * This is what makes Ctrl+C work for busy-looping processes!
 	 */
-	if (ti->flags & (_TIF_SIGPENDING | _TIF_NOTIFY_RESUME | _TIF_NOTIFY_SIGNAL)) {
-		local_irq_restore(flags);
-
+	if (work_flags & (_TIF_SIGPENDING | _TIF_NOTIFY_RESUME | _TIF_NOTIFY_SIGNAL)) {
 		/*
 		 * Mark that we're NOT in a syscall for signal delivery.
 		 * This prevents do_signal from attempting syscall restart.
@@ -213,9 +241,11 @@ static void subleq_work_pending(struct pt_regs *regs)
 		 * execution to a signal handler.
 		 */
 		do_notify_resume(regs);
-		return;
+
+		/* Return 1 to recheck flags - new signals may have been queued */
+		return 1;
 	}
 
-	local_irq_restore(flags);
+	return 0;
 }
 

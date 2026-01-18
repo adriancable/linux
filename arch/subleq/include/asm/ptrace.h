@@ -62,8 +62,21 @@ struct pt_regs {
 /* Mark that syscall restart should NOT happen (e.g., after sigreturn) */
 #define syscall_wont_restart(regs)	((regs)->syscall_nr = -1)
 
-#define user_mode(regs) (0) /* Always kernel mode for now */
-#define kernel_mode(regs) (1)
+/*
+ * user_mode - Check if interrupted context was in user mode
+ *
+ * For NOMMU Subleq, we detect user mode by checking if the saved PC
+ * is within the kernel text range. If PC is outside kernel text,
+ * we were in userspace.
+ *
+ * This is critical for signal delivery - we should only deliver signals
+ * when returning to userspace, not when returning to kernel code.
+ */
+extern char _stext[], _end[];
+#define user_mode(regs) \
+	((unsigned long)(regs)->pc < (unsigned long)_stext || \
+	 (unsigned long)(regs)->pc >= (unsigned long)_end)
+#define kernel_mode(regs) (!user_mode(regs))
 
 #define instruction_pointer(regs) ((regs)->pc)
 #define user_stack_pointer(regs) ((regs)->sp)

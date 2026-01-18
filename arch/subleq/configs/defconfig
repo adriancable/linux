@@ -56,7 +56,7 @@ CONFIG_INITRAMFS_COMPRESSION_NONE=y
 CONFIG_EARLY_PRINTK=y
 
 # Command line
-CONFIG_CMDLINE="console=ttyS0 loglevel=7 rdinit=/bin/sh HOME=/root -- -l"
+CONFIG_CMDLINE="console=ttyS0 loglevel=7 rdinit=/sbin/init HOME=/root"
 CONFIG_CMDLINE_FORCE=y
 
 # Disable debugging (too much output)

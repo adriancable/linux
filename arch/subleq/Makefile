@@ -17,14 +17,6 @@ KBUILD_CFLAGS += -fno-pic -fno-pie
 # Wrap signed integer overflow (important for Subleq runtime)
 KBUILD_CFLAGS += -fwrapv
 
-# Subleq doesn't support inline asm with GCC register constraints.
-# Pre-define these macros so linux/compiler.h won't use its inline asm versions.
-KBUILD_CFLAGS += '-Dbarrier_data(ptr)=barrier()'
-KBUILD_CFLAGS += '-DOPTIMIZER_HIDE_VAR(var)=barrier()'
-
-# Subleq-specific: disable features that generate problematic code
-KBUILD_CFLAGS += -fno-optimize-sibling-calls
-
 # Suppress false positive array-bounds warnings from signal.h macros
 # (switch-based code with compile-time constant _NSIG_WORDS=2)
 KBUILD_CFLAGS += -Wno-array-bounds

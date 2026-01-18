@@ -23,19 +23,6 @@
 #define __smp_rmb() barrier()
 #define __smp_wmb() barrier()
 
-/*
- * Subleq doesn't support inline asm with register/memory constraints.
- * Use a compiler barrier to prevent optimization. This is sufficient
- * since Subleq is single-threaded and doesn't have speculation.
- */
-#define OPTIMIZER_HIDE_VAR(var) barrier()
-
-/*
- * barrier_data also needs a Subleq-specific definition since the default
- * uses inline asm with register constraints.
- */
-#define barrier_data(ptr) barrier()
-
 #include <asm-generic/barrier.h>
 
 #endif /* _ASM_SUBLEQ_BARRIER_H */

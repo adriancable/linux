@@ -69,6 +69,9 @@ extern void start_thread(struct pt_regs *regs, unsigned long pc,
 extern void kernel_thread_helper(struct task_struct *prev);
 extern struct pt_regs *ret_to_user_prep(struct task_struct *prev);
 
+/* Signal handling */
+asmlinkage void do_notify_resume(struct pt_regs *regs);
+
 /* Machine power management */
 extern void machine_halt(void);
 extern void machine_power_off(void);

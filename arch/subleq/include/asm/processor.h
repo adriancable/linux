@@ -9,6 +9,7 @@
 #ifndef __ASSEMBLY__
 
 #include <asm/ptrace.h>
+#include <linux/linkage.h>
 
 /* Task size - 1GB total address space, kernel takes some */
 #define TASK_SIZE (0x30000000UL) /* 768MB for user */

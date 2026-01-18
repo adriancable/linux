@@ -57,11 +57,11 @@ config PGTABLE_LEVELS
 
 config ARCH_FORCE_MAX_ORDER
 	int
-	default 13
+	default 15
 	help
 	  The maximum page allocation order for the buddy allocator.
 	  On NOMMU systems, ELF binaries must be loaded into contiguous
-	  memory. Default of 13 allows allocations up to 32MB (2^13 pages).
+	  memory. Default of 15 allows allocations up to 128MB (2^15 pages).
 
 config PHYS_ADDR_T_64BIT
 	def_bool n

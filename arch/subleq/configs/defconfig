@@ -63,3 +63,23 @@ CONFIG_CMDLINE_FORCE=y
 # CONFIG_DEBUG_KERNEL is not set
 # CONFIG_DEBUG_INFO is not set
 
+# Disable unnecessary initramfs compression formats (we use uncompressed)
+# CONFIG_RD_GZIP is not set
+# CONFIG_RD_BZIP2 is not set
+# CONFIG_RD_LZMA is not set
+# CONFIG_RD_XZ is not set
+# CONFIG_RD_LZO is not set
+# CONFIG_RD_LZ4 is not set
+# CONFIG_RD_ZSTD is not set
+
+# Disable partition table support (no disk devices)
+# CONFIG_MSDOS_PARTITION is not set
+# CONFIG_EFI_PARTITION is not set
+
+# Disable unused subsystems
+# CONFIG_FW_LOADER is not set
+# CONFIG_INPUT is not set
+# CONFIG_SERIO is not set
+# CONFIG_HID_SUPPORT is not set
+# CONFIG_USB_SUPPORT is not set
+# CONFIG_RUNTIME_TESTING_MENU is not set

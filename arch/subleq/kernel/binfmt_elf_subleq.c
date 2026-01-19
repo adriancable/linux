@@ -738,7 +738,7 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 	loff_t pos;
 	ssize_t ret;
 	int i, nsyms = 0;
-	int relocs_applied = 0;
+	int relocs_applied = 0;  /* Total entries processed */
 	int symbols_resolved = 0;
 	int have_symtab = 0;
 
@@ -813,11 +813,13 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 						syms = NULL;
 					} else {
 						have_symtab = 1;
-						/* Allocate symbol resolution cache */
-						sym_cache = kzalloc(
-							nsyms *
-								sizeof(unsigned long),
-							GFP_KERNEL);
+						/* Allocate symbol resolution cache only if processing relocs */
+						if (!skip_relocs) {
+							sym_cache = kzalloc(
+								nsyms *
+									sizeof(unsigned long),
+								GFP_KERNEL);
+						}
 					}
 				}
 			}
@@ -833,9 +835,10 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 	 *   >2 = resolved address
 	 *
 	 * This eliminates symbol_needs_resolution() calls in the hot loop.
+	 * Only do this if we're processing relocations - skip for symtab-only pass.
 	 */
 	int undef_count = 0;
-	if (have_symtab && strtab_shdr && sym_cache) {
+	if (!skip_relocs && have_symtab && strtab_shdr && sym_cache) {
 		for (i = 1; i < nsyms; i++) {
 			if (symbol_needs_resolution(&syms[i]) &&
 			    syms[i].st_name < strtab_shdr->sh_size &&
@@ -853,9 +856,29 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 	if (skip_relocs)
 		goto build_symtab_only;
 
+	/*
+	 * OPTIMIZATION: Find max relocation section size and allocate once.
+	 * This avoids repeated kmalloc/kfree in the processing loop.
+	 */
+	size_t max_rel_size = 0;
+	struct elf32_rel *rels_buf = NULL;
+	for (i = 0, shdr = shdrs; i < hdr->e_shnum; i++, shdr++) {
+		if (shdr->sh_type == SHT_REL && shdr->sh_size > max_rel_size)
+			max_rel_size = shdr->sh_size;
+	}
+	if (max_rel_size > 0) {
+		rels_buf = kmalloc(max_rel_size, GFP_KERNEL);
+		if (!rels_buf) {
+			kfree(sym_cache);
+			kfree(syms);
+			kfree(strtab);
+			kfree(shdrs);
+			return -ENOMEM;
+		}
+	}
+
 	/* Process all relocation sections */
 	for (i = 0, shdr = shdrs; i < hdr->e_shnum; i++, shdr++) {
-		struct elf32_rel *rels = NULL;
 		struct elf32_rel *rel;
 		int nrels, j;
 
@@ -895,20 +918,11 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 		if (nrels == 0)
 			continue;
 
-		/* Allocate and read relocation entries */
-		rels = kmalloc(shdr->sh_size, GFP_KERNEL);
-		if (!rels) {
-			kfree(sym_cache);
-			kfree(syms);
-			kfree(strtab);
-			kfree(shdrs);
-			return -ENOMEM;
-		}
-
+		/* Read relocation entries into pre-allocated buffer */
 		pos = shdr->sh_offset;
-		ret = kernel_read(file, rels, shdr->sh_size, &pos);
+		ret = kernel_read(file, rels_buf, shdr->sh_size, &pos);
 		if (ret != shdr->sh_size) {
-			kfree(rels);
+			kfree(rels_buf);
 			kfree(sym_cache);
 			kfree(syms);
 			kfree(strtab);
@@ -931,9 +945,7 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 		 */
 		if (hdr->e_type == ET_DYN) {
 			/* LIBRARY: Handle both R_386_RELATIVE and R_386_32 */
-			int have_offset = (load_offset != 0);
-
-			for (j = 0, rel = rels; j < nrels; j++, rel++) {
+			for (j = 0, rel = rels_buf; j < nrels; j++, rel++) {
 				u32 *patch_addr;
 				unsigned int rel_type = rel->r_info & 0xFF;
 
@@ -942,11 +954,8 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 
 				switch (rel_type) {
 				case R_386_RELATIVE:
-					/* Most common: add load_offset */
-					if (have_offset) {
-						*patch_addr += load_offset;
-						relocs_applied++;
-					}
+					/* Most common: add load_offset (no-op if 0) */
+					*patch_addr += load_offset;
 					break;
 
 				case R_386_32: {
@@ -981,9 +990,7 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 			}
 		} else {
 			/* EXECUTABLE: Only R_386_32 (no R_386_RELATIVE in .rel.text) */
-			int have_offset = (load_offset != 0);
-
-			for (j = 0, rel = rels; j < nrels; j++, rel++) {
+			for (j = 0, rel = rels_buf; j < nrels; j++, rel++) {
 				u32 *patch_addr;
 				unsigned int sym_idx = rel->r_info >> 8;
 				unsigned long cache_val = sym_cache[sym_idx];
@@ -1002,11 +1009,8 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 				 * For >=2: handle symbol resolution
 				 */
 				if (cache_val < 2) {
-					/* Most common: defined symbol or failed - add offset */
-					if (have_offset) {
-						*patch_addr += load_offset;
-						relocs_applied++;
-					}
+					/* Most common: defined symbol - add offset (no-op if 0) */
+					*patch_addr += load_offset;
 					continue;
 				}
 
@@ -1025,16 +1029,18 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 					if (sym_addr) {
 						*patch_addr = sym_addr + *patch_addr;
 						symbols_resolved++;
-					} else if (have_offset) {
+					} else {
 						*patch_addr += load_offset;
-						relocs_applied++;
 					}
 				}
 			}
 		}
 
-		kfree(rels);
+		relocs_applied += nrels;  /* Count total after processing */
 	}
+
+	/* Free the reusable relocation buffer */
+	kfree(rels_buf);
 
 	subleq_elf_debug("Applied %d relocations with offset 0x%lx",
 			 relocs_applied, load_offset);

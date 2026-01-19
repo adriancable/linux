@@ -38,12 +38,9 @@
 #ifndef R_386_32
 #define R_386_32 1 /* Absolute 32-bit address */
 #endif
-#ifndef R_386_COPY
-#define R_386_COPY 5 /* Copy data from shared lib to executable */
-#endif
-#ifndef R_386_JUMP_SLOT
-#define R_386_JUMP_SLOT 7 /* PLT/GOT entry - patch with function address */
-#endif
+/* R_386_COPY (5) and R_386_JUMP_SLOT (7) are not used.
+ * The toolchain uses -z notext for direct R_386_32 relocations.
+ */
 #ifndef R_386_RELATIVE
 #define R_386_RELATIVE 8 /* Adjust by load base (for shared libs) */
 #endif
@@ -837,20 +834,19 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 	 *
 	 * This eliminates symbol_needs_resolution() calls in the hot loop.
 	 */
-	int have_any_undef = 0;
+	int undef_count = 0;
 	if (have_symtab && strtab_shdr && sym_cache) {
 		for (i = 1; i < nsyms; i++) {
 			if (symbol_needs_resolution(&syms[i]) &&
 			    syms[i].st_name < strtab_shdr->sh_size &&
 			    syms[i].st_name != 0) {
 				sym_cache[i] = 2;  /* Mark as needing resolution */
-				have_any_undef = 1;
+				undef_count++;
 			}
 			/* Symbols with cache[i] == 0 just need load_offset */
 		}
-		if (!have_any_undef) {
-			subleq_elf_debug("No symbols need resolution - using fast reloc path");
-		}
+		subleq_elf_debug("Pre-scanned %d symbols, %d need resolution",
+				 nsyms, undef_count);
 	}
 
 	/* Skip relocation processing if requested (two-pass loading) */
@@ -925,197 +921,85 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 
 		/*
 		 * Process each relocation.
-		 * Two paths:
-		 * 1. FAST PATH: No undefined symbols - just add load_offset to all
-		 *    R_386_32 relocations, no symbol lookup needed.
-		 * 2. SLOW PATH: Has undefined symbols - need to check each relocation.
+		 * Optimized structure: check sym_cache FIRST since that's
+		 * the main decision point. Most relocations have cache=0
+		 * (defined symbols) and just need load_offset added.
 		 */
-		if (!have_any_undef && load_offset != 0) {
-			/*
-			 * FAST PATH: No undefined symbols in this binary.
-			 * All relocations just need load_offset added.
-			 * We still need to verify type=R_386_32, but can skip
-			 * all symbol table lookups.
-			 */
-			for (j = 0, rel = rels; j < nrels; j++, rel++) {
-				u32 *patch_addr;
-				unsigned int rel_type = rel->r_info & 0xFF;
+		{
+			int is_exec = (hdr->e_type != ET_DYN);
 
-				patch_addr = (u32 *)(load_addr + (rel->r_offset - base_vaddr));
-				
-				/* Handle R_386_RELATIVE: add load base */
-				if (rel_type == R_386_RELATIVE) {
-					*patch_addr += load_offset;
-					relocs_applied++;
-					continue;
-				}
-				/* Handle R_386_32: add load offset (executables only).
-				 * For shared libraries, R_386_RELATIVE handles this.
-				 */
-				if (rel_type == 1 && hdr->e_type != ET_DYN) {
-					*patch_addr += load_offset;
-					relocs_applied++;
-				}
-			}
-		} else if (!have_any_undef && load_offset == 0) {
-			/*
-			 * ULTRA FAST PATH: No undefined symbols AND no load offset.
-			 * Nothing to do at all!
-			 */
-			relocs_applied += nrels;
-		} else {
-			/*
-			 * SLOW PATH: Has undefined symbols - need full processing.
-			 */
 			for (j = 0, rel = rels; j < nrels; j++, rel++) {
-				unsigned long reloc_addr;
 				u32 *patch_addr;
 				unsigned int rel_type = rel->r_info & 0xFF;
 				unsigned int sym_idx = rel->r_info >> 8;
 
-				reloc_addr = load_addr + (rel->r_offset - base_vaddr);
-				patch_addr = (u32 *)reloc_addr;
+				patch_addr = (u32 *)(load_addr +
+						     (rel->r_offset - base_vaddr));
 
 				/*
-				 * Handle different relocation types:
-				 * - R_386_32 (1): Normal absolute relocation
-				 * - R_386_JUMP_SLOT (7): PLT/GOT entry - symbol lookup
-				 * - R_386_RELATIVE (8): Add load base
-				 * - R_386_COPY (5): Copy data from shared lib
+				 * R_386_RELATIVE: Always add load_offset.
+				 * Common in shared libraries for internal pointers.
 				 */
 				if (rel_type == R_386_RELATIVE) {
-					/* R_386_RELATIVE: add load offset to value */
 					if (load_offset != 0) {
 						*patch_addr += load_offset;
 						relocs_applied++;
 					}
 					continue;
 				}
-				if (rel_type == R_386_COPY) {
-					/* R_386_COPY: Copy data from shared library to executable.
-					 * Used for global variables like stdout.
-					 * The symbol gives us the name and size to copy.
-					 */
-					if (have_symtab && sym_idx > 0 && sym_idx < nsyms) {
-						struct elf32_sym *sym = &syms[sym_idx];
-						if (sym->st_name < strtab_shdr->sh_size &&
-						    sym->st_name != 0) {
-							const char *name = strtab + sym->st_name;
-							unsigned long src_addr;
-							unsigned int size = sym->st_size;
 
-							/* Look up symbol in loaded libraries */
-							src_addr = lookup_libsrt_symbol(name);
-							if (src_addr && size > 0) {
-								/* Copy data from lib to executable */
-								memcpy(patch_addr, (void *)src_addr, size);
-								subleq_elf_debug(
-									"COPY %s: %u bytes from 0x%lx",
-									name, size, src_addr);
-								symbols_resolved++;
-							} else {
-								subleq_elf_debug(
-									"COPY %s: not found or size=0",
-									name);
-							}
-						}
-					}
-					continue;
-				}
-				if (rel_type == R_386_JUMP_SLOT) {
-					/* PLT/GOT entry: look up symbol and write address.
-					 * First check if defined locally, else look in libs.
-					 */
-					if (have_symtab && sym_idx > 0 && sym_idx < nsyms) {
-						struct elf32_sym *sym = &syms[sym_idx];
-						/* Skip empty symbol names */
-						if (sym->st_name == 0 ||
-						    sym->st_name >= strtab_shdr->sh_size)
-							continue;
-						if (strtab[sym->st_name] == '\0')
-							continue;
-
-						unsigned long sym_addr = 0;
-
-						/* Check if symbol is defined locally */
-						if (sym->st_shndx != SHN_UNDEF &&
-						    sym->st_value != 0) {
-							/* Local symbol: convert vaddr to load addr */
-							sym_addr = load_addr +
-								   (sym->st_value - base_vaddr);
-						} else {
-							/* External: look up in libraries */
-							sym_addr = lookup_libsrt_symbol(
-								strtab + sym->st_name);
-						}
-
-						if (sym_addr) {
-							*patch_addr = sym_addr;
-							subleq_elf_debug(
-								"JUMP_SLOT %s -> 0x%lx",
-								strtab + sym->st_name,
-								sym_addr);
-							symbols_resolved++;
-						} else {
-							subleq_elf_debug(
-								"UNRESOLVED JUMP_SLOT: %s",
-								strtab + sym->st_name);
-						}
+				/*
+				 * R_386_32: Check cache for symbol disposition.
+				 * cache=0: defined symbol, just add load_offset (exec only)
+				 * cache=1: not found, add load_offset (exec only)
+				 * cache>=2: needs resolution
+				 */
+				if (sym_cache[sym_idx] == 0) {
+					if (is_exec && load_offset != 0) {
+						*patch_addr += load_offset;
+						relocs_applied++;
 					}
 					continue;
 				}
 
 				/*
-				 * Check if this symbol needs runtime resolution.
-				 * sym_cache was pre-populated: value 2 = needs resolution,
-				 * value 0 = defined symbol (just add load_offset).
-				 * This avoids per-relocation symbol_needs_resolution() calls.
+				 * Symbol needs resolution (cache >= 2) or
+				 * was previously not found (cache == 1).
 				 */
-				if (sym_cache && sym_idx > 0 && sym_idx < nsyms &&
-				    sym_cache[sym_idx] >= 2) {
-					unsigned long sym_addr;
-
-					/* Check if already resolved */
-					if (sym_cache[sym_idx] > 2) {
-						sym_addr = sym_cache[sym_idx];
-						goto apply_sym;
+				if (sym_cache[sym_idx] == 1) {
+					/* Previously not found - apply load_offset */
+					if (is_exec && load_offset != 0) {
+						*patch_addr += load_offset;
+						relocs_applied++;
 					}
-
-					/* Value is 2: needs resolution, not yet looked up */
-					sym_addr = lookup_libsrt_symbol(
-						strtab + syms[sym_idx].st_name);
-
-					sym_cache[sym_idx] = sym_addr ? sym_addr : 1;
-
-					if (sym_addr == 0) {
-						subleq_elf_debug(
-							"UNRESOLVED symbol: %s",
-							strtab + syms[sym_idx].st_name);
-						goto apply_offset;
-					}
-
-apply_sym:
-				/* R_386_32: S + A (symbol value + addend)
-				 * The addend is the existing value at the relocation site.
-				 * For vtable references, this addend is typically +8
-				 * to skip past the vtable prefix (offset-to-top, RTTI).
-				 */
-				*patch_addr = sym_addr + *patch_addr;
-
-					symbols_resolved++;
 					continue;
 				}
 
-apply_offset:
-				/* Defined symbol or no symtab: add load offset.
-				 * BUT for shared libraries (ET_DYN), skip this!
-				 * R_386_RELATIVE in .rel.dyn already handles data
-				 * pointer adjustments. Applying load_offset here to
-				 * R_386_32 would double-apply and corrupt memory.
-				 */
-				if (hdr->e_type != ET_DYN && load_offset != 0) {
-					*patch_addr += load_offset;
-					relocs_applied++;
+				/* sym_cache[sym_idx] >= 2: needs resolution */
+				{
+					unsigned long sym_addr;
+
+					/* Check if already resolved (cache > 2) */
+					if (sym_cache[sym_idx] > 2) {
+						sym_addr = sym_cache[sym_idx];
+					} else {
+						/* Value is 2: do lookup */
+						sym_addr = lookup_libsrt_symbol(
+							strtab + syms[sym_idx].st_name);
+						sym_cache[sym_idx] = sym_addr ? sym_addr : 1;
+					}
+
+					if (sym_addr) {
+						/* R_386_32: S + A */
+						*patch_addr = sym_addr + *patch_addr;
+						symbols_resolved++;
+					} else {
+						/* Symbol not found - apply load_offset */
+						if (is_exec && load_offset != 0) {
+							*patch_addr += load_offset;
+							relocs_applied++;
+						}
+					}
 				}
 			}
 		}

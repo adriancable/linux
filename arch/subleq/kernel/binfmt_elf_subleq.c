@@ -828,21 +828,25 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 	}
 
 	/*
-	 * OPTIMIZATION: Pre-scan symbol table to find symbols needing resolution.
-	 * If there are no symbols that need runtime resolution, we can use a fast
-	 * path that skips all symbol checking and just applies load_offset.
-	 * Symbols needing resolution are SHN_ABS with st_value == 0, which are
-	 * --defsym stubs created by the toolchain for kernel runtime symbols.
+	 * OPTIMIZATION: Pre-scan symbol table and populate cache.
+	 * Cache values:
+	 *   0 = not checked yet (normal defined symbol - just add load_offset)
+	 *   1 = checked, not found (resolution failed)
+	 *   2 = needs resolution (SHN_UNDEF or SHN_ABS with value 0)
+	 *   >2 = resolved address
+	 *
+	 * This eliminates symbol_needs_resolution() calls in the hot loop.
 	 */
 	int have_any_undef = 0;
-	if (have_symtab && strtab_shdr) {
+	if (have_symtab && strtab_shdr && sym_cache) {
 		for (i = 1; i < nsyms; i++) {
 			if (symbol_needs_resolution(&syms[i]) &&
 			    syms[i].st_name < strtab_shdr->sh_size &&
 			    syms[i].st_name != 0) {
+				sym_cache[i] = 2;  /* Mark as needing resolution */
 				have_any_undef = 1;
-				break;  /* Found at least one, no need to continue */
 			}
+			/* Symbols with cache[i] == 0 just need load_offset */
 		}
 		if (!have_any_undef) {
 			subleq_elf_debug("No symbols need resolution - using fast reloc path");
@@ -984,10 +988,6 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 					if (load_offset != 0) {
 						*patch_addr += load_offset;
 						relocs_applied++;
-						if (relocs_applied <= 5) {
-							subleq_elf_debug("R_386_RELATIVE at 0x%lx: +0x%lx",
-								reloc_addr, load_offset);
-						}
 					}
 					continue;
 				}
@@ -1067,46 +1067,32 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 
 				/*
 				 * Check if this symbol needs runtime resolution.
-				 * SHN_ABS at address 0 indicates a --defsym stub
-				 * that needs to be resolved to a kernel address.
+				 * sym_cache was pre-populated: value 2 = needs resolution,
+				 * value 0 = defined symbol (just add load_offset).
+				 * This avoids per-relocation symbol_needs_resolution() calls.
 				 */
-				if (have_symtab && sym_idx > 0 && sym_idx < nsyms) {
-					struct elf32_sym *sym = &syms[sym_idx];
+				if (sym_cache && sym_idx > 0 && sym_idx < nsyms &&
+				    sym_cache[sym_idx] >= 2) {
+					unsigned long sym_addr;
 
-					if (symbol_needs_resolution(sym) &&
-					    sym->st_name < strtab_shdr->sh_size) {
-						unsigned long sym_addr;
-						int first_resolution = 0;
+					/* Check if already resolved */
+					if (sym_cache[sym_idx] > 2) {
+						sym_addr = sym_cache[sym_idx];
+						goto apply_sym;
+					}
 
-						/* Check cache first */
-						if (sym_cache) {
-							if (sym_cache[sym_idx] == 1) {
-								/* Not found - apply load offset */
-								goto apply_offset;
-							}
-							if (sym_cache[sym_idx] != 0) {
-								sym_addr = sym_cache[sym_idx];
-								goto apply_sym;
-							}
-						}
+					/* Value is 2: needs resolution, not yet looked up */
+					sym_addr = lookup_libsrt_symbol(
+						strtab + syms[sym_idx].st_name);
 
-						/* Cache miss - look up */
-						sym_addr = lookup_libsrt_symbol(
-							strtab + sym->st_name);
+					sym_cache[sym_idx] = sym_addr ? sym_addr : 1;
 
-						if (sym_cache) {
-							sym_cache[sym_idx] =
-								sym_addr ? sym_addr : 1;
-						}
-
-						if (sym_addr == 0) {
-							subleq_elf_debug(
-								"UNRESOLVED symbol: %s",
-								strtab + sym->st_name);
-							goto apply_offset;
-						}
-
-						first_resolution = 1;
+					if (sym_addr == 0) {
+						subleq_elf_debug(
+							"UNRESOLVED symbol: %s",
+							strtab + syms[sym_idx].st_name);
+						goto apply_offset;
+					}
 
 apply_sym:
 				/* R_386_32: S + A (symbol value + addend)
@@ -1116,15 +1102,8 @@ apply_sym:
 				 */
 				*patch_addr = sym_addr + *patch_addr;
 
-						if (first_resolution) {
-							subleq_elf_debug(
-								"Resolved %s -> 0x%lx",
-								strtab + sym->st_name,
-								sym_addr);
-						}
-						symbols_resolved++;
-						continue;
-					}
+					symbols_resolved++;
+					continue;
 				}
 
 apply_offset:
@@ -1190,14 +1169,11 @@ build_symtab_only:
 			symbols_added++;
 		}
 
-		/* Sort symbols alphabetically to enable binary search lookups */
-		if (symbols_added > 0 && libsrt_symbol_count > 1) {
-			sort(libsrt_symbols, libsrt_symbol_count,
-			     sizeof(struct libsrt_symbol), libsrt_symbol_cmp, NULL);
-			libsrt_symbols_sorted = 1;
-		}
+		/* NOTE: Sorting deferred until all libraries loaded (optimization) */
+		if (symbols_added > 0)
+			libsrt_symbols_sorted = 0;  /* Mark as needing sort */
 
-		subleq_elf_debug("Added %d lib symbols (total: %d, sorted)",
+		subleq_elf_debug("Added %d lib symbols (total: %d, sort deferred)",
 				 symbols_added, libsrt_symbol_count);
 	}
 
@@ -1596,6 +1572,18 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 			/* Store load address for second pass */
 			needed_libs[i].load_addr = lib_info.load_addr;
 		}
+	}
+
+	/* Sort symbol table ONCE now that all libraries are loaded.
+	 * This is more efficient than sorting after each library (O(n log n) once
+	 * vs O(n log n) per library).
+	 */
+	if (libsrt_symbol_count > 1 && !libsrt_symbols_sorted) {
+		sort(libsrt_symbols, libsrt_symbol_count,
+		     sizeof(struct libsrt_symbol), libsrt_symbol_cmp, NULL);
+		libsrt_symbols_sorted = 1;
+		subleq_elf_debug("Sorted %d library symbols (deferred bulk sort)",
+				 libsrt_symbol_count);
 	}
 
 	/* Phase 2: Now that ALL libraries are loaded and their symbols exported,

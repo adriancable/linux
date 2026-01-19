@@ -924,81 +924,110 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 		 * Optimized structure: check sym_cache FIRST since that's
 		 * the main decision point. Most relocations have cache=0
 		 * (defined symbols) and just need load_offset added.
+		 *
+		 * OPTIMIZATION: Separate loops for libraries vs executables.
+		 * - Libraries: Need R_386_RELATIVE handling (majority of entries)
+		 * - Executables: Only R_386_32 in .rel.text (skip RELATIVE check)
 		 */
-		{
-			int is_exec = (hdr->e_type != ET_DYN);
+		if (hdr->e_type == ET_DYN) {
+			/* LIBRARY: Handle both R_386_RELATIVE and R_386_32 */
+			int have_offset = (load_offset != 0);
 
 			for (j = 0, rel = rels; j < nrels; j++, rel++) {
 				u32 *patch_addr;
 				unsigned int rel_type = rel->r_info & 0xFF;
+
+				patch_addr = (u32 *)(load_addr +
+						     (rel->r_offset - base_vaddr));
+
+				switch (rel_type) {
+				case R_386_RELATIVE:
+					/* Most common: add load_offset */
+					if (have_offset) {
+						*patch_addr += load_offset;
+						relocs_applied++;
+					}
+					break;
+
+				case R_386_32: {
+					/* Symbol resolution needed? */
+					unsigned int sym_idx = rel->r_info >> 8;
+					unsigned long cache_val = sym_cache[sym_idx];
+
+					if (cache_val >= 2) {
+						unsigned long sym_addr;
+
+						if (cache_val > 2) {
+							sym_addr = cache_val;
+						} else {
+							sym_addr = lookup_libsrt_symbol(
+								strtab + syms[sym_idx].st_name);
+							sym_cache[sym_idx] = sym_addr ? sym_addr : 1;
+						}
+
+						if (sym_addr) {
+							*patch_addr = sym_addr + *patch_addr;
+							symbols_resolved++;
+						}
+					}
+					/* No load_offset for R_386_32 in libraries */
+					break;
+				}
+
+				default:
+					/* Unknown relocation type - skip */
+					break;
+				}
+			}
+		} else {
+			/* EXECUTABLE: Only R_386_32 (no R_386_RELATIVE in .rel.text) */
+			int have_offset = (load_offset != 0);
+
+			for (j = 0, rel = rels; j < nrels; j++, rel++) {
+				u32 *patch_addr;
 				unsigned int sym_idx = rel->r_info >> 8;
+				unsigned long cache_val = sym_cache[sym_idx];
 
 				patch_addr = (u32 *)(load_addr +
 						     (rel->r_offset - base_vaddr));
 
 				/*
-				 * R_386_RELATIVE: Always add load_offset.
-				 * Common in shared libraries for internal pointers.
+				 * Cache value meanings:
+				 * 0 = defined symbol (no resolution needed)
+				 * 1 = resolution failed
+				 * 2 = needs resolution (lookup pending)
+				 * >2 = resolved address
+				 *
+				 * For 0 and 1: just add load_offset
+				 * For >=2: handle symbol resolution
 				 */
-				if (rel_type == R_386_RELATIVE) {
-					if (load_offset != 0) {
+				if (cache_val < 2) {
+					/* Most common: defined symbol or failed - add offset */
+					if (have_offset) {
 						*patch_addr += load_offset;
 						relocs_applied++;
 					}
 					continue;
 				}
 
-				/*
-				 * R_386_32: Check cache for symbol disposition.
-				 * cache=0: defined symbol, just add load_offset (exec only)
-				 * cache=1: not found, add load_offset (exec only)
-				 * cache>=2: needs resolution
-				 */
-				if (sym_cache[sym_idx] == 0) {
-					if (is_exec && load_offset != 0) {
-						*patch_addr += load_offset;
-						relocs_applied++;
-					}
-					continue;
-				}
-
-				/*
-				 * Symbol needs resolution (cache >= 2) or
-				 * was previously not found (cache == 1).
-				 */
-				if (sym_cache[sym_idx] == 1) {
-					/* Previously not found - apply load_offset */
-					if (is_exec && load_offset != 0) {
-						*patch_addr += load_offset;
-						relocs_applied++;
-					}
-					continue;
-				}
-
-				/* sym_cache[sym_idx] >= 2: needs resolution */
+				/* cache >= 2: needs/has resolution */
 				{
 					unsigned long sym_addr;
 
-					/* Check if already resolved (cache > 2) */
-					if (sym_cache[sym_idx] > 2) {
-						sym_addr = sym_cache[sym_idx];
+					if (cache_val > 2) {
+						sym_addr = cache_val;
 					} else {
-						/* Value is 2: do lookup */
 						sym_addr = lookup_libsrt_symbol(
 							strtab + syms[sym_idx].st_name);
 						sym_cache[sym_idx] = sym_addr ? sym_addr : 1;
 					}
 
 					if (sym_addr) {
-						/* R_386_32: S + A */
 						*patch_addr = sym_addr + *patch_addr;
 						symbols_resolved++;
-					} else {
-						/* Symbol not found - apply load_offset */
-						if (is_exec && load_offset != 0) {
-							*patch_addr += load_offset;
-							relocs_applied++;
-						}
+					} else if (have_offset) {
+						*patch_addr += load_offset;
+						relocs_applied++;
 					}
 				}
 			}

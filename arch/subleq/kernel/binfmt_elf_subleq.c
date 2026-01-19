@@ -38,11 +38,17 @@
 #ifndef R_386_32
 #define R_386_32 1 /* Absolute 32-bit address */
 #endif
+#ifndef R_386_COPY
+#define R_386_COPY 5 /* Copy data from shared lib to executable */
+#endif
+#ifndef R_386_JUMP_SLOT
+#define R_386_JUMP_SLOT 7 /* PLT/GOT entry - patch with function address */
+#endif
 #ifndef R_386_RELATIVE
 #define R_386_RELATIVE 8 /* Adjust by load base (for shared libs) */
 #endif
 
-#define SUBLEQ_ELF_DEBUG 0
+#define SUBLEQ_ELF_DEBUG 1
 
 #if SUBLEQ_ELF_DEBUG
 #define subleq_elf_debug(fmt, ...) \
@@ -55,13 +61,25 @@
 
 /*
  * Check if a symbol needs runtime resolution.
- * A symbol needs resolution if it's an absolute symbol at address 0
- * (SHN_ABS, st_value == 0). This indicates it was defined via
- * --defsym=symbol=0 by the toolchain and needs to be resolved to the
- * actual kernel runtime address.
+ *
+ * A symbol needs resolution in two cases:
+ * 1. SHN_ABS with st_value == 0: This indicates a --defsym=symbol=0 stub
+ *    created by the toolchain for kernel runtime symbols.
+ * 2. SHN_UNDEF: Regular undefined symbol needing resolution from another
+ *    shared library (e.g., libcxxabi.so needing malloc from libc.so).
+ *
+ * Exclude STT_FILE symbols (type 4) - these are source filenames in
+ * debug info, not actual symbols needing resolution.
  */
 static inline int symbol_needs_resolution(const struct elf32_sym *sym)
 {
+	/* STT_FILE = 4, stored in low nibble of st_info */
+	if ((sym->st_info & 0xf) == 4)
+		return 0;
+	/* SHN_UNDEF = 0: regular undefined symbols needing cross-lib resolution */
+	if (sym->st_shndx == SHN_UNDEF && sym->st_name != 0)
+		return 1;
+	/* SHN_ABS with value 0: --defsym stubs for kernel runtime */
 	return sym->st_shndx == SHN_ABS && sym->st_value == 0;
 }
 
@@ -251,7 +269,7 @@ static const struct {
 	(sizeof(kernel_runtime_symbols) / sizeof(kernel_runtime_symbols[0]))
 
 /* Dynamic symbol table (populated from loaded libraries) */
-#define MAX_LIBSRT_SYMBOLS 256
+#define MAX_LIBSRT_SYMBOLS 2048
 static struct libsrt_symbol libsrt_symbols[MAX_LIBSRT_SYMBOLS];
 static int libsrt_symbol_count = 0;
 static unsigned long libsrt_load_addr = 0;
@@ -268,11 +286,16 @@ static int libsrt_symbol_cmp(const void *a, const void *b)
 	return strcmp(sa->name, sb->name);
 }
 
-/* Track which libraries have been loaded to avoid duplicates */
+/* Track which libraries have been loaded to avoid duplicates.
+ * Also stores file/header info for deferred relocation processing (two-pass). */
 #define MAX_LOADED_LIBS 16
 static struct {
 	char name[64];
 	unsigned long load_addr;
+	unsigned long base_vaddr;
+	struct file *file;       /* For deferred relocation processing */
+	struct elfhdr hdr;       /* For deferred relocation processing */
+	int relocs_applied;      /* Flag: relocations have been processed */
 } loaded_libs[MAX_LOADED_LIBS];
 static int loaded_lib_count = 0;
 
@@ -287,13 +310,19 @@ static unsigned long find_loaded_lib(const char *name)
 	return 0;
 }
 
-/* Record that a library has been loaded */
-static void record_loaded_lib(const char *name, unsigned long load_addr)
+/* Record that a library has been loaded (for deferred relocation) */
+static void record_loaded_lib(const char *name, unsigned long load_addr,
+			      unsigned long base_vaddr, struct file *file,
+			      struct elfhdr *hdr)
 {
 	if (loaded_lib_count < MAX_LOADED_LIBS) {
 		strscpy(loaded_libs[loaded_lib_count].name, name,
 			sizeof(loaded_libs[0].name));
 		loaded_libs[loaded_lib_count].load_addr = load_addr;
+		loaded_libs[loaded_lib_count].base_vaddr = base_vaddr;
+		loaded_libs[loaded_lib_count].file = file;
+		loaded_libs[loaded_lib_count].hdr = *hdr;
+		loaded_libs[loaded_lib_count].relocs_applied = 0;
 		loaded_lib_count++;
 	}
 }
@@ -691,11 +720,15 @@ static long load_elf_segments(struct file *file, struct elfhdr *hdr,
  *
  * If build_symtab is true, also extracts global function symbols from the
  * symbol table and adds them to libsrt_symbols for use by dependent binaries.
+ *
+ * If skip_relocs is true, only builds symtab without applying relocations.
+ * This is used for two-pass loading where all libraries are loaded first,
+ * then relocations are processed after all symbols are available.
  */
 static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr,
 					   unsigned long load_addr,
 					   unsigned long base_vaddr,
-					   int build_symtab)
+					   int build_symtab, int skip_relocs)
 {
 	struct elf_shdr *shdrs = NULL;
 	struct elf_shdr *shdr;
@@ -733,9 +766,19 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 		return ret < 0 ? ret : -ENOEXEC;
 	}
 
-	/* Find .symtab section (needed for external symbol resolution) */
+	/*
+	 * Find the appropriate symbol table for relocation processing:
+	 *
+	 * EXECUTABLES (ET_EXEC or PIE): Use .symtab (SHT_SYMTAB)
+	 *   - .rel.text (from --emit-relocs) uses static symbol indices
+	 *
+	 * SHARED LIBRARIES (ET_DYN): Use .dynsym (SHT_DYNSYM)
+	 *   - .rel.dyn uses dynamic symbol indices
+	 *   - Without --emit-relocs, .symtab indices don't match .rel.dyn
+	 */
+	int target_symtab_type = (hdr->e_type == ET_DYN) ? SHT_DYNSYM : SHT_SYMTAB;
 	for (i = 0, shdr = shdrs; i < hdr->e_shnum; i++, shdr++) {
-		if (shdr->sh_type == SHT_SYMTAB) {
+		if (shdr->sh_type == target_symtab_type) {
 			symtab_shdr = shdr;
 			break;
 		}
@@ -806,6 +849,10 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 		}
 	}
 
+	/* Skip relocation processing if requested (two-pass loading) */
+	if (skip_relocs)
+		goto build_symtab_only;
+
 	/* Process all relocation sections */
 	for (i = 0, shdr = shdrs; i < hdr->e_shnum; i++, shdr++) {
 		struct elf32_rel *rels = NULL;
@@ -814,6 +861,29 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 
 		if (shdr->sh_type != SHT_REL)
 			continue;
+
+		/*
+		 * Section filtering based on binary type and toolchain flags:
+		 *
+		 * EXECUTABLES (built with --emit-relocs, --defsym=symbol=0):
+		 *   - Have .rel.text with R_386_32 for code patching
+		 *   - Have .rel.dyn with R_386_RELATIVE (but we skip it - redundant)
+		 *   - Kernel symbols are SHN_ABS with value 0
+		 *
+		 * SHARED LIBRARIES (built without --emit-relocs, no --defsym):
+		 *   - Have .rel.dyn ONLY with R_386_RELATIVE + R_386_32
+		 *   - No .rel.text section exists
+		 *   - Kernel symbols are SHN_UNDEF (resolved at load time)
+		 *
+		 * .rel.dyn sections have SHF_ALLOC without SHF_INFO_LINK.
+		 */
+		if (hdr->e_type != ET_DYN) {
+			/* Executable: skip .rel.dyn, process .rel.text */
+			if ((shdr->sh_flags & SHF_ALLOC) &&
+			    !(shdr->sh_flags & SHF_INFO_LINK))
+				continue;
+		}
+		/* Shared libs: process .rel.dyn (the only reloc section) */
 
 		if (shdr->sh_entsize != sizeof(struct elf32_rel)) {
 			pr_warn("SUBLEQ_ELF: Unexpected rel entry size %u\n",
@@ -846,6 +916,9 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 			return ret < 0 ? ret : -ENOEXEC;
 		}
 
+		subleq_elf_debug("Processing reloc section sh_flags=0x%x nrels=%d e_type=%d",
+			shdr->sh_flags, nrels, hdr->e_type);
+
 		/*
 		 * Process each relocation.
 		 * Two paths:
@@ -862,18 +935,23 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 			 */
 			for (j = 0, rel = rels; j < nrels; j++, rel++) {
 				u32 *patch_addr;
+				unsigned int rel_type = rel->r_info & 0xFF;
 
-				/*
-				 * Quick type check: R_386_32 has type=1, so
-				 * r_info ends with 0x01. We check (r_info & 0xFF) == 1
-				 * but to avoid AND, check if r_info % 256 == 1.
-				 * Actually, just check the low byte directly:
-				 * if ((r_info - 1) >> 8 << 8) + 1 != r_info, skip.
-				 * Simpler: assume all are R_386_32 (validated by linker).
-				 */
 				patch_addr = (u32 *)(load_addr + (rel->r_offset - base_vaddr));
-				*patch_addr += load_offset;
-				relocs_applied++;
+				
+				/* Handle R_386_RELATIVE: add load base */
+				if (rel_type == R_386_RELATIVE) {
+					*patch_addr += load_offset;
+					relocs_applied++;
+					continue;
+				}
+				/* Handle R_386_32: add load offset (executables only).
+				 * For shared libraries, R_386_RELATIVE handles this.
+				 */
+				if (rel_type == 1 && hdr->e_type != ET_DYN) {
+					*patch_addr += load_offset;
+					relocs_applied++;
+				}
 			}
 		} else if (!have_any_undef && load_offset == 0) {
 			/*
@@ -888,19 +966,104 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 			for (j = 0, rel = rels; j < nrels; j++, rel++) {
 				unsigned long reloc_addr;
 				u32 *patch_addr;
-
-				/*
-				 * Extract sym_idx. Since the Subleq LLVM backend only
-				 * emits R_386_32 relocations (type=1), we know:
-				 * r_info = (sym_idx << 8) | 1
-				 * So sym_idx = r_info >> 8
-				 *
-				 * No type check needed - guaranteed by backend.
-				 */
+				unsigned int rel_type = rel->r_info & 0xFF;
 				unsigned int sym_idx = rel->r_info >> 8;
 
 				reloc_addr = load_addr + (rel->r_offset - base_vaddr);
 				patch_addr = (u32 *)reloc_addr;
+
+				/*
+				 * Handle different relocation types:
+				 * - R_386_32 (1): Normal absolute relocation
+				 * - R_386_JUMP_SLOT (7): PLT/GOT entry - symbol lookup
+				 * - R_386_RELATIVE (8): Add load base
+				 * - R_386_COPY (5): Copy data from shared lib
+				 */
+				if (rel_type == R_386_RELATIVE) {
+					/* R_386_RELATIVE: add load offset to value */
+					if (load_offset != 0) {
+						*patch_addr += load_offset;
+						relocs_applied++;
+						if (relocs_applied <= 5) {
+							subleq_elf_debug("R_386_RELATIVE at 0x%lx: +0x%lx",
+								reloc_addr, load_offset);
+						}
+					}
+					continue;
+				}
+				if (rel_type == R_386_COPY) {
+					/* R_386_COPY: Copy data from shared library to executable.
+					 * Used for global variables like stdout.
+					 * The symbol gives us the name and size to copy.
+					 */
+					if (have_symtab && sym_idx > 0 && sym_idx < nsyms) {
+						struct elf32_sym *sym = &syms[sym_idx];
+						if (sym->st_name < strtab_shdr->sh_size &&
+						    sym->st_name != 0) {
+							const char *name = strtab + sym->st_name;
+							unsigned long src_addr;
+							unsigned int size = sym->st_size;
+
+							/* Look up symbol in loaded libraries */
+							src_addr = lookup_libsrt_symbol(name);
+							if (src_addr && size > 0) {
+								/* Copy data from lib to executable */
+								memcpy(patch_addr, (void *)src_addr, size);
+								subleq_elf_debug(
+									"COPY %s: %u bytes from 0x%lx",
+									name, size, src_addr);
+								symbols_resolved++;
+							} else {
+								subleq_elf_debug(
+									"COPY %s: not found or size=0",
+									name);
+							}
+						}
+					}
+					continue;
+				}
+				if (rel_type == R_386_JUMP_SLOT) {
+					/* PLT/GOT entry: look up symbol and write address.
+					 * First check if defined locally, else look in libs.
+					 */
+					if (have_symtab && sym_idx > 0 && sym_idx < nsyms) {
+						struct elf32_sym *sym = &syms[sym_idx];
+						/* Skip empty symbol names */
+						if (sym->st_name == 0 ||
+						    sym->st_name >= strtab_shdr->sh_size)
+							continue;
+						if (strtab[sym->st_name] == '\0')
+							continue;
+
+						unsigned long sym_addr = 0;
+
+						/* Check if symbol is defined locally */
+						if (sym->st_shndx != SHN_UNDEF &&
+						    sym->st_value != 0) {
+							/* Local symbol: convert vaddr to load addr */
+							sym_addr = load_addr +
+								   (sym->st_value - base_vaddr);
+						} else {
+							/* External: look up in libraries */
+							sym_addr = lookup_libsrt_symbol(
+								strtab + sym->st_name);
+						}
+
+						if (sym_addr) {
+							*patch_addr = sym_addr;
+							subleq_elf_debug(
+								"JUMP_SLOT %s -> 0x%lx",
+								strtab + sym->st_name,
+								sym_addr);
+							symbols_resolved++;
+						} else {
+							subleq_elf_debug(
+								"UNRESOLVED JUMP_SLOT: %s",
+								strtab + sym->st_name);
+						}
+					}
+					continue;
+				}
 
 				/*
 				 * Check if this symbol needs runtime resolution.
@@ -936,13 +1099,22 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 								sym_addr ? sym_addr : 1;
 						}
 
-						if (sym_addr == 0)
+						if (sym_addr == 0) {
+							subleq_elf_debug(
+								"UNRESOLVED symbol: %s",
+								strtab + sym->st_name);
 							goto apply_offset;
+						}
 
 						first_resolution = 1;
 
 apply_sym:
-						*patch_addr = sym_addr;
+				/* R_386_32: S + A (symbol value + addend)
+				 * The addend is the existing value at the relocation site.
+				 * For vtable references, this addend is typically +8
+				 * to skip past the vtable prefix (offset-to-top, RTTI).
+				 */
+				*patch_addr = sym_addr + *patch_addr;
 
 						if (first_resolution) {
 							subleq_elf_debug(
@@ -956,8 +1128,13 @@ apply_sym:
 				}
 
 apply_offset:
-				/* Defined symbol or no symtab: add load offset */
-				if (load_offset != 0) {
+				/* Defined symbol or no symtab: add load offset.
+				 * BUT for shared libraries (ET_DYN), skip this!
+				 * R_386_RELATIVE in .rel.dyn already handles data
+				 * pointer adjustments. Applying load_offset here to
+				 * R_386_32 would double-apply and corrupt memory.
+				 */
+				if (hdr->e_type != ET_DYN && load_offset != 0) {
 					*patch_addr += load_offset;
 					relocs_applied++;
 				}
@@ -971,6 +1148,7 @@ apply_offset:
 			 relocs_applied, load_offset);
 	subleq_elf_debug("Resolved %d external symbols", symbols_resolved);
 
+build_symtab_only:
 	/*
 	 * If requested, build symbol table from the already-loaded symtab/strtab.
 	 * This eliminates redundant file I/O by reusing data we already have.
@@ -988,8 +1166,9 @@ apply_offset:
 			/* Skip undefined symbols */
 			if (sym->st_shndx == SHN_UNDEF)
 				continue;
-			/* Skip non-function symbols */
+		/* Skip non-function/non-object symbols (we need both for R_386_COPY) */
 			if (ELF32_ST_TYPE(sym->st_info) != STT_FUNC &&
+			    ELF32_ST_TYPE(sym->st_info) != STT_OBJECT &&
 			    ELF32_ST_TYPE(sym->st_info) != STT_NOTYPE)
 				continue;
 			/* Only include global symbols (not local) */
@@ -1100,20 +1279,23 @@ static int load_libsrt(const char *lib_path, struct elf_load_info *lib_info)
 		return ret;
 	}
 
-	/* Record this library as loaded BEFORE processing dependencies
-	 * to handle circular dependencies */
-	record_loaded_lib(lib_name, lib_info->load_addr);
+	/* Record this library as loaded BEFORE processing dependencies.
+	 * Store file handle and header for deferred relocation processing.
+	 * File will be closed after all libraries are loaded and relocated.
+	 */
+	record_loaded_lib(lib_name, lib_info->load_addr, lib_info->base_vaddr,
+			  lib_file, &lib_hdr);
 
-	/* Apply relocations, resolve external symbols, and build symbol table.
-	 * With build_symtab=1, this also exports the library's symbols for
-	 * dependent binaries, avoiding a redundant read of section/symbol tables.
+	/* Build symbol table only (skip relocations for now).
+	 * Relocations will be processed after ALL libraries are loaded,
+	 * so that symbols from later-loaded libs are available.
+	 * With build_symtab=1, skip_relocs=1, this only exports symbols.
 	 */
 	ret = process_relocations_and_symbols(lib_file, &lib_hdr,
 					      lib_info->load_addr,
-					      lib_info->base_vaddr, 1);
+					      lib_info->base_vaddr, 1, 1);
 	if (ret < 0) {
-		fput(lib_file);
-		pr_err("SUBLEQ_ELF: Failed to process relocations for %s: %d\n",
+		pr_err("SUBLEQ_ELF: Failed to build symtab for %s: %d\n",
 		       lib_path, (int)ret);
 		return ret;
 	}
@@ -1131,9 +1313,10 @@ static int load_libsrt(const char *lib_path, struct elf_load_info *lib_info)
 		load_libsrt(dep_path, &dep_info);
 	}
 
-	fput(lib_file);
+	/* NOTE: Do NOT close file here - deferred until after relocs processed */
 
-	subleq_elf_debug("Shared library loaded at 0x%lx", lib_info->load_addr);
+	subleq_elf_debug("Shared library loaded at 0x%lx (relocs pending)",
+			 lib_info->load_addr);
 	return 1; /* Library loaded successfully */
 }
 
@@ -1415,10 +1598,43 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 		}
 	}
 
-	/* Note: Phase 2 symbol resolution has been removed.
-	 * External symbols are now resolved during the initial
-	 * process_relocations_and_symbols() call in load_libsrt().
+	/* Phase 2: Now that ALL libraries are loaded and their symbols exported,
+	 * process deferred relocations for each library.
+	 * This allows later-loaded libraries (e.g., libc.so) to provide symbols
+	 * for earlier-loaded libraries (e.g., libcxxabi.so).
 	 */
+	for (i = 0; i < loaded_lib_count; i++) {
+		if (!loaded_libs[i].relocs_applied && loaded_libs[i].file) {
+			subleq_elf_debug("Processing deferred relocs for %s",
+					 loaded_libs[i].name);
+			ret = process_relocations_and_symbols(
+				loaded_libs[i].file,
+				&loaded_libs[i].hdr,
+				loaded_libs[i].load_addr,
+				loaded_libs[i].base_vaddr, 0, 0);
+			if (ret < 0) {
+				pr_err("SUBLEQ_ELF: Failed deferred relocs for %s: %d\n",
+				       loaded_libs[i].name, (int)ret);
+				/* Close all open files before returning */
+				for (i = 0; i < loaded_lib_count; i++) {
+					if (loaded_libs[i].file) {
+						fput(loaded_libs[i].file);
+						loaded_libs[i].file = NULL;
+					}
+				}
+				return ret;
+			}
+			loaded_libs[i].relocs_applied = 1;
+		}
+	}
+
+	/* Close all library files now that relocations are done */
+	for (i = 0; i < loaded_lib_count; i++) {
+		if (loaded_libs[i].file) {
+			fput(loaded_libs[i].file);
+			loaded_libs[i].file = NULL;
+		}
+	}
 
 	/* Load the main executable using pre-read program headers */
 	ret = load_elf_segments(bprm->file, hdr, &exec_info, phdrs, phnum);
@@ -1432,11 +1648,11 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 			 exec_info.load_addr, exec_info.entry_addr);
 
 	/* Apply relocations and resolve external symbols.
-	 * build_symtab=0 since the main executable doesn't export symbols.
+	 * build_symtab=0, skip_relocs=0 since executable needs full processing.
 	 */
 	ret = process_relocations_and_symbols(bprm->file, hdr,
 					      exec_info.load_addr,
-					      exec_info.base_vaddr, 0);
+					      exec_info.base_vaddr, 0, 0);
 	if (ret < 0) {
 		pr_err("SUBLEQ_ELF: Failed to process relocations/symbols: %d\n",
 		       ret);

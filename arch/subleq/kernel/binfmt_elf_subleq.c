@@ -45,7 +45,7 @@
 #define R_386_RELATIVE 8 /* Adjust by load base (for shared libs) */
 #endif
 
-#define SUBLEQ_ELF_DEBUG 1
+#define SUBLEQ_ELF_DEBUG 0
 
 #if SUBLEQ_ELF_DEBUG
 #define subleq_elf_debug(fmt, ...) \
@@ -292,6 +292,7 @@ static struct {
 	unsigned long base_vaddr;
 	struct file *file;       /* For deferred relocation processing */
 	struct elfhdr hdr;       /* For deferred relocation processing */
+	struct elf_shdr *shdrs;  /* Cached section headers (avoids re-read) */
 	int relocs_applied;      /* Flag: relocations have been processed */
 } loaded_libs[MAX_LOADED_LIBS];
 static int loaded_lib_count = 0;
@@ -319,6 +320,7 @@ static void record_loaded_lib(const char *name, unsigned long load_addr,
 		loaded_libs[loaded_lib_count].base_vaddr = base_vaddr;
 		loaded_libs[loaded_lib_count].file = file;
 		loaded_libs[loaded_lib_count].hdr = *hdr;
+		loaded_libs[loaded_lib_count].shdrs = NULL;  /* Will be populated by process_relocations_and_symbols */
 		loaded_libs[loaded_lib_count].relocs_applied = 0;
 		loaded_lib_count++;
 	}
@@ -725,7 +727,9 @@ static long load_elf_segments(struct file *file, struct elfhdr *hdr,
 static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr,
 					   unsigned long load_addr,
 					   unsigned long base_vaddr,
-					   int build_symtab, int skip_relocs)
+					   int build_symtab, int skip_relocs,
+					   struct elf_shdr *cached_shdrs,
+					   struct elf_shdr **shdrs_out)
 {
 	struct elf_shdr *shdrs = NULL;
 	struct elf_shdr *shdr;
@@ -741,8 +745,9 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 	int relocs_applied = 0;  /* Total entries processed */
 	int symbols_resolved = 0;
 	int have_symtab = 0;
+	int own_shdrs = 0;  /* Track if we allocated shdrs and need to free */
 
-	/* Read section headers */
+	/* Use cached section headers if provided, otherwise read them */
 	if (hdr->e_shentsize != sizeof(struct elf_shdr))
 		return 0;
 	if (hdr->e_shnum == 0)
@@ -750,17 +755,24 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 	if (hdr->e_shnum > 65536 / sizeof(struct elf_shdr))
 		return -ENOEXEC;
 
-	shdrs = kmalloc_array(hdr->e_shnum, sizeof(struct elf_shdr),
-			      GFP_KERNEL);
-	if (!shdrs)
-		return -ENOMEM;
+	if (cached_shdrs) {
+		/* Reuse cached section headers (no allocation, no read) */
+		shdrs = cached_shdrs;
+	} else {
+		/* Allocate and read section headers */
+		shdrs = kmalloc_array(hdr->e_shnum, sizeof(struct elf_shdr),
+				      GFP_KERNEL);
+		if (!shdrs)
+			return -ENOMEM;
 
-	pos = hdr->e_shoff;
-	ret = kernel_read(file, shdrs, hdr->e_shnum * sizeof(struct elf_shdr),
-			  &pos);
-	if (ret != hdr->e_shnum * sizeof(struct elf_shdr)) {
-		kfree(shdrs);
-		return ret < 0 ? ret : -ENOEXEC;
+		pos = hdr->e_shoff;
+		ret = kernel_read(file, shdrs, hdr->e_shnum * sizeof(struct elf_shdr),
+				  &pos);
+		if (ret != hdr->e_shnum * sizeof(struct elf_shdr)) {
+			kfree(shdrs);
+			return ret < 0 ? ret : -ENOEXEC;
+		}
+		own_shdrs = 1;
 	}
 
 	/*
@@ -1099,7 +1111,13 @@ build_symtab_only:
 	kfree(sym_cache);
 	kfree(syms);
 	kfree(strtab);
-	kfree(shdrs);
+	/* Return shdrs to caller for caching, or free if we own them */
+	if (shdrs_out && own_shdrs) {
+		*shdrs_out = shdrs;  /* Transfer ownership to caller */
+	} else if (own_shdrs) {
+		kfree(shdrs);
+	}
+	/* If !own_shdrs, caller owns the cached_shdrs - don't free */
 	return 0;
 }
 
@@ -1188,7 +1206,9 @@ static int load_libsrt(const char *lib_path, struct elf_load_info *lib_info)
 	 */
 	ret = process_relocations_and_symbols(lib_file, &lib_hdr,
 					      lib_info->load_addr,
-					      lib_info->base_vaddr, 1, 1);
+					      lib_info->base_vaddr, 1, 1,
+					      NULL,  /* No cached shdrs yet */
+					      &loaded_libs[loaded_lib_count - 1].shdrs);
 	if (ret < 0) {
 		pr_err("SUBLEQ_ELF: Failed to build symtab for %s: %d\n",
 		       lib_path, (int)ret);
@@ -1518,15 +1538,21 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 				loaded_libs[i].file,
 				&loaded_libs[i].hdr,
 				loaded_libs[i].load_addr,
-				loaded_libs[i].base_vaddr, 0, 0);
+				loaded_libs[i].base_vaddr, 0, 0,
+				loaded_libs[i].shdrs,  /* Use cached shdrs */
+				NULL);  /* No need to cache again */
 			if (ret < 0) {
 				pr_err("SUBLEQ_ELF: Failed deferred relocs for %s: %d\n",
 				       loaded_libs[i].name, (int)ret);
-				/* Close all open files before returning */
+				/* Close all open files and free cached data before returning */
 				for (i = 0; i < loaded_lib_count; i++) {
 					if (loaded_libs[i].file) {
 						fput(loaded_libs[i].file);
 						loaded_libs[i].file = NULL;
+					}
+					if (loaded_libs[i].shdrs) {
+						kfree(loaded_libs[i].shdrs);
+						loaded_libs[i].shdrs = NULL;
 					}
 				}
 				return ret;
@@ -1535,11 +1561,15 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 		}
 	}
 
-	/* Close all library files now that relocations are done */
+	/* Close all library files and free cached data now that relocations are done */
 	for (i = 0; i < loaded_lib_count; i++) {
 		if (loaded_libs[i].file) {
 			fput(loaded_libs[i].file);
 			loaded_libs[i].file = NULL;
+		}
+		if (loaded_libs[i].shdrs) {
+			kfree(loaded_libs[i].shdrs);
+			loaded_libs[i].shdrs = NULL;
 		}
 	}
 
@@ -1559,7 +1589,8 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 	 */
 	ret = process_relocations_and_symbols(bprm->file, hdr,
 					      exec_info.load_addr,
-					      exec_info.base_vaddr, 0, 0);
+					      exec_info.base_vaddr, 0, 0,
+					      NULL, NULL);
 	if (ret < 0) {
 		pr_err("SUBLEQ_ELF: Failed to process relocations/symbols: %d\n",
 		       ret);

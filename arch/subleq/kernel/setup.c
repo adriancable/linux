@@ -59,14 +59,17 @@ static struct console subleq_early_console = {
 
 /*
  * Clear BSS section
+ *
+ * Use __subleq_memset which has an optimized fast-zero path with
+ * word-aligned stores. Much faster than byte-by-byte clearing.
  */
+extern void *__subleq_memset(void *dest, int c, unsigned long n);
+
 static void __init clear_bss(void)
 {
 	extern char __bss_start[], __bss_stop[];
-	char *p;
 
-	for (p = __bss_start; p < __bss_stop; p++)
-		*p = 0;
+	__subleq_memset(__bss_start, 0, __bss_stop - __bss_start);
 }
 
 /*

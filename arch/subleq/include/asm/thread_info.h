@@ -63,10 +63,10 @@ static inline struct thread_info *current_thread_info(void)
 	/*
 	 * Check if we're on the IRQ stack.
 	 * IRQ stack top is at subleq_irq_stack_top.
-	 * IRQ stack base is subleq_irq_stack_top - 8192.
+	 * IRQ stack base is subleq_irq_stack_top - THREAD_SIZE.
 	 * If SP is in this range, use saved SP instead.
 	 */
-	unsigned long irq_stack_base = subleq_irq_stack_top - 8192;
+	unsigned long irq_stack_base = subleq_irq_stack_top - THREAD_SIZE;
 	if (sp >= irq_stack_base && sp < subleq_irq_stack_top) {
 		/*
 		 * We're on IRQ stack - use saved original SP from SAVE_SP.

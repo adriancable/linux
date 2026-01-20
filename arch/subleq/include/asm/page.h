@@ -10,8 +10,8 @@
 
 #include <linux/const.h>
 
-/* 4KB pages */
-#define PAGE_SHIFT 12
+/* 16KB pages - larger pages reduce struct page count and speed up boot */
+#define PAGE_SHIFT 14
 #define PAGE_SIZE (_AC(1, UL) << PAGE_SHIFT)
 #define PAGE_MASK (~(PAGE_SIZE - 1))
 

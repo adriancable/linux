@@ -56,7 +56,7 @@ extern void __subleq_putchar(int c);
  *   Bits 16-19: hardirq count (HARDIRQ_MASK = 0x000f0000)
  *   Bits 20+:   NMI, etc
  */
-#define SUBLEQ_THREAD_SIZE 8192 /* 2*PAGE_SIZE - must match asm/thread_info.h */
+#define SUBLEQ_THREAD_SIZE 32768 /* 2*PAGE_SIZE - must match asm/thread_info.h */
 #define SUBLEQ_HARDIRQ_MASK 0x000f0000
 #define SUBLEQ_SOFTIRQ_MASK 0x0000ff00
 #define SUBLEQ_IRQMASK (SUBLEQ_HARDIRQ_MASK | SUBLEQ_SOFTIRQ_MASK)
@@ -64,7 +64,7 @@ extern void __subleq_putchar(int c);
 /*
  * IRQ stack detection constants
  */
-#define SUBLEQ_IRQ_STACK_SIZE 8192
+#define SUBLEQ_IRQ_STACK_SIZE 32768
 #define SUBLEQ_SAVE_SP_ADDR 232  /* entry.S saves -SP here */
 
 /*

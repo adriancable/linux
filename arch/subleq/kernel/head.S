@@ -20,7 +20,7 @@
 .set REG_SP, 16
 
 /* Thread size - must match asm/thread_info.h */
-.set THREAD_SIZE, 8192
+.set THREAD_SIZE, 32768
 
 _start:
 	/*

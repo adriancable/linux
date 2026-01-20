@@ -102,12 +102,16 @@
  * When a task is interrupted and the handler calls schedule(), the task's
  * interrupt frame remains on the IRQ stack (at the current INT_SP position).
  * If the new task also gets interrupted, its frame is pushed BELOW the first
- * task's frame. Frames are naturally unwound as interrupts return.
+ *
+ * INT_SP tracks the IRQ stack position for pushing/popping frames.
  */
 .set INT_SP, 460        /* Interrupt stack pointer (runs from top down) */
 
-/* Interrupt frame size: all registers we save (excluding R21-R23, RA which only go to pt_regs) */
-.set IRQ_FRAME_SIZE, 184   /* 46 words × 4 bytes */
+/*
+ * IRQ_FRAME_SIZE: Only Z and T0-T15 are pushed to IRQ stack (17 registers).
+ * GPRs (R3-R31, FP) are stored directly to pt_regs to avoid double-storage.
+ */
+.set IRQ_FRAME_SIZE, 68   /* 17 words × 4 bytes */
 
 /*
  * PUSH_IRQ_REG: Push a register onto the IRQ stack
@@ -182,47 +186,19 @@ subleq_irq_entry:
 
 
         /*
-         * PHASE 1: SAVE ALL REGISTERS TO IRQ STACK
+         * PHASE 1: SAVE TEMPORARIES TO IRQ STACK
          *
-         * Using PUSH_IRQ_REG to push each register onto the IRQ stack.
-         * INT_SP tracks the current position and decrements with each push.
+         * Only Z and T0-T15 are saved to the IRQ stack. These registers
+         * are NOT in pt_regs, so they must be saved/restored separately.
          *
-         * Order: Z, RA, R3-R31, T0-T15, FP, SP (saved SP from SAVE_SP)
-         * The restore phase will pop in reverse order.
+         * GPRs (R3-R31, FP) are stored directly to pt_regs in Phase 2.
+         * This eliminates double-storage and saves ~84 instructions.
          */
 
-        /* Push Z */
+        /* Push Z (not in pt_regs) */
         PUSH_IRQ_REG REG_Z
-        /* NOTE: RA is NOT pushed here - it only goes to pt_regs for signal delivery */
-        /* Push R3-R31 (excluding R21-R23 which only go to pt_regs) */
-        PUSH_IRQ_REG REG_R3
-        PUSH_IRQ_REG REG_R4
-        PUSH_IRQ_REG REG_R5
-        PUSH_IRQ_REG REG_R6
-        PUSH_IRQ_REG REG_R7
-        PUSH_IRQ_REG REG_R8
-        PUSH_IRQ_REG REG_R9
-        PUSH_IRQ_REG REG_R10
-        PUSH_IRQ_REG REG_R11
-        PUSH_IRQ_REG REG_R12
-        PUSH_IRQ_REG REG_R13
-        PUSH_IRQ_REG REG_R14
-        PUSH_IRQ_REG REG_R15
-        PUSH_IRQ_REG REG_R16
-        PUSH_IRQ_REG REG_R17
-        PUSH_IRQ_REG REG_R18
-        PUSH_IRQ_REG REG_R19
-        PUSH_IRQ_REG REG_R20
-        /* NOTE: R21, R22, R23 are NOT pushed here - they only go to pt_regs for signal delivery */
-        PUSH_IRQ_REG REG_R24
-        PUSH_IRQ_REG REG_R25
-        PUSH_IRQ_REG REG_R26
-        PUSH_IRQ_REG REG_R27
-        PUSH_IRQ_REG REG_R28
-        PUSH_IRQ_REG REG_R29
-        PUSH_IRQ_REG REG_R30
-        PUSH_IRQ_REG REG_R31
-        /* Push T0-T15 (16 registers) */
+
+        /* Push T0-T15 (not in pt_regs) */
         PUSH_IRQ_REG REG_T0
         PUSH_IRQ_REG REG_T1
         PUSH_IRQ_REG REG_T2
@@ -239,10 +215,6 @@ subleq_irq_entry:
         PUSH_IRQ_REG REG_T13
         PUSH_IRQ_REG REG_T14
         PUSH_IRQ_REG REG_T15
-        /* Push FP */
-        PUSH_IRQ_REG REG_FP
-        /* Push the saved original SP (from SAVE_SP at bootstrap) */
-        PUSH_IRQ_REG SAVE_SP
 
         /*
          * Set hardware SP = INT_SP so C handler has valid stack.
@@ -755,16 +727,14 @@ subleq_irq_entry:
         /* Read pt_regs->r23 (offset 80) - will be loaded after POP sequence */
         /* Read pt_regs->ra (offset 124) - will be loaded after POP sequence */
 
-        /* Now do the standard register restore from IRQ stack */
-        /* But SKIP the registers we'll override from pt_regs */
+        /*
+         * PHASE 3a: POP TEMPORARIES FROM IRQ STACK
+         *
+         * Only T0-T15 and Z are restored from the IRQ stack.
+         * GPRs (R3-R31, FP, RA) are restored from pt_regs.
+         */
 
-        /* Pop SP - SKIP, we use pt_regs->sp instead */
-        .word   .Lconst_neg4, INT_SP, .+4
-
-        /* Pop FP */
-        POP_IRQ_REG REG_FP
-
-        /* Pop T15-T0 */
+        /* Pop T15-T0 (reverse order of push) */
         POP_IRQ_REG REG_T15
         POP_IRQ_REG REG_T14
         POP_IRQ_REG REG_T13
@@ -782,90 +752,241 @@ subleq_irq_entry:
         POP_IRQ_REG REG_T1
         POP_IRQ_REG REG_T0
 
-        /* Pop R31-R24 (not signal-affected) */
-        POP_IRQ_REG REG_R31
-        POP_IRQ_REG REG_R30
-        POP_IRQ_REG REG_R29
-        POP_IRQ_REG REG_R28
-        POP_IRQ_REG REG_R27
-        POP_IRQ_REG REG_R26
-        POP_IRQ_REG REG_R25
-        POP_IRQ_REG REG_R24
-        /* NOTE: R23, R22, R21 were not pushed - they only exist in pt_regs */
-        /* Pop R20-R3 */
-        POP_IRQ_REG REG_R20
-        POP_IRQ_REG REG_R19
-        POP_IRQ_REG REG_R18
-        POP_IRQ_REG REG_R17
-        POP_IRQ_REG REG_R16
-        POP_IRQ_REG REG_R15
-        POP_IRQ_REG REG_R14
-        POP_IRQ_REG REG_R13
-        POP_IRQ_REG REG_R12
-        POP_IRQ_REG REG_R11
-        POP_IRQ_REG REG_R10
-        POP_IRQ_REG REG_R9
-        POP_IRQ_REG REG_R8
-        POP_IRQ_REG REG_R7
-        POP_IRQ_REG REG_R6
-        POP_IRQ_REG REG_R5
-        POP_IRQ_REG REG_R4
-        POP_IRQ_REG REG_R3
-        /* NOTE: RA was not pushed - it only exists in pt_regs */
         /* Pop Z */
         POP_IRQ_REG REG_Z
 
         /*
-         * NOW load the signal-affected registers from pt_regs.
-         * These may have been modified by signal delivery.
+         * PHASE 3b: RESTORE ALL GPRs FROM pt_regs
+         *
+         * Load r3-r31, fp, ra from pt_regs. These may have been modified
+         * by signal delivery (particularly r21-r23, ra for signal handler).
+         *
+         * Use running pointer starting at offset 0 (r3).
          */
 
-        /*
-         * OPTIMIZED: Use running pointer for pt_regs restore.
-         * Initialize INT_Z2 = SP + 72, then increment for contiguous fields.
-         * Fields: r21(72), r22(76), r23(80), then jump to ra(124)
-         */
-
-        /* Initialize running pointer: INT_Z2 = SP + 72 */
+        /* Initialize running pointer: INT_Z2 = SP (pt_regs base) */
         .word   INT_Z2, INT_Z2, .+4
         .word   INT_Z, INT_Z, .+4
         .word   REG_SP, INT_Z, .+4
         .word   INT_Z, INT_Z2, .+4
-        .word   .Lconst_neg72, INT_Z2, .+4
 
-        /* Load R21 from pt_regs->r21 (offset 72) using 2-negation pattern */
+        /* Load R3 from pt_regs->r3 (offset 0) */
         .word   INT_Z, INT_Z, .+4
-        .word   INT_Z2 | INDIRECT, INT_Z, .+4    /* INT_Z = -value (1) */
-        .word   REG_R21, REG_R21, .+4
-        .word   INT_Z, REG_R21, .+4                     /* R21 = +value (2) */
+        .word   INT_Z2 | INDIRECT, INT_Z, .+4
+        .word   REG_R3, REG_R3, .+4
+        .word   INT_Z, REG_R3, .+4
 
-        /* Advance pointer by 4: INT_Z2 += 4 */
+        /* Load R4 (offset 4) */
         .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z, .+4
+        .word   REG_R4, REG_R4, .+4
+        .word   INT_Z, REG_R4, .+4
 
-        /* Load R22 from pt_regs->r22 (offset 76) using 2-negation pattern */
+        /* Load R5 (offset 8) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z, .+4
+        .word   REG_R5, REG_R5, .+4
+        .word   INT_Z, REG_R5, .+4
+
+        /* Load R6 (offset 12) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z, .+4
+        .word   REG_R6, REG_R6, .+4
+        .word   INT_Z, REG_R6, .+4
+
+        /* Load R7 (offset 16) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z, .+4
+        .word   REG_R7, REG_R7, .+4
+        .word   INT_Z, REG_R7, .+4
+
+        /* Load R8 (offset 20) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z, .+4
+        .word   REG_R8, REG_R8, .+4
+        .word   INT_Z, REG_R8, .+4
+
+        /* Load R9 (offset 24) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z, .+4
+        .word   REG_R9, REG_R9, .+4
+        .word   INT_Z, REG_R9, .+4
+
+        /* Load R10 (offset 28) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z, .+4
+        .word   REG_R10, REG_R10, .+4
+        .word   INT_Z, REG_R10, .+4
+
+        /* Load R11 (offset 32) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z, .+4
+        .word   REG_R11, REG_R11, .+4
+        .word   INT_Z, REG_R11, .+4
+
+        /* Load R12 (offset 36) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z, .+4
+        .word   REG_R12, REG_R12, .+4
+        .word   INT_Z, REG_R12, .+4
+
+        /* Load R13 (offset 40) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z, .+4
+        .word   REG_R13, REG_R13, .+4
+        .word   INT_Z, REG_R13, .+4
+
+        /* Load R14 (offset 44) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z, .+4
+        .word   REG_R14, REG_R14, .+4
+        .word   INT_Z, REG_R14, .+4
+
+        /* Load R15 (offset 48) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z, .+4
+        .word   REG_R15, REG_R15, .+4
+        .word   INT_Z, REG_R15, .+4
+
+        /* Load R16 (offset 52) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z, .+4
+        .word   REG_R16, REG_R16, .+4
+        .word   INT_Z, REG_R16, .+4
+
+        /* Load R17 (offset 56) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z, .+4
+        .word   REG_R17, REG_R17, .+4
+        .word   INT_Z, REG_R17, .+4
+
+        /* Load R18 (offset 60) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z, .+4
+        .word   REG_R18, REG_R18, .+4
+        .word   INT_Z, REG_R18, .+4
+
+        /* Load R19 (offset 64) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z, .+4
+        .word   REG_R19, REG_R19, .+4
+        .word   INT_Z, REG_R19, .+4
+
+        /* Load R20 (offset 68) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z, .+4
+        .word   REG_R20, REG_R20, .+4
+        .word   INT_Z, REG_R20, .+4
+
+        /* Load R21 (offset 72) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z, .+4
+        .word   REG_R21, REG_R21, .+4
+        .word   INT_Z, REG_R21, .+4
+
+        /* Load R22 (offset 76) */
+        .word   .Lconst_neg4, INT_Z2, .+4
         .word   INT_Z, INT_Z, .+4
         .word   INT_Z2 | INDIRECT, INT_Z, .+4
         .word   REG_R22, REG_R22, .+4
         .word   INT_Z, REG_R22, .+4
 
-        /* Advance pointer by 4: INT_Z2 += 4 */
+        /* Load R23 (offset 80) */
         .word   .Lconst_neg4, INT_Z2, .+4
-
-        /* Load R23 from pt_regs->r23 (offset 80) using 2-negation pattern */
         .word   INT_Z, INT_Z, .+4
         .word   INT_Z2 | INDIRECT, INT_Z, .+4
         .word   REG_R23, REG_R23, .+4
         .word   INT_Z, REG_R23, .+4
 
-        /* Advance pointer by 44: INT_Z2 += 44 (80 -> 124) */
-        .word   .Lconst_neg44, INT_Z2, .+4
+        /* Load R24 (offset 84) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z, .+4
+        .word   REG_R24, REG_R24, .+4
+        .word   INT_Z, REG_R24, .+4
 
-        /* Load RA from pt_regs->ra (offset 124) using 2-negation pattern */
+        /* Load R25 (offset 88) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z, .+4
+        .word   REG_R25, REG_R25, .+4
+        .word   INT_Z, REG_R25, .+4
+
+        /* Load R26 (offset 92) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z, .+4
+        .word   REG_R26, REG_R26, .+4
+        .word   INT_Z, REG_R26, .+4
+
+        /* Load R27 (offset 96) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z, .+4
+        .word   REG_R27, REG_R27, .+4
+        .word   INT_Z, REG_R27, .+4
+
+        /* Load R28 (offset 100) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z, .+4
+        .word   REG_R28, REG_R28, .+4
+        .word   INT_Z, REG_R28, .+4
+
+        /* Load R29 (offset 104) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z, .+4
+        .word   REG_R29, REG_R29, .+4
+        .word   INT_Z, REG_R29, .+4
+
+        /* Load R30 (offset 108) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z, .+4
+        .word   REG_R30, REG_R30, .+4
+        .word   INT_Z, REG_R30, .+4
+
+        /* Load R31 (offset 112) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z, .+4
+        .word   REG_R31, REG_R31, .+4
+        .word   INT_Z, REG_R31, .+4
+
+        /* Load FP (offset 116) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z, .+4
+        .word   REG_FP, REG_FP, .+4
+        .word   INT_Z, REG_FP, .+4
+
+        /* Skip SP (offset 120) - already loaded into SAVE_SP above */
+
+        /* Load RA (offset 124) */
+        .word   .Lconst_neg8, INT_Z2, .+4    /* Skip SP: 116 -> 124 */
         .word   INT_Z, INT_Z, .+4
         .word   INT_Z2 | INDIRECT, INT_Z, .+4
         .word   REG_RA, REG_RA, .+4
         .word   INT_Z, REG_RA, .+4
-
 
 
         /* Restore SP from SAVE_SP (which contains -(pt_regs->sp)) */

@@ -3,9 +3,13 @@
  * Subleq ELF binary format handler for NOMMU systems
  *
  * This is a simplified ELF loader for Subleq that:
- * 1. Loads PIE (Position Independent Executable) ELF binaries
- * 2. Supports a shared runtime library at /lib/libsrt
- * 3. Performs relocations at load time
+ * 1. Loads ET_DYN (PIE / Position Independent Executable) ELF binaries ONLY
+ * 2. Supports shared libraries loaded from /lib/
+ * 3. Performs relocations at load time (.rel.dyn with R_386_RELATIVE/R_386_32)
+ *
+ * ET_EXEC binaries are rejected (return -ENOEXEC) as the Subleq toolchain
+ * now produces only PIE executables. This simplifies the loader by
+ * eliminating the --emit-relocs / .rel.text code path.
  *
  * Based on binfmt_elf_fdpic.c's NOMMU code path.
  */
@@ -45,7 +49,7 @@
 #define R_386_RELATIVE 8 /* Adjust by load base (for shared libs) */
 #endif
 
-#define SUBLEQ_ELF_DEBUG 1
+#define SUBLEQ_ELF_DEBUG 0
 
 #if SUBLEQ_ELF_DEBUG
 #define subleq_elf_debug(fmt, ...) \
@@ -57,27 +61,18 @@
 #endif
 
 /*
- * Check if a symbol needs runtime resolution.
- *
- * A symbol needs resolution in two cases:
- * 1. SHN_ABS with st_value == 0: This indicates a --defsym=symbol=0 stub
- *    created by the toolchain for kernel runtime symbols.
- * 2. SHN_UNDEF: Regular undefined symbol needing resolution from another
- *    shared library (e.g., libcxxabi.so needing malloc from libc.so).
- *
- * Exclude STT_FILE symbols (type 4) - these are source filenames in
- * debug info, not actual symbols needing resolution.
+ * Check if a symbol needs external resolution.
+ * Returns 1 for undefined symbols that need to be resolved by the kernel
+ * runtime or other loaded libraries.
+ * Returns 0 for defined symbols or file symbols.
  */
 static inline int symbol_needs_resolution(const struct elf32_sym *sym)
 {
 	/* STT_FILE = 4, stored in low nibble of st_info */
 	if ((sym->st_info & 0xf) == 4)
 		return 0;
-	/* SHN_UNDEF = 0: regular undefined symbols needing cross-lib resolution */
-	if (sym->st_shndx == SHN_UNDEF && sym->st_name != 0)
-		return 1;
-	/* SHN_ABS with value 0: --defsym stubs for kernel runtime */
-	return sym->st_shndx == SHN_ABS && sym->st_value == 0;
+	/* SHN_UNDEF = 0: undefined symbols needing kernel/library resolution */
+	return sym->st_shndx == SHN_UNDEF && sym->st_name != 0;
 }
 
 /* Maximum length of library path */
@@ -402,8 +397,13 @@ static int is_subleq_elf(struct elfhdr *hdr, struct file *file)
 		return 0;
 	if (hdr->e_ident[EI_CLASS] != ELFCLASS32)
 		return 0;
-	/* Accept both ET_EXEC and ET_DYN (PIE) */
-	if (hdr->e_type != ET_EXEC && hdr->e_type != ET_DYN)
+	/*
+	 * ONLY accept ET_DYN (PIE/shared library) binaries.
+	 * ET_EXEC binaries are no longer supported - the toolchain now
+	 * produces only PIE executables. Rejecting ET_EXEC causes shells
+	 * to display "cannot execute binary file" error.
+	 */
+	if (hdr->e_type != ET_DYN)
 		return 0;
 	/* Subleq ELF binaries use EM_SUBLEQ */
 	if (hdr->e_machine != EM_SUBLEQ)
@@ -749,15 +749,12 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 	int symbols_resolved = 0;
 	int have_symtab = 0;
 	int own_shdrs = 0;  /* Track if we allocated shdrs and need to free */
+
 	/*
-	 * Relocation handling based on binary type:
-	 * - ET_EXEC (regular executable): uses .symtab, .rel.text from --emit-relocs
-	 * - ET_DYN (shared lib or PIE): uses .dynsym, .rel.dyn (no --emit-relocs)
-	 *
-	 * Note: is_main_exec controls whether we're the entry point, but both
-	 * PIE and shared libs use the same relocation processing path.
+	 * All binaries are now ET_DYN (PIE or shared library).
+	 * They use .dynsym and .rel.dyn for relocation processing.
+	 * ET_EXEC support has been removed (no more .symtab/.rel.text path).
 	 */
-	int use_dynsym_path = (hdr->e_type == ET_DYN);
 
 	/* Use cached section headers if provided, otherwise read them */
 	if (hdr->e_shentsize != sizeof(struct elf_shdr))
@@ -797,9 +794,8 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 	 *   - .rel.dyn uses dynamic symbol indices
 	 *   - Without --emit-relocs, .symtab indices don't match .rel.dyn
 	 */
-	int target_symtab_type = use_dynsym_path ? SHT_DYNSYM : SHT_SYMTAB;
 	for (i = 0, shdr = shdrs; i < hdr->e_shnum; i++, shdr++) {
-		if (shdr->sh_type == target_symtab_type) {
+		if (shdr->sh_type == SHT_DYNSYM) {
 			symtab_shdr = shdr;
 			break;
 		}
@@ -910,27 +906,10 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 			continue;
 
 		/*
-		 * Section filtering based on binary type and toolchain flags:
-		 *
-		 * ET_EXEC (regular executables, built with --emit-relocs, --defsym):
-		 *   - Have .rel.text with R_386_32 for code patching
-		 *   - Have .rel.dyn with R_386_RELATIVE (but we skip it - redundant)
-		 *   - Kernel symbols are SHN_ABS with value 0
-		 *
-		 * ET_DYN (shared libraries AND PIE, built without --emit-relocs):
-		 *   - Have .rel.dyn ONLY with R_386_RELATIVE + R_386_32
-		 *   - No .rel.text section exists
-		 *   - Kernel symbols are SHN_UNDEF (resolved at load time)
-		 *
-		 * .rel.dyn sections have SHF_ALLOC without SHF_INFO_LINK.
+		 * All binaries are now ET_DYN (PIE or shared library).
+		 * Process .rel.dyn sections which contain R_386_RELATIVE + R_386_32.
+		 * .rel.dyn sections have SHF_ALLOC.
 		 */
-		if (!use_dynsym_path) {
-			/* ET_EXEC: skip .rel.dyn, process .rel.text */
-			if ((shdr->sh_flags & SHF_ALLOC) &&
-			    !(shdr->sh_flags & SHF_INFO_LINK))
-				continue;
-		}
-		/* ET_DYN (library or PIE): process .rel.dyn */
 
 		if (shdr->sh_entsize != sizeof(struct elf32_rel)) {
 			pr_warn("SUBLEQ_ELF: Unexpected rel entry size %u\n",
@@ -959,87 +938,39 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 
 		/*
 		 * Process each relocation.
+		 * All binaries are now ET_DYN - handle R_386_RELATIVE and R_386_32.
+		 *
 		 * Optimized structure: check sym_cache FIRST since that's
 		 * the main decision point. Most relocations have cache=0
 		 * (defined symbols) and just need load_offset added.
-		 *
-		 * OPTIMIZATION: Separate loops based on binary type.
-		 * - ET_DYN (libraries/PIE): Handle R_386_RELATIVE + R_386_32 from .rel.dyn
-		 * - ET_EXEC (regular exec): Only R_386_32 in .rel.text (skip RELATIVE)
 		 */
-		if (use_dynsym_path) {
-			/* ET_DYN (library or PIE): Handle R_386_RELATIVE and R_386_32 */
-			for (j = 0, rel = rels_buf; j < nrels; j++, rel++) {
-				u32 *patch_addr;
-				unsigned int rel_type = rel->r_info & 0xFF;
+		int rel_relative_count = 0, rel_32_count = 0, rel_unknown_count = 0;
+		for (j = 0, rel = rels_buf; j < nrels; j++, rel++) {
+			u32 *patch_addr;
+			unsigned int rel_type = rel->r_info & 0xFF;
 
-				patch_addr = (u32 *)(load_addr +
-						     (rel->r_offset - base_vaddr));
+			patch_addr = (u32 *)(load_addr +
+					     (rel->r_offset - base_vaddr));
 
-				switch (rel_type) {
-				case R_386_RELATIVE:
-					/* Most common: add load_offset (no-op if 0) */
-					*patch_addr += load_offset;
-					break;
+			switch (rel_type) {
+			case R_386_RELATIVE:
+				/* Most common: add load_offset (no-op if 0) */
+				*patch_addr += load_offset;
+				rel_relative_count++;
+				break;
 
-				case R_386_32: {
-					/* Symbol resolution needed? */
-					unsigned int sym_idx = rel->r_info >> 8;
-					unsigned long cache_val = sym_cache[sym_idx];
-
-					if (cache_val >= 2) {
-						unsigned long sym_addr;
-
-						if (cache_val > 2) {
-							sym_addr = cache_val;
-						} else {
-							sym_addr = lookup_libsrt_symbol(
-								strtab + syms[sym_idx].st_name);
-							sym_cache[sym_idx] = sym_addr ? sym_addr : 1;
-						}
-
-						if (sym_addr) {
-							*patch_addr = sym_addr + *patch_addr;
-							symbols_resolved++;
-						}
-					}
-					/* No load_offset for R_386_32 in libraries */
-					break;
-				}
-
-				default:
-					/* Unknown relocation type - skip */
-					break;
-				}
-			}
-		} else {
-			/* EXECUTABLE: Only R_386_32 (no R_386_RELATIVE in .rel.text) */
-			for (j = 0, rel = rels_buf; j < nrels; j++, rel++) {
-				u32 *patch_addr;
+			case R_386_32: {
+				/*
+				 * R_386_32: S + A (symbol value + addend)
+				 *
+				 * For defined symbols (cache_val < 2): add load_offset
+				 * For undefined symbols (cache_val >= 2): resolve symbol
+				 */
 				unsigned int sym_idx = rel->r_info >> 8;
 				unsigned long cache_val = sym_cache[sym_idx];
 
-				patch_addr = (u32 *)(load_addr +
-						     (rel->r_offset - base_vaddr));
-
-				/*
-				 * Cache value meanings:
-				 * 0 = defined symbol (no resolution needed)
-				 * 1 = resolution failed
-				 * 2 = needs resolution (lookup pending)
-				 * >2 = resolved address
-				 *
-				 * For 0 and 1: just add load_offset
-				 * For >=2: handle symbol resolution
-				 */
-				if (cache_val < 2) {
-					/* Most common: defined symbol - add offset (no-op if 0) */
-					*patch_addr += load_offset;
-					continue;
-				}
-
-				/* cache >= 2: needs/has resolution */
-				{
+				if (cache_val >= 2) {
+					/* Symbol needs external resolution */
 					unsigned long sym_addr;
 
 					if (cache_val > 2) {
@@ -1053,12 +984,26 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 					if (sym_addr) {
 						*patch_addr = sym_addr + *patch_addr;
 						symbols_resolved++;
-					} else {
-						*patch_addr += load_offset;
 					}
+				} else {
+					/*
+					 * Defined symbol: add load_offset.
+					 * The slot contains link-time address, adjust for load position.
+					 */
+					*patch_addr += load_offset;
 				}
+				rel_32_count++;
+				break;
+			}
+
+			default:
+				/* Unknown relocation type - skip */
+				rel_unknown_count++;
+				break;
 			}
 		}
+		subleq_elf_debug("  Reloc breakdown: %d RELATIVE, %d R_386_32, %d unknown",
+			rel_relative_count, rel_32_count, rel_unknown_count);
 
 		relocs_applied += nrels;  /* Count total after processing */
 	}

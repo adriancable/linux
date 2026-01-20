@@ -87,6 +87,7 @@ asmlinkage long __subleq_syscall_c(long nr, long a1, long a2, long a3, long a4, 
 		pr_warn("SUBLEQ_SYSCALL: nr=%ld out of range (max=%d)\n",
 			nr, __NR_syscalls);
 		ret = -ENOSYS;
+		regs->r20 = ret;  /* MUST set r20 before goto out */
 		goto out;
 	}
 
@@ -94,6 +95,7 @@ asmlinkage long __subleq_syscall_c(long nr, long a1, long a2, long a3, long a4, 
 	if (!fn || sys_call_table[nr] == (void *)sys_ni_syscall) {
 		pr_warn("SUBLEQ_SYSCALL: syscall %ld not implemented\n", nr);
 		ret = -ENOSYS;
+		regs->r20 = ret;  /* MUST set r20 before goto out */
 		goto out;
 	}
 

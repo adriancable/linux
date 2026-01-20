@@ -1429,6 +1429,16 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 	subleq_elf_debug("Valid Subleq ELF, entry=0x%lx",
 			 (unsigned long)hdr->e_entry);
 
+	/*
+	 * Reject executables with entry point 0 (e.g., shared libraries).
+	 * Must check BEFORE begin_new_exec() so we can return -ENOEXEC and
+	 * allow the shell to display "cannot execute binary file".
+	 */
+	if (hdr->e_entry == 0) {
+		subleq_elf_debug("Rejecting: entry point is 0 (shared library?)");
+		return -ENOEXEC;
+	}
+
 	/* Extract DT_NEEDED library names before point of no return.
 	 * Also returns program headers to avoid reading them again later. */
 	nlibs = get_elf_needed_libs(bprm->file, hdr, needed_libs,
@@ -1440,8 +1450,10 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 
 	/* Flush old executable */
 	ret = begin_new_exec(bprm);
-	if (ret)
+	if (ret) {
+		kfree(phdrs);
 		return ret;
+	}
 
 	subleq_elf_debug("After begin_new_exec: PID=%d comm=%s",
 			 task_tgid_vnr(current), current->comm);
@@ -1450,17 +1462,6 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 	set_personality(PER_LINUX_32BIT);
 	setup_new_exec(bprm);
 	set_binfmt(&elf_subleq_format);
-
-	/*
-	 * NOMMU: No hardware to detect invalid memory access.
-	 * If entry point is 0 (e.g., shared library executed directly),
-	 * send SIGSEGV immediately rather than loading everything first.
-	 */
-	if (hdr->e_entry == 0) {
-		kfree(phdrs);
-		force_sig(SIGSEGV);
-		return 0;
-	}
 
 	/* Reset symbol table and loaded library list for new process */
 	libsrt_symbol_count = 0;

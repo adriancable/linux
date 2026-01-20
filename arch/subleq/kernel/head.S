@@ -19,8 +19,8 @@
 .set REG_Z, 12
 .set REG_SP, 16
 
-/* Thread size - must match asm/thread_info.h */
-.set THREAD_SIZE, 32768
+/* Thread size = PAGE_SIZE (must match asm/page.h PAGE_SHIFT=14 -> 16KB) */
+.set THREAD_SIZE, 16384
 
 _start:
 	/*

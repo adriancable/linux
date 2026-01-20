@@ -46,7 +46,7 @@
  * IMPORTANT: This must be initialized VERY early, before start_kernel(),
  * because interrupts can fire at any time after that.
  */
-#define IRQ_STACK_SIZE 32768
+#define IRQ_STACK_SIZE 16384  /* Must match PAGE_SIZE in asm/page.h */
 static unsigned long irq_stack[IRQ_STACK_SIZE / sizeof(unsigned long)] __aligned(4);
 
 /* Pointer to top of interrupt stack - accessed from entry.S */

@@ -10,10 +10,10 @@
 
 #include <asm/page.h>
 
-/* Thread stack size - 8KB (two pages) for sufficient stack space */
-#define THREAD_SHIFT (PAGE_SHIFT + 1)
-#define THREAD_SIZE (PAGE_SIZE * 2)
-#define THREAD_SIZE_ORDER 1
+/* Thread stack size - 16KB (one page) for sufficient stack space */
+#define THREAD_SHIFT PAGE_SHIFT
+#define THREAD_SIZE PAGE_SIZE
+#define THREAD_SIZE_ORDER 0
 
 #ifndef __ASSEMBLY__
 

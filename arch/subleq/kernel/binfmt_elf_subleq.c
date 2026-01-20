@@ -266,7 +266,7 @@ static const struct {
 	(sizeof(kernel_runtime_symbols) / sizeof(kernel_runtime_symbols[0]))
 
 /* Dynamic symbol table (populated from loaded libraries) */
-#define MAX_LIBSRT_SYMBOLS 2048
+#define MAX_LIBSRT_SYMBOLS 4096
 static struct libsrt_symbol libsrt_symbols[MAX_LIBSRT_SYMBOLS];
 static int libsrt_symbol_count = 0;
 static unsigned long libsrt_load_addr = 0;
@@ -723,11 +723,14 @@ static long load_elf_segments(struct file *file, struct elfhdr *hdr,
  * If skip_relocs is true, only builds symtab without applying relocations.
  * This is used for two-pass loading where all libraries are loaded first,
  * then relocations are processed after all symbols are available.
+ *
+ * is_main_exec: 1 = main executable (even if ET_DYN/PIE), 0 = library
  */
 static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr,
 					   unsigned long load_addr,
 					   unsigned long base_vaddr,
 					   int build_symtab, int skip_relocs,
+					   int is_main_exec,
 					   struct elf_shdr *cached_shdrs,
 					   struct elf_shdr **shdrs_out)
 {
@@ -746,6 +749,15 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 	int symbols_resolved = 0;
 	int have_symtab = 0;
 	int own_shdrs = 0;  /* Track if we allocated shdrs and need to free */
+	/*
+	 * Relocation handling based on binary type:
+	 * - ET_EXEC (regular executable): uses .symtab, .rel.text from --emit-relocs
+	 * - ET_DYN (shared lib or PIE): uses .dynsym, .rel.dyn (no --emit-relocs)
+	 *
+	 * Note: is_main_exec controls whether we're the entry point, but both
+	 * PIE and shared libs use the same relocation processing path.
+	 */
+	int use_dynsym_path = (hdr->e_type == ET_DYN);
 
 	/* Use cached section headers if provided, otherwise read them */
 	if (hdr->e_shentsize != sizeof(struct elf_shdr))
@@ -781,11 +793,11 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 	 * EXECUTABLES (ET_EXEC or PIE): Use .symtab (SHT_SYMTAB)
 	 *   - .rel.text (from --emit-relocs) uses static symbol indices
 	 *
-	 * SHARED LIBRARIES (ET_DYN): Use .dynsym (SHT_DYNSYM)
+	 * SHARED LIBRARIES (ET_DYN, not PIE): Use .dynsym (SHT_DYNSYM)
 	 *   - .rel.dyn uses dynamic symbol indices
 	 *   - Without --emit-relocs, .symtab indices don't match .rel.dyn
 	 */
-	int target_symtab_type = (hdr->e_type == ET_DYN) ? SHT_DYNSYM : SHT_SYMTAB;
+	int target_symtab_type = use_dynsym_path ? SHT_DYNSYM : SHT_SYMTAB;
 	for (i = 0, shdr = shdrs; i < hdr->e_shnum; i++, shdr++) {
 		if (shdr->sh_type == target_symtab_type) {
 			symtab_shdr = shdr;
@@ -900,25 +912,25 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 		/*
 		 * Section filtering based on binary type and toolchain flags:
 		 *
-		 * EXECUTABLES (built with --emit-relocs, --defsym=symbol=0):
+		 * ET_EXEC (regular executables, built with --emit-relocs, --defsym):
 		 *   - Have .rel.text with R_386_32 for code patching
 		 *   - Have .rel.dyn with R_386_RELATIVE (but we skip it - redundant)
 		 *   - Kernel symbols are SHN_ABS with value 0
 		 *
-		 * SHARED LIBRARIES (built without --emit-relocs, no --defsym):
+		 * ET_DYN (shared libraries AND PIE, built without --emit-relocs):
 		 *   - Have .rel.dyn ONLY with R_386_RELATIVE + R_386_32
 		 *   - No .rel.text section exists
 		 *   - Kernel symbols are SHN_UNDEF (resolved at load time)
 		 *
 		 * .rel.dyn sections have SHF_ALLOC without SHF_INFO_LINK.
 		 */
-		if (hdr->e_type != ET_DYN) {
-			/* Executable: skip .rel.dyn, process .rel.text */
+		if (!use_dynsym_path) {
+			/* ET_EXEC: skip .rel.dyn, process .rel.text */
 			if ((shdr->sh_flags & SHF_ALLOC) &&
 			    !(shdr->sh_flags & SHF_INFO_LINK))
 				continue;
 		}
-		/* Shared libs: process .rel.dyn (the only reloc section) */
+		/* ET_DYN (library or PIE): process .rel.dyn */
 
 		if (shdr->sh_entsize != sizeof(struct elf32_rel)) {
 			pr_warn("SUBLEQ_ELF: Unexpected rel entry size %u\n",
@@ -951,12 +963,12 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 		 * the main decision point. Most relocations have cache=0
 		 * (defined symbols) and just need load_offset added.
 		 *
-		 * OPTIMIZATION: Separate loops for libraries vs executables.
-		 * - Libraries: Need R_386_RELATIVE handling (majority of entries)
-		 * - Executables: Only R_386_32 in .rel.text (skip RELATIVE check)
+		 * OPTIMIZATION: Separate loops based on binary type.
+		 * - ET_DYN (libraries/PIE): Handle R_386_RELATIVE + R_386_32 from .rel.dyn
+		 * - ET_EXEC (regular exec): Only R_386_32 in .rel.text (skip RELATIVE)
 		 */
-		if (hdr->e_type == ET_DYN) {
-			/* LIBRARY: Handle both R_386_RELATIVE and R_386_32 */
+		if (use_dynsym_path) {
+			/* ET_DYN (library or PIE): Handle R_386_RELATIVE and R_386_32 */
 			for (j = 0, rel = rels_buf; j < nrels; j++, rel++) {
 				u32 *patch_addr;
 				unsigned int rel_type = rel->r_info & 0xFF;
@@ -1207,6 +1219,7 @@ static int load_libsrt(const char *lib_path, struct elf_load_info *lib_info)
 	ret = process_relocations_and_symbols(lib_file, &lib_hdr,
 					      lib_info->load_addr,
 					      lib_info->base_vaddr, 1, 1,
+					      0,  /* is_main_exec=0: this is a library */
 					      NULL,  /* No cached shdrs yet */
 					      &loaded_libs[loaded_lib_count - 1].shdrs);
 	if (ret < 0) {
@@ -1493,6 +1506,17 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 	setup_new_exec(bprm);
 	set_binfmt(&elf_subleq_format);
 
+	/*
+	 * NOMMU: No hardware to detect invalid memory access.
+	 * If entry point is 0 (e.g., shared library executed directly),
+	 * send SIGSEGV immediately rather than loading everything first.
+	 */
+	if (hdr->e_entry == 0) {
+		kfree(phdrs);
+		force_sig(SIGSEGV);
+		return 0;
+	}
+
 	/* Reset symbol table and loaded library list for new process */
 	libsrt_symbol_count = 0;
 	loaded_lib_count = 0;
@@ -1539,6 +1563,7 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 				&loaded_libs[i].hdr,
 				loaded_libs[i].load_addr,
 				loaded_libs[i].base_vaddr, 0, 0,
+				0,  /* is_main_exec=0: this is a library */
 				loaded_libs[i].shdrs,  /* Use cached shdrs */
 				NULL);  /* No need to cache again */
 			if (ret < 0) {
@@ -1586,10 +1611,12 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 
 	/* Apply relocations and resolve external symbols.
 	 * build_symtab=0, skip_relocs=0 since executable needs full processing.
+	 * is_main_exec=1 to treat PIE (ET_DYN) as executable, not library.
 	 */
 	ret = process_relocations_and_symbols(bprm->file, hdr,
 					      exec_info.load_addr,
 					      exec_info.base_vaddr, 0, 0,
+					      1,  /* is_main_exec=1: main executable */
 					      NULL, NULL);
 	if (ret < 0) {
 		pr_err("SUBLEQ_ELF: Failed to process relocations/symbols: %d\n",

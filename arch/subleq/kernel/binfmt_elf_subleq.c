@@ -91,12 +91,6 @@ struct elf_load_info {
 	unsigned long total_size; /* Total memory size needed */
 };
 
-/* Symbol table entry for runtime symbols */
-struct libsrt_symbol {
-	char name[64];
-	unsigned long addr;
-};
-
 /*
  * Kernel runtime symbols - these are built into the kernel and can be
  * resolved directly without loading a shared library.
@@ -260,22 +254,86 @@ static const struct {
 #define KERNEL_RUNTIME_SYMBOL_COUNT \
 	(sizeof(kernel_runtime_symbols) / sizeof(kernel_runtime_symbols[0]))
 
-/* Dynamic symbol table (populated from loaded libraries) */
-#define MAX_LIBSRT_SYMBOLS 4096
-static struct libsrt_symbol libsrt_symbols[MAX_LIBSRT_SYMBOLS];
+/*
+ * Hash table for library symbols - O(1) lookup, no sorting needed.
+ * Uses FNV-1a hash with open addressing (linear probing).
+ * Table size is power of 2 for fast modulo via bitmask.
+ */
+#define LIBSRT_HASH_SIZE 8192  /* Must be power of 2, > 2x max symbols */
+#define LIBSRT_HASH_MASK (LIBSRT_HASH_SIZE - 1)
+
+struct libsrt_hash_entry {
+	char name[64];
+	unsigned long addr;
+	int occupied;  /* 0 = empty, 1 = used */
+};
+
+static struct libsrt_hash_entry libsrt_hash[LIBSRT_HASH_SIZE];
 static int libsrt_symbol_count = 0;
 static unsigned long libsrt_load_addr = 0;
-static int libsrt_symbols_sorted = 0;  /* Flag: symbols need re-sorting after add */
 
 /*
- * Comparison function for sorting libsrt_symbols alphabetically.
- * Used by sort() to enable binary search lookups.
+ * FNV-1a hash function - fast and good distribution for strings.
  */
-static int libsrt_symbol_cmp(const void *a, const void *b)
+static inline unsigned int fnv1a_hash(const char *str)
 {
-	const struct libsrt_symbol *sa = a;
-	const struct libsrt_symbol *sb = b;
-	return strcmp(sa->name, sb->name);
+	unsigned int hash = 2166136261u;  /* FNV offset basis */
+	while (*str) {
+		hash ^= (unsigned char)*str++;
+		hash *= 16777619u;  /* FNV prime */
+	}
+	return hash;
+}
+
+/*
+ * Insert symbol into hash table.
+ * Returns 1 on success, 0 if table full or duplicate.
+ */
+static int libsrt_hash_insert(const char *name, unsigned long addr)
+{
+	unsigned int hash = fnv1a_hash(name);
+	unsigned int idx = hash & LIBSRT_HASH_MASK;
+	int probes = 0;
+
+	while (probes < LIBSRT_HASH_SIZE) {
+		if (!libsrt_hash[idx].occupied) {
+			/* Empty slot - insert here */
+			strscpy(libsrt_hash[idx].name, name,
+				sizeof(libsrt_hash[idx].name));
+			libsrt_hash[idx].addr = addr;
+			libsrt_hash[idx].occupied = 1;
+			libsrt_symbol_count++;
+			return 1;
+		}
+		if (strcmp(libsrt_hash[idx].name, name) == 0) {
+			/* Duplicate - already exists */
+			return 0;
+		}
+		/* Linear probing */
+		idx = (idx + 1) & LIBSRT_HASH_MASK;
+		probes++;
+	}
+	/* Table full - shouldn't happen with proper sizing */
+	return 0;
+}
+
+/*
+ * Lookup symbol in hash table.
+ * Returns address or 0 if not found.
+ */
+static unsigned long libsrt_hash_lookup(const char *name)
+{
+	unsigned int hash = fnv1a_hash(name);
+	unsigned int idx = hash & LIBSRT_HASH_MASK;
+	int probes = 0;
+
+	while (probes < LIBSRT_HASH_SIZE && libsrt_hash[idx].occupied) {
+		if (strcmp(libsrt_hash[idx].name, name) == 0)
+			return libsrt_hash[idx].addr;
+		idx = (idx + 1) & LIBSRT_HASH_MASK;
+		probes++;
+	}
+	return 0;  /* Not found */
 }
 
 /* Track which libraries have been loaded to avoid duplicates.
@@ -347,38 +405,20 @@ static unsigned long lookup_kernel_symbol(const char *name)
 
 /*
  * Look up a symbol - check kernel runtime symbols first (binary search),
- * then loaded libraries (also binary search after sorting).
+ * then loaded libraries (hash table lookup - O(1) average).
  * Returns the address or 0 if not found.
  */
 static unsigned long lookup_libsrt_symbol(const char *name)
 {
 	unsigned long addr;
-	int low, high;
 
 	/* Binary search in sorted kernel runtime symbols - O(log n) */
 	addr = lookup_kernel_symbol(name);
 	if (addr)
 		return addr;
 
-	/* Binary search in sorted library symbols - O(log n) */
-	if (libsrt_symbol_count == 0)
-		return 0;
-
-	low = 0;
-	high = libsrt_symbol_count - 1;
-
-	while (low <= high) {
-		int mid = low + (high - low) / 2;
-		int cmp = strcmp(libsrt_symbols[mid].name, name);
-
-		if (cmp == 0)
-			return libsrt_symbols[mid].addr;
-		else if (cmp < 0)
-			low = mid + 1;
-		else
-			high = mid - 1;
-	}
-	return 0;
+	/* Hash table lookup in library symbols - O(1) average */
+	return libsrt_hash_lookup(name);
 }
 
 static int load_elf_subleq_binary(struct linux_binprm *bprm);
@@ -718,7 +758,7 @@ static long load_elf_segments(struct file *file, struct elfhdr *hdr,
  * - If symbol is undefined: look up in kernel/libsrt and patch to that address
  *
  * If build_symtab is true, also extracts global function symbols from the
- * symbol table and adds them to libsrt_symbols for use by dependent binaries.
+ * symbol table and adds them to the libsrt hash table for use by dependent binaries.
  *
  * If skip_relocs is true, only builds symtab without applying relocations.
  * This is used for two-pass loading where all libraries are loaded first,
@@ -944,7 +984,9 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 		 * the main decision point. Most relocations have cache=0
 		 * (defined symbols) and just need load_offset added.
 		 */
+#if SUBLEQ_ELF_DEBUG
 		int rel_relative_count = 0, rel_32_count = 0, rel_unknown_count = 0;
+#endif
 		for (j = 0, rel = rels_buf; j < nrels; j++, rel++) {
 			u32 *patch_addr;
 			unsigned int rel_type = rel->r_info & 0xFF;
@@ -956,7 +998,9 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 			case R_386_RELATIVE:
 				/* Most common: add load_offset (no-op if 0) */
 				*patch_addr += load_offset;
+#if SUBLEQ_ELF_DEBUG
 				rel_relative_count++;
+#endif
 				break;
 
 			case R_386_32: {
@@ -992,18 +1036,24 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 					 */
 					*patch_addr += load_offset;
 				}
+#if SUBLEQ_ELF_DEBUG
 				rel_32_count++;
+#endif
 				break;
 			}
 
 			default:
 				/* Unknown relocation type - skip */
+#if SUBLEQ_ELF_DEBUG
 				rel_unknown_count++;
+#endif
 				break;
 			}
 		}
+#if SUBLEQ_ELF_DEBUG
 		subleq_elf_debug("  Reloc breakdown: %d RELATIVE, %d R_386_32, %d unknown",
 			rel_relative_count, rel_32_count, rel_unknown_count);
+#endif
 
 		relocs_applied += nrels;  /* Count total after processing */
 	}
@@ -1026,7 +1076,7 @@ build_symtab_only:
 		libsrt_load_addr = load_addr;
 
 		/* Extract all global function symbols */
-		for (i = 0; i < nsyms && libsrt_symbol_count < MAX_LIBSRT_SYMBOLS; i++) {
+		for (i = 0; i < nsyms && libsrt_symbol_count < LIBSRT_HASH_SIZE; i++) {
 			struct elf32_sym *sym = &syms[i];
 			const char *name;
 
@@ -1048,20 +1098,12 @@ build_symtab_only:
 
 			name = strtab + sym->st_name;
 
-			/* Store symbol with adjusted address */
-			strscpy(libsrt_symbols[libsrt_symbol_count].name, name,
-				sizeof(libsrt_symbols[0].name));
-			libsrt_symbols[libsrt_symbol_count].addr =
-				load_addr + sym->st_value;
-			libsrt_symbol_count++;
-			symbols_added++;
+			/* Insert symbol into hash table */
+			if (libsrt_hash_insert(name, load_addr + sym->st_value))
+				symbols_added++;
 		}
 
-		/* NOTE: Sorting deferred until all libraries loaded (optimization) */
-		if (symbols_added > 0)
-			libsrt_symbols_sorted = 0;  /* Mark as needing sort */
-
-		subleq_elf_debug("Added %d lib symbols (total: %d, sort deferred)",
+		subleq_elf_debug("Added %d lib symbols (total: %d, hash table)",
 				 symbols_added, libsrt_symbol_count);
 	}
 
@@ -1483,15 +1525,9 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 		}
 	}
 
-	/* Sort symbol table ONCE now that all libraries are loaded.
-	 * This is more efficient than sorting after each library (O(n log n) once
-	 * vs O(n log n) per library).
-	 */
-	if (libsrt_symbol_count > 1 && !libsrt_symbols_sorted) {
-		sort(libsrt_symbols, libsrt_symbol_count,
-		     sizeof(struct libsrt_symbol), libsrt_symbol_cmp, NULL);
-		libsrt_symbols_sorted = 1;
-		subleq_elf_debug("Sorted %d library symbols (deferred bulk sort)",
+	/* Hash table is already indexed - no sorting needed (O(1) lookup) */
+	if (libsrt_symbol_count > 0) {
+		subleq_elf_debug("Library symbols ready (%d in hash table)",
 				 libsrt_symbol_count);
 	}
 

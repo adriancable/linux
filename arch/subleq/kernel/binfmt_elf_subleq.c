@@ -45,7 +45,7 @@
 #define R_386_RELATIVE 8 /* Adjust by load base (for shared libs) */
 #endif
 
-#define SUBLEQ_ELF_DEBUG 0
+#define SUBLEQ_ELF_DEBUG 1
 
 #if SUBLEQ_ELF_DEBUG
 #define subleq_elf_debug(fmt, ...) \

@@ -277,90 +277,276 @@ subleq_irq_entry:
 
         /*
          * Fill pt_regs fields with POSITIVE values using double-negation.
-         * We only fill the fields that signal delivery actually needs:
-         *   - pc (offset 128): for return address / signal handler redirect
-         *   - sp (offset 120): for stack pointer / signal frame
-         *   - ra (offset 124): for return trampoline
-         *   - r21 (offset 72): for signal number argument
-         *   - r22 (offset 76): for siginfo pointer
-         *   - r23 (offset 80): for ucontext pointer
-         *   - syscall_nr (offset 136): set to -1 for interrupts
          *
-         * CRITICAL: To compute SP+offset, we must:
-         *   1. Copy SP via double-negation: TEMP=-SP, then RESULT=-TEMP=SP
-         *   2. Then add offset: RESULT -= (-offset)
+         * CRITICAL: We must populate ALL registers in pt_regs, not just the
+         * signal-affected subset. This is because save_sigcontext() reads
+         * ALL registers (r3-r31, fp, sp, ra, pc) when delivering a signal.
+         * If we only populate a subset, the signal frame will contain garbage
+         * for the unpopulated registers, corrupting the interrupted context.
+         *
+         * pt_regs layout:
+         *   r3-r19:     offsets 0-64
+         *   r20:        offset 68
+         *   r21-r24:    offsets 72-84
+         *   r25-r31:    offsets 88-112
+         *   fp:         offset 116
+         *   sp:         offset 120
+         *   ra:         offset 124
+         *   pc:         offset 128
+         *   orig_r20:   offset 132 (not needed for interrupts)
+         *   syscall_nr: offset 136 (set to -1 for interrupts)
+         *
+         * NOTE: After PUSH_IRQ_REG, the hardware registers still contain their
+         * original values (subleq reads but doesn't modify the A operand).
+         * So we can read directly from REG_Rx to get the interrupted values.
          */
 
         /*
-         * OPTIMIZED: Use running pointer for pt_regs population.
-         * Initialize INT_Z2 = SP + 72, then increment for contiguous fields.
-         * Fields reordered: r21(72), r22(76), r23(80), sp(120), ra(124), pc(128), syscall_nr(136)
+         * Use running pointer for pt_regs population.
+         * Initialize INT_Z2 = SP (pt_regs base), then increment for each field.
          */
 
-        /* Initialize running pointer: INT_Z2 = SP + 72 */
-        .word   INT_Z2, INT_Z2, .+4    /* INT_Z2 = 0 */
+        /* Initialize running pointer: INT_Z2 = SP */
+        .word   INT_Z2, INT_Z2, .+4              /* INT_Z2 = 0 */
         .word   INT_Z, INT_Z, .+4                /* INT_Z = 0 */
-        .word   REG_SP, INT_Z, .+4                /* INT_Z = -SP */
-        .word   INT_Z, INT_Z2, .+4          /* INT_Z2 = SP */
-        .word   .Lconst_neg72, INT_Z2, .+4   /* INT_Z2 = SP + 72 */
+        .word   REG_SP, INT_Z, .+4               /* INT_Z = -SP */
+        .word   INT_Z, INT_Z2, .+4               /* INT_Z2 = SP */
 
-        /* Store r21 = REG_R21 (offset 72) */
+        /* Store r3 = REG_R3 (offset 0) */
         .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4  /* [ptr] = 0 */
         .word   INT_Z, INT_Z, .+4
-        .word   REG_R21, INT_Z, .+4               /* INT_Z = -R21 */
-        .word   INT_Z, INT_Z2 | INDIRECT, .+4  /* [ptr] = +R21 */
+        .word   REG_R3, INT_Z, .+4
+        .word   INT_Z, INT_Z2 | INDIRECT, .+4
 
-        /* Advance pointer by 4: INT_Z2 += 4 */
+        /* Store r4 (offset 4) */
         .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   REG_R4, INT_Z, .+4
+        .word   INT_Z, INT_Z2 | INDIRECT, .+4
 
-        /* Store r22 = REG_R22 (offset 76) */
+        /* Store r5 (offset 8) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   REG_R5, INT_Z, .+4
+        .word   INT_Z, INT_Z2 | INDIRECT, .+4
+
+        /* Store r6 (offset 12) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   REG_R6, INT_Z, .+4
+        .word   INT_Z, INT_Z2 | INDIRECT, .+4
+
+        /* Store r7 (offset 16) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   REG_R7, INT_Z, .+4
+        .word   INT_Z, INT_Z2 | INDIRECT, .+4
+
+        /* Store r8 (offset 20) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   REG_R8, INT_Z, .+4
+        .word   INT_Z, INT_Z2 | INDIRECT, .+4
+
+        /* Store r9 (offset 24) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   REG_R9, INT_Z, .+4
+        .word   INT_Z, INT_Z2 | INDIRECT, .+4
+
+        /* Store r10 (offset 28) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   REG_R10, INT_Z, .+4
+        .word   INT_Z, INT_Z2 | INDIRECT, .+4
+
+        /* Store r11 (offset 32) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   REG_R11, INT_Z, .+4
+        .word   INT_Z, INT_Z2 | INDIRECT, .+4
+
+        /* Store r12 (offset 36) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   REG_R12, INT_Z, .+4
+        .word   INT_Z, INT_Z2 | INDIRECT, .+4
+
+        /* Store r13 (offset 40) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   REG_R13, INT_Z, .+4
+        .word   INT_Z, INT_Z2 | INDIRECT, .+4
+
+        /* Store r14 (offset 44) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   REG_R14, INT_Z, .+4
+        .word   INT_Z, INT_Z2 | INDIRECT, .+4
+
+        /* Store r15 (offset 48) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   REG_R15, INT_Z, .+4
+        .word   INT_Z, INT_Z2 | INDIRECT, .+4
+
+        /* Store r16 (offset 52) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   REG_R16, INT_Z, .+4
+        .word   INT_Z, INT_Z2 | INDIRECT, .+4
+
+        /* Store r17 (offset 56) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   REG_R17, INT_Z, .+4
+        .word   INT_Z, INT_Z2 | INDIRECT, .+4
+
+        /* Store r18 (offset 60) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   REG_R18, INT_Z, .+4
+        .word   INT_Z, INT_Z2 | INDIRECT, .+4
+
+        /* Store r19 (offset 64) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   REG_R19, INT_Z, .+4
+        .word   INT_Z, INT_Z2 | INDIRECT, .+4
+
+        /* Store r20 (offset 68) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   REG_R20, INT_Z, .+4
+        .word   INT_Z, INT_Z2 | INDIRECT, .+4
+
+        /* Store r21 (offset 72) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   REG_R21, INT_Z, .+4
+        .word   INT_Z, INT_Z2 | INDIRECT, .+4
+
+        /* Store r22 (offset 76) */
+        .word   .Lconst_neg4, INT_Z2, .+4
         .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
         .word   INT_Z, INT_Z, .+4
         .word   REG_R22, INT_Z, .+4
         .word   INT_Z, INT_Z2 | INDIRECT, .+4
 
-        /* Advance pointer by 4: INT_Z2 += 4 */
+        /* Store r23 (offset 80) */
         .word   .Lconst_neg4, INT_Z2, .+4
-
-        /* Store r23 = REG_R23 (offset 80) */
         .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
         .word   INT_Z, INT_Z, .+4
         .word   REG_R23, INT_Z, .+4
         .word   INT_Z, INT_Z2 | INDIRECT, .+4
 
-        /* Advance pointer by 40: INT_Z2 += 40 (80 -> 120) */
-        .word   .Lconst_neg40, INT_Z2, .+4
+        /* Store r24 (offset 84) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   REG_R24, INT_Z, .+4
+        .word   INT_Z, INT_Z2 | INDIRECT, .+4
+
+        /* Store r25 (offset 88) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   REG_R25, INT_Z, .+4
+        .word   INT_Z, INT_Z2 | INDIRECT, .+4
+
+        /* Store r26 (offset 92) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   REG_R26, INT_Z, .+4
+        .word   INT_Z, INT_Z2 | INDIRECT, .+4
+
+        /* Store r27 (offset 96) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   REG_R27, INT_Z, .+4
+        .word   INT_Z, INT_Z2 | INDIRECT, .+4
+
+        /* Store r28 (offset 100) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   REG_R28, INT_Z, .+4
+        .word   INT_Z, INT_Z2 | INDIRECT, .+4
+
+        /* Store r29 (offset 104) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   REG_R29, INT_Z, .+4
+        .word   INT_Z, INT_Z2 | INDIRECT, .+4
+
+        /* Store r30 (offset 108) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   REG_R30, INT_Z, .+4
+        .word   INT_Z, INT_Z2 | INDIRECT, .+4
+
+        /* Store r31 (offset 112) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   REG_R31, INT_Z, .+4
+        .word   INT_Z, INT_Z2 | INDIRECT, .+4
+
+        /* Store fp (offset 116) */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   REG_FP, INT_Z, .+4
+        .word   INT_Z, INT_Z2 | INDIRECT, .+4
 
         /* Store sp = original SP (offset 120) */
+        .word   .Lconst_neg4, INT_Z2, .+4
         .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
         /* SAVE_SP contains -original_sp, so store -(-original_sp) = +original_sp */
         .word   SAVE_SP, INT_Z2 | INDIRECT, .+4
 
-        /* Advance pointer by 4: INT_Z2 += 4 */
+        /* Store ra (offset 124) */
         .word   .Lconst_neg4, INT_Z2, .+4
-
-        /* Store ra = REG_RA (offset 124) */
         .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
         .word   INT_Z, INT_Z, .+4
         .word   REG_RA, INT_Z, .+4
         .word   INT_Z, INT_Z2 | INDIRECT, .+4
 
-        /* Advance pointer by 4: INT_Z2 += 4 */
-        .word   .Lconst_neg4, INT_Z2, .+4
-
         /* Store pc = INT_SAVED_PC (offset 128) */
+        .word   .Lconst_neg4, INT_Z2, .+4
         .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
         .word   INT_Z, INT_Z, .+4
-        .word   INT_SAVED_PC, INT_Z, .+4          /* INT_Z = -pc */
-        .word   INT_Z, INT_Z2 | INDIRECT, .+4  /* [ptr] = +pc */
+        .word   INT_SAVED_PC, INT_Z, .+4
+        .word   INT_Z, INT_Z2 | INDIRECT, .+4
 
-        /* Advance pointer by 8: INT_Z2 += 8 (128 -> 136) */
-        .word   .Lconst_neg8, INT_Z2, .+4
+        /* Skip orig_r20 (offset 132) - not used for interrupts */
 
         /* Store syscall_nr = -1 (offset 136) to mark as NOT a syscall */
+        .word   .Lconst_neg8, INT_Z2, .+4        /* Advance by 8: 128 -> 136 */
         .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
-        /* [addr] = 0, need [addr] = -1, so [addr] -= 1 */
-        .word   .Lconst_1, INT_Z2 | INDIRECT, .+4
+        .word   .Lconst_1, INT_Z2 | INDIRECT, .+4  /* [addr] = 0 - 1 = -1 */
 
 
         /* Set R21 = pt_regs pointer (= SP) for the function call.

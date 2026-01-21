@@ -268,7 +268,7 @@ struct libsrt_hash_entry {
 	int occupied;  /* 0 = empty, 1 = used */
 };
 
-static struct libsrt_hash_entry libsrt_hash[LIBSRT_HASH_SIZE];
+static struct libsrt_hash_entry *libsrt_hash = NULL;
 static int libsrt_symbol_count = 0;
 static unsigned long libsrt_load_addr = 0;
 
@@ -1506,6 +1506,20 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 	set_binfmt(&elf_subleq_format);
 
 	/* Reset symbol table and loaded library list for new process */
+	/* Allocate hash table dynamically to avoid permanent BSS usage */
+	{
+		unsigned long table_size = LIBSRT_HASH_SIZE * sizeof(struct libsrt_hash_entry);
+		unsigned long table_addr;
+		
+		table_size = PAGE_ALIGN(table_size);
+		table_addr = vm_mmap(NULL, 0, table_size, PROT_READ | PROT_WRITE,
+				     MAP_PRIVATE | MAP_ANONYMOUS, 0);
+		if (IS_ERR_VALUE(table_addr))
+			return table_addr;
+			
+		libsrt_hash = (struct libsrt_hash_entry *)table_addr;
+	}
+	
 	libsrt_symbol_count = 0;
 	loaded_lib_count = 0;
 
@@ -1517,7 +1531,7 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 
 		ret = load_libsrt(lib_path, &lib_info);
 		if (ret < 0)
-			return ret;
+			goto out;
 		if (ret > 0) {
 			has_libsrt = 1;
 			/* Store load address for second pass */
@@ -1562,11 +1576,12 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 						loaded_libs[i].shdrs = NULL;
 					}
 				}
-				return ret;
+				goto out; /* Deferred relocs cleanup handles itself */
 			}
 			loaded_libs[i].relocs_applied = 1;
 		}
 	}
+
 
 	/* Close all library files and free cached data now that relocations are done */
 	for (i = 0; i < loaded_lib_count; i++) {
@@ -1603,7 +1618,7 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 	if (ret < 0) {
 		pr_err("SUBLEQ_ELF: Failed to process relocations/symbols: %d\n",
 		       ret);
-		return ret;
+		goto out;
 	}
 
 	/* Allocate heap region for brk/sbrk.
@@ -1635,8 +1650,10 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 
 	stack_base = vm_mmap(NULL, 0, stack_size, PROT_READ | PROT_WRITE,
 			     MAP_PRIVATE | MAP_ANONYMOUS | MAP_GROWSDOWN, 0);
-	if (IS_ERR_VALUE(stack_base))
-		return stack_base;
+	if (IS_ERR_VALUE(stack_base)) {
+		ret = stack_base;
+		goto out;
+	}
 
 	current->mm->start_brk = heap_base;
 	current->mm->brk = heap_base;
@@ -1652,7 +1669,7 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 	/* Create argument tables */
 	ret = create_elf_tables(bprm, current->mm, &exec_info);
 	if (ret < 0)
-		return ret;
+		goto out;
 
 	finalize_exec(bprm);
 
@@ -1661,7 +1678,16 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 			 exec_info.entry_addr, current->mm->start_stack);
 	start_thread(regs, exec_info.entry_addr, current->mm->start_stack);
 
-	return 0;
+	ret = 0;
+
+out:
+	if (libsrt_hash) {
+		unsigned long table_size = LIBSRT_HASH_SIZE * sizeof(struct libsrt_hash_entry);
+		table_size = PAGE_ALIGN(table_size);
+		vm_munmap((unsigned long)libsrt_hash, table_size);
+		libsrt_hash = NULL;
+	}
+	return ret;
 }
 
 static int __init init_elf_subleq_binfmt(void)

@@ -32,6 +32,7 @@
 #include <linux/elf.h>
 #include <linux/uaccess.h>
 #include <linux/sort.h>
+#include <linux/mutex.h>
 
 #include <asm/param.h>
 #include <asm/ptrace.h>
@@ -261,6 +262,7 @@ static const struct {
  */
 #define LIBSRT_HASH_SIZE 8192  /* Must be power of 2, > 2x max symbols */
 #define LIBSRT_HASH_MASK (LIBSRT_HASH_SIZE - 1)
+#define MAX_LOADED_LIBS 16
 
 struct libsrt_hash_entry {
 	char name[64];
@@ -268,9 +270,26 @@ struct libsrt_hash_entry {
 	int occupied;  /* 0 = empty, 1 = used */
 };
 
-static struct libsrt_hash_entry *libsrt_hash = NULL;
-static int libsrt_symbol_count = 0;
-static unsigned long libsrt_load_addr = 0;
+/*
+ * State for the current ELF load operation.
+ * Eliminates global state to allow re-entrant concurrent loading.
+ */
+struct libsrt_state {
+	struct libsrt_hash_entry *hash;
+	int symbol_count;
+	unsigned long libsrt_load_addr;
+	/* Track which libraries have been loaded */
+	struct {
+		char name[64];
+		unsigned long load_addr;
+		unsigned long base_vaddr;
+		struct file *file;       /* For deferred relocation processing */
+		struct elfhdr hdr;       /* For deferred relocation processing */
+		struct elf_shdr *shdrs;  /* Cached section headers */
+		int relocs_applied;
+	} loaded_libs[MAX_LOADED_LIBS];
+	int loaded_lib_count;
+};
 
 /*
  * FNV-1a hash function - fast and good distribution for strings.
@@ -286,26 +305,25 @@ static inline unsigned int fnv1a_hash(const char *str)
 }
 
 /*
- * Insert symbol into hash table.
  * Returns 1 on success, 0 if table full or duplicate.
  */
-static int libsrt_hash_insert(const char *name, unsigned long addr)
+static int libsrt_hash_insert(struct libsrt_state *state, const char *name, unsigned long addr)
 {
 	unsigned int hash = fnv1a_hash(name);
 	unsigned int idx = hash & LIBSRT_HASH_MASK;
 	int probes = 0;
 
 	while (probes < LIBSRT_HASH_SIZE) {
-		if (!libsrt_hash[idx].occupied) {
+		if (!state->hash[idx].occupied) {
 			/* Empty slot - insert here */
-			strscpy(libsrt_hash[idx].name, name,
-				sizeof(libsrt_hash[idx].name));
-			libsrt_hash[idx].addr = addr;
-			libsrt_hash[idx].occupied = 1;
-			libsrt_symbol_count++;
+			strscpy(state->hash[idx].name, name,
+				sizeof(state->hash[idx].name));
+			state->hash[idx].addr = addr;
+			state->hash[idx].occupied = 1;
+			state->symbol_count++;
 			return 1;
 		}
-		if (strcmp(libsrt_hash[idx].name, name) == 0) {
+		if (strcmp(state->hash[idx].name, name) == 0) {
 			/* Duplicate - already exists */
 			return 0;
 		}
@@ -321,15 +339,15 @@ static int libsrt_hash_insert(const char *name, unsigned long addr)
  * Lookup symbol in hash table.
  * Returns address or 0 if not found.
  */
-static unsigned long libsrt_hash_lookup(const char *name)
+static unsigned long libsrt_hash_lookup(struct libsrt_state *state, const char *name)
 {
 	unsigned int hash = fnv1a_hash(name);
 	unsigned int idx = hash & LIBSRT_HASH_MASK;
 	int probes = 0;
 
-	while (probes < LIBSRT_HASH_SIZE && libsrt_hash[idx].occupied) {
-		if (strcmp(libsrt_hash[idx].name, name) == 0)
-			return libsrt_hash[idx].addr;
+	while (probes < LIBSRT_HASH_SIZE && state->hash[idx].occupied) {
+		if (strcmp(state->hash[idx].name, name) == 0)
+			return state->hash[idx].addr;
 		idx = (idx + 1) & LIBSRT_HASH_MASK;
 		probes++;
 	}
@@ -339,43 +357,32 @@ static unsigned long libsrt_hash_lookup(const char *name)
 /* Track which libraries have been loaded to avoid duplicates.
  * Also stores file/header info for deferred relocation processing (two-pass). */
 #define MAX_LOADED_LIBS 16
-static struct {
-	char name[64];
-	unsigned long load_addr;
-	unsigned long base_vaddr;
-	struct file *file;       /* For deferred relocation processing */
-	struct elfhdr hdr;       /* For deferred relocation processing */
-	struct elf_shdr *shdrs;  /* Cached section headers (avoids re-read) */
-	int relocs_applied;      /* Flag: relocations have been processed */
-} loaded_libs[MAX_LOADED_LIBS];
-static int loaded_lib_count = 0;
-
 /* Check if a library has already been loaded. Returns load_addr or 0 if not. */
-static unsigned long find_loaded_lib(const char *name)
+static unsigned long find_loaded_lib(struct libsrt_state *state, const char *name)
 {
 	int i;
-	for (i = 0; i < loaded_lib_count; i++) {
-		if (strcmp(loaded_libs[i].name, name) == 0)
-			return loaded_libs[i].load_addr;
+	for (i = 0; i < state->loaded_lib_count; i++) {
+		if (strcmp(state->loaded_libs[i].name, name) == 0)
+			return state->loaded_libs[i].load_addr;
 	}
 	return 0;
 }
 
 /* Record that a library has been loaded (for deferred relocation) */
-static void record_loaded_lib(const char *name, unsigned long load_addr,
+static void record_loaded_lib(struct libsrt_state *state, const char *name, unsigned long load_addr,
 			      unsigned long base_vaddr, struct file *file,
 			      struct elfhdr *hdr)
 {
-	if (loaded_lib_count < MAX_LOADED_LIBS) {
-		strscpy(loaded_libs[loaded_lib_count].name, name,
-			sizeof(loaded_libs[0].name));
-		loaded_libs[loaded_lib_count].load_addr = load_addr;
-		loaded_libs[loaded_lib_count].base_vaddr = base_vaddr;
-		loaded_libs[loaded_lib_count].file = file;
-		loaded_libs[loaded_lib_count].hdr = *hdr;
-		loaded_libs[loaded_lib_count].shdrs = NULL;  /* Will be populated by process_relocations_and_symbols */
-		loaded_libs[loaded_lib_count].relocs_applied = 0;
-		loaded_lib_count++;
+	if (state->loaded_lib_count < MAX_LOADED_LIBS) {
+		strscpy(state->loaded_libs[state->loaded_lib_count].name, name,
+			sizeof(state->loaded_libs[0].name));
+		state->loaded_libs[state->loaded_lib_count].load_addr = load_addr;
+		state->loaded_libs[state->loaded_lib_count].base_vaddr = base_vaddr;
+		state->loaded_libs[state->loaded_lib_count].file = file;
+		state->loaded_libs[state->loaded_lib_count].hdr = *hdr;
+		state->loaded_libs[state->loaded_lib_count].shdrs = NULL;  /* Will be populated by process_relocations_and_symbols */
+		state->loaded_libs[state->loaded_lib_count].relocs_applied = 0;
+		state->loaded_lib_count++;
 	}
 }
 
@@ -408,7 +415,7 @@ static unsigned long lookup_kernel_symbol(const char *name)
  * then loaded libraries (hash table lookup - O(1) average).
  * Returns the address or 0 if not found.
  */
-static unsigned long lookup_libsrt_symbol(const char *name)
+static unsigned long lookup_libsrt_symbol(struct libsrt_state *state, const char *name)
 {
 	unsigned long addr;
 
@@ -418,7 +425,7 @@ static unsigned long lookup_libsrt_symbol(const char *name)
 		return addr;
 
 	/* Hash table lookup in library symbols - O(1) average */
-	return libsrt_hash_lookup(name);
+	return libsrt_hash_lookup(state, name);
 }
 
 static int load_elf_subleq_binary(struct linux_binprm *bprm);
@@ -766,7 +773,7 @@ static long load_elf_segments(struct file *file, struct elfhdr *hdr,
  *
  * is_main_exec: 1 = main executable (even if ET_DYN/PIE), 0 = library
  */
-static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr,
+static int process_relocations_and_symbols(struct libsrt_state *state, struct file *file, struct elfhdr *hdr,
 					   unsigned long load_addr,
 					   unsigned long base_vaddr,
 					   int build_symtab, int skip_relocs,
@@ -1020,7 +1027,7 @@ static int process_relocations_and_symbols(struct file *file, struct elfhdr *hdr
 					if (cache_val > 2) {
 						sym_addr = cache_val;
 					} else {
-						sym_addr = lookup_libsrt_symbol(
+						sym_addr = lookup_libsrt_symbol(state,
 							strtab + syms[sym_idx].st_name);
 						sym_cache[sym_idx] = sym_addr ? sym_addr : 1;
 					}
@@ -1073,10 +1080,9 @@ build_symtab_only:
 	if (build_symtab && have_symtab && strtab_shdr) {
 		int symbols_added = 0;
 
-		libsrt_load_addr = load_addr;
-
+		state->libsrt_load_addr = load_addr;
 		/* Extract all global function symbols */
-		for (i = 0; i < nsyms && libsrt_symbol_count < LIBSRT_HASH_SIZE; i++) {
+		for (i = 0; i < nsyms && state->symbol_count < LIBSRT_HASH_SIZE; i++) {
 			struct elf32_sym *sym = &syms[i];
 			const char *name;
 
@@ -1099,12 +1105,12 @@ build_symtab_only:
 			name = strtab + sym->st_name;
 
 			/* Insert symbol into hash table */
-			if (libsrt_hash_insert(name, load_addr + sym->st_value))
+			if (libsrt_hash_insert(state, name, load_addr + sym->st_value))
 				symbols_added++;
 		}
 
 		subleq_elf_debug("Added %d lib symbols (total: %d, hash table)",
-				 symbols_added, libsrt_symbol_count);
+				 symbols_added, state->symbol_count);
 	}
 
 	kfree(sym_cache);
@@ -1133,7 +1139,7 @@ build_symtab_only:
  * lib_path is the path to load (from PT_INTERP), or NULL to skip
  * This function handles recursive loading of DT_NEEDED dependencies.
  */
-static int load_libsrt(const char *lib_path, struct elf_load_info *lib_info)
+static int load_libsrt(struct libsrt_state *state, const char *lib_path, struct elf_load_info *lib_info)
 {
 	struct file *lib_file;
 	struct elfhdr lib_hdr;
@@ -1154,10 +1160,10 @@ static int load_libsrt(const char *lib_path, struct elf_load_info *lib_info)
 	lib_name = lib_name ? lib_name + 1 : lib_path;
 
 	/* Check if already loaded */
-	if (find_loaded_lib(lib_name)) {
+	if (find_loaded_lib(state, lib_name)) {
 		subleq_elf_debug("Library %s already loaded, skipping",
 				 lib_name);
-		lib_info->load_addr = find_loaded_lib(lib_name);
+		lib_info->load_addr = find_loaded_lib(state, lib_name);
 		return 1; /* Already loaded */
 	}
 
@@ -1195,7 +1201,11 @@ static int load_libsrt(const char *lib_path, struct elf_load_info *lib_info)
 	 * Store file handle and header for deferred relocation processing.
 	 * File will be closed after all libraries are loaded and relocated.
 	 */
-	record_loaded_lib(lib_name, lib_info->load_addr, lib_info->base_vaddr,
+	/* Record this library as loaded BEFORE processing dependencies.
+	 * Store file handle and header for deferred relocation processing.
+	 * File will be closed after all libraries are loaded and relocated.
+	 */
+	record_loaded_lib(state, lib_name, lib_info->load_addr, lib_info->base_vaddr,
 			  lib_file, &lib_hdr);
 
 	/* Build symbol table only (skip relocations for now).
@@ -1203,12 +1213,12 @@ static int load_libsrt(const char *lib_path, struct elf_load_info *lib_info)
 	 * so that symbols from later-loaded libs are available.
 	 * With build_symtab=1, skip_relocs=1, this only exports symbols.
 	 */
-	ret = process_relocations_and_symbols(lib_file, &lib_hdr,
+	ret = process_relocations_and_symbols(state, lib_file, &lib_hdr,
 					      lib_info->load_addr,
 					      lib_info->base_vaddr, 1, 1,
 					      0,  /* is_main_exec=0: this is a library */
 					      NULL,  /* No cached shdrs yet */
-					      &loaded_libs[loaded_lib_count - 1].shdrs);
+					      &state->loaded_libs[state->loaded_lib_count - 1].shdrs);
 	if (ret < 0) {
 		pr_err("SUBLEQ_ELF: Failed to build symtab for %s: %d\n",
 		       lib_path, (int)ret);
@@ -1225,7 +1235,7 @@ static int load_libsrt(const char *lib_path, struct elf_load_info *lib_info)
 		snprintf(dep_path, sizeof(dep_path), "/lib/%s",
 			 lib_deps[i].name);
 		/* Recursive call - will skip if already loaded */
-		load_libsrt(dep_path, &dep_info);
+		load_libsrt(state, dep_path, &dep_info);
 	}
 
 	/* NOTE: Do NOT close file here - deferred until after relocs processed */
@@ -1461,12 +1471,19 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 	int nlibs, i;
 	struct elf_phdr *phdrs = NULL;  /* Reuse phdrs from get_elf_needed_libs */
 	int phnum = 0;
+	struct libsrt_state *state;
 
 	subleq_elf_debug("Checking ELF binary: %s", bprm->filename);
 
 	/* Check if this is a Subleq ELF */
 	if (!is_subleq_elf(hdr, bprm->file))
 		return -ENOEXEC;
+
+	/* Allocate re-entrant state on the heap (stack is too small for big array) */
+	state = kmalloc(sizeof(struct libsrt_state), GFP_KERNEL);
+	if (!state)
+		return -ENOMEM;
+	memset(state, 0, sizeof(struct libsrt_state));
 
 	subleq_elf_debug("Valid Subleq ELF, entry=0x%lx",
 			 (unsigned long)hdr->e_entry);
@@ -1494,6 +1511,7 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 	ret = begin_new_exec(bprm);
 	if (ret) {
 		kfree(phdrs);
+		kfree(state); /* Free state on early error too */
 		return ret;
 	}
 
@@ -1507,6 +1525,7 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 
 	/* Reset symbol table and loaded library list for new process */
 	/* Allocate hash table dynamically to avoid permanent BSS usage */
+	/* Re-entrant: store in state struct */
 	{
 		unsigned long table_size = LIBSRT_HASH_SIZE * sizeof(struct libsrt_hash_entry);
 		unsigned long table_addr;
@@ -1514,14 +1533,16 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 		table_size = PAGE_ALIGN(table_size);
 		table_addr = vm_mmap(NULL, 0, table_size, PROT_READ | PROT_WRITE,
 				     MAP_PRIVATE | MAP_ANONYMOUS, 0);
-		if (IS_ERR_VALUE(table_addr))
-			return table_addr;
+		if (IS_ERR_VALUE(table_addr)) {
+			ret = table_addr;
+			goto out_free_state;
+		}
 			
-		libsrt_hash = (struct libsrt_hash_entry *)table_addr;
+		state->hash = (struct libsrt_hash_entry *)table_addr;
 	}
 	
-	libsrt_symbol_count = 0;
-	loaded_lib_count = 0;
+	state->symbol_count = 0;
+	state->loaded_lib_count = 0;
 
 	/* Phase 1: Load each DT_NEEDED library from /lib/ and collect symbols */
 	for (i = 0; i < nlibs; i++) {
@@ -1529,7 +1550,7 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 		snprintf(lib_path, sizeof(lib_path), "/lib/%s",
 			 needed_libs[i].name);
 
-		ret = load_libsrt(lib_path, &lib_info);
+		ret = load_libsrt(state, lib_path, &lib_info);
 		if (ret < 0)
 			goto out;
 		if (ret > 0) {
@@ -1540,58 +1561,57 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 	}
 
 	/* Hash table is already indexed - no sorting needed (O(1) lookup) */
-	if (libsrt_symbol_count > 0) {
+	if (state->symbol_count > 0) {
 		subleq_elf_debug("Library symbols ready (%d in hash table)",
-				 libsrt_symbol_count);
+				 state->symbol_count);
 	}
 
 	/* Phase 2: Now that ALL libraries are loaded and their symbols exported,
 	 * process deferred relocations for each library.
-	 * This allows later-loaded libraries (e.g., libc.so) to provide symbols
-	 * for earlier-loaded libraries (e.g., libcxxabi.so).
 	 */
-	for (i = 0; i < loaded_lib_count; i++) {
-		if (!loaded_libs[i].relocs_applied && loaded_libs[i].file) {
+	for (i = 0; i < state->loaded_lib_count; i++) {
+		if (!state->loaded_libs[i].relocs_applied && state->loaded_libs[i].file) {
 			subleq_elf_debug("Processing deferred relocs for %s",
-					 loaded_libs[i].name);
+					 state->loaded_libs[i].name);
 			ret = process_relocations_and_symbols(
-				loaded_libs[i].file,
-				&loaded_libs[i].hdr,
-				loaded_libs[i].load_addr,
-				loaded_libs[i].base_vaddr, 0, 0,
+				state,
+				state->loaded_libs[i].file,
+				&state->loaded_libs[i].hdr,
+				state->loaded_libs[i].load_addr,
+				state->loaded_libs[i].base_vaddr, 0, 0,
 				0,  /* is_main_exec=0: this is a library */
-				loaded_libs[i].shdrs,  /* Use cached shdrs */
+				state->loaded_libs[i].shdrs,  /* Use cached shdrs */
 				NULL);  /* No need to cache again */
 			if (ret < 0) {
 				pr_err("SUBLEQ_ELF: Failed deferred relocs for %s: %d\n",
-				       loaded_libs[i].name, (int)ret);
+				       state->loaded_libs[i].name, (int)ret);
 				/* Close all open files and free cached data before returning */
-				for (i = 0; i < loaded_lib_count; i++) {
-					if (loaded_libs[i].file) {
-						fput(loaded_libs[i].file);
-						loaded_libs[i].file = NULL;
+				for (i = 0; i < state->loaded_lib_count; i++) {
+					if (state->loaded_libs[i].file) {
+						fput(state->loaded_libs[i].file);
+						state->loaded_libs[i].file = NULL;
 					}
-					if (loaded_libs[i].shdrs) {
-						kfree(loaded_libs[i].shdrs);
-						loaded_libs[i].shdrs = NULL;
+					if (state->loaded_libs[i].shdrs) {
+						kfree(state->loaded_libs[i].shdrs);
+						state->loaded_libs[i].shdrs = NULL;
 					}
 				}
 				goto out; /* Deferred relocs cleanup handles itself */
 			}
-			loaded_libs[i].relocs_applied = 1;
+			state->loaded_libs[i].relocs_applied = 1;
 		}
 	}
 
 
 	/* Close all library files and free cached data now that relocations are done */
-	for (i = 0; i < loaded_lib_count; i++) {
-		if (loaded_libs[i].file) {
-			fput(loaded_libs[i].file);
-			loaded_libs[i].file = NULL;
+	for (i = 0; i < state->loaded_lib_count; i++) {
+		if (state->loaded_libs[i].file) {
+			fput(state->loaded_libs[i].file);
+			state->loaded_libs[i].file = NULL;
 		}
-		if (loaded_libs[i].shdrs) {
-			kfree(loaded_libs[i].shdrs);
-			loaded_libs[i].shdrs = NULL;
+		if (state->loaded_libs[i].shdrs) {
+			kfree(state->loaded_libs[i].shdrs);
+			state->loaded_libs[i].shdrs = NULL;
 		}
 	}
 
@@ -1610,7 +1630,7 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 	 * build_symtab=0, skip_relocs=0 since executable needs full processing.
 	 * is_main_exec=1 to treat PIE (ET_DYN) as executable, not library.
 	 */
-	ret = process_relocations_and_symbols(bprm->file, hdr,
+	ret = process_relocations_and_symbols(state, bprm->file, hdr,
 					      exec_info.load_addr,
 					      exec_info.base_vaddr, 0, 0,
 					      1,  /* is_main_exec=1: main executable */
@@ -1681,12 +1701,20 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 	ret = 0;
 
 out:
-	if (libsrt_hash) {
-		unsigned long table_size = LIBSRT_HASH_SIZE * sizeof(struct libsrt_hash_entry);
-		table_size = PAGE_ALIGN(table_size);
-		vm_munmap((unsigned long)libsrt_hash, table_size);
-		libsrt_hash = NULL;
+	if (state) {
+		if (state->hash) {
+			unsigned long table_size = LIBSRT_HASH_SIZE * sizeof(struct libsrt_hash_entry);
+			table_size = PAGE_ALIGN(table_size);
+			vm_munmap((unsigned long)state->hash, table_size);
+			state->hash = NULL;
+		}
+		kfree(state);
+		state = NULL;
 	}
+	return ret;
+
+out_free_state:
+	kfree(state);
 	return ret;
 }
 

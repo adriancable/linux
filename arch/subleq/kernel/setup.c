@@ -70,6 +70,19 @@ static void __init clear_bss(void)
 	extern char __bss_start[], __bss_stop[];
 
 	__subleq_memset(__bss_start, 0, __bss_stop - __bss_start);
+
+	/*
+	 * Also clear per-cpu section.
+	 * On independent UP builds, this isn't strictly BSS, but it
+	 * must be zero-initialized for things like timer_bases.
+	 */
+	{
+		extern char __per_cpu_start[], __per_cpu_end[];
+		unsigned long per_cpu_size = __per_cpu_end - __per_cpu_start;
+		
+		if (per_cpu_size > 0)
+			__subleq_memset(__per_cpu_start, 0, per_cpu_size);
+	}
 }
 
 /*

@@ -173,6 +173,11 @@ extern void __floatundisf(void);
 /* Precision conversions */
 extern void __extendsfdf2(void);
 extern void __truncdfsf2(void);
+/* Complex arithmetic */
+extern void __mulsc3(void);
+extern void __divsc3(void);
+extern void __muldc3(void);
+extern void __divdc3(void);
 
 
 
@@ -188,8 +193,10 @@ static const struct {
 	{ "__addsf3", &__addsf3 },
 	{ "__ashldi3", &__ashldi3 },
 	{ "__ashrdi3", &__ashrdi3 },
+	{ "__divdc3", &__divdc3 },
 	{ "__divdf3", &__divdf3 },
 	{ "__divdi3", &__divdi3 },
+	{ "__divsc3", &__divsc3 },
 	{ "__divsf3", &__divsf3 },
 	{ "__eqdf2", &__eqdf2 },
 	{ "__eqsf2", &__eqsf2 },
@@ -220,7 +227,9 @@ static const struct {
 	{ "__ltdf2", &__ltdf2 },
 	{ "__ltsf2", &__ltsf2 },
 	{ "__moddi3", &__moddi3 },
+	{ "__muldc3", &__muldc3 },
 	{ "__muldf3", &__muldf3 },
+	{ "__mulsc3", &__mulsc3 },
 	{ "__mulsf3", &__mulsf3 },
 	{ "__nedf2", &__nedf2 },
 	{ "__nesf2", &__nesf2 },

@@ -13,6 +13,7 @@
 // - Float-to-int: fixsfsi, fixsfdi, fixunssfsi, fixunssfdi, fixdfsi, fixdfdi, fixunsdfsi, fixunsdfdi
 // - Int-to-float: floatsisf, floatdisf, floatunsisf, floatundisf, floatsidf, floatdidf, floatunsidf, floatundidf
 // - Precision conversion: extendsfdf2, truncdfsf2
+// - Complex arithmetic: mulsc3, divsc3, muldc3, divdc3
 // ============================================================================
 
 // Freestanding type definitions (no headers required)
@@ -1327,4 +1328,252 @@ COMPILER_RT_ABI float __truncdfsf2(double a) {
   }
 
   return fromRep(dstSign | (dstExp << 23) | dstSig);
+}
+
+// ============================================================================
+// COMPLEX NUMBER ARITHMETIC
+// ============================================================================
+//
+// Provides: __mulsc3, __divsc3 (single-precision complex)
+//           __muldc3, __divdc3 (double-precision complex)
+//
+// These implement C99 _Complex multiplication and division.
+// ============================================================================
+
+// Complex type definitions using C99 _Complex
+typedef float _Complex Fcomplex;
+typedef double _Complex Dcomplex;
+
+#define COMPLEX_REAL(x) __real__(x)
+#define COMPLEX_IMAGINARY(x) __imag__(x)
+
+// Forward declarations
+COMPILER_RT_ABI Fcomplex __mulsc3(float a, float b, float c, float d);
+COMPILER_RT_ABI Fcomplex __divsc3(float a, float b, float c, float d);
+COMPILER_RT_ABI Dcomplex __muldc3(double a, double b, double c, double d);
+COMPILER_RT_ABI Dcomplex __divdc3(double a, double b, double c, double d);
+
+// ============================================================================
+// Single-precision complex multiplication: __mulsc3
+// Returns: (a + bi) * (c + di)
+// ============================================================================
+
+COMPILER_RT_ABI Fcomplex __mulsc3(float __a, float __b, float __c, float __d) {
+  float __ac = __a * __c;
+  float __bd = __b * __d;
+  float __ad = __a * __d;
+  float __bc = __b * __c;
+  Fcomplex z;
+  COMPLEX_REAL(z) = __ac - __bd;
+  COMPLEX_IMAGINARY(z) = __ad + __bc;
+  
+  if (crt_isnan(COMPLEX_REAL(z)) && crt_isnan(COMPLEX_IMAGINARY(z))) {
+    int __recalc = 0;
+    if (crt_isinf(__a) || crt_isinf(__b)) {
+      // (inf + i inf) * (c + i d)
+      __a = crt_copysignf(crt_isinf(__a) ? 1.0f : 0.0f, __a);
+      __b = crt_copysignf(crt_isinf(__b) ? 1.0f : 0.0f, __b);
+      if (crt_isnan(__c))
+        __c = crt_copysignf(0.0f, __c);
+      if (crt_isnan(__d))
+        __d = crt_copysignf(0.0f, __d);
+      __recalc = 1;
+    }
+    if (crt_isinf(__c) || crt_isinf(__d)) {
+      // (a + i b) * (inf + i inf)
+      __c = crt_copysignf(crt_isinf(__c) ? 1.0f : 0.0f, __c);
+      __d = crt_copysignf(crt_isinf(__d) ? 1.0f : 0.0f, __d);
+      if (crt_isnan(__a))
+        __a = crt_copysignf(0.0f, __a);
+      if (crt_isnan(__b))
+        __b = crt_copysignf(0.0f, __b);
+      __recalc = 1;
+    }
+    if (!__recalc && (crt_isinf(__ac) || crt_isinf(__bd) ||
+                      crt_isinf(__ad) || crt_isinf(__bc))) {
+      // Recover infinities from overflow
+      if (crt_isnan(__a))
+        __a = crt_copysignf(0.0f, __a);
+      if (crt_isnan(__b))
+        __b = crt_copysignf(0.0f, __b);
+      if (crt_isnan(__c))
+        __c = crt_copysignf(0.0f, __c);
+      if (crt_isnan(__d))
+        __d = crt_copysignf(0.0f, __d);
+      __recalc = 1;
+    }
+    if (__recalc) {
+      COMPLEX_REAL(z) = CRT_INFINITY * (__a * __c - __b * __d);
+      COMPLEX_IMAGINARY(z) = CRT_INFINITY * (__a * __d + __b * __c);
+    }
+  }
+  return z;
+}
+
+// ============================================================================
+// Single-precision complex division: __divsc3
+// Returns: (a + bi) / (c + di)
+// 
+// Uses Smith's algorithm for numerical stability:
+// if |d| <= |c|:
+//   r = d/c, denom = c + d*r
+//   real = (a + b*r) / denom, imag = (b - a*r) / denom
+// else:
+//   r = c/d, denom = d + c*r
+//   real = (a*r + b) / denom, imag = (b*r - a) / denom
+// ============================================================================
+
+COMPILER_RT_ABI Fcomplex __divsc3(float __a, float __b, float __c, float __d) {
+  float __abs_c = crt_fabsf(__c);
+  float __abs_d = crt_fabsf(__d);
+  Fcomplex z;
+  
+  if (__abs_d <= __abs_c) {
+    // |d| <= |c|: use r = d/c
+    if (__abs_c == 0.0f) {
+      // Division by zero
+      COMPLEX_REAL(z) = __a / __abs_c;  // Will produce inf or nan
+      COMPLEX_IMAGINARY(z) = __b / __abs_c;
+    } else {
+      float __r = __d / __c;
+      float __denom = __c + __d * __r;
+      COMPLEX_REAL(z) = (__a + __b * __r) / __denom;
+      COMPLEX_IMAGINARY(z) = (__b - __a * __r) / __denom;
+    }
+  } else {
+    // |d| > |c|: use r = c/d
+    float __r = __c / __d;
+    float __denom = __d + __c * __r;
+    COMPLEX_REAL(z) = (__a * __r + __b) / __denom;
+    COMPLEX_IMAGINARY(z) = (__b * __r - __a) / __denom;
+  }
+  
+  // Handle special cases (inf/nan)
+  if (crt_isnan(COMPLEX_REAL(z)) && crt_isnan(COMPLEX_IMAGINARY(z))) {
+    float __denom = __c * __c + __d * __d;
+    if (__denom == 0.0f && (!crt_isnan(__a) || !crt_isnan(__b))) {
+      // (finite) / 0 -> inf
+      COMPLEX_REAL(z) = crt_copysignf(CRT_INFINITY, __c) * __a;
+      COMPLEX_IMAGINARY(z) = crt_copysignf(CRT_INFINITY, __c) * __b;
+    } else if ((crt_isinf(__a) || crt_isinf(__b)) &&
+               crt_isfinite(__c) && crt_isfinite(__d)) {
+      // (inf) / (finite) -> inf
+      __a = crt_copysignf(crt_isinf(__a) ? 1.0f : 0.0f, __a);
+      __b = crt_copysignf(crt_isinf(__b) ? 1.0f : 0.0f, __b);
+      COMPLEX_REAL(z) = CRT_INFINITY * (__a * __c + __b * __d);
+      COMPLEX_IMAGINARY(z) = CRT_INFINITY * (__b * __c - __a * __d);
+    } else if ((crt_isinf(__c) || crt_isinf(__d)) &&
+               crt_isfinite(__a) && crt_isfinite(__b)) {
+      // (finite) / (inf) -> 0
+      __c = crt_copysignf(crt_isinf(__c) ? 1.0f : 0.0f, __c);
+      __d = crt_copysignf(crt_isinf(__d) ? 1.0f : 0.0f, __d);
+      COMPLEX_REAL(z) = 0.0f * (__a * __c + __b * __d);
+      COMPLEX_IMAGINARY(z) = 0.0f * (__b * __c - __a * __d);
+    }
+  }
+  return z;
+}
+
+// ============================================================================
+// Double-precision complex multiplication: __muldc3
+// Returns: (a + bi) * (c + di)
+// ============================================================================
+
+COMPILER_RT_ABI Dcomplex __muldc3(double __a, double __b, double __c, double __d) {
+  double __ac = __a * __c;
+  double __bd = __b * __d;
+  double __ad = __a * __d;
+  double __bc = __b * __c;
+  Dcomplex z;
+  COMPLEX_REAL(z) = __ac - __bd;
+  COMPLEX_IMAGINARY(z) = __ad + __bc;
+  
+  if (crt_isnan(COMPLEX_REAL(z)) && crt_isnan(COMPLEX_IMAGINARY(z))) {
+    int __recalc = 0;
+    if (crt_isinf(__a) || crt_isinf(__b)) {
+      __a = crt_copysign(crt_isinf(__a) ? 1.0 : 0.0, __a);
+      __b = crt_copysign(crt_isinf(__b) ? 1.0 : 0.0, __b);
+      if (crt_isnan(__c))
+        __c = crt_copysign(0.0, __c);
+      if (crt_isnan(__d))
+        __d = crt_copysign(0.0, __d);
+      __recalc = 1;
+    }
+    if (crt_isinf(__c) || crt_isinf(__d)) {
+      __c = crt_copysign(crt_isinf(__c) ? 1.0 : 0.0, __c);
+      __d = crt_copysign(crt_isinf(__d) ? 1.0 : 0.0, __d);
+      if (crt_isnan(__a))
+        __a = crt_copysign(0.0, __a);
+      if (crt_isnan(__b))
+        __b = crt_copysign(0.0, __b);
+      __recalc = 1;
+    }
+    if (!__recalc && (crt_isinf(__ac) || crt_isinf(__bd) ||
+                      crt_isinf(__ad) || crt_isinf(__bc))) {
+      if (crt_isnan(__a))
+        __a = crt_copysign(0.0, __a);
+      if (crt_isnan(__b))
+        __b = crt_copysign(0.0, __b);
+      if (crt_isnan(__c))
+        __c = crt_copysign(0.0, __c);
+      if (crt_isnan(__d))
+        __d = crt_copysign(0.0, __d);
+      __recalc = 1;
+    }
+    if (__recalc) {
+      COMPLEX_REAL(z) = CRT_INFINITY * (__a * __c - __b * __d);
+      COMPLEX_IMAGINARY(z) = CRT_INFINITY * (__a * __d + __b * __c);
+    }
+  }
+  return z;
+}
+
+// ============================================================================
+// Double-precision complex division: __divdc3
+// Returns: (a + bi) / (c + di)
+// Uses Smith's algorithm for numerical stability.
+// ============================================================================
+
+COMPILER_RT_ABI Dcomplex __divdc3(double __a, double __b, double __c, double __d) {
+  double __abs_c = crt_fabs(__c);
+  double __abs_d = crt_fabs(__d);
+  Dcomplex z;
+  
+  if (__abs_d <= __abs_c) {
+    if (__abs_c == 0.0) {
+      COMPLEX_REAL(z) = __a / __abs_c;
+      COMPLEX_IMAGINARY(z) = __b / __abs_c;
+    } else {
+      double __r = __d / __c;
+      double __denom = __c + __d * __r;
+      COMPLEX_REAL(z) = (__a + __b * __r) / __denom;
+      COMPLEX_IMAGINARY(z) = (__b - __a * __r) / __denom;
+    }
+  } else {
+    double __r = __c / __d;
+    double __denom = __d + __c * __r;
+    COMPLEX_REAL(z) = (__a * __r + __b) / __denom;
+    COMPLEX_IMAGINARY(z) = (__b * __r - __a) / __denom;
+  }
+  
+  if (crt_isnan(COMPLEX_REAL(z)) && crt_isnan(COMPLEX_IMAGINARY(z))) {
+    double __denom = __c * __c + __d * __d;
+    if (__denom == 0.0 && (!crt_isnan(__a) || !crt_isnan(__b))) {
+      COMPLEX_REAL(z) = crt_copysign(CRT_INFINITY, __c) * __a;
+      COMPLEX_IMAGINARY(z) = crt_copysign(CRT_INFINITY, __c) * __b;
+    } else if ((crt_isinf(__a) || crt_isinf(__b)) &&
+               crt_isfinite(__c) && crt_isfinite(__d)) {
+      __a = crt_copysign(crt_isinf(__a) ? 1.0 : 0.0, __a);
+      __b = crt_copysign(crt_isinf(__b) ? 1.0 : 0.0, __b);
+      COMPLEX_REAL(z) = CRT_INFINITY * (__a * __c + __b * __d);
+      COMPLEX_IMAGINARY(z) = CRT_INFINITY * (__b * __c - __a * __d);
+    } else if ((crt_isinf(__c) || crt_isinf(__d)) &&
+               crt_isfinite(__a) && crt_isfinite(__b)) {
+      __c = crt_copysign(crt_isinf(__c) ? 1.0 : 0.0, __c);
+      __d = crt_copysign(crt_isinf(__d) ? 1.0 : 0.0, __d);
+      COMPLEX_REAL(z) = 0.0 * (__a * __c + __b * __d);
+      COMPLEX_IMAGINARY(z) = 0.0 * (__b * __c - __a * __d);
+    }
+  }
+  return z;
 }

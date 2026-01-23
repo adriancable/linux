@@ -66,6 +66,13 @@ int main(void)
 	/* Combined offsets for direct access from task_struct pointer */
 	DEFINE(TASK_THREAD_SP, offsetof(struct task_struct, thread.sp));
 	DEFINE(TASK_THREAD_FP, offsetof(struct task_struct, thread.fp));
+	/* task->stack offset for kernel stack pointer computation */
+	DEFINE(TASK_STACK, offsetof(struct task_struct, stack));
+	/* Offset from stack page base to get subleq_kernel_sp value:
+	 * kernel_sp = task->stack + THREAD_SIZE - sizeof(pt_regs) - 1024
+	 * This constant = THREAD_SIZE - sizeof(pt_regs) - 1024
+	 */
+	DEFINE(KERNEL_SP_OFFSET, THREAD_SIZE - sizeof(struct pt_regs) - 1024);
 	BLANK();
 
 	return 0;

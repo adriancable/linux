@@ -1289,7 +1289,36 @@ __switch_to:
         .word   SW_Z, SW_Z, .+4
         .word   REG_R22, SW_Z, .+4
         .word   subleq_current_task, subleq_current_task, .+4
-        .word   SW_Z, subleq_current_task, .Lsw_load_sp
+        .word   SW_Z, subleq_current_task, .Lsw_update_kernel_sp
+
+        /*
+         * STEP 4b: Update subleq_kernel_sp for next task
+         *
+         * CRITICAL FIX: Without this, all tasks use init_task's kernel stack
+         * for syscalls, causing corruption when multiple tasks make syscalls.
+         *
+         * Formula: subleq_kernel_sp = next->stack + KERNEL_SP_OFFSET
+         * where KERNEL_SP_OFFSET = THREAD_SIZE - sizeof(pt_regs) - 1024
+         */
+.Lsw_update_kernel_sp:
+        /* Load next->stack into SW_Z2 */
+        .word   SW_Z, SW_Z, .+4
+        .word   REG_R22, SW_Z, .+4                            /* SW_Z = -next */
+        .word   SW_Z2, SW_Z2, .+4
+        .word   SW_Z, SW_Z2, .+4                              /* SW_Z2 = next */
+        .word   .Lconst_neg_task_stack, SW_Z2, .+4            /* SW_Z2 = &next->stack */
+        /* Load [SW_Z2] (the stack page pointer) into SW_Z */
+        .word   SW_Z, SW_Z, .+4
+        .word   SW_Z2 | INDIRECT, SW_Z, .+4                   /* SW_Z = -next->stack */
+        /* Compute kernel_sp = stack + KERNEL_SP_OFFSET */
+        .word   SW_Z2, SW_Z2, .+4
+        .word   SW_Z, SW_Z2, .+4                              /* SW_Z2 = next->stack */
+        .word   .Lconst_neg_kernel_sp_offset, SW_Z2, .+4      /* SW_Z2 = stack + KERNEL_SP_OFFSET */
+        /* Store to subleq_kernel_sp */
+        .word   SW_Z, SW_Z, .+4
+        .word   SW_Z2, SW_Z, .+4                              /* SW_Z = -kernel_sp */
+        .word   subleq_kernel_sp, subleq_kernel_sp, .+4       /* clear */
+        .word   SW_Z, subleq_kernel_sp, .Lsw_load_sp          /* store */
 
         /*
          * STEP 5: Load SP from next->thread.sp
@@ -2675,6 +2704,10 @@ __subleq_syscall:
         .word   -(TASK_THREAD_SP)       /* -offsetof(task_struct, thread.sp) */
 .Lconst_neg_task_thread_fp:
         .word   -(TASK_THREAD_FP)       /* -offsetof(task_struct, thread.fp) */
+.Lconst_neg_task_stack:
+        .word   -(TASK_STACK)           /* -offsetof(task_struct, stack) */
+.Lconst_neg_kernel_sp_offset:
+        .word   -(KERNEL_SP_OFFSET)     /* -(THREAD_SIZE - sizeof(pt_regs) - 1024) */
 
 /* Syscall-specific offsets */
 .Lconst_neg2:

@@ -56,19 +56,16 @@ asmlinkage long __subleq_syscall_c(long nr, long a1, long a2, long a3, long a4, 
 	long ret;
 
 	/*
-	 * Fill in pt_regs using the saved globals.
-	 * This is needed for fork/vfork to copy the correct return context.
+	 * pt_regs->pc, fp, sp, ra are now filled in by the assembly entry code
+	 * (in __subleq_syscall) BEFORE calling us. This is critical to avoid
+	 * a race condition: if we copied from globals here, an interrupt between
+	 * the assembly saving to globals and us copying to pt_regs could allow
+	 * another task to overwrite the globals, corrupting our return state.
 	 *
-	 * The child process (via ret_from_fork) should return to the exact
-	 * same state as the parent would after __subleq_syscall returns:
-	 *   - PC = saved_ra (instruction after syscall call)
-	 *   - FP = saved_fp (caller's frame pointer)
-	 *   - SP = saved_sp + 4 (caller's SP after popping RA)
+	 * Assembly now saves directly to pt_regs atomically after switching
+	 * to the kernel stack, eliminating this race window.
 	 */
 	regs = task_pt_regs(current);
-	regs->pc = subleq_syscall_saved_ra;
-	regs->fp = subleq_syscall_saved_fp;
-	regs->sp = subleq_syscall_saved_sp + 4;  /* +4 to match SP after RA pop */
 
 	/*
 	 * Save original syscall number and arguments for restart.

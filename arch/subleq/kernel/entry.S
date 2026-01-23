@@ -90,7 +90,6 @@
  */
 .set SUBLEQ_USP, 448    /* Saved userspace stack pointer */
 .set SUBLEQ_UFP, 452    /* Saved userspace frame pointer */
-.set SYSCALL_Z, 456    /* Scratch for syscall trampoline */
 
 /*
  * INT_SP: Interrupt Stack Pointer
@@ -2167,20 +2166,41 @@ jump_to_userspace:
 .type __subleq_syscall, @function
 __subleq_syscall:
         /*
+         * STEP 0: DISABLE INTERRUPTS
+         *
+         * CRITICAL: We must disable interrupts before saving ANY state.
+         * If an interrupt fires during the save sequence, a context switch
+         * could allow another task to overwrite our scratch registers (REG_T0)
+         * or globals (subleq_syscall_saved_*), corrupting our state.
+         *
+         * Save m[0] (interrupt handler) to .Lsyscall_saved_handler, then clear m[0].
+         *
+         * IMPORTANT: We use REG_T0 as scratch here.
+         * If an interrupt fires mid-sequence, the interrupt handler saves T0
+         * to the IRQ stack and restores it on return. This makes the sequence
+         * race-safe even if we're interrupted before m[0] is cleared.
+         */
+        .word   REG_T0, REG_T0, .+4                         /* T0 = 0 */
+        .word   INT_HANDLER, REG_T0, .+4                    /* T0 = -m[0] */
+        .word   .Lsyscall_saved_handler, .Lsyscall_saved_handler, .+4  /* clear save slot */
+        .word   REG_T0, .Lsyscall_saved_handler, .+4        /* save slot = m[0] */
+        .word   INT_HANDLER, INT_HANDLER, .+4               /* m[0] = 0 (disabled!) */
+
+        /*
          * STEP 1: Save SP to global subleq_syscall_saved_sp
          */
         .word   subleq_syscall_saved_sp, subleq_syscall_saved_sp, .+4  /* clear */
-        .word   SYSCALL_Z, SYSCALL_Z, .+4  /* ZZ = 0 */
-        .word   REG_SP, SYSCALL_Z, .+4       /* ZZ = -SP */
-        .word   SYSCALL_Z, subleq_syscall_saved_sp, .+4  /* saved_sp = SP */
+        .word   REG_T0, REG_T0, .+4  /* ZZ = 0 */
+        .word   REG_SP, REG_T0, .+4       /* ZZ = -SP */
+        .word   REG_T0, subleq_syscall_saved_sp, .+4  /* saved_sp = SP */
         
         /*
          * STEP 2: Save FP to global subleq_syscall_saved_fp
          */
         .word   subleq_syscall_saved_fp, subleq_syscall_saved_fp, .+4  /* clear */
-        .word   SYSCALL_Z, SYSCALL_Z, .+4  /* ZZ = 0 */
-        .word   REG_FP, SYSCALL_Z, .+4       /* ZZ = -FP */
-        .word   SYSCALL_Z, subleq_syscall_saved_fp, .+4  /* saved_fp = FP */
+        .word   REG_T0, REG_T0, .+4  /* ZZ = 0 */
+        .word   REG_FP, REG_T0, .+4       /* ZZ = -FP */
+        .word   REG_T0, subleq_syscall_saved_fp, .+4  /* saved_fp = FP */
 
         /*
          * STEP 3: Save return address from [SP] to global subleq_syscall_saved_ra
@@ -2205,9 +2225,9 @@ __subleq_syscall:
          * Load subleq_kernel_sp (set by context switch) into hardware SP.
          */
         .word   REG_SP, REG_SP, .+4       /* SP = 0 */
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   subleq_kernel_sp, SYSCALL_Z, .+4  /* ZZ = -kernel_sp */
-        .word   SYSCALL_Z, REG_SP, .+4   /* SP = kernel_sp */
+        .word   REG_T0, REG_T0, .+4
+        .word   subleq_kernel_sp, REG_T0, .+4  /* ZZ = -kernel_sp */
+        .word   REG_T0, REG_SP, .+4   /* SP = kernel_sp */
 
         /*
          * STEP 4a: Save all GPRs (R3-R31) to pt_regs
@@ -2231,213 +2251,275 @@ __subleq_syscall:
          */
 
         /* Compute pt_regs base = subleq_kernel_sp + 1024 into REG_T9 */
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   subleq_kernel_sp, SYSCALL_Z, .+4        /* ZZ = -kernel_sp */
+        .word   REG_T0, REG_T0, .+4
+        .word   subleq_kernel_sp, REG_T0, .+4        /* ZZ = -kernel_sp */
         .word   REG_T9, REG_T9, .+4                      /* T9 = 0 */
-        .word   SYSCALL_Z, REG_T9, .+4                  /* T9 = kernel_sp */
+        .word   REG_T0, REG_T9, .+4                  /* T9 = kernel_sp */
         .word   .Lconst_neg1024, REG_T9, .+4           /* T9 = kernel_sp + 1024 = pt_regs base */
 
         /* Save R3 at [T9 + 0] */
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   REG_R3, SYSCALL_Z, .+4                  /* ZZ = -R3 */
+        .word   REG_T0, REG_T0, .+4
+        .word   REG_R3, REG_T0, .+4                  /* ZZ = -R3 */
         .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4  /* [T9] = 0 */
-        .word   SYSCALL_Z, REG_T9 | INDIRECT, .+4       /* [T9] = R3 */
+        .word   REG_T0, REG_T9 | INDIRECT, .+4       /* [T9] = R3 */
 
         /* Save R4 at [T9 + 4] */
         .word   .Lconst_neg4, REG_T9, .+4              /* T9 += 4 */
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   REG_R4, SYSCALL_Z, .+4
+        .word   REG_T0, REG_T0, .+4
+        .word   REG_R4, REG_T0, .+4
         .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-        .word   SYSCALL_Z, REG_T9 | INDIRECT, .+4
+        .word   REG_T0, REG_T9 | INDIRECT, .+4
 
         /* Save R5 at [T9 + 8] */
         .word   .Lconst_neg4, REG_T9, .+4
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   REG_R5, SYSCALL_Z, .+4
+        .word   REG_T0, REG_T0, .+4
+        .word   REG_R5, REG_T0, .+4
         .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-        .word   SYSCALL_Z, REG_T9 | INDIRECT, .+4
+        .word   REG_T0, REG_T9 | INDIRECT, .+4
 
         /* Save R6 at [T9 + 12] */
         .word   .Lconst_neg4, REG_T9, .+4
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   REG_R6, SYSCALL_Z, .+4
+        .word   REG_T0, REG_T0, .+4
+        .word   REG_R6, REG_T0, .+4
         .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-        .word   SYSCALL_Z, REG_T9 | INDIRECT, .+4
+        .word   REG_T0, REG_T9 | INDIRECT, .+4
 
         /* Save R7 at [T9 + 16] */
         .word   .Lconst_neg4, REG_T9, .+4
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   REG_R7, SYSCALL_Z, .+4
+        .word   REG_T0, REG_T0, .+4
+        .word   REG_R7, REG_T0, .+4
         .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-        .word   SYSCALL_Z, REG_T9 | INDIRECT, .+4
+        .word   REG_T0, REG_T9 | INDIRECT, .+4
 
         /* Save R8 at [T9 + 20] */
         .word   .Lconst_neg4, REG_T9, .+4
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   REG_R8, SYSCALL_Z, .+4
+        .word   REG_T0, REG_T0, .+4
+        .word   REG_R8, REG_T0, .+4
         .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-        .word   SYSCALL_Z, REG_T9 | INDIRECT, .+4
+        .word   REG_T0, REG_T9 | INDIRECT, .+4
 
         /* Save R9 at [T9 + 24] */
         .word   .Lconst_neg4, REG_T9, .+4
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   REG_R9, SYSCALL_Z, .+4
+        .word   REG_T0, REG_T0, .+4
+        .word   REG_R9, REG_T0, .+4
         .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-        .word   SYSCALL_Z, REG_T9 | INDIRECT, .+4
+        .word   REG_T0, REG_T9 | INDIRECT, .+4
 
         /* Save R10 at [T9 + 28] */
         .word   .Lconst_neg4, REG_T9, .+4
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   REG_R10, SYSCALL_Z, .+4
+        .word   REG_T0, REG_T0, .+4
+        .word   REG_R10, REG_T0, .+4
         .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-        .word   SYSCALL_Z, REG_T9 | INDIRECT, .+4
+        .word   REG_T0, REG_T9 | INDIRECT, .+4
 
         /* Save R11 at [T9 + 32] */
         .word   .Lconst_neg4, REG_T9, .+4
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   REG_R11, SYSCALL_Z, .+4
+        .word   REG_T0, REG_T0, .+4
+        .word   REG_R11, REG_T0, .+4
         .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-        .word   SYSCALL_Z, REG_T9 | INDIRECT, .+4
+        .word   REG_T0, REG_T9 | INDIRECT, .+4
 
         /* Save R12 at [T9 + 36] */
         .word   .Lconst_neg4, REG_T9, .+4
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   REG_R12, SYSCALL_Z, .+4
+        .word   REG_T0, REG_T0, .+4
+        .word   REG_R12, REG_T0, .+4
         .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-        .word   SYSCALL_Z, REG_T9 | INDIRECT, .+4
+        .word   REG_T0, REG_T9 | INDIRECT, .+4
 
         /* Save R13 at [T9 + 40] */
         .word   .Lconst_neg4, REG_T9, .+4
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   REG_R13, SYSCALL_Z, .+4
+        .word   REG_T0, REG_T0, .+4
+        .word   REG_R13, REG_T0, .+4
         .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-        .word   SYSCALL_Z, REG_T9 | INDIRECT, .+4
+        .word   REG_T0, REG_T9 | INDIRECT, .+4
 
         /* Save R14 at [T9 + 44] */
         .word   .Lconst_neg4, REG_T9, .+4
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   REG_R14, SYSCALL_Z, .+4
+        .word   REG_T0, REG_T0, .+4
+        .word   REG_R14, REG_T0, .+4
         .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-        .word   SYSCALL_Z, REG_T9 | INDIRECT, .+4
+        .word   REG_T0, REG_T9 | INDIRECT, .+4
 
         /* Save R15 at [T9 + 48] */
         .word   .Lconst_neg4, REG_T9, .+4
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   REG_R15, SYSCALL_Z, .+4
+        .word   REG_T0, REG_T0, .+4
+        .word   REG_R15, REG_T0, .+4
         .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-        .word   SYSCALL_Z, REG_T9 | INDIRECT, .+4
+        .word   REG_T0, REG_T9 | INDIRECT, .+4
 
         /* Save R16 at [T9 + 52] */
         .word   .Lconst_neg4, REG_T9, .+4
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   REG_R16, SYSCALL_Z, .+4
+        .word   REG_T0, REG_T0, .+4
+        .word   REG_R16, REG_T0, .+4
         .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-        .word   SYSCALL_Z, REG_T9 | INDIRECT, .+4
+        .word   REG_T0, REG_T9 | INDIRECT, .+4
 
         /* Save R17 at [T9 + 56] */
         .word   .Lconst_neg4, REG_T9, .+4
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   REG_R17, SYSCALL_Z, .+4
+        .word   REG_T0, REG_T0, .+4
+        .word   REG_R17, REG_T0, .+4
         .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-        .word   SYSCALL_Z, REG_T9 | INDIRECT, .+4
+        .word   REG_T0, REG_T9 | INDIRECT, .+4
 
         /* Save R18 at [T9 + 60] */
         .word   .Lconst_neg4, REG_T9, .+4
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   REG_R18, SYSCALL_Z, .+4
+        .word   REG_T0, REG_T0, .+4
+        .word   REG_R18, REG_T0, .+4
         .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-        .word   SYSCALL_Z, REG_T9 | INDIRECT, .+4
+        .word   REG_T0, REG_T9 | INDIRECT, .+4
 
         /* Save R19 at [T9 + 64] */
         .word   .Lconst_neg4, REG_T9, .+4
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   REG_R19, SYSCALL_Z, .+4
+        .word   REG_T0, REG_T0, .+4
+        .word   REG_R19, REG_T0, .+4
         .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-        .word   SYSCALL_Z, REG_T9 | INDIRECT, .+4
+        .word   REG_T0, REG_T9 | INDIRECT, .+4
 
         /* Save R20 at [T9 + 68] */
         .word   .Lconst_neg4, REG_T9, .+4
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   REG_R20, SYSCALL_Z, .+4
+        .word   REG_T0, REG_T0, .+4
+        .word   REG_R20, REG_T0, .+4
         .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-        .word   SYSCALL_Z, REG_T9 | INDIRECT, .+4
+        .word   REG_T0, REG_T9 | INDIRECT, .+4
 
         /* Save R21 at [T9 + 72] */
         .word   .Lconst_neg4, REG_T9, .+4
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   REG_R21, SYSCALL_Z, .+4
+        .word   REG_T0, REG_T0, .+4
+        .word   REG_R21, REG_T0, .+4
         .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-        .word   SYSCALL_Z, REG_T9 | INDIRECT, .+4
+        .word   REG_T0, REG_T9 | INDIRECT, .+4
 
         /* Save R22 at [T9 + 76] */
         .word   .Lconst_neg4, REG_T9, .+4
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   REG_R22, SYSCALL_Z, .+4
+        .word   REG_T0, REG_T0, .+4
+        .word   REG_R22, REG_T0, .+4
         .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-        .word   SYSCALL_Z, REG_T9 | INDIRECT, .+4
+        .word   REG_T0, REG_T9 | INDIRECT, .+4
 
         /* Save R23 at [T9 + 80] */
         .word   .Lconst_neg4, REG_T9, .+4
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   REG_R23, SYSCALL_Z, .+4
+        .word   REG_T0, REG_T0, .+4
+        .word   REG_R23, REG_T0, .+4
         .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-        .word   SYSCALL_Z, REG_T9 | INDIRECT, .+4
+        .word   REG_T0, REG_T9 | INDIRECT, .+4
 
         /* Save R24 at [T9 + 84] */
         .word   .Lconst_neg4, REG_T9, .+4
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   REG_R24, SYSCALL_Z, .+4
+        .word   REG_T0, REG_T0, .+4
+        .word   REG_R24, REG_T0, .+4
         .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-        .word   SYSCALL_Z, REG_T9 | INDIRECT, .+4
+        .word   REG_T0, REG_T9 | INDIRECT, .+4
 
         /* Save R25 at [T9 + 88] */
         .word   .Lconst_neg4, REG_T9, .+4
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   REG_R25, SYSCALL_Z, .+4
+        .word   REG_T0, REG_T0, .+4
+        .word   REG_R25, REG_T0, .+4
         .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-        .word   SYSCALL_Z, REG_T9 | INDIRECT, .+4
+        .word   REG_T0, REG_T9 | INDIRECT, .+4
 
         /* Save R26 at [T9 + 92] */
         .word   .Lconst_neg4, REG_T9, .+4
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   REG_R26, SYSCALL_Z, .+4
+        .word   REG_T0, REG_T0, .+4
+        .word   REG_R26, REG_T0, .+4
         .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-        .word   SYSCALL_Z, REG_T9 | INDIRECT, .+4
+        .word   REG_T0, REG_T9 | INDIRECT, .+4
 
         /* Save R27 at [T9 + 96] */
         .word   .Lconst_neg4, REG_T9, .+4
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   REG_R27, SYSCALL_Z, .+4
+        .word   REG_T0, REG_T0, .+4
+        .word   REG_R27, REG_T0, .+4
         .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-        .word   SYSCALL_Z, REG_T9 | INDIRECT, .+4
+        .word   REG_T0, REG_T9 | INDIRECT, .+4
 
         /* Save R28 at [T9 + 100] */
         .word   .Lconst_neg4, REG_T9, .+4
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   REG_R28, SYSCALL_Z, .+4
+        .word   REG_T0, REG_T0, .+4
+        .word   REG_R28, REG_T0, .+4
         .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-        .word   SYSCALL_Z, REG_T9 | INDIRECT, .+4
+        .word   REG_T0, REG_T9 | INDIRECT, .+4
 
         /* Save R29 at [T9 + 104] */
         .word   .Lconst_neg4, REG_T9, .+4
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   REG_R29, SYSCALL_Z, .+4
+        .word   REG_T0, REG_T0, .+4
+        .word   REG_R29, REG_T0, .+4
         .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-        .word   SYSCALL_Z, REG_T9 | INDIRECT, .+4
+        .word   REG_T0, REG_T9 | INDIRECT, .+4
 
         /* Save R30 at [T9 + 108] */
         .word   .Lconst_neg4, REG_T9, .+4
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   REG_R30, SYSCALL_Z, .+4
+        .word   REG_T0, REG_T0, .+4
+        .word   REG_R30, REG_T0, .+4
         .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-        .word   SYSCALL_Z, REG_T9 | INDIRECT, .+4
+        .word   REG_T0, REG_T9 | INDIRECT, .+4
 
         /* Save R31 at [T9 + 112] */
         .word   .Lconst_neg4, REG_T9, .+4
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   REG_R31, SYSCALL_Z, .+4
+        .word   REG_T0, REG_T0, .+4
+        .word   REG_R31, REG_T0, .+4
         .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-        .word   SYSCALL_Z, REG_T9 | INDIRECT, .+4
+        .word   REG_T0, REG_T9 | INDIRECT, .+4
+
+        /*
+         * STEP 4a-continued: Save FP, SP, RA, PC to pt_regs
+         *
+         * CRITICAL: These must be saved HERE in assembly, not later in C code!
+         * If we wait for C code to copy from globals, an interrupt between here
+         * and the C code can cause a context switch, allowing another task to
+         * overwrite the globals with its own values. When we resume, C would
+         * copy the wrong values to pt_regs, causing a crash on syscall return.
+         *
+         * Offsets (continuing from R31 at 112):
+         *   FP at offset 116
+         *   SP at offset 120 (must be saved_sp + 4 to match post-call state)
+         *   RA at offset 124
+         *   PC at offset 128 (same as RA - the return address IS the PC)
+         */
+
+        /* Save FP at [T9 + 116] from subleq_syscall_saved_fp */
+        .word   .Lconst_neg4, REG_T9, .+4              /* T9 = pt_regs + 116 */
+        .word   REG_T0, REG_T0, .+4
+        .word   subleq_syscall_saved_fp, REG_T0, .+4  /* ZZ = -saved_fp */
+        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
+        .word   REG_T0, REG_T9 | INDIRECT, .+4      /* [T9] = saved_fp */
+
+        /* Save SP at [T9 + 120] = saved_sp + 4 (post-call SP) */
+        .word   .Lconst_neg4, REG_T9, .+4              /* T9 = pt_regs + 120 */
+        .word   REG_T0, REG_T0, .+4
+        .word   subleq_syscall_saved_sp, REG_T0, .+4  /* ZZ = -saved_sp */
+        .word   .Lconst_4, REG_T0, .+4              /* ZZ = -(saved_sp + 4) */
+        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
+        .word   REG_T0, REG_T9 | INDIRECT, .+4      /* [T9] = saved_sp + 4 */
+
+        /* Save RA at [T9 + 124] from subleq_syscall_saved_ra */
+        .word   .Lconst_neg4, REG_T9, .+4              /* T9 = pt_regs + 124 */
+        .word   REG_T0, REG_T0, .+4
+        .word   subleq_syscall_saved_ra, REG_T0, .+4  /* ZZ = -saved_ra */
+        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
+        .word   REG_T0, REG_T9 | INDIRECT, .+4      /* [T9] = saved_ra */
+
+        /* Save PC at [T9 + 128] - same as RA (return address is the PC to return to) */
+        .word   .Lconst_neg4, REG_T9, .+4              /* T9 = pt_regs + 128 */
+        .word   REG_T0, REG_T0, .+4
+        .word   subleq_syscall_saved_ra, REG_T0, .+4  /* ZZ = -saved_ra */
+        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
+        .word   REG_T0, REG_T9 | INDIRECT, .+4      /* [T9] = saved_ra (as PC) */
+
+        /*
+         * STEP 4a-final: RE-ENABLE INTERRUPTS
+         *
+         * All critical state is now safely saved to pt_regs. We can re-enable
+         * interrupts. Even if an interrupt causes a context switch now, our
+         * pt_regs (on our kernel stack) remains intact, and when we return,
+         * __switch_to will restore subleq_kernel_sp to point to our stack.
+         *
+         * Restore m[0] from .Lsyscall_saved_handler.
+         * Using REG_T0 for consistency with STEP 0 (though interrupts are
+         * currently disabled, so REG_T0 would also be safe here).
+         */
+        .word   REG_T0, REG_T0, .+4                         /* T0 = 0 */
+        .word   .Lsyscall_saved_handler, REG_T0, .+4        /* T0 = -handler */
+        .word   INT_HANDLER, INT_HANDLER, .+4               /* m[0] = 0 */
+        .word   REG_T0, INT_HANDLER, .+4                    /* m[0] = handler */
 
         /*
          * STEP 4b: Push a6, a5, a4 from userspace stack onto kernel stack
@@ -2465,47 +2547,47 @@ __subleq_syscall:
         /* ---- Push a6 (from [saved_sp + 12]) ---- */
         /* Compute saved_sp + 12 into REG_T8 for indirect access */
         .word   REG_T8, REG_T8, .+4                                /* T8 = 0 */
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   subleq_syscall_saved_sp, SYSCALL_Z, .+4           /* ZZ = -saved_sp */
-        .word   SYSCALL_Z, REG_T8, .+4                            /* T8 = saved_sp */
+        .word   REG_T0, REG_T0, .+4
+        .word   subleq_syscall_saved_sp, REG_T0, .+4           /* ZZ = -saved_sp */
+        .word   REG_T0, REG_T8, .+4                            /* T8 = saved_sp */
         .word   .Lconst_neg12, REG_T8, .+4                       /* T8 = saved_sp + 12 */
         
-        /* Load [T8] into SYSCALL_Z using indirect addressing */
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   REG_T8 | INDIRECT, SYSCALL_Z, .+4                 /* ZZ = -[T8] = -a6 */
+        /* Load [T8] into REG_T0 using indirect addressing */
+        .word   REG_T0, REG_T0, .+4
+        .word   REG_T8 | INDIRECT, REG_T0, .+4                 /* ZZ = -[T8] = -a6 */
         
         /* Push -ZZ onto kernel stack */
         .word   .Lconst_4, REG_SP, .+4                           /* SP -= 4 */
         .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .+4          /* [SP] = 0 */
-        .word   SYSCALL_Z, REG_SP | INDIRECT, .+4                 /* [SP] = a6 */
+        .word   REG_T0, REG_SP | INDIRECT, .+4                 /* [SP] = a6 */
         
         /* ---- Push a5 (from [saved_sp + 8]) ---- */
         .word   REG_T8, REG_T8, .+4                                /* T8 = 0 */
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   subleq_syscall_saved_sp, SYSCALL_Z, .+4           /* ZZ = -saved_sp */
-        .word   SYSCALL_Z, REG_T8, .+4                            /* T8 = saved_sp */
+        .word   REG_T0, REG_T0, .+4
+        .word   subleq_syscall_saved_sp, REG_T0, .+4           /* ZZ = -saved_sp */
+        .word   REG_T0, REG_T8, .+4                            /* T8 = saved_sp */
         .word   .Lconst_neg8, REG_T8, .+4                        /* T8 = saved_sp + 8 */
         
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   REG_T8 | INDIRECT, SYSCALL_Z, .+4                 /* ZZ = -a5 */
+        .word   REG_T0, REG_T0, .+4
+        .word   REG_T8 | INDIRECT, REG_T0, .+4                 /* ZZ = -a5 */
         
         .word   .Lconst_4, REG_SP, .+4                           /* SP -= 4 */
         .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .+4          /* [SP] = 0 */
-        .word   SYSCALL_Z, REG_SP | INDIRECT, .+4                 /* [SP] = a5 */
+        .word   REG_T0, REG_SP | INDIRECT, .+4                 /* [SP] = a5 */
         
         /* ---- Push a4 (from [saved_sp + 4]) ---- */
         .word   REG_T8, REG_T8, .+4                                /* T8 = 0 */
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   subleq_syscall_saved_sp, SYSCALL_Z, .+4           /* ZZ = -saved_sp */
-        .word   SYSCALL_Z, REG_T8, .+4                            /* T8 = saved_sp */
+        .word   REG_T0, REG_T0, .+4
+        .word   subleq_syscall_saved_sp, REG_T0, .+4           /* ZZ = -saved_sp */
+        .word   REG_T0, REG_T8, .+4                            /* T8 = saved_sp */
         .word   .Lconst_neg4, REG_T8, .+4                /* T8 = saved_sp + 4 */
         
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   REG_T8 | INDIRECT, SYSCALL_Z, .+4                 /* ZZ = -a4 */
+        .word   REG_T0, REG_T0, .+4
+        .word   REG_T8 | INDIRECT, REG_T0, .+4                 /* ZZ = -a4 */
         
         .word   .Lconst_4, REG_SP, .+4                           /* SP -= 4 */
         .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .+4          /* [SP] = 0 */
-        .word   SYSCALL_Z, REG_SP | INDIRECT, .+4                 /* [SP] = a4 */
+        .word   REG_T0, REG_SP | INDIRECT, .+4                 /* [SP] = a4 */
 
         /*
          * STEP 5: Set up call frame and call __subleq_syscall_c
@@ -2516,8 +2598,8 @@ __subleq_syscall:
          * Stack-based call sequence:
          *   1. SP -= 4 (make room for return address)
          *   2. Clear [SP] using indirect: subleq(SP|I, SP|I, next)
-         *   3. Load -return_addr into SYSCALL_Z
-         *   4. Store return_addr to [SP]: subleq(SYSCALL_Z, SP|I, next)
+         *   3. Load -return_addr into REG_T0
+         *   4. Store return_addr to [SP]: subleq(REG_T0, SP|I, next)
          *   5. Jump to function
          */
         
@@ -2528,16 +2610,16 @@ __subleq_syscall:
         /* subleq(SP|I, SP|I, next) does: m[m[SP]] -= m[m[SP]] => m[SP] = 0 */
         .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .+4
         
-        /* Step 3: Get -return_addr into SYSCALL_Z */
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   .Lsyscall_c_ret_addr, SYSCALL_Z, .+4  /* ZZ = -return_point */
+        /* Step 3: Get -return_addr into REG_T0 */
+        .word   REG_T0, REG_T0, .+4
+        .word   .Lsyscall_c_ret_addr, REG_T0, .+4  /* ZZ = -return_point */
         
         /* Step 4: Store return_addr to [SP] using indirect addressing */
-        /* subleq(SYSCALL_Z, SP|I, next) does: m[m[SP]] -= SYSCALL_Z => m[SP] = 0 - (-addr) = addr */
-        .word   SYSCALL_Z, REG_SP | INDIRECT, .+4
+        /* subleq(REG_T0, SP|I, next) does: m[m[SP]] -= REG_T0 => m[SP] = 0 - (-addr) = addr */
+        .word   REG_T0, REG_SP | INDIRECT, .+4
 
         /* Step 5: Jump to C handler */
-        .word   SYSCALL_Z, SYSCALL_Z, __subleq_syscall_c
+        .word   REG_T0, REG_T0, __subleq_syscall_c
 
 
         /* Return point from C handler */
@@ -2552,7 +2634,7 @@ __subleq_syscall:
          * Read userspace SP/FP/PC from pt_regs (which is per-task).
          */
 
-        .word   SYSCALL_Z, SYSCALL_Z, .Lsyscall_start_restore
+        .word   REG_T0, REG_T0, .Lsyscall_start_restore
 
 .Lsyscall_r20_check:
         .word   0                                              /* scratch for R20 test */
@@ -2564,41 +2646,41 @@ __subleq_syscall:
          * pt_regs_addr = subleq_kernel_sp + 1024
          * Store in .Lsyscall_ptregs_addr for reuse
          */
-        .word   SYSCALL_Z, SYSCALL_Z, .+4           /* ZZ = 0 */
-        .word   subleq_kernel_sp, SYSCALL_Z, .+4     /* ZZ = -kernel_sp */
+        .word   REG_T0, REG_T0, .+4           /* ZZ = 0 */
+        .word   subleq_kernel_sp, REG_T0, .+4     /* ZZ = -kernel_sp */
         .word   .Lsyscall_ptregs_addr, .Lsyscall_ptregs_addr, .+4  /* clear */
-        .word   SYSCALL_Z, .Lsyscall_ptregs_addr, .+4  /* = kernel_sp */
+        .word   REG_T0, .Lsyscall_ptregs_addr, .+4  /* = kernel_sp */
         .word   .Lconst_neg1024, .Lsyscall_ptregs_addr, .+4  /* += 1024 */
 
         /*
          * STEP 2: Load SP from pt_regs->sp (offset 120)
          * Compute &pt_regs->sp into REG_T8, then use REG_T8|INDIRECT to load
          */
-        .word   SYSCALL_Z, SYSCALL_Z, .+4           /* ZZ = 0 */
-        .word   .Lsyscall_ptregs_addr, SYSCALL_Z, .+4  /* ZZ = -pt_regs */
+        .word   REG_T0, REG_T0, .+4           /* ZZ = 0 */
+        .word   .Lsyscall_ptregs_addr, REG_T0, .+4  /* ZZ = -pt_regs */
         .word   REG_T8, REG_T8, .+4                   /* T8 = 0 */
-        .word   SYSCALL_Z, REG_T8, .+4               /* T8 = pt_regs */
+        .word   REG_T0, REG_T8, .+4               /* T8 = pt_regs */
         .word   .Lconst_neg120, REG_T8, .+4          /* T8 = pt_regs + 120 = &sp */
         
         /* Load [T8] (the sp value) via indirect addressing */
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   REG_T8 | INDIRECT, SYSCALL_Z, .+4    /* ZZ = -[T8] = -sp */
+        .word   REG_T0, REG_T0, .+4
+        .word   REG_T8 | INDIRECT, REG_T0, .+4    /* ZZ = -[T8] = -sp */
         .word   REG_SP, REG_SP, .+4                   /* SP = 0 */
-        .word   SYSCALL_Z, REG_SP, .+4               /* SP = sp value */
+        .word   REG_T0, REG_SP, .+4               /* SP = sp value */
 
         /*
          * STEP 3: Load FP from pt_regs->fp (offset 116)
          */
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   .Lsyscall_ptregs_addr, SYSCALL_Z, .+4
+        .word   REG_T0, REG_T0, .+4
+        .word   .Lsyscall_ptregs_addr, REG_T0, .+4
         .word   REG_T8, REG_T8, .+4
-        .word   SYSCALL_Z, REG_T8, .+4               /* T8 = pt_regs */
+        .word   REG_T0, REG_T8, .+4               /* T8 = pt_regs */
         .word   .Lconst_neg116, REG_T8, .+4          /* T8 = pt_regs + 116 = &fp */
         
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   REG_T8 | INDIRECT, SYSCALL_Z, .+4    /* ZZ = -fp */
+        .word   REG_T0, REG_T0, .+4
+        .word   REG_T8 | INDIRECT, REG_T0, .+4    /* ZZ = -fp */
         .word   REG_FP, REG_FP, .+4                   /* FP = 0 */
-        .word   SYSCALL_Z, REG_FP, .+4               /* FP = fp value */
+        .word   REG_T0, REG_FP, .+4               /* FP = fp value */
 
         /*
          * STEP 4: Load PC from pt_regs->pc (offset 128) and jump to it
@@ -2606,21 +2688,21 @@ __subleq_syscall:
          * Store PC in SW_Z2 (address 444), then jump via 446 (SW_Z2|INDIRECT).
          * Same pattern as ret_from_fork.
          */
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   .Lsyscall_ptregs_addr, SYSCALL_Z, .+4
+        .word   REG_T0, REG_T0, .+4
+        .word   .Lsyscall_ptregs_addr, REG_T0, .+4
         .word   REG_T8, REG_T8, .+4
-        .word   SYSCALL_Z, REG_T8, .+4               /* T8 = pt_regs */
+        .word   REG_T0, REG_T8, .+4               /* T8 = pt_regs */
         .word   .Lconst_neg128, REG_T8, .+4         /* T8 = pt_regs + 128 = &pc */
         
         /* Load [T8] (the pc value) into SW_Z2 (address 444) */
-        .word   SYSCALL_Z, SYSCALL_Z, .+4
-        .word   REG_T8 | INDIRECT, SYSCALL_Z, .+4    /* ZZ = -pc */
+        .word   REG_T0, REG_T0, .+4
+        .word   REG_T8 | INDIRECT, REG_T0, .+4    /* ZZ = -pc */
         .word   SW_Z2, SW_Z2, .+4                   /* clear SW_Z2 */
-        .word   SYSCALL_Z, SW_Z2, .+4               /* SW_Z2 = pc */
+        .word   REG_T0, SW_Z2, .+4               /* SW_Z2 = pc */
         
         /* Jump to m[SW_Z2] = pc value */
         /* SW_Z2 | INDIRECT = 444 | 2 = 446 */
-        .word   SYSCALL_Z, SYSCALL_Z, 446
+        .word   REG_T0, REG_T0, 446
 
 /* Local data for __subleq_syscall */
 .Lsyscall_c_ret_addr:
@@ -2636,6 +2718,10 @@ __subleq_syscall:
 /* Constants for forwarding syscall args 5-7 from userspace stack */
 .Lsyscall_ustack_addr:
         .word   0               /* scratch for userspace stack address calculation */
+
+/* Saved interrupt handler for syscall critical section */
+.Lsyscall_saved_handler:
+        .word   0               /* m[0] saved here while interrupts disabled */
 
 /*
  * ===========================================================================
@@ -2770,7 +2856,7 @@ ret_from_user_rt_signal:
          * 3. sys_rt_sigreturn restores context from signal frame
          * 4. Return to original interrupted code
          */
-        .word   SYSCALL_Z, SYSCALL_Z, __subleq_syscall
+        .word   REG_T0, REG_T0, __subleq_syscall
 
 .Lconst_neg139:
         .word   -139    /* Negative value for syscall number via subtraction */

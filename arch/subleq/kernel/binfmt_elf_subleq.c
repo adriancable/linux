@@ -666,7 +666,7 @@ static long load_elf_segments(struct file *file, struct elfhdr *hdr,
 				  &pos);
 		if (ret != hdr->e_phnum * sizeof(struct elf_phdr)) {
 			kfree(phdrs);
-			return ret < 0 ? ret : -ENOEXEC;
+			return ret < 0 ? ret : -EIO;
 		}
 		phnum = hdr->e_phnum;
 		own_phdrs = 1;
@@ -731,12 +731,12 @@ static long load_elf_segments(struct file *file, struct elfhdr *hdr,
 			ret = kernel_read(file, (void *)seg_addr,
 					  phdr->p_filesz, &pos);
 			if (ret != phdr->p_filesz) {
-				pr_err("SUBLEQ_ELF: Segment %d read failed: wanted %lu, got %ld\n",
+				subleq_elf_debug("Segment %d read failed: wanted %lu, got %ld\n",
 				       i, (unsigned long)phdr->p_filesz, (long)ret);
 				vm_munmap(load_addr, total_size);
 				if (own_phdrs)
 					kfree(phdrs);
-				return ret < 0 ? ret : -ENOEXEC;
+				return ret < 0 ? ret : -EIO;
 			}
 		}
 
@@ -835,7 +835,7 @@ static int process_relocations_and_symbols(struct libsrt_state *state, struct fi
 				  &pos);
 		if (ret != hdr->e_shnum * sizeof(struct elf_shdr)) {
 			kfree(shdrs);
-			return ret < 0 ? ret : -ENOEXEC;
+			return ret < 0 ? ret : -EIO;
 		}
 		own_shdrs = 1;
 	}
@@ -948,7 +948,8 @@ static int process_relocations_and_symbols(struct libsrt_state *state, struct fi
 			kfree(sym_cache);
 			kfree(syms);
 			kfree(strtab);
-			kfree(shdrs);
+			if (own_shdrs)
+				kfree(shdrs);
 			return -ENOMEM;
 		}
 	}
@@ -968,7 +969,7 @@ static int process_relocations_and_symbols(struct libsrt_state *state, struct fi
 		 */
 
 		if (shdr->sh_entsize != sizeof(struct elf32_rel)) {
-			pr_warn("SUBLEQ_ELF: Unexpected rel entry size %u\n",
+			subleq_elf_debug("Unexpected rel entry size %u\n",
 				(unsigned)shdr->sh_entsize);
 			continue;
 		}
@@ -985,8 +986,9 @@ static int process_relocations_and_symbols(struct libsrt_state *state, struct fi
 			kfree(sym_cache);
 			kfree(syms);
 			kfree(strtab);
-			kfree(shdrs);
-			return ret < 0 ? ret : -ENOEXEC;
+			if (own_shdrs)
+				kfree(shdrs);
+			return ret < 0 ? ret : -EIO;
 		}
 
 		subleq_elf_debug("Processing reloc section sh_flags=0x%x nrels=%d e_type=%d",
@@ -1187,12 +1189,12 @@ static int load_libsrt(struct libsrt_state *state, const char *lib_path, struct 
 	ret = kernel_read(lib_file, &lib_hdr, sizeof(lib_hdr), &pos);
 	if (ret != sizeof(lib_hdr)) {
 		fput(lib_file);
-		return ret < 0 ? ret : -ENOEXEC;
+		return ret < 0 ? ret : -EIO;
 	}
 
 	if (!is_subleq_elf(&lib_hdr, lib_file)) {
 		fput(lib_file);
-		pr_err("SUBLEQ_ELF: %s is not a valid Subleq ELF\n", lib_path);
+		subleq_elf_debug("%s is not a valid Subleq ELF\n", lib_path);
 		return -ENOEXEC;
 	}
 
@@ -1201,7 +1203,7 @@ static int load_libsrt(struct libsrt_state *state, const char *lib_path, struct 
 	ret = load_elf_segments(lib_file, &lib_hdr, lib_info, NULL, 0);
 	if (ret < 0) {
 		fput(lib_file);
-		pr_err("SUBLEQ_ELF: Failed to load %s: %d\n", lib_path,
+		subleq_elf_debug("Failed to load %s: %d\n", lib_path,
 		       (int)ret);
 		return ret;
 	}
@@ -1229,7 +1231,7 @@ static int load_libsrt(struct libsrt_state *state, const char *lib_path, struct 
 					      NULL,  /* No cached shdrs yet */
 					      &state->loaded_libs[state->loaded_lib_count - 1].shdrs);
 	if (ret < 0) {
-		pr_err("SUBLEQ_ELF: Failed to build symtab for %s: %d\n",
+		subleq_elf_debug("Failed to build symtab for %s: %d\n",
 		       lib_path, (int)ret);
 		return ret;
 	}
@@ -1592,7 +1594,7 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 				state->loaded_libs[i].shdrs,  /* Use cached shdrs */
 				NULL);  /* No need to cache again */
 			if (ret < 0) {
-				pr_err("SUBLEQ_ELF: Failed deferred relocs for %s: %d\n",
+				subleq_elf_debug("Failed deferred relocs for %s: %d\n",
 				       state->loaded_libs[i].name, (int)ret);
 				/* Close all open files and free cached data before returning */
 				for (i = 0; i < state->loaded_lib_count; i++) {
@@ -1645,7 +1647,7 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 					      1,  /* is_main_exec=1: main executable */
 					      NULL, NULL);
 	if (ret < 0) {
-		pr_err("SUBLEQ_ELF: Failed to process relocations/symbols: %d\n",
+		subleq_elf_debug("Failed to process relocations/symbols: %d\n",
 		       ret);
 		goto out;
 	}

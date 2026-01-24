@@ -22,7 +22,7 @@
 
 
 /* Forward declarations */
-void do_signal(struct pt_regs *regs);
+bool do_signal(struct pt_regs *regs);
 asmlinkage long sys_rt_sigreturn(void);
 
 /* Syscall table and types - needed for restart handling in sigreturn */
@@ -379,9 +379,13 @@ static void handle_signal(struct ksignal *ksig, struct pt_regs *regs)
  * 2. If a signal is pending, handles restart and delivers the signal
  * 3. If no signal, handles restart for interrupted syscalls
  *
+ * Returns: true if a signal handler was set up, false otherwise.
+ * When true is returned, the caller must NOT perform syscall restart
+ * logic - control should return to userspace to run the signal handler.
+ *
  * Following the m68k pattern for proper NOMMU signal handling.
  */
-void do_signal(struct pt_regs *regs)
+bool do_signal(struct pt_regs *regs)
 {
 	struct ksignal ksig;
 
@@ -393,7 +397,7 @@ void do_signal(struct pt_regs *regs)
 	if (get_signal(&ksig)) {
 		/* Deliver the signal */
 		handle_signal(&ksig, regs);
-		return;
+		return true;  /* Signal handler was set up */
 	}
 
 	/*
@@ -411,6 +415,8 @@ void do_signal(struct pt_regs *regs)
 	 * This is used by sigsuspend() and related calls.
 	 */
 	restore_saved_sigmask();
+	
+	return false;  /* No signal handler was set up */
 }
 
 /*

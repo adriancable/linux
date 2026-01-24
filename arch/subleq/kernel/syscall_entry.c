@@ -22,7 +22,7 @@
 extern void *sys_call_table[];
 
 /* Signal handling - for syscall restart */
-extern void do_signal(struct pt_regs *regs);
+extern bool do_signal(struct pt_regs *regs);
 
 /* Syscall function type */
 typedef long (*syscall_fn_t)(long, long, long, long, long, long);
@@ -133,25 +133,21 @@ restart_syscall:
 
 	/*
 	 * Handle signal delivery and syscall restart.
-	 * After do_signal returns:
-	 * - If signal was delivered, regs->r20 may be -EINTR or unchanged
-	 * - If restart is needed (no signal), regs->r20 will be set to
-	 *   a special value or left as the restart code
+	 *
+	 * do_signal() returns true if a signal handler was set up.
+	 * In that case, we must NOT perform the restart logic below -
+	 * instead, we return to userspace to run the signal handler.
+	 * The restart (if SA_RESTART) happens when the handler returns
+	 * via sigreturn.
 	 */
-	do_signal(regs);
+	if (do_signal(regs)) {
+		/* Signal handler was set up - return to userspace */
+		goto out;
+	}
 
 	/*
+	 * No signal was delivered.
 	 * Check if we need to restart the syscall.
-	 *
-	 * do_signal() sets regs->r20 based on restart codes:
-	 * - ERESTARTNOINTR: Always restart (used by vfork wait)
-	 * - ERESTARTSYS: Restart if no signal or SA_RESTART (for future)
-	 * - ERESTARTNOHAND: Restart if no signal pending
-	 * - ERESTART_RESTARTBLOCK: Use restart_block (not yet supported)
-	 *
-	 * For now, if regs->r20 still contains a restart code after
-	 * do_signal, we restart the syscall. When signal delivery is
-	 * implemented, do_signal will convert to -EINTR when appropriate.
 	 */
 	ret = regs->r20;
 

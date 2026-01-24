@@ -51,9 +51,10 @@ struct pt_regs {
 	unsigned long orig_r20; /* Original R20 for syscall restart */
 	long syscall_nr;        /* Syscall number, -1 if not in syscall */
 	unsigned long orig_r21; /* Original R21 (syscall nr) for restart */
-	unsigned long orig_r22; /* Original R22 (arg 2) for restart */
-	unsigned long orig_r23; /* Original R23 (arg 3) for restart */
-	unsigned long orig_r24; /* Original R24 (arg 4) for restart */
+	unsigned long orig_a1;  /* Original arg1 for syscall restart */
+	unsigned long orig_a2;  /* Original arg2 for syscall restart */
+	unsigned long orig_a3;  /* Original arg3 for syscall restart */
+	unsigned long orig_a4;  /* Original arg4 for syscall restart */
 };
 
 /* Check if we're returning from a syscall (vs interrupt/exception) */

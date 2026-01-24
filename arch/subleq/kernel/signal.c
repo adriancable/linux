@@ -25,6 +25,11 @@
 void do_signal(struct pt_regs *regs);
 asmlinkage long sys_rt_sigreturn(void);
 
+/* Syscall table and types - needed for restart handling in sigreturn */
+extern void *sys_call_table[];
+typedef long (*syscall_fn_t)(long, long, long, long, long, long);
+extern long sys_ni_syscall(void);
+
 
 
 /*
@@ -104,6 +109,14 @@ static int save_sigcontext(struct sigcontext __user *sc, struct pt_regs *regs)
 	err |= __put_user(regs->ra, &sc->sc_regs[31]);
 	err |= __put_user(regs->pc, &sc->sc_pc);
 
+	/* Save syscall restart information */
+	err |= __put_user(regs->orig_r21, &sc->sc_orig_r21);
+	err |= __put_user(regs->orig_a1, &sc->sc_orig_a1);
+	err |= __put_user(regs->orig_a2, &sc->sc_orig_a2);
+	err |= __put_user(regs->orig_a3, &sc->sc_orig_a3);
+	err |= __put_user(regs->orig_a4, &sc->sc_orig_a4);
+	err |= __put_user(regs->syscall_nr, &sc->sc_syscall_nr);
+
 	return err;
 }
 
@@ -148,6 +161,14 @@ static int restore_sigcontext(struct pt_regs *regs, struct sigcontext __user *sc
 	err |= __get_user(regs->sp, &sc->sc_regs[30]);
 	err |= __get_user(regs->ra, &sc->sc_regs[31]);
 	err |= __get_user(regs->pc, &sc->sc_pc);
+
+	/* Restore syscall restart information */
+	err |= __get_user(regs->orig_r21, &sc->sc_orig_r21);
+	err |= __get_user(regs->orig_a1, &sc->sc_orig_a1);
+	err |= __get_user(regs->orig_a2, &sc->sc_orig_a2);
+	err |= __get_user(regs->orig_a3, &sc->sc_orig_a3);
+	err |= __get_user(regs->orig_a4, &sc->sc_orig_a4);
+	err |= __get_user(regs->syscall_nr, &sc->sc_syscall_nr);
 
 	return err;
 }
@@ -456,15 +477,89 @@ asmlinkage long sys_rt_sigreturn(void)
 		goto badframe;
 
 	/*
-	 * CRITICAL: Mark that we're NOT in a syscall.
-	 * This prevents do_signal from attempting syscall restart,
-	 * which would corrupt the restored PC.
+	 * CRITICAL: Handle syscall restart if the restored context contains
+	 * a kernel restart error code.
+	 *
+	 * When a syscall is interrupted by a signal and SA_RESTART is set,
+	 * handle_restart() in handle_signal() sets regs->r20 to -ERESTARTNOINTR
+	 * and saves the original syscall number/args. After the signal handler
+	 * returns and we restore that context, we must actually restart the
+	 * syscall instead of returning the internal error code to userspace.
+	 */
+	switch (regs->r20) {
+	case -ERESTARTNOINTR:
+	case -ERESTARTSYS:
+	case -ERESTARTNOHAND: {
+		/*
+		 * The original syscall needs to be restarted.
+		 * We use the preserved orig_a1-a4 which contain the original
+		 * syscall arguments, since r21-r24 were overwritten with signal
+		 * handler arguments (signal number, siginfo, etc.)
+		 */
+		long nr = regs->orig_r21;
+		if (nr >= 0 && nr < __NR_syscalls) {
+			syscall_fn_t fn = (syscall_fn_t)sys_call_table[nr];
+			if (fn && fn != (syscall_fn_t)sys_ni_syscall) {
+				/*
+				 * Mark that we're in a syscall again for proper
+				 * signal/restart handling during the restarted call.
+				 */
+				regs->syscall_nr = nr;
+
+				/*
+				 * Restart the original syscall with the ORIGINAL
+				 * arguments from when the syscall was first made.
+				 *
+				 * orig_a1-a4 are the first 4 arguments to the syscall.
+				 * For syscalls needing 5+ args, those would be on the
+				 * restored stack (not currently handled).
+				 */
+				regs->r20 = fn(regs->orig_a1, regs->orig_a2,
+					       regs->orig_a3, regs->orig_a4, 0, 0);
+
+				/*
+				 * The restarted syscall may have been interrupted again.
+				 * Let do_signal handle any pending signals and further
+				 * restart logic.
+				 */
+				do_signal(regs);
+
+				/*
+				 * If another restart code appears, we could loop, but
+				 * to avoid complexity, just fall through. The next
+				 * sigreturn (if any) will handle it.
+				 */
+			}
+		}
+		break;
+	}
+
+	case -ERESTART_RESTARTBLOCK:
+		/*
+		 * ERESTART_RESTARTBLOCK requires calling the restart_block
+		 * function instead of the original syscall. This is used by
+		 * nanosleep/futex to handle the remaining time.
+		 *
+		 * TODO: Implement proper restart_block support.
+		 * For now, convert to EINTR.
+		 */
+		regs->r20 = -EINTR;
+		break;
+	}
+
+	/*
+	 * Mark that we're NOT in a syscall.
+	 * This prevents syscall_entry.c from attempting further restart
+	 * processing on our return value.
 	 */
 	regs->syscall_nr = -1;
 
 	/*
-	 * Return the restored R20 value.
-	 * The caller will use this as the function return value.
+	 * Return the final R20 value.
+	 * This is either:
+	 * - The result of the restarted syscall
+	 * - The original restored value (if no restart was needed)
+	 * - -EINTR (if ERESTART_RESTARTBLOCK was converted)
 	 */
 	return regs->r20;
 

@@ -71,13 +71,17 @@ asmlinkage long __subleq_syscall_c(long nr, long a1, long a2, long a3, long a4, 
 	 * Save original syscall number and arguments for restart.
 	 * This is critical for proper syscall restart support:
 	 * - If the syscall is interrupted and needs restart, we need these
-	 * - Future signal handling will use these to restart after handler
+	 * - Signal handling uses these to restart syscalls after handler returns
+	 *
+	 * fn(a1, a2, a3, a4, a5, a6) - we save a1-a4 (register args)
+	 * a5-a6 are on stack and will be restored from the signal frame's SP
 	 */
 	regs->syscall_nr = nr;
-	regs->orig_r21 = nr;  /* R21 = syscall number */
-	regs->orig_r22 = a2;
-	regs->orig_r23 = a3;
-	regs->orig_r24 = a4;
+	regs->orig_r21 = nr;  /* Syscall number (for lookup) */
+	regs->orig_a1 = a1;   /* First arg to syscall function */
+	regs->orig_a2 = a2;   /* Second arg */
+	regs->orig_a3 = a3;   /* Third arg */
+	regs->orig_a4 = a4;   /* Fourth arg */
 
 	/* Dispatch the syscall */
 	if (nr < 0 || nr >= __NR_syscalls) {

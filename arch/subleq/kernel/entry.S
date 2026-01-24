@@ -228,7 +228,7 @@ subleq_irq_entry:
         /*
          * PHASE 2: BUILD pt_regs ON IRQ STACK
          *
-         * We allocate PT_SIZE (156) bytes on the IRQ stack and build a
+         * We allocate PT_SIZE (160) bytes on the IRQ stack and build a
          * pt_regs structure that C code can read and modify.
          *
          * CRITICAL: C code expects POSITIVE values in pt_regs fields.
@@ -240,7 +240,7 @@ subleq_irq_entry:
          * which grows with each nested interrupt.
          */
 
-        /* Allocate pt_regs: SP -= PT_SIZE (156 bytes) */
+        /* Allocate pt_regs: SP -= PT_SIZE (160 bytes) */
         .word   .Lconst_pt_size, REG_SP, .+4
         /* NOTE: SP now points to pt_regs base. C calling convention preserves SP,
          * so after C calls return, SP still points to pt_regs. This is re-entrant
@@ -2798,9 +2798,9 @@ __subleq_syscall:
 
 /* pt_regs size for allocation/deallocation */
 .Lconst_pt_size:
-        .word   156             /* PT_SIZE = sizeof(struct pt_regs) */
+        .word   160             /* PT_SIZE = sizeof(struct pt_regs) */
 .Lconst_neg_pt_size:
-        .word   -156            /* Negative for deallocation */
+        .word   -160            /* Negative for deallocation */
 
 /* Miscellaneous constants */
 .Lconst_1:

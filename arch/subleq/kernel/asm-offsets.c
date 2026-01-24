@@ -48,9 +48,10 @@ int main(void)
 	OFFSET(PT_ORIG_R20, pt_regs, orig_r20);
 	OFFSET(PT_SYSCALL_NR, pt_regs, syscall_nr);
 	OFFSET(PT_ORIG_R21, pt_regs, orig_r21);
-	OFFSET(PT_ORIG_R22, pt_regs, orig_r22);
-	OFFSET(PT_ORIG_R23, pt_regs, orig_r23);
-	OFFSET(PT_ORIG_R24, pt_regs, orig_r24);
+	OFFSET(PT_ORIG_A1, pt_regs, orig_a1);
+	OFFSET(PT_ORIG_A2, pt_regs, orig_a2);
+	OFFSET(PT_ORIG_A3, pt_regs, orig_a3);
+	OFFSET(PT_ORIG_A4, pt_regs, orig_a4);
 	DEFINE(PT_SIZE, sizeof(struct pt_regs));
 	BLANK();
 

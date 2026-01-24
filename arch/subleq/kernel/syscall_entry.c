@@ -151,6 +151,18 @@ restart_syscall:
 	 */
 	ret = regs->r20;
 
+	/*
+	 * CRITICAL: sys_rt_sigreturn sets syscall_nr to -1 to indicate
+	 * that the syscall has been handled and should NOT be restarted.
+	 * If we don't check this, and the restored R20 happens to be a
+	 * restart error code (like -ERESTARTNOINTR), we would incorrectly
+	 * restart the sigreturn syscall with the wrong SP, causing a crash.
+	 */
+	if (regs->syscall_nr == -1) {
+		/* Sigreturn completed - do not attempt restart */
+		goto out;
+	}
+
 	switch (ret) {
 	case -ERESTARTNOINTR:
 		/*

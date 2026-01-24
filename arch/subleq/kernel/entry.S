@@ -1946,27 +1946,30 @@ ret_from_fork:
         .word   SW_Z, REG_R31, .+4
 
         /*
-         * Step 1: Calculate &pt_regs->pc (R20 + 128) and load into SW_Z2
-         * SW_Z2 will hold the PC value
+         * Step 1: Calculate &pt_regs->pc (R20 + 128) and load into REG_T15
+         *
+         * CRITICAL: We use REG_T15 (a T-register) instead of SW_Z2 (a global)
+         * because T-registers are preserved across interrupts. If a context
+         * switch occurs before the final jump, SW_Z2 would be clobbered.
          */
         .word   SW_Z, SW_Z, .Lrff_load_pc1
 .Lrff_load_pc1:
         .word   REG_R20, SW_Z, .Lrff_load_pc2        /* SW_Z = -R20 */
 .Lrff_load_pc2:
-        .word   SW_Z2, SW_Z2, .Lrff_load_pc3
+        .word   REG_T15, REG_T15, .Lrff_load_pc3
 .Lrff_load_pc3:
-        .word   SW_Z, SW_Z2, .Lrff_load_pc4         /* SW_Z2 = R20 (pt_regs base) */
+        .word   SW_Z, REG_T15, .Lrff_load_pc4         /* T15 = R20 (pt_regs base) */
 .Lrff_load_pc4:
-        .word   .Lconst_neg128, SW_Z2, .Lrff_load_pc5  /* SW_Z2 = R20 + 128 = &pt_regs->pc */
+        .word   .Lconst_neg128, REG_T15, .Lrff_load_pc5  /* T15 = R20 + 128 = &pt_regs->pc */
 .Lrff_load_pc5:
-        /* Load [SW_Z2] into SW_Z using indirect addressing */
+        /* Load [T15] into SW_Z using indirect addressing */
         .word   SW_Z, SW_Z, .Lrff_load_pc6
 .Lrff_load_pc6:
-        .word   SW_Z2 | INDIRECT, SW_Z, .Lrff_load_pc7  /* SW_Z = -pc */
+        .word   REG_T15 | INDIRECT, SW_Z, .Lrff_load_pc7  /* SW_Z = -pc */
 .Lrff_load_pc7:
-        .word   SW_Z2, SW_Z2, .Lrff_load_pc8
+        .word   REG_T15, REG_T15, .Lrff_load_pc8
 .Lrff_load_pc8:
-        .word   SW_Z, SW_Z2, .Lrff_load_sp          /* SW_Z2 = pc (user entry point) */
+        .word   SW_Z, REG_T15, .Lrff_load_sp          /* T15 = pc (user entry point) */
 
         /*
          * Step 2: Load pt_regs->sp (R20 + 120) into hardware SP
@@ -2046,13 +2049,15 @@ ret_from_fork:
         .word   SW_Z, REG_R20, .Lrff_jump_user       /* R20 = fork return value */
 
         /*
-         * Step 5: Jump to user PC (saved in SW_Z2)
+         * Step 5: Jump to user PC (saved in REG_T15)
+         *
+         * REG_T15 | INDIRECT = 220 | 2 = 222
          */
 .Lrff_jump_user:
-        /* Indirect jump: subleq(Z, Z, SW_Z2|I) jumps to m[SW_Z2] */
+        /* Indirect jump: subleq(Z, Z, T15|I) jumps to m[T15] */
         .word   SW_Z
         .word   SW_Z
-        .word   SW_Z2 | INDIRECT
+        .word   REG_T15 | INDIRECT
 
 .Lrff_loop:
         /* Infinite loop - should never reach here for kernel threads */
@@ -2624,6 +2629,7 @@ __subleq_syscall:
 
         /* Return point from C handler */
 .Lsyscall_c_return:
+
         /*
          * Syscall return path.
          *
@@ -2642,67 +2648,84 @@ __subleq_syscall:
 .Lsyscall_start_restore:
 
         /*
-         * STEP 1: Compute pt_regs base address
-         * pt_regs_addr = subleq_kernel_sp + 1024
-         * Store in .Lsyscall_ptregs_addr for reuse
+         * STEP 1: Compute pt_regs base address from current SP (re-entrant!)
+         *
+         * CRITICAL: We use T-registers for ALL scratch state because they are
+         * automatically saved/restored by the interrupt handler. If an interrupt
+         * causes a context switch during this sequence, our T-register values
+         * will be preserved when we resume.
+         *
+         * Stack layout at this point (AFTER C function returned):
+         *   - C epilogue popped return address: SP += 4
+         *   - SP now points to a4 (first stack arg)
+         *   - Stack: [a4][a5][a6] = 12 bytes above kernel_sp
+         *   - So: kernel_sp = SP + 12
+         *   - pt_regs = kernel_sp + 1024 = SP + 12 + 1024 = SP + 1036
+         *
+         * REG_T9 = pt_regs base address (preserved across interrupts)
          */
-        .word   REG_T0, REG_T0, .+4           /* ZZ = 0 */
-        .word   subleq_kernel_sp, REG_T0, .+4     /* ZZ = -kernel_sp */
-        .word   .Lsyscall_ptregs_addr, .Lsyscall_ptregs_addr, .+4  /* clear */
-        .word   REG_T0, .Lsyscall_ptregs_addr, .+4  /* = kernel_sp */
-        .word   .Lconst_neg1024, .Lsyscall_ptregs_addr, .+4  /* += 1024 */
+        .word   REG_T0, REG_T0, .+4           /* T0 = 0 */
+        .word   REG_SP, REG_T0, .+4           /* T0 = -SP */
+        .word   REG_T9, REG_T9, .+4           /* T9 = 0 */
+        .word   REG_T0, REG_T9, .+4           /* T9 = SP */
+        .word   .Lconst_neg1036, REG_T9, .+4  /* T9 = SP + 1036 = pt_regs */
 
         /*
          * STEP 2: Load SP from pt_regs->sp (offset 120)
          * Compute &pt_regs->sp into REG_T8, then use REG_T8|INDIRECT to load
          */
-        .word   REG_T0, REG_T0, .+4           /* ZZ = 0 */
-        .word   .Lsyscall_ptregs_addr, REG_T0, .+4  /* ZZ = -pt_regs */
-        .word   REG_T8, REG_T8, .+4                   /* T8 = 0 */
-        .word   REG_T0, REG_T8, .+4               /* T8 = pt_regs */
-        .word   .Lconst_neg120, REG_T8, .+4          /* T8 = pt_regs + 120 = &sp */
+        .word   REG_T0, REG_T0, .+4           /* T0 = 0 */
+        .word   REG_T9, REG_T0, .+4           /* T0 = -pt_regs */
+        .word   REG_T8, REG_T8, .+4           /* T8 = 0 */
+        .word   REG_T0, REG_T8, .+4           /* T8 = pt_regs */
+        .word   .Lconst_neg120, REG_T8, .+4   /* T8 = pt_regs + 120 = &sp */
         
         /* Load [T8] (the sp value) via indirect addressing */
         .word   REG_T0, REG_T0, .+4
-        .word   REG_T8 | INDIRECT, REG_T0, .+4    /* ZZ = -[T8] = -sp */
-        .word   REG_SP, REG_SP, .+4                   /* SP = 0 */
+        .word   REG_T8 | INDIRECT, REG_T0, .+4    /* T0 = -[T8] = -sp */
+        .word   REG_SP, REG_SP, .+4               /* SP = 0 */
         .word   REG_T0, REG_SP, .+4               /* SP = sp value */
 
         /*
          * STEP 3: Load FP from pt_regs->fp (offset 116)
          */
-        .word   REG_T0, REG_T0, .+4
-        .word   .Lsyscall_ptregs_addr, REG_T0, .+4
-        .word   REG_T8, REG_T8, .+4
-        .word   REG_T0, REG_T8, .+4               /* T8 = pt_regs */
-        .word   .Lconst_neg116, REG_T8, .+4          /* T8 = pt_regs + 116 = &fp */
+        .word   REG_T0, REG_T0, .+4           /* T0 = 0 */
+        .word   REG_T9, REG_T0, .+4           /* T0 = -pt_regs */
+        .word   REG_T8, REG_T8, .+4           /* T8 = 0 */
+        .word   REG_T0, REG_T8, .+4           /* T8 = pt_regs */
+        .word   .Lconst_neg116, REG_T8, .+4   /* T8 = pt_regs + 116 = &fp */
         
         .word   REG_T0, REG_T0, .+4
-        .word   REG_T8 | INDIRECT, REG_T0, .+4    /* ZZ = -fp */
-        .word   REG_FP, REG_FP, .+4                   /* FP = 0 */
+        .word   REG_T8 | INDIRECT, REG_T0, .+4    /* T0 = -fp */
+        .word   REG_FP, REG_FP, .+4               /* FP = 0 */
         .word   REG_T0, REG_FP, .+4               /* FP = fp value */
 
         /*
-         * STEP 4: Load PC from pt_regs->pc (offset 128) and jump to it
+         * STEP 4: Load PC from pt_regs->pc (offset 128) into REG_T15 and jump
          *
-         * Store PC in SW_Z2 (address 444), then jump via 446 (SW_Z2|INDIRECT).
-         * Same pattern as ret_from_fork.
+         * CRITICAL: We store the final jump PC in REG_T15 (a T-register) instead
+         * of SW_Z2 (a global). This ensures the jump target is preserved even if
+         * an interrupt + context switch occurs right before the final jump.
+         *
+         * REG_T15 | INDIRECT = 220 | 2 = 222
          */
-        .word   REG_T0, REG_T0, .+4
-        .word   .Lsyscall_ptregs_addr, REG_T0, .+4
-        .word   REG_T8, REG_T8, .+4
-        .word   REG_T0, REG_T8, .+4               /* T8 = pt_regs */
-        .word   .Lconst_neg128, REG_T8, .+4         /* T8 = pt_regs + 128 = &pc */
+        .word   REG_T0, REG_T0, .+4           /* T0 = 0 */
+        .word   REG_T9, REG_T0, .+4           /* T0 = -pt_regs */
+        .word   REG_T8, REG_T8, .+4           /* T8 = 0 */
+        .word   REG_T0, REG_T8, .+4           /* T8 = pt_regs */
+        .word   .Lconst_neg128, REG_T8, .+4   /* T8 = pt_regs + 128 = &pc */
         
-        /* Load [T8] (the pc value) into SW_Z2 (address 444) */
+        /* Load [T8] (the pc value) into REG_T15 (preserved T-register) */
         .word   REG_T0, REG_T0, .+4
-        .word   REG_T8 | INDIRECT, REG_T0, .+4    /* ZZ = -pc */
-        .word   SW_Z2, SW_Z2, .+4                   /* clear SW_Z2 */
-        .word   REG_T0, SW_Z2, .+4               /* SW_Z2 = pc */
+        .word   REG_T8 | INDIRECT, REG_T0, .+4    /* T0 = -pc */
+        .word   REG_T15, REG_T15, .+4             /* T15 = 0 */
+        .word   REG_T0, REG_T15, .+4              /* T15 = pc */
         
-        /* Jump to m[SW_Z2] = pc value */
-        /* SW_Z2 | INDIRECT = 444 | 2 = 446 */
-        .word   REG_T0, REG_T0, 446
+        /* Jump to m[REG_T15] = pc value */
+        /* REG_T15 | INDIRECT = 220 | 2 = 222 */
+        .word   REG_T0, REG_T0, 222
+
+
 
 /* Local data for __subleq_syscall */
 .Lsyscall_c_ret_addr:
@@ -2802,22 +2825,12 @@ __subleq_syscall:
         .word   -38
 .Lconst_neg1024:
         .word   -1024
+.Lconst_neg1036:
+        .word   -1036           /* SP + 1036 = pt_regs (C popped ret addr, so SP = kernel_sp - 12) */
 
 /* Character constants for debug output */
 .Lconst_char_I:
         .word   73              /* 'I' */
-.Lconst_char_1:
-        .word   49              /* '1' */
-.Lconst_char_2:
-        .word   50              /* '2' */
-.Lconst_char_3:
-        .word   51              /* '3' */
-.Lconst_char_4:
-        .word   52              /* '4' */
-.Lconst_char_5:
-        .word   53              /* '5' */
-.Lconst_char_6:
-        .word   54              /* '6' */
 
 .size __subleq_syscall, .-__subleq_syscall
 

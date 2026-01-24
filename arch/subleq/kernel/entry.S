@@ -2701,6 +2701,29 @@ __subleq_syscall:
         .word   REG_T0, REG_FP, .+4               /* FP = fp value */
 
         /*
+         * STEP 3b: Load R24 from pt_regs->r24 (offset 84)
+         *
+         * CRITICAL: vfork.S stores the caller's return address in R24 before
+         * calling __subleq_syscall. The kernel saves this to pt_regs at entry.
+         * Each task has its own pt_regs, so parent and child preserve their
+         * own R24 values. This fixes nested vfork corruption.
+         *
+         * NOTE: R24 is an argument register (caller-saved), so the caller
+         * doesn't expect it to be preserved. This avoids clobbering callee-saved
+         * registers like R3/R4 which caused issues.
+         */
+        .word   REG_T0, REG_T0, .+4           /* T0 = 0 */
+        .word   REG_T9, REG_T0, .+4           /* T0 = -pt_regs */
+        .word   REG_T8, REG_T8, .+4           /* T8 = 0 */
+        .word   REG_T0, REG_T8, .+4           /* T8 = pt_regs */
+        .word   .Lconst_neg84, REG_T8, .+4    /* T8 = pt_regs + 84 = &r24 */
+        
+        .word   REG_T0, REG_T0, .+4
+        .word   REG_T8 | INDIRECT, REG_T0, .+4    /* T0 = -r24 */
+        .word   REG_R24, REG_R24, .+4             /* R24 = 0 */
+        .word   REG_T0, REG_R24, .+4              /* R24 = r24 value */
+
+        /*
          * STEP 4: Load PC from pt_regs->pc (offset 128) into REG_T15 and jump
          *
          * CRITICAL: We store the final jump PC in REG_T15 (a T-register) instead
@@ -2785,6 +2808,8 @@ __subleq_syscall:
         .word   -76             /* pt_regs->r22 */
 .Lconst_neg80:
         .word   -80             /* pt_regs->r23 */
+.Lconst_neg84:
+        .word   -84             /* pt_regs->r24 */
 .Lconst_neg116:
         .word   -116            /* pt_regs->fp */
 .Lconst_neg120:

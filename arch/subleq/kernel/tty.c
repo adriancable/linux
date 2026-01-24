@@ -22,7 +22,7 @@
 #define SUBLEQ_TTY_NAME "console"
 
 /* Polling interval for keyboard input (in jiffies) */
-#define SUBLEQ_TTY_POLL_INTERVAL (HZ / 50) /* 20ms */
+#define SUBLEQ_TTY_POLL_INTERVAL (HZ / 100) /* 10ms */
 
 /* External I/O intrinsics from compiler */
 extern void __subleq_putchar(int c);

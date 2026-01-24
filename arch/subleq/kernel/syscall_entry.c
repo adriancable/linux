@@ -15,6 +15,7 @@
 #include <linux/errno.h>
 #include <linux/sched.h>
 #include <linux/sched/task_stack.h>
+#include <linux/restart_block.h>
 #include <asm/unistd.h>
 #include <asm/ptrace.h>
 
@@ -218,15 +219,34 @@ restart_syscall:
 		regs->r20 = ret;
 		break;
 
-	case -ERESTART_RESTARTBLOCK:
+	case -ERESTART_RESTARTBLOCK: {
 		/*
-		 * TODO: This requires calling the restart_block function
-		 * instead of the original syscall. For now, convert to EINTR.
-		 * This affects nanosleep/clock_nanosleep time remaining.
+		 * ERESTART_RESTARTBLOCK requires calling the restart_block
+		 * function instead of the original syscall. This is used by
+		 * nanosleep/futex to handle remaining time correctly.
+		 *
+		 * Example: nanosleep(3s) interrupted after 1s by SIGALRM
+		 * - nanosleep sets up restart_block with remaining 2s
+		 * - Returns -ERESTART_RESTARTBLOCK
+		 * - We call restart_block.fn() which sleeps the remaining 2s
+		 * - Total sleep time = 3s as expected
 		 */
-		ret = -EINTR;
+		struct restart_block *restart = &current->restart_block;
+		ret = restart->fn(restart);
 		regs->r20 = ret;
+		/*
+		 * The restart function may have been interrupted again.
+		 * Loop around to handle any pending signals or further restarts.
+		 */
+		if (ret == -ERESTART_RESTARTBLOCK || ret == -ERESTARTNOINTR ||
+		    ret == -ERESTARTSYS || ret == -ERESTARTNOHAND) {
+			if (do_signal(regs))
+				goto out;
+			ret = regs->r20;
+			/* Continue the switch to handle the new error code */
+		}
 		break;
+	}
 	}
 
 out:

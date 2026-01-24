@@ -12,6 +12,7 @@
 #include <linux/syscalls.h>
 #include <linux/errno.h>
 #include <linux/resume_user_mode.h>
+#include <linux/restart_block.h>
 #include <linux/uaccess.h>
 #include <linux/unistd.h>
 
@@ -318,12 +319,17 @@ handle_restart(struct pt_regs *regs, struct k_sigaction *ka, int has_handler)
 	case -ERESTART_RESTARTBLOCK:
 		/*
 		 * ERESTART_RESTARTBLOCK: Use the restart_block mechanism.
-		 * For now, convert to EINTR. Proper implementation would
-		 * change syscall to __NR_restart_syscall.
+		 * If there's no handler, call the restart_block function now.
+		 * If there IS a handler, preserve the error code so that
+		 * sigreturn can call the restart_block after the handler
+		 * completes. This allows nanosleep to sleep the remaining
+		 * time after the signal handler returns.
 		 */
-		if (!has_handler)
-			goto do_restart;
-		regs->r20 = -EINTR;
+		if (!has_handler) {
+			struct restart_block *restart = &current->restart_block;
+			regs->r20 = restart->fn(restart);
+		}
+		/* With handler: keep r20 as -ERESTART_RESTARTBLOCK for sigreturn */
 		break;
 
 	case -ERESTARTSYS:
@@ -505,7 +511,7 @@ asmlinkage long sys_rt_sigreturn(void)
 		long nr = regs->orig_r21;
 		if (nr >= 0 && nr < __NR_syscalls) {
 			syscall_fn_t fn = (syscall_fn_t)sys_call_table[nr];
-			if (fn && fn != (syscall_fn_t)sys_ni_syscall) {
+			if (fn && sys_call_table[nr] != (void *)sys_ni_syscall) {
 				/*
 				 * Mark that we're in a syscall again for proper
 				 * signal/restart handling during the restarted call.
@@ -540,17 +546,22 @@ asmlinkage long sys_rt_sigreturn(void)
 		break;
 	}
 
-	case -ERESTART_RESTARTBLOCK:
+	case -ERESTART_RESTARTBLOCK: {
 		/*
 		 * ERESTART_RESTARTBLOCK requires calling the restart_block
 		 * function instead of the original syscall. This is used by
 		 * nanosleep/futex to handle the remaining time.
-		 *
-		 * TODO: Implement proper restart_block support.
-		 * For now, convert to EINTR.
 		 */
-		regs->r20 = -EINTR;
+		struct restart_block *restart = &current->restart_block;
+		regs->r20 = restart->fn(restart);
+
+		/*
+		 * The restart function may have been interrupted again.
+		 * Let do_signal handle any pending signals.
+		 */
+		do_signal(regs);
 		break;
+	}
 	}
 
 	/*

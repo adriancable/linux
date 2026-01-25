@@ -53,14 +53,14 @@ static unsigned long irq_stack[IRQ_STACK_SIZE / sizeof(unsigned long)] __aligned
 unsigned long subleq_irq_stack_top;
 
 /*
- * INT_SP - The IRQ Stack Pointer register (byte address 460)
+ * INT_SP - The IRQ Stack Pointer register (byte address 236, word 59)
  *
  * This is a memory-mapped "register" that tracks the current position
  * in the IRQ stack. Each interrupt push decrements it, each pop increments it.
  * This allows multiple interrupt frames to coexist on the IRQ stack,
  * enabling preemptive multitasking.
  */
-#define INT_SP_ADDR ((volatile unsigned long *)460)
+#define INT_SP_ADDR ((volatile unsigned long *)236)
 
 /*
  * Early IRQ stack initialization - must be called before start_kernel()

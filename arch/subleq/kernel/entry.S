@@ -68,15 +68,16 @@
 
 .set INT_Z, 224
 
-/* Kernel scratch/save slots (only those actually used) */
-.set SAVE_SP, 232        /* Saved interrupted SP (for current_thread_info) */
-.set INT_Z2, 420   /* Scratch for address calculations */
-.set SAVE_JMPTGT, 424    /* Return jump target address */
-
-/* Context switch scratch registers - separate from INT_Z to avoid conflicts
- * when context switch runs with interrupts enabled */
-.set SW_Z, 440   /* Scratch for __switch_to / ret_from_fork */
-.set SW_Z2, 444  /* Second scratch if needed */
+/*
+ * Kernel scratch/save slots (words 57-64, bytes 228-256)
+ * Compact layout placing all kernel registers together.
+ */
+.set INT_Z2, 228         /* Scratch for address calculations (word 57) */
+.set SAVE_SP, 232        /* Saved interrupted SP for current_thread_info (word 58) */
+.set INT_SP, 236         /* Interrupt stack pointer (word 59) */
+.set SAVE_JMPTGT, 240    /* Return jump target address (word 60) */
+.set SW_Z, 244           /* Context switch scratch (word 61) */
+.set SW_Z2, 248          /* Context switch second scratch (word 62) */
 
 /*
  * SYSCALL STACK SWITCH SUPPORT
@@ -88,8 +89,8 @@
  * SUBLEQ_UFP: Saves the userspace FP when entering a syscall.
  *             Restored when returning to userspace.
  */
-.set SUBLEQ_USP, 448    /* Saved userspace stack pointer */
-.set SUBLEQ_UFP, 452    /* Saved userspace frame pointer */
+.set SUBLEQ_USP, 252    /* Saved userspace stack pointer (word 63) */
+.set SUBLEQ_UFP, 256    /* Saved userspace frame pointer (word 64) */
 
 /*
  * INT_SP: Interrupt Stack Pointer
@@ -104,7 +105,7 @@
  *
  * INT_SP tracks the IRQ stack position for pushing/popping frames.
  */
-.set INT_SP, 460        /* Interrupt stack pointer (runs from top down) */
+/* INT_SP is now at byte 236 (word 59), defined above with other kernel registers */
 
 /*
  * IRQ_FRAME_SIZE: Only Z and T0-T15 are pushed to IRQ stack (17 registers).

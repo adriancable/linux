@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
  * Subleq process management
+ *
+ * NOTE: pt_regs values are stored NEGATED. All access uses PT_REG_GET/SET macros.
  */
 
 #include <linux/kernel.h>
@@ -51,13 +53,8 @@ extern asmlinkage void schedule_tail(struct task_struct *prev);
 void kernel_thread_helper(struct task_struct *prev)
 {
 	struct pt_regs *regs = task_pt_regs(current);
-	int (*fn)(void *) = (int (*)(void *))regs->r3;
-	void *arg = (void *)regs->r21;
-
-	/* Debug traces commented out
-	pr_info("kernel_thread_helper: entry, PID=%d current=%p prev=%p\n",
-		task_tgid_vnr(current), current, prev);
-	*/
+	int (*fn)(void *) = (int (*)(void *))PT_REG_GET(regs, r3);
+	void *arg = (void *)PT_REG_GET(regs, r21);
 
 	/*
 	 * CRITICAL: Must call schedule_tail() first!
@@ -67,17 +64,8 @@ void kernel_thread_helper(struct task_struct *prev)
 	 */
 	schedule_tail(prev);
 
-	/* Debug traces commented out
-	pr_info("kernel_thread_helper: after schedule_tail, PID=%d current=%p\n",
-		task_tgid_vnr(current), current);
-	*/
-
 	/* Call the kernel thread function */
 	fn(arg);
-
-	/* Debug traces commented out
-	pr_info("kernel_thread_helper: after fn(), PID=%d current=%p\n",
-		task_tgid_vnr(current), current); */
 
 	/*
 	 * The kernel thread function has returned. There are two cases:
@@ -96,16 +84,12 @@ void kernel_thread_helper(struct task_struct *prev)
 	 */
 	regs = task_pt_regs(current); /* Re-read in case it changed */
 
-	if (regs->r3 == 0) {
+	if (PT_REG_GET(regs, r3) == 0) {
 		/*
 		 * This thread called kernel_execve() and is now a user thread.
 		 * Jump to userspace using an assembly helper that does a RAW jump
 		 * without pushing a return address (which would corrupt the user stack).
 		 */
-		/* Debug trace commented out
-		pr_info("kernel_thread_helper: transitioning to userspace PID=%d pc=0x%lx sp=0x%lx\n",
-			task_tgid_vnr(current), regs->pc, regs->sp);
-		*/
 
 		/*
 		 * Call the assembly helper which will:
@@ -116,7 +100,7 @@ void kernel_thread_helper(struct task_struct *prev)
 		 */
 		extern void __noreturn jump_to_userspace(unsigned long pc,
 							 unsigned long sp);
-		jump_to_userspace(regs->pc, regs->sp);
+		jump_to_userspace(PT_REG_GET(regs, pc), PT_REG_GET(regs, sp));
 	}
 
 	/* Normal kernel thread completion - call do_exit */
@@ -165,14 +149,18 @@ struct pt_regs *ret_to_user_prep(struct task_struct *prev)
  * When a kernel thread calls kernel_execve(), the old kernel thread had
  * r3 = fn (non-zero). We need to clear it so ret_from_fork knows this is
  * now a user thread that should return to userspace.
+ *
+ * NOTE: Since pt_regs stores values NEGATED, we use PT_REG_SET for all writes.
+ * memset(0) works because -0 = 0.
  */
 void start_thread(struct pt_regs *regs, unsigned long pc, unsigned long sp)
 {
 	/* Clear all registers to start with a clean slate */
+	/* NOTE: memset(0) is correct even for negated storage since -0 = 0 */
 	memset(regs, 0, sizeof(*regs));
 
-	regs->pc = pc;
-	regs->sp = sp;
+	PT_REG_SET(regs, pc, pc);
+	PT_REG_SET(regs, sp, sp);
 	/* r3 = 0 is already set by memset, marking this as a user thread */
 	
 	/*
@@ -181,7 +169,7 @@ void start_thread(struct pt_regs *regs, unsigned long pc, unsigned long sp)
 	 * return true (syscall 0 = read). do_signal() would then incorrectly
 	 * try to handle syscall restart, corrupting the return context.
 	 */
-	regs->syscall_nr = -1;
+	syscall_wont_restart(regs);
 }
 
 /*
@@ -204,6 +192,8 @@ void start_thread(struct pt_regs *regs, unsigned long pc, unsigned long sp)
  *   [high addr]  pt_regs structure
  *   [mid addr]   switch_stack structure  <-- thread.sp points here
  *   [low addr]   ... (more stack space)
+ *
+ * NOTE: Since pt_regs stores values NEGATED, we use PT_REG_SET for all writes.
  */
 int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
 {
@@ -211,14 +201,6 @@ int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
 	struct pt_regs *childregs;
 	struct switch_stack *childstack;
 	unsigned long *retpc_slot;
-
-	/* Debug traces commented out
-	pr_info("COPY_THREAD: parent=%px parent->stack=%px, child=%px child->stack=%px\n",
-		current, current->stack, p, p->stack);
-	pr_info("COPY_THREAD: parent stack range [%px - %px], child stack range [%px - %px]\n",
-		current->stack, (void *)((unsigned long)current->stack + THREAD_SIZE),
-		p->stack, (void *)((unsigned long)p->stack + THREAD_SIZE));
-	*/
 
 	childregs = task_pt_regs(p);
 
@@ -249,6 +231,7 @@ int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
 
 	if (unlikely(args->fn)) {
 		/* Kernel thread */
+		/* NOTE: memset(0) works for negated storage since -0 = 0 */
 		memset(childregs, 0, sizeof(struct pt_regs));
 
 		/*
@@ -256,11 +239,11 @@ int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
 		 * and arg in r21 for kernel_thread_helper.
 		 * pc is set to 0 (unused for kernel threads since we call fn directly).
 		 */
-		childregs->r3 = (unsigned long)args->fn;
-		childregs->r21 = (unsigned long)args->fn_arg;
-		childregs->pc = 0;
+		PT_REG_SET(childregs, r3, (unsigned long)args->fn);
+		PT_REG_SET(childregs, r21, (unsigned long)args->fn_arg);
+		PT_REG_SET(childregs, pc, 0);
 		/* Mark not in syscall (Hazard 1342) */
-		childregs->syscall_nr = -1;
+		syscall_wont_restart(childregs);
 
 		return 0;
 	}
@@ -268,9 +251,9 @@ int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
 	/* User thread (fork) - copy parent's regs */
 	*childregs = *task_pt_regs(current);
 	if (usp)
-		childregs->sp = usp;
-	childregs->r20 = 0; /* Return 0 in child */
-	childregs->r3 = 0; /* Mark as user thread (ret_from_fork checks this) */
+		PT_REG_SET(childregs, sp, usp);
+	PT_REG_SET(childregs, r20, 0); /* Return 0 in child */
+	PT_REG_SET(childregs, r3, 0);  /* Mark as user thread (ret_from_fork checks this) */
 	/*
 	 * Mark not in syscall for the child.
 	 * Even though the parent is in clone/fork syscall, the child is
@@ -278,7 +261,7 @@ int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
 	 * Hazard 1342: without this, in_syscall() returns true and
 	 * do_signal() corrupts the return context.
 	 */
-	childregs->syscall_nr = -1;
+	syscall_wont_restart(childregs);
 
 	return 0;
 }

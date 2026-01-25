@@ -1,6 +1,14 @@
 /* SPDX-License-Identifier: GPL-2.0 */
 /*
  * Register save structure for Subleq
+ *
+ * IMPORTANT: pt_regs values are stored NEGATED for efficient SUBLEQ assembly.
+ * SUBLEQ's natural store pattern is: dest -= src (which stores -src).
+ * By storing values negated, we eliminate the double-negation overhead
+ * in the interrupt entry/exit paths (~100 instructions saved per interrupt).
+ *
+ * All C code MUST use the PT_REG_GET/PT_REG_SET macros to access pt_regs
+ * fields. Direct field access will give wrong (negated) values!
  */
 
 #ifndef _ASM_SUBLEQ_PTRACE_H
@@ -13,6 +21,8 @@
  *
  * This represents the saved state when entering the kernel.
  * Subleq doesn't have hardware registers - these are memory locations.
+ *
+ * NOTE: All values are stored NEGATED. Use PT_REG_GET/PT_REG_SET macros!
  */
 struct pt_regs {
 	unsigned long r3; /* General purpose / return value high */
@@ -57,11 +67,28 @@ struct pt_regs {
 	unsigned long orig_a4;  /* Original arg4 for syscall restart */
 };
 
+/*
+ * pt_regs accessor macros
+ *
+ * Values are stored NEGATED in pt_regs. These macros handle the conversion:
+ * - PT_REG_GET: reads a field and negates to get the logical value
+ * - PT_REG_SET: negates the value before storing
+ *
+ * For signed values (like syscall_nr or error codes), negation preserves sign.
+ * For addresses (like pc, sp), negation is just bit manipulation that reverses.
+ */
+#define PT_REG_GET(regs, field)       ((unsigned long)(-(long)(regs)->field))
+#define PT_REG_SET(regs, field, val)  ((regs)->field = (unsigned long)(-(long)(val)))
+
+/* Signed version for fields that can be negative (like syscall_nr, r20 errors) */
+#define PT_REG_GET_SIGNED(regs, field)       (-(long)(regs)->field)
+#define PT_REG_SET_SIGNED(regs, field, val)  ((regs)->field = (unsigned long)(-(long)(val)))
+
 /* Check if we're returning from a syscall (vs interrupt/exception) */
-#define in_syscall(regs)	((regs)->syscall_nr >= 0)
+#define in_syscall(regs)	(PT_REG_GET_SIGNED(regs, syscall_nr) >= 0)
 
 /* Mark that syscall restart should NOT happen (e.g., after sigreturn) */
-#define syscall_wont_restart(regs)	((regs)->syscall_nr = -1)
+#define syscall_wont_restart(regs)	PT_REG_SET_SIGNED(regs, syscall_nr, -1)
 
 /*
  * user_mode - Check if interrupted context was in user mode
@@ -75,15 +102,15 @@ struct pt_regs {
  */
 extern char _stext[], _end[];
 #define user_mode(regs) \
-	((unsigned long)(regs)->pc < (unsigned long)_stext || \
-	 (unsigned long)(regs)->pc >= (unsigned long)_end)
+	(PT_REG_GET(regs, pc) < (unsigned long)_stext || \
+	 PT_REG_GET(regs, pc) >= (unsigned long)_end)
 #define kernel_mode(regs) (!user_mode(regs))
 
-#define instruction_pointer(regs) ((regs)->pc)
-#define user_stack_pointer(regs) ((regs)->sp)
+#define instruction_pointer(regs) PT_REG_GET(regs, pc)
+#define user_stack_pointer(regs) PT_REG_GET(regs, sp)
 #define profile_pc(regs) instruction_pointer(regs)
 
-#define MAX_REG_OFFSET (offsetof(struct pt_regs, orig_r24))
+#define MAX_REG_OFFSET (offsetof(struct pt_regs, orig_a4) + sizeof(unsigned long))
 
 #endif /* !__ASSEMBLY__ */
 

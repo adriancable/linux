@@ -199,7 +199,7 @@ int subleq_do_work(struct pt_regs *regs)
 	 * We consider SP invalid if it's below 4KB (0x1000), as valid user
 	 * stacks are in higher memory.
 	 */
-	if (regs->sp < 0x1000)
+	if (PT_REG_GET(regs, sp) < 0x1000)
 		return 0;
 
 	ti = current_thread_info();
@@ -231,7 +231,7 @@ int subleq_do_work(struct pt_regs *regs)
 		 * Mark that we're NOT in a syscall for signal delivery.
 		 * This prevents do_signal from attempting syscall restart.
 		 */
-		regs->syscall_nr = -1;
+		syscall_wont_restart(regs);
 
 		/*
 		 * Deliver signals. This may modify regs to redirect

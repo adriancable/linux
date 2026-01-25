@@ -9,6 +9,8 @@
  *   - Returning via the saved return address
  *
  * This function just dispatches to the appropriate syscall.
+ *
+ * NOTE: pt_regs values are stored NEGATED. All access uses PT_REG_GET/SET macros.
  */
 
 #include <linux/syscalls.h>
@@ -77,19 +79,19 @@ asmlinkage long __subleq_syscall_c(long nr, long a1, long a2, long a3, long a4, 
 	 * fn(a1, a2, a3, a4, a5, a6) - we save a1-a4 (register args)
 	 * a5-a6 are on stack and will be restored from the signal frame's SP
 	 */
-	regs->syscall_nr = nr;
-	regs->orig_r21 = nr;  /* Syscall number (for lookup) */
-	regs->orig_a1 = a1;   /* First arg to syscall function */
-	regs->orig_a2 = a2;   /* Second arg */
-	regs->orig_a3 = a3;   /* Third arg */
-	regs->orig_a4 = a4;   /* Fourth arg */
+	PT_REG_SET_SIGNED(regs, syscall_nr, nr);
+	PT_REG_SET(regs, orig_r21, nr);  /* Syscall number (for lookup) */
+	PT_REG_SET(regs, orig_a1, a1);   /* First arg to syscall function */
+	PT_REG_SET(regs, orig_a2, a2);   /* Second arg */
+	PT_REG_SET(regs, orig_a3, a3);   /* Third arg */
+	PT_REG_SET(regs, orig_a4, a4);   /* Fourth arg */
 
 	/* Dispatch the syscall */
 	if (nr < 0 || nr >= __NR_syscalls) {
 		pr_warn("SUBLEQ_SYSCALL: nr=%ld out of range (max=%d)\n",
 			nr, __NR_syscalls);
 		ret = -ENOSYS;
-		regs->r20 = ret;  /* MUST set r20 before goto out */
+		PT_REG_SET_SIGNED(regs, r20, ret);
 		goto out;
 	}
 
@@ -97,7 +99,7 @@ asmlinkage long __subleq_syscall_c(long nr, long a1, long a2, long a3, long a4, 
 	if (!fn || sys_call_table[nr] == (void *)sys_ni_syscall) {
 		pr_warn("SUBLEQ_SYSCALL: syscall %ld not implemented\n", nr);
 		ret = -ENOSYS;
-		regs->r20 = ret;  /* MUST set r20 before goto out */
+		PT_REG_SET_SIGNED(regs, r20, ret);
 		goto out;
 	}
 
@@ -130,7 +132,7 @@ restart_syscall:
 	 * - Converting restart codes based on signal state
 	 * - Setting up for restart or converting to -EINTR
 	 */
-	regs->r20 = ret;
+	PT_REG_SET_SIGNED(regs, r20, ret);
 
 	/*
 	 * Handle signal delivery and syscall restart.
@@ -150,7 +152,7 @@ restart_syscall:
 	 * No signal was delivered.
 	 * Check if we need to restart the syscall.
 	 */
-	ret = regs->r20;
+	ret = PT_REG_GET_SIGNED(regs, r20);
 
 	/*
 	 * CRITICAL: sys_rt_sigreturn sets syscall_nr to -1 to indicate
@@ -159,7 +161,7 @@ restart_syscall:
 	 * restart error code (like -ERESTARTNOINTR), we would incorrectly
 	 * restart the sigreturn syscall with the wrong SP, causing a crash.
 	 */
-	if (regs->syscall_nr == -1) {
+	if (!in_syscall(regs)) {
 		/* Sigreturn completed - do not attempt restart */
 		goto out;
 	}
@@ -181,7 +183,7 @@ restart_syscall:
 			/* Too many restarts - something is wrong, bail out */
 			pr_warn("SUBLEQ_SYSCALL: syscall %ld stuck in restart loop\n", nr);
 			ret = -EINTR;
-			regs->r20 = ret;
+			PT_REG_SET_SIGNED(regs, r20, ret);
 			break;
 		}
 		/*
@@ -216,7 +218,7 @@ restart_syscall:
 		 * When signal delivery is implemented, this can be changed.
 		 */
 		ret = -EINTR;
-		regs->r20 = ret;
+		PT_REG_SET_SIGNED(regs, r20, ret);
 		break;
 
 	case -ERESTART_RESTARTBLOCK: {
@@ -233,7 +235,7 @@ restart_syscall:
 		 */
 		struct restart_block *restart = &current->restart_block;
 		ret = restart->fn(restart);
-		regs->r20 = ret;
+		PT_REG_SET_SIGNED(regs, r20, ret);
 		/*
 		 * The restart function may have been interrupted again.
 		 * Loop around to handle any pending signals or further restarts.
@@ -242,7 +244,7 @@ restart_syscall:
 		    ret == -ERESTARTSYS || ret == -ERESTARTNOHAND) {
 			if (do_signal(regs))
 				goto out;
-			ret = regs->r20;
+			ret = PT_REG_GET_SIGNED(regs, r20);
 			/* Continue the switch to handle the new error code */
 		}
 		break;
@@ -251,10 +253,10 @@ restart_syscall:
 
 out:
 	/* Mark that we're no longer in a syscall */
-	regs->syscall_nr = -1;
+	syscall_wont_restart(regs);
 
 	/* Return the final value */
-	return regs->r20;
+	return PT_REG_GET_SIGNED(regs, r20);
 }
 
 

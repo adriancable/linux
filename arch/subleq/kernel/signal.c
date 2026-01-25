@@ -3,6 +3,8 @@
  * Subleq signal handling
  *
  * Based on m68k/kernel/signal.c signal handling patterns for NOMMU.
+ *
+ * NOTE: pt_regs values are stored NEGATED. All access uses PT_REG_GET/SET macros.
  */
 
 #include <linux/kernel.h>
@@ -63,113 +65,115 @@ struct rt_sigframe {
 
 /*
  * save_sigcontext - Save register state to sigcontext
+ *
+ * Copies pt_regs to the user's sigcontext. Since pt_regs stores values
+ * NEGATED, we use PT_REG_GET to get the logical (positive) values for
+ * userspace.
  */
 static int save_sigcontext(struct sigcontext __user *sc, struct pt_regs *regs)
 {
 	int err = 0;
 
-	/*
-	 * regs->pc contains the return address for both syscall and interrupt
-	 * context. For syscalls, syscall_entry.c sets it to subleq_syscall_saved_ra.
-	 * For interrupts, the interrupt handler sets it to the interrupted PC.
-	 */
-
-
-	/* Save all general purpose registers */
-	err |= __put_user(regs->r3, &sc->sc_regs[0]);
-	err |= __put_user(regs->r4, &sc->sc_regs[1]);
-	err |= __put_user(regs->r5, &sc->sc_regs[2]);
-	err |= __put_user(regs->r6, &sc->sc_regs[3]);
-	err |= __put_user(regs->r7, &sc->sc_regs[4]);
-	err |= __put_user(regs->r8, &sc->sc_regs[5]);
-	err |= __put_user(regs->r9, &sc->sc_regs[6]);
-	err |= __put_user(regs->r10, &sc->sc_regs[7]);
-	err |= __put_user(regs->r11, &sc->sc_regs[8]);
-	err |= __put_user(regs->r12, &sc->sc_regs[9]);
-	err |= __put_user(regs->r13, &sc->sc_regs[10]);
-	err |= __put_user(regs->r14, &sc->sc_regs[11]);
-	err |= __put_user(regs->r15, &sc->sc_regs[12]);
-	err |= __put_user(regs->r16, &sc->sc_regs[13]);
-	err |= __put_user(regs->r17, &sc->sc_regs[14]);
-	err |= __put_user(regs->r18, &sc->sc_regs[15]);
-	err |= __put_user(regs->r19, &sc->sc_regs[16]);
-	err |= __put_user(regs->r20, &sc->sc_regs[17]);
-	err |= __put_user(regs->r21, &sc->sc_regs[18]);
-	err |= __put_user(regs->r22, &sc->sc_regs[19]);
-	err |= __put_user(regs->r23, &sc->sc_regs[20]);
-	err |= __put_user(regs->r24, &sc->sc_regs[21]);
-	err |= __put_user(regs->r25, &sc->sc_regs[22]);
-	err |= __put_user(regs->r26, &sc->sc_regs[23]);
-	err |= __put_user(regs->r27, &sc->sc_regs[24]);
-	err |= __put_user(regs->r28, &sc->sc_regs[25]);
-	err |= __put_user(regs->r29, &sc->sc_regs[26]);
-	err |= __put_user(regs->r30, &sc->sc_regs[27]);
-	err |= __put_user(regs->r31, &sc->sc_regs[28]);
-	err |= __put_user(regs->fp, &sc->sc_regs[29]);
-	err |= __put_user(regs->sp, &sc->sc_regs[30]);
-	err |= __put_user(regs->ra, &sc->sc_regs[31]);
-	err |= __put_user(regs->pc, &sc->sc_pc);
+	/* Save all general purpose registers (convert from negated storage) */
+	err |= __put_user(PT_REG_GET(regs, r3), &sc->sc_regs[0]);
+	err |= __put_user(PT_REG_GET(regs, r4), &sc->sc_regs[1]);
+	err |= __put_user(PT_REG_GET(regs, r5), &sc->sc_regs[2]);
+	err |= __put_user(PT_REG_GET(regs, r6), &sc->sc_regs[3]);
+	err |= __put_user(PT_REG_GET(regs, r7), &sc->sc_regs[4]);
+	err |= __put_user(PT_REG_GET(regs, r8), &sc->sc_regs[5]);
+	err |= __put_user(PT_REG_GET(regs, r9), &sc->sc_regs[6]);
+	err |= __put_user(PT_REG_GET(regs, r10), &sc->sc_regs[7]);
+	err |= __put_user(PT_REG_GET(regs, r11), &sc->sc_regs[8]);
+	err |= __put_user(PT_REG_GET(regs, r12), &sc->sc_regs[9]);
+	err |= __put_user(PT_REG_GET(regs, r13), &sc->sc_regs[10]);
+	err |= __put_user(PT_REG_GET(regs, r14), &sc->sc_regs[11]);
+	err |= __put_user(PT_REG_GET(regs, r15), &sc->sc_regs[12]);
+	err |= __put_user(PT_REG_GET(regs, r16), &sc->sc_regs[13]);
+	err |= __put_user(PT_REG_GET(regs, r17), &sc->sc_regs[14]);
+	err |= __put_user(PT_REG_GET(regs, r18), &sc->sc_regs[15]);
+	err |= __put_user(PT_REG_GET(regs, r19), &sc->sc_regs[16]);
+	err |= __put_user(PT_REG_GET(regs, r20), &sc->sc_regs[17]);
+	err |= __put_user(PT_REG_GET(regs, r21), &sc->sc_regs[18]);
+	err |= __put_user(PT_REG_GET(regs, r22), &sc->sc_regs[19]);
+	err |= __put_user(PT_REG_GET(regs, r23), &sc->sc_regs[20]);
+	err |= __put_user(PT_REG_GET(regs, r24), &sc->sc_regs[21]);
+	err |= __put_user(PT_REG_GET(regs, r25), &sc->sc_regs[22]);
+	err |= __put_user(PT_REG_GET(regs, r26), &sc->sc_regs[23]);
+	err |= __put_user(PT_REG_GET(regs, r27), &sc->sc_regs[24]);
+	err |= __put_user(PT_REG_GET(regs, r28), &sc->sc_regs[25]);
+	err |= __put_user(PT_REG_GET(regs, r29), &sc->sc_regs[26]);
+	err |= __put_user(PT_REG_GET(regs, r30), &sc->sc_regs[27]);
+	err |= __put_user(PT_REG_GET(regs, r31), &sc->sc_regs[28]);
+	err |= __put_user(PT_REG_GET(regs, fp), &sc->sc_regs[29]);
+	err |= __put_user(PT_REG_GET(regs, sp), &sc->sc_regs[30]);
+	err |= __put_user(PT_REG_GET(regs, ra), &sc->sc_regs[31]);
+	err |= __put_user(PT_REG_GET(regs, pc), &sc->sc_pc);
 
 	/* Save syscall restart information */
-	err |= __put_user(regs->orig_r21, &sc->sc_orig_r21);
-	err |= __put_user(regs->orig_a1, &sc->sc_orig_a1);
-	err |= __put_user(regs->orig_a2, &sc->sc_orig_a2);
-	err |= __put_user(regs->orig_a3, &sc->sc_orig_a3);
-	err |= __put_user(regs->orig_a4, &sc->sc_orig_a4);
-	err |= __put_user(regs->syscall_nr, &sc->sc_syscall_nr);
+	err |= __put_user(PT_REG_GET(regs, orig_r21), &sc->sc_orig_r21);
+	err |= __put_user(PT_REG_GET(regs, orig_a1), &sc->sc_orig_a1);
+	err |= __put_user(PT_REG_GET(regs, orig_a2), &sc->sc_orig_a2);
+	err |= __put_user(PT_REG_GET(regs, orig_a3), &sc->sc_orig_a3);
+	err |= __put_user(PT_REG_GET(regs, orig_a4), &sc->sc_orig_a4);
+	err |= __put_user(PT_REG_GET_SIGNED(regs, syscall_nr), &sc->sc_syscall_nr);
 
 	return err;
 }
 
 /*
  * restore_sigcontext - Restore register state from sigcontext
+ *
+ * Copies user's sigcontext back to pt_regs. Since pt_regs stores values
+ * NEGATED, we use PT_REG_SET to negate the user's positive values.
  */
 static int restore_sigcontext(struct pt_regs *regs, struct sigcontext __user *sc)
 {
 	int err = 0;
+	unsigned long val;
+	long sval;
 
-	/* Restore all general purpose registers */
-	err |= __get_user(regs->r3, &sc->sc_regs[0]);
-	err |= __get_user(regs->r4, &sc->sc_regs[1]);
-	err |= __get_user(regs->r5, &sc->sc_regs[2]);
-	err |= __get_user(regs->r6, &sc->sc_regs[3]);
-	err |= __get_user(regs->r7, &sc->sc_regs[4]);
-	err |= __get_user(regs->r8, &sc->sc_regs[5]);
-	err |= __get_user(regs->r9, &sc->sc_regs[6]);
-	err |= __get_user(regs->r10, &sc->sc_regs[7]);
-	err |= __get_user(regs->r11, &sc->sc_regs[8]);
-	err |= __get_user(regs->r12, &sc->sc_regs[9]);
-	err |= __get_user(regs->r13, &sc->sc_regs[10]);
-	err |= __get_user(regs->r14, &sc->sc_regs[11]);
-	err |= __get_user(regs->r15, &sc->sc_regs[12]);
-	err |= __get_user(regs->r16, &sc->sc_regs[13]);
-	err |= __get_user(regs->r17, &sc->sc_regs[14]);
-	err |= __get_user(regs->r18, &sc->sc_regs[15]);
-	err |= __get_user(regs->r19, &sc->sc_regs[16]);
-	err |= __get_user(regs->r20, &sc->sc_regs[17]);
-	err |= __get_user(regs->r21, &sc->sc_regs[18]);
-	err |= __get_user(regs->r22, &sc->sc_regs[19]);
-	err |= __get_user(regs->r23, &sc->sc_regs[20]);
-	err |= __get_user(regs->r24, &sc->sc_regs[21]);
-	err |= __get_user(regs->r25, &sc->sc_regs[22]);
-	err |= __get_user(regs->r26, &sc->sc_regs[23]);
-	err |= __get_user(regs->r27, &sc->sc_regs[24]);
-	err |= __get_user(regs->r28, &sc->sc_regs[25]);
-	err |= __get_user(regs->r29, &sc->sc_regs[26]);
-	err |= __get_user(regs->r30, &sc->sc_regs[27]);
-	err |= __get_user(regs->r31, &sc->sc_regs[28]);
-	err |= __get_user(regs->fp, &sc->sc_regs[29]);
-	err |= __get_user(regs->sp, &sc->sc_regs[30]);
-	err |= __get_user(regs->ra, &sc->sc_regs[31]);
-	err |= __get_user(regs->pc, &sc->sc_pc);
+	/* Restore all general purpose registers (convert to negated storage) */
+	err |= __get_user(val, &sc->sc_regs[0]); PT_REG_SET(regs, r3, val);
+	err |= __get_user(val, &sc->sc_regs[1]); PT_REG_SET(regs, r4, val);
+	err |= __get_user(val, &sc->sc_regs[2]); PT_REG_SET(regs, r5, val);
+	err |= __get_user(val, &sc->sc_regs[3]); PT_REG_SET(regs, r6, val);
+	err |= __get_user(val, &sc->sc_regs[4]); PT_REG_SET(regs, r7, val);
+	err |= __get_user(val, &sc->sc_regs[5]); PT_REG_SET(regs, r8, val);
+	err |= __get_user(val, &sc->sc_regs[6]); PT_REG_SET(regs, r9, val);
+	err |= __get_user(val, &sc->sc_regs[7]); PT_REG_SET(regs, r10, val);
+	err |= __get_user(val, &sc->sc_regs[8]); PT_REG_SET(regs, r11, val);
+	err |= __get_user(val, &sc->sc_regs[9]); PT_REG_SET(regs, r12, val);
+	err |= __get_user(val, &sc->sc_regs[10]); PT_REG_SET(regs, r13, val);
+	err |= __get_user(val, &sc->sc_regs[11]); PT_REG_SET(regs, r14, val);
+	err |= __get_user(val, &sc->sc_regs[12]); PT_REG_SET(regs, r15, val);
+	err |= __get_user(val, &sc->sc_regs[13]); PT_REG_SET(regs, r16, val);
+	err |= __get_user(val, &sc->sc_regs[14]); PT_REG_SET(regs, r17, val);
+	err |= __get_user(val, &sc->sc_regs[15]); PT_REG_SET(regs, r18, val);
+	err |= __get_user(val, &sc->sc_regs[16]); PT_REG_SET(regs, r19, val);
+	err |= __get_user(val, &sc->sc_regs[17]); PT_REG_SET(regs, r20, val);
+	err |= __get_user(val, &sc->sc_regs[18]); PT_REG_SET(regs, r21, val);
+	err |= __get_user(val, &sc->sc_regs[19]); PT_REG_SET(regs, r22, val);
+	err |= __get_user(val, &sc->sc_regs[20]); PT_REG_SET(regs, r23, val);
+	err |= __get_user(val, &sc->sc_regs[21]); PT_REG_SET(regs, r24, val);
+	err |= __get_user(val, &sc->sc_regs[22]); PT_REG_SET(regs, r25, val);
+	err |= __get_user(val, &sc->sc_regs[23]); PT_REG_SET(regs, r26, val);
+	err |= __get_user(val, &sc->sc_regs[24]); PT_REG_SET(regs, r27, val);
+	err |= __get_user(val, &sc->sc_regs[25]); PT_REG_SET(regs, r28, val);
+	err |= __get_user(val, &sc->sc_regs[26]); PT_REG_SET(regs, r29, val);
+	err |= __get_user(val, &sc->sc_regs[27]); PT_REG_SET(regs, r30, val);
+	err |= __get_user(val, &sc->sc_regs[28]); PT_REG_SET(regs, r31, val);
+	err |= __get_user(val, &sc->sc_regs[29]); PT_REG_SET(regs, fp, val);
+	err |= __get_user(val, &sc->sc_regs[30]); PT_REG_SET(regs, sp, val);
+	err |= __get_user(val, &sc->sc_regs[31]); PT_REG_SET(regs, ra, val);
+	err |= __get_user(val, &sc->sc_pc); PT_REG_SET(regs, pc, val);
 
 	/* Restore syscall restart information */
-	err |= __get_user(regs->orig_r21, &sc->sc_orig_r21);
-	err |= __get_user(regs->orig_a1, &sc->sc_orig_a1);
-	err |= __get_user(regs->orig_a2, &sc->sc_orig_a2);
-	err |= __get_user(regs->orig_a3, &sc->sc_orig_a3);
-	err |= __get_user(regs->orig_a4, &sc->sc_orig_a4);
-	err |= __get_user(regs->syscall_nr, &sc->sc_syscall_nr);
+	err |= __get_user(val, &sc->sc_orig_r21); PT_REG_SET(regs, orig_r21, val);
+	err |= __get_user(val, &sc->sc_orig_a1); PT_REG_SET(regs, orig_a1, val);
+	err |= __get_user(val, &sc->sc_orig_a2); PT_REG_SET(regs, orig_a2, val);
+	err |= __get_user(val, &sc->sc_orig_a3); PT_REG_SET(regs, orig_a3, val);
+	err |= __get_user(val, &sc->sc_orig_a4); PT_REG_SET(regs, orig_a4, val);
+	err |= __get_user(sval, &sc->sc_syscall_nr); PT_REG_SET_SIGNED(regs, syscall_nr, sval);
 
 	return err;
 }
@@ -184,7 +188,7 @@ static inline void __user *get_sigframe(struct ksignal *ksig,
 	unsigned long sp;
 
 	/* Use alternate signal stack if available and appropriate */
-	sp = sigsp(regs->sp, ksig);
+	sp = sigsp(PT_REG_GET(regs, sp), ksig);
 
 	/* Align to 4-byte boundary (Subleq word alignment) */
 	sp = (sp - frame_size) & ~3UL;
@@ -230,7 +234,7 @@ static int setup_rt_frame(struct ksignal *ksig, sigset_t *set,
 	/* Set up ucontext */
 	err |= __put_user(0, &frame->uc.uc_flags);
 	err |= __put_user(NULL, &frame->uc.uc_link);
-	err |= __save_altstack(&frame->uc.uc_stack, regs->sp);
+	err |= __save_altstack(&frame->uc.uc_stack, PT_REG_GET(regs, sp));
 	err |= save_sigcontext(&frame->uc.uc_mcontext, regs);
 	err |= __copy_to_user(&frame->uc.uc_sigmask, set, sizeof(*set));
 
@@ -268,11 +272,11 @@ static int setup_rt_frame(struct ksignal *ksig, sigset_t *set,
 			return -EFAULT;
 
 		/* SP points to the pushed return address */
-		regs->sp = (unsigned long)ra_slot;
+		PT_REG_SET(regs, sp, (unsigned long)ra_slot);
 	}
 
-	regs->pc = (unsigned long)ksig->ka.sa.sa_handler;
-	regs->r21 = ksig->sig;  /* First argument: signal number */
+	PT_REG_SET(regs, pc, (unsigned long)ksig->ka.sa.sa_handler);
+	PT_REG_SET(regs, r21, ksig->sig);  /* First argument: signal number */
 
 	/*
 	 * For SA_SIGINFO handlers, set up additional arguments:
@@ -280,15 +284,15 @@ static int setup_rt_frame(struct ksignal *ksig, sigset_t *set,
 	 * R23 = pointer to ucontext
 	 */
 	if (ksig->ka.sa.sa_flags & SA_SIGINFO) {
-		regs->r22 = (unsigned long)&frame->info;
-		regs->r23 = (unsigned long)&frame->uc;
+		PT_REG_SET(regs, r22, (unsigned long)&frame->info);
+		PT_REG_SET(regs, r23, (unsigned long)&frame->uc);
 	}
 
 	/*
 	 * Also set RA register for compatibility with code that reads RA directly.
 	 * The primary return mechanism is the pushed value on the stack.
 	 */
-	regs->ra = (unsigned long)ret_from_user_rt_signal;
+	PT_REG_SET(regs, ra, (unsigned long)ret_from_user_rt_signal);
 
 	return 0;
 }
@@ -305,7 +309,9 @@ static int setup_rt_frame(struct ksignal *ksig, sigset_t *set,
 static inline void
 handle_restart(struct pt_regs *regs, struct k_sigaction *ka, int has_handler)
 {
-	switch (regs->r20) {
+	long ret = PT_REG_GET_SIGNED(regs, r20);
+
+	switch (ret) {
 	case -ERESTARTNOHAND:
 		/*
 		 * ERESTARTNOHAND: Restart only if there's no handler.
@@ -313,7 +319,7 @@ handle_restart(struct pt_regs *regs, struct k_sigaction *ka, int has_handler)
 		 */
 		if (!has_handler)
 			goto do_restart;
-		regs->r20 = -EINTR;
+		PT_REG_SET_SIGNED(regs, r20, -EINTR);
 		break;
 
 	case -ERESTART_RESTARTBLOCK:
@@ -327,7 +333,7 @@ handle_restart(struct pt_regs *regs, struct k_sigaction *ka, int has_handler)
 		 */
 		if (!has_handler) {
 			struct restart_block *restart = &current->restart_block;
-			regs->r20 = restart->fn(restart);
+			PT_REG_SET_SIGNED(regs, r20, restart->fn(restart));
 		}
 		/* With handler: keep r20 as -ERESTART_RESTARTBLOCK for sigreturn */
 		break;
@@ -337,7 +343,7 @@ handle_restart(struct pt_regs *regs, struct k_sigaction *ka, int has_handler)
 		 * ERESTARTSYS: Restart unless there's a handler without SA_RESTART.
 		 */
 		if (has_handler && !(ka->sa.sa_flags & SA_RESTART)) {
-			regs->r20 = -EINTR;
+			PT_REG_SET_SIGNED(regs, r20, -EINTR);
 			break;
 		}
 		fallthrough;
@@ -352,8 +358,8 @@ handle_restart(struct pt_regs *regs, struct k_sigaction *ka, int has_handler)
 		 * 2. Keep the restart code so syscall_entry.c knows to restart
 		 */
 	do_restart:
-		regs->r21 = regs->orig_r21;
-		regs->r20 = -ERESTARTNOINTR;  /* Keep the restart code */
+		PT_REG_SET(regs, r21, PT_REG_GET(regs, orig_r21));
+		PT_REG_SET_SIGNED(regs, r20, -ERESTARTNOINTR);  /* Keep the restart code */
 		break;
 	}
 }
@@ -469,7 +475,7 @@ asmlinkage long sys_rt_sigreturn(void)
 	 * But syscall_entry.c adds 4 to saved_sp to account for a normal CALL's
 	 * pushed RA. Since we jumped, not called, we need to subtract that 4.
 	 */
-	frame = (struct rt_sigframe __user *)(regs->sp - 4);
+	frame = (struct rt_sigframe __user *)(PT_REG_GET(regs, sp) - 4);
 
 	if (!access_ok(frame, sizeof(*frame)))
 		goto badframe;
@@ -498,70 +504,65 @@ asmlinkage long sys_rt_sigreturn(void)
 	 * returns and we restore that context, we must actually restart the
 	 * syscall instead of returning the internal error code to userspace.
 	 */
-	switch (regs->r20) {
-	case -ERESTARTNOINTR:
-	case -ERESTARTSYS:
-	case -ERESTARTNOHAND: {
-		/*
-		 * The original syscall needs to be restarted.
-		 * We use the preserved orig_a1-a4 which contain the original
-		 * syscall arguments, since r21-r24 were overwritten with signal
-		 * handler arguments (signal number, siginfo, etc.)
-		 */
-		long nr = regs->orig_r21;
-		if (nr >= 0 && nr < __NR_syscalls) {
-			syscall_fn_t fn = (syscall_fn_t)sys_call_table[nr];
-			if (fn && sys_call_table[nr] != (void *)sys_ni_syscall) {
-				/*
-				 * Mark that we're in a syscall again for proper
-				 * signal/restart handling during the restarted call.
-				 */
-				regs->syscall_nr = nr;
+	{
+		long ret = PT_REG_GET_SIGNED(regs, r20);
 
-				/*
-				 * Restart the original syscall with the ORIGINAL
-				 * arguments from when the syscall was first made.
-				 *
-				 * orig_a1-a4 are the first 4 arguments to the syscall.
-				 * For syscalls needing 5+ args, those would be on the
-				 * restored stack (not currently handled).
-				 */
-				regs->r20 = fn(regs->orig_a1, regs->orig_a2,
-					       regs->orig_a3, regs->orig_a4, 0, 0);
+		switch (ret) {
+		case -ERESTARTNOINTR:
+		case -ERESTARTSYS:
+		case -ERESTARTNOHAND: {
+			/*
+			 * The original syscall needs to be restarted.
+			 * We use the preserved orig_a1-a4 which contain the original
+			 * syscall arguments, since r21-r24 were overwritten with signal
+			 * handler arguments (signal number, siginfo, etc.)
+			 */
+			long nr = PT_REG_GET_SIGNED(regs, orig_r21);
+			if (nr >= 0 && nr < __NR_syscalls) {
+				syscall_fn_t fn = (syscall_fn_t)sys_call_table[nr];
+				if (fn && sys_call_table[nr] != (void *)sys_ni_syscall) {
+					/*
+					 * Mark that we're in a syscall again for proper
+					 * signal/restart handling during the restarted call.
+					 */
+					PT_REG_SET_SIGNED(regs, syscall_nr, nr);
 
-				/*
-				 * The restarted syscall may have been interrupted again.
-				 * Let do_signal handle any pending signals and further
-				 * restart logic.
-				 */
-				do_signal(regs);
+					/*
+					 * Restart the original syscall with the ORIGINAL
+					 * arguments from when the syscall was first made.
+					 */
+					ret = fn(PT_REG_GET(regs, orig_a1),
+						 PT_REG_GET(regs, orig_a2),
+						 PT_REG_GET(regs, orig_a3),
+						 PT_REG_GET(regs, orig_a4), 0, 0);
+					PT_REG_SET_SIGNED(regs, r20, ret);
 
-				/*
-				 * If another restart code appears, we could loop, but
-				 * to avoid complexity, just fall through. The next
-				 * sigreturn (if any) will handle it.
-				 */
+					/*
+					 * The restarted syscall may have been interrupted again.
+					 * Let do_signal handle any pending signals.
+					 */
+					do_signal(regs);
+				}
 			}
+			break;
 		}
-		break;
-	}
 
-	case -ERESTART_RESTARTBLOCK: {
-		/*
-		 * ERESTART_RESTARTBLOCK requires calling the restart_block
-		 * function instead of the original syscall. This is used by
-		 * nanosleep/futex to handle the remaining time.
-		 */
-		struct restart_block *restart = &current->restart_block;
-		regs->r20 = restart->fn(restart);
+		case -ERESTART_RESTARTBLOCK: {
+			/*
+			 * ERESTART_RESTARTBLOCK requires calling the restart_block
+			 * function instead of the original syscall.
+			 */
+			struct restart_block *restart = &current->restart_block;
+			PT_REG_SET_SIGNED(regs, r20, restart->fn(restart));
 
-		/*
-		 * The restart function may have been interrupted again.
-		 * Let do_signal handle any pending signals.
-		 */
-		do_signal(regs);
-		break;
-	}
+			/*
+			 * The restart function may have been interrupted again.
+			 * Let do_signal handle any pending signals.
+			 */
+			do_signal(regs);
+			break;
+		}
+		}
 	}
 
 	/*
@@ -569,16 +570,12 @@ asmlinkage long sys_rt_sigreturn(void)
 	 * This prevents syscall_entry.c from attempting further restart
 	 * processing on our return value.
 	 */
-	regs->syscall_nr = -1;
+	syscall_wont_restart(regs);
 
 	/*
 	 * Return the final R20 value.
-	 * This is either:
-	 * - The result of the restarted syscall
-	 * - The original restored value (if no restart was needed)
-	 * - -EINTR (if ERESTART_RESTARTBLOCK was converted)
 	 */
-	return regs->r20;
+	return PT_REG_GET_SIGNED(regs, r20);
 
 badframe:
 	force_sig(SIGSEGV);

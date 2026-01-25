@@ -80,19 +80,6 @@
 .set SW_Z2, 248          /* Context switch second scratch (word 62) */
 
 /*
- * SYSCALL STACK SWITCH SUPPORT
- * Like ColdFire's sw_usp/sw_ksp for NOMMU systems without separate U/S stack pointers.
- * 
- * SUBLEQ_USP: Saves the userspace SP when entering a syscall.
- *             Restored when returning to userspace.
- *
- * SUBLEQ_UFP: Saves the userspace FP when entering a syscall.
- *             Restored when returning to userspace.
- */
-.set SUBLEQ_USP, 252    /* Saved userspace stack pointer (word 63) */
-.set SUBLEQ_UFP, 256    /* Saved userspace frame pointer (word 64) */
-
-/*
  * INT_SP: Interrupt Stack Pointer
  *
  * This is the running stack pointer for the dedicated IRQ stack.
@@ -1036,6 +1023,46 @@ subleq_irq_entry:
 .set INDIRECT, 2
 
 .size subleq_irq_entry, .-subleq_irq_entry
+
+
+/*
+ * ===========================================================================
+ * Dummy Interrupt Handler for Early Boot Clock Initialization
+ * ===========================================================================
+ *
+ * This minimal handler is used during early boot when we need to trigger
+ * the VM's timer check to populate the clock registers, but before the
+ * kernel is ready to handle real interrupts.
+ *
+ * It simply:
+ * 1. Re-enables interrupts (restores m[0] from m[8])
+ * 2. Returns to the interrupted code (jumps to m[4])
+ *
+ * No registers are saved or restored - the interrupted code is resumed
+ * exactly as it was.
+ */
+.text
+.globl subleq_dummy_irq_handler
+.type subleq_dummy_irq_handler, @function
+
+subleq_dummy_irq_handler:
+        /*
+         * Re-enable interrupts: m[0] = m[8]
+         * Pattern: INT_Z = -m[8]; m[0] = 0; m[0] -= INT_Z
+         */
+        .word   INT_Z, INT_Z, .+4                       /* INT_Z = 0 */
+        .word   INT_SAVED_HANDLER, INT_Z, .+4           /* INT_Z = -handler */
+        .word   INT_HANDLER, INT_HANDLER, .+4           /* m[0] = 0 */
+        .word   INT_Z, INT_HANDLER, .+4                 /* m[0] = handler */
+
+        /*
+         * Return to interrupted code: jump to address stored at m[4]
+         * Using indirect jump: the jump target is read from INT_SAVED_PC
+         */
+        .word   INT_Z, INT_Z, INT_SAVED_PC | INDIRECT
+
+.size subleq_dummy_irq_handler, .-subleq_dummy_irq_handler
+
 
 
 /*

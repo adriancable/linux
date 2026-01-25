@@ -2,9 +2,12 @@
 /*
  * Subleq timer and timekeeping
  *
- * The Subleq VM fires a timer interrupt every ~10000 instruction cycles.
- * We use legacy_timer_tick() for timekeeping, following the pattern of
- * m68k coldfire (arch/m68k/coldfire/timers.c).
+ * The Subleq VM provides nanosecond-resolution time through memory-mapped
+ * clock registers. The clocksource reads directly from these registers,
+ * giving the kernel accurate time for both monotonic and wall-clock purposes.
+ *
+ * Timer interrupts still fire at HZ rate for scheduler ticks, but the
+ * clocksource is decoupled from interrupt timing accuracy.
  */
 
 #include <linux/init.h>
@@ -21,87 +24,151 @@
 #include <asm/io.h>
 
 /*
- * Subleq Real-Time Clock (RTC)
+ * Subleq Clock Registers (words 63-65, bytes 252-260)
  *
- * The VM provides the current Unix epoch (seconds since 1970) at byte
- * address 24 (word 6). This value is updated by the VM during timer
- * interrupt checks. Reading from this address returns the current time.
+ * The VM provides the current time with nanosecond resolution:
+ *   CLOCK_S_LO (word 63, byte 252): Low 32 bits of 64-bit seconds
+ *   CLOCK_S_HI (word 64, byte 256): High 32 bits of 64-bit seconds
+ *   CLOCK_NS   (word 65, byte 260): Nanoseconds (0-999999999)
  *
- * Note: This location was historically used for the ZERO constant,
- * which has been moved to word 36 (byte address 144).
+ * These values are updated by the VM continuously (not just at interrupts).
  */
-#define SUBLEQ_RTC_ADDR		24	/* Byte address of RTC (word 6) */
+#define SUBLEQ_CLOCK_S_LO	252
+#define SUBLEQ_CLOCK_S_HI	256
+#define SUBLEQ_CLOCK_NS		260
 
 /*
- * Subleq timer counter - incremented on each tick.
- * Also used as the clocksource value.
- */
-static unsigned long subleq_ticks;
-
-/*
- * Timer interrupt handler - called from subleq_do_IRQ() in irq.c
+ * Read current time as nanoseconds since boot.
  *
- * NOTE: irq_enter()/irq_exit() are called by subleq_do_IRQ(),
- * so this function should NOT call them again.
+ * The clocksource returns a monotonic nanosecond counter. We compute this
+ * from the VM's clock registers which provide wall-clock time.
  *
- * This follows the m68k coldfire pattern - see mcftmr_tick() in
- * arch/m68k/coldfire/timers.c which just calls legacy_timer_tick(1).
- */
-void subleq_timer_interrupt(void)
-{
-	subleq_ticks++;
-	legacy_timer_tick(1);
-}
-
-/*
- * Read current timer value (just return ticks count)
+ * For simplicity, we use the seconds * 1e9 + nanoseconds directly.
+ * This gives us a 64-bit nanosecond counter that won't wrap for ~584 years.
  */
 static u64 subleq_read_clock(struct clocksource *cs)
 {
-	return subleq_ticks;
+	u32 lo, hi, ns;
+	u64 seconds;
+
+	lo = readl((void __iomem *)SUBLEQ_CLOCK_S_LO);
+	hi = readl((void __iomem *)SUBLEQ_CLOCK_S_HI);
+	ns = readl((void __iomem *)SUBLEQ_CLOCK_NS);
+
+	seconds = ((u64)hi << 32) | lo;
+	return seconds * NSEC_PER_SEC + ns;
 }
 
 static struct clocksource subleq_clocksource = {
 	.name = "subleq",
-	.rating = 100,
+	.rating = 400,  /* High rating - this is our primary accurate clock */
 	.read = subleq_read_clock,
-	.mask = CLOCKSOURCE_MASK(32),
+	.mask = CLOCKSOURCE_MASK(64),
 	.flags = CLOCK_SOURCE_IS_CONTINUOUS,
 };
+
+/*
+ * Timer interrupt handler - called from subleq_do_IRQ() in irq.c
+ *
+ * This provides scheduler ticks. The clocksource is independent of
+ * interrupt timing - it reads actual wall-clock time from VM registers.
+ */
+void subleq_timer_interrupt(void)
+{
+	legacy_timer_tick(1);
+}
 
 /*
  * Timer initialization
  */
 void __init time_init(void)
 {
-	/* Register clock source */
-	clocksource_register_hz(&subleq_clocksource, HZ);
+	/*
+	 * Register the clocksource at 1 GHz (nanosecond resolution).
+	 * The kernel will use this for accurate timekeeping.
+	 */
+	clocksource_register_hz(&subleq_clocksource, NSEC_PER_SEC);
 
-	pr_info("Subleq timer initialized\n");
+	pr_info("Subleq timer initialized (nanosecond-resolution clocksource)\n");
 }
 
 /*
- * Read time from the persistent clock (RTC).
+ * Dummy interrupt handler (defined in entry.S)
+ * This handler just re-enables interrupts and returns immediately,
+ * without invoking any kernel code.
+ */
+extern void subleq_dummy_irq_handler(void);
+
+/*
+ * Interrupt control registers (low memory)
+ */
+#define INT_HANDLER_ADDR	((volatile unsigned long *)0)
+#define INT_SAVED_HANDLER_ADDR	((volatile unsigned long *)8)
+
+/*
+ * Read time from the persistent clock.
  *
- * The Subleq VM provides the current Unix epoch at byte address 24.
- * This is a read-only value updated by the VM during timer interrupts.
- * The value is a 32-bit signed integer representing seconds since 1970.
+ * The Subleq VM provides nanosecond-resolution time at words 63-65:
+ *   - CLOCK_S_LO/HI: 64-bit seconds since 1970
+ *   - CLOCK_NS: nanoseconds (0-999999999)
  *
  * This function is called by the kernel's timekeeping subsystem during
  * boot to initialize wall-clock time, and during suspend/resume cycles.
+ *
+ * IMPORTANT: The VM only populates clock registers during timer interrupt
+ * checks, which only happen when interrupts are enabled. If called very
+ * early during boot (before any checks have occurred), the clock will
+ * be zero. In this case, we install a minimal dummy interrupt handler
+ * and enable interrupts to trigger the VM's timer check.
  */
 void read_persistent_clock64(struct timespec64 *ts)
 {
-	u32 epoch;
+	u32 lo, hi, ns;
+	unsigned long saved_handler;
+	int i;
+
+	/* First read - check if clock is already valid */
+	lo = readl((void __iomem *)SUBLEQ_CLOCK_S_LO);
+	hi = readl((void __iomem *)SUBLEQ_CLOCK_S_HI);
+	ns = readl((void __iomem *)SUBLEQ_CLOCK_NS);
 
 	/*
-	 * Read the RTC value from byte address 24 (word 6).
-	 * The VM stores the current Unix epoch here.
+	 * If clock is zero, the VM hasn't populated it yet.
+	 * This happens during early boot when interrupts are disabled.
+	 *
+	 * Install a dummy interrupt handler that just returns immediately,
+	 * then enable interrupts to trigger the VM's timer check.
 	 */
-	epoch = readl((void __iomem *)SUBLEQ_RTC_ADDR);
+	if (lo == 0 && hi == 0 && ns == 0) {
+		/*
+		 * Save the current handler (might be 0 or the real handler)
+		 * and install our dummy handler.
+		 */
+		saved_handler = *INT_SAVED_HANDLER_ADDR;
+		*INT_SAVED_HANDLER_ADDR = (unsigned long)subleq_dummy_irq_handler;
 
-	ts->tv_sec = epoch;
-	ts->tv_nsec = 0;
+		/* Enable interrupts by setting m[0] to the dummy handler */
+		*INT_HANDLER_ADDR = (unsigned long)subleq_dummy_irq_handler;
+
+		/* Spin until the clock is valid */
+		for (i = 0; i < 100000; i++) {
+			lo = readl((void __iomem *)SUBLEQ_CLOCK_S_LO);
+			hi = readl((void __iomem *)SUBLEQ_CLOCK_S_HI);
+			ns = readl((void __iomem *)SUBLEQ_CLOCK_NS);
+
+			if (lo != 0 || hi != 0 || ns != 0)
+				break;
+
+			barrier();
+		}
+
+		/* Disable interrupts and restore original handler */
+		*INT_HANDLER_ADDR = 0;
+		*INT_SAVED_HANDLER_ADDR = saved_handler;
+	}
+
+	ts->tv_sec = ((s64)hi << 32) | lo;
+	ts->tv_nsec = ns;
 }
 
 /*

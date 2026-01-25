@@ -6,7 +6,6 @@ obj-y += entry.o
 obj-y += setup.o
 obj-y += irq.o
 obj-y += time.o
-obj-y += time_syscalls.o
 obj-y += process.o
 obj-y += signal.o
 obj-y += traps.o

@@ -15,8 +15,22 @@
 #include <linux/clockchips.h>
 #include <linux/delay.h>
 #include <linux/timekeeping.h>
+#include <linux/time.h>
 
 #include <asm/irq.h>
+#include <asm/io.h>
+
+/*
+ * Subleq Real-Time Clock (RTC)
+ *
+ * The VM provides the current Unix epoch (seconds since 1970) at byte
+ * address 24 (word 6). This value is updated by the VM during timer
+ * interrupt checks. Reading from this address returns the current time.
+ *
+ * Note: This location was historically used for the ZERO constant,
+ * which has been moved to word 36 (byte address 144).
+ */
+#define SUBLEQ_RTC_ADDR		24	/* Byte address of RTC (word 6) */
 
 /*
  * Subleq timer counter - incremented on each tick.
@@ -64,6 +78,30 @@ void __init time_init(void)
 	clocksource_register_hz(&subleq_clocksource, HZ);
 
 	pr_info("Subleq timer initialized\n");
+}
+
+/*
+ * Read time from the persistent clock (RTC).
+ *
+ * The Subleq VM provides the current Unix epoch at byte address 24.
+ * This is a read-only value updated by the VM during timer interrupts.
+ * The value is a 32-bit signed integer representing seconds since 1970.
+ *
+ * This function is called by the kernel's timekeeping subsystem during
+ * boot to initialize wall-clock time, and during suspend/resume cycles.
+ */
+void read_persistent_clock64(struct timespec64 *ts)
+{
+	u32 epoch;
+
+	/*
+	 * Read the RTC value from byte address 24 (word 6).
+	 * The VM stores the current Unix epoch here.
+	 */
+	epoch = readl((void __iomem *)SUBLEQ_RTC_ADDR);
+
+	ts->tv_sec = epoch;
+	ts->tv_nsec = 0;
 }
 
 /*

@@ -61,13 +61,13 @@ _start:
 	 */
 	.extern subleq_start
 .Ljump_start:
-	.word 24, 24, subleq_start
+	.word 144, 144, subleq_start
 
 	/*
 	 * If subleq_start somehow returns, halt the machine.
 	 */
 1:
-	.word -4, 24, -4	/* HALT with exit code 0 */
+	.word -4, 144, -4	/* HALT with exit code 0 */
 
 	.size _start, . - _start
 

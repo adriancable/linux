@@ -81,9 +81,6 @@ void __init early_irq_stack_init(void)
 /* Assembly entry point from entry.S */
 extern void subleq_irq_entry(void);
 
-/* Timer interrupt handler (in time.c) - just calls legacy_timer_tick */
-extern void subleq_timer_interrupt(void);
-
 /* do_notify_resume is defined in signal.c */
 extern asmlinkage void do_notify_resume(struct pt_regs *regs);
 
@@ -110,7 +107,7 @@ void subleq_do_IRQ(struct pt_regs *regs)
 	irq_enter();
 
 	/* Handle the timer interrupt (the only interrupt we have) */
-	subleq_timer_interrupt();
+	legacy_timer_tick(1);
 
 	/* Exit IRQ context - may trigger softirqs */
 	irq_exit();

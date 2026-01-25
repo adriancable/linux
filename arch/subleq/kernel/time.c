@@ -68,14 +68,32 @@ static struct clocksource subleq_clocksource = {
 };
 
 /*
- * Timer interrupt handler - called from subleq_do_IRQ() in irq.c
+ * sched_clock - scheduler clock for printk timestamps and scheduling
  *
- * This provides scheduler ticks. The clocksource is independent of
- * interrupt timing - it reads actual wall-clock time from VM registers.
+ * Returns nanoseconds since boot. We read the VM's clock registers
+ * and subtract the boot time to get monotonic nanoseconds.
+ *
+ * This is used by printk for timestamps and by the scheduler for
+ * timing measurements.
  */
-void subleq_timer_interrupt(void)
+static u64 boot_ns;
+
+unsigned long long notrace sched_clock(void)
 {
-	legacy_timer_tick(1);
+	u32 lo, hi, ns;
+	u64 now_ns;
+
+	lo = readl((void __iomem *)SUBLEQ_CLOCK_S_LO);
+	hi = readl((void __iomem *)SUBLEQ_CLOCK_S_HI);
+	ns = readl((void __iomem *)SUBLEQ_CLOCK_NS);
+
+	now_ns = ((u64)hi << 32 | lo) * NSEC_PER_SEC + ns;
+
+	/* Return monotonic nanoseconds since boot */
+	if (boot_ns == 0)
+		boot_ns = now_ns;
+
+	return now_ns - boot_ns;
 }
 
 /*
@@ -84,6 +102,12 @@ void subleq_timer_interrupt(void)
 void __init time_init(void)
 {
 	/*
+	 * Initialize boot_ns for sched_clock().
+	 * Read the clock once to establish the boot timestamp.
+	 */
+	(void)sched_clock();
+
+	/*
 	 * Register the clocksource at 1 GHz (nanosecond resolution).
 	 * The kernel will use this for accurate timekeeping.
 	 */
@@ -91,6 +115,7 @@ void __init time_init(void)
 
 	pr_info("Subleq timer initialized (nanosecond-resolution clocksource)\n");
 }
+
 
 /*
  * Dummy interrupt handler (defined in entry.S)

@@ -18,7 +18,7 @@
 .set REG_Z, 12
 .set REG_SP, 16
 .set REG_RA, 20
-.set ZERO, 24              /* Read-only zero constant */
+.set ZERO, 144             /* Read-only zero constant at word 36 */
 .set REG_R3, 28
 .set REG_R4, 32
 .set REG_R5, 36
@@ -73,66 +73,11 @@
  * Compact layout placing all kernel registers together.
  */
 .set INT_Z2, 228         /* Scratch for address calculations (word 57) */
-.set SAVE_SP, 232        /* Saved interrupted SP for current_thread_info (word 58) */
-.set INT_SP, 236         /* Interrupt stack pointer (word 59) */
+.set SAVE_SP, 232        /* Saved interrupted SP for restoration (word 58) */
+/* Word 59 (byte 236) reserved - was INT_SP for old IRQ stack */
 .set SAVE_JMPTGT, 240    /* Return jump target address (word 60) */
 .set SW_Z, 244           /* Context switch scratch (word 61) */
 .set SW_Z2, 248          /* Context switch second scratch (word 62) */
-
-/*
- * INT_SP: Interrupt Stack Pointer
- *
- * This is the running stack pointer for the dedicated IRQ stack.
- * Unlike the fixed SAVE_* slots, this enables multiple interrupt frames
- * to coexist on the IRQ stack - critical for preemptive multitasking.
- *
- * When a task is interrupted and the handler calls schedule(), the task's
- * interrupt frame remains on the IRQ stack (at the current INT_SP position).
- * If the new task also gets interrupted, its frame is pushed BELOW the first
- *
- * INT_SP tracks the IRQ stack position for pushing/popping frames.
- */
-/* INT_SP is now at byte 236 (word 59), defined above with other kernel registers */
-
-/*
- * IRQ_FRAME_SIZE: Only Z and T0-T15 are pushed to IRQ stack (17 registers).
- * GPRs (R3-R31, FP) are stored directly to pt_regs to avoid double-storage.
- */
-.set IRQ_FRAME_SIZE, 68   /* 17 words × 4 bytes */
-
-/*
- * PUSH_IRQ_REG: Push a register onto the IRQ stack
- *
- * Uses INT_SP as the stack pointer. Decrements INT_SP by 4, then stores
- * the negated register value at [INT_SP].
- *
- * Pattern:
- *   INT_SP -= 4
- *   [INT_SP] = 0
- *   [INT_SP] -= reg  (stores -reg)
- */
-.macro PUSH_IRQ_REG reg_addr
-        .word   .Lconst_4, INT_SP, .+4                      /* INT_SP -= 4 */
-        .word   INT_SP | INDIRECT, INT_SP | INDIRECT, .+4   /* [INT_SP] = 0 */
-        .word   \reg_addr, INT_SP | INDIRECT, .+4          /* [INT_SP] = -reg */
-.endm
-
-/*
- * POP_IRQ_REG: Pop a register from the IRQ stack
- *
- * Restores the register from [INT_SP], then increments INT_SP by 4.
- * Since PUSH stores -reg, we restore by: reg = 0; reg -= [INT_SP]
- *
- * Pattern:
- *   reg = 0
- *   reg -= [INT_SP]  (reg = -(-reg) = reg)
- *   INT_SP += 4
- */
-.macro POP_IRQ_REG reg_addr
-        .word   \reg_addr, \reg_addr, .+4                 /* reg = 0 */
-        .word   INT_SP | INDIRECT, \reg_addr, .+4          /* reg -= [INT_SP] = -(-orig) = orig */
-        .word   .Lconst_neg4, INT_SP, .+4                   /* INT_SP += 4 */
-.endm
 
 /*
  * Interrupt entry point
@@ -140,7 +85,8 @@
  * CRITICAL: Disable interrupts FIRST to prevent nested re-entry.
  * Then save the interrupted SP (which may be in an invalid state).
  *
- * INT_SP tracks the IRQ stack position for pushing/popping frames.
+ * Interrupts now run directly on the kernel stack (not a separate IRQ stack).
+ * This enables proper preemptive context switching via preempt_schedule_irq().
  */
 subleq_irq_entry:
         /*
@@ -159,64 +105,153 @@ subleq_irq_entry:
         .word   INT_HANDLER, INT_HANDLER, .+4         /* m[0] = 0 (disabled!) */
 
         /*
-         * PHASE 0b: SAVE SP
+         * PHASE 0b: CHECK SP VALIDITY
          *
-         * Now safe to save the interrupted SP. It may be garbage
-         * (mid-reload), but we capture it as-is. SAVE_SP is at address 232
-         * and is used by current_thread_info() to find the task's stack.
+         * CRITICAL: In Subleq, SP updates are non-atomic (SP=0 then SP=new).
+         * If we interrupt during this transition, SP is 0 or garbage.
+         * We check SP FIRST and return immediately if invalid.
          *
-         * Pattern: SAVE_SP = -SP (negated, like PUSH stores)
+         * Uses only INT_Z and INT_Z2 - the only registers safe to clobber
+         * before saving state.
+         *
+         * Logic: INT_Z2 = 1 - SP
+         *   If SP >= 1: 1 - SP <= 0, jump to valid (continue)
+         *   If SP <= 0: 1 - SP > 0, fall through to skip
          */
-        .word   SAVE_SP, SAVE_SP, .+4                 /* SAVE_SP = 0 */
-        .word   REG_SP, SAVE_SP, .+4                  /* SAVE_SP = -SP */
+        .word   INT_Z2, INT_Z2, .+4              /* INT_Z2 = 0 */
+        .word   REG_SP, INT_Z2, .+4              /* INT_Z2 = -SP */
+        .word   .Lconst_neg1, INT_Z2, .+4        /* INT_Z2 = -SP - (-1) = 1 - SP */
+        .word   ZERO, INT_Z2, .Lsp_valid         /* jump if 1-SP <= 0 (SP >= 1) */
 
+        /* SP <= 0: Invalid stack! Re-enable interrupts and return immediately */
+.Lsp_invalid:
+        .word   INT_Z, INT_Z, .+4
+        .word   INT_SAVED_HANDLER, INT_Z, .+4
+        .word   INT_HANDLER, INT_HANDLER, .+4
+        .word   INT_Z, INT_HANDLER, .+4          /* m[0] = handler (re-enable) */
+        .word   INT_Z, INT_Z, INT_SAVED_PC | INDIRECT  /* return to saved PC */
 
+.Lsp_valid:
+        /*
+         * PHASE 0c: SAVE INTERRUPTED SP
+         *
+         * SP is valid (>= 1). Save it for later restoration.
+         * SAVE_SP = -SP (negated for easy restore pattern)
+         */
+        .word   SAVE_SP, SAVE_SP, .+4            /* SAVE_SP = 0 */
+        .word   REG_SP, SAVE_SP, .+4             /* SAVE_SP = -SP */
 
         /*
-         * PHASE 1: SAVE TEMPORARIES TO IRQ STACK
+         * PHASE 1: DETERMINE KERNEL VS USER MODE AND SET UP STACK
          *
-         * Only Z and T0-T15 are saved to the IRQ stack. These registers
-         * are NOT in pt_regs, so they must be saved/restored separately.
+         * CRITICAL: If we're already on the kernel stack (kernel mode interrupt),
+         * we must NOT reset SP to subleq_kernel_sp! That would overwrite the
+         * existing kernel stack data. We must continue using the current SP.
          *
-         * GPRs (R3-R31, FP) are stored directly to pt_regs in Phase 2.
-         * This eliminates double-storage and saves ~84 instructions.
+         * Check if SP is within kernel stack range:
+         *   kstack_base <= SP < kstack_top
+         * where kstack_top = subleq_kernel_sp, kstack_base = kstack_top - THREAD_SIZE
+         *
+         * We need TWO checks:
+         * 1. SP < kstack_top (SP < subleq_kernel_sp)
+         * 2. SP >= kstack_base (SP >= subleq_kernel_sp - 16384)
+         *
+         * If BOTH are true -> kernel mode, use current SP
+         * Otherwise -> user mode, switch to subleq_kernel_sp
          */
 
+        /*
+         * Check 1: SP < kstack_top (SP < subleq_kernel_sp)
+         * INT_Z2 = SP - kernel_sp
+         * If INT_Z2 < 0 (SP < kernel_sp): passes check 1
+         * If INT_Z2 >= 0 (SP >= kernel_sp): user mode (fail)
+         */
+        .word   INT_Z2, INT_Z2, .+4              /* INT_Z2 = 0 */
+        .word   INT_Z, INT_Z, .+4                /* INT_Z = 0 */
+        .word   REG_SP, INT_Z, .+4               /* INT_Z = -SP */
+        .word   INT_Z, INT_Z2, .+4               /* INT_Z2 = SP */
+        .word   subleq_kernel_sp, INT_Z2, .+4    /* INT_Z2 = SP - kernel_sp */
+        /* If SP - kernel_sp > 0 (SP > kernel_sp), it's user mode */
+        /* subleq ZERO, INT_Z2, next: INT_Z2 -= 0, jump if INT_Z2 <= 0 */
+        /* We want to jump to user mode if INT_Z2 > 0 (SP > kernel_sp) */
+        /* Invert: fall through if INT_Z2 > 0, otherwise continue to check 2 */
+        .word   ZERO, INT_Z2, .Lcheck_kstack_base  /* if SP <= kernel_sp, check base */
+        /* SP > kernel_sp: definitely user mode */
+        .word   INT_Z, INT_Z, .Lswitch_to_kernel
+
+.Lcheck_kstack_base:
+        /*
+         * Check 2: SP >= kstack_base (SP >= subleq_kernel_sp - 16384)
+         * INT_Z2 = SP - (kernel_sp - 16384) = SP - kernel_sp + 16384
+         * If INT_Z2 >= 0: SP >= kstack_base, kernel mode!
+         * If INT_Z2 < 0: SP < kstack_base, user mode
+         *
+         * We already have INT_Z2 = SP - kernel_sp (which is <= 0)
+         * Add 16384: INT_Z2 = SP - kernel_sp + 16384
+         */
+        .word   .Lconst_neg_thread_size, INT_Z2, .+4  /* INT_Z2 += 16384 */
+        /* Now INT_Z2 = SP - kernel_sp + 16384 = SP - kstack_base */
+        /* If INT_Z2 >= 0 (SP >= kstack_base): kernel mode */
+        /* subleq ZERO, INT_Z2, .Lon_kernel: jumps if INT_Z2 <= 0 */
+        /* We want kernel mode if INT_Z2 >= 0, i.e., NOT <= -1 */
+        /* Add 1 to INT_Z2, then check <= 0 */
+        .word   .Lconst_neg1, INT_Z2, .+4        /* INT_Z2 = SP - kstack_base + 1 */
+        /* Now jump if INT_Z2 <= 0, i.e., SP - kstack_base + 1 <= 0, i.e., SP < kstack_base */
+        .word   ZERO, INT_Z2, .Lswitch_to_kernel /* if SP < kstack_base, user mode */
+        /* Fall through: SP >= kstack_base AND SP <= kernel_sp -> kernel mode */
+        .word   INT_Z, INT_Z, .Lon_kernel_stack
+
+        /* User mode: Switch to kernel stack */
+.Lswitch_to_kernel:
+        .word   REG_SP, REG_SP, .+4              /* SP = 0 */
+        .word   INT_Z, INT_Z, .+4                /* INT_Z = 0 */
+        .word   subleq_kernel_sp, INT_Z, .+4     /* INT_Z = -kernel_sp */
+        .word   INT_Z, REG_SP, .Lpush_temps      /* SP = kernel_sp, goto push */
+
+.Lon_kernel_stack:
+        /* Already on kernel stack: keep using current SP (already in REG_SP) */
+
+        /*
+         * Push Z and T0-T15 to kernel stack.
+         * These are NOT in pt_regs, so must be saved/restored separately.
+         * Using standard PUSH: SP -= 4; [SP] = 0; [SP] -= reg (stores -reg)
+         */
+
+.macro PUSH_KSTACK_REG reg_addr
+        .word   .Lconst_4, REG_SP, .+4                /* SP -= 4 */
+        .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .+4  /* [SP] = 0 */
+        .word   \reg_addr, REG_SP | INDIRECT, .+4    /* [SP] = -reg */
+.endm
+
+.Lpush_temps:
         /* Push Z (not in pt_regs) */
-        PUSH_IRQ_REG REG_Z
+        PUSH_KSTACK_REG REG_Z
 
         /* Push T0-T15 (not in pt_regs) */
-        PUSH_IRQ_REG REG_T0
-        PUSH_IRQ_REG REG_T1
-        PUSH_IRQ_REG REG_T2
-        PUSH_IRQ_REG REG_T3
-        PUSH_IRQ_REG REG_T4
-        PUSH_IRQ_REG REG_T5
-        PUSH_IRQ_REG REG_T6
-        PUSH_IRQ_REG REG_T7
-        PUSH_IRQ_REG REG_T8
-        PUSH_IRQ_REG REG_T9
-        PUSH_IRQ_REG REG_T10
-        PUSH_IRQ_REG REG_T11
-        PUSH_IRQ_REG REG_T12
-        PUSH_IRQ_REG REG_T13
-        PUSH_IRQ_REG REG_T14
-        PUSH_IRQ_REG REG_T15
+        PUSH_KSTACK_REG REG_T0
+        PUSH_KSTACK_REG REG_T1
+        PUSH_KSTACK_REG REG_T2
+        PUSH_KSTACK_REG REG_T3
+        PUSH_KSTACK_REG REG_T4
+        PUSH_KSTACK_REG REG_T5
+        PUSH_KSTACK_REG REG_T6
+        PUSH_KSTACK_REG REG_T7
+        PUSH_KSTACK_REG REG_T8
+        PUSH_KSTACK_REG REG_T9
+        PUSH_KSTACK_REG REG_T10
+        PUSH_KSTACK_REG REG_T11
+        PUSH_KSTACK_REG REG_T12
+        PUSH_KSTACK_REG REG_T13
+        PUSH_KSTACK_REG REG_T14
+        PUSH_KSTACK_REG REG_T15
 
-        /*
-         * Set hardware SP = INT_SP so C handler has valid stack.
-         * After all pushes, INT_SP points to the top of our saved frame.
-         */
-        .word   REG_SP, REG_SP, .+4             /* SP = 0 */
-        .word   INT_Z, INT_Z, .+4             /* INT_Z = 0 */
-        .word   INT_SP, INT_Z, .+4             /* INT_Z = -INT_SP */
-        .word   INT_Z, REG_SP, .+4             /* SP = INT_SP */
+        /* SP is already on kernel stack, no need to reload */
 
 .Lsave_done:
         /*
-         * PHASE 2: BUILD pt_regs ON IRQ STACK
+         * PHASE 2: BUILD pt_regs ON KERNEL STACK
          *
-         * We allocate PT_SIZE (160) bytes on the IRQ stack and build a
+         * We allocate PT_SIZE (160) bytes on the kernel stack and build a
          * pt_regs structure that C code can read and modify.
          *
          * CRITICAL: C code expects POSITIVE values in pt_regs fields.
@@ -224,15 +259,14 @@ subleq_irq_entry:
          * We use double-negation to store positive values:
          *   TEMP = -value; [dest] = -TEMP = +value
          *
-         * The pt_regs is re-entrant because it's on the IRQ stack,
-         * which grows with each nested interrupt.
+         * The pt_regs is now on the kernel stack (not a separate IRQ stack).
+         * This enables proper preemption via preempt_schedule_irq().
          */
 
         /* Allocate pt_regs: SP -= PT_SIZE (160 bytes) */
         .word   .Lconst_pt_size, REG_SP, .+4
         /* NOTE: SP now points to pt_regs base. C calling convention preserves SP,
-         * so after C calls return, SP still points to pt_regs. This is re-entrant
-         * because each interrupt level has its own pt_regs on the IRQ stack. */
+         * so after C calls return, SP still points to pt_regs. */
 
         /*
          * Fill pt_regs fields with POSITIVE values using double-negation.
@@ -465,10 +499,11 @@ subleq_irq_entry:
         .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
         .word   .Lconst_neg1, INT_Z2 | INDIRECT, .+4  /* [addr] = 0 - (-1) = +1 */
 
-
-
-        /* Set R21 = pt_regs pointer (= SP) for the function call.
-         * Using REG_SP directly instead of a global variable for re-entrancy. */
+        /*
+         * Set R21 = pt_regs pointer (= SP) for the function call.
+         * C calling convention preserves SP, so it will still point to pt_regs
+         * after the C functions return.
+         */
         .word   REG_R21, REG_R21, .+4
         .word   INT_Z, INT_Z, .+4
         .word   REG_SP, INT_Z, .+4
@@ -495,148 +530,46 @@ subleq_irq_entry:
         /*
          * PHASE 2b: WORK LOOP (ColdFire pattern)
          *
-         * After subleq_do_IRQ returns, call subleq_do_work(regs) in a loop.
+         * We're already on the kernel stack, so subleq_do_work() can safely
+         * call preempt_schedule_irq() if needed - context switches work correctly.
+         *
          * subleq_do_work returns:
          *   0 = no work done, safe to return
          *   non-zero = work was done, loop back to check for more
-         *
-         * R21 still contains pt_regs pointer (preserved by C calling convention).
-         * R20 receives the return value from subleq_do_work.
          */
 .Lirq_returned:
 
-.Lwork_loop:
-        /* Call subleq_do_work(regs) - reload R21 from SP (which is pt_regs).
-         * Using REG_SP directly instead of a global variable for re-entrancy.
-         * C calling convention preserves SP, so it still points to pt_regs. */
+        /* Set R21 = pt_regs pointer (= current SP) */
         .word   REG_R21, REG_R21, .+4
         .word   INT_Z, INT_Z, .+4
         .word   REG_SP, INT_Z, .+4
-        .word   INT_Z, REG_R21, .+4   /* R21 = pt_regs pointer */
+        .word   INT_Z, REG_R21, .+4              /* R21 = SP = pt_regs */
 
-        /* STACK-BASED CALL to subleq_do_work */
-        .word   .Lconst_4, REG_SP, .+4         /* SP -= 4 */
+.Lwork_loop:
+        /* STACK-BASED CALL to subleq_do_work(regs) */
+        .word   .Lconst_4, REG_SP, .+4           /* SP -= 4 */
         .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .+4  /* [SP] = 0 */
         .word   INT_Z, INT_Z, .+4
         .word   .Lwork_return_addr, INT_Z, .+4
-        .word   INT_Z, REG_SP | INDIRECT, .+4  /* [SP] = return addr */
+        .word   INT_Z, REG_SP | INDIRECT, .+4    /* [SP] = return addr */
         .word   INT_Z, INT_Z, subleq_do_work
 
 .Lwork_returned:
-        /*
-         * Check return value in R20.
-         * If R20 != 0, loop back to .Lwork_loop
-         * If R20 == 0, proceed to register restoration
-         *
-         * Subleq branch: subleq A, B, C jumps to C if m[B]-m[A] <= 0
-         * We want: if R20 > 0 then loop, else continue
-         * Equivalently: if R20 <= 0 then continue
-         * So: subleq R20, ZERO, .Lno_more_work jumps if 0-R20 <= 0 (i.e., R20 >= 0)
-         * But we need strict > 0 vs == 0 check.
-         *
-         * Simpler approach: if R20 == 0, continue. Otherwise loop.
-         * Copy R20 to temp, check if zero.
-         * Use: subleq REG_R20, TEMP, ... - if TEMP-R20 <= 0 (where TEMP=0)
-         *      means -R20 <= 0, i.e., R20 >= 0. Still not right.
-         *
-         * Best: copy R20 to INT_Z2, then:
-         *   subleq .Lconst_1, INT_Z2, .Lwork_loop
-         * This does: INT_Z2 = INT_Z2 - 1
-         * If original R20 was 1, INT_Z2 becomes 0, jump to loop (0 <= 0)
-         * If original R20 was 0, INT_Z2 becomes -1, jump to loop (-1 <= 0)
-         * Hmm, that always jumps.
-         *
-         * Alternative: use the fact that 0 is the only value where -X = X
-         * Copy R20 to INT_Z2: INT_Z2 = -R20
-         * Then subleq REG_R20, INT_Z2, .Lno_more_work
-         * This does: INT_Z2 = INT_Z2 - R20 = -R20 - R20 = -2*R20
-         * If R20=0: -2*0 = 0, jump (0 <= 0) -> correct, continue
-         * If R20=1: -2*1 = -2, jump (-2 <= 0) -> wrong, we want to loop
-         *
-         * Simplest: explicit zero check using subtraction
-         * INT_Z2 = 0 - R20 = -R20
-         * Then: subleq INT_Z2, .Lconst_zero, ...
-         * If R20=0: .Lconst_zero - (-0) = 0-0 = 0, jump
-         * If R20=1: .Lconst_zero - (-1) = 0+1 = 1 > 0, no jump -> loop
-         * But that modifies .Lconst_zero!
-         *
-         * Use fresh scratch:
-         * SAVE_JMPTGT = 0
-         * SAVE_JMPTGT -= (-R20) = +R20
-         * subleq .Lconst_1, SAVE_JMPTGT, .Lno_more_work
-         * If R20=0: SAVE_JMPTGT = 0, then 0-1 = -1, jump (-1 <= 0)
-         * If R20=1: SAVE_JMPTGT = 1, then 1-1 = 0, jump (0 <= 0) -> wrong!
-         *
-         * Actually, we want to NOT jump if R20 > 0.
-         * Subleq always jumps if result <= 0.
-         * So to continue when R20 == 0 and loop when R20 > 0:
-         *   - When R20 == 0: jump past loop
-         *   - When R20 > 0: don't jump (fall through to loop)
-         *
-         * This is backwards from Subleq's default behavior.
-         * 
-         * Solution: Check if R20 > 0 by subtracting 1 from R20.
-         * TEMP = R20
-         * TEMP -= 1
-         * If R20 was 0, TEMP = -1, use subleq to detect this
-         * If R20 was 1, TEMP = 0
-         * If R20 was 2+, TEMP > 0
-         *
-         * Actually simpler: subleq REG_Z, REG_R20, .Lwork_loop
-         * This does: R20 = R20 - 0 = R20
-         * Jumps if R20 <= 0.
-         * So if R20 == 0, jumps (wrong - we want to continue)
-         * If R20 > 0, doesn't jump (falls through) -> but we want to loop!
-         *
-         * REVERSE the logic:
-         * subleq REG_Z, REG_R20, .Lno_more_work
-         * If R20 <= 0 (including == 0): jump to .Lno_more_work
-         * If R20 > 0: fall through and unconditionally loop
-         */
+        /* Check R20: if <= 0, done. Otherwise reload R21 and loop. */
+        .word   REG_Z, REG_R20, .Lno_more_work   /* If R20 <= 0, done */
 
-        /* Copy -R20 to INT_Z2 for check */
-        .word   INT_Z2, INT_Z2, .+4
-        .word   REG_R20, INT_Z2, .+4      /* INT_Z2 = -R20 */
-
-        /* Check: if R20 <= 0 then no more work (R20 should only be 0 or positive) */
-        /* We have INT_Z2 = -R20. If R20 >= 0 means -R20 <= 0 */
-        /* subleq REG_Z, INT_Z2, .Lno_more_work */
-        /* INT_Z2 = INT_Z2 - 0 = -R20, jumps if -R20 <= 0 (R20 >= 0) */
-        /* But return is 0 for no work, 1 for work done - both are >= 0! */
-        
-        /* Different approach: R20 == 0 means done. R20 == 1 means loop. */
-        /* INT_Z2 = 0 - R20 - 1 = -(R20+1) */
-        /* If R20=0: -(0+1) = -1, jump because -1 <= 0 -> WRONG (should continue) */
-        /* If R20=1: -(1+1) = -2, jump because -2 <= 0 -> WRONG (should loop) */
-
-        /* Final approach: Check if -R20 == 0 directly */
-        /* If INT_Z2 == 0 (meaning R20 == 0), go to no_more_work */
-        /* subleq INT_Z2, REG_Z, C means Z -= INT_Z2, jump if Z <= 0 */
-        /* But Z should stay 0. Not good. */
-
-        /* CLEAR approach: Use the sign directly. */
-        /* R20 == 0: jump forward to .Lno_more_work using unconditional */
-        /* R20 != 0: loop back */
-        /* To branch only if zero: check if subtracting 0 from -R20 <= 0 */
-        /* That's always true when R20 >= 0. */
-
-        /* Use modified jump target approach: */
-        /* If R20 == 0: INT_Z2 = 0, test for zero */
-        /* If R20 != 0: INT_Z2 = negative, still <= 0 */
-        /* ALL cases would jump. Need a different check. */
-
-        /* FINAL: Use two branches. */
-        /* First test if R20 <= 0 (go to no_more_work). */
-        /* Otherwise unconditionally loop. */
-        /* subleq REG_Z, REG_R20, .Lno_more_work_check */
-        /* This: R20 = R20 - 0 = R20, jumps if R20 <= 0 */
-
-        .word   REG_Z, REG_R20, .Lno_more_work  /* If R20 <= 0, go to restore */
-        /* R20 > 0, more work was done, loop back */
+        /* R20 > 0: more work. Reload R21 from SP (C calling convention preserves SP) */
+        .word   REG_R21, REG_R21, .+4
+        .word   INT_Z, INT_Z, .+4
+        .word   REG_SP, INT_Z, .+4
+        .word   INT_Z, REG_R21, .+4              /* R21 = SP = pt_regs */
         .word   INT_Z, INT_Z, .Lwork_loop
 
 .Lno_more_work:
-
+        /*
+         * NOTE: We rely on C calling convention to preserve SP.
+         * SP should still point to pt_regs after the C functions return.
+         */
 
         /*
          * OPTIMIZED: Use running pointer for PC/SP reading.
@@ -681,42 +614,14 @@ subleq_irq_entry:
         /* Read pt_regs->ra (offset 124) - will be loaded after POP sequence */
 
         /*
-         * PHASE 3a: POP TEMPORARIES FROM IRQ STACK
+         * PHASE 3a: RESTORE ALL GPRs FROM pt_regs
          *
-         * Only T0-T15 and Z are restored from the IRQ stack.
-         * GPRs (R3-R31, FP, RA) are restored from pt_regs.
-         */
-
-        /* Pop T15-T0 (reverse order of push) */
-        POP_IRQ_REG REG_T15
-        POP_IRQ_REG REG_T14
-        POP_IRQ_REG REG_T13
-        POP_IRQ_REG REG_T12
-        POP_IRQ_REG REG_T11
-        POP_IRQ_REG REG_T10
-        POP_IRQ_REG REG_T9
-        POP_IRQ_REG REG_T8
-        POP_IRQ_REG REG_T7
-        POP_IRQ_REG REG_T6
-        POP_IRQ_REG REG_T5
-        POP_IRQ_REG REG_T4
-        POP_IRQ_REG REG_T3
-        POP_IRQ_REG REG_T2
-        POP_IRQ_REG REG_T1
-        POP_IRQ_REG REG_T0
-
-        /* Pop Z */
-        POP_IRQ_REG REG_Z
-
-        /*
-         * PHASE 3b: RESTORE ALL GPRs FROM pt_regs
-         *
+         * This MUST happen BEFORE we pop pt_regs from the stack!
          * Load r3-r31, fp, ra from pt_regs. These may have been modified
          * by signal delivery (particularly r21-r23, ra for signal handler).
          *
          * NEGATED STORAGE: pt_regs values are stored as -value.
          * To restore: reg = 0; reg -= [ptr] = -(-value) = value
-         * This saves 2 instructions per register vs double-negation.
          *
          * Use running pointer starting at offset 0 (r3).
          */
@@ -883,10 +788,50 @@ subleq_irq_entry:
         .word   REG_RA, REG_RA, .+4
         .word   INT_Z2 | INDIRECT, REG_RA, .+4
 
+        /*
+         * PHASE 3b: POP pt_regs AND TEMPORARIES FROM KERNEL STACK
+         *
+         * Now that we've restored GPRs from pt_regs, we can pop the stack.
+         * Order: pt_regs, then temporaries (T15 down to Z).
+         */
 
-        /* Restore SP from SAVE_SP
-         * SAVE_SP contains -sp (from when we saved it at interrupt entry).
-         * SP = 0; SP -= SAVE_SP = -(-sp) = sp */
+        /* Pop pt_regs: SP += PT_SIZE */
+        .word   .Lconst_neg_pt_size, REG_SP, .+4
+
+.macro POP_KSTACK_REG reg_addr
+        .word   \reg_addr, \reg_addr, .+4        /* reg = 0 */
+        .word   REG_SP | INDIRECT, \reg_addr, .+4  /* reg = -[SP] */
+        .word   .Lconst_neg4, REG_SP, .+4        /* SP += 4 */
+.endm
+
+        /* Pop T15-T0 (reverse order of push) */
+        POP_KSTACK_REG REG_T15
+        POP_KSTACK_REG REG_T14
+        POP_KSTACK_REG REG_T13
+        POP_KSTACK_REG REG_T12
+        POP_KSTACK_REG REG_T11
+        POP_KSTACK_REG REG_T10
+        POP_KSTACK_REG REG_T9
+        POP_KSTACK_REG REG_T8
+        POP_KSTACK_REG REG_T7
+        POP_KSTACK_REG REG_T6
+        POP_KSTACK_REG REG_T5
+        POP_KSTACK_REG REG_T4
+        POP_KSTACK_REG REG_T3
+        POP_KSTACK_REG REG_T2
+        POP_KSTACK_REG REG_T1
+        POP_KSTACK_REG REG_T0
+
+        /* Pop Z */
+        POP_KSTACK_REG REG_Z
+
+        /*
+         * PHASE 3c: RESTORE INTERRUPTED SP
+         *
+         * Restore SP from SAVE_SP (which we saved at interrupt entry).
+         * SAVE_SP contains -sp (negated).
+         * SP = 0; SP -= SAVE_SP = -(-sp) = sp
+         */
         .word   REG_SP, REG_SP, .+4
         .word   SAVE_SP, REG_SP, .+4
 
@@ -2031,7 +1976,7 @@ __subleq_syscall:
          *
          * IMPORTANT: We use REG_T0 as scratch here.
          * If an interrupt fires mid-sequence, the interrupt handler saves T0
-         * to the IRQ stack and restores it on return. This makes the sequence
+         * to the kernel stack and restores it on return. This makes the sequence
          * race-safe even if we're interrupted before m[0] is cleared.
          */
         .word   REG_T0, REG_T0, .+4                         /* T0 = 0 */
@@ -2619,6 +2564,8 @@ __subleq_syscall:
         .word   1               /* Literal 1 */
 .Lconst_neg1:
         .word   -1              /* Literal -1 for syscall_nr */
+.Lconst_neg_thread_size:
+        .word   -16384          /* -THREAD_SIZE for kernel stack range check */
 
 /* task_struct offsets - computed from asm-offsets.h */
 .Lconst_neg_task_thread_sp:

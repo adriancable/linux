@@ -44,16 +44,13 @@ struct thread_info {
  * We use the stack pointer to find it by masking off the stack offset.
  * The stack pointer is stored at memory location 16 (word 4) in Subleq.
  *
- * IMPORTANT: When running on the dedicated IRQ stack, SP points to a
- * different stack that has no thread_info. In that case, we must use
- * the saved original SP (stored in SAVE_SP at address 232 by entry.S)
- * to compute the correct thread_info address.
+ * WARNING: If this is called while SP is being reloaded (SP=0 mid-transition),
+ * the result will be garbage. The interrupt handler checks for this and skips
+ * processing if SP is invalid.
  *
- * We detect the IRQ stack by checking if SP falls within subleq_irq_stack_top's
- * stack region. The IRQ stack is 8KB, so we check if SP & ~0x1FFF matches
- * the IRQ stack base.
+ * With the elimination of the separate IRQ stack, interrupts now run on the
+ * kernel stack directly, so masking SP always gives the correct thread_info.
  */
-extern unsigned long subleq_irq_stack_top;
 
 static inline struct thread_info *current_thread_info(void)
 {
@@ -61,21 +58,11 @@ static inline struct thread_info *current_thread_info(void)
 	unsigned long sp = *(volatile unsigned long *)16;
 	
 	/*
-	 * Check if we're on the IRQ stack.
-	 * IRQ stack top is at subleq_irq_stack_top.
-	 * IRQ stack base is subleq_irq_stack_top - THREAD_SIZE.
-	 * If SP is in this range, use saved SP instead.
+	 * Simple case: mask SP to get thread_info base.
+	 * thread_info is at the base of every kernel stack.
+	 * This works because interrupts now use the kernel stack
+	 * directly, not a separate IRQ stack.
 	 */
-	unsigned long irq_stack_base = subleq_irq_stack_top - THREAD_SIZE;
-	if (sp >= irq_stack_base && sp < subleq_irq_stack_top) {
-		/*
-		 * We're on IRQ stack - use saved original SP from SAVE_SP.
-		 * SAVE_SP is at byte address 232 (see entry.S).
-		 * It stores -SP (negated), so we negate it back.
-		 */
-		sp = -(*(volatile long *)232);
-	}
-	
 	return (struct thread_info *)(sp & ~(THREAD_SIZE - 1));
 }
 

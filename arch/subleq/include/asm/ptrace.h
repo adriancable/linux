@@ -93,17 +93,38 @@ struct pt_regs {
 /*
  * user_mode - Check if interrupted context was in user mode
  *
- * For NOMMU Subleq, we detect user mode by checking if the saved PC
- * is within the kernel text range. If PC is outside kernel text,
- * we were in userspace.
+ * For NOMMU Subleq, we detect user mode by checking if the saved SP
+ * is within the kernel stack range for the current task.
  *
- * This is critical for signal delivery - we should only deliver signals
- * when returning to userspace, not when returning to kernel code.
+ * CRITICAL: We CANNOT use PC for this check! The Subleq runtime library
+ * (e.g., __subleq_mul, __subleq_and) is linked into the kernel image and
+ * resides in [_stext, _end). When userspace code calls these runtime
+ * functions, PC is in "kernel" text even though we're logically executing
+ * on behalf of userspace. Using PC would incorrectly report kernel mode
+ * and prevent preemption/signal delivery.
+ *
+ * The SP check works because:
+ * - User code uses userspace stack (regardless of PC location)
+ * - Kernel code (syscalls) switches to the task's kernel stack
+ * - If interrupted SP is NOT on kernel stack, we were in user mode
+ *
+ * We access task_struct->stack at fixed offset 8 (TASK_STACK) to avoid
+ * circular header dependencies.
  */
-extern char _stext[], _end[];
-#define user_mode(regs) \
-	(PT_REG_GET(regs, pc) < (unsigned long)_stext || \
-	 PT_REG_GET(regs, pc) >= (unsigned long)_end)
+extern struct task_struct *subleq_current_task;
+
+static inline int __subleq_user_mode(struct pt_regs *regs)
+{
+	unsigned long sp = PT_REG_GET(regs, sp);
+	/* Get kernel stack base from current task (offset 8 = stack field) */
+	unsigned long kstack_base = (unsigned long)*(void **)((char *)subleq_current_task + 8);
+	unsigned long kstack_top = kstack_base + 16384; /* THREAD_SIZE */
+	
+	/* If SP is outside kernel stack range, we were in user mode */
+	return (sp < kstack_base || sp >= kstack_top);
+}
+
+#define user_mode(regs) __subleq_user_mode(regs)
 #define kernel_mode(regs) (!user_mode(regs))
 
 #define instruction_pointer(regs) PT_REG_GET(regs, pc)

@@ -15,8 +15,8 @@ CONFIG_BUG=y
 # Preemption - full preemption for debugging
 CONFIG_PREEMPT=y
 
-# Disable complex timer features
-# CONFIG_POSIX_TIMERS is not set
+# Enable POSIX timers (experiment)
+CONFIG_POSIX_TIMERS=y
 
 # Timer frequency
 CONFIG_HZ_100=y

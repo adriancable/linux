@@ -2404,6 +2404,93 @@ __subleq_syscall:
         .word   subleq_syscall_saved_ra, REG_T9 | INDIRECT, .+4
 
         /*
+         * STEP 4a-tregs: Initialize T-register and Z slots in pt_regs to ZERO
+         *
+         * CRITICAL: The syscall return path now restores T-regs and Z from pt_regs.
+         * Syscall entry does NOT save T-regs (they're caller-saved), so these
+         * slots contain garbage unless we initialize them.
+         *
+         * For normal syscalls: T-regs/Z get restored to 0 (fine, caller-saved)
+         * For sigreturn: restore_sigcontext overwrites with original values
+         *
+         * pt_regs layout after PC (offset 128):
+         *   syscall_nr: 132, orig_r21: 136, orig_a1-a4: 140-156
+         *   t0-t15: 160-220, z: 224
+         *
+         * Continue from T9 at offset 128, need to reach T0 at offset 160 (gap of 32)
+         */
+
+        /* Skip from PC (128) to T0 (160): advance by 32 */
+        .word   .Lconst_neg32, REG_T9, .+4
+
+        /* Zero T0 (offset 160) - store 0 as NEGATED = 0 */
+        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4  /* [T9] = 0 */
+
+        /* Zero T1 (offset 164) */
+        .word   .Lconst_neg4, REG_T9, .+4
+        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
+
+        /* Zero T2 (offset 168) */
+        .word   .Lconst_neg4, REG_T9, .+4
+        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
+
+        /* Zero T3 (offset 172) */
+        .word   .Lconst_neg4, REG_T9, .+4
+        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
+
+        /* Zero T4 (offset 176) */
+        .word   .Lconst_neg4, REG_T9, .+4
+        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
+
+        /* Zero T5 (offset 180) */
+        .word   .Lconst_neg4, REG_T9, .+4
+        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
+
+        /* Zero T6 (offset 184) */
+        .word   .Lconst_neg4, REG_T9, .+4
+        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
+
+        /* Zero T7 (offset 188) */
+        .word   .Lconst_neg4, REG_T9, .+4
+        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
+
+        /* Zero T8 (offset 192) */
+        .word   .Lconst_neg4, REG_T9, .+4
+        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
+
+        /* Zero T9 (offset 196) */
+        .word   .Lconst_neg4, REG_T9, .+4
+        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
+
+        /* Zero T10 (offset 200) */
+        .word   .Lconst_neg4, REG_T9, .+4
+        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
+
+        /* Zero T11 (offset 204) */
+        .word   .Lconst_neg4, REG_T9, .+4
+        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
+
+        /* Zero T12 (offset 208) */
+        .word   .Lconst_neg4, REG_T9, .+4
+        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
+
+        /* Zero T13 (offset 212) */
+        .word   .Lconst_neg4, REG_T9, .+4
+        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
+
+        /* Zero T14 (offset 216) */
+        .word   .Lconst_neg4, REG_T9, .+4
+        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
+
+        /* Zero T15 (offset 220) */
+        .word   .Lconst_neg4, REG_T9, .+4
+        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
+
+        /* Zero Z (offset 224) */
+        .word   .Lconst_neg4, REG_T9, .+4
+        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
+
+        /*
          * STEP 4a-final: RE-ENABLE INTERRUPTS
          *
          * All critical state is now safely saved to pt_regs. We can re-enable
@@ -2542,12 +2629,22 @@ __subleq_syscall:
 .Lsyscall_start_restore:
 
         /*
-         * STEP 1: Compute pt_regs base address from current SP (re-entrant!)
+         * SYSCALL RETURN PATH - FULL REGISTER RESTORE
          *
-         * CRITICAL: We use T-registers for ALL scratch state because they are
-         * automatically saved/restored by the interrupt handler. If an interrupt
-         * causes a context switch during this sequence, our T-register values
-         * will be preserved when we resume.
+         * This path now restores ALL registers from pt_regs, not just SP/FP/PC.
+         * This is CRITICAL for sys_rt_sigreturn to work correctly:
+         *
+         * When a signal interrupts user code (e.g., in the middle of __subleq_mul),
+         * the interrupt handler saves ALL registers (R3-R31, T0-T15, Z) to pt_regs.
+         * Signal delivery then modifies pt_regs->pc to point to the signal handler.
+         * When the handler returns, it calls sys_rt_sigreturn which restores the
+         * ORIGINAL register values back into pt_regs.
+         *
+         * Previously, the syscall return path only restored SP/FP/R24/PC, leaving
+         * the signal handler's garbage in the GPRs and T-registers. This caused
+         * crashes when resuming interrupted runtime helpers.
+         *
+         * Now we restore everything, exactly like the IRQ return path does.
          *
          * Stack layout at this point (AFTER C function returned):
          *   - C epilogue popped return address: SP += 4
@@ -2555,93 +2652,338 @@ __subleq_syscall:
          *   - Stack: [a4][a5][a6] = 12 bytes above kernel_sp
          *   - So: kernel_sp = SP + 12
          *   - pt_regs = kernel_sp + 1024 = SP + 12 + 1024 = SP + 1036
+         */
+
+        /*
+         * STEP 1: Compute pt_regs base address into SYSCALL_SCRATCH
          *
-         * REG_T9 = pt_regs base address (preserved across interrupts)
+         * We use SYSCALL_SCRATCH as a persistent pointer that survives
+         * T-register restoration. It's saved/restored by the IRQ handler.
          */
         .word   REG_T0, REG_T0, .+4           /* T0 = 0 */
         .word   REG_SP, REG_T0, .+4           /* T0 = -SP */
-        .word   REG_T9, REG_T9, .+4           /* T9 = 0 */
-        .word   REG_T0, REG_T9, .+4           /* T9 = SP */
-        .word   .Lconst_neg1036, REG_T9, .+4  /* T9 = SP + 1036 = pt_regs */
+        .word   SYSCALL_SCRATCH, SYSCALL_SCRATCH, .+4  /* SYSCALL_SCRATCH = 0 */
+        .word   REG_T0, SYSCALL_SCRATCH, .+4  /* SYSCALL_SCRATCH = SP */
+        .word   .Lconst_neg1036, SYSCALL_SCRATCH, .+4  /* SYSCALL_SCRATCH = SP + 1036 = pt_regs */
 
         /*
-         * STEP 2: Load SP from pt_regs->sp (offset 120) - from NEGATED storage
-         * With negated storage: [ptr] = -sp, so reg = 0; reg -= [ptr] = sp
-         */
-        .word   REG_T0, REG_T0, .+4           /* T0 = 0 */
-        .word   REG_T9, REG_T0, .+4           /* T0 = -pt_regs */
-        .word   REG_T8, REG_T8, .+4           /* T8 = 0 */
-        .word   REG_T0, REG_T8, .+4           /* T8 = pt_regs */
-        .word   .Lconst_neg120, REG_T8, .+4   /* T8 = pt_regs + 120 = &sp */
-        
-        /* Load [T8] (the sp value) - simplified for negated storage */
-        .word   REG_SP, REG_SP, .+4               /* SP = 0 */
-        .word   REG_T8 | INDIRECT, REG_SP, .+4    /* SP = -(-sp) = sp */
-
-        /*
-         * STEP 3: Load FP from pt_regs->fp (offset 116) - from NEGATED storage
-         */
-        .word   REG_T0, REG_T0, .+4           /* T0 = 0 */
-        .word   REG_T9, REG_T0, .+4           /* T0 = -pt_regs */
-        .word   REG_T8, REG_T8, .+4           /* T8 = 0 */
-        .word   REG_T0, REG_T8, .+4           /* T8 = pt_regs */
-        .word   .Lconst_neg116, REG_T8, .+4   /* T8 = pt_regs + 116 = &fp */
-        
-        /* Load FP - simplified for negated storage */
-        .word   REG_FP, REG_FP, .+4               /* FP = 0 */
-        .word   REG_T8 | INDIRECT, REG_FP, .+4    /* FP = -(-fp) = fp */
-
-        /*
-         * STEP 3b: Load R24 from pt_regs->r24 (offset 84) - from NEGATED storage
+         * STEP 2: Save PC to SYSCALL_JMPTGT BEFORE restoring registers
          *
-         * CRITICAL: vfork.S stores the caller's return address in R24 before
-         * calling __subleq_syscall. The kernel saves this to pt_regs at entry.
-         * Each task has its own pt_regs, so parent and child preserve their
-         * own R24 values. This fixes nested vfork corruption.
+         * NOTE: We do NOT cache SP in SAVE_SP because SAVE_SP can be corrupted
+         * by an interrupt (the IRQ handler uses SAVE_SP for its own purposes).
+         * Instead, we compute pt_regs->sp at the end of the restoration sequence.
          *
-         * NOTE: R24 is an argument register (caller-saved), so the caller
-         * doesn't expect it to be preserved. This avoids clobbering callee-saved
-         * registers like R3/R4 which caused issues.
+         * SYSCALL_JMPTGT is saved/restored by the IRQ handler, so it's safe.
          */
-        .word   REG_T0, REG_T0, .+4           /* T0 = 0 */
-        .word   REG_T9, REG_T0, .+4           /* T0 = -pt_regs */
-        .word   REG_T8, REG_T8, .+4           /* T8 = 0 */
-        .word   REG_T0, REG_T8, .+4           /* T8 = pt_regs */
-        .word   .Lconst_neg84, REG_T8, .+4    /* T8 = pt_regs + 84 = &r24 */
-        
-        /* Load R24 - simplified for negated storage */
-        .word   REG_R24, REG_R24, .+4             /* R24 = 0 */
-        .word   REG_T8 | INDIRECT, REG_R24, .+4   /* R24 = -(-r24) = r24 */
 
-        /*
-         * STEP 3c: Load PC into SYSCALL_JMPTGT BEFORE restoring T-regs
-         *
-         * CRITICAL: We must save the jump target before restoring T-registers
-         * because we need T8/T9 for address arithmetic. SYSCALL_JMPTGT is
-         * saved/restored by the interrupt handler, so it survives context switches.
-         */
-        .word   REG_T0, REG_T0, .+4           /* T0 = 0 */
-        .word   REG_T9, REG_T0, .+4           /* T0 = -pt_regs */
-        .word   REG_T8, REG_T8, .+4           /* T8 = 0 */
+        /* Calculate &pt_regs->pc (offset 128) into T8 */
+        .word   REG_T0, REG_T0, .+4
+        .word   SYSCALL_SCRATCH, REG_T0, .+4  /* T0 = -pt_regs */
+        .word   REG_T8, REG_T8, .+4
         .word   REG_T0, REG_T8, .+4           /* T8 = pt_regs */
         .word   .Lconst_neg128, REG_T8, .+4   /* T8 = pt_regs + 128 = &pc */
-        
-        /* Load PC into SYSCALL_JMPTGT */
-        .word   SYSCALL_JMPTGT, SYSCALL_JMPTGT, .+4  /* SYSCALL_JMPTGT = 0 */
-        .word   REG_T8 | INDIRECT, SYSCALL_JMPTGT, .+4  /* SYSCALL_JMPTGT = -(-pc) = pc */
+
+        /* Read pt_regs->pc into SYSCALL_JMPTGT
+         * pt_regs->pc contains -pc (negated). We need +pc for jumping.
+         * Pattern: SYSCALL_JMPTGT = 0; SYSCALL_JMPTGT -= [T8] = -(-pc) = +pc */
+        .word   SYSCALL_JMPTGT, SYSCALL_JMPTGT, .+4
+        .word   REG_T8 | INDIRECT, SYSCALL_JMPTGT, .+4  /* SYSCALL_JMPTGT = +pc */
 
         /*
-         * STEP 4: Jump to userspace via SYSCALL_JMPTGT
+         * STEP 3: RESTORE ALL GPRs FROM pt_regs
+         *
+         * Use SYSCALL_SCRATCH as the running pointer. It survives T-reg restore.
+         * Pattern for each register: advance pointer; reg = 0; reg -= [ptr]
+         *
+         * pt_regs layout:
+         *   r3:  offset 0     r19: offset 64    r25-r31: offsets 88-112
+         *   r4:  offset 4     r20: offset 68    fp: offset 116
+         *   ...               r21: offset 72    sp: offset 120 (skip - use SAVE_SP)
+         *   r18: offset 60    r22-r24: 76-84    ra: offset 124
+         */
+
+        /* Load R3 from pt_regs->r3 (offset 0) - from NEGATED storage */
+        .word   REG_R3, REG_R3, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_R3, .+4
+
+        /* Load R4 (offset 4) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_R4, REG_R4, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_R4, .+4
+
+        /* Load R5 (offset 8) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_R5, REG_R5, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_R5, .+4
+
+        /* Load R6 (offset 12) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_R6, REG_R6, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_R6, .+4
+
+        /* Load R7 (offset 16) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_R7, REG_R7, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_R7, .+4
+
+        /* Load R8 (offset 20) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_R8, REG_R8, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_R8, .+4
+
+        /* Load R9 (offset 24) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_R9, REG_R9, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_R9, .+4
+
+        /* Load R10 (offset 28) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_R10, REG_R10, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_R10, .+4
+
+        /* Load R11 (offset 32) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_R11, REG_R11, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_R11, .+4
+
+        /* Load R12 (offset 36) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_R12, REG_R12, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_R12, .+4
+
+        /* Load R13 (offset 40) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_R13, REG_R13, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_R13, .+4
+
+        /* Load R14 (offset 44) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_R14, REG_R14, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_R14, .+4
+
+        /* Load R15 (offset 48) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_R15, REG_R15, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_R15, .+4
+
+        /* Load R16 (offset 52) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_R16, REG_R16, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_R16, .+4
+
+        /* Load R17 (offset 56) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_R17, REG_R17, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_R17, .+4
+
+        /* Load R18 (offset 60) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_R18, REG_R18, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_R18, .+4
+
+        /* Load R19 (offset 64) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_R19, REG_R19, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_R19, .+4
+
+        /* Load R20 (offset 68) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_R20, REG_R20, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_R20, .+4
+
+        /* Load R21 (offset 72) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_R21, REG_R21, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_R21, .+4
+
+        /* Load R22 (offset 76) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_R22, REG_R22, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_R22, .+4
+
+        /* Load R23 (offset 80) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_R23, REG_R23, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_R23, .+4
+
+        /* Load R24 (offset 84) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_R24, REG_R24, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_R24, .+4
+
+        /* Load R25 (offset 88) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_R25, REG_R25, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_R25, .+4
+
+        /* Load R26 (offset 92) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_R26, REG_R26, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_R26, .+4
+
+        /* Load R27 (offset 96) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_R27, REG_R27, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_R27, .+4
+
+        /* Load R28 (offset 100) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_R28, REG_R28, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_R28, .+4
+
+        /* Load R29 (offset 104) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_R29, REG_R29, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_R29, .+4
+
+        /* Load R30 (offset 108) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_R30, REG_R30, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_R30, .+4
+
+        /* Load R31 (offset 112) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_R31, REG_R31, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_R31, .+4
+
+        /* Load FP (offset 116) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_FP, REG_FP, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_FP, .+4
+
+        /* Skip SP (offset 120) - handled via SAVE_SP at the end */
+
+        /* Load RA (offset 124) - skip 8 from FP */
+        .word   .Lconst_neg8, SYSCALL_SCRATCH, .+4
+        .word   REG_RA, REG_RA, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_RA, .+4
+
+        /*
+         * STEP 4: RESTORE T-REGISTERS AND Z FROM pt_regs
+         *
+         * Continue from RA at offset 124, skip to T0 at offset 160 (gap of 36).
+         * These are critical for sigreturn when returning to interrupted
+         * runtime helpers like __subleq_mul that use T-regs for temporaries.
+         *
+         * For normal syscalls, these will be garbage (syscall entry doesn't
+         * save T-regs), but that's fine - T-regs are caller-saved anyway.
+         * For sigreturn, restore_sigcontext filled these with original values.
+         */
+
+        /* Skip from RA (124) to T0 (160): advance by 36 */
+        .word   .Lconst_neg36, SYSCALL_SCRATCH, .+4
+
+        /* Load T0 (offset 160) */
+        .word   REG_T0, REG_T0, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_T0, .+4
+
+        /* Load T1 (offset 164) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_T1, REG_T1, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_T1, .+4
+
+        /* Load T2 (offset 168) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_T2, REG_T2, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_T2, .+4
+
+        /* Load T3 (offset 172) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_T3, REG_T3, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_T3, .+4
+
+        /* Load T4 (offset 176) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_T4, REG_T4, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_T4, .+4
+
+        /* Load T5 (offset 180) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_T5, REG_T5, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_T5, .+4
+
+        /* Load T6 (offset 184) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_T6, REG_T6, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_T6, .+4
+
+        /* Load T7 (offset 188) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_T7, REG_T7, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_T7, .+4
+
+        /* Load T8 (offset 192) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_T8, REG_T8, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_T8, .+4
+
+        /* Load T9 (offset 196) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_T9, REG_T9, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_T9, .+4
+
+        /* Load T10 (offset 200) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_T10, REG_T10, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_T10, .+4
+
+        /* Load T11 (offset 204) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_T11, REG_T11, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_T11, .+4
+
+        /* Load T12 (offset 208) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_T12, REG_T12, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_T12, .+4
+
+        /* Load T13 (offset 212) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_T13, REG_T13, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_T13, .+4
+
+        /* Load T14 (offset 216) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_T14, REG_T14, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_T14, .+4
+
+        /* Load T15 (offset 220) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_T15, REG_T15, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_T15, .+4
+
+        /* Load Z (offset 224) */
+        .word   .Lconst_neg4, SYSCALL_SCRATCH, .+4
+        .word   REG_Z, REG_Z, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_Z, .+4
+
+        /*
+         * STEP 5: RESTORE SP FROM pt_regs
+         *
+         * CRITICAL: We cannot use SAVE_SP here because it could have been
+         * overwritten by an interrupt during the restoration sequence above.
+         * The IRQ handler uses SAVE_SP for its own interrupted SP.
+         *
+         * After loading Z at offset 224, SYSCALL_SCRATCH = pt_regs + 224.
+         * We need pt_regs + 120 (sp offset), which is 104 bytes back.
+         * (224 - 120 = 104)
+         */
+        .word   .Lconst_104, SYSCALL_SCRATCH, .+4  /* SYSCALL_SCRATCH = pt_regs + 224 - 104 = pt_regs + 120 */
+
+        /* Load SP from [SYSCALL_SCRATCH] (pt_regs->sp)
+         * pt_regs->sp contains -sp (negated). Restore: SP = 0; SP -= [ptr] = sp */
+        .word   REG_SP, REG_SP, .+4
+        .word   SYSCALL_SCRATCH | INDIRECT, REG_SP, .+4  /* SP = -(-sp) = sp */
+
+        /*
+         * STEP 6: Jump to userspace via SYSCALL_JMPTGT
          *
          * SYSCALL_JMPTGT contains the return PC. Jump using indirect addressing.
          * SYSCALL_JMPTGT | INDIRECT = 236 | 2 = 238
          *
-         * T-registers are NOT restored here - they are caller-saved (temporaries)
-         * and the caller assumes they are clobbered by syscalls.
-         * T-register save/restore is only needed in the INTERRUPT path for
-         * preserving state when signals interrupt runtime helpers.
+         * Use SYSCALL_SCRATCH as dummy source (we're done with it)
          */
-        .word   REG_T0, REG_T0, 238    /* subleq(T0, T0, [SYSCALL_JMPTGT]) = jump to PC */
+        .word   SYSCALL_SCRATCH, SYSCALL_SCRATCH, 238
 
 
 
@@ -2734,6 +3076,8 @@ __subleq_syscall:
         .word   -36             /* Skip from RA (124) to T0 (160) */
 .Lconst_neg192:
         .word   -192            /* pt_regs->t8 offset */
+.Lconst_104:
+        .word   104             /* For syscall SP restore: offset 224 (Z) - 120 (sp) = 104 */
 
 /* pt_regs size for allocation/deallocation */
 .Lconst_pt_size:

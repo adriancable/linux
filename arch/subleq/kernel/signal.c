@@ -19,7 +19,7 @@
 #include <asm/unistd.h>
 
 /* Debug output - writes directly to VM console */
-extern void __subleq_putchar(int c);
+
 
 #include <asm/sigcontext.h>
 
@@ -411,8 +411,7 @@ static void handle_signal(struct ksignal *ksig, struct pt_regs *regs)
 	sigset_t *oldset = sigmask_to_save();
 	int err;
 
-	__subleq_putchar('H'); /* Handle signal entry */
-	__subleq_putchar('0' + ksig->sig); /* Signal number */
+
 
 	/* Handle syscall restart if we came from a syscall */
 	if (in_syscall(regs))
@@ -421,7 +420,7 @@ static void handle_signal(struct ksignal *ksig, struct pt_regs *regs)
 	/* Set up the signal frame */
 	err = setup_rt_frame(ksig, oldset, regs);
 
-	__subleq_putchar(err ? 'E' : 'F'); /* Frame setup result */
+
 
 	/* Report signal setup status */
 	signal_setup_done(err, ksig, 0);
@@ -445,7 +444,7 @@ bool do_signal(struct pt_regs *regs)
 {
 	struct ksignal ksig;
 
-	__subleq_putchar('D'); /* do_signal entry */
+
 
 	/*
 	 * Check if there's a signal to deliver.
@@ -453,10 +452,10 @@ bool do_signal(struct pt_regs *regs)
 	 * It also handles signal stopping, coredumps, and sets up ksig.
 	 */
 	if (get_signal(&ksig)) {
-		__subleq_putchar('G'); /* Got signal */
+
 		/* Deliver the signal */
 		handle_signal(&ksig, regs);
-		__subleq_putchar('T'); /* do_signal returning true */
+
 		return true;  /* Signal handler was set up */
 	}
 
@@ -515,7 +514,7 @@ asmlinkage long sys_rt_sigreturn(void)
 	struct rt_sigframe __user *frame;
 	sigset_t set;
 
-	__subleq_putchar('R'); /* sigreturn entry */
+
 
 	/*
 	 * The signal frame is at SP - 4.
@@ -536,13 +535,13 @@ asmlinkage long sys_rt_sigreturn(void)
 
 	set_current_blocked(&set);
 
-	__subleq_putchar('M'); /* Mask restored */
+
 
 	/* Restore registers */
 	if (restore_sigcontext(regs, &frame->uc.uc_mcontext))
 		goto badframe;
 
-	__subleq_putchar('C'); /* Context restored */
+
 
 	/* Restore alternate signal stack */
 	if (restore_altstack(&frame->uc.uc_stack))
@@ -595,7 +594,7 @@ asmlinkage long sys_rt_sigreturn(void)
 					 * The restarted syscall may have been interrupted again.
 					 * Let do_signal handle any pending signals.
 					 */
-					__subleq_putchar('1'); /* do_signal from restart path */
+
 					do_signal(regs);
 				}
 			}
@@ -614,7 +613,7 @@ asmlinkage long sys_rt_sigreturn(void)
 			 * The restart function may have been interrupted again.
 			 * Let do_signal handle any pending signals.
 			 */
-			__subleq_putchar('2'); /* do_signal from restart block */
+
 			do_signal(regs);
 			break;
 		}
@@ -631,11 +630,11 @@ asmlinkage long sys_rt_sigreturn(void)
 	/*
 	 * Return the final R20 value.
 	 */
-	__subleq_putchar('X'); /* sigreturn exit */
+
 	return PT_REG_GET_SIGNED(regs, r20);
 
 badframe:
-	__subleq_putchar('B'); /* BAD FRAME! */
+
 	force_sig(SIGSEGV);
 	return 0;
 }

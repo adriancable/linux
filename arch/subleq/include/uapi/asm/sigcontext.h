@@ -18,6 +18,9 @@ struct sigcontext {
 	unsigned long sc_orig_a3;   /* Original arg3 */
 	unsigned long sc_orig_a4;   /* Original arg4 */
 	long sc_syscall_nr;         /* Syscall number (-1 if not in syscall) */
+	/* Debug: checksums for detecting signal corruption */
+	unsigned long sc_dbg_gprs_checksum;
+	unsigned long sc_dbg_tregs_checksum;
 };
 
 #endif /* _UAPI_ASM_SUBLEQ_SIGCONTEXT_H */

@@ -18,12 +18,7 @@
 #include <asm/ucontext.h>
 #include <asm/unistd.h>
 
-/* Debug output - writes directly to VM console */
-
-
 #include <asm/sigcontext.h>
-
-
 
 /* Forward declarations */
 bool do_signal(struct pt_regs *regs);
@@ -74,6 +69,8 @@ struct rt_sigframe {
 static int save_sigcontext(struct sigcontext __user *sc, struct pt_regs *regs)
 {
 	int err = 0;
+
+
 
 	/* Save all general purpose registers (convert from negated storage) */
 	err |= __put_user(PT_REG_GET(regs, r3), &sc->sc_regs[0]);
@@ -613,7 +610,7 @@ asmlinkage long sys_rt_sigreturn(void)
 			 * The restart function may have been interrupted again.
 			 * Let do_signal handle any pending signals.
 			 */
-
+			__subleq_putchar('B');  /* DEBUG: restart_block */
 			do_signal(regs);
 			break;
 		}

@@ -78,8 +78,7 @@ void __init early_irq_stack_init(void)
 	*INT_SP_ADDR = subleq_irq_stack_top;
 }
 
-/* Assembly entry point from entry.S */
-extern void subleq_irq_entry(void);
+/* subleq_irq_entry declared in asm/ptrace.h as char[] for address range checking */
 
 /* do_notify_resume is defined in signal.c */
 extern asmlinkage void do_notify_resume(struct pt_regs *regs);

@@ -131,9 +131,37 @@ struct pt_regs {
  */
 extern struct task_struct *subleq_current_task;
 
+/* Symbols for syscall handler range check */
+extern char __subleq_syscall[];
+extern char __subleq_syscall_end[];
+/* Symbols for IRQ handler range check */
+extern char subleq_irq_entry[];
+extern char subleq_irq_entry_end[];
+
 static inline int __subleq_user_mode(struct pt_regs *regs)
 {
+	unsigned long pc = PT_REG_GET(regs, pc);
 	unsigned long sp = PT_REG_GET(regs, sp);
+	
+	/*
+	 * CRITICAL: If PC is within syscall or IRQ handler code, we're
+	 * definitely in kernel mode even if SP looks like userspace.
+	 * 
+	 * This handles the race condition where SP has been restored to
+	 * userspace value but we haven't jumped yet. The PC is still in
+	 * kernel code, so we should NOT treat this as user mode.
+	 *
+	 * Note: This is different from runtime helpers (__subleq_mul, etc.)
+	 * which ARE in kernel text but are called from userspace. The syscall
+	 * and IRQ handlers are never called from userspace as functions.
+	 */
+	if (pc >= (unsigned long)__subleq_syscall && 
+	    pc < (unsigned long)__subleq_syscall_end)
+		return 0;  /* kernel mode */
+	if (pc >= (unsigned long)subleq_irq_entry && 
+	    pc < (unsigned long)subleq_irq_entry_end)
+		return 0;  /* kernel mode */
+
 	/* Get kernel stack base from current task (offset 8 = stack field) */
 	unsigned long kstack_base = (unsigned long)*(void **)((char *)subleq_current_task + 8);
 	unsigned long kstack_top = kstack_base + 16384; /* THREAD_SIZE */

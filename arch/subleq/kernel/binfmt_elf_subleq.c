@@ -121,7 +121,7 @@ extern void __umoddi3(void);
 extern void __subleq_memcpy(void);
 extern void __subleq_memset(void);
 extern void __subleq_memmove(void);
-extern long __subleq_syscall(long, long, long, long, long, long, long);
+/* __subleq_syscall declared in asm/ptrace.h as char[] for address range checking */
 
 /* Soft float functions (from subleq_runtime_softfloat.c) */
 /* Double-precision arithmetic */

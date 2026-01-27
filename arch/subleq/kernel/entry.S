@@ -205,11 +205,22 @@ subleq_irq_entry:
         .word   INT_Z, INT_Z, .Lon_kernel_stack
 
         /* User mode: Switch to kernel stack */
+        /*
+         * CRITICAL FIX: Set SP so that after SYSCALL_JMPTGT/SCRATCH pushes (-8)
+         * and pt_regs allocation (-PT_SIZE=228), pt_regs ends up at kernel_sp + 1024.
+         * This matches task_pt_regs(current), ensuring signal delivery and sigreturn
+         * use the same pt_regs location.
+         *
+         * Formula: SP = kernel_sp + 1024 + PT_SIZE + 8 = kernel_sp + 1260
+         * After pushes: SP = kernel_sp + 1252
+         * After SP -= PT_SIZE: SP = kernel_sp + 1024 = pt_regs = task_pt_regs!
+         */
 .Lswitch_to_kernel:
         .word   REG_SP, REG_SP, .+4              /* SP = 0 */
         .word   INT_Z, INT_Z, .+4                /* INT_Z = 0 */
         .word   subleq_kernel_sp, INT_Z, .+4     /* INT_Z = -kernel_sp */
-        .word   INT_Z, REG_SP, .Lsave_done       /* SP = kernel_sp, goto save */
+        .word   .Lconst_neg1260, INT_Z, .+4      /* INT_Z = -(kernel_sp + 1260) */
+        .word   INT_Z, REG_SP, .Lsave_done       /* SP = kernel_sp + 1260, goto save */
 
 .Lon_kernel_stack:
         /* Already on kernel stack: keep using current SP (already in REG_SP) */
@@ -1033,6 +1044,8 @@ subleq_irq_entry:
 /* Subleq+ indirect addressing flag */
 .set INDIRECT, 2
 
+.globl subleq_irq_entry_end
+subleq_irq_entry_end:
 .size subleq_irq_entry, .-subleq_irq_entry
 
 
@@ -2657,8 +2670,9 @@ __subleq_syscall:
         /*
          * STEP 1: Compute pt_regs base address into SYSCALL_SCRATCH
          *
-         * We use SYSCALL_SCRATCH as a persistent pointer that survives
-         * T-register restoration. It's saved/restored by the IRQ handler.
+         * Interrupts remain ENABLED during this sequence. Any interrupt
+         * will see our PC is within __subleq_syscall and correctly detect
+         * kernel mode, even after SP is restored to userspace.
          */
         .word   REG_T0, REG_T0, .+4           /* T0 = 0 */
         .word   REG_SP, REG_T0, .+4           /* T0 = -SP */
@@ -2976,8 +2990,14 @@ __subleq_syscall:
         .word   SYSCALL_SCRATCH | INDIRECT, REG_SP, .+4  /* SP = -(-sp) = sp */
 
         /*
-         * STEP 6: Jump to userspace via SYSCALL_JMPTGT
+         * STEP 6: JUMP TO USERSPACE
          *
+         * Interrupts are enabled (from STEP 4a-final before C call).
+         * Any interrupt between here and the jump will see PC is within
+         * __subleq_syscall and correctly detect kernel mode.
+         */
+
+        /*
          * SYSCALL_JMPTGT contains the return PC. Jump using indirect addressing.
          * SYSCALL_JMPTGT | INDIRECT = 236 | 2 = 238
          *
@@ -3110,13 +3130,21 @@ __subleq_syscall:
         .word   -38
 .Lconst_neg1024:
         .word   -1024
+.Lconst_neg1260:
+        .word   -1260           /* kernel_sp + 1260 = pt_regs after pushes and allocation */
 .Lconst_neg1036:
         .word   -1036           /* SP + 1036 = pt_regs (C popped ret addr, so SP = kernel_sp - 12) */
 
 /* Character constants for debug output */
 .Lconst_char_I:
         .word   73              /* 'I' */
+.Lconst_char_X:
+        .word   88              /* 'X' */
+.Lconst_char_Y:
+        .word   89              /* 'Y' */
 
+.globl __subleq_syscall_end
+__subleq_syscall_end:
 .size __subleq_syscall, .-__subleq_syscall
 
 

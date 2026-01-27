@@ -65,6 +65,24 @@ struct pt_regs {
 	unsigned long orig_a2;  /* Original arg2 for syscall restart */
 	unsigned long orig_a3;  /* Original arg3 for syscall restart */
 	unsigned long orig_a4;  /* Original arg4 for syscall restart */
+	/* T-registers and Z - saved by assembly at interrupt entry for signal handling */
+	unsigned long t0;
+	unsigned long t1;
+	unsigned long t2;
+	unsigned long t3;
+	unsigned long t4;
+	unsigned long t5;
+	unsigned long t6;
+	unsigned long t7;
+	unsigned long t8;
+	unsigned long t9;
+	unsigned long t10;
+	unsigned long t11;
+	unsigned long t12;
+	unsigned long t13;
+	unsigned long t14;
+	unsigned long t15;
+	unsigned long z;
 };
 
 /*

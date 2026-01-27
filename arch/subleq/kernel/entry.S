@@ -69,15 +69,18 @@
 .set INT_Z, 224
 
 /*
- * Kernel scratch/save slots (words 57-64, bytes 228-256)
+ * Kernel scratch/save slots (words 57-62, bytes 228-248)
  * Compact layout placing all kernel registers together.
+ * Note: Words 63-65 (bytes 252-260) are clock registers (read-only).
  */
 .set INT_Z2, 228         /* Scratch for address calculations (word 57) */
 .set SAVE_SP, 232        /* Saved interrupted SP for restoration (word 58) */
-/* Word 59 (byte 236) reserved - was INT_SP for old IRQ stack */
-.set SAVE_JMPTGT, 240    /* Return jump target address (word 60) */
+.set SYSCALL_JMPTGT, 236 /* Syscall return jump target (word 59) - saved/restored by IRQ handler */
+.set SAVE_JMPTGT, 240    /* Interrupt return jump target address (word 60) */
 .set SW_Z, 244           /* Context switch scratch (word 61) */
 .set SW_Z2, 248          /* Context switch second scratch (word 62) */
+/* Words 63-65 (252-260) = CLOCK_S_LO, CLOCK_S_HI, CLOCK_NS - DO NOT USE */
+.set SYSCALL_SCRATCH, 264 /* Syscall return address pointer (word 66) - saved/restored by IRQ handler */
 
 /*
  * Interrupt entry point
@@ -206,53 +209,36 @@ subleq_irq_entry:
         .word   REG_SP, REG_SP, .+4              /* SP = 0 */
         .word   INT_Z, INT_Z, .+4                /* INT_Z = 0 */
         .word   subleq_kernel_sp, INT_Z, .+4     /* INT_Z = -kernel_sp */
-        .word   INT_Z, REG_SP, .Lpush_temps      /* SP = kernel_sp, goto push */
+        .word   INT_Z, REG_SP, .Lsave_done       /* SP = kernel_sp, goto save */
 
 .Lon_kernel_stack:
         /* Already on kernel stack: keep using current SP (already in REG_SP) */
 
+.Lsave_done:
         /*
-         * Push Z and T0-T15 to kernel stack.
-         * These are NOT in pt_regs, so must be saved/restored separately.
-         * Using standard PUSH: SP -= 4; [SP] = 0; [SP] -= reg (stores -reg)
+         * Save SYSCALL_JMPTGT to kernel stack.
+         * This global is used by syscall return for the final jump target.
+         * It must be saved/restored so context switches don't clobber it.
          */
-
-.macro PUSH_KSTACK_REG reg_addr
         .word   .Lconst_4, REG_SP, .+4                /* SP -= 4 */
         .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .+4  /* [SP] = 0 */
-        .word   \reg_addr, REG_SP | INDIRECT, .+4    /* [SP] = -reg */
-.endm
+        .word   SYSCALL_JMPTGT, REG_SP | INDIRECT, .+4    /* [SP] = -SYSCALL_JMPTGT */
 
-.Lpush_temps:
-        /* Push Z (not in pt_regs) */
-        PUSH_KSTACK_REG REG_Z
+        /*
+         * Save SYSCALL_SCRATCH to kernel stack.
+         * This global is used by syscall return for address arithmetic.
+         * It must be saved/restored so context switches don't clobber it.
+         */
+        .word   .Lconst_4, REG_SP, .+4                /* SP -= 4 */
+        .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .+4  /* [SP] = 0 */
+        .word   SYSCALL_SCRATCH, REG_SP | INDIRECT, .+4   /* [SP] = -SYSCALL_SCRATCH */
 
-        /* Push T0-T15 (not in pt_regs) */
-        PUSH_KSTACK_REG REG_T0
-        PUSH_KSTACK_REG REG_T1
-        PUSH_KSTACK_REG REG_T2
-        PUSH_KSTACK_REG REG_T3
-        PUSH_KSTACK_REG REG_T4
-        PUSH_KSTACK_REG REG_T5
-        PUSH_KSTACK_REG REG_T6
-        PUSH_KSTACK_REG REG_T7
-        PUSH_KSTACK_REG REG_T8
-        PUSH_KSTACK_REG REG_T9
-        PUSH_KSTACK_REG REG_T10
-        PUSH_KSTACK_REG REG_T11
-        PUSH_KSTACK_REG REG_T12
-        PUSH_KSTACK_REG REG_T13
-        PUSH_KSTACK_REG REG_T14
-        PUSH_KSTACK_REG REG_T15
-
-        /* SP is already on kernel stack, no need to reload */
-
-.Lsave_done:
         /*
          * PHASE 2: BUILD pt_regs ON KERNEL STACK
          *
-         * We allocate PT_SIZE (160) bytes on the kernel stack and build a
+         * We allocate PT_SIZE (228) bytes on the kernel stack and build a
          * pt_regs structure that C code can read and modify.
+         * Now includes T-registers and Z for proper signal handling.
          *
          * CRITICAL: C code expects POSITIVE values in pt_regs fields.
          * Subleq's natural store pattern (subleq A, B) stores -A.
@@ -263,10 +249,11 @@ subleq_irq_entry:
          * This enables proper preemption via preempt_schedule_irq().
          */
 
-        /* Allocate pt_regs: SP -= PT_SIZE (160 bytes) */
+        /* Allocate pt_regs: SP -= PT_SIZE (228 bytes) */
         .word   .Lconst_pt_size, REG_SP, .+4
         /* NOTE: SP now points to pt_regs base. C calling convention preserves SP,
          * so after C calls return, SP still points to pt_regs. */
+
 
         /*
          * Fill pt_regs fields with POSITIVE values using double-negation.
@@ -499,6 +486,94 @@ subleq_irq_entry:
         .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
         .word   .Lconst_neg1, INT_Z2 | INDIRECT, .+4  /* [addr] = 0 - (-1) = +1 */
 
+        /* Skip orig_r21, orig_a1-4 (offsets 140-156) - not used for interrupts */
+        /* Advance to T0 at offset 160: 136 -> 160 = +24 */
+        .word   .Lconst_neg24, INT_Z2, .+4
+
+        /* Store T0 (offset 160) - NEGATED */
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   REG_T0, INT_Z2 | INDIRECT, .+4
+
+        /* Store T1 (offset 164) - NEGATED */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   REG_T1, INT_Z2 | INDIRECT, .+4
+
+        /* Store T2 (offset 168) - NEGATED */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   REG_T2, INT_Z2 | INDIRECT, .+4
+
+        /* Store T3 (offset 172) - NEGATED */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   REG_T3, INT_Z2 | INDIRECT, .+4
+
+        /* Store T4 (offset 176) - NEGATED */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   REG_T4, INT_Z2 | INDIRECT, .+4
+
+        /* Store T5 (offset 180) - NEGATED */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   REG_T5, INT_Z2 | INDIRECT, .+4
+
+        /* Store T6 (offset 184) - NEGATED */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   REG_T6, INT_Z2 | INDIRECT, .+4
+
+        /* Store T7 (offset 188) - NEGATED */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   REG_T7, INT_Z2 | INDIRECT, .+4
+
+        /* Store T8 (offset 192) - NEGATED */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   REG_T8, INT_Z2 | INDIRECT, .+4
+
+        /* Store T9 (offset 196) - NEGATED */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   REG_T9, INT_Z2 | INDIRECT, .+4
+
+        /* Store T10 (offset 200) - NEGATED */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   REG_T10, INT_Z2 | INDIRECT, .+4
+
+        /* Store T11 (offset 204) - NEGATED */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   REG_T11, INT_Z2 | INDIRECT, .+4
+
+        /* Store T12 (offset 208) - NEGATED */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   REG_T12, INT_Z2 | INDIRECT, .+4
+
+        /* Store T13 (offset 212) - NEGATED */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   REG_T13, INT_Z2 | INDIRECT, .+4
+
+        /* Store T14 (offset 216) - NEGATED */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   REG_T14, INT_Z2 | INDIRECT, .+4
+
+        /* Store T15 (offset 220) - NEGATED */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   REG_T15, INT_Z2 | INDIRECT, .+4
+
+        /* Store Z (offset 224) - NEGATED */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
+        .word   REG_Z, INT_Z2 | INDIRECT, .+4
+
         /*
          * Set R21 = pt_regs pointer (= SP) for the function call.
          * C calling convention preserves SP, so it will still point to pt_regs
@@ -508,6 +583,7 @@ subleq_irq_entry:
         .word   INT_Z, INT_Z, .+4
         .word   REG_SP, INT_Z, .+4
         .word   INT_Z, REG_R21, .Lirq_call
+
 
 .Lirq_call:
         /* STACK-BASED CALL to subleq_do_IRQ */
@@ -789,44 +865,124 @@ subleq_irq_entry:
         .word   INT_Z2 | INDIRECT, REG_RA, .+4
 
         /*
-         * PHASE 3b: POP pt_regs AND TEMPORARIES FROM KERNEL STACK
+         * PHASE 3b: Load T-registers and Z from pt_regs
          *
-         * Now that we've restored GPRs from pt_regs, we can pop the stack.
-         * Order: pt_regs, then temporaries (T15 down to Z).
+         * Continue from RA at offset 124, skip to T0 at offset 160.
+         * INT_Z2 is currently at offset 124.
+         */
+
+        /* Skip from RA (124) to T0 (160): advance by 36 */
+        .word   .Lconst_neg36, INT_Z2, .+4
+
+        /* Load T0 (offset 160) - from NEGATED storage */
+        .word   REG_T0, REG_T0, .+4
+        .word   INT_Z2 | INDIRECT, REG_T0, .+4
+
+        /* Load T1 (offset 164) - from NEGATED storage */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   REG_T1, REG_T1, .+4
+        .word   INT_Z2 | INDIRECT, REG_T1, .+4
+
+        /* Load T2 (offset 168) - from NEGATED storage */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   REG_T2, REG_T2, .+4
+        .word   INT_Z2 | INDIRECT, REG_T2, .+4
+
+        /* Load T3 (offset 172) - from NEGATED storage */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   REG_T3, REG_T3, .+4
+        .word   INT_Z2 | INDIRECT, REG_T3, .+4
+
+        /* Load T4 (offset 176) - from NEGATED storage */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   REG_T4, REG_T4, .+4
+        .word   INT_Z2 | INDIRECT, REG_T4, .+4
+
+        /* Load T5 (offset 180) - from NEGATED storage */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   REG_T5, REG_T5, .+4
+        .word   INT_Z2 | INDIRECT, REG_T5, .+4
+
+        /* Load T6 (offset 184) - from NEGATED storage */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   REG_T6, REG_T6, .+4
+        .word   INT_Z2 | INDIRECT, REG_T6, .+4
+
+        /* Load T7 (offset 188) - from NEGATED storage */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   REG_T7, REG_T7, .+4
+        .word   INT_Z2 | INDIRECT, REG_T7, .+4
+
+        /* Load T8 (offset 192) - from NEGATED storage */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   REG_T8, REG_T8, .+4
+        .word   INT_Z2 | INDIRECT, REG_T8, .+4
+
+        /* Load T9 (offset 196) - from NEGATED storage */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   REG_T9, REG_T9, .+4
+        .word   INT_Z2 | INDIRECT, REG_T9, .+4
+
+        /* Load T10 (offset 200) - from NEGATED storage */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   REG_T10, REG_T10, .+4
+        .word   INT_Z2 | INDIRECT, REG_T10, .+4
+
+        /* Load T11 (offset 204) - from NEGATED storage */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   REG_T11, REG_T11, .+4
+        .word   INT_Z2 | INDIRECT, REG_T11, .+4
+
+        /* Load T12 (offset 208) - from NEGATED storage */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   REG_T12, REG_T12, .+4
+        .word   INT_Z2 | INDIRECT, REG_T12, .+4
+
+        /* Load T13 (offset 212) - from NEGATED storage */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   REG_T13, REG_T13, .+4
+        .word   INT_Z2 | INDIRECT, REG_T13, .+4
+
+        /* Load T14 (offset 216) - from NEGATED storage */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   REG_T14, REG_T14, .+4
+        .word   INT_Z2 | INDIRECT, REG_T14, .+4
+
+        /* Load T15 (offset 220) - from NEGATED storage */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   REG_T15, REG_T15, .+4
+        .word   INT_Z2 | INDIRECT, REG_T15, .+4
+
+        /* Load Z (offset 224) - from NEGATED storage */
+        .word   .Lconst_neg4, INT_Z2, .+4
+        .word   REG_Z, REG_Z, .+4
+        .word   INT_Z2 | INDIRECT, REG_Z, .+4
+
+        /*
+         * PHASE 3c: Deallocate pt_regs from kernel stack
          */
 
         /* Pop pt_regs: SP += PT_SIZE */
         .word   .Lconst_neg_pt_size, REG_SP, .+4
 
-.macro POP_KSTACK_REG reg_addr
-        .word   \reg_addr, \reg_addr, .+4        /* reg = 0 */
-        .word   REG_SP | INDIRECT, \reg_addr, .+4  /* reg = -[SP] */
-        .word   .Lconst_neg4, REG_SP, .+4        /* SP += 4 */
-.endm
-
-        /* Pop T15-T0 (reverse order of push) */
-        POP_KSTACK_REG REG_T15
-        POP_KSTACK_REG REG_T14
-        POP_KSTACK_REG REG_T13
-        POP_KSTACK_REG REG_T12
-        POP_KSTACK_REG REG_T11
-        POP_KSTACK_REG REG_T10
-        POP_KSTACK_REG REG_T9
-        POP_KSTACK_REG REG_T8
-        POP_KSTACK_REG REG_T7
-        POP_KSTACK_REG REG_T6
-        POP_KSTACK_REG REG_T5
-        POP_KSTACK_REG REG_T4
-        POP_KSTACK_REG REG_T3
-        POP_KSTACK_REG REG_T2
-        POP_KSTACK_REG REG_T1
-        POP_KSTACK_REG REG_T0
-
-        /* Pop Z */
-        POP_KSTACK_REG REG_Z
+        /*
+         * Restore SYSCALL_SCRATCH from kernel stack (LIFO - pushed last, pop first).
+         * This was saved at interrupt entry to preserve syscall scratch space.
+         */
+        .word   SYSCALL_SCRATCH, SYSCALL_SCRATCH, .+4     /* SYSCALL_SCRATCH = 0 */
+        .word   REG_SP | INDIRECT, SYSCALL_SCRATCH, .+4   /* SYSCALL_SCRATCH = -[SP] */
+        .word   .Lconst_neg4, REG_SP, .+4                 /* SP += 4 */
 
         /*
-         * PHASE 3c: RESTORE INTERRUPTED SP
+         * Restore SYSCALL_JMPTGT from kernel stack (LIFO - pushed first, pop second).
+         * This was saved at interrupt entry to preserve syscall return target.
+         */
+        .word   SYSCALL_JMPTGT, SYSCALL_JMPTGT, .+4       /* SYSCALL_JMPTGT = 0 */
+        .word   REG_SP | INDIRECT, SYSCALL_JMPTGT, .+4    /* SYSCALL_JMPTGT = -[SP] */
+        .word   .Lconst_neg4, REG_SP, .+4                 /* SP += 4 */
+
+        /*
+         * PHASE 3d: RESTORE INTERRUPTED SP
          *
          * Restore SP from SAVE_SP (which we saved at interrupt entry).
          * SAVE_SP contains -sp (negated).
@@ -2458,13 +2614,11 @@ __subleq_syscall:
         .word   REG_T8 | INDIRECT, REG_R24, .+4   /* R24 = -(-r24) = r24 */
 
         /*
-         * STEP 4: Load PC from pt_regs->pc (offset 128) into REG_T15 and jump
+         * STEP 3c: Load PC into SYSCALL_JMPTGT BEFORE restoring T-regs
          *
-         * CRITICAL: We store the final jump PC in REG_T15 (a T-register) instead
-         * of SW_Z2 (a global). This ensures the jump target is preserved even if
-         * an interrupt + context switch occurs right before the final jump.
-         *
-         * REG_T15 | INDIRECT = 220 | 2 = 222
+         * CRITICAL: We must save the jump target before restoring T-registers
+         * because we need T8/T9 for address arithmetic. SYSCALL_JMPTGT is
+         * saved/restored by the interrupt handler, so it survives context switches.
          */
         .word   REG_T0, REG_T0, .+4           /* T0 = 0 */
         .word   REG_T9, REG_T0, .+4           /* T0 = -pt_regs */
@@ -2472,13 +2626,23 @@ __subleq_syscall:
         .word   REG_T0, REG_T8, .+4           /* T8 = pt_regs */
         .word   .Lconst_neg128, REG_T8, .+4   /* T8 = pt_regs + 128 = &pc */
         
-        /* Load PC into REG_T15 - simplified for negated storage */
-        .word   REG_T15, REG_T15, .+4             /* T15 = 0 */
-        .word   REG_T8 | INDIRECT, REG_T15, .+4   /* T15 = -(-pc) = pc */
-        
-        /* Jump to m[REG_T15] = pc value */
-        /* REG_T15 | INDIRECT = 220 | 2 = 222 */
-        .word   REG_T0, REG_T0, 222
+        /* Load PC into SYSCALL_JMPTGT */
+        .word   SYSCALL_JMPTGT, SYSCALL_JMPTGT, .+4  /* SYSCALL_JMPTGT = 0 */
+        .word   REG_T8 | INDIRECT, SYSCALL_JMPTGT, .+4  /* SYSCALL_JMPTGT = -(-pc) = pc */
+
+        /*
+         * STEP 4: Jump to userspace via SYSCALL_JMPTGT
+         *
+         * SYSCALL_JMPTGT contains the return PC. Jump using indirect addressing.
+         * SYSCALL_JMPTGT | INDIRECT = 236 | 2 = 238
+         *
+         * T-registers are NOT restored here - they are caller-saved (temporaries)
+         * and the caller assumes they are clobbered by syscalls.
+         * T-register save/restore is only needed in the INTERRUPT path for
+         * preserving state when signals interrupt runtime helpers.
+         */
+        .word   REG_T0, REG_T0, 238    /* subleq(T0, T0, [SYSCALL_JMPTGT]) = jump to PC */
+
 
 
 
@@ -2501,6 +2665,10 @@ __subleq_syscall:
 .Lsyscall_saved_handler:
         .word   0               /* m[0] saved here while interrupts disabled */
 
+/* Temporary for SYSCALL_SCRATCH address calculations */
+.Lsyscall_scratch_tmp:
+        .word   0
+
 /*
  * ===========================================================================
  * SHARED CONSTANTS SECTION
@@ -2522,6 +2690,10 @@ __subleq_syscall:
         .word   -8              /* For skipping slots */
 .Lconst_neg12:
         .word   -12
+.Lconst_32:
+        .word   32              /* Go back from offset 224 to 192 */
+.Lconst_neg32:
+        .word   -32             /* For SYSCALL_SCRATCH address adjustment */
 .Lconst_neg40:
         .word   -40             /* For pt_regs running pointer (80 -> 120) */
 .Lconst_neg44:
@@ -2552,12 +2724,22 @@ __subleq_syscall:
         .word   -128            /* pt_regs->pc */
 .Lconst_neg136:
         .word   -136            /* pt_regs->syscall_nr */
+.Lconst_neg24:
+        .word   -24             /* Skip from syscall_nr to T0: 136 -> 160 */
+.Lconst_neg160:
+        .word   -160            /* pt_regs->t0 */
+.Lconst_160:
+        .word   160             /* For T-register restore pointer init */
+.Lconst_neg36:
+        .word   -36             /* Skip from RA (124) to T0 (160) */
+.Lconst_neg192:
+        .word   -192            /* pt_regs->t8 offset */
 
 /* pt_regs size for allocation/deallocation */
 .Lconst_pt_size:
-        .word   160             /* PT_SIZE = sizeof(struct pt_regs) */
+        .word   228             /* PT_SIZE = sizeof(struct pt_regs) - includes T-regs and Z */
 .Lconst_neg_pt_size:
-        .word   -160            /* Negative for deallocation */
+        .word   -228            /* Negative for deallocation */
 
 /* Miscellaneous constants */
 .Lconst_1:

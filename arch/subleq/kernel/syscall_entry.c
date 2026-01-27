@@ -37,6 +37,9 @@ void subleq_init_kernel_sp(struct task_struct *tsk);
 /* sys_ni_syscall for unimplemented syscalls */
 extern long sys_ni_syscall(void);
 
+/* Debug output */
+extern void __subleq_putchar(int c);
+
 /*
  * Globals for saving userspace context - set by assembly trampoline.
  * These are defined in entry.S.
@@ -143,10 +146,13 @@ restart_syscall:
 	 * The restart (if SA_RESTART) happens when the handler returns
 	 * via sigreturn.
 	 */
+	__subleq_putchar('S'); /* Syscall about to check signals */
 	if (do_signal(regs)) {
 		/* Signal handler was set up - return to userspace */
+		__subleq_putchar('Y'); /* Yes, signal was delivered */
 		goto out;
 	}
+	__subleq_putchar('N'); /* No signal delivered */
 
 	/*
 	 * No signal was delivered.
@@ -254,6 +260,26 @@ restart_syscall:
 out:
 	/* Mark that we're no longer in a syscall */
 	syscall_wont_restart(regs);
+
+	__subleq_putchar('O'); /* syscall Out */
+
+	/* Debug: print full PC and SP in hex to detect corruption */
+	{
+		unsigned long pc = PT_REG_GET(regs, pc);
+		unsigned long sp = PT_REG_GET(regs, sp);
+		int i;
+		__subleq_putchar('p');
+		for (i = 28; i >= 0; i -= 4) {
+			int nibble = (pc >> i) & 0xF;
+			__subleq_putchar(nibble < 10 ? '0' + nibble : 'a' + nibble - 10);
+		}
+		__subleq_putchar('s');
+		for (i = 28; i >= 0; i -= 4) {
+			int nibble = (sp >> i) & 0xF;
+			__subleq_putchar(nibble < 10 ? '0' + nibble : 'a' + nibble - 10);
+		}
+		__subleq_putchar(' ');
+	}
 
 	/* Return the final value */
 	return PT_REG_GET_SIGNED(regs, r20);

@@ -2,25 +2,26 @@
 /*
  * Subleq signal handling
  *
- * Based on m68k/kernel/signal.c signal handling patterns for NOMMU.
- *
- * NOTE: pt_regs values are stored NEGATED. All access uses PT_REG_GET/SET macros.
+ * This file implements signal delivery and return for the Subleq architecture.
+ * Following the m68k NOMMU pattern as reference.
  */
 
-#include <linux/kernel.h>
 #include <linux/signal.h>
-#include <linux/sched.h>
-#include <linux/sched/signal.h>
-#include <linux/syscalls.h>
 #include <linux/errno.h>
-#include <linux/resume_user_mode.h>
-#include <linux/restart_block.h>
+#include <linux/sched/signal.h>
+#include <linux/sched/task_stack.h>
 #include <linux/uaccess.h>
-#include <linux/unistd.h>
+#include <linux/resume_user_mode.h>
+#include <linux/syscalls.h>
 
 #include <asm/ptrace.h>
-#include <asm/sigcontext.h>
 #include <asm/ucontext.h>
+#include <asm/unistd.h>
+
+/* Debug output - writes directly to VM console */
+extern void __subleq_putchar(int c);
+
+#include <asm/sigcontext.h>
 
 
 
@@ -109,6 +110,25 @@ static int save_sigcontext(struct sigcontext __user *sc, struct pt_regs *regs)
 	err |= __put_user(PT_REG_GET(regs, ra), &sc->sc_regs[31]);
 	err |= __put_user(PT_REG_GET(regs, pc), &sc->sc_pc);
 
+	/* Save T-registers from pt_regs (populated by interrupt entry assembly) */
+	err |= __put_user(PT_REG_GET(regs, t0), &sc->sc_tregs[0]);
+	err |= __put_user(PT_REG_GET(regs, t1), &sc->sc_tregs[1]);
+	err |= __put_user(PT_REG_GET(regs, t2), &sc->sc_tregs[2]);
+	err |= __put_user(PT_REG_GET(regs, t3), &sc->sc_tregs[3]);
+	err |= __put_user(PT_REG_GET(regs, t4), &sc->sc_tregs[4]);
+	err |= __put_user(PT_REG_GET(regs, t5), &sc->sc_tregs[5]);
+	err |= __put_user(PT_REG_GET(regs, t6), &sc->sc_tregs[6]);
+	err |= __put_user(PT_REG_GET(regs, t7), &sc->sc_tregs[7]);
+	err |= __put_user(PT_REG_GET(regs, t8), &sc->sc_tregs[8]);
+	err |= __put_user(PT_REG_GET(regs, t9), &sc->sc_tregs[9]);
+	err |= __put_user(PT_REG_GET(regs, t10), &sc->sc_tregs[10]);
+	err |= __put_user(PT_REG_GET(regs, t11), &sc->sc_tregs[11]);
+	err |= __put_user(PT_REG_GET(regs, t12), &sc->sc_tregs[12]);
+	err |= __put_user(PT_REG_GET(regs, t13), &sc->sc_tregs[13]);
+	err |= __put_user(PT_REG_GET(regs, t14), &sc->sc_tregs[14]);
+	err |= __put_user(PT_REG_GET(regs, t15), &sc->sc_tregs[15]);
+	err |= __put_user(PT_REG_GET(regs, z), &sc->sc_z);
+
 	/* Save syscall restart information */
 	err |= __put_user(PT_REG_GET(regs, orig_r21), &sc->sc_orig_r21);
 	err |= __put_user(PT_REG_GET(regs, orig_a1), &sc->sc_orig_a1);
@@ -166,6 +186,25 @@ static int restore_sigcontext(struct pt_regs *regs, struct sigcontext __user *sc
 	err |= __get_user(val, &sc->sc_regs[30]); PT_REG_SET(regs, sp, val);
 	err |= __get_user(val, &sc->sc_regs[31]); PT_REG_SET(regs, ra, val);
 	err |= __get_user(val, &sc->sc_pc); PT_REG_SET(regs, pc, val);
+
+	/* Restore T-registers to pt_regs (assembly exit will restore to hardware) */
+	err |= __get_user(val, &sc->sc_tregs[0]); PT_REG_SET(regs, t0, val);
+	err |= __get_user(val, &sc->sc_tregs[1]); PT_REG_SET(regs, t1, val);
+	err |= __get_user(val, &sc->sc_tregs[2]); PT_REG_SET(regs, t2, val);
+	err |= __get_user(val, &sc->sc_tregs[3]); PT_REG_SET(regs, t3, val);
+	err |= __get_user(val, &sc->sc_tregs[4]); PT_REG_SET(regs, t4, val);
+	err |= __get_user(val, &sc->sc_tregs[5]); PT_REG_SET(regs, t5, val);
+	err |= __get_user(val, &sc->sc_tregs[6]); PT_REG_SET(regs, t6, val);
+	err |= __get_user(val, &sc->sc_tregs[7]); PT_REG_SET(regs, t7, val);
+	err |= __get_user(val, &sc->sc_tregs[8]); PT_REG_SET(regs, t8, val);
+	err |= __get_user(val, &sc->sc_tregs[9]); PT_REG_SET(regs, t9, val);
+	err |= __get_user(val, &sc->sc_tregs[10]); PT_REG_SET(regs, t10, val);
+	err |= __get_user(val, &sc->sc_tregs[11]); PT_REG_SET(regs, t11, val);
+	err |= __get_user(val, &sc->sc_tregs[12]); PT_REG_SET(regs, t12, val);
+	err |= __get_user(val, &sc->sc_tregs[13]); PT_REG_SET(regs, t13, val);
+	err |= __get_user(val, &sc->sc_tregs[14]); PT_REG_SET(regs, t14, val);
+	err |= __get_user(val, &sc->sc_tregs[15]); PT_REG_SET(regs, t15, val);
+	err |= __get_user(val, &sc->sc_z); PT_REG_SET(regs, z, val);
 
 	/* Restore syscall restart information */
 	err |= __get_user(val, &sc->sc_orig_r21); PT_REG_SET(regs, orig_r21, val);
@@ -372,12 +411,17 @@ static void handle_signal(struct ksignal *ksig, struct pt_regs *regs)
 	sigset_t *oldset = sigmask_to_save();
 	int err;
 
+	__subleq_putchar('H'); /* Handle signal entry */
+	__subleq_putchar('0' + ksig->sig); /* Signal number */
+
 	/* Handle syscall restart if we came from a syscall */
 	if (in_syscall(regs))
 		handle_restart(regs, &ksig->ka, 1);
 
 	/* Set up the signal frame */
 	err = setup_rt_frame(ksig, oldset, regs);
+
+	__subleq_putchar(err ? 'E' : 'F'); /* Frame setup result */
 
 	/* Report signal setup status */
 	signal_setup_done(err, ksig, 0);
@@ -401,14 +445,18 @@ bool do_signal(struct pt_regs *regs)
 {
 	struct ksignal ksig;
 
+	__subleq_putchar('D'); /* do_signal entry */
+
 	/*
 	 * Check if there's a signal to deliver.
 	 * get_signal() returns true if a signal needs to be delivered.
 	 * It also handles signal stopping, coredumps, and sets up ksig.
 	 */
 	if (get_signal(&ksig)) {
+		__subleq_putchar('G'); /* Got signal */
 		/* Deliver the signal */
 		handle_signal(&ksig, regs);
+		__subleq_putchar('T'); /* do_signal returning true */
 		return true;  /* Signal handler was set up */
 	}
 
@@ -467,6 +515,8 @@ asmlinkage long sys_rt_sigreturn(void)
 	struct rt_sigframe __user *frame;
 	sigset_t set;
 
+	__subleq_putchar('R'); /* sigreturn entry */
+
 	/*
 	 * The signal frame is at SP - 4.
 	 *
@@ -486,9 +536,13 @@ asmlinkage long sys_rt_sigreturn(void)
 
 	set_current_blocked(&set);
 
+	__subleq_putchar('M'); /* Mask restored */
+
 	/* Restore registers */
 	if (restore_sigcontext(regs, &frame->uc.uc_mcontext))
 		goto badframe;
+
+	__subleq_putchar('C'); /* Context restored */
 
 	/* Restore alternate signal stack */
 	if (restore_altstack(&frame->uc.uc_stack))
@@ -541,6 +595,7 @@ asmlinkage long sys_rt_sigreturn(void)
 					 * The restarted syscall may have been interrupted again.
 					 * Let do_signal handle any pending signals.
 					 */
+					__subleq_putchar('1'); /* do_signal from restart path */
 					do_signal(regs);
 				}
 			}
@@ -559,6 +614,7 @@ asmlinkage long sys_rt_sigreturn(void)
 			 * The restart function may have been interrupted again.
 			 * Let do_signal handle any pending signals.
 			 */
+			__subleq_putchar('2'); /* do_signal from restart block */
 			do_signal(regs);
 			break;
 		}
@@ -575,9 +631,11 @@ asmlinkage long sys_rt_sigreturn(void)
 	/*
 	 * Return the final R20 value.
 	 */
+	__subleq_putchar('X'); /* sigreturn exit */
 	return PT_REG_GET_SIGNED(regs, r20);
 
 badframe:
+	__subleq_putchar('B'); /* BAD FRAME! */
 	force_sig(SIGSEGV);
 	return 0;
 }

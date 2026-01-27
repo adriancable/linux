@@ -7,8 +7,10 @@
 #define _UAPI_ASM_SUBLEQ_SIGCONTEXT_H
 
 struct sigcontext {
-	unsigned long sc_regs[32]; /* Saved registers */
-	unsigned long sc_pc; /* Saved PC */
+	unsigned long sc_regs[32]; /* Saved GPRs */
+	unsigned long sc_pc;       /* Saved PC */
+	unsigned long sc_tregs[16]; /* Saved T-registers (T0-T15) */
+	unsigned long sc_z;        /* Saved Z register */
 	/* Syscall restart information */
 	unsigned long sc_orig_r21;  /* Original syscall number */
 	unsigned long sc_orig_a1;   /* Original arg1 */
@@ -19,3 +21,4 @@ struct sigcontext {
 };
 
 #endif /* _UAPI_ASM_SUBLEQ_SIGCONTEXT_H */
+

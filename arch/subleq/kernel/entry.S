@@ -79,8 +79,8 @@
 .set SAVE_JMPTGT, 240    /* Interrupt return jump target address (word 60) */
 .set SW_Z, 244           /* Context switch scratch (word 61) */
 .set SW_Z2, 248          /* Context switch second scratch (word 62) */
-/* Words 63-65 (252-260) = CLOCK_S_LO, CLOCK_S_HI, CLOCK_NS - DO NOT USE */
-.set SYSCALL_SCRATCH, 264 /* Syscall return address pointer (word 66) - saved/restored by IRQ handler */
+.set SYSCALL_SCRATCH, 252 /* Syscall return address pointer (word 63) - saved/restored by IRQ handler */
+/* Words 64-67 (256-271) = struct timespec for clock (16 bytes on 64-bit host) - DO NOT USE */
 
 /*
  * Interrupt entry point

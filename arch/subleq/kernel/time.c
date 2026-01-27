@@ -25,18 +25,18 @@
 #include <asm/io.h>
 
 /*
- * Subleq Clock Registers (words 63-65, bytes 252-260)
+ * Subleq Clock Registers (words 64-66, bytes 256-264)
  *
  * The VM provides the current time with nanosecond resolution:
- *   CLOCK_S_LO (word 63, byte 252): Low 32 bits of 64-bit seconds
- *   CLOCK_S_HI (word 64, byte 256): High 32 bits of 64-bit seconds
- *   CLOCK_NS   (word 65, byte 260): Nanoseconds (0-999999999)
+ *   CLOCK_S_LO (word 64, byte 256): Low 32 bits of 64-bit seconds
+ *   CLOCK_S_HI (word 65, byte 260): High 32 bits of 64-bit seconds
+ *   CLOCK_NS   (word 66, byte 264): Nanoseconds (0-999999999)
  *
  * These values are updated by the VM continuously (not just at interrupts).
  */
-#define SUBLEQ_CLOCK_S_LO	252
-#define SUBLEQ_CLOCK_S_HI	256
-#define SUBLEQ_CLOCK_NS		260
+#define SUBLEQ_CLOCK_S_LO	256
+#define SUBLEQ_CLOCK_S_HI	260
+#define SUBLEQ_CLOCK_NS		264
 
 /*
  * Read current time as nanoseconds since boot.
@@ -134,7 +134,7 @@ extern void subleq_dummy_irq_handler(void);
 /*
  * Read time from the persistent clock.
  *
- * The Subleq VM provides nanosecond-resolution time at words 63-65:
+ * The Subleq VM provides nanosecond-resolution time at words 64-66:
  *   - CLOCK_S_LO/HI: 64-bit seconds since 1970
  *   - CLOCK_NS: nanoseconds (0-999999999)
  *

@@ -11,6 +11,12 @@
  * This function just dispatches to the appropriate syscall.
  *
  * NOTE: pt_regs values are stored NEGATED. All access uses PT_REG_GET/SET macros.
+ *
+ * Architecture notes:
+ * - This is a NOMMU architecture, so we don't use the full generic entry
+ *   infrastructure (enter_from_user_mode/exit_to_user_mode/context_tracking).
+ * - We don't support syscall tracing (strace), seccomp, or audit currently.
+ * - Signal handling and syscall restart are fully implemented.
  */
 
 #include <linux/syscalls.h>
@@ -197,32 +203,14 @@ restart_syscall:
 		cond_resched();
 		goto restart_syscall;
 
-	case -ERESTARTSYS:
-	case -ERESTARTNOHAND:
-		/*
-		 * IMPORTANT: These restart codes REQUIRE proper signal handling!
-		 *
-		 * ERESTARTSYS means: "restart if SA_RESTART or no signal to deliver"
-		 * ERESTARTNOHAND means: "restart if no signal handler"
-		 *
-		 * The problem is that the syscall returns these because TIF_SIGPENDING
-		 * is set (e.g., by timer interrupt). Without proper signal delivery:
-		 * - The "pending signal" is never cleared
-		 * - The syscall immediately sees TIF_SIGPENDING again
-		 * - Returns ERESTARTSYS again → infinite loop!
-		 *
-		 * The correct fix requires implementing signal delivery so that:
-		 * 1. do_signal() checks for real pending signals
-		 * 2. If none, clears TIF_SIGPENDING and restarts
-		 * 3. If signal exists, delivers it (possibly with restart after)
-		 *
-		 * For now, convert to EINTR. This may cause some syscalls to
-		 * fail that would otherwise restart, but it prevents hangs.
-		 * When signal delivery is implemented, this can be changed.
-		 */
-		ret = -EINTR;
-		PT_REG_SET_SIGNED(regs, r20, ret);
-		break;
+	/*
+	 * Note: ERESTARTSYS and ERESTARTNOHAND are NOT handled here.
+	 * do_signal() -> handle_restart() converts these codes:
+	 * - If a signal handler exists: may convert to EINTR or keep for SA_RESTART
+	 * - If no handler: converts to ERESTARTNOINTR to trigger restart
+	 * So by the time we reach this switch, these codes have already
+	 * been transformed and will hit the ERESTARTNOINTR case above.
+	 */
 
 	case -ERESTART_RESTARTBLOCK: {
 		/*
@@ -241,15 +229,20 @@ restart_syscall:
 		PT_REG_SET_SIGNED(regs, r20, ret);
 		/*
 		 * The restart function may have been interrupted again.
-		 * Loop around to handle any pending signals or further restarts.
+		 * Handle any pending signals first.
 		 */
-		if (ret == -ERESTART_RESTARTBLOCK || ret == -ERESTARTNOINTR ||
-		    ret == -ERESTARTSYS || ret == -ERESTARTNOHAND) {
-			if (do_signal(regs))
-				goto out;
-			ret = PT_REG_GET_SIGNED(regs, r20);
-			/* Continue the switch to handle the new error code */
-		}
+		if (do_signal(regs))
+			goto out;
+		ret = PT_REG_GET_SIGNED(regs, r20);
+		/*
+		 * If we got another restart code (e.g. ERESTARTNOINTR),
+		 * we need to actually restart the original syscall.
+		 * handle_restart() in signal.c converts ERESTARTSYS/ERESTARTNOHAND
+		 * to ERESTARTNOINTR when there's no handler, so check for that.
+		 */
+		if (ret == -ERESTARTNOINTR)
+			goto restart_syscall;
+		/* For other restart codes or success, fall through to exit */
 		break;
 	}
 	}

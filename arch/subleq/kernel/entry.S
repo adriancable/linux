@@ -2427,7 +2427,7 @@ __subleq_syscall:
          * For sigreturn: restore_sigcontext overwrites with original values
          *
          * pt_regs layout after PC (offset 128):
-         *   syscall_nr: 132, orig_r21: 136, orig_a1-a4: 140-156
+         *   orig_r20: 132, syscall_nr: 136, orig_r21: 140, orig_a1-a4: 144-156
          *   t0-t15: 160-220, z: 224
          *
          * Continue from T9 at offset 128, need to reach T0 at offset 160 (gap of 32)

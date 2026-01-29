@@ -511,7 +511,13 @@ asmlinkage long sys_rt_sigreturn(void)
 	struct rt_sigframe __user *frame;
 	sigset_t set;
 
-
+	/*
+	 * Always make any pending restarted system calls return -EINTR.
+	 * This prevents stale restart_block functions from being called
+	 * if the signal handler corrupted the restart_block.
+	 * Following the RISC-V pattern (arch/riscv/kernel/signal.c).
+	 */
+	current->restart_block.fn = do_no_restart_syscall;
 
 	/*
 	 * The signal frame is at SP - 4.

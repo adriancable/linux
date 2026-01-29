@@ -227,14 +227,10 @@ int subleq_do_work(struct pt_regs *regs)
 	 */
 	if (work_flags & (_TIF_SIGPENDING | _TIF_NOTIFY_RESUME | _TIF_NOTIFY_SIGNAL)) {
 		/*
-		 * Mark that we're NOT in a syscall for signal delivery.
-		 * This prevents do_signal from attempting syscall restart.
-		 */
-		syscall_wont_restart(regs);
-
-		/*
-		 * Deliver signals. This may modify regs to redirect
-		 * execution to a signal handler.
+		 * IRQ entry assembly already sets syscall_nr = -1, so
+		 * do_signal() won't attempt syscall restart. Just deliver
+		 * the signal. This may modify regs to redirect execution
+		 * to a signal handler.
 		 */
 		do_notify_resume(regs);
 

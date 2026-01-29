@@ -7,10 +7,7 @@
  * - Jumps to handler address in m[0]
  *
  * The low-level assembly entry point is in entry.S (subleq_irq_entry).
- * It calls subleq_do_IRQ() and returns to the interrupted code.
- *
- * IMPORTANT: The interrupt handler uses a dedicated stack to avoid
- * corruption when interrupts fire while SP is being modified.
+ * It uses the current task's kernel stack (not a dedicated IRQ stack).
  */
 
 #include <linux/init.h>
@@ -32,51 +29,6 @@
 #define INT_HANDLER_ADDR ((volatile unsigned long *)0)
 #define INT_SAVED_PC_ADDR ((volatile unsigned long *)4)
 #define INT_SAVED_HANDLER ((volatile unsigned long *)8)
-
-/*
- * Dedicated interrupt stack (8KB)
- *
- * This stack is used by the interrupt handler to avoid corruption when
- * an interrupt fires while the main code's SP is in an invalid state
- * (e.g., being cleared in preparation for reloading).
- *
- * The subleq_irq_stack_top pointer is exported to assembly (entry.S)
- * and is loaded into SP at the very start of the interrupt handler.
- *
- * IMPORTANT: This must be initialized VERY early, before start_kernel(),
- * because interrupts can fire at any time after that.
- */
-#define IRQ_STACK_SIZE 16384  /* Must match PAGE_SIZE in asm/page.h */
-static unsigned long irq_stack[IRQ_STACK_SIZE / sizeof(unsigned long)] __aligned(4);
-
-/* Pointer to top of interrupt stack - accessed from entry.S */
-unsigned long subleq_irq_stack_top;
-
-/*
- * INT_SP - The IRQ Stack Pointer register (byte address 236, word 59)
- *
- * This is a memory-mapped "register" that tracks the current position
- * in the IRQ stack. Each interrupt push decrements it, each pop increments it.
- * This allows multiple interrupt frames to coexist on the IRQ stack,
- * enabling preemptive multitasking.
- */
-#define INT_SP_ADDR ((volatile unsigned long *)236)
-
-/*
- * Early IRQ stack initialization - must be called before start_kernel()
- * This is called from subleq_start() in setup.c
- */
-void __init early_irq_stack_init(void)
-{
-	/* Stack grows downward, so stack_top points to just past the end */
-	subleq_irq_stack_top = (unsigned long)&irq_stack[IRQ_STACK_SIZE / sizeof(unsigned long)];
-
-	/*
-	 * Initialize INT_SP to the top of the IRQ stack.
-	 * As interrupts fire, INT_SP will decrement with each pushed frame.
-	 */
-	*INT_SP_ADDR = subleq_irq_stack_top;
-}
 
 /* subleq_irq_entry declared in asm/ptrace.h as char[] for address range checking */
 
@@ -126,19 +78,14 @@ void subleq_do_IRQ(struct pt_regs *regs)
 void __init init_IRQ(void)
 {
 	/*
-	 * NOTE: The interrupt stack was already initialized in
-	 * early_irq_stack_init() called from subleq_start().
-	 */
-
-	/*
 	 * Install our assembly interrupt handler.
 	 * Set m[2] (saved handler) to the handler address.
 	 * m[0] stays 0 (disabled) until local_irq_enable() is called.
 	 */
 	*INT_SAVED_HANDLER = (unsigned long)subleq_irq_entry;
 
-	pr_info("Subleq IRQ: handler installed at 0x%lx, stack at 0x%lx\n",
-		(unsigned long)subleq_irq_entry, subleq_irq_stack_top);
+	pr_info("Subleq IRQ: handler installed at 0x%lx\n",
+		(unsigned long)subleq_irq_entry);
 }
 
 /*

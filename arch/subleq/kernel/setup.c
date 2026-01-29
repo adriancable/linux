@@ -97,22 +97,12 @@ static void __init clear_bss(void)
  */
 extern asmlinkage void __noreturn start_kernel(void);
 
-/* Early IRQ stack initialization - defined in irq.c */
-extern void early_irq_stack_init(void);
-
 /* Kernel stack pointer initialization - defined in syscall_entry.c */
 extern void subleq_init_kernel_sp(struct task_struct *tsk);
 
 asmlinkage void __init __noreturn subleq_start(void)
 {
 	clear_bss();
-
-	/*
-	 * Initialize the IRQ stack IMMEDIATELY after BSS is cleared.
-	 * This must happen before start_kernel() because interrupts
-	 * can fire at any point during kernel initialization.
-	 */
-	early_irq_stack_init();
 
 	/*
 	 * Initialize the kernel stack pointer for the init task.

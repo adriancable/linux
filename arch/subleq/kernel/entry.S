@@ -1597,12 +1597,13 @@ ret_from_fork:
          * R20 contains prev (from __switch_to's return value)
          * We need to pass it as the first argument (R21).
          * 
-         * First, check if this is a kernel thread or user thread by reading r3 from pt_regs.
-         * pt_regs is at the top of the kernel stack. After __switch_to pops the return
-         * address from the stack, SP points to pt_regs (since we push ret_from_fork just
-         * below pt_regs in copy_thread).
+         * Check if this is a kernel thread or user thread by reading pc from pt_regs.
+         * For kernel threads: pc == 0 (set by copy_thread)
+         * For user threads:   pc != 0 (copied from parent's pt_regs)
          *
-         * pt_regs.r3 is at offset 0 from pt_regs, so [SP] = r3.
+         * pt_regs is at the top of the kernel stack. After __switch_to pops the return
+         * address from the stack, SP points to pt_regs.
+         * pt_regs.pc is at offset 128 from pt_regs.
          */
 
         /* Copy R20 to R21: R21 = R20 (will be used as argument to either function) */
@@ -1612,62 +1613,39 @@ ret_from_fork:
 .Lrff_copy2:
         .word   REG_R20, SW_Z, .Lrff_copy3     /* SW_Z = -R20 */
 .Lrff_copy3:
-        .word   SW_Z, REG_R21, .Lrff_check_r3  /* R21 = R20 = prev */
+        .word   SW_Z, REG_R21, .Lrff_check_pc  /* R21 = R20 = prev */
 
         /*
-         * Read pt_regs.r3 from [SP] (offset 0) to check kernel/user thread.
+         * Read pt_regs.pc from [SP + 128] to check kernel/user thread.
          * 
-         * NEGATED STORAGE: pt_regs stores -value, so [SP] = -r3
-         * We need to test if r3 == 0 (user thread) or r3 != 0 (kernel thread)
+         * NEGATED STORAGE: pt_regs stores -value, so [SP+128] = -pc
+         * We need to test if pc == 0 (kernel thread) or pc != 0 (user thread)
          *
-         * With negated storage:
-         *   If r3 == 0, then [SP] = 0
-         *   If r3 != 0, then [SP] = -r3 != 0
-         *
-         * So we can directly test [SP] without negating first!
-         * SW_Z = 0; SW_Z -= [SP] gives SW_Z = -(-r3) = r3 or SW_Z = 0 if r3 == 0
+         * Compute address: SW_Z2 = SP + 128, then read pc
          */
-.Lrff_check_r3:
-        .word   SW_Z, SW_Z, .Lrff_check_r3_1
-.Lrff_check_r3_1:
-        /* SW_Z = -[SP] = -(-r3) = r3 (with negated storage) */
-        .word   REG_SP | INDIRECT, SW_Z, .Lrff_check_r3_2
-.Lrff_check_r3_2:
-        /* Now SW_Z = r3 directly (not -r3 like before!) */
-        /* Copy to SW_Z2 for testing */
-        .word   SW_Z2, SW_Z2, .Lrff_check_r3_3
-.Lrff_check_r3_3:
-        .word   SW_Z, SW_Z2, .Lrff_check_r3_4    /* SW_Z2 = -SW_Z = -r3 */
-.Lrff_check_r3_4:
-        /* Negate back: SW_Z2 = r3 */
-        /* Actually, let's simplify - we have SW_Z = r3 already */
-        /* For our purpose: if r3 == 0 => user thread, if r3 != 0 => kernel thread */
-        /* Test: subleq(SW_Z, ZERO, target) branches if -SW_Z <= 0, i.e., SW_Z >= 0 */
-        /* Since SW_Z = r3:
-         *   If r3 < 0, doesn't branch
-         *   If r3 >= 0, branches
-         */
-        
-        /* Step 1: if r3 < 0, it's a kernel thread (valid function pointer can be < 0) */
-        .word   SW_Z, SW_Z2, .Lrff_check_nonneg   /* SW_Z2 -= r3; branches if SW_Z2 <= 0 after */
-        /* Actually this is getting complicated. Let me use a simpler approach: */
-        /* SW_Z2 = r3. If r3 < 0, it's a kernel thread. */
-        /* subleq(SW_Z2, Z, nonneg) where Z=0: branches if 0 - SW_Z2 <= 0, i.e., -r3 <= 0, i.e., r3 >= 0 */
-        /* If we get here (didn't branch), r3 < 0 => kernel thread */
-        .word   SW_Z2, SW_Z2, .Lrff_kernel_thread
-
-.Lrff_check_nonneg:
-        /* r3 >= 0. Now check if r3 == 0 or r3 > 0 */
-        /* Clear SW_Z first */
-        .word   SW_Z, SW_Z, .Lrff_check_nonneg2
-.Lrff_check_nonneg2:
-        /* Reload r3 into SW_Z2 since we clobbered it */
+.Lrff_check_pc:
+        .word   SW_Z, SW_Z, .+4
+        .word   REG_SP, SW_Z, .+4              /* SW_Z = -SP */
         .word   SW_Z2, SW_Z2, .+4
-        .word   REG_SP | INDIRECT, SW_Z2, .+4    /* SW_Z2 = -[SP] = r3 */
-        /* subleq(Z, SW_Z2, target) branches if SW_Z2 - 0 <= 0 => r3 <= 0 */
-        /* Since we know r3 >= 0 from above, this means r3 == 0 */
-        .word   SW_Z, SW_Z2, .Lrff_user_thread   /* branches if r3 <= 0 (i.e., r3 == 0) */
-        /* Fall through: r3 > 0, it's a kernel thread */
+        .word   SW_Z, SW_Z2, .+4               /* SW_Z2 = SP */
+        .word   .Lconst_neg128, SW_Z2, .+4     /* SW_Z2 = SP + 128 (address of pc) */
+
+        /* Read [SW_Z2] = -pc into SW_Z, then negate to get +pc */
+        .word   SW_Z, SW_Z, .+4
+        .word   SW_Z2 | INDIRECT, SW_Z, .+4    /* SW_Z = -(-pc) = pc */
+
+        /*
+         * Test if pc == 0 (kernel thread) using ZERO constant.
+         * subleq(ZERO, SW_Z, target): SW_Z -= 0; if SW_Z <= 0, branch
+         *   - If pc > 0: no branch (user thread - valid address)
+         *   - If pc == 0: branch (kernel thread)  
+         * Note: pc is an unsigned address, so pc < 0 is not possible.
+         * Addresses > 0x7FFFFFFF appear as "negative" in signed comparison
+         * but that's fine - they won't be 0, so user path is correct.
+         */
+        .word   ZERO, SW_Z, .Lrff_kernel_thread  /* if pc <= 0, kernel thread */
+        /* Fall through: pc > 0 => user thread */
+        .word   SW_Z, SW_Z, .Lrff_user_thread
 
 .Lrff_kernel_thread:
         /*

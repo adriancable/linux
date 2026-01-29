@@ -253,7 +253,7 @@ int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
 	if (usp)
 		PT_REG_SET(childregs, sp, usp);
 	PT_REG_SET(childregs, r20, 0); /* Return 0 in child */
-	PT_REG_SET(childregs, r3, 0);  /* Mark as user thread (ret_from_fork checks this) */
+	/* Note: r3 is NOT cleared - we use pc==0 to detect kernel threads */
 	/*
 	 * Mark not in syscall for the child.
 	 * Even though the parent is in clone/fork syscall, the child is

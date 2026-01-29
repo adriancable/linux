@@ -512,14 +512,6 @@ asmlinkage long sys_rt_sigreturn(void)
 	sigset_t set;
 
 	/*
-	 * Always make any pending restarted system calls return -EINTR.
-	 * This prevents stale restart_block functions from being called
-	 * if the signal handler corrupted the restart_block.
-	 * Following the RISC-V pattern (arch/riscv/kernel/signal.c).
-	 */
-	current->restart_block.fn = do_no_restart_syscall;
-
-	/*
 	 * The signal frame is at SP - 4.
 	 *
 	 * When the handler's RET pops the return address, SP points to the frame.
@@ -612,16 +604,18 @@ asmlinkage long sys_rt_sigreturn(void)
 			struct restart_block *restart = &current->restart_block;
 			PT_REG_SET_SIGNED(regs, r20, restart->fn(restart));
 
-			/*
-			 * The restart function may have been interrupted again.
-			 * Let do_signal handle any pending signals.
-			 */
-			__subleq_putchar('B');  /* DEBUG: restart_block */
 			do_signal(regs);
 			break;
 		}
 		}
 	}
+
+	/*
+	 * Now that restart handling is complete, invalidate the restart_block
+	 * to prevent stale restart functions from being called if the signal
+	 * handler corrupted it. This MUST come after the restart handling above.
+	 */
+	current->restart_block.fn = do_no_restart_syscall;
 
 	/*
 	 * Mark that we're NOT in a syscall.

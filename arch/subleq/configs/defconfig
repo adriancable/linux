@@ -83,3 +83,6 @@ CONFIG_CMDLINE_FORCE=y
 # CONFIG_HID_SUPPORT is not set
 # CONFIG_USB_SUPPORT is not set
 # CONFIG_RUNTIME_TESTING_MENU is not set
+
+# Default hostname
+CONFIG_DEFAULT_HOSTNAME="eternal"

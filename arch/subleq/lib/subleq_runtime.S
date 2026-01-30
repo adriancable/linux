@@ -52635,8 +52635,10 @@ __subleq_sb:
         .word   12, 164, .Lsb_mask
 .Lsb_mask:
         .word   180, 180, .+4
+        .word   .Lsb_min, 164, .Lsb_mask_chk31
+        .word   12, 12, .Lsb_mask_b30
+.Lsb_mask_chk31:
         .word   164, 180, .Lsb_mask_b30
-        .word   .Lsb_min, 164, .Lsb_mask_b30
 .Lsb_mask_b30:
         .word   .Lsb_pow1073741824, 164, .Lsb_mask_c30
         .word   12, 12, .Lsb_mask_b29
@@ -55899,7 +55901,6 @@ __subleq_lh:
 .Llh_c1073741824: .word 1073741824
 .Llh_n1073741824: .word -1073741824
 .Llh_min: .word -2147483648
-.Llh_two: .word 2
 
         .size   __subleq_lh, . - __subleq_lh
 
@@ -55918,8 +55919,10 @@ __subleq_sh:
         .word   12, 164, .Lsh_mask
 .Lsh_mask:
         .word   180, 180, .+4
+        .word   .Lsh_min, 164, .Lsh_mask_chk31
+        .word   12, 12, .Lsh_mask_b30
+.Lsh_mask_chk31:
         .word   164, 180, .Lsh_mask_b30
-        .word   .Lsh_min, 164, .Lsh_mask_b30
 .Lsh_mask_b30:
         .word   .Lsh_pow1073741824, 164, .Lsh_mask_c30
         .word   12, 12, .Lsh_mask_b29
@@ -61253,8 +61256,10 @@ __subleq_memset:
         .word 180, 180, .Lmemset_normal_path_start
 .Lmemset_normal_path_start:
         .word 180, 180, .+4
+        .word .Lmemset_min, 104, .Lmemset_mask_chk31
+        .word 12, 12, .Lmemset_mask_b30
+.Lmemset_mask_chk31:
         .word 104, 180, .Lmemset_mask_b30
-        .word .Lmemset_min, 104, .Lmemset_mask_b30
 .Lmemset_mask_b30:
         .word .Lmemset_pow1073741824, 104, .Lmemset_mask_chk30
         .word 12, 12, .Lmemset_mask_b29

@@ -2395,91 +2395,17 @@ __subleq_syscall:
         .word   subleq_syscall_saved_ra, REG_T9 | INDIRECT, .+4
 
         /*
-         * STEP 4a-tregs: Initialize T-register and Z slots in pt_regs to ZERO
+         * NOTE: T-registers (T0-T15) and Z are NOT initialized here.
          *
-         * CRITICAL: The syscall return path now restores T-regs and Z from pt_regs.
-         * Syscall entry does NOT save T-regs (they're caller-saved), so these
-         * slots contain garbage unless we initialize them.
+         * These are caller-saved scratch registers. For normal syscalls, userspace
+         * doesn't expect them to be preserved. For rt_sigreturn, restore_sigcontext()
+         * overwrites these slots with the original values from the signal frame
+         * before the syscall return path restores them.
          *
-         * For normal syscalls: T-regs/Z get restored to 0 (fine, caller-saved)
-         * For sigreturn: restore_sigcontext overwrites with original values
-         *
-         * pt_regs layout after PC (offset 128):
-         *   orig_r20: 132, syscall_nr: 136, orig_r21: 140, orig_a1-a4: 144-156
-         *   t0-t15: 160-220, z: 224
-         *
-         * Continue from T9 at offset 128, need to reach T0 at offset 160 (gap of 32)
+         * The pt_regs T-reg slots will contain garbage for normal syscalls, but
+         * that's fine - the syscall return path restores them, and userspace
+         * treats them as clobbered by any function call anyway.
          */
-
-        /* Skip from PC (128) to T0 (160): advance by 32 */
-        .word   .Lconst_neg32, REG_T9, .+4
-
-        /* Zero T0 (offset 160) - store 0 as NEGATED = 0 */
-        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4  /* [T9] = 0 */
-
-        /* Zero T1 (offset 164) */
-        .word   .Lconst_neg4, REG_T9, .+4
-        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-
-        /* Zero T2 (offset 168) */
-        .word   .Lconst_neg4, REG_T9, .+4
-        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-
-        /* Zero T3 (offset 172) */
-        .word   .Lconst_neg4, REG_T9, .+4
-        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-
-        /* Zero T4 (offset 176) */
-        .word   .Lconst_neg4, REG_T9, .+4
-        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-
-        /* Zero T5 (offset 180) */
-        .word   .Lconst_neg4, REG_T9, .+4
-        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-
-        /* Zero T6 (offset 184) */
-        .word   .Lconst_neg4, REG_T9, .+4
-        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-
-        /* Zero T7 (offset 188) */
-        .word   .Lconst_neg4, REG_T9, .+4
-        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-
-        /* Zero T8 (offset 192) */
-        .word   .Lconst_neg4, REG_T9, .+4
-        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-
-        /* Zero T9 (offset 196) */
-        .word   .Lconst_neg4, REG_T9, .+4
-        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-
-        /* Zero T10 (offset 200) */
-        .word   .Lconst_neg4, REG_T9, .+4
-        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-
-        /* Zero T11 (offset 204) */
-        .word   .Lconst_neg4, REG_T9, .+4
-        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-
-        /* Zero T12 (offset 208) */
-        .word   .Lconst_neg4, REG_T9, .+4
-        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-
-        /* Zero T13 (offset 212) */
-        .word   .Lconst_neg4, REG_T9, .+4
-        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-
-        /* Zero T14 (offset 216) */
-        .word   .Lconst_neg4, REG_T9, .+4
-        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-
-        /* Zero T15 (offset 220) */
-        .word   .Lconst_neg4, REG_T9, .+4
-        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
-
-        /* Zero Z (offset 224) */
-        .word   .Lconst_neg4, REG_T9, .+4
-        .word   REG_T9 | INDIRECT, REG_T9 | INDIRECT, .+4
 
         /*
          * STEP 4a-final: RE-ENABLE INTERRUPTS

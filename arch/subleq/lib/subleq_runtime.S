@@ -37262,18 +37262,35 @@ __subleq_and:
         .word   -4
 .Land_chk_r22_fast:
         .word   144, 104, .Land_r22_le0_fast
-        .word   12, 12, .Land_Bit31
+        .word   12, 12, .Land_small_check
 .Land_r22_le0_fast:
         .word   160, 160, .+4
         .word   104, 160, .+4
         .word   144, 160, .Land_r22_ambig
-        .word   12, 12, .Land_Bit31
+        .word   12, 12, .Land_small_check
 .Land_r22_ambig:
         .word   160, 160, .+4
         .word   104, 160, .+4
         .word   .Land_one, 160, .+4
         .word   144, 160, .Land_ret_zero
-        .word   12, 12, .Land_Bit31
+        .word   12, 12, .Land_small_check
+.Land_small_check:
+        .word   144, 100, .Land_Bit31
+        .word   144, 104, .Land_Bit31
+        .word   164, 164, .+4
+        .word   100, 164, .+4
+        .word   .Land_n256, 164, .+4
+        .word   144, 164, .Land_Bit31
+        .word   164, 164, .+4
+        .word   104, 164, .+4
+        .word   .Land_n256, 164, .+4
+        .word   144, 164, .Land_Bit31
+.Land_fast_8bit:
+        .word   160, 160, .+4
+        .word   96, 96, .+4
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+        .word   12, 12, .Land_b7_PP
 .Land_Bit31:
         .word   160, 160, .+4
         .word   96, 96, .+4
@@ -38199,6 +38216,8 @@ __subleq_and:
         .word   1
 .Land_n1:
         .word   -1
+.Land_n256:
+        .word   -256
 .Land_pow30:
         .word   1073741824
 .Land_npow30:

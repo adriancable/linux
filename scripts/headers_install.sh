@@ -24,12 +24,12 @@ TMPFILE=$OUTFILE.tmp
 trap 'rm -f $OUTFILE $TMPFILE' EXIT
 
 # SPDX-License-Identifier with GPL variants must have "WITH Linux-syscall-note"
-if [ -n "$(sed -n -e "/SPDX-License-Identifier:.*GPL-/{/WITH Linux-syscall-note/!p}" $INFILE)" ]; then
+if [ -n "$(${SED:-sed} -n -e "/SPDX-License-Identifier:.*GPL-/{/WITH Linux-syscall-note/!p}" $INFILE)" ]; then
 	echo "error: $INFILE: missing \"WITH Linux-syscall-note\" for SPDX-License-Identifier" >&2
 	exit 1
 fi
 
-sed -E -e '
+${SED:-sed} -E -e '
 	s/([[:space:](])(__user|__force|__iomem)[[:space:]]/\1/g
 	s/__attribute_const__([[:space:]]|$)/\1/g
 	s@^#include <linux/compiler.h>@@
@@ -42,7 +42,7 @@ scripts/unifdef -U__KERNEL__ -D__EXPORTED_HEADERS__ $TMPFILE > $OUTFILE
 [ $? -gt 1 ] && exit 1
 
 # Remove /* ... */ style comments, and find CONFIG_ references in code
-configs=$(sed -e '
+configs=$(${SED:-sed} -e '
 :comment
 	s:/\*[^*][^*]*:/*:
 	s:/\*\*\**\([^/]\):/*\1:

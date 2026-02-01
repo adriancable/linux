@@ -18,6 +18,7 @@ config SUBLEQ
 	select ARCH_HAS_STRNCPY_FROM_USER
 	select ARCH_HAS_STRNLEN_USER
 	select HAVE_PREEMPT_LAZY
+	select ARCH_SUPPORTS_LTO_CLANG
 	help
 	  Subleq is a One Instruction Set Computer (OISC) where the only
 	  operation is "subtract and branch if less than or equal to zero."

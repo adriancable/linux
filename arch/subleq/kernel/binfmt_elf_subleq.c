@@ -481,33 +481,39 @@ static int process_relr_section(u32 *relr_data, size_t relr_size,
 	size_t i;
 	u32 base = 0;
 	int relocs_applied = 0;
+	/* Pre-compute the address adjustment to avoid repeated subtraction */
+	unsigned long addr_adj = load_addr - base_vaddr;
 
 	for (i = 0; i < nentries; i++) {
 		u32 entry = relr_data[i];
 
 		if ((entry & 1) == 0) {
 			/* Address entry: relocate this single location */
-			u32 *patch_addr = (u32 *)(load_addr + (entry - base_vaddr));
-			u32 old_val = *patch_addr;
+			u32 *patch_addr = (u32 *)(addr_adj + entry);
 			*patch_addr += load_offset;
-
 			relocs_applied++;
 			/* Set base for subsequent bitmaps */
 			base = entry + 4;
 		} else {
-			/* Bitmap entry: decode up to 31 relocations */
-			u32 bitmap = entry >> 1;
+			/*
+			 * Bitmap entry: bits 1-31 encode relocations.
+			 * Bit N of entry (N=1..31) → relocation at base + (N-1)*4
+			 *
+			 * Process bits high-to-low: test sign bit with (s32)word < 0,
+			 * then left-shift. This is much faster on Subleq than & mask.
+			 *
+			 * Bit 31 → base + 30*4, bit 30 → base + 29*4, ..., bit 1 → base + 0*4
+			 */
+			s32 word = (s32)entry;
+			u32 *base_ptr = (u32 *)(addr_adj + base);
 			int j;
 
-			for (j = 0; bitmap != 0; j++, bitmap >>= 1) {
-				if (bitmap & 1) {
-					u32 offset = base + j * 4;
-					u32 *patch_addr = (u32 *)(load_addr + (offset - base_vaddr));
-					u32 old_val = *patch_addr;
-					*patch_addr += load_offset;
-
+			for (j = 30; j >= 0; j--) {
+				if (word < 0) {  /* Test sign bit (bit 31) */
+					base_ptr[j] += load_offset;
 					relocs_applied++;
 				}
+				word <<= 1;  /* Shift next bit into sign position */
 			}
 			/* Advance base by bitmap span (31 words = 124 bytes) */
 			base += 31 * 4;

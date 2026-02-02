@@ -50,6 +50,20 @@
 #define R_386_RELATIVE 8 /* Adjust by load base (for shared libs) */
 #endif
 
+/*
+ * RELR - Packed Relative Relocations (ELF gABI extension)
+ * High-efficiency encoding for R_*_RELATIVE relocations.
+ * Can achieve 90-98% space savings over REL format.
+ */
+#ifndef SHT_RELR
+#define SHT_RELR 19 /* Packed relative relocations */
+#endif
+#ifndef DT_RELR
+#define DT_RELR 36    /* Address of RELR relocations */
+#define DT_RELRSZ 35  /* Size of RELR relocations in bytes */
+#define DT_RELRENT 37 /* Size of one RELR entry */
+#endif
+
 #define SUBLEQ_ELF_DEBUG 0
 
 #if SUBLEQ_ELF_DEBUG
@@ -437,7 +451,71 @@ static unsigned long lookup_libsrt_symbol(struct libsrt_state *state, const char
 	return libsrt_hash_lookup(state, name);
 }
 
+
 static int load_elf_subleq_binary(struct linux_binprm *bprm);
+
+/*
+ * Process RELR (Packed Relative Relocations) section.
+ *
+ * RELR is a highly efficient encoding for R_*_RELATIVE relocations.
+ * Each entry is either:
+ *   - An address (LSB = 0): Apply one relocation at this offset
+ *   - A bitmap (LSB = 1): Apply up to 31 relocations at subsequent offsets
+ *
+ * The bitmap works as follows:
+ *   - Remove the LSB marker (shift right by 1)
+ *   - Each set bit represents a relocation at (base + bit_position * 4)
+ *   - After processing, base advances by 31 * 4 = 124 bytes
+ *
+ * IMPORTANT: RELR entries contain virtual addresses (r_offset), which must
+ * be converted to actual memory addresses by: load_addr + (vaddr - base_vaddr)
+ *
+ * Returns number of relocations applied.
+ */
+static int process_relr_section(u32 *relr_data, size_t relr_size,
+				unsigned long load_addr,
+				unsigned long base_vaddr,
+				unsigned long load_offset)
+{
+	size_t nentries = relr_size / sizeof(u32);
+	size_t i;
+	u32 base = 0;
+	int relocs_applied = 0;
+
+	for (i = 0; i < nentries; i++) {
+		u32 entry = relr_data[i];
+
+		if ((entry & 1) == 0) {
+			/* Address entry: relocate this single location */
+			u32 *patch_addr = (u32 *)(load_addr + (entry - base_vaddr));
+			u32 old_val = *patch_addr;
+			*patch_addr += load_offset;
+
+			relocs_applied++;
+			/* Set base for subsequent bitmaps */
+			base = entry + 4;
+		} else {
+			/* Bitmap entry: decode up to 31 relocations */
+			u32 bitmap = entry >> 1;
+			int j;
+
+			for (j = 0; bitmap != 0; j++, bitmap >>= 1) {
+				if (bitmap & 1) {
+					u32 offset = base + j * 4;
+					u32 *patch_addr = (u32 *)(load_addr + (offset - base_vaddr));
+					u32 old_val = *patch_addr;
+					*patch_addr += load_offset;
+
+					relocs_applied++;
+				}
+			}
+			/* Advance base by bitmap span (31 words = 124 bytes) */
+			base += 31 * 4;
+		}
+	}
+
+	return relocs_applied;
+}
 
 static struct linux_binfmt elf_subleq_format = {
 	.module = THIS_MODULE,
@@ -1025,13 +1103,26 @@ static int process_relocations_and_symbols(struct libsrt_state *state, struct fi
 				/*
 				 * R_386_32: S + A (symbol value + addend)
 				 *
-				 * For defined symbols (cache_val < 2): add load_offset
-				 * For undefined symbols (cache_val >= 2): resolve symbol
+				 * Cache values:
+				 *   0 = defined symbol, just add load_offset
+				 *   1 = undefined, lookup failed (weak: use 0)
+				 *   2 = needs first lookup
+				 *   >2 = resolved address
 				 */
 				unsigned int sym_idx = rel->r_info >> 8;
 				unsigned long cache_val = sym_cache[sym_idx];
 
-				if (cache_val >= 2) {
+				if (cache_val == 1) {
+					/*
+					 * Already looked up, not found.
+					 * For weak symbols, set to 0.
+					 * For strong symbols, leave as-is.
+					 */
+					unsigned char bind = syms[sym_idx].st_info >> 4;
+					if (bind == 2) { /* STB_WEAK */
+						*patch_addr = 0;
+					}
+				} else if (cache_val >= 2) {
 					/* Symbol needs external resolution */
 					unsigned long sym_addr;
 
@@ -1046,11 +1137,19 @@ static int process_relocations_and_symbols(struct libsrt_state *state, struct fi
 					if (sym_addr) {
 						*patch_addr = sym_addr + *patch_addr;
 						symbols_resolved++;
+					} else {
+						/*
+						 * First lookup failed. For weak undefined,
+						 * set to 0. STB_WEAK = 2.
+						 */
+						unsigned char bind = syms[sym_idx].st_info >> 4;
+						if (bind == 2) { /* STB_WEAK */
+							*patch_addr = 0;
+						}
 					}
 				} else {
 					/*
-					 * Defined symbol: add load_offset.
-					 * The slot contains link-time address, adjust for load position.
+					 * Defined symbol (cache_val == 0): add load_offset.
 					 */
 					*patch_addr += load_offset;
 				}
@@ -1078,6 +1177,47 @@ static int process_relocations_and_symbols(struct libsrt_state *state, struct fi
 
 	/* Free the reusable relocation buffer */
 	kfree(rels_buf);
+
+	/*
+	 * Process RELR (Packed Relative Relocations) sections.
+	 * These are a memory-efficient encoding for R_*_RELATIVE operations.
+	 * RELR can reduce relocation section size by 90-98%.
+	 */
+	for (i = 0, shdr = shdrs; i < hdr->e_shnum; i++, shdr++) {
+		u32 *relr_buf;
+		int relr_applied;
+
+		/* Accept both standard SHT_RELR and Android's legacy tag */
+		if (shdr->sh_type != SHT_RELR)
+			continue;
+
+		if (shdr->sh_size == 0)
+			continue;
+
+		subleq_elf_debug("Processing RELR section: size=%lu entries",
+			shdr->sh_size / sizeof(u32));
+
+		/* Allocate buffer for RELR data */
+		relr_buf = kmalloc(shdr->sh_size, GFP_KERNEL);
+		if (!relr_buf)
+			continue;  /* Skip this section on alloc failure */
+
+		pos = shdr->sh_offset;
+		ret = kernel_read(file, relr_buf, shdr->sh_size, &pos);
+		if (ret != shdr->sh_size) {
+			kfree(relr_buf);
+			continue;
+		}
+
+		/* Decode and apply RELR relocations */
+		relr_applied = process_relr_section(relr_buf, shdr->sh_size,
+						    load_addr, base_vaddr,
+						    load_offset);
+		relocs_applied += relr_applied;
+
+		subleq_elf_debug("  RELR: applied %d relocations", relr_applied);
+		kfree(relr_buf);
+	}
 
 	subleq_elf_debug("Applied %d relocations with offset 0x%lx",
 			 relocs_applied, load_offset);

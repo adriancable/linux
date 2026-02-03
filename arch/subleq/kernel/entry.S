@@ -1028,7 +1028,7 @@ subleq_irq_entry:
         .word   SAVE_JMPTGT | INDIRECT
 
 .Ljump_failed:
-        .word   -4, .Lconst_char_I, .Lhang
+        .word   .Lconst_char_I, -4, .Lhang
 .Lhang:
         .word   INT_Z, INT_Z, .Lhang
 

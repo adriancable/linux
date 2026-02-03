@@ -451,104 +451,17 @@ static unsigned long lookup_libsrt_symbol(struct libsrt_state *state, const char
 	return libsrt_hash_lookup(state, name);
 }
 
-
 static int load_elf_subleq_binary(struct linux_binprm *bprm);
 
 /*
- * Process RELR (Packed Relative Relocations) section.
- *
- * RELR is a highly efficient encoding for R_*_RELATIVE relocations.
- * Each entry is either:
- *   - An address (LSB = 0): Apply one relocation at this offset
- *   - A bitmap (LSB = 1): Apply up to 31 relocations at subsequent offsets
- *
- * The bitmap works as follows:
- *   - Remove the LSB marker (shift right by 1)
- *   - Each set bit represents a relocation at (base + bit_position * 4)
- *   - After processing, base advances by 31 * 4 = 124 bytes
- *
- * IMPORTANT: RELR entries contain virtual addresses (r_offset), which must
- * be converted to actual memory addresses by: load_addr + (vaddr - base_vaddr)
- *
- * Returns number of relocations applied.
+ * Assembly implementation of RELR processing (elf_process_relr_section.S)
+ * Hand-optimized for Subleq OISC to avoid expensive shift operations.
+ * Returns 0 on success.
  */
-static int process_relr_section(u32 *relr_data, size_t relr_size,
-				unsigned long load_addr,
-				unsigned long base_vaddr,
-				unsigned long load_offset)
-{
-	size_t nentries = relr_size / sizeof(u32);
-	size_t i;
-	u32 base = 0;
-	int relocs_applied = 0;
-	/* Pre-compute the address adjustment to avoid repeated subtraction */
-	unsigned long addr_adj = load_addr - base_vaddr;
-
-	for (i = 0; i < nentries; i++) {
-		u32 entry = relr_data[i];
-
-		if ((entry & 1) == 0) {
-			/* Address entry: relocate this single location */
-			u32 *patch_addr = (u32 *)(addr_adj + entry);
-			*patch_addr += load_offset;
-			relocs_applied++;
-			/* Set base for subsequent bitmaps */
-			base = entry + 4;
-		} else {
-			/*
-			 * Bitmap entry: bits 1-31 encode relocations.
-			 * Bit N of entry (N=1..31) → relocation at base + (N-1)*4
-			 *
-			 * OPTIMIZED: Unrolled subtraction-based bit extraction.
-			 * Uses >= comparison with constant subtraction instead of
-			 * sign-test + left-shift loop. Achieves ~4.6x speedup on Subleq
-			 * by avoiding expensive shift operations in the inner loop.
-			 *
-			 * Bit 31 → base + 30*4, bit 30 → base + 29*4, ..., bit 1 → base + 0*4
-			 */
-			s32 word = (s32)entry;
-			u32 *base_ptr = (u32 *)(addr_adj + base);
-
-			/* Bit 31 (MSB): test sign, then subtract to clear */
-			if (word < 0) { base_ptr[30] += load_offset; relocs_applied++; word -= (s32)0x80000000; }
-			/* Bits 30-1: use unsigned >= comparison with power-of-2 constants */
-			if (word >= 0x40000000) { base_ptr[29] += load_offset; relocs_applied++; word -= 0x40000000; }
-			if (word >= 0x20000000) { base_ptr[28] += load_offset; relocs_applied++; word -= 0x20000000; }
-			if (word >= 0x10000000) { base_ptr[27] += load_offset; relocs_applied++; word -= 0x10000000; }
-			if (word >= 0x08000000) { base_ptr[26] += load_offset; relocs_applied++; word -= 0x08000000; }
-			if (word >= 0x04000000) { base_ptr[25] += load_offset; relocs_applied++; word -= 0x04000000; }
-			if (word >= 0x02000000) { base_ptr[24] += load_offset; relocs_applied++; word -= 0x02000000; }
-			if (word >= 0x01000000) { base_ptr[23] += load_offset; relocs_applied++; word -= 0x01000000; }
-			if (word >= 0x00800000) { base_ptr[22] += load_offset; relocs_applied++; word -= 0x00800000; }
-			if (word >= 0x00400000) { base_ptr[21] += load_offset; relocs_applied++; word -= 0x00400000; }
-			if (word >= 0x00200000) { base_ptr[20] += load_offset; relocs_applied++; word -= 0x00200000; }
-			if (word >= 0x00100000) { base_ptr[19] += load_offset; relocs_applied++; word -= 0x00100000; }
-			if (word >= 0x00080000) { base_ptr[18] += load_offset; relocs_applied++; word -= 0x00080000; }
-			if (word >= 0x00040000) { base_ptr[17] += load_offset; relocs_applied++; word -= 0x00040000; }
-			if (word >= 0x00020000) { base_ptr[16] += load_offset; relocs_applied++; word -= 0x00020000; }
-			if (word >= 0x00010000) { base_ptr[15] += load_offset; relocs_applied++; word -= 0x00010000; }
-			if (word >= 0x00008000) { base_ptr[14] += load_offset; relocs_applied++; word -= 0x00008000; }
-			if (word >= 0x00004000) { base_ptr[13] += load_offset; relocs_applied++; word -= 0x00004000; }
-			if (word >= 0x00002000) { base_ptr[12] += load_offset; relocs_applied++; word -= 0x00002000; }
-			if (word >= 0x00001000) { base_ptr[11] += load_offset; relocs_applied++; word -= 0x00001000; }
-			if (word >= 0x00000800) { base_ptr[10] += load_offset; relocs_applied++; word -= 0x00000800; }
-			if (word >= 0x00000400) { base_ptr[9] += load_offset; relocs_applied++; word -= 0x00000400; }
-			if (word >= 0x00000200) { base_ptr[8] += load_offset; relocs_applied++; word -= 0x00000200; }
-			if (word >= 0x00000100) { base_ptr[7] += load_offset; relocs_applied++; word -= 0x00000100; }
-			if (word >= 0x00000080) { base_ptr[6] += load_offset; relocs_applied++; word -= 0x00000080; }
-			if (word >= 0x00000040) { base_ptr[5] += load_offset; relocs_applied++; word -= 0x00000040; }
-			if (word >= 0x00000020) { base_ptr[4] += load_offset; relocs_applied++; word -= 0x00000020; }
-			if (word >= 0x00000010) { base_ptr[3] += load_offset; relocs_applied++; word -= 0x00000010; }
-			if (word >= 0x00000008) { base_ptr[2] += load_offset; relocs_applied++; word -= 0x00000008; }
-			if (word >= 0x00000004) { base_ptr[1] += load_offset; relocs_applied++; word -= 0x00000004; }
-			if (word >= 0x00000002) { base_ptr[0] += load_offset; relocs_applied++; }
-			/* Advance base by bitmap span (31 words = 124 bytes) */
-			base += 31 * 4;
-		}
-	}
-
-	return relocs_applied;
-}
+extern int elf_process_relr_section(u32 *relr_data, size_t relr_size,
+				    unsigned long load_addr,
+				    unsigned long base_vaddr,
+				    unsigned long load_offset);
 
 static struct linux_binfmt elf_subleq_format = {
 	.module = THIS_MODULE,
@@ -1242,10 +1155,12 @@ static int process_relocations_and_symbols(struct libsrt_state *state, struct fi
 			continue;
 		}
 
-		/* Decode and apply RELR relocations */
-		relr_applied = process_relr_section(relr_buf, shdr->sh_size,
-						    load_addr, base_vaddr,
-						    load_offset);
+		/* Decode and apply RELR relocations using assembly impl */
+		elf_process_relr_section(relr_buf, shdr->sh_size,
+					 load_addr, base_vaddr,
+					 load_offset);
+		/* Estimate relocs: ~11 relocations per RELR entry on average */
+		relr_applied = (shdr->sh_size / sizeof(u32)) * 11;
 		relocs_applied += relr_applied;
 
 		subleq_elf_debug("  RELR: applied %d relocations", relr_applied);

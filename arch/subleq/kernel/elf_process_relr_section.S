@@ -90,271 +90,313 @@ elf_process_relr_section:
         .word   REG_Z, REG_T6, .+4               /* T6 = entry (saved) */
 
         /*
-         * Extract LSB: strip all bits 31..1 from T5 using subtraction.
-         * After this, T5 = entry & 1.
+         * BIASED NON-RESTORING LATTICE LSB EXTRACTION
+         *
+         * Goal: Determine if entry is odd (bitmap) or even (address).
+         * Uses +1 bias and fused subtract-and-branch for ~2 instr/bit.
+         *
+         * Algorithm (following emit_and_o32.py pattern):
+         * 1. Bit 31 (sign): Handle BEFORE bias - clear it if set
+         * 2. Bias: T5 = T5 + 1 (now T5 is guaranteed non-negative)
+         * 3. Bits 30-1: Lattice with Pos/Neg states
+         * 4. Result: T5 > 1 means odd (bitmap), T5 <= 1 means even (address)
          */
-        /* Bit 31 (sign bit): check if T5 < 0 (not just <= 0) */
+
+        /*
+         * BIT 31 (SIGN): Handle BEFORE biasing to avoid overflow.
+         * Check if T5 < 0. If so, clear bit 31 by subtracting 0x80000000.
+         * This makes T5 non-negative before we bias.
+         */
         .word   ZERO, REG_T5, .Llsb_b31_check
-        .word   REG_Z, REG_Z, .Llsb_b30          /* T5 > 0, skip bit 31 */
+        .word   REG_Z, REG_Z, .Llsb_bias        /* T5 > 0, skip to bias */
 .Llsb_b31_check:
-        /* T5 <= 0. Use ROBUST NEGATIVE CHECK: T5 < 0 iff (T5 <= 0) AND (T5 + 1 <= 0) */
-        /* This handles INT_MIN correctly: INT_MIN + 1 = -2147483647 <= 0, so negative */
-        /* Copy T5 to T7, add 1, check if still <= 0 */
+        /* T5 <= 0. Check if truly negative (T5 < 0) or zero. */
+        /* Use (T5 + 1 <= 0) test: if true, T5 < 0 (handles INT_MIN) */
         .word   REG_T7, REG_T7, .+4              /* T7 = 0 */
         .word   REG_Z, REG_Z, .+4
         .word   REG_T5, REG_Z, .+4               /* Z = -T5 */
         .word   REG_Z, REG_T7, .+4               /* T7 = T5 */
         .word   .Lconst_neg1, REG_T7, .+4        /* T7 = T5 + 1 */
         .word   ZERO, REG_T7, .Llsb_b31_set      /* if T7 <= 0, T5 < 0, bit 31 is set */
-        .word   REG_Z, REG_Z, .Llsb_b30          /* T7 > 0 and T5 <= 0, so T5 == 0, skip */
+        .word   REG_Z, REG_Z, .Llsb_bias         /* T5 == 0, skip to bias */
 .Llsb_b31_set:
-        /* T5 < 0 (bit 31 is set). Subtract 0x80000000 */
-        .word   .Lconst_0x80000000, REG_T5, .+4
-.Llsb_b30:
-        /* Check T5 >= 0x40000000: T7 = 0x40000000 - T5, if T7 <= 0 then true */
-        .word   REG_T7, REG_T7, .+4              /* T7 = 0 */
-        .word   .Lconst_cmp30, REG_T7, .+4       /* T7 = 0 - (-0x40000000) = 0x40000000 */
-        .word   REG_T5, REG_T7, .+4              /* T7 = 0x40000000 - T5 */
-        .word   ZERO, REG_T7, .Llsb_s30
-        .word   REG_Z, REG_Z, .Llsb_b29
-.Llsb_s30:
-        .word   .Lconst_0x40000000, REG_T5, .+4
-.Llsb_b29:
-        .word   REG_T7, REG_T7, .+4
-        .word   .Lconst_cmp29, REG_T7, .+4
-        .word   REG_T5, REG_T7, .+4
-        .word   ZERO, REG_T7, .Llsb_s29
-        .word   REG_Z, REG_Z, .Llsb_b28
-.Llsb_s29:
-        .word   .Lconst_0x20000000, REG_T5, .+4
-.Llsb_b28:
-        .word   REG_T7, REG_T7, .+4
-        .word   .Lconst_cmp28, REG_T7, .+4
-        .word   REG_T5, REG_T7, .+4
-        .word   ZERO, REG_T7, .Llsb_s28
-        .word   REG_Z, REG_Z, .Llsb_b27
-.Llsb_s28:
-        .word   .Lconst_0x10000000, REG_T5, .+4
-.Llsb_b27:
-        .word   REG_T7, REG_T7, .+4
-        .word   .Lconst_cmp27, REG_T7, .+4
-        .word   REG_T5, REG_T7, .+4
-        .word   ZERO, REG_T7, .Llsb_s27
-        .word   REG_Z, REG_Z, .Llsb_b26
-.Llsb_s27:
-        .word   .Lconst_0x08000000, REG_T5, .+4
-.Llsb_b26:
-        .word   REG_T7, REG_T7, .+4
-        .word   .Lconst_cmp26, REG_T7, .+4
-        .word   REG_T5, REG_T7, .+4
-        .word   ZERO, REG_T7, .Llsb_s26
-        .word   REG_Z, REG_Z, .Llsb_b25
-.Llsb_s26:
-        .word   .Lconst_0x04000000, REG_T5, .+4
-.Llsb_b25:
-        .word   REG_T7, REG_T7, .+4
-        .word   .Lconst_cmp25, REG_T7, .+4
-        .word   REG_T5, REG_T7, .+4
-        .word   ZERO, REG_T7, .Llsb_s25
-        .word   REG_Z, REG_Z, .Llsb_b24
-.Llsb_s25:
-        .word   .Lconst_0x02000000, REG_T5, .+4
-.Llsb_b24:
-        .word   REG_T7, REG_T7, .+4
-        .word   .Lconst_cmp24, REG_T7, .+4
-        .word   REG_T5, REG_T7, .+4
-        .word   ZERO, REG_T7, .Llsb_s24
-        .word   REG_Z, REG_Z, .Llsb_b23
-.Llsb_s24:
-        .word   .Lconst_0x01000000, REG_T5, .+4
-.Llsb_b23:
-        .word   REG_T7, REG_T7, .+4
-        .word   .Lconst_cmp23, REG_T7, .+4
-        .word   REG_T5, REG_T7, .+4
-        .word   ZERO, REG_T7, .Llsb_s23
-        .word   REG_Z, REG_Z, .Llsb_b22
-.Llsb_s23:
-        .word   .Lconst_0x00800000, REG_T5, .+4
-.Llsb_b22:
-        .word   REG_T7, REG_T7, .+4
-        .word   .Lconst_cmp22, REG_T7, .+4
-        .word   REG_T5, REG_T7, .+4
-        .word   ZERO, REG_T7, .Llsb_s22
-        .word   REG_Z, REG_Z, .Llsb_b21
-.Llsb_s22:
-        .word   .Lconst_0x00400000, REG_T5, .+4
-.Llsb_b21:
-        .word   REG_T7, REG_T7, .+4
-        .word   .Lconst_cmp21, REG_T7, .+4
-        .word   REG_T5, REG_T7, .+4
-        .word   ZERO, REG_T7, .Llsb_s21
-        .word   REG_Z, REG_Z, .Llsb_b20
-.Llsb_s21:
-        .word   .Lconst_0x00200000, REG_T5, .+4
-.Llsb_b20:
-        .word   REG_T7, REG_T7, .+4
-        .word   .Lconst_cmp20, REG_T7, .+4
-        .word   REG_T5, REG_T7, .+4
-        .word   ZERO, REG_T7, .Llsb_s20
-        .word   REG_Z, REG_Z, .Llsb_b19
-.Llsb_s20:
-        .word   .Lconst_0x00100000, REG_T5, .+4
-.Llsb_b19:
-        .word   REG_T7, REG_T7, .+4
-        .word   .Lconst_cmp19, REG_T7, .+4
-        .word   REG_T5, REG_T7, .+4
-        .word   ZERO, REG_T7, .Llsb_s19
-        .word   REG_Z, REG_Z, .Llsb_b18
-.Llsb_s19:
-        .word   .Lconst_0x00080000, REG_T5, .+4
-.Llsb_b18:
-        .word   REG_T7, REG_T7, .+4
-        .word   .Lconst_cmp18, REG_T7, .+4
-        .word   REG_T5, REG_T7, .+4
-        .word   ZERO, REG_T7, .Llsb_s18
-        .word   REG_Z, REG_Z, .Llsb_b17
-.Llsb_s18:
-        .word   .Lconst_0x00040000, REG_T5, .+4
-.Llsb_b17:
-        .word   REG_T7, REG_T7, .+4
-        .word   .Lconst_cmp17, REG_T7, .+4
-        .word   REG_T5, REG_T7, .+4
-        .word   ZERO, REG_T7, .Llsb_s17
-        .word   REG_Z, REG_Z, .Llsb_b16
-.Llsb_s17:
-        .word   .Lconst_0x00020000, REG_T5, .+4
-.Llsb_b16:
-        .word   REG_T7, REG_T7, .+4
-        .word   .Lconst_cmp16, REG_T7, .+4
-        .word   REG_T5, REG_T7, .+4
-        .word   ZERO, REG_T7, .Llsb_s16
-        .word   REG_Z, REG_Z, .Llsb_b15
-.Llsb_s16:
-        .word   .Lconst_0x00010000, REG_T5, .+4
-.Llsb_b15:
-        .word   REG_T7, REG_T7, .+4
-        .word   .Lconst_cmp15, REG_T7, .+4
-        .word   REG_T5, REG_T7, .+4
-        .word   ZERO, REG_T7, .Llsb_s15
-        .word   REG_Z, REG_Z, .Llsb_b14
-.Llsb_s15:
-        .word   .Lconst_0x00008000, REG_T5, .+4
-.Llsb_b14:
-        .word   REG_T7, REG_T7, .+4
-        .word   .Lconst_cmp14, REG_T7, .+4
-        .word   REG_T5, REG_T7, .+4
-        .word   ZERO, REG_T7, .Llsb_s14
-        .word   REG_Z, REG_Z, .Llsb_b13
-.Llsb_s14:
-        .word   .Lconst_0x00004000, REG_T5, .+4
-.Llsb_b13:
-        .word   REG_T7, REG_T7, .+4
-        .word   .Lconst_cmp13, REG_T7, .+4
-        .word   REG_T5, REG_T7, .+4
-        .word   ZERO, REG_T7, .Llsb_s13
-        .word   REG_Z, REG_Z, .Llsb_b12
-.Llsb_s13:
-        .word   .Lconst_0x00002000, REG_T5, .+4
-.Llsb_b12:
-        .word   REG_T7, REG_T7, .+4
-        .word   .Lconst_cmp12, REG_T7, .+4
-        .word   REG_T5, REG_T7, .+4
-        .word   ZERO, REG_T7, .Llsb_s12
-        .word   REG_Z, REG_Z, .Llsb_b11
-.Llsb_s12:
-        .word   .Lconst_0x00001000, REG_T5, .+4
-.Llsb_b11:
-        .word   REG_T7, REG_T7, .+4
-        .word   .Lconst_cmp11, REG_T7, .+4
-        .word   REG_T5, REG_T7, .+4
-        .word   ZERO, REG_T7, .Llsb_s11
-        .word   REG_Z, REG_Z, .Llsb_b10
-.Llsb_s11:
-        .word   .Lconst_0x00000800, REG_T5, .+4
-.Llsb_b10:
-        .word   REG_T7, REG_T7, .+4
-        .word   .Lconst_cmp10, REG_T7, .+4
-        .word   REG_T5, REG_T7, .+4
-        .word   ZERO, REG_T7, .Llsb_s10
-        .word   REG_Z, REG_Z, .Llsb_b9
-.Llsb_s10:
-        .word   .Lconst_0x00000400, REG_T5, .+4
-.Llsb_b9:
-        .word   REG_T7, REG_T7, .+4
-        .word   .Lconst_cmp9, REG_T7, .+4
-        .word   REG_T5, REG_T7, .+4
-        .word   ZERO, REG_T7, .Llsb_s9
-        .word   REG_Z, REG_Z, .Llsb_b8
-.Llsb_s9:
-        .word   .Lconst_0x00000200, REG_T5, .+4
-.Llsb_b8:
-        .word   REG_T7, REG_T7, .+4
-        .word   .Lconst_cmp8, REG_T7, .+4
-        .word   REG_T5, REG_T7, .+4
-        .word   ZERO, REG_T7, .Llsb_s8
-        .word   REG_Z, REG_Z, .Llsb_b7
-.Llsb_s8:
-        .word   .Lconst_0x00000100, REG_T5, .+4
-.Llsb_b7:
-        .word   REG_T7, REG_T7, .+4
-        .word   .Lconst_cmp7, REG_T7, .+4
-        .word   REG_T5, REG_T7, .+4
-        .word   ZERO, REG_T7, .Llsb_s7
-        .word   REG_Z, REG_Z, .Llsb_b6
-.Llsb_s7:
-        .word   .Lconst_0x00000080, REG_T5, .+4
-.Llsb_b6:
-        .word   REG_T7, REG_T7, .+4
-        .word   .Lconst_cmp6, REG_T7, .+4
-        .word   REG_T5, REG_T7, .+4
-        .word   ZERO, REG_T7, .Llsb_s6
-        .word   REG_Z, REG_Z, .Llsb_b5
-.Llsb_s6:
-        .word   .Lconst_0x00000040, REG_T5, .+4
-.Llsb_b5:
-        .word   REG_T7, REG_T7, .+4
-        .word   .Lconst_cmp5, REG_T7, .+4
-        .word   REG_T5, REG_T7, .+4
-        .word   ZERO, REG_T7, .Llsb_s5
-        .word   REG_Z, REG_Z, .Llsb_b4
-.Llsb_s5:
-        .word   .Lconst_0x00000020, REG_T5, .+4
-.Llsb_b4:
-        .word   REG_T7, REG_T7, .+4
-        .word   .Lconst_cmp4, REG_T7, .+4
-        .word   REG_T5, REG_T7, .+4
-        .word   ZERO, REG_T7, .Llsb_s4
-        .word   REG_Z, REG_Z, .Llsb_b3
-.Llsb_s4:
-        .word   .Lconst_0x00000010, REG_T5, .+4
-.Llsb_b3:
-        .word   REG_T7, REG_T7, .+4
-        .word   .Lconst_cmp3, REG_T7, .+4
-        .word   REG_T5, REG_T7, .+4
-        .word   ZERO, REG_T7, .Llsb_s3
-        .word   REG_Z, REG_Z, .Llsb_b2
-.Llsb_s3:
-        .word   .Lconst_0x00000008, REG_T5, .+4
-.Llsb_b2:
-        .word   REG_T7, REG_T7, .+4
-        .word   .Lconst_cmp2, REG_T7, .+4
-        .word   REG_T5, REG_T7, .+4
-        .word   ZERO, REG_T7, .Llsb_s2
-        .word   REG_Z, REG_Z, .Llsb_b1
-.Llsb_s2:
-        .word   .Lconst_0x00000004, REG_T5, .+4
-.Llsb_b1:
-        .word   REG_T7, REG_T7, .+4
-        .word   .Lconst_cmp1, REG_T7, .+4
-        .word   REG_T5, REG_T7, .+4
-        .word   ZERO, REG_T7, .Llsb_s1
-        .word   REG_Z, REG_Z, .Llsb_done
-.Llsb_s1:
-        .word   .Lconst_0x00000002, REG_T5, .+4
-.Llsb_done:
-        /* T5 now contains (entry & 1). If T5 <= 0, it's an address entry */
-        .word   ZERO, REG_T5, .Laddr_entry
-        /* Fall through: T5 > 0, so (entry & 1) == 1, this is a bitmap entry */
+        /* T5 < 0 (bit 31 is set). Clear bit 31 by subtracting 0x80000000 */
+        .word   .Lconst_0x80000000, REG_T5, .+4  /* T5 -= INT_MIN (wraps positive) */
+
+.Llsb_bias:
+        /* Now T5 >= 0. Apply +1 bias to avoid zero during lattice. */
+        .word   .Lconst_neg1, REG_T5, .+4        /* T5 += 1 */
+
+        /*
+         * BITS 30-1: LATTICE LOOP
+         * Two states: Pos (T5 > 0 after last op) and Neg (T5 <= 0)
+         * Pos: subtract power, if <= 0 go Neg
+         * Neg: add power, if <= 0 stay Neg, else go Pos
+         */
+
+/* === BIT 30 === */
+.Llsb_b30_P:
+        .word   .Lconst_0x40000000, REG_T5, .Llsb_b29_N
+        .word   REG_Z, REG_Z, .Llsb_b29_P
+.Llsb_b30_N:
+        .word   .Lconst_n0x40000000, REG_T5, .Llsb_b29_N
+        .word   REG_Z, REG_Z, .Llsb_b29_P
+
+/* === BIT 29 === */
+.Llsb_b29_P:
+        .word   .Lconst_0x20000000, REG_T5, .Llsb_b28_N
+        .word   REG_Z, REG_Z, .Llsb_b28_P
+.Llsb_b29_N:
+        .word   .Lconst_n0x20000000, REG_T5, .Llsb_b28_N
+        .word   REG_Z, REG_Z, .Llsb_b28_P
+
+/* === BIT 28 === */
+.Llsb_b28_P:
+        .word   .Lconst_0x10000000, REG_T5, .Llsb_b27_N
+        .word   REG_Z, REG_Z, .Llsb_b27_P
+.Llsb_b28_N:
+        .word   .Lconst_n0x10000000, REG_T5, .Llsb_b27_N
+        .word   REG_Z, REG_Z, .Llsb_b27_P
+
+/* === BIT 27 === */
+.Llsb_b27_P:
+        .word   .Lconst_0x08000000, REG_T5, .Llsb_b26_N
+        .word   REG_Z, REG_Z, .Llsb_b26_P
+.Llsb_b27_N:
+        .word   .Lconst_n0x08000000, REG_T5, .Llsb_b26_N
+        .word   REG_Z, REG_Z, .Llsb_b26_P
+
+/* === BIT 26 === */
+.Llsb_b26_P:
+        .word   .Lconst_0x04000000, REG_T5, .Llsb_b25_N
+        .word   REG_Z, REG_Z, .Llsb_b25_P
+.Llsb_b26_N:
+        .word   .Lconst_n0x04000000, REG_T5, .Llsb_b25_N
+        .word   REG_Z, REG_Z, .Llsb_b25_P
+
+/* === BIT 25 === */
+.Llsb_b25_P:
+        .word   .Lconst_0x02000000, REG_T5, .Llsb_b24_N
+        .word   REG_Z, REG_Z, .Llsb_b24_P
+.Llsb_b25_N:
+        .word   .Lconst_n0x02000000, REG_T5, .Llsb_b24_N
+        .word   REG_Z, REG_Z, .Llsb_b24_P
+
+/* === BIT 24 === */
+.Llsb_b24_P:
+        .word   .Lconst_0x01000000, REG_T5, .Llsb_b23_N
+        .word   REG_Z, REG_Z, .Llsb_b23_P
+.Llsb_b24_N:
+        .word   .Lconst_n0x01000000, REG_T5, .Llsb_b23_N
+        .word   REG_Z, REG_Z, .Llsb_b23_P
+
+/* === BIT 23 === */
+.Llsb_b23_P:
+        .word   .Lconst_0x00800000, REG_T5, .Llsb_b22_N
+        .word   REG_Z, REG_Z, .Llsb_b22_P
+.Llsb_b23_N:
+        .word   .Lconst_n0x00800000, REG_T5, .Llsb_b22_N
+        .word   REG_Z, REG_Z, .Llsb_b22_P
+
+/* === BIT 22 === */
+.Llsb_b22_P:
+        .word   .Lconst_0x00400000, REG_T5, .Llsb_b21_N
+        .word   REG_Z, REG_Z, .Llsb_b21_P
+.Llsb_b22_N:
+        .word   .Lconst_n0x00400000, REG_T5, .Llsb_b21_N
+        .word   REG_Z, REG_Z, .Llsb_b21_P
+
+/* === BIT 21 === */
+.Llsb_b21_P:
+        .word   .Lconst_0x00200000, REG_T5, .Llsb_b20_N
+        .word   REG_Z, REG_Z, .Llsb_b20_P
+.Llsb_b21_N:
+        .word   .Lconst_n0x00200000, REG_T5, .Llsb_b20_N
+        .word   REG_Z, REG_Z, .Llsb_b20_P
+
+/* === BIT 20 === */
+.Llsb_b20_P:
+        .word   .Lconst_0x00100000, REG_T5, .Llsb_b19_N
+        .word   REG_Z, REG_Z, .Llsb_b19_P
+.Llsb_b20_N:
+        .word   .Lconst_n0x00100000, REG_T5, .Llsb_b19_N
+        .word   REG_Z, REG_Z, .Llsb_b19_P
+
+/* === BIT 19 === */
+.Llsb_b19_P:
+        .word   .Lconst_0x00080000, REG_T5, .Llsb_b18_N
+        .word   REG_Z, REG_Z, .Llsb_b18_P
+.Llsb_b19_N:
+        .word   .Lconst_n0x00080000, REG_T5, .Llsb_b18_N
+        .word   REG_Z, REG_Z, .Llsb_b18_P
+
+/* === BIT 18 === */
+.Llsb_b18_P:
+        .word   .Lconst_0x00040000, REG_T5, .Llsb_b17_N
+        .word   REG_Z, REG_Z, .Llsb_b17_P
+.Llsb_b18_N:
+        .word   .Lconst_n0x00040000, REG_T5, .Llsb_b17_N
+        .word   REG_Z, REG_Z, .Llsb_b17_P
+
+/* === BIT 17 === */
+.Llsb_b17_P:
+        .word   .Lconst_0x00020000, REG_T5, .Llsb_b16_N
+        .word   REG_Z, REG_Z, .Llsb_b16_P
+.Llsb_b17_N:
+        .word   .Lconst_n0x00020000, REG_T5, .Llsb_b16_N
+        .word   REG_Z, REG_Z, .Llsb_b16_P
+
+/* === BIT 16 === */
+.Llsb_b16_P:
+        .word   .Lconst_0x00010000, REG_T5, .Llsb_b15_N
+        .word   REG_Z, REG_Z, .Llsb_b15_P
+.Llsb_b16_N:
+        .word   .Lconst_n0x00010000, REG_T5, .Llsb_b15_N
+        .word   REG_Z, REG_Z, .Llsb_b15_P
+
+/* === BIT 15 === */
+.Llsb_b15_P:
+        .word   .Lconst_0x00008000, REG_T5, .Llsb_b14_N
+        .word   REG_Z, REG_Z, .Llsb_b14_P
+.Llsb_b15_N:
+        .word   .Lconst_n0x00008000, REG_T5, .Llsb_b14_N
+        .word   REG_Z, REG_Z, .Llsb_b14_P
+
+/* === BIT 14 === */
+.Llsb_b14_P:
+        .word   .Lconst_0x00004000, REG_T5, .Llsb_b13_N
+        .word   REG_Z, REG_Z, .Llsb_b13_P
+.Llsb_b14_N:
+        .word   .Lconst_n0x00004000, REG_T5, .Llsb_b13_N
+        .word   REG_Z, REG_Z, .Llsb_b13_P
+
+/* === BIT 13 === */
+.Llsb_b13_P:
+        .word   .Lconst_0x00002000, REG_T5, .Llsb_b12_N
+        .word   REG_Z, REG_Z, .Llsb_b12_P
+.Llsb_b13_N:
+        .word   .Lconst_n0x00002000, REG_T5, .Llsb_b12_N
+        .word   REG_Z, REG_Z, .Llsb_b12_P
+
+/* === BIT 12 === */
+.Llsb_b12_P:
+        .word   .Lconst_0x00001000, REG_T5, .Llsb_b11_N
+        .word   REG_Z, REG_Z, .Llsb_b11_P
+.Llsb_b12_N:
+        .word   .Lconst_n0x00001000, REG_T5, .Llsb_b11_N
+        .word   REG_Z, REG_Z, .Llsb_b11_P
+
+/* === BIT 11 === */
+.Llsb_b11_P:
+        .word   .Lconst_0x00000800, REG_T5, .Llsb_b10_N
+        .word   REG_Z, REG_Z, .Llsb_b10_P
+.Llsb_b11_N:
+        .word   .Lconst_n0x00000800, REG_T5, .Llsb_b10_N
+        .word   REG_Z, REG_Z, .Llsb_b10_P
+
+/* === BIT 10 === */
+.Llsb_b10_P:
+        .word   .Lconst_0x00000400, REG_T5, .Llsb_b9_N
+        .word   REG_Z, REG_Z, .Llsb_b9_P
+.Llsb_b10_N:
+        .word   .Lconst_n0x00000400, REG_T5, .Llsb_b9_N
+        .word   REG_Z, REG_Z, .Llsb_b9_P
+
+/* === BIT 9 === */
+.Llsb_b9_P:
+        .word   .Lconst_0x00000200, REG_T5, .Llsb_b8_N
+        .word   REG_Z, REG_Z, .Llsb_b8_P
+.Llsb_b9_N:
+        .word   .Lconst_n0x00000200, REG_T5, .Llsb_b8_N
+        .word   REG_Z, REG_Z, .Llsb_b8_P
+
+/* === BIT 8 === */
+.Llsb_b8_P:
+        .word   .Lconst_0x00000100, REG_T5, .Llsb_b7_N
+        .word   REG_Z, REG_Z, .Llsb_b7_P
+.Llsb_b8_N:
+        .word   .Lconst_n0x00000100, REG_T5, .Llsb_b7_N
+        .word   REG_Z, REG_Z, .Llsb_b7_P
+
+/* === BIT 7 === */
+.Llsb_b7_P:
+        .word   .Lconst_0x00000080, REG_T5, .Llsb_b6_N
+        .word   REG_Z, REG_Z, .Llsb_b6_P
+.Llsb_b7_N:
+        .word   .Lconst_n0x00000080, REG_T5, .Llsb_b6_N
+        .word   REG_Z, REG_Z, .Llsb_b6_P
+
+/* === BIT 6 === */
+.Llsb_b6_P:
+        .word   .Lconst_0x00000040, REG_T5, .Llsb_b5_N
+        .word   REG_Z, REG_Z, .Llsb_b5_P
+.Llsb_b6_N:
+        .word   .Lconst_n0x00000040, REG_T5, .Llsb_b5_N
+        .word   REG_Z, REG_Z, .Llsb_b5_P
+
+/* === BIT 5 === */
+.Llsb_b5_P:
+        .word   .Lconst_0x00000020, REG_T5, .Llsb_b4_N
+        .word   REG_Z, REG_Z, .Llsb_b4_P
+.Llsb_b5_N:
+        .word   .Lconst_n0x00000020, REG_T5, .Llsb_b4_N
+        .word   REG_Z, REG_Z, .Llsb_b4_P
+
+/* === BIT 4 === */
+.Llsb_b4_P:
+        .word   .Lconst_0x00000010, REG_T5, .Llsb_b3_N
+        .word   REG_Z, REG_Z, .Llsb_b3_P
+.Llsb_b4_N:
+        .word   .Lconst_n0x00000010, REG_T5, .Llsb_b3_N
+        .word   REG_Z, REG_Z, .Llsb_b3_P
+
+/* === BIT 3 === */
+.Llsb_b3_P:
+        .word   .Lconst_0x00000008, REG_T5, .Llsb_b2_N
+        .word   REG_Z, REG_Z, .Llsb_b2_P
+.Llsb_b3_N:
+        .word   .Lconst_n0x00000008, REG_T5, .Llsb_b2_N
+        .word   REG_Z, REG_Z, .Llsb_b2_P
+
+/* === BIT 2 === */
+.Llsb_b2_P:
+        .word   .Lconst_0x00000004, REG_T5, .Llsb_b1_N
+        .word   REG_Z, REG_Z, .Llsb_b1_P
+.Llsb_b2_N:
+        .word   .Lconst_n0x00000004, REG_T5, .Llsb_b1_N
+        .word   REG_Z, REG_Z, .Llsb_b1_P
+
+/* === BIT 1 === */
+.Llsb_b1_P:
+        .word   .Lconst_0x00000002, REG_T5, .Llsb_done_N
+        .word   REG_Z, REG_Z, .Llsb_done_P
+.Llsb_b1_N:
+        .word   .Lconst_n0x00000002, REG_T5, .Llsb_done_N
+        .word   REG_Z, REG_Z, .Llsb_done_P
+
+/* === LSB DETERMINATION === */
+/*
+ * After processing bits 30-1, T5 holds the biased LSB:
+ *   - T5 = 1: original LSB was 0 (even, address entry)
+ *   - T5 = 2: original LSB was 1 (odd, bitmap entry)
+ *   - T5 <= 0: ended in Neg state, need to check differently
+ *
+ * For Neg state: T5 went negative, meaning we over-subtracted.
+ * Add 2 to restore, then check.
+ */
+.Llsb_done_P:
+        /* T5 > 0: Check if T5 > 1 (bitmap) or T5 == 1 (address) */
+        /* T5 - 1 <= 0 means T5 <= 1, i.e., T5 == 1 (address) */
+        /* BUG FIX: Was using T5-2, but T5=2 gives 0<=0 which wrongly branched */
+        .word   .Lconst_1, REG_T5, .Laddr_entry
+        .word   REG_Z, REG_Z, .Lbitmap_entry
+
+.Llsb_done_N:
+        /* T5 <= 0: Restore by adding 2 */
+        .word   .Lconst_n0x00000002, REG_T5, .+4  /* T5 += 2 */
+        /* Now T5 is the biased result. Use same check as done_P. */
+        /* T5 - 1 <= 0 means T5 == 1 (address), else T5 == 2 (bitmap) */
+        .word   .Lconst_1, REG_T5, .Laddr_entry
         .word   REG_Z, REG_Z, .Lbitmap_entry
 
 /*=== ADDRESS ENTRY: (entry & 1) == 0 ===*/
@@ -554,6 +596,10 @@ elf_process_relr_section:
         .word   -120
 .Lconst_neg124:
         .word   -124
+.Lconst_2:
+        .word   2
+.Lconst_1:
+        .word   1
 
 /* Power-of-2 constants for bit extraction (subtraction operands) */
 .Lconst_0x80000000:
@@ -618,6 +664,68 @@ elf_process_relr_section:
         .word   0x00000004
 .Lconst_0x00000002:
         .word   0x00000002
+
+/* Negated power-of-2 constants for lattice Neg state (T5 += pow) */
+.Lconst_n0x40000000:
+        .word   -0x40000000
+.Lconst_n0x20000000:
+        .word   -0x20000000
+.Lconst_n0x10000000:
+        .word   -0x10000000
+.Lconst_n0x08000000:
+        .word   -0x08000000
+.Lconst_n0x04000000:
+        .word   -0x04000000
+.Lconst_n0x02000000:
+        .word   -0x02000000
+.Lconst_n0x01000000:
+        .word   -0x01000000
+.Lconst_n0x00800000:
+        .word   -0x00800000
+.Lconst_n0x00400000:
+        .word   -0x00400000
+.Lconst_n0x00200000:
+        .word   -0x00200000
+.Lconst_n0x00100000:
+        .word   -0x00100000
+.Lconst_n0x00080000:
+        .word   -0x00080000
+.Lconst_n0x00040000:
+        .word   -0x00040000
+.Lconst_n0x00020000:
+        .word   -0x00020000
+.Lconst_n0x00010000:
+        .word   -0x00010000
+.Lconst_n0x00008000:
+        .word   -0x00008000
+.Lconst_n0x00004000:
+        .word   -0x00004000
+.Lconst_n0x00002000:
+        .word   -0x00002000
+.Lconst_n0x00001000:
+        .word   -0x00001000
+.Lconst_n0x00000800:
+        .word   -0x00000800
+.Lconst_n0x00000400:
+        .word   -0x00000400
+.Lconst_n0x00000200:
+        .word   -0x00000200
+.Lconst_n0x00000100:
+        .word   -0x00000100
+.Lconst_n0x00000080:
+        .word   -0x00000080
+.Lconst_n0x00000040:
+        .word   -0x00000040
+.Lconst_n0x00000020:
+        .word   -0x00000020
+.Lconst_n0x00000010:
+        .word   -0x00000010
+.Lconst_n0x00000008:
+        .word   -0x00000008
+.Lconst_n0x00000004:
+        .word   -0x00000004
+.Lconst_n0x00000002:
+        .word   -0x00000002
 
 /* Comparison constants for LSB extraction (negated for "load constant" pattern) */
 /* Pattern: .Lconst_cmpN stores -value, loading via subleq gives +value in target */

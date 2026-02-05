@@ -123,7 +123,8 @@ obj-$(CONFIG_FB_VGA16)            += vga16fb.o
 obj-$(CONFIG_FB_OF)               += offb.o
 obj-$(CONFIG_FB_SSD1307)	  += ssd1307fb.o
 obj-$(CONFIG_FB_SIMPLE)           += simplefb.o
-obj-$(CONFIG_FB_SUBLEQ)           += subleqfb.o
+obj-$(CONFIG_FB_SUBLEQ)           += subleqfb-drv.o
+subleqfb-drv-y                    := subleqfb.o subleq_blit_row.o
 
 # the test framebuffer is last
 obj-$(CONFIG_FB_VIRTUAL)          += vfb.o

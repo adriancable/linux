@@ -5,7 +5,9 @@
  * Simple fbdev driver that maps a fixed memory region as the display buffer.
  * The framebuffer is located at the top of the 1GB address space.
  *
- * Resolution: 800x600, RGB888 (24-bit truecolor)
+ * Resolution: 800x600, XRGB8888 (32-bit for word-aligned access)
+ *
+ * Uses hand-optimized Subleq assembly for font blitting performance.
  */
 
 #include <linux/module.h>
@@ -18,6 +20,9 @@
 #include <linux/fb.h>
 #include <linux/init.h>
 #include <linux/platform_device.h>
+
+/* Assembly-optimized row blitter (subleq_blit_row.S) */
+extern void subleq_blit_row8(u32 *dst, u32 byte, u32 fg, u32 bg);
 
 /* Framebuffer configuration - must match VM settings */
 #define SUBLEQFB_WIDTH       800
@@ -208,20 +213,12 @@ static void subleqfb_imageblit(struct fb_info *info, const struct fb_image *imag
 		u32 *p = dst;
 		u32 w = 0;
 
-		/* Process full bytes (8 pixels at a time) with unrolled loop */
+		/* Process full bytes (8 pixels at a time) using assembly blitter */
 		while (w + 8 <= width) {
 			u8 byte = *src++;
-			/* Unrolled: write 8 pixels from one byte */
-
-			if (byte >= 0x80) { byte -= 0x80; *p++ = fg; } else *p++ = bg;
-			if (byte >= 0x40) { byte -= 0x40; *p++ = fg; } else *p++ = bg;
-			if (byte >= 0x20) { byte -= 0x20; *p++ = fg; } else *p++ = bg;
-			if (byte >= 0x10) { byte -= 0x10; *p++ = fg; } else *p++ = bg;
-			if (byte >= 0x08) { byte -= 0x08; *p++ = fg; } else *p++ = bg;
-			if (byte >= 0x04) { byte -= 0x04; *p++ = fg; } else *p++ = bg;
-			if (byte >= 0x02) { byte -= 0x02; *p++ = fg; } else *p++ = bg;
-			if (byte >= 0x01) { *p++ = fg; } else *p++ = bg;
-
+			/* Call optimized assembly function */
+			subleq_blit_row8(p, (u32)byte, fg, bg);
+			p += 8;
 			w += 8;
 		}
 

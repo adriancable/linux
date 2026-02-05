@@ -20,6 +20,7 @@
 #include <linux/delay.h>
 #include <linux/timekeeping.h>
 #include <linux/time.h>
+#include <linux/random.h>
 
 #include <asm/irq.h>
 #include <asm/io.h>
@@ -102,11 +103,31 @@ unsigned long long notrace sched_clock(void)
  */
 void __init time_init(void)
 {
+	u64 entropy[4];  /* 32 bytes = 256 bits for CRNG initialization */
+	int i;
+
 	/*
 	 * Initialize boot_ns for sched_clock().
 	 * Read the clock once to establish the boot timestamp.
 	 */
 	(void)sched_clock();
+
+	/*
+	 * Seed the random number generator with nanosecond clock values.
+	 * Read the clock multiple times - each read has different nanosecond
+	 * precision due to varying execution time. This provides 256 bits
+	 * of entropy to fully initialize the CRNG and eliminate the
+	 * "uninitialized urandom read" warnings.
+	 *
+	 * With random.trust_bootloader=on, this credits the entropy.
+	 */
+	for (i = 0; i < 4; i++) {
+		u32 lo = readl((void __iomem *)SUBLEQ_CLOCK_S_LO);
+		u32 hi = readl((void __iomem *)SUBLEQ_CLOCK_S_HI);
+		u32 ns = readl((void __iomem *)SUBLEQ_CLOCK_NS);
+		entropy[i] = ((u64)hi << 32 | lo) * NSEC_PER_SEC + ns;
+	}
+	add_bootloader_randomness(entropy, sizeof(entropy));
 
 	/*
 	 * Register the clocksource at 1 GHz (nanosecond resolution).

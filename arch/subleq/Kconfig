@@ -70,10 +70,6 @@ config PHYS_ADDR_T_64BIT
 config ARCH_SUPPORTS_UPROBES
 	def_bool n
 
-# Subleq doesn't have display hardware, so disable virtual terminal support
-config VT
-	def_bool n
-
 config LEGACY_PTYS
 	def_bool n
 config CMDLINE

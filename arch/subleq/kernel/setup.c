@@ -148,6 +148,17 @@ void __init setup_arch(char **cmdline_p)
 	/* Reserve low memory (boot area, registers, etc.) */
 	memblock_reserve(0, 0x1000);
 
+	/*
+	 * Reserve framebuffer region at top of memory.
+	 * Must match FB_ADDR in vm_reference_framebuffer.c and subleqfb.c
+	 * Size: 1280 * 1024 * 3 = 3932160 bytes (~3.75MB)
+	 */
+#define SUBLEQ_FB_SIZE   (800 * 600 * 4)  /* XRGB8888: 32-bit per pixel */
+#define SUBLEQ_FB_ADDR   (0x40000000UL - SUBLEQ_FB_SIZE)
+	memblock_reserve(SUBLEQ_FB_ADDR, SUBLEQ_FB_SIZE);
+	pr_info("Framebuffer reserved at 0x%08lx, size %d bytes\n",
+		SUBLEQ_FB_ADDR, SUBLEQ_FB_SIZE);
+
 	/* NOMMU: no sparse memory */
 
 	/* No swap device */

@@ -14,6 +14,7 @@ obj-y += syscalls.o
 obj-y += syscall_entry.o
 obj-y += sys_subleq.o
 obj-y += tty.o
+obj-y += keyboard.o
 obj-y += binfmt_elf_subleq.o
 obj-y += elf_process_relr_section.o
 

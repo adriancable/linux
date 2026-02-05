@@ -26,7 +26,7 @@ extern void subleq_blit_row8(u32 *dst, u32 byte, u32 fg, u32 bg);
 
 /* Framebuffer configuration - must match VM settings */
 #define SUBLEQFB_WIDTH       800
-#define SUBLEQFB_HEIGHT      600
+#define SUBLEQFB_HEIGHT      512
 #define SUBLEQFB_BPP         32      /* XRGB8888 - 32-bit aligned for fast word access */
 #define SUBLEQFB_FB_SIZE     (SUBLEQFB_WIDTH * SUBLEQFB_HEIGHT * 4)
 #define SUBLEQFB_FB_ADDR     (0x40000000UL - SUBLEQFB_FB_SIZE)
@@ -187,9 +187,12 @@ static void subleqfb_imageblit(struct fb_info *info, const struct fb_image *imag
 	u32 x, y, width, height;
 	u32 line_words = info->fix.line_length / 4;
 
-	/* Only support 1bpp images (monochrome fonts) */
-	if (image->depth != 1)
+	/* Only support 1bpp images (monochrome fonts) with our optimized path.
+	 * For other depths (like the boot logo), fall back to generic code. */
+	if (image->depth != 1) {
+		cfb_imageblit(info, image);
 		return;
+	}
 
 	/* Get foreground and background colors */
 	if (info->fix.visual == FB_VISUAL_TRUECOLOR) {

@@ -1824,6 +1824,8 @@ config FB_SUBLEQ
 	bool "Subleq Virtual Machine framebuffer"
 	depends on FB && SUBLEQ
 	select FB_SYSMEM_HELPERS
+	select FB_CFB_IMAGEBLIT
+	select FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION
 	help
 	  Framebuffer driver for the Subleq virtual machine. Maps a
 	  fixed memory region at the top of the 1GB address space as

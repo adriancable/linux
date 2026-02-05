@@ -17,5 +17,6 @@ obj-y += tty.o
 obj-y += keyboard.o
 obj-y += binfmt_elf_subleq.o
 obj-y += elf_process_relr_section.o
+obj-$(CONFIG_FRAMEBUFFER_CONSOLE) += bitblit.o bitblit_asm.o
 
 always-$(KBUILD_BUILTIN) := vmlinux.lds

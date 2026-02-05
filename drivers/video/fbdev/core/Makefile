@@ -13,7 +13,12 @@ fb-$(CONFIG_FB_DEVICE)            += fb_chrdev.o \
                                      fbsysfs.o
 
 ifeq ($(CONFIG_FRAMEBUFFER_CONSOLE),y)
+# Subleq provides its own bitblit in arch/subleq/kernel/subleq_bitblit.c
+ifdef CONFIG_SUBLEQ
+fb-y				  += fbcon.o softcursor.o
+else
 fb-y				  += fbcon.o bitblit.o softcursor.o
+endif
 ifeq ($(CONFIG_FB_TILEBLITTING),y)
 fb-y				  += tileblit.o
 endif

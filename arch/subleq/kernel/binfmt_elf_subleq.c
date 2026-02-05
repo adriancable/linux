@@ -1140,7 +1140,7 @@ static int process_relocations_and_symbols(struct libsrt_state *state, struct fi
 		if (shdr->sh_size == 0)
 			continue;
 
-		subleq_elf_debug("Processing RELR section: size=%lu entries",
+		subleq_elf_debug("Processing RELR section: size=%u entries",
 			shdr->sh_size / sizeof(u32));
 
 		/* Allocate buffer for RELR data */

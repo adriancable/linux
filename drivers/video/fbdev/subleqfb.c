@@ -24,8 +24,6 @@
 /* Assembly-optimized row blitter (subleq_blit_row.S) */
 extern void subleq_blit_row8(u32 *dst, u32 byte, u32 fg, u32 bg);
 
-extern void __subleq_memmove(char *dst, char *src, int len);
-
 /* Framebuffer configuration - must match VM settings */
 #define SUBLEQFB_WIDTH       800
 #define SUBLEQFB_HEIGHT      512
@@ -88,7 +86,6 @@ static int subleqfb_setcolreg(u_int regno, u_int red, u_int green, u_int blue,
 
 /*
  * Custom framebuffer operations using optimized memory functions
- * memmove() maps to __subleq_memmove which is highly optimized
  */
 
 /* Fill rectangle with solid color */
@@ -167,7 +164,7 @@ static void subleqfb_copyarea(struct fb_info *info, const struct fb_copyarea *ar
 		for (h = 0; h < height; h++) {
 			u8 *src_row = base + (sy + h) * line_bytes + sx * 4;
 			u8 *dst_row = base + (dy + h) * line_bytes + dx * 4;
-			__subleq_memmove(dst_row, src_row, row_bytes);
+			memmove(dst_row, src_row, row_bytes);
 		}
 	} else {
 		/* Copy bottom-to-top for overlapping regions */
@@ -175,7 +172,7 @@ static void subleqfb_copyarea(struct fb_info *info, const struct fb_copyarea *ar
 		for (h = height; h > 0; h--) {
 			u8 *src_row = base + (sy + h - 1) * line_bytes + sx * 4;
 			u8 *dst_row = base + (dy + h - 1) * line_bytes + dx * 4;
-			__subleq_memmove(dst_row, src_row, row_bytes);
+			memmove(dst_row, src_row, row_bytes);
 		}
 	}
 }

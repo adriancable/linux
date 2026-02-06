@@ -132,9 +132,9 @@ extern void __subleq_udivrem64(void);
 extern void __subleq_xor(void);
 extern void __udivdi3(void);
 extern void __umoddi3(void);
-extern void __subleq_memcpy(void);
-extern void __subleq_memset(void);
-extern void __subleq_memmove(void);
+// extern void __subleq_memcpy(void);
+// extern void __subleq_memset(void);
+// extern void __subleq_memmove(void);
 /* __subleq_syscall declared in asm/ptrace.h as char[] for address range checking */
 
 /* Soft float functions (from subleq_runtime_softfloat.c) */

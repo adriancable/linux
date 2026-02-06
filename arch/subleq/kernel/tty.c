@@ -27,6 +27,9 @@
 extern void __subleq_putchar(int c);
 extern int __subleq_getchar(void);
 
+/* Forward declaration */
+void subleq_tty_inject_char(unsigned char c);
+
 static struct tty_driver *subleq_tty_driver;
 static struct tty_port subleq_tty_port;
 static struct tty_struct *subleq_tty_current;

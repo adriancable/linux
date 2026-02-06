@@ -61,133 +61,128 @@ subleq_blit_row8:
  *   .word   REG_Z, REG_R21 | INDIRECT, .+4                // [dst] = fg
  */
 
-/*=== PIXEL 0 (bit 7) ===*/
+/*=== PIXEL 0 (bit 7) - BOOTSTRAP Z=0 ===*/
         .word   .Lconst_0x80, REG_R22, .Lpixel0_bg
-        /* fg path (4 instructions) */
+        /* fg path - needs Z clear (first pixel) */
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
         .word   REG_Z, REG_Z, .+4
         .word   REG_R23, REG_Z, .+4
         .word   REG_Z, REG_R21 | INDIRECT, .+4
         .word   REG_Z, REG_Z, .Lpixel0_done
 .Lpixel0_bg:
-        /* bg path - restore T1 first */
+        /* bg path - needs Z clear (first pixel), also jump to ensure Z=0 */
         .word   .Lconst_n0x80, REG_R22, .+4
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
         .word   REG_Z, REG_Z, .+4
         .word   REG_R24, REG_Z, .+4
         .word   REG_Z, REG_R21 | INDIRECT, .+4
+        .word   REG_Z, REG_Z, .Lpixel0_done
 .Lpixel0_done:
         .word   .Lconst_n4, REG_R21, .+4
 
-/*=== PIXEL 1 (bit 6) ===*/
+/*=== PIXEL 1 (bit 6): Z guaranteed 0 ===*/
         .word   .Lconst_0x40, REG_R22, .Lpixel1_bg
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .+4
         .word   REG_R23, REG_Z, .+4
         .word   REG_Z, REG_R21 | INDIRECT, .+4
         .word   REG_Z, REG_Z, .Lpixel1_done
 .Lpixel1_bg:
         .word   .Lconst_n0x40, REG_R22, .+4
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .+4
         .word   REG_R24, REG_Z, .+4
         .word   REG_Z, REG_R21 | INDIRECT, .+4
+        .word   REG_Z, REG_Z, .Lpixel1_done
 .Lpixel1_done:
         .word   .Lconst_n4, REG_R21, .+4
 
-/*=== PIXEL 2 (bit 5) ===*/
+/*=== PIXEL 2 (bit 5): Z guaranteed 0 ===*/
         .word   .Lconst_0x20, REG_R22, .Lpixel2_bg
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .+4
         .word   REG_R23, REG_Z, .+4
         .word   REG_Z, REG_R21 | INDIRECT, .+4
         .word   REG_Z, REG_Z, .Lpixel2_done
 .Lpixel2_bg:
         .word   .Lconst_n0x20, REG_R22, .+4
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .+4
         .word   REG_R24, REG_Z, .+4
         .word   REG_Z, REG_R21 | INDIRECT, .+4
+        .word   REG_Z, REG_Z, .Lpixel2_done
 .Lpixel2_done:
         .word   .Lconst_n4, REG_R21, .+4
 
-/*=== PIXEL 3 (bit 4) ===*/
+/*=== PIXEL 3 (bit 4): Z guaranteed 0 ===*/
         .word   .Lconst_0x10, REG_R22, .Lpixel3_bg
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .+4
         .word   REG_R23, REG_Z, .+4
         .word   REG_Z, REG_R21 | INDIRECT, .+4
         .word   REG_Z, REG_Z, .Lpixel3_done
 .Lpixel3_bg:
         .word   .Lconst_n0x10, REG_R22, .+4
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .+4
         .word   REG_R24, REG_Z, .+4
         .word   REG_Z, REG_R21 | INDIRECT, .+4
+        .word   REG_Z, REG_Z, .Lpixel3_done
 .Lpixel3_done:
         .word   .Lconst_n4, REG_R21, .+4
 
-/*=== PIXEL 4 (bit 3) ===*/
+/*=== PIXEL 4 (bit 3): Z guaranteed 0 ===*/
         .word   .Lconst_0x08, REG_R22, .Lpixel4_bg
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .+4
         .word   REG_R23, REG_Z, .+4
         .word   REG_Z, REG_R21 | INDIRECT, .+4
         .word   REG_Z, REG_Z, .Lpixel4_done
 .Lpixel4_bg:
         .word   .Lconst_n0x08, REG_R22, .+4
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .+4
         .word   REG_R24, REG_Z, .+4
         .word   REG_Z, REG_R21 | INDIRECT, .+4
+        .word   REG_Z, REG_Z, .Lpixel4_done
 .Lpixel4_done:
         .word   .Lconst_n4, REG_R21, .+4
 
-/*=== PIXEL 5 (bit 2) ===*/
+/*=== PIXEL 5 (bit 2): Z guaranteed 0 ===*/
         .word   .Lconst_0x04, REG_R22, .Lpixel5_bg
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .+4
         .word   REG_R23, REG_Z, .+4
         .word   REG_Z, REG_R21 | INDIRECT, .+4
         .word   REG_Z, REG_Z, .Lpixel5_done
 .Lpixel5_bg:
         .word   .Lconst_n0x04, REG_R22, .+4
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .+4
         .word   REG_R24, REG_Z, .+4
         .word   REG_Z, REG_R21 | INDIRECT, .+4
+        .word   REG_Z, REG_Z, .Lpixel5_done
 .Lpixel5_done:
         .word   .Lconst_n4, REG_R21, .+4
 
-/*=== PIXEL 6 (bit 1) ===*/
+/*=== PIXEL 6 (bit 1): Z guaranteed 0 ===*/
         .word   .Lconst_0x02, REG_R22, .Lpixel6_bg
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .+4
         .word   REG_R23, REG_Z, .+4
         .word   REG_Z, REG_R21 | INDIRECT, .+4
         .word   REG_Z, REG_Z, .Lpixel6_done
 .Lpixel6_bg:
         .word   .Lconst_n0x02, REG_R22, .+4
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .+4
         .word   REG_R24, REG_Z, .+4
         .word   REG_Z, REG_R21 | INDIRECT, .+4
+        .word   REG_Z, REG_Z, .Lpixel6_done
 .Lpixel6_done:
         .word   .Lconst_n4, REG_R21, .+4
 
-/*=== PIXEL 7 (bit 0) ===*/
+/*=== PIXEL 7 (bit 0): Z guaranteed 0 - last pixel ===*/
         .word   .Lconst_0x01, REG_R22, .Lpixel7_bg
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .+4
         .word   REG_R23, REG_Z, .+4
         .word   REG_Z, REG_R21 | INDIRECT, .+4
         .word   REG_Z, REG_Z, .Ldone
 .Lpixel7_bg:
         /* No restore needed for last pixel */
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .+4
         .word   REG_R24, REG_Z, .+4
         .word   REG_Z, REG_R21 | INDIRECT, .+4
+        .word   REG_Z, REG_Z, .Ldone
+
 
 /*=== RETURN ===*/
 .Ldone:

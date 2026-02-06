@@ -20,9 +20,52 @@
 #include <asm/types.h>
 #include "../../../drivers/video/fbdev/core/fbcon.h"
 
-/* Assembly-optimized font copy for 8x16 fonts */
-extern void bitblit_copy_font8x16(u8 *dst, const u16 *s, const u8 *font,
+/* Assembly-optimized font copy for 8x16 fonts (legacy pixmap path) */
+extern void bitblit_copy_font8x16(u8 *dst, const u16 *s, const u32 *font,
 				  u32 cnt, u32 d_pitch, u32 s_pitch);
+
+/*
+ * NEW: Direct framebuffer rendering - bypasses pixmap buffer entirely
+ * Renders characters directly to 32bpp framebuffer.
+ *
+ * fb:       Framebuffer base pointer (32bpp XRGB8888)
+ * fb_pitch: Bytes per framebuffer row (e.g., 800*4=3200)
+ * x, y:     Pixel coordinates of first character
+ * font:     Expanded font array (one byte per word)
+ * s:        Screen buffer (u16 per char: attr<<8 | char)
+ * cnt:      Number of characters to render
+ * s_pitch:  Bytes between characters in screen buffer (usually 2)
+ * fg, bg:   Foreground/background colors (32-bit XRGB)
+ */
+extern void subleq_direct_putcs(u32 *fb, u32 fb_pitch, u32 x, u32 y,
+				const u32 *font, const u16 *s, u32 cnt,
+				u32 s_pitch, u32 fg, u32 bg);
+
+/*
+ * Expanded font: one byte per word for fast word-aligned access.
+ * This eliminates byte extraction operations in the Subleq blitter.
+ * Size: 256 chars × 16 rows × 4 bytes = 16KB
+ */
+static u32 expanded_font[256 * 16] __aligned(4);
+static const u8 *current_font_data;
+static bool font_expanded;
+
+/*
+ * Expand packed font data (1 byte per row) to word-aligned (1 word per row).
+ * Called once per font change.
+ */
+static void expand_font(const u8 *packed, u32 charcount, u32 height)
+{
+	u32 i;
+	u32 total = charcount * height;
+
+	/* Limit to 256 chars × 16 rows = 4096 entries */
+	if (total > 256 * 16)
+		total = 256 * 16;
+
+	for (i = 0; i < total; i++)
+		expanded_font[i] = (u32)packed[i];
+}
 
 /*
  * Update attributes (underline/bold/reverse) on font data.
@@ -123,9 +166,15 @@ static void bit_putcs_aligned(struct vc_data *vc, struct fb_info *info,
 	if (likely(idx == 1 && !attr && height == 16)) {
 		/*
 		 * FASTEST PATH: 8x16 font, no attributes
-		 * Use hand-optimized Subleq assembly
+		 * Use hand-optimized Subleq assembly with expanded font
 		 */
-		bitblit_copy_font8x16(dst, s, fontdata, cnt, d_pitch, s_pitch);
+		/* Expand font on first use or if font changed */
+		if (!font_expanded || current_font_data != fontdata) {
+			expand_font(fontdata, charcnt, height);
+			current_font_data = fontdata;
+			font_expanded = true;
+		}
+		bitblit_copy_font8x16(dst, s, expanded_font, cnt, d_pitch, s_pitch);
 	} else if (likely(idx == 1 && !attr)) {
 		/*
 		 * FAST PATH: 8-pixel font, no attributes (other heights)
@@ -252,6 +301,36 @@ static void bit_putcs(struct vc_data *vc, struct fb_info *info,
 		return;
 
 	image.height = min(image.height, info->var.yres - image.dy);
+
+	/*
+	 * SUBLEQ DIRECT FRAMEBUFFER PATH
+	 * For 8x16 fonts with no attributes, render directly to framebuffer
+	 * bypassing the intermediate pixmap buffer entirely.
+	 */
+	if (likely(vc->vc_font.width == 8 && vc->vc_font.height == 16 &&
+		   !attribute && info->var.bits_per_pixel == 32)) {
+		const u8 *fontdata = vc->vc_font.data;
+		u32 fb_fg, fb_bg;
+
+		/* Expand font on first use or if font changed */
+		if (!font_expanded || current_font_data != fontdata) {
+			expand_font(fontdata, vc->vc_font.charcount, 16);
+			current_font_data = fontdata;
+			font_expanded = true;
+		}
+
+		/* Convert palette indices to 32-bit colors */
+		fb_fg = fg < 16 ? ((u32 *)info->pseudo_palette)[fg] : fg;
+		fb_bg = bg < 16 ? ((u32 *)info->pseudo_palette)[bg] : bg;
+
+		/* Render directly to framebuffer */
+		subleq_direct_putcs((u32 *)info->screen_base,
+				    info->fix.line_length,
+				    image.dx, image.dy,
+				    expanded_font, s, count,
+				    2, fb_fg, fb_bg);
+		return;
+	}
 
 	if (attribute) {
 		buf = kmalloc(cellsize, GFP_ATOMIC);

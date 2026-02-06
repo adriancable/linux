@@ -146,13 +146,20 @@ bitblit_copy_font8x16:
         .word   REG_Z, REG_Z, __subleq_lb
 
 .Lchar_lb_ret:
-        /* R20 = character code (0-255). Compute font offset = R20 * 16 */
+        /* R20 = character code (0-255). Compute font offset = R20 * 64 */
+        /* (expanded font: 4 bytes per row, 16 rows = 64 bytes per char) */
         .word   REG_T14, REG_T14, .+4
         .word   REG_R20, REG_Z, .+4
         .word   REG_Z, REG_T14, .+4
         .word   REG_Z, REG_Z, .+4
 
-        /* T14 = ch * 16 via 4 doublings */
+        /* T14 = ch * 64 via 6 doublings */
+        .word   REG_T14, REG_Z, .+4
+        .word   REG_Z, REG_T14, .+4
+        .word   REG_Z, REG_Z, .+4
+        .word   REG_T14, REG_Z, .+4
+        .word   REG_Z, REG_T14, .+4
+        .word   REG_Z, REG_Z, .+4
         .word   REG_T14, REG_Z, .+4
         .word   REG_Z, REG_T14, .+4
         .word   REG_Z, REG_Z, .+4
@@ -166,7 +173,7 @@ bitblit_copy_font8x16:
         .word   REG_Z, REG_T14, .+4
         .word   REG_Z, REG_Z, .+4
 
-        /* T14 += T10 (font base) => T14 = font + ch*16 */
+        /* T14 += T10 (font base) => T14 = font + ch*64 */
         .word   REG_T10, REG_Z, .+4
         .word   REG_Z, REG_T14, .+4
         .word   REG_Z, REG_Z, .+4
@@ -196,20 +203,17 @@ bitblit_copy_font8x16:
         /* subleq(Z, T15, target) does T15 = T15 - 0 = T15, branch if T15 <= 0 */
         .word   REG_Z, REG_T15, .Lbyte_done
 
-        /* Call __subleq_lb: R21 = T14 (font_ptr) */
-        .word   REG_R21, REG_R21, .+4
-        .word   REG_T14, REG_Z, .+4
-        .word   REG_Z, REG_R21, .+4
+        /*
+         * OPTIMIZED: Direct word read from expanded font (no lb call!)
+         * Font byte is at [T14] as a u32 (only low byte matters)
+         * R20 = [T14]
+         */
+        .word   REG_R20, REG_R20, .+4
+        .word   REG_Z, REG_Z, .+4
+        .word   REG_T14 | INDIRECT, REG_Z, .+4
+        .word   REG_Z, REG_R20, .+4
         .word   REG_Z, REG_Z, .+4
 
-        .word   .Lconst_4, REG_SP, .+4
-        .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   .Llb_ret_const, REG_Z, .+4
-        .word   REG_Z, REG_SP | INDIRECT, .+4
-        .word   REG_Z, REG_Z, __subleq_lb
-
-.Llb_ret:
         /* Load cur_dst from [SP+4] to R21 for sb */
         .word   REG_R22, REG_R22, .+4
         .word   REG_Z, REG_Z, .+4
@@ -222,7 +226,7 @@ bitblit_copy_font8x16:
         .word   REG_Z, REG_R21, .+4
         .word   REG_Z, REG_Z, .+4
 
-        /* R22 = R20 (byte from lb) */
+        /* R22 = R20 (byte from word read) */
         .word   REG_R22, REG_R22, .+4
         .word   REG_R20, REG_Z, .+4
         .word   REG_Z, REG_R22, .+4
@@ -237,8 +241,8 @@ bitblit_copy_font8x16:
         .word   REG_Z, REG_Z, __subleq_sb
 
 .Lsb_ret:
-        /* T14 += 1 (next font byte) */
-        .word   .Lconst_n1, REG_T14, .+4
+        /* T14 += 4 (next font word - expanded font has 4 bytes per row) */
+        .word   .Lconst_n4, REG_T14, .+4
 
         /* [SP+4] += T12 (cur_dst += d_pitch) */
         .word   REG_R21, REG_R21, .+4
@@ -385,6 +389,7 @@ bitblit_copy_font8x16:
 /* Constants */
 .Lconst_n1:     .word   -1
 .Lconst_n2:     .word   -2
+.Lconst_n4:     .word   -4
 .Lconst_n8:     .word   -8
 .Lconst_n16:    .word   -16
 .Lconst_1:      .word   1
@@ -395,7 +400,6 @@ bitblit_copy_font8x16:
 
 /* Return address constants */
 .Lchar_lb_ret_const:      .word   .Lchar_lb_ret
-.Llb_ret_const:           .word   .Llb_ret
 .Lsb_ret_const:           .word   .Lsb_ret
 .Lfast_lb_ret_const:      .word   .Lfast_lb_ret
 .Lfast_memmove_ret_const: .word   .Lfast_memmove_ret

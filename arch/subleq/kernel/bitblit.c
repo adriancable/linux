@@ -20,12 +20,8 @@
 #include <asm/types.h>
 #include "../../../drivers/video/fbdev/core/fbcon.h"
 
-/* Assembly-optimized font copy for 8x16 fonts (legacy pixmap path) */
-extern void bitblit_copy_font8x16(u8 *dst, const u16 *s, const u32 *font,
-				  u32 cnt, u32 d_pitch, u32 s_pitch);
-
 /*
- * NEW: Direct framebuffer rendering - bypasses pixmap buffer entirely
+ * Direct framebuffer rendering - bypasses pixmap buffer entirely.
  * Renders characters directly to 32bpp framebuffer.
  *
  * fb:       Framebuffer base pointer (32bpp XRGB8888)
@@ -40,6 +36,7 @@ extern void bitblit_copy_font8x16(u8 *dst, const u16 *s, const u32 *font,
 extern void subleq_direct_putcs(u32 *fb, u32 fb_pitch, u32 x, u32 y,
 				const u32 *font, const u16 *s, u32 cnt,
 				u32 s_pitch, u32 fg, u32 bg);
+
 
 /*
  * Expanded font: one byte per word for fast word-aligned access.
@@ -163,19 +160,8 @@ static void bit_putcs_aligned(struct vc_data *vc, struct fb_info *info,
 	u8 *src;
 	u16 ch;
 
-	if (likely(idx == 1 && !attr && height == 16)) {
-		/*
-		 * FASTEST PATH: 8x16 font, no attributes
-		 * Use hand-optimized Subleq assembly with expanded font
-		 */
-		/* Expand font on first use or if font changed */
-		if (!font_expanded || current_font_data != fontdata) {
-			expand_font(fontdata, charcnt, height);
-			current_font_data = fontdata;
-			font_expanded = true;
-		}
-		bitblit_copy_font8x16(dst, s, expanded_font, cnt, d_pitch, s_pitch);
-	} else if (likely(idx == 1 && !attr)) {
+	if (likely(idx == 1 && !attr)) {
+
 		/*
 		 * FAST PATH: 8-pixel font, no attributes (other heights)
 		 * This is the common case for normal console text

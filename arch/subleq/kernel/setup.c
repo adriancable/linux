@@ -153,7 +153,7 @@ void __init setup_arch(char **cmdline_p)
 	 * Must match FB_ADDR in vm_reference_framebuffer.c and subleqfb.c
 	 * Size: 1280 * 1024 * 3 = 3932160 bytes (~3.75MB)
 	 */
-#define SUBLEQ_FB_SIZE   (800 * 600 * 4)  /* XRGB8888: 32-bit per pixel */
+#define SUBLEQ_FB_SIZE   (800 * 512 * 4)  /* XRGB8888: 32-bit per pixel */
 #define SUBLEQ_FB_ADDR   (0x40000000UL - SUBLEQ_FB_SIZE)
 	memblock_reserve(SUBLEQ_FB_ADDR, SUBLEQ_FB_SIZE);
 	pr_info("Framebuffer reserved at 0x%08lx, size %d bytes\n",

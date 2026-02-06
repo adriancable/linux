@@ -109,6 +109,18 @@ bitblit_copy_font8x16:
         .word   REG_Z, REG_T13, .+4
         .word   REG_Z, REG_Z, .+4
 
+        /*
+         * CHECK d_pitch == 1 for fast path
+         * If T12 == 1, branch to memmove fast loop
+         * subleq(1, T12, target) does T12 = T12 - 1, branch if <= 0
+         * So if T12 == 1, result = 0, branch taken
+         */
+        .word   .Lconst_1, REG_T12, .Lfast_path
+
+        /* Restore T12: T12 was decremented, add 1 back */
+        .word   .Lconst_n1, REG_T12, .+4
+
+/*=== STRIDED PATH (d_pitch > 1) ===*/
 /*=== MAIN CHARACTER LOOP ===*/
 .Lchar_loop:
         /* if T11 (cnt) <= 0, done */
@@ -259,6 +271,103 @@ bitblit_copy_font8x16:
 
         .word   REG_Z, REG_Z, .Lchar_loop
 
+/*===========================================================================
+ * FAST PATH: d_pitch == 1 (contiguous copy)
+ * Use memmove(dst, font_ptr, 16) per character - much faster than 16 lb/sb!
+ *
+ * State at entry (d_pitch was consumed by check, but we don't need it):
+ *   T8 = dst, T9 = s, T10 = font, T11 = cnt, T13 = s_pitch
+ *===========================================================================*/
+.Lfast_path:
+        /* Restore T12 = 1 (it was decremented to 0 by the check) */
+        .word   .Lconst_n1, REG_T12, .+4
+
+.Lfast_loop:
+        /* if T11 (cnt) <= 0, done */
+        .word   REG_Z, REG_T11, .Ldone
+
+        /*
+         * Read character code using __subleq_lb from address T9.
+         */
+        .word   REG_R21, REG_R21, .+4
+        .word   REG_T9, REG_Z, .+4
+        .word   REG_Z, REG_R21, .+4
+        .word   REG_Z, REG_Z, .+4
+
+        /* Push and call __subleq_lb to get char code */
+        .word   .Lconst_4, REG_SP, .+4
+        .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .+4
+        .word   REG_Z, REG_Z, .+4
+        .word   .Lfast_lb_ret_const, REG_Z, .+4
+        .word   REG_Z, REG_SP | INDIRECT, .+4
+        .word   REG_Z, REG_Z, __subleq_lb
+
+.Lfast_lb_ret:
+        /* R20 = character code (0-255). Compute font offset = R20 * 16 */
+        .word   REG_T14, REG_T14, .+4
+        .word   REG_R20, REG_Z, .+4
+        .word   REG_Z, REG_T14, .+4
+        .word   REG_Z, REG_Z, .+4
+
+        /* T14 = ch * 16 via 4 doublings */
+        .word   REG_T14, REG_Z, .+4
+        .word   REG_Z, REG_T14, .+4
+        .word   REG_Z, REG_Z, .+4
+        .word   REG_T14, REG_Z, .+4
+        .word   REG_Z, REG_T14, .+4
+        .word   REG_Z, REG_Z, .+4
+        .word   REG_T14, REG_Z, .+4
+        .word   REG_Z, REG_T14, .+4
+        .word   REG_Z, REG_Z, .+4
+        .word   REG_T14, REG_Z, .+4
+        .word   REG_Z, REG_T14, .+4
+        .word   REG_Z, REG_Z, .+4
+
+        /* T14 += T10 (font base) => T14 = font + ch*16 */
+        .word   REG_T10, REG_Z, .+4
+        .word   REG_Z, REG_T14, .+4
+        .word   REG_Z, REG_Z, .+4
+
+        /*
+         * Call memmove(dst=T8, src=T14, len=16)
+         * memmove args: R21=dst, R22=src, R23=len
+         */
+        .word   REG_R21, REG_R21, .+4
+        .word   REG_T8, REG_Z, .+4
+        .word   REG_Z, REG_R21, .+4
+        .word   REG_Z, REG_Z, .+4
+
+        .word   REG_R22, REG_R22, .+4
+        .word   REG_T14, REG_Z, .+4
+        .word   REG_Z, REG_R22, .+4
+        .word   REG_Z, REG_Z, .+4
+
+        .word   REG_R23, REG_R23, .+4
+        .word   REG_Z, REG_Z, .+4
+        .word   .Lconst_16, REG_Z, .+4
+        .word   REG_Z, REG_R23, .+4
+        .word   REG_Z, REG_Z, .+4
+
+        /* Push and call memmove */
+        .word   .Lconst_4, REG_SP, .+4
+        .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .+4
+        .word   REG_Z, REG_Z, .+4
+        .word   .Lfast_memmove_ret_const, REG_Z, .+4
+        .word   REG_Z, REG_SP | INDIRECT, .+4
+        .word   REG_Z, REG_Z, memmove
+
+.Lfast_memmove_ret:
+        /* T8 += 16 (dst advances by 16 since d_pitch == 1) */
+        .word   .Lconst_n16, REG_T8, .+4
+
+        /* T9 += 2 (next u16 in screen buffer) */
+        .word   .Lconst_n2, REG_T9, .+4
+
+        /* T11 -= 1 */
+        .word   .Lconst_1, REG_T11, .+4
+
+        .word   REG_Z, REG_Z, .Lfast_loop
+
 .Ldone:
         /* Load RA from [SP+0] */
         .word   REG_T14, REG_T14, .+4
@@ -277,6 +386,7 @@ bitblit_copy_font8x16:
 .Lconst_n1:     .word   -1
 .Lconst_n2:     .word   -2
 .Lconst_n8:     .word   -8
+.Lconst_n16:    .word   -16
 .Lconst_1:      .word   1
 .Lconst_4:      .word   4
 .Lconst_8:      .word   8
@@ -284,8 +394,10 @@ bitblit_copy_font8x16:
 .Lconst_16:     .word   16
 
 /* Return address constants */
-.Lchar_lb_ret_const: .word   .Lchar_lb_ret
-.Llb_ret_const: .word   .Llb_ret
-.Lsb_ret_const: .word   .Lsb_ret
+.Lchar_lb_ret_const:      .word   .Lchar_lb_ret
+.Llb_ret_const:           .word   .Llb_ret
+.Lsb_ret_const:           .word   .Lsb_ret
+.Lfast_lb_ret_const:      .word   .Lfast_lb_ret
+.Lfast_memmove_ret_const: .word   .Lfast_memmove_ret
 
 .size bitblit_copy_font8x16, . - bitblit_copy_font8x16

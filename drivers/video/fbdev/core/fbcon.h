@@ -75,6 +75,7 @@ struct fbcon_par {
 	struct fb_info *info;
         int    currcon;	                /* Current VC. */
 	int    cur_blink_jiffies;
+	u64    last_blink_ns;           /* Last cursor blink time (nanoseconds) */
 	int    cursor_flash;
 	int    cursor_reset;
 	int    blank_state;

@@ -81,10 +81,28 @@
 #include <linux/uaccess.h>
 #include <linux/vga_switcheroo.h>
 #include <asm/irq.h>
+#include <asm/io.h>
 
 #include "../../../drivers/video/fbdev/core/fbcon.h"
 #include "../../../drivers/video/fbdev/core/fbcon_rotate.h"
 #include "../../../drivers/video/fbdev/core/fb_internal.h"
+
+/*
+ * Subleq Clock Registers for real-time cursor blinking.
+ * The VM provides nanosecond-resolution wall-clock time.
+ */
+#define SUBLEQ_CLOCK_S_LO	256
+#define SUBLEQ_CLOCK_S_HI	260
+#define SUBLEQ_CLOCK_NS		264
+#define CURSOR_BLINK_NS		(200 * 1000000ULL)  /* 200ms in nanoseconds */
+
+static inline u64 subleq_get_time_ns(void)
+{
+	u32 lo = readl((void __iomem *)SUBLEQ_CLOCK_S_LO);
+	u32 hi = readl((void __iomem *)SUBLEQ_CLOCK_S_HI);
+	u32 ns = readl((void __iomem *)SUBLEQ_CLOCK_NS);
+	return ((u64)hi << 32 | lo) * 1000000000ULL + ns;
+}
 
 
 /*
@@ -399,6 +417,7 @@ static void fb_flashcursor(struct work_struct *work)
 	int c;
 	bool enable;
 	int ret;
+	u64 now_ns;
 
 	/* FIXME: we should sort out the unbind locking instead */
 	/* instead we just fail to flash the cursor if we can't get
@@ -420,15 +439,25 @@ static void fb_flashcursor(struct work_struct *work)
 		return;
 	}
 
-	c = scr_readw((u16 *) vc->vc_pos);
-	enable = par->cursor_flash && !par->cursor_state.enable;
-	par->bitops->cursor(vc, info, enable,
-			    get_fg_color(vc, info, c),
-			    get_bg_color(vc, info, c));
+	/*
+	 * Use real wall-clock time for cursor blinking.
+	 * This ensures consistent 200ms blink rate regardless of CPU load,
+	 * since Subleq's jiffies are tied to instruction count, not real time.
+	 */
+	now_ns = subleq_get_time_ns();
+	if (now_ns - par->last_blink_ns >= CURSOR_BLINK_NS) {
+		par->last_blink_ns = now_ns;
+
+		c = scr_readw((u16 *) vc->vc_pos);
+		enable = par->cursor_flash && !par->cursor_state.enable;
+		par->bitops->cursor(vc, info, enable,
+				    get_fg_color(vc, info, c),
+				    get_bg_color(vc, info, c));
+	}
 	console_unlock();
 
-	queue_delayed_work(system_power_efficient_wq, &par->cursor_work,
-			   par->cur_blink_jiffies);
+	/* Re-queue with minimal delay - real timing is handled above */
+	queue_delayed_work(system_power_efficient_wq, &par->cursor_work, 1);
 }
 
 static void fbcon_add_cursor_work(struct fb_info *info)

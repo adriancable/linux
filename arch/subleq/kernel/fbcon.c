@@ -1626,75 +1626,34 @@ static void fbcon_redraw_blit(struct vc_data *vc, struct fb_info *info,
 	    (vc->vc_origin + vc->vc_size_row * line);
 	unsigned short *s = d + offset;
 	struct fbcon_par *par = info->fbcon_par;
+	int cols = vc->vc_cols;
 
+	/*
+	 * SUBLEQ OPTIMIZATION: Simple bulk copy approach.
+	 * Instead of comparing characters one-by-one to find runs,
+	 * just copy the entire row with a single bmove. This trades
+	 * potentially copying some unchanged pixels for significantly
+	 * reduced CPU overhead.
+	 */
 	while (count--) {
-		unsigned short *start = s;
-		unsigned short *le = advance_row(s, 1);
-		int x = 0;
+		/* Copy entire row of pixels with single bmove */
+		par->bitops->bmove(vc, info, line + ycount, 0, line, 0, 1, cols);
 
-		/*
-		 * SUBLEQ OPTIMIZATION: Word-at-a-time comparison
-		 * Compare 2 characters (32 bits) at once to halve iterations.
-		 * This is a significant win on Subleq where memory reads are
-		 * expensive and loops have high overhead.
-		 */
-		while (s + 1 < le) {
-			u32 sw = *(u32 *)s;  /* 2 source chars */
-			u32 dw = *(u32 *)d;  /* 2 dest chars */
+		/* Update screen buffer */
+		memcpy(d, s, cols * sizeof(unsigned short));
 
-			if (sw == dw) {
-				/* Both chars match - batch for bmove */
-				if (s > start) {
-					par->bitops->bmove(vc, info, line + ycount, x,
-							   line, x, 1, s - start);
-					x += s - start + 2;
-					start = s + 2;
-				} else {
-					x += 2;
-					start += 2;
-				}
-			} else {
-				/* At least one differs - copy both to dest */
-				scr_writew(sw & 0xFFFF, d);
-				scr_writew(sw >> 16, d + 1);
-			}
-			s += 2;
-			d += 2;
-		}
-
-		/* Handle odd last character if row has odd column count */
-		if (s < le) {
-			unsigned short c = scr_readw(s);
-			if (c == scr_readw(d)) {
-				if (s > start) {
-					par->bitops->bmove(vc, info, line + ycount, x,
-							   line, x, 1, s - start);
-					x += s - start + 1;
-					start = s + 1;
-				} else {
-					x++;
-					start++;
-				}
-			}
-			scr_writew(c, d);
-			s++;
-			d++;
-		}
-
-		if (s > start)
-			par->bitops->bmove(vc, info, line + ycount, x, line, x, 1,
-					     s - start);
-		console_conditional_schedule();
-		if (ycount > 0)
+		if (ycount > 0) {
 			line++;
-		else {
+			s += cols;
+			d += cols;
+		} else {
 			line--;
-			/* NOTE: We subtract two lines from these pointers */
-			s -= vc->vc_size_row;
-			d -= vc->vc_size_row;
+			s -= cols;
+			d -= cols;
 		}
 	}
 }
+
 
 
 static void fbcon_redraw(struct vc_data *vc, int line, int count, int offset)

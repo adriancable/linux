@@ -115,6 +115,17 @@ static void subleqfb_fillrect(struct fb_info *info, const struct fb_fillrect *re
 	if (y + height > info->var.yres)
 		height = info->var.yres - y;
 
+	/*
+	 * Fast path: full-width fill with black (color=0).
+	 * Common case after scrolling — single memset instead of
+	 * fill-first-row + per-row-memmove loop.
+	 */
+	if (width == info->var.xres && color == 0) {
+		u8 *p = (u8 *)info->screen_buffer + y * line_bytes;
+		memset(p, 0, (u32)height * line_bytes);
+		return;
+	}
+
 	/* 
 	 * Fill first row, then use memmove to replicate to other rows.
 	 * This is faster than per-pixel loops.
@@ -157,7 +168,20 @@ static void subleqfb_copyarea(struct fb_info *info, const struct fb_copyarea *ar
 	height = area->height;
 	row_bytes = width * 4;  /* 4 bytes per pixel */
 
-	/* memmove handles overlapping regions correctly */
+	/*
+	 * Fast path: full-width vertical scroll.
+	 * When sx==dx and row_bytes==line_length, all scanlines are
+	 * contiguous — collapse into a single memmove instead of
+	 * per-scanline loop (~496 calls → 1 call during scroll).
+	 */
+	if (sx == dx && row_bytes == line_bytes) {
+		u8 *src = base + sy * line_bytes;
+		u8 *dst = base + dy * line_bytes;
+		memmove(dst, src, (u32)height * line_bytes);
+		return;
+	}
+
+	/* Generic path: per-scanline copy */
 	if (dy <= sy) {
 		/* Copy top-to-bottom */
 		u32 h;

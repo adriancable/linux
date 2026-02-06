@@ -87,6 +87,7 @@
 #include "../../../drivers/video/fbdev/core/fbcon_rotate.h"
 #include "../../../drivers/video/fbdev/core/fb_internal.h"
 
+
 /*
  * Subleq Clock Registers for real-time cursor blinking.
  * The VM provides nanosecond-resolution wall-clock time.
@@ -1648,38 +1649,41 @@ static void fbcon_redraw_move(struct vc_data *vc, struct fbcon_display *p,
 }
 
 static void fbcon_redraw_blit(struct vc_data *vc, struct fb_info *info,
-			struct fbcon_display *p, int line, int count, int ycount)
+		struct fbcon_display *p, int line, int count, int ycount)
 {
-	int offset = ycount * vc->vc_cols;
-	unsigned short *d = (unsigned short *)
-	    (vc->vc_origin + vc->vc_size_row * line);
-	unsigned short *s = d + offset;
 	struct fbcon_par *par = info->fbcon_par;
 	int cols = vc->vc_cols;
 
 	/*
-	 * SUBLEQ OPTIMIZATION: Simple bulk copy approach.
-	 * Instead of comparing characters one-by-one to find runs,
-	 * just copy the entire row with a single bmove. This trades
-	 * potentially copying some unchanged pixels for significantly
-	 * reduced CPU overhead.
+	 * SUBLEQ OPTIMIZATION: Single bulk copy for all rows.
+	 * Instead of calling bmove once per text row (31 calls),
+	 * do one bmove for the entire block. The copyarea fast path
+	 * will collapse this into a single memmove.
 	 */
-	while (count--) {
-		/* Copy entire row of pixels with single bmove */
-		par->bitops->bmove(vc, info, line + ycount, 0, line, 0, 1, cols);
+	if (ycount > 0) {
+		/* SM_UP: line is the top destination row */
+		unsigned short *d = (unsigned short *)
+		    (vc->vc_origin + vc->vc_size_row * line);
+		unsigned short *s = d + ycount * cols;
 
-		/* Update screen buffer */
-		memcpy(d, s, cols * sizeof(unsigned short));
+		par->bitops->bmove(vc, info, line + ycount, 0,
+				   line, 0, count, cols);
+		memcpy(d, s, count * cols * sizeof(unsigned short));
+	} else {
+		/* SM_DOWN: line is the bottom row, ycount is negative.
+		 * We copy 'count' rows: src=[line+ycount-count+1..line+ycount]
+		 * to dst=[line-count+1..line].
+		 * Since dst > src, use memmove.
+		 */
+		int first_row = line - count + 1;
+		unsigned short *d = (unsigned short *)
+		    (vc->vc_origin + vc->vc_size_row * first_row);
+		unsigned short *s = (unsigned short *)
+		    (vc->vc_origin + vc->vc_size_row * (first_row + ycount));
 
-		if (ycount > 0) {
-			line++;
-			s += cols;
-			d += cols;
-		} else {
-			line--;
-			s -= cols;
-			d -= cols;
-		}
+		par->bitops->bmove(vc, info, line + ycount, 0,
+				   line, 0, count, cols);
+		memmove(d, s, count * cols * sizeof(unsigned short));
 	}
 }
 

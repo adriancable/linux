@@ -37135,9 +37135,8 @@ __subleq_or:
         .word   144, 168, .Lor_ret_r22
         .word   12, 12, .Lor_chk_r22_fast
 .Lor_ret_r22:
-        .word   96, 96, .+4
-        .word   12, 12, .+4
         .word   104, 12, .+4
+        .word   96, 96, .+4
         .word   12, 96, .+4
 .Lor_r22_pop:
         .word   160, 160, .+4
@@ -37165,9 +37164,8 @@ __subleq_or:
         .word   144, 168, .Lor_ret_r21
         .word   12, 12, .Lor_small_check
 .Lor_ret_r21:
-        .word   96, 96, .+4
-        .word   12, 12, .+4
         .word   100, 12, .+4
+        .word   96, 96, .+4
         .word   12, 96, .+4
 .Lor_r21_pop:
         .word   160, 160, .+4
@@ -37254,1067 +37252,1066 @@ __subleq_or:
 .Lor_Loop_Start:
 .Lor_b30_PP:
         .word   .Lor_pow30, 100, .Lor_b30_PP_A_Neg
-        .word   .Lor_npow30, 160, .+4
+        .word   .Lor_pow30, 160, .+4
         .word   .Lor_pow30, 104, .Lor_b29_PN
         .word   12, 12, .Lor_b29_PP
 .Lor_b30_PP_A_Neg:
         .word   .Lor_pow30, 104, .Lor_b29_NN
-        .word   .Lor_npow30, 160, .+4
+        .word   .Lor_pow30, 160, .+4
 .Lor_b29_NP:
         .word   .Lor_npow29, 100, .Lor_b29_NP_A_Neg
-        .word   .Lor_npow29, 160, .+4
+        .word   .Lor_pow29, 160, .+4
         .word   .Lor_pow29, 104, .Lor_b28_PN
         .word   12, 12, .Lor_b28_PP
 .Lor_b29_NP_A_Neg:
         .word   .Lor_pow29, 104, .Lor_b28_NN
-        .word   .Lor_npow29, 160, .+4
+        .word   .Lor_pow29, 160, .+4
         .word   12, 12, .Lor_b28_NP
 .Lor_b29_PP:
         .word   .Lor_pow29, 100, .Lor_b29_PP_A_Neg
-        .word   .Lor_npow29, 160, .+4
+        .word   .Lor_pow29, 160, .+4
         .word   .Lor_pow29, 104, .Lor_b28_PN
         .word   12, 12, .Lor_b28_PP
 .Lor_b29_PP_A_Neg:
         .word   .Lor_pow29, 104, .Lor_b28_NN
-        .word   .Lor_npow29, 160, .+4
+        .word   .Lor_pow29, 160, .+4
         .word   12, 12, .Lor_b28_NP
 .Lor_b29_PN:
         .word   .Lor_pow29, 100, .Lor_b29_PN_A_Neg
-        .word   .Lor_npow29, 160, .+4
+        .word   .Lor_pow29, 160, .+4
         .word   .Lor_npow29, 104, .Lor_b28_PN
         .word   12, 12, .Lor_b28_PP
 .Lor_b29_PN_A_Neg:
         .word   .Lor_npow29, 104, .Lor_b28_NN
-        .word   .Lor_npow29, 160, .+4
+        .word   .Lor_pow29, 160, .+4
         .word   12, 12, .Lor_b28_NP
 .Lor_b29_NN:
         .word   .Lor_npow29, 100, .Lor_b29_NN_A_Neg
-        .word   .Lor_npow29, 160, .+4
+        .word   .Lor_pow29, 160, .+4
         .word   .Lor_npow29, 104, .Lor_b28_PN
         .word   12, 12, .Lor_b28_PP
 .Lor_b29_NN_A_Neg:
         .word   .Lor_npow29, 104, .Lor_b28_NN
-        .word   .Lor_npow29, 160, .+4
+        .word   .Lor_pow29, 160, .+4
 .Lor_b28_NP:
         .word   .Lor_npow28, 100, .Lor_b28_NP_A_Neg
-        .word   .Lor_npow28, 160, .+4
+        .word   .Lor_pow28, 160, .+4
         .word   .Lor_pow28, 104, .Lor_b27_PN
         .word   12, 12, .Lor_b27_PP
 .Lor_b28_NP_A_Neg:
         .word   .Lor_pow28, 104, .Lor_b27_NN
-        .word   .Lor_npow28, 160, .+4
+        .word   .Lor_pow28, 160, .+4
         .word   12, 12, .Lor_b27_NP
 .Lor_b28_PP:
         .word   .Lor_pow28, 100, .Lor_b28_PP_A_Neg
-        .word   .Lor_npow28, 160, .+4
+        .word   .Lor_pow28, 160, .+4
         .word   .Lor_pow28, 104, .Lor_b27_PN
         .word   12, 12, .Lor_b27_PP
 .Lor_b28_PP_A_Neg:
         .word   .Lor_pow28, 104, .Lor_b27_NN
-        .word   .Lor_npow28, 160, .+4
+        .word   .Lor_pow28, 160, .+4
         .word   12, 12, .Lor_b27_NP
 .Lor_b28_PN:
         .word   .Lor_pow28, 100, .Lor_b28_PN_A_Neg
-        .word   .Lor_npow28, 160, .+4
+        .word   .Lor_pow28, 160, .+4
         .word   .Lor_npow28, 104, .Lor_b27_PN
         .word   12, 12, .Lor_b27_PP
 .Lor_b28_PN_A_Neg:
         .word   .Lor_npow28, 104, .Lor_b27_NN
-        .word   .Lor_npow28, 160, .+4
+        .word   .Lor_pow28, 160, .+4
         .word   12, 12, .Lor_b27_NP
 .Lor_b28_NN:
         .word   .Lor_npow28, 100, .Lor_b28_NN_A_Neg
-        .word   .Lor_npow28, 160, .+4
+        .word   .Lor_pow28, 160, .+4
         .word   .Lor_npow28, 104, .Lor_b27_PN
         .word   12, 12, .Lor_b27_PP
 .Lor_b28_NN_A_Neg:
         .word   .Lor_npow28, 104, .Lor_b27_NN
-        .word   .Lor_npow28, 160, .+4
+        .word   .Lor_pow28, 160, .+4
 .Lor_b27_NP:
         .word   .Lor_npow27, 100, .Lor_b27_NP_A_Neg
-        .word   .Lor_npow27, 160, .+4
+        .word   .Lor_pow27, 160, .+4
         .word   .Lor_pow27, 104, .Lor_b26_PN
         .word   12, 12, .Lor_b26_PP
 .Lor_b27_NP_A_Neg:
         .word   .Lor_pow27, 104, .Lor_b26_NN
-        .word   .Lor_npow27, 160, .+4
+        .word   .Lor_pow27, 160, .+4
         .word   12, 12, .Lor_b26_NP
 .Lor_b27_PP:
         .word   .Lor_pow27, 100, .Lor_b27_PP_A_Neg
-        .word   .Lor_npow27, 160, .+4
+        .word   .Lor_pow27, 160, .+4
         .word   .Lor_pow27, 104, .Lor_b26_PN
         .word   12, 12, .Lor_b26_PP
 .Lor_b27_PP_A_Neg:
         .word   .Lor_pow27, 104, .Lor_b26_NN
-        .word   .Lor_npow27, 160, .+4
+        .word   .Lor_pow27, 160, .+4
         .word   12, 12, .Lor_b26_NP
 .Lor_b27_PN:
         .word   .Lor_pow27, 100, .Lor_b27_PN_A_Neg
-        .word   .Lor_npow27, 160, .+4
+        .word   .Lor_pow27, 160, .+4
         .word   .Lor_npow27, 104, .Lor_b26_PN
         .word   12, 12, .Lor_b26_PP
 .Lor_b27_PN_A_Neg:
         .word   .Lor_npow27, 104, .Lor_b26_NN
-        .word   .Lor_npow27, 160, .+4
+        .word   .Lor_pow27, 160, .+4
         .word   12, 12, .Lor_b26_NP
 .Lor_b27_NN:
         .word   .Lor_npow27, 100, .Lor_b27_NN_A_Neg
-        .word   .Lor_npow27, 160, .+4
+        .word   .Lor_pow27, 160, .+4
         .word   .Lor_npow27, 104, .Lor_b26_PN
         .word   12, 12, .Lor_b26_PP
 .Lor_b27_NN_A_Neg:
         .word   .Lor_npow27, 104, .Lor_b26_NN
-        .word   .Lor_npow27, 160, .+4
+        .word   .Lor_pow27, 160, .+4
 .Lor_b26_NP:
         .word   .Lor_npow26, 100, .Lor_b26_NP_A_Neg
-        .word   .Lor_npow26, 160, .+4
+        .word   .Lor_pow26, 160, .+4
         .word   .Lor_pow26, 104, .Lor_b25_PN
         .word   12, 12, .Lor_b25_PP
 .Lor_b26_NP_A_Neg:
         .word   .Lor_pow26, 104, .Lor_b25_NN
-        .word   .Lor_npow26, 160, .+4
+        .word   .Lor_pow26, 160, .+4
         .word   12, 12, .Lor_b25_NP
 .Lor_b26_PP:
         .word   .Lor_pow26, 100, .Lor_b26_PP_A_Neg
-        .word   .Lor_npow26, 160, .+4
+        .word   .Lor_pow26, 160, .+4
         .word   .Lor_pow26, 104, .Lor_b25_PN
         .word   12, 12, .Lor_b25_PP
 .Lor_b26_PP_A_Neg:
         .word   .Lor_pow26, 104, .Lor_b25_NN
-        .word   .Lor_npow26, 160, .+4
+        .word   .Lor_pow26, 160, .+4
         .word   12, 12, .Lor_b25_NP
 .Lor_b26_PN:
         .word   .Lor_pow26, 100, .Lor_b26_PN_A_Neg
-        .word   .Lor_npow26, 160, .+4
+        .word   .Lor_pow26, 160, .+4
         .word   .Lor_npow26, 104, .Lor_b25_PN
         .word   12, 12, .Lor_b25_PP
 .Lor_b26_PN_A_Neg:
         .word   .Lor_npow26, 104, .Lor_b25_NN
-        .word   .Lor_npow26, 160, .+4
+        .word   .Lor_pow26, 160, .+4
         .word   12, 12, .Lor_b25_NP
 .Lor_b26_NN:
         .word   .Lor_npow26, 100, .Lor_b26_NN_A_Neg
-        .word   .Lor_npow26, 160, .+4
+        .word   .Lor_pow26, 160, .+4
         .word   .Lor_npow26, 104, .Lor_b25_PN
         .word   12, 12, .Lor_b25_PP
 .Lor_b26_NN_A_Neg:
         .word   .Lor_npow26, 104, .Lor_b25_NN
-        .word   .Lor_npow26, 160, .+4
+        .word   .Lor_pow26, 160, .+4
 .Lor_b25_NP:
         .word   .Lor_npow25, 100, .Lor_b25_NP_A_Neg
-        .word   .Lor_npow25, 160, .+4
+        .word   .Lor_pow25, 160, .+4
         .word   .Lor_pow25, 104, .Lor_b24_PN
         .word   12, 12, .Lor_b24_PP
 .Lor_b25_NP_A_Neg:
         .word   .Lor_pow25, 104, .Lor_b24_NN
-        .word   .Lor_npow25, 160, .+4
+        .word   .Lor_pow25, 160, .+4
         .word   12, 12, .Lor_b24_NP
 .Lor_b25_PP:
         .word   .Lor_pow25, 100, .Lor_b25_PP_A_Neg
-        .word   .Lor_npow25, 160, .+4
+        .word   .Lor_pow25, 160, .+4
         .word   .Lor_pow25, 104, .Lor_b24_PN
         .word   12, 12, .Lor_b24_PP
 .Lor_b25_PP_A_Neg:
         .word   .Lor_pow25, 104, .Lor_b24_NN
-        .word   .Lor_npow25, 160, .+4
+        .word   .Lor_pow25, 160, .+4
         .word   12, 12, .Lor_b24_NP
 .Lor_b25_PN:
         .word   .Lor_pow25, 100, .Lor_b25_PN_A_Neg
-        .word   .Lor_npow25, 160, .+4
+        .word   .Lor_pow25, 160, .+4
         .word   .Lor_npow25, 104, .Lor_b24_PN
         .word   12, 12, .Lor_b24_PP
 .Lor_b25_PN_A_Neg:
         .word   .Lor_npow25, 104, .Lor_b24_NN
-        .word   .Lor_npow25, 160, .+4
+        .word   .Lor_pow25, 160, .+4
         .word   12, 12, .Lor_b24_NP
 .Lor_b25_NN:
         .word   .Lor_npow25, 100, .Lor_b25_NN_A_Neg
-        .word   .Lor_npow25, 160, .+4
+        .word   .Lor_pow25, 160, .+4
         .word   .Lor_npow25, 104, .Lor_b24_PN
         .word   12, 12, .Lor_b24_PP
 .Lor_b25_NN_A_Neg:
         .word   .Lor_npow25, 104, .Lor_b24_NN
-        .word   .Lor_npow25, 160, .+4
+        .word   .Lor_pow25, 160, .+4
 .Lor_b24_NP:
         .word   .Lor_npow24, 100, .Lor_b24_NP_A_Neg
-        .word   .Lor_npow24, 160, .+4
+        .word   .Lor_pow24, 160, .+4
         .word   .Lor_pow24, 104, .Lor_b23_PN
         .word   12, 12, .Lor_b23_PP
 .Lor_b24_NP_A_Neg:
         .word   .Lor_pow24, 104, .Lor_b23_NN
-        .word   .Lor_npow24, 160, .+4
+        .word   .Lor_pow24, 160, .+4
         .word   12, 12, .Lor_b23_NP
 .Lor_b24_PP:
         .word   .Lor_pow24, 100, .Lor_b24_PP_A_Neg
-        .word   .Lor_npow24, 160, .+4
+        .word   .Lor_pow24, 160, .+4
         .word   .Lor_pow24, 104, .Lor_b23_PN
         .word   12, 12, .Lor_b23_PP
 .Lor_b24_PP_A_Neg:
         .word   .Lor_pow24, 104, .Lor_b23_NN
-        .word   .Lor_npow24, 160, .+4
+        .word   .Lor_pow24, 160, .+4
         .word   12, 12, .Lor_b23_NP
 .Lor_b24_PN:
         .word   .Lor_pow24, 100, .Lor_b24_PN_A_Neg
-        .word   .Lor_npow24, 160, .+4
+        .word   .Lor_pow24, 160, .+4
         .word   .Lor_npow24, 104, .Lor_b23_PN
         .word   12, 12, .Lor_b23_PP
 .Lor_b24_PN_A_Neg:
         .word   .Lor_npow24, 104, .Lor_b23_NN
-        .word   .Lor_npow24, 160, .+4
+        .word   .Lor_pow24, 160, .+4
         .word   12, 12, .Lor_b23_NP
 .Lor_b24_NN:
         .word   .Lor_npow24, 100, .Lor_b24_NN_A_Neg
-        .word   .Lor_npow24, 160, .+4
+        .word   .Lor_pow24, 160, .+4
         .word   .Lor_npow24, 104, .Lor_b23_PN
         .word   12, 12, .Lor_b23_PP
 .Lor_b24_NN_A_Neg:
         .word   .Lor_npow24, 104, .Lor_b23_NN
-        .word   .Lor_npow24, 160, .+4
+        .word   .Lor_pow24, 160, .+4
 .Lor_b23_NP:
         .word   .Lor_npow23, 100, .Lor_b23_NP_A_Neg
-        .word   .Lor_npow23, 160, .+4
+        .word   .Lor_pow23, 160, .+4
         .word   .Lor_pow23, 104, .Lor_b22_PN
         .word   12, 12, .Lor_b22_PP
 .Lor_b23_NP_A_Neg:
         .word   .Lor_pow23, 104, .Lor_b22_NN
-        .word   .Lor_npow23, 160, .+4
+        .word   .Lor_pow23, 160, .+4
         .word   12, 12, .Lor_b22_NP
 .Lor_b23_PP:
         .word   .Lor_pow23, 100, .Lor_b23_PP_A_Neg
-        .word   .Lor_npow23, 160, .+4
+        .word   .Lor_pow23, 160, .+4
         .word   .Lor_pow23, 104, .Lor_b22_PN
         .word   12, 12, .Lor_b22_PP
 .Lor_b23_PP_A_Neg:
         .word   .Lor_pow23, 104, .Lor_b22_NN
-        .word   .Lor_npow23, 160, .+4
+        .word   .Lor_pow23, 160, .+4
         .word   12, 12, .Lor_b22_NP
 .Lor_b23_PN:
         .word   .Lor_pow23, 100, .Lor_b23_PN_A_Neg
-        .word   .Lor_npow23, 160, .+4
+        .word   .Lor_pow23, 160, .+4
         .word   .Lor_npow23, 104, .Lor_b22_PN
         .word   12, 12, .Lor_b22_PP
 .Lor_b23_PN_A_Neg:
         .word   .Lor_npow23, 104, .Lor_b22_NN
-        .word   .Lor_npow23, 160, .+4
+        .word   .Lor_pow23, 160, .+4
         .word   12, 12, .Lor_b22_NP
 .Lor_b23_NN:
         .word   .Lor_npow23, 100, .Lor_b23_NN_A_Neg
-        .word   .Lor_npow23, 160, .+4
+        .word   .Lor_pow23, 160, .+4
         .word   .Lor_npow23, 104, .Lor_b22_PN
         .word   12, 12, .Lor_b22_PP
 .Lor_b23_NN_A_Neg:
         .word   .Lor_npow23, 104, .Lor_b22_NN
-        .word   .Lor_npow23, 160, .+4
+        .word   .Lor_pow23, 160, .+4
 .Lor_b22_NP:
         .word   .Lor_npow22, 100, .Lor_b22_NP_A_Neg
-        .word   .Lor_npow22, 160, .+4
+        .word   .Lor_pow22, 160, .+4
         .word   .Lor_pow22, 104, .Lor_b21_PN
         .word   12, 12, .Lor_b21_PP
 .Lor_b22_NP_A_Neg:
         .word   .Lor_pow22, 104, .Lor_b21_NN
-        .word   .Lor_npow22, 160, .+4
+        .word   .Lor_pow22, 160, .+4
         .word   12, 12, .Lor_b21_NP
 .Lor_b22_PP:
         .word   .Lor_pow22, 100, .Lor_b22_PP_A_Neg
-        .word   .Lor_npow22, 160, .+4
+        .word   .Lor_pow22, 160, .+4
         .word   .Lor_pow22, 104, .Lor_b21_PN
         .word   12, 12, .Lor_b21_PP
 .Lor_b22_PP_A_Neg:
         .word   .Lor_pow22, 104, .Lor_b21_NN
-        .word   .Lor_npow22, 160, .+4
+        .word   .Lor_pow22, 160, .+4
         .word   12, 12, .Lor_b21_NP
 .Lor_b22_PN:
         .word   .Lor_pow22, 100, .Lor_b22_PN_A_Neg
-        .word   .Lor_npow22, 160, .+4
+        .word   .Lor_pow22, 160, .+4
         .word   .Lor_npow22, 104, .Lor_b21_PN
         .word   12, 12, .Lor_b21_PP
 .Lor_b22_PN_A_Neg:
         .word   .Lor_npow22, 104, .Lor_b21_NN
-        .word   .Lor_npow22, 160, .+4
+        .word   .Lor_pow22, 160, .+4
         .word   12, 12, .Lor_b21_NP
 .Lor_b22_NN:
         .word   .Lor_npow22, 100, .Lor_b22_NN_A_Neg
-        .word   .Lor_npow22, 160, .+4
+        .word   .Lor_pow22, 160, .+4
         .word   .Lor_npow22, 104, .Lor_b21_PN
         .word   12, 12, .Lor_b21_PP
 .Lor_b22_NN_A_Neg:
         .word   .Lor_npow22, 104, .Lor_b21_NN
-        .word   .Lor_npow22, 160, .+4
+        .word   .Lor_pow22, 160, .+4
 .Lor_b21_NP:
         .word   .Lor_npow21, 100, .Lor_b21_NP_A_Neg
-        .word   .Lor_npow21, 160, .+4
+        .word   .Lor_pow21, 160, .+4
         .word   .Lor_pow21, 104, .Lor_b20_PN
         .word   12, 12, .Lor_b20_PP
 .Lor_b21_NP_A_Neg:
         .word   .Lor_pow21, 104, .Lor_b20_NN
-        .word   .Lor_npow21, 160, .+4
+        .word   .Lor_pow21, 160, .+4
         .word   12, 12, .Lor_b20_NP
 .Lor_b21_PP:
         .word   .Lor_pow21, 100, .Lor_b21_PP_A_Neg
-        .word   .Lor_npow21, 160, .+4
+        .word   .Lor_pow21, 160, .+4
         .word   .Lor_pow21, 104, .Lor_b20_PN
         .word   12, 12, .Lor_b20_PP
 .Lor_b21_PP_A_Neg:
         .word   .Lor_pow21, 104, .Lor_b20_NN
-        .word   .Lor_npow21, 160, .+4
+        .word   .Lor_pow21, 160, .+4
         .word   12, 12, .Lor_b20_NP
 .Lor_b21_PN:
         .word   .Lor_pow21, 100, .Lor_b21_PN_A_Neg
-        .word   .Lor_npow21, 160, .+4
+        .word   .Lor_pow21, 160, .+4
         .word   .Lor_npow21, 104, .Lor_b20_PN
         .word   12, 12, .Lor_b20_PP
 .Lor_b21_PN_A_Neg:
         .word   .Lor_npow21, 104, .Lor_b20_NN
-        .word   .Lor_npow21, 160, .+4
+        .word   .Lor_pow21, 160, .+4
         .word   12, 12, .Lor_b20_NP
 .Lor_b21_NN:
         .word   .Lor_npow21, 100, .Lor_b21_NN_A_Neg
-        .word   .Lor_npow21, 160, .+4
+        .word   .Lor_pow21, 160, .+4
         .word   .Lor_npow21, 104, .Lor_b20_PN
         .word   12, 12, .Lor_b20_PP
 .Lor_b21_NN_A_Neg:
         .word   .Lor_npow21, 104, .Lor_b20_NN
-        .word   .Lor_npow21, 160, .+4
+        .word   .Lor_pow21, 160, .+4
 .Lor_b20_NP:
         .word   .Lor_npow20, 100, .Lor_b20_NP_A_Neg
-        .word   .Lor_npow20, 160, .+4
+        .word   .Lor_pow20, 160, .+4
         .word   .Lor_pow20, 104, .Lor_b19_PN
         .word   12, 12, .Lor_b19_PP
 .Lor_b20_NP_A_Neg:
         .word   .Lor_pow20, 104, .Lor_b19_NN
-        .word   .Lor_npow20, 160, .+4
+        .word   .Lor_pow20, 160, .+4
         .word   12, 12, .Lor_b19_NP
 .Lor_b20_PP:
         .word   .Lor_pow20, 100, .Lor_b20_PP_A_Neg
-        .word   .Lor_npow20, 160, .+4
+        .word   .Lor_pow20, 160, .+4
         .word   .Lor_pow20, 104, .Lor_b19_PN
         .word   12, 12, .Lor_b19_PP
 .Lor_b20_PP_A_Neg:
         .word   .Lor_pow20, 104, .Lor_b19_NN
-        .word   .Lor_npow20, 160, .+4
+        .word   .Lor_pow20, 160, .+4
         .word   12, 12, .Lor_b19_NP
 .Lor_b20_PN:
         .word   .Lor_pow20, 100, .Lor_b20_PN_A_Neg
-        .word   .Lor_npow20, 160, .+4
+        .word   .Lor_pow20, 160, .+4
         .word   .Lor_npow20, 104, .Lor_b19_PN
         .word   12, 12, .Lor_b19_PP
 .Lor_b20_PN_A_Neg:
         .word   .Lor_npow20, 104, .Lor_b19_NN
-        .word   .Lor_npow20, 160, .+4
+        .word   .Lor_pow20, 160, .+4
         .word   12, 12, .Lor_b19_NP
 .Lor_b20_NN:
         .word   .Lor_npow20, 100, .Lor_b20_NN_A_Neg
-        .word   .Lor_npow20, 160, .+4
+        .word   .Lor_pow20, 160, .+4
         .word   .Lor_npow20, 104, .Lor_b19_PN
         .word   12, 12, .Lor_b19_PP
 .Lor_b20_NN_A_Neg:
         .word   .Lor_npow20, 104, .Lor_b19_NN
-        .word   .Lor_npow20, 160, .+4
+        .word   .Lor_pow20, 160, .+4
 .Lor_b19_NP:
         .word   .Lor_npow19, 100, .Lor_b19_NP_A_Neg
-        .word   .Lor_npow19, 160, .+4
+        .word   .Lor_pow19, 160, .+4
         .word   .Lor_pow19, 104, .Lor_b18_PN
         .word   12, 12, .Lor_b18_PP
 .Lor_b19_NP_A_Neg:
         .word   .Lor_pow19, 104, .Lor_b18_NN
-        .word   .Lor_npow19, 160, .+4
+        .word   .Lor_pow19, 160, .+4
         .word   12, 12, .Lor_b18_NP
 .Lor_b19_PP:
         .word   .Lor_pow19, 100, .Lor_b19_PP_A_Neg
-        .word   .Lor_npow19, 160, .+4
+        .word   .Lor_pow19, 160, .+4
         .word   .Lor_pow19, 104, .Lor_b18_PN
         .word   12, 12, .Lor_b18_PP
 .Lor_b19_PP_A_Neg:
         .word   .Lor_pow19, 104, .Lor_b18_NN
-        .word   .Lor_npow19, 160, .+4
+        .word   .Lor_pow19, 160, .+4
         .word   12, 12, .Lor_b18_NP
 .Lor_b19_PN:
         .word   .Lor_pow19, 100, .Lor_b19_PN_A_Neg
-        .word   .Lor_npow19, 160, .+4
+        .word   .Lor_pow19, 160, .+4
         .word   .Lor_npow19, 104, .Lor_b18_PN
         .word   12, 12, .Lor_b18_PP
 .Lor_b19_PN_A_Neg:
         .word   .Lor_npow19, 104, .Lor_b18_NN
-        .word   .Lor_npow19, 160, .+4
+        .word   .Lor_pow19, 160, .+4
         .word   12, 12, .Lor_b18_NP
 .Lor_b19_NN:
         .word   .Lor_npow19, 100, .Lor_b19_NN_A_Neg
-        .word   .Lor_npow19, 160, .+4
+        .word   .Lor_pow19, 160, .+4
         .word   .Lor_npow19, 104, .Lor_b18_PN
         .word   12, 12, .Lor_b18_PP
 .Lor_b19_NN_A_Neg:
         .word   .Lor_npow19, 104, .Lor_b18_NN
-        .word   .Lor_npow19, 160, .+4
+        .word   .Lor_pow19, 160, .+4
 .Lor_b18_NP:
         .word   .Lor_npow18, 100, .Lor_b18_NP_A_Neg
-        .word   .Lor_npow18, 160, .+4
+        .word   .Lor_pow18, 160, .+4
         .word   .Lor_pow18, 104, .Lor_b17_PN
         .word   12, 12, .Lor_b17_PP
 .Lor_b18_NP_A_Neg:
         .word   .Lor_pow18, 104, .Lor_b17_NN
-        .word   .Lor_npow18, 160, .+4
+        .word   .Lor_pow18, 160, .+4
         .word   12, 12, .Lor_b17_NP
 .Lor_b18_PP:
         .word   .Lor_pow18, 100, .Lor_b18_PP_A_Neg
-        .word   .Lor_npow18, 160, .+4
+        .word   .Lor_pow18, 160, .+4
         .word   .Lor_pow18, 104, .Lor_b17_PN
         .word   12, 12, .Lor_b17_PP
 .Lor_b18_PP_A_Neg:
         .word   .Lor_pow18, 104, .Lor_b17_NN
-        .word   .Lor_npow18, 160, .+4
+        .word   .Lor_pow18, 160, .+4
         .word   12, 12, .Lor_b17_NP
 .Lor_b18_PN:
         .word   .Lor_pow18, 100, .Lor_b18_PN_A_Neg
-        .word   .Lor_npow18, 160, .+4
+        .word   .Lor_pow18, 160, .+4
         .word   .Lor_npow18, 104, .Lor_b17_PN
         .word   12, 12, .Lor_b17_PP
 .Lor_b18_PN_A_Neg:
         .word   .Lor_npow18, 104, .Lor_b17_NN
-        .word   .Lor_npow18, 160, .+4
+        .word   .Lor_pow18, 160, .+4
         .word   12, 12, .Lor_b17_NP
 .Lor_b18_NN:
         .word   .Lor_npow18, 100, .Lor_b18_NN_A_Neg
-        .word   .Lor_npow18, 160, .+4
+        .word   .Lor_pow18, 160, .+4
         .word   .Lor_npow18, 104, .Lor_b17_PN
         .word   12, 12, .Lor_b17_PP
 .Lor_b18_NN_A_Neg:
         .word   .Lor_npow18, 104, .Lor_b17_NN
-        .word   .Lor_npow18, 160, .+4
+        .word   .Lor_pow18, 160, .+4
 .Lor_b17_NP:
         .word   .Lor_npow17, 100, .Lor_b17_NP_A_Neg
-        .word   .Lor_npow17, 160, .+4
+        .word   .Lor_pow17, 160, .+4
         .word   .Lor_pow17, 104, .Lor_b16_PN
         .word   12, 12, .Lor_b16_PP
 .Lor_b17_NP_A_Neg:
         .word   .Lor_pow17, 104, .Lor_b16_NN
-        .word   .Lor_npow17, 160, .+4
+        .word   .Lor_pow17, 160, .+4
         .word   12, 12, .Lor_b16_NP
 .Lor_b17_PP:
         .word   .Lor_pow17, 100, .Lor_b17_PP_A_Neg
-        .word   .Lor_npow17, 160, .+4
+        .word   .Lor_pow17, 160, .+4
         .word   .Lor_pow17, 104, .Lor_b16_PN
         .word   12, 12, .Lor_b16_PP
 .Lor_b17_PP_A_Neg:
         .word   .Lor_pow17, 104, .Lor_b16_NN
-        .word   .Lor_npow17, 160, .+4
+        .word   .Lor_pow17, 160, .+4
         .word   12, 12, .Lor_b16_NP
 .Lor_b17_PN:
         .word   .Lor_pow17, 100, .Lor_b17_PN_A_Neg
-        .word   .Lor_npow17, 160, .+4
+        .word   .Lor_pow17, 160, .+4
         .word   .Lor_npow17, 104, .Lor_b16_PN
         .word   12, 12, .Lor_b16_PP
 .Lor_b17_PN_A_Neg:
         .word   .Lor_npow17, 104, .Lor_b16_NN
-        .word   .Lor_npow17, 160, .+4
+        .word   .Lor_pow17, 160, .+4
         .word   12, 12, .Lor_b16_NP
 .Lor_b17_NN:
         .word   .Lor_npow17, 100, .Lor_b17_NN_A_Neg
-        .word   .Lor_npow17, 160, .+4
+        .word   .Lor_pow17, 160, .+4
         .word   .Lor_npow17, 104, .Lor_b16_PN
         .word   12, 12, .Lor_b16_PP
 .Lor_b17_NN_A_Neg:
         .word   .Lor_npow17, 104, .Lor_b16_NN
-        .word   .Lor_npow17, 160, .+4
+        .word   .Lor_pow17, 160, .+4
 .Lor_b16_NP:
         .word   .Lor_npow16, 100, .Lor_b16_NP_A_Neg
-        .word   .Lor_npow16, 160, .+4
+        .word   .Lor_pow16, 160, .+4
         .word   .Lor_pow16, 104, .Lor_b15_PN
         .word   12, 12, .Lor_b15_PP
 .Lor_b16_NP_A_Neg:
         .word   .Lor_pow16, 104, .Lor_b15_NN
-        .word   .Lor_npow16, 160, .+4
+        .word   .Lor_pow16, 160, .+4
         .word   12, 12, .Lor_b15_NP
 .Lor_b16_PP:
         .word   .Lor_pow16, 100, .Lor_b16_PP_A_Neg
-        .word   .Lor_npow16, 160, .+4
+        .word   .Lor_pow16, 160, .+4
         .word   .Lor_pow16, 104, .Lor_b15_PN
         .word   12, 12, .Lor_b15_PP
 .Lor_b16_PP_A_Neg:
         .word   .Lor_pow16, 104, .Lor_b15_NN
-        .word   .Lor_npow16, 160, .+4
+        .word   .Lor_pow16, 160, .+4
         .word   12, 12, .Lor_b15_NP
 .Lor_b16_PN:
         .word   .Lor_pow16, 100, .Lor_b16_PN_A_Neg
-        .word   .Lor_npow16, 160, .+4
+        .word   .Lor_pow16, 160, .+4
         .word   .Lor_npow16, 104, .Lor_b15_PN
         .word   12, 12, .Lor_b15_PP
 .Lor_b16_PN_A_Neg:
         .word   .Lor_npow16, 104, .Lor_b15_NN
-        .word   .Lor_npow16, 160, .+4
+        .word   .Lor_pow16, 160, .+4
         .word   12, 12, .Lor_b15_NP
 .Lor_b16_NN:
         .word   .Lor_npow16, 100, .Lor_b16_NN_A_Neg
-        .word   .Lor_npow16, 160, .+4
+        .word   .Lor_pow16, 160, .+4
         .word   .Lor_npow16, 104, .Lor_b15_PN
         .word   12, 12, .Lor_b15_PP
 .Lor_b16_NN_A_Neg:
         .word   .Lor_npow16, 104, .Lor_b15_NN
-        .word   .Lor_npow16, 160, .+4
+        .word   .Lor_pow16, 160, .+4
 .Lor_b15_NP:
         .word   .Lor_npow15, 100, .Lor_b15_NP_A_Neg
-        .word   .Lor_npow15, 160, .+4
+        .word   .Lor_pow15, 160, .+4
         .word   .Lor_pow15, 104, .Lor_b14_PN
         .word   12, 12, .Lor_b14_PP
 .Lor_b15_NP_A_Neg:
         .word   .Lor_pow15, 104, .Lor_b14_NN
-        .word   .Lor_npow15, 160, .+4
+        .word   .Lor_pow15, 160, .+4
         .word   12, 12, .Lor_b14_NP
 .Lor_b15_PP:
         .word   .Lor_pow15, 100, .Lor_b15_PP_A_Neg
-        .word   .Lor_npow15, 160, .+4
+        .word   .Lor_pow15, 160, .+4
         .word   .Lor_pow15, 104, .Lor_b14_PN
         .word   12, 12, .Lor_b14_PP
 .Lor_b15_PP_A_Neg:
         .word   .Lor_pow15, 104, .Lor_b14_NN
-        .word   .Lor_npow15, 160, .+4
+        .word   .Lor_pow15, 160, .+4
         .word   12, 12, .Lor_b14_NP
 .Lor_b15_PN:
         .word   .Lor_pow15, 100, .Lor_b15_PN_A_Neg
-        .word   .Lor_npow15, 160, .+4
+        .word   .Lor_pow15, 160, .+4
         .word   .Lor_npow15, 104, .Lor_b14_PN
         .word   12, 12, .Lor_b14_PP
 .Lor_b15_PN_A_Neg:
         .word   .Lor_npow15, 104, .Lor_b14_NN
-        .word   .Lor_npow15, 160, .+4
+        .word   .Lor_pow15, 160, .+4
         .word   12, 12, .Lor_b14_NP
 .Lor_b15_NN:
         .word   .Lor_npow15, 100, .Lor_b15_NN_A_Neg
-        .word   .Lor_npow15, 160, .+4
+        .word   .Lor_pow15, 160, .+4
         .word   .Lor_npow15, 104, .Lor_b14_PN
         .word   12, 12, .Lor_b14_PP
 .Lor_b15_NN_A_Neg:
         .word   .Lor_npow15, 104, .Lor_b14_NN
-        .word   .Lor_npow15, 160, .+4
+        .word   .Lor_pow15, 160, .+4
 .Lor_b14_NP:
         .word   .Lor_npow14, 100, .Lor_b14_NP_A_Neg
-        .word   .Lor_npow14, 160, .+4
+        .word   .Lor_pow14, 160, .+4
         .word   .Lor_pow14, 104, .Lor_b13_PN
         .word   12, 12, .Lor_b13_PP
 .Lor_b14_NP_A_Neg:
         .word   .Lor_pow14, 104, .Lor_b13_NN
-        .word   .Lor_npow14, 160, .+4
+        .word   .Lor_pow14, 160, .+4
         .word   12, 12, .Lor_b13_NP
 .Lor_b14_PP:
         .word   .Lor_pow14, 100, .Lor_b14_PP_A_Neg
-        .word   .Lor_npow14, 160, .+4
+        .word   .Lor_pow14, 160, .+4
         .word   .Lor_pow14, 104, .Lor_b13_PN
         .word   12, 12, .Lor_b13_PP
 .Lor_b14_PP_A_Neg:
         .word   .Lor_pow14, 104, .Lor_b13_NN
-        .word   .Lor_npow14, 160, .+4
+        .word   .Lor_pow14, 160, .+4
         .word   12, 12, .Lor_b13_NP
 .Lor_b14_PN:
         .word   .Lor_pow14, 100, .Lor_b14_PN_A_Neg
-        .word   .Lor_npow14, 160, .+4
+        .word   .Lor_pow14, 160, .+4
         .word   .Lor_npow14, 104, .Lor_b13_PN
         .word   12, 12, .Lor_b13_PP
 .Lor_b14_PN_A_Neg:
         .word   .Lor_npow14, 104, .Lor_b13_NN
-        .word   .Lor_npow14, 160, .+4
+        .word   .Lor_pow14, 160, .+4
         .word   12, 12, .Lor_b13_NP
 .Lor_b14_NN:
         .word   .Lor_npow14, 100, .Lor_b14_NN_A_Neg
-        .word   .Lor_npow14, 160, .+4
+        .word   .Lor_pow14, 160, .+4
         .word   .Lor_npow14, 104, .Lor_b13_PN
         .word   12, 12, .Lor_b13_PP
 .Lor_b14_NN_A_Neg:
         .word   .Lor_npow14, 104, .Lor_b13_NN
-        .word   .Lor_npow14, 160, .+4
+        .word   .Lor_pow14, 160, .+4
 .Lor_b13_NP:
         .word   .Lor_npow13, 100, .Lor_b13_NP_A_Neg
-        .word   .Lor_npow13, 160, .+4
+        .word   .Lor_pow13, 160, .+4
         .word   .Lor_pow13, 104, .Lor_b12_PN
         .word   12, 12, .Lor_b12_PP
 .Lor_b13_NP_A_Neg:
         .word   .Lor_pow13, 104, .Lor_b12_NN
-        .word   .Lor_npow13, 160, .+4
+        .word   .Lor_pow13, 160, .+4
         .word   12, 12, .Lor_b12_NP
 .Lor_b13_PP:
         .word   .Lor_pow13, 100, .Lor_b13_PP_A_Neg
-        .word   .Lor_npow13, 160, .+4
+        .word   .Lor_pow13, 160, .+4
         .word   .Lor_pow13, 104, .Lor_b12_PN
         .word   12, 12, .Lor_b12_PP
 .Lor_b13_PP_A_Neg:
         .word   .Lor_pow13, 104, .Lor_b12_NN
-        .word   .Lor_npow13, 160, .+4
+        .word   .Lor_pow13, 160, .+4
         .word   12, 12, .Lor_b12_NP
 .Lor_b13_PN:
         .word   .Lor_pow13, 100, .Lor_b13_PN_A_Neg
-        .word   .Lor_npow13, 160, .+4
+        .word   .Lor_pow13, 160, .+4
         .word   .Lor_npow13, 104, .Lor_b12_PN
         .word   12, 12, .Lor_b12_PP
 .Lor_b13_PN_A_Neg:
         .word   .Lor_npow13, 104, .Lor_b12_NN
-        .word   .Lor_npow13, 160, .+4
+        .word   .Lor_pow13, 160, .+4
         .word   12, 12, .Lor_b12_NP
 .Lor_b13_NN:
         .word   .Lor_npow13, 100, .Lor_b13_NN_A_Neg
-        .word   .Lor_npow13, 160, .+4
+        .word   .Lor_pow13, 160, .+4
         .word   .Lor_npow13, 104, .Lor_b12_PN
         .word   12, 12, .Lor_b12_PP
 .Lor_b13_NN_A_Neg:
         .word   .Lor_npow13, 104, .Lor_b12_NN
-        .word   .Lor_npow13, 160, .+4
+        .word   .Lor_pow13, 160, .+4
 .Lor_b12_NP:
         .word   .Lor_npow12, 100, .Lor_b12_NP_A_Neg
-        .word   .Lor_npow12, 160, .+4
+        .word   .Lor_pow12, 160, .+4
         .word   .Lor_pow12, 104, .Lor_b11_PN
         .word   12, 12, .Lor_b11_PP
 .Lor_b12_NP_A_Neg:
         .word   .Lor_pow12, 104, .Lor_b11_NN
-        .word   .Lor_npow12, 160, .+4
+        .word   .Lor_pow12, 160, .+4
         .word   12, 12, .Lor_b11_NP
 .Lor_b12_PP:
         .word   .Lor_pow12, 100, .Lor_b12_PP_A_Neg
-        .word   .Lor_npow12, 160, .+4
+        .word   .Lor_pow12, 160, .+4
         .word   .Lor_pow12, 104, .Lor_b11_PN
         .word   12, 12, .Lor_b11_PP
 .Lor_b12_PP_A_Neg:
         .word   .Lor_pow12, 104, .Lor_b11_NN
-        .word   .Lor_npow12, 160, .+4
+        .word   .Lor_pow12, 160, .+4
         .word   12, 12, .Lor_b11_NP
 .Lor_b12_PN:
         .word   .Lor_pow12, 100, .Lor_b12_PN_A_Neg
-        .word   .Lor_npow12, 160, .+4
+        .word   .Lor_pow12, 160, .+4
         .word   .Lor_npow12, 104, .Lor_b11_PN
         .word   12, 12, .Lor_b11_PP
 .Lor_b12_PN_A_Neg:
         .word   .Lor_npow12, 104, .Lor_b11_NN
-        .word   .Lor_npow12, 160, .+4
+        .word   .Lor_pow12, 160, .+4
         .word   12, 12, .Lor_b11_NP
 .Lor_b12_NN:
         .word   .Lor_npow12, 100, .Lor_b12_NN_A_Neg
-        .word   .Lor_npow12, 160, .+4
+        .word   .Lor_pow12, 160, .+4
         .word   .Lor_npow12, 104, .Lor_b11_PN
         .word   12, 12, .Lor_b11_PP
 .Lor_b12_NN_A_Neg:
         .word   .Lor_npow12, 104, .Lor_b11_NN
-        .word   .Lor_npow12, 160, .+4
+        .word   .Lor_pow12, 160, .+4
 .Lor_b11_NP:
         .word   .Lor_npow11, 100, .Lor_b11_NP_A_Neg
-        .word   .Lor_npow11, 160, .+4
+        .word   .Lor_pow11, 160, .+4
         .word   .Lor_pow11, 104, .Lor_b10_PN
         .word   12, 12, .Lor_b10_PP
 .Lor_b11_NP_A_Neg:
         .word   .Lor_pow11, 104, .Lor_b10_NN
-        .word   .Lor_npow11, 160, .+4
+        .word   .Lor_pow11, 160, .+4
         .word   12, 12, .Lor_b10_NP
 .Lor_b11_PP:
         .word   .Lor_pow11, 100, .Lor_b11_PP_A_Neg
-        .word   .Lor_npow11, 160, .+4
+        .word   .Lor_pow11, 160, .+4
         .word   .Lor_pow11, 104, .Lor_b10_PN
         .word   12, 12, .Lor_b10_PP
 .Lor_b11_PP_A_Neg:
         .word   .Lor_pow11, 104, .Lor_b10_NN
-        .word   .Lor_npow11, 160, .+4
+        .word   .Lor_pow11, 160, .+4
         .word   12, 12, .Lor_b10_NP
 .Lor_b11_PN:
         .word   .Lor_pow11, 100, .Lor_b11_PN_A_Neg
-        .word   .Lor_npow11, 160, .+4
+        .word   .Lor_pow11, 160, .+4
         .word   .Lor_npow11, 104, .Lor_b10_PN
         .word   12, 12, .Lor_b10_PP
 .Lor_b11_PN_A_Neg:
         .word   .Lor_npow11, 104, .Lor_b10_NN
-        .word   .Lor_npow11, 160, .+4
+        .word   .Lor_pow11, 160, .+4
         .word   12, 12, .Lor_b10_NP
 .Lor_b11_NN:
         .word   .Lor_npow11, 100, .Lor_b11_NN_A_Neg
-        .word   .Lor_npow11, 160, .+4
+        .word   .Lor_pow11, 160, .+4
         .word   .Lor_npow11, 104, .Lor_b10_PN
         .word   12, 12, .Lor_b10_PP
 .Lor_b11_NN_A_Neg:
         .word   .Lor_npow11, 104, .Lor_b10_NN
-        .word   .Lor_npow11, 160, .+4
+        .word   .Lor_pow11, 160, .+4
 .Lor_b10_NP:
         .word   .Lor_npow10, 100, .Lor_b10_NP_A_Neg
-        .word   .Lor_npow10, 160, .+4
+        .word   .Lor_pow10, 160, .+4
         .word   .Lor_pow10, 104, .Lor_b9_PN
         .word   12, 12, .Lor_b9_PP
 .Lor_b10_NP_A_Neg:
         .word   .Lor_pow10, 104, .Lor_b9_NN
-        .word   .Lor_npow10, 160, .+4
+        .word   .Lor_pow10, 160, .+4
         .word   12, 12, .Lor_b9_NP
 .Lor_b10_PP:
         .word   .Lor_pow10, 100, .Lor_b10_PP_A_Neg
-        .word   .Lor_npow10, 160, .+4
+        .word   .Lor_pow10, 160, .+4
         .word   .Lor_pow10, 104, .Lor_b9_PN
         .word   12, 12, .Lor_b9_PP
 .Lor_b10_PP_A_Neg:
         .word   .Lor_pow10, 104, .Lor_b9_NN
-        .word   .Lor_npow10, 160, .+4
+        .word   .Lor_pow10, 160, .+4
         .word   12, 12, .Lor_b9_NP
 .Lor_b10_PN:
         .word   .Lor_pow10, 100, .Lor_b10_PN_A_Neg
-        .word   .Lor_npow10, 160, .+4
+        .word   .Lor_pow10, 160, .+4
         .word   .Lor_npow10, 104, .Lor_b9_PN
         .word   12, 12, .Lor_b9_PP
 .Lor_b10_PN_A_Neg:
         .word   .Lor_npow10, 104, .Lor_b9_NN
-        .word   .Lor_npow10, 160, .+4
+        .word   .Lor_pow10, 160, .+4
         .word   12, 12, .Lor_b9_NP
 .Lor_b10_NN:
         .word   .Lor_npow10, 100, .Lor_b10_NN_A_Neg
-        .word   .Lor_npow10, 160, .+4
+        .word   .Lor_pow10, 160, .+4
         .word   .Lor_npow10, 104, .Lor_b9_PN
         .word   12, 12, .Lor_b9_PP
 .Lor_b10_NN_A_Neg:
         .word   .Lor_npow10, 104, .Lor_b9_NN
-        .word   .Lor_npow10, 160, .+4
+        .word   .Lor_pow10, 160, .+4
 .Lor_b9_NP:
         .word   .Lor_npow9, 100, .Lor_b9_NP_A_Neg
-        .word   .Lor_npow9, 160, .+4
+        .word   .Lor_pow9, 160, .+4
         .word   .Lor_pow9, 104, .Lor_b8_PN
         .word   12, 12, .Lor_b8_PP
 .Lor_b9_NP_A_Neg:
         .word   .Lor_pow9, 104, .Lor_b8_NN
-        .word   .Lor_npow9, 160, .+4
+        .word   .Lor_pow9, 160, .+4
         .word   12, 12, .Lor_b8_NP
 .Lor_b9_PP:
         .word   .Lor_pow9, 100, .Lor_b9_PP_A_Neg
-        .word   .Lor_npow9, 160, .+4
+        .word   .Lor_pow9, 160, .+4
         .word   .Lor_pow9, 104, .Lor_b8_PN
         .word   12, 12, .Lor_b8_PP
 .Lor_b9_PP_A_Neg:
         .word   .Lor_pow9, 104, .Lor_b8_NN
-        .word   .Lor_npow9, 160, .+4
+        .word   .Lor_pow9, 160, .+4
         .word   12, 12, .Lor_b8_NP
 .Lor_b9_PN:
         .word   .Lor_pow9, 100, .Lor_b9_PN_A_Neg
-        .word   .Lor_npow9, 160, .+4
+        .word   .Lor_pow9, 160, .+4
         .word   .Lor_npow9, 104, .Lor_b8_PN
         .word   12, 12, .Lor_b8_PP
 .Lor_b9_PN_A_Neg:
         .word   .Lor_npow9, 104, .Lor_b8_NN
-        .word   .Lor_npow9, 160, .+4
+        .word   .Lor_pow9, 160, .+4
         .word   12, 12, .Lor_b8_NP
 .Lor_b9_NN:
         .word   .Lor_npow9, 100, .Lor_b9_NN_A_Neg
-        .word   .Lor_npow9, 160, .+4
+        .word   .Lor_pow9, 160, .+4
         .word   .Lor_npow9, 104, .Lor_b8_PN
         .word   12, 12, .Lor_b8_PP
 .Lor_b9_NN_A_Neg:
         .word   .Lor_npow9, 104, .Lor_b8_NN
-        .word   .Lor_npow9, 160, .+4
+        .word   .Lor_pow9, 160, .+4
 .Lor_b8_NP:
         .word   .Lor_npow8, 100, .Lor_b8_NP_A_Neg
-        .word   .Lor_npow8, 160, .+4
+        .word   .Lor_pow8, 160, .+4
         .word   .Lor_pow8, 104, .Lor_b7_PN
         .word   12, 12, .Lor_b7_PP
 .Lor_b8_NP_A_Neg:
         .word   .Lor_pow8, 104, .Lor_b7_NN
-        .word   .Lor_npow8, 160, .+4
+        .word   .Lor_pow8, 160, .+4
         .word   12, 12, .Lor_b7_NP
 .Lor_b8_PP:
         .word   .Lor_pow8, 100, .Lor_b8_PP_A_Neg
-        .word   .Lor_npow8, 160, .+4
+        .word   .Lor_pow8, 160, .+4
         .word   .Lor_pow8, 104, .Lor_b7_PN
         .word   12, 12, .Lor_b7_PP
 .Lor_b8_PP_A_Neg:
         .word   .Lor_pow8, 104, .Lor_b7_NN
-        .word   .Lor_npow8, 160, .+4
+        .word   .Lor_pow8, 160, .+4
         .word   12, 12, .Lor_b7_NP
 .Lor_b8_PN:
         .word   .Lor_pow8, 100, .Lor_b8_PN_A_Neg
-        .word   .Lor_npow8, 160, .+4
+        .word   .Lor_pow8, 160, .+4
         .word   .Lor_npow8, 104, .Lor_b7_PN
         .word   12, 12, .Lor_b7_PP
 .Lor_b8_PN_A_Neg:
         .word   .Lor_npow8, 104, .Lor_b7_NN
-        .word   .Lor_npow8, 160, .+4
+        .word   .Lor_pow8, 160, .+4
         .word   12, 12, .Lor_b7_NP
 .Lor_b8_NN:
         .word   .Lor_npow8, 100, .Lor_b8_NN_A_Neg
-        .word   .Lor_npow8, 160, .+4
+        .word   .Lor_pow8, 160, .+4
         .word   .Lor_npow8, 104, .Lor_b7_PN
         .word   12, 12, .Lor_b7_PP
 .Lor_b8_NN_A_Neg:
         .word   .Lor_npow8, 104, .Lor_b7_NN
-        .word   .Lor_npow8, 160, .+4
+        .word   .Lor_pow8, 160, .+4
 .Lor_b7_NP:
         .word   .Lor_npow7, 100, .Lor_b7_NP_A_Neg
-        .word   .Lor_npow7, 160, .+4
+        .word   .Lor_pow7, 160, .+4
         .word   .Lor_pow7, 104, .Lor_b6_PN
         .word   12, 12, .Lor_b6_PP
 .Lor_b7_NP_A_Neg:
         .word   .Lor_pow7, 104, .Lor_b6_NN
-        .word   .Lor_npow7, 160, .+4
+        .word   .Lor_pow7, 160, .+4
         .word   12, 12, .Lor_b6_NP
 .Lor_b7_PP:
         .word   .Lor_pow7, 100, .Lor_b7_PP_A_Neg
-        .word   .Lor_npow7, 160, .+4
+        .word   .Lor_pow7, 160, .+4
         .word   .Lor_pow7, 104, .Lor_b6_PN
         .word   12, 12, .Lor_b6_PP
 .Lor_b7_PP_A_Neg:
         .word   .Lor_pow7, 104, .Lor_b6_NN
-        .word   .Lor_npow7, 160, .+4
+        .word   .Lor_pow7, 160, .+4
         .word   12, 12, .Lor_b6_NP
 .Lor_b7_PN:
         .word   .Lor_pow7, 100, .Lor_b7_PN_A_Neg
-        .word   .Lor_npow7, 160, .+4
+        .word   .Lor_pow7, 160, .+4
         .word   .Lor_npow7, 104, .Lor_b6_PN
         .word   12, 12, .Lor_b6_PP
 .Lor_b7_PN_A_Neg:
         .word   .Lor_npow7, 104, .Lor_b6_NN
-        .word   .Lor_npow7, 160, .+4
+        .word   .Lor_pow7, 160, .+4
         .word   12, 12, .Lor_b6_NP
 .Lor_b7_NN:
         .word   .Lor_npow7, 100, .Lor_b7_NN_A_Neg
-        .word   .Lor_npow7, 160, .+4
+        .word   .Lor_pow7, 160, .+4
         .word   .Lor_npow7, 104, .Lor_b6_PN
         .word   12, 12, .Lor_b6_PP
 .Lor_b7_NN_A_Neg:
         .word   .Lor_npow7, 104, .Lor_b6_NN
-        .word   .Lor_npow7, 160, .+4
+        .word   .Lor_pow7, 160, .+4
 .Lor_b6_NP:
         .word   .Lor_npow6, 100, .Lor_b6_NP_A_Neg
-        .word   .Lor_npow6, 160, .+4
+        .word   .Lor_pow6, 160, .+4
         .word   .Lor_pow6, 104, .Lor_b5_PN
         .word   12, 12, .Lor_b5_PP
 .Lor_b6_NP_A_Neg:
         .word   .Lor_pow6, 104, .Lor_b5_NN
-        .word   .Lor_npow6, 160, .+4
+        .word   .Lor_pow6, 160, .+4
         .word   12, 12, .Lor_b5_NP
 .Lor_b6_PP:
         .word   .Lor_pow6, 100, .Lor_b6_PP_A_Neg
-        .word   .Lor_npow6, 160, .+4
+        .word   .Lor_pow6, 160, .+4
         .word   .Lor_pow6, 104, .Lor_b5_PN
         .word   12, 12, .Lor_b5_PP
 .Lor_b6_PP_A_Neg:
         .word   .Lor_pow6, 104, .Lor_b5_NN
-        .word   .Lor_npow6, 160, .+4
+        .word   .Lor_pow6, 160, .+4
         .word   12, 12, .Lor_b5_NP
 .Lor_b6_PN:
         .word   .Lor_pow6, 100, .Lor_b6_PN_A_Neg
-        .word   .Lor_npow6, 160, .+4
+        .word   .Lor_pow6, 160, .+4
         .word   .Lor_npow6, 104, .Lor_b5_PN
         .word   12, 12, .Lor_b5_PP
 .Lor_b6_PN_A_Neg:
         .word   .Lor_npow6, 104, .Lor_b5_NN
-        .word   .Lor_npow6, 160, .+4
+        .word   .Lor_pow6, 160, .+4
         .word   12, 12, .Lor_b5_NP
 .Lor_b6_NN:
         .word   .Lor_npow6, 100, .Lor_b6_NN_A_Neg
-        .word   .Lor_npow6, 160, .+4
+        .word   .Lor_pow6, 160, .+4
         .word   .Lor_npow6, 104, .Lor_b5_PN
         .word   12, 12, .Lor_b5_PP
 .Lor_b6_NN_A_Neg:
         .word   .Lor_npow6, 104, .Lor_b5_NN
-        .word   .Lor_npow6, 160, .+4
+        .word   .Lor_pow6, 160, .+4
 .Lor_b5_NP:
         .word   .Lor_npow5, 100, .Lor_b5_NP_A_Neg
-        .word   .Lor_npow5, 160, .+4
+        .word   .Lor_pow5, 160, .+4
         .word   .Lor_pow5, 104, .Lor_b4_PN
         .word   12, 12, .Lor_b4_PP
 .Lor_b5_NP_A_Neg:
         .word   .Lor_pow5, 104, .Lor_b4_NN
-        .word   .Lor_npow5, 160, .+4
+        .word   .Lor_pow5, 160, .+4
         .word   12, 12, .Lor_b4_NP
 .Lor_b5_PP:
         .word   .Lor_pow5, 100, .Lor_b5_PP_A_Neg
-        .word   .Lor_npow5, 160, .+4
+        .word   .Lor_pow5, 160, .+4
         .word   .Lor_pow5, 104, .Lor_b4_PN
         .word   12, 12, .Lor_b4_PP
 .Lor_b5_PP_A_Neg:
         .word   .Lor_pow5, 104, .Lor_b4_NN
-        .word   .Lor_npow5, 160, .+4
+        .word   .Lor_pow5, 160, .+4
         .word   12, 12, .Lor_b4_NP
 .Lor_b5_PN:
         .word   .Lor_pow5, 100, .Lor_b5_PN_A_Neg
-        .word   .Lor_npow5, 160, .+4
+        .word   .Lor_pow5, 160, .+4
         .word   .Lor_npow5, 104, .Lor_b4_PN
         .word   12, 12, .Lor_b4_PP
 .Lor_b5_PN_A_Neg:
         .word   .Lor_npow5, 104, .Lor_b4_NN
-        .word   .Lor_npow5, 160, .+4
+        .word   .Lor_pow5, 160, .+4
         .word   12, 12, .Lor_b4_NP
 .Lor_b5_NN:
         .word   .Lor_npow5, 100, .Lor_b5_NN_A_Neg
-        .word   .Lor_npow5, 160, .+4
+        .word   .Lor_pow5, 160, .+4
         .word   .Lor_npow5, 104, .Lor_b4_PN
         .word   12, 12, .Lor_b4_PP
 .Lor_b5_NN_A_Neg:
         .word   .Lor_npow5, 104, .Lor_b4_NN
-        .word   .Lor_npow5, 160, .+4
+        .word   .Lor_pow5, 160, .+4
 .Lor_b4_NP:
         .word   .Lor_npow4, 100, .Lor_b4_NP_A_Neg
-        .word   .Lor_npow4, 160, .+4
+        .word   .Lor_pow4, 160, .+4
         .word   .Lor_pow4, 104, .Lor_b3_PN
         .word   12, 12, .Lor_b3_PP
 .Lor_b4_NP_A_Neg:
         .word   .Lor_pow4, 104, .Lor_b3_NN
-        .word   .Lor_npow4, 160, .+4
+        .word   .Lor_pow4, 160, .+4
         .word   12, 12, .Lor_b3_NP
 .Lor_b4_PP:
         .word   .Lor_pow4, 100, .Lor_b4_PP_A_Neg
-        .word   .Lor_npow4, 160, .+4
+        .word   .Lor_pow4, 160, .+4
         .word   .Lor_pow4, 104, .Lor_b3_PN
         .word   12, 12, .Lor_b3_PP
 .Lor_b4_PP_A_Neg:
         .word   .Lor_pow4, 104, .Lor_b3_NN
-        .word   .Lor_npow4, 160, .+4
+        .word   .Lor_pow4, 160, .+4
         .word   12, 12, .Lor_b3_NP
 .Lor_b4_PN:
         .word   .Lor_pow4, 100, .Lor_b4_PN_A_Neg
-        .word   .Lor_npow4, 160, .+4
+        .word   .Lor_pow4, 160, .+4
         .word   .Lor_npow4, 104, .Lor_b3_PN
         .word   12, 12, .Lor_b3_PP
 .Lor_b4_PN_A_Neg:
         .word   .Lor_npow4, 104, .Lor_b3_NN
-        .word   .Lor_npow4, 160, .+4
+        .word   .Lor_pow4, 160, .+4
         .word   12, 12, .Lor_b3_NP
 .Lor_b4_NN:
         .word   .Lor_npow4, 100, .Lor_b4_NN_A_Neg
-        .word   .Lor_npow4, 160, .+4
+        .word   .Lor_pow4, 160, .+4
         .word   .Lor_npow4, 104, .Lor_b3_PN
         .word   12, 12, .Lor_b3_PP
 .Lor_b4_NN_A_Neg:
         .word   .Lor_npow4, 104, .Lor_b3_NN
-        .word   .Lor_npow4, 160, .+4
+        .word   .Lor_pow4, 160, .+4
 .Lor_b3_NP:
         .word   .Lor_npow3, 100, .Lor_b3_NP_A_Neg
-        .word   .Lor_npow3, 160, .+4
+        .word   .Lor_pow3, 160, .+4
         .word   .Lor_pow3, 104, .Lor_b2_PN
         .word   12, 12, .Lor_b2_PP
 .Lor_b3_NP_A_Neg:
         .word   .Lor_pow3, 104, .Lor_b2_NN
-        .word   .Lor_npow3, 160, .+4
+        .word   .Lor_pow3, 160, .+4
         .word   12, 12, .Lor_b2_NP
 .Lor_b3_PP:
         .word   .Lor_pow3, 100, .Lor_b3_PP_A_Neg
-        .word   .Lor_npow3, 160, .+4
+        .word   .Lor_pow3, 160, .+4
         .word   .Lor_pow3, 104, .Lor_b2_PN
         .word   12, 12, .Lor_b2_PP
 .Lor_b3_PP_A_Neg:
         .word   .Lor_pow3, 104, .Lor_b2_NN
-        .word   .Lor_npow3, 160, .+4
+        .word   .Lor_pow3, 160, .+4
         .word   12, 12, .Lor_b2_NP
 .Lor_b3_PN:
         .word   .Lor_pow3, 100, .Lor_b3_PN_A_Neg
-        .word   .Lor_npow3, 160, .+4
+        .word   .Lor_pow3, 160, .+4
         .word   .Lor_npow3, 104, .Lor_b2_PN
         .word   12, 12, .Lor_b2_PP
 .Lor_b3_PN_A_Neg:
         .word   .Lor_npow3, 104, .Lor_b2_NN
-        .word   .Lor_npow3, 160, .+4
+        .word   .Lor_pow3, 160, .+4
         .word   12, 12, .Lor_b2_NP
 .Lor_b3_NN:
         .word   .Lor_npow3, 100, .Lor_b3_NN_A_Neg
-        .word   .Lor_npow3, 160, .+4
+        .word   .Lor_pow3, 160, .+4
         .word   .Lor_npow3, 104, .Lor_b2_PN
         .word   12, 12, .Lor_b2_PP
 .Lor_b3_NN_A_Neg:
         .word   .Lor_npow3, 104, .Lor_b2_NN
-        .word   .Lor_npow3, 160, .+4
+        .word   .Lor_pow3, 160, .+4
 .Lor_b2_NP:
         .word   .Lor_npow2, 100, .Lor_b2_NP_A_Neg
-        .word   .Lor_npow2, 160, .+4
+        .word   .Lor_pow2, 160, .+4
         .word   .Lor_pow2, 104, .Lor_b1_PN
         .word   12, 12, .Lor_b1_PP
 .Lor_b2_NP_A_Neg:
         .word   .Lor_pow2, 104, .Lor_b1_NN
-        .word   .Lor_npow2, 160, .+4
+        .word   .Lor_pow2, 160, .+4
         .word   12, 12, .Lor_b1_NP
 .Lor_b2_PP:
         .word   .Lor_pow2, 100, .Lor_b2_PP_A_Neg
-        .word   .Lor_npow2, 160, .+4
+        .word   .Lor_pow2, 160, .+4
         .word   .Lor_pow2, 104, .Lor_b1_PN
         .word   12, 12, .Lor_b1_PP
 .Lor_b2_PP_A_Neg:
         .word   .Lor_pow2, 104, .Lor_b1_NN
-        .word   .Lor_npow2, 160, .+4
+        .word   .Lor_pow2, 160, .+4
         .word   12, 12, .Lor_b1_NP
 .Lor_b2_PN:
         .word   .Lor_pow2, 100, .Lor_b2_PN_A_Neg
-        .word   .Lor_npow2, 160, .+4
+        .word   .Lor_pow2, 160, .+4
         .word   .Lor_npow2, 104, .Lor_b1_PN
         .word   12, 12, .Lor_b1_PP
 .Lor_b2_PN_A_Neg:
         .word   .Lor_npow2, 104, .Lor_b1_NN
-        .word   .Lor_npow2, 160, .+4
+        .word   .Lor_pow2, 160, .+4
         .word   12, 12, .Lor_b1_NP
 .Lor_b2_NN:
         .word   .Lor_npow2, 100, .Lor_b2_NN_A_Neg
-        .word   .Lor_npow2, 160, .+4
+        .word   .Lor_pow2, 160, .+4
         .word   .Lor_npow2, 104, .Lor_b1_PN
         .word   12, 12, .Lor_b1_PP
 .Lor_b2_NN_A_Neg:
         .word   .Lor_npow2, 104, .Lor_b1_NN
-        .word   .Lor_npow2, 160, .+4
+        .word   .Lor_pow2, 160, .+4
 .Lor_b1_NP:
         .word   .Lor_npow1, 100, .Lor_b1_NP_A_Neg
-        .word   .Lor_npow1, 160, .+4
+        .word   .Lor_pow1, 160, .+4
         .word   .Lor_pow1, 104, .Lor_b0_PN
         .word   12, 12, .Lor_b0_PP
 .Lor_b1_NP_A_Neg:
         .word   .Lor_pow1, 104, .Lor_b0_NN
-        .word   .Lor_npow1, 160, .+4
+        .word   .Lor_pow1, 160, .+4
         .word   12, 12, .Lor_b0_NP
 .Lor_b1_PP:
         .word   .Lor_pow1, 100, .Lor_b1_PP_A_Neg
-        .word   .Lor_npow1, 160, .+4
+        .word   .Lor_pow1, 160, .+4
         .word   .Lor_pow1, 104, .Lor_b0_PN
         .word   12, 12, .Lor_b0_PP
 .Lor_b1_PP_A_Neg:
         .word   .Lor_pow1, 104, .Lor_b0_NN
-        .word   .Lor_npow1, 160, .+4
+        .word   .Lor_pow1, 160, .+4
         .word   12, 12, .Lor_b0_NP
 .Lor_b1_PN:
         .word   .Lor_pow1, 100, .Lor_b1_PN_A_Neg
-        .word   .Lor_npow1, 160, .+4
+        .word   .Lor_pow1, 160, .+4
         .word   .Lor_npow1, 104, .Lor_b0_PN
         .word   12, 12, .Lor_b0_PP
 .Lor_b1_PN_A_Neg:
         .word   .Lor_npow1, 104, .Lor_b0_NN
-        .word   .Lor_npow1, 160, .+4
+        .word   .Lor_pow1, 160, .+4
         .word   12, 12, .Lor_b0_NP
 .Lor_b1_NN:
         .word   .Lor_npow1, 100, .Lor_b1_NN_A_Neg
-        .word   .Lor_npow1, 160, .+4
+        .word   .Lor_pow1, 160, .+4
         .word   .Lor_npow1, 104, .Lor_b0_PN
         .word   12, 12, .Lor_b0_PP
 .Lor_b1_NN_A_Neg:
         .word   .Lor_npow1, 104, .Lor_b0_NN
-        .word   .Lor_npow1, 160, .+4
+        .word   .Lor_pow1, 160, .+4
 .Lor_b0_NP:
         .word   .Lor_npow0, 100, .Lor_b0_NP_A_Neg
-        .word   .Lor_npow0, 160, .+4
+        .word   .Lor_pow0, 160, .+4
         .word   .Lor_pow0, 104, .Lor_done
         .word   12, 12, .Lor_done
 .Lor_b0_NP_A_Neg:
         .word   .Lor_pow0, 104, .Lor_done
-        .word   .Lor_npow0, 160, .+4
+        .word   .Lor_pow0, 160, .+4
         .word   12, 12, .Lor_done
 .Lor_b0_PP:
         .word   .Lor_pow0, 100, .Lor_b0_PP_A_Neg
-        .word   .Lor_npow0, 160, .+4
+        .word   .Lor_pow0, 160, .+4
         .word   .Lor_pow0, 104, .Lor_done
         .word   12, 12, .Lor_done
 .Lor_b0_PP_A_Neg:
         .word   .Lor_pow0, 104, .Lor_done
-        .word   .Lor_npow0, 160, .+4
+        .word   .Lor_pow0, 160, .+4
         .word   12, 12, .Lor_done
 .Lor_b0_PN:
         .word   .Lor_pow0, 100, .Lor_b0_PN_A_Neg
-        .word   .Lor_npow0, 160, .+4
+        .word   .Lor_pow0, 160, .+4
         .word   .Lor_npow0, 104, .Lor_done
         .word   12, 12, .Lor_done
 .Lor_b0_PN_A_Neg:
         .word   .Lor_npow0, 104, .Lor_done
-        .word   .Lor_npow0, 160, .+4
+        .word   .Lor_pow0, 160, .+4
         .word   12, 12, .Lor_done
 .Lor_b0_NN:
         .word   .Lor_npow0, 100, .Lor_b0_NN_A_Neg
-        .word   .Lor_npow0, 160, .+4
+        .word   .Lor_pow0, 160, .+4
         .word   .Lor_npow0, 104, .Lor_done
         .word   12, 12, .Lor_done
 .Lor_b0_NN_A_Neg:
         .word   .Lor_npow0, 104, .Lor_done
-        .word   .Lor_npow0, 160, .+4
+        .word   .Lor_pow0, 160, .+4
         .word   12, 12, .Lor_done
 .Lor_done:
         .word   96, 96, .+4
-        .word   160, 12, .+4
-        .word   12, 96, .+4
+        .word   160, 96, .+4
 .Lor_pop:
         .word   160, 160, .+4
         .word   12, 12, .+4
@@ -38483,9 +38480,8 @@ __subleq_xor:
         .word   144, 168, .Lxor_ret_r22
         .word   12, 12, .Lxor_chk_r22_fast
 .Lxor_ret_r22:
-        .word   96, 96, .+4
-        .word   12, 12, .+4
         .word   104, 12, .+4
+        .word   96, 96, .+4
         .word   12, 96, .+4
 .Lxor_r22_pop:
         .word   160, 160, .+4
@@ -38513,9 +38509,8 @@ __subleq_xor:
         .word   144, 168, .Lxor_ret_r21
         .word   12, 12, .Lxor_small_check
 .Lxor_ret_r21:
-        .word   96, 96, .+4
-        .word   12, 12, .+4
         .word   100, 12, .+4
+        .word   96, 96, .+4
         .word   12, 96, .+4
 .Lxor_r21_pop:
         .word   160, 160, .+4
@@ -38591,1306 +38586,1305 @@ __subleq_xor:
         .word   .Lxor_pow30, 104, .Lxor_b30_PP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b29_PP
 .Lxor_b30_PP_A_Pos_B_Neg:
-        .word   .Lxor_npow30, 160, .+4
+        .word   .Lxor_pow30, 160, .+4
         .word   12, 12, .Lxor_b29_PN
 .Lxor_b30_PP_A_Neg:
         .word   .Lxor_pow30, 104, .Lxor_b29_NN
-        .word   .Lxor_npow30, 160, .+4
+        .word   .Lxor_pow30, 160, .+4
 .Lxor_b29_NP:
         .word   .Lxor_npow29, 100, .Lxor_b29_NP_A_Neg
         .word   .Lxor_pow29, 104, .Lxor_b29_NP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b28_PP
 .Lxor_b29_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow29, 160, .+4
+        .word   .Lxor_pow29, 160, .+4
         .word   12, 12, .Lxor_b28_PN
 .Lxor_b29_NP_A_Neg:
         .word   .Lxor_pow29, 104, .Lxor_b28_NN
-        .word   .Lxor_npow29, 160, .+4
+        .word   .Lxor_pow29, 160, .+4
         .word   12, 12, .Lxor_b28_NP
 .Lxor_b29_PP:
         .word   .Lxor_pow29, 100, .Lxor_b29_PP_A_Neg
         .word   .Lxor_pow29, 104, .Lxor_b29_PP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b28_PP
 .Lxor_b29_PP_A_Pos_B_Neg:
-        .word   .Lxor_npow29, 160, .+4
+        .word   .Lxor_pow29, 160, .+4
         .word   12, 12, .Lxor_b28_PN
 .Lxor_b29_PP_A_Neg:
         .word   .Lxor_pow29, 104, .Lxor_b28_NN
-        .word   .Lxor_npow29, 160, .+4
+        .word   .Lxor_pow29, 160, .+4
         .word   12, 12, .Lxor_b28_NP
 .Lxor_b29_PN:
         .word   .Lxor_pow29, 100, .Lxor_b29_PN_A_Neg
         .word   .Lxor_npow29, 104, .Lxor_b29_PN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b28_PP
 .Lxor_b29_PN_A_Pos_B_Neg:
-        .word   .Lxor_npow29, 160, .+4
+        .word   .Lxor_pow29, 160, .+4
         .word   12, 12, .Lxor_b28_PN
 .Lxor_b29_PN_A_Neg:
         .word   .Lxor_npow29, 104, .Lxor_b28_NN
-        .word   .Lxor_npow29, 160, .+4
+        .word   .Lxor_pow29, 160, .+4
         .word   12, 12, .Lxor_b28_NP
 .Lxor_b29_NN:
         .word   .Lxor_npow29, 100, .Lxor_b29_NN_A_Neg
         .word   .Lxor_npow29, 104, .Lxor_b29_NN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b28_PP
 .Lxor_b29_NN_A_Pos_B_Neg:
-        .word   .Lxor_npow29, 160, .+4
+        .word   .Lxor_pow29, 160, .+4
         .word   12, 12, .Lxor_b28_PN
 .Lxor_b29_NN_A_Neg:
         .word   .Lxor_npow29, 104, .Lxor_b28_NN
-        .word   .Lxor_npow29, 160, .+4
+        .word   .Lxor_pow29, 160, .+4
 .Lxor_b28_NP:
         .word   .Lxor_npow28, 100, .Lxor_b28_NP_A_Neg
         .word   .Lxor_pow28, 104, .Lxor_b28_NP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b27_PP
 .Lxor_b28_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow28, 160, .+4
+        .word   .Lxor_pow28, 160, .+4
         .word   12, 12, .Lxor_b27_PN
 .Lxor_b28_NP_A_Neg:
         .word   .Lxor_pow28, 104, .Lxor_b27_NN
-        .word   .Lxor_npow28, 160, .+4
+        .word   .Lxor_pow28, 160, .+4
         .word   12, 12, .Lxor_b27_NP
 .Lxor_b28_PP:
         .word   .Lxor_pow28, 100, .Lxor_b28_PP_A_Neg
         .word   .Lxor_pow28, 104, .Lxor_b28_PP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b27_PP
 .Lxor_b28_PP_A_Pos_B_Neg:
-        .word   .Lxor_npow28, 160, .+4
+        .word   .Lxor_pow28, 160, .+4
         .word   12, 12, .Lxor_b27_PN
 .Lxor_b28_PP_A_Neg:
         .word   .Lxor_pow28, 104, .Lxor_b27_NN
-        .word   .Lxor_npow28, 160, .+4
+        .word   .Lxor_pow28, 160, .+4
         .word   12, 12, .Lxor_b27_NP
 .Lxor_b28_PN:
         .word   .Lxor_pow28, 100, .Lxor_b28_PN_A_Neg
         .word   .Lxor_npow28, 104, .Lxor_b28_PN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b27_PP
 .Lxor_b28_PN_A_Pos_B_Neg:
-        .word   .Lxor_npow28, 160, .+4
+        .word   .Lxor_pow28, 160, .+4
         .word   12, 12, .Lxor_b27_PN
 .Lxor_b28_PN_A_Neg:
         .word   .Lxor_npow28, 104, .Lxor_b27_NN
-        .word   .Lxor_npow28, 160, .+4
+        .word   .Lxor_pow28, 160, .+4
         .word   12, 12, .Lxor_b27_NP
 .Lxor_b28_NN:
         .word   .Lxor_npow28, 100, .Lxor_b28_NN_A_Neg
         .word   .Lxor_npow28, 104, .Lxor_b28_NN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b27_PP
 .Lxor_b28_NN_A_Pos_B_Neg:
-        .word   .Lxor_npow28, 160, .+4
+        .word   .Lxor_pow28, 160, .+4
         .word   12, 12, .Lxor_b27_PN
 .Lxor_b28_NN_A_Neg:
         .word   .Lxor_npow28, 104, .Lxor_b27_NN
-        .word   .Lxor_npow28, 160, .+4
+        .word   .Lxor_pow28, 160, .+4
 .Lxor_b27_NP:
         .word   .Lxor_npow27, 100, .Lxor_b27_NP_A_Neg
         .word   .Lxor_pow27, 104, .Lxor_b27_NP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b26_PP
 .Lxor_b27_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow27, 160, .+4
+        .word   .Lxor_pow27, 160, .+4
         .word   12, 12, .Lxor_b26_PN
 .Lxor_b27_NP_A_Neg:
         .word   .Lxor_pow27, 104, .Lxor_b26_NN
-        .word   .Lxor_npow27, 160, .+4
+        .word   .Lxor_pow27, 160, .+4
         .word   12, 12, .Lxor_b26_NP
 .Lxor_b27_PP:
         .word   .Lxor_pow27, 100, .Lxor_b27_PP_A_Neg
         .word   .Lxor_pow27, 104, .Lxor_b27_PP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b26_PP
 .Lxor_b27_PP_A_Pos_B_Neg:
-        .word   .Lxor_npow27, 160, .+4
+        .word   .Lxor_pow27, 160, .+4
         .word   12, 12, .Lxor_b26_PN
 .Lxor_b27_PP_A_Neg:
         .word   .Lxor_pow27, 104, .Lxor_b26_NN
-        .word   .Lxor_npow27, 160, .+4
+        .word   .Lxor_pow27, 160, .+4
         .word   12, 12, .Lxor_b26_NP
 .Lxor_b27_PN:
         .word   .Lxor_pow27, 100, .Lxor_b27_PN_A_Neg
         .word   .Lxor_npow27, 104, .Lxor_b27_PN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b26_PP
 .Lxor_b27_PN_A_Pos_B_Neg:
-        .word   .Lxor_npow27, 160, .+4
+        .word   .Lxor_pow27, 160, .+4
         .word   12, 12, .Lxor_b26_PN
 .Lxor_b27_PN_A_Neg:
         .word   .Lxor_npow27, 104, .Lxor_b26_NN
-        .word   .Lxor_npow27, 160, .+4
+        .word   .Lxor_pow27, 160, .+4
         .word   12, 12, .Lxor_b26_NP
 .Lxor_b27_NN:
         .word   .Lxor_npow27, 100, .Lxor_b27_NN_A_Neg
         .word   .Lxor_npow27, 104, .Lxor_b27_NN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b26_PP
 .Lxor_b27_NN_A_Pos_B_Neg:
-        .word   .Lxor_npow27, 160, .+4
+        .word   .Lxor_pow27, 160, .+4
         .word   12, 12, .Lxor_b26_PN
 .Lxor_b27_NN_A_Neg:
         .word   .Lxor_npow27, 104, .Lxor_b26_NN
-        .word   .Lxor_npow27, 160, .+4
+        .word   .Lxor_pow27, 160, .+4
 .Lxor_b26_NP:
         .word   .Lxor_npow26, 100, .Lxor_b26_NP_A_Neg
         .word   .Lxor_pow26, 104, .Lxor_b26_NP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b25_PP
 .Lxor_b26_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow26, 160, .+4
+        .word   .Lxor_pow26, 160, .+4
         .word   12, 12, .Lxor_b25_PN
 .Lxor_b26_NP_A_Neg:
         .word   .Lxor_pow26, 104, .Lxor_b25_NN
-        .word   .Lxor_npow26, 160, .+4
+        .word   .Lxor_pow26, 160, .+4
         .word   12, 12, .Lxor_b25_NP
 .Lxor_b26_PP:
         .word   .Lxor_pow26, 100, .Lxor_b26_PP_A_Neg
         .word   .Lxor_pow26, 104, .Lxor_b26_PP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b25_PP
 .Lxor_b26_PP_A_Pos_B_Neg:
-        .word   .Lxor_npow26, 160, .+4
+        .word   .Lxor_pow26, 160, .+4
         .word   12, 12, .Lxor_b25_PN
 .Lxor_b26_PP_A_Neg:
         .word   .Lxor_pow26, 104, .Lxor_b25_NN
-        .word   .Lxor_npow26, 160, .+4
+        .word   .Lxor_pow26, 160, .+4
         .word   12, 12, .Lxor_b25_NP
 .Lxor_b26_PN:
         .word   .Lxor_pow26, 100, .Lxor_b26_PN_A_Neg
         .word   .Lxor_npow26, 104, .Lxor_b26_PN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b25_PP
 .Lxor_b26_PN_A_Pos_B_Neg:
-        .word   .Lxor_npow26, 160, .+4
+        .word   .Lxor_pow26, 160, .+4
         .word   12, 12, .Lxor_b25_PN
 .Lxor_b26_PN_A_Neg:
         .word   .Lxor_npow26, 104, .Lxor_b25_NN
-        .word   .Lxor_npow26, 160, .+4
+        .word   .Lxor_pow26, 160, .+4
         .word   12, 12, .Lxor_b25_NP
 .Lxor_b26_NN:
         .word   .Lxor_npow26, 100, .Lxor_b26_NN_A_Neg
         .word   .Lxor_npow26, 104, .Lxor_b26_NN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b25_PP
 .Lxor_b26_NN_A_Pos_B_Neg:
-        .word   .Lxor_npow26, 160, .+4
+        .word   .Lxor_pow26, 160, .+4
         .word   12, 12, .Lxor_b25_PN
 .Lxor_b26_NN_A_Neg:
         .word   .Lxor_npow26, 104, .Lxor_b25_NN
-        .word   .Lxor_npow26, 160, .+4
+        .word   .Lxor_pow26, 160, .+4
 .Lxor_b25_NP:
         .word   .Lxor_npow25, 100, .Lxor_b25_NP_A_Neg
         .word   .Lxor_pow25, 104, .Lxor_b25_NP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b24_PP
 .Lxor_b25_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow25, 160, .+4
+        .word   .Lxor_pow25, 160, .+4
         .word   12, 12, .Lxor_b24_PN
 .Lxor_b25_NP_A_Neg:
         .word   .Lxor_pow25, 104, .Lxor_b24_NN
-        .word   .Lxor_npow25, 160, .+4
+        .word   .Lxor_pow25, 160, .+4
         .word   12, 12, .Lxor_b24_NP
 .Lxor_b25_PP:
         .word   .Lxor_pow25, 100, .Lxor_b25_PP_A_Neg
         .word   .Lxor_pow25, 104, .Lxor_b25_PP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b24_PP
 .Lxor_b25_PP_A_Pos_B_Neg:
-        .word   .Lxor_npow25, 160, .+4
+        .word   .Lxor_pow25, 160, .+4
         .word   12, 12, .Lxor_b24_PN
 .Lxor_b25_PP_A_Neg:
         .word   .Lxor_pow25, 104, .Lxor_b24_NN
-        .word   .Lxor_npow25, 160, .+4
+        .word   .Lxor_pow25, 160, .+4
         .word   12, 12, .Lxor_b24_NP
 .Lxor_b25_PN:
         .word   .Lxor_pow25, 100, .Lxor_b25_PN_A_Neg
         .word   .Lxor_npow25, 104, .Lxor_b25_PN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b24_PP
 .Lxor_b25_PN_A_Pos_B_Neg:
-        .word   .Lxor_npow25, 160, .+4
+        .word   .Lxor_pow25, 160, .+4
         .word   12, 12, .Lxor_b24_PN
 .Lxor_b25_PN_A_Neg:
         .word   .Lxor_npow25, 104, .Lxor_b24_NN
-        .word   .Lxor_npow25, 160, .+4
+        .word   .Lxor_pow25, 160, .+4
         .word   12, 12, .Lxor_b24_NP
 .Lxor_b25_NN:
         .word   .Lxor_npow25, 100, .Lxor_b25_NN_A_Neg
         .word   .Lxor_npow25, 104, .Lxor_b25_NN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b24_PP
 .Lxor_b25_NN_A_Pos_B_Neg:
-        .word   .Lxor_npow25, 160, .+4
+        .word   .Lxor_pow25, 160, .+4
         .word   12, 12, .Lxor_b24_PN
 .Lxor_b25_NN_A_Neg:
         .word   .Lxor_npow25, 104, .Lxor_b24_NN
-        .word   .Lxor_npow25, 160, .+4
+        .word   .Lxor_pow25, 160, .+4
 .Lxor_b24_NP:
         .word   .Lxor_npow24, 100, .Lxor_b24_NP_A_Neg
         .word   .Lxor_pow24, 104, .Lxor_b24_NP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b23_PP
 .Lxor_b24_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow24, 160, .+4
+        .word   .Lxor_pow24, 160, .+4
         .word   12, 12, .Lxor_b23_PN
 .Lxor_b24_NP_A_Neg:
         .word   .Lxor_pow24, 104, .Lxor_b23_NN
-        .word   .Lxor_npow24, 160, .+4
+        .word   .Lxor_pow24, 160, .+4
         .word   12, 12, .Lxor_b23_NP
 .Lxor_b24_PP:
         .word   .Lxor_pow24, 100, .Lxor_b24_PP_A_Neg
         .word   .Lxor_pow24, 104, .Lxor_b24_PP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b23_PP
 .Lxor_b24_PP_A_Pos_B_Neg:
-        .word   .Lxor_npow24, 160, .+4
+        .word   .Lxor_pow24, 160, .+4
         .word   12, 12, .Lxor_b23_PN
 .Lxor_b24_PP_A_Neg:
         .word   .Lxor_pow24, 104, .Lxor_b23_NN
-        .word   .Lxor_npow24, 160, .+4
+        .word   .Lxor_pow24, 160, .+4
         .word   12, 12, .Lxor_b23_NP
 .Lxor_b24_PN:
         .word   .Lxor_pow24, 100, .Lxor_b24_PN_A_Neg
         .word   .Lxor_npow24, 104, .Lxor_b24_PN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b23_PP
 .Lxor_b24_PN_A_Pos_B_Neg:
-        .word   .Lxor_npow24, 160, .+4
+        .word   .Lxor_pow24, 160, .+4
         .word   12, 12, .Lxor_b23_PN
 .Lxor_b24_PN_A_Neg:
         .word   .Lxor_npow24, 104, .Lxor_b23_NN
-        .word   .Lxor_npow24, 160, .+4
+        .word   .Lxor_pow24, 160, .+4
         .word   12, 12, .Lxor_b23_NP
 .Lxor_b24_NN:
         .word   .Lxor_npow24, 100, .Lxor_b24_NN_A_Neg
         .word   .Lxor_npow24, 104, .Lxor_b24_NN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b23_PP
 .Lxor_b24_NN_A_Pos_B_Neg:
-        .word   .Lxor_npow24, 160, .+4
+        .word   .Lxor_pow24, 160, .+4
         .word   12, 12, .Lxor_b23_PN
 .Lxor_b24_NN_A_Neg:
         .word   .Lxor_npow24, 104, .Lxor_b23_NN
-        .word   .Lxor_npow24, 160, .+4
+        .word   .Lxor_pow24, 160, .+4
 .Lxor_b23_NP:
         .word   .Lxor_npow23, 100, .Lxor_b23_NP_A_Neg
         .word   .Lxor_pow23, 104, .Lxor_b23_NP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b22_PP
 .Lxor_b23_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow23, 160, .+4
+        .word   .Lxor_pow23, 160, .+4
         .word   12, 12, .Lxor_b22_PN
 .Lxor_b23_NP_A_Neg:
         .word   .Lxor_pow23, 104, .Lxor_b22_NN
-        .word   .Lxor_npow23, 160, .+4
+        .word   .Lxor_pow23, 160, .+4
         .word   12, 12, .Lxor_b22_NP
 .Lxor_b23_PP:
         .word   .Lxor_pow23, 100, .Lxor_b23_PP_A_Neg
         .word   .Lxor_pow23, 104, .Lxor_b23_PP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b22_PP
 .Lxor_b23_PP_A_Pos_B_Neg:
-        .word   .Lxor_npow23, 160, .+4
+        .word   .Lxor_pow23, 160, .+4
         .word   12, 12, .Lxor_b22_PN
 .Lxor_b23_PP_A_Neg:
         .word   .Lxor_pow23, 104, .Lxor_b22_NN
-        .word   .Lxor_npow23, 160, .+4
+        .word   .Lxor_pow23, 160, .+4
         .word   12, 12, .Lxor_b22_NP
 .Lxor_b23_PN:
         .word   .Lxor_pow23, 100, .Lxor_b23_PN_A_Neg
         .word   .Lxor_npow23, 104, .Lxor_b23_PN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b22_PP
 .Lxor_b23_PN_A_Pos_B_Neg:
-        .word   .Lxor_npow23, 160, .+4
+        .word   .Lxor_pow23, 160, .+4
         .word   12, 12, .Lxor_b22_PN
 .Lxor_b23_PN_A_Neg:
         .word   .Lxor_npow23, 104, .Lxor_b22_NN
-        .word   .Lxor_npow23, 160, .+4
+        .word   .Lxor_pow23, 160, .+4
         .word   12, 12, .Lxor_b22_NP
 .Lxor_b23_NN:
         .word   .Lxor_npow23, 100, .Lxor_b23_NN_A_Neg
         .word   .Lxor_npow23, 104, .Lxor_b23_NN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b22_PP
 .Lxor_b23_NN_A_Pos_B_Neg:
-        .word   .Lxor_npow23, 160, .+4
+        .word   .Lxor_pow23, 160, .+4
         .word   12, 12, .Lxor_b22_PN
 .Lxor_b23_NN_A_Neg:
         .word   .Lxor_npow23, 104, .Lxor_b22_NN
-        .word   .Lxor_npow23, 160, .+4
+        .word   .Lxor_pow23, 160, .+4
 .Lxor_b22_NP:
         .word   .Lxor_npow22, 100, .Lxor_b22_NP_A_Neg
         .word   .Lxor_pow22, 104, .Lxor_b22_NP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b21_PP
 .Lxor_b22_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow22, 160, .+4
+        .word   .Lxor_pow22, 160, .+4
         .word   12, 12, .Lxor_b21_PN
 .Lxor_b22_NP_A_Neg:
         .word   .Lxor_pow22, 104, .Lxor_b21_NN
-        .word   .Lxor_npow22, 160, .+4
+        .word   .Lxor_pow22, 160, .+4
         .word   12, 12, .Lxor_b21_NP
 .Lxor_b22_PP:
         .word   .Lxor_pow22, 100, .Lxor_b22_PP_A_Neg
         .word   .Lxor_pow22, 104, .Lxor_b22_PP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b21_PP
 .Lxor_b22_PP_A_Pos_B_Neg:
-        .word   .Lxor_npow22, 160, .+4
+        .word   .Lxor_pow22, 160, .+4
         .word   12, 12, .Lxor_b21_PN
 .Lxor_b22_PP_A_Neg:
         .word   .Lxor_pow22, 104, .Lxor_b21_NN
-        .word   .Lxor_npow22, 160, .+4
+        .word   .Lxor_pow22, 160, .+4
         .word   12, 12, .Lxor_b21_NP
 .Lxor_b22_PN:
         .word   .Lxor_pow22, 100, .Lxor_b22_PN_A_Neg
         .word   .Lxor_npow22, 104, .Lxor_b22_PN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b21_PP
 .Lxor_b22_PN_A_Pos_B_Neg:
-        .word   .Lxor_npow22, 160, .+4
+        .word   .Lxor_pow22, 160, .+4
         .word   12, 12, .Lxor_b21_PN
 .Lxor_b22_PN_A_Neg:
         .word   .Lxor_npow22, 104, .Lxor_b21_NN
-        .word   .Lxor_npow22, 160, .+4
+        .word   .Lxor_pow22, 160, .+4
         .word   12, 12, .Lxor_b21_NP
 .Lxor_b22_NN:
         .word   .Lxor_npow22, 100, .Lxor_b22_NN_A_Neg
         .word   .Lxor_npow22, 104, .Lxor_b22_NN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b21_PP
 .Lxor_b22_NN_A_Pos_B_Neg:
-        .word   .Lxor_npow22, 160, .+4
+        .word   .Lxor_pow22, 160, .+4
         .word   12, 12, .Lxor_b21_PN
 .Lxor_b22_NN_A_Neg:
         .word   .Lxor_npow22, 104, .Lxor_b21_NN
-        .word   .Lxor_npow22, 160, .+4
+        .word   .Lxor_pow22, 160, .+4
 .Lxor_b21_NP:
         .word   .Lxor_npow21, 100, .Lxor_b21_NP_A_Neg
         .word   .Lxor_pow21, 104, .Lxor_b21_NP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b20_PP
 .Lxor_b21_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow21, 160, .+4
+        .word   .Lxor_pow21, 160, .+4
         .word   12, 12, .Lxor_b20_PN
 .Lxor_b21_NP_A_Neg:
         .word   .Lxor_pow21, 104, .Lxor_b20_NN
-        .word   .Lxor_npow21, 160, .+4
+        .word   .Lxor_pow21, 160, .+4
         .word   12, 12, .Lxor_b20_NP
 .Lxor_b21_PP:
         .word   .Lxor_pow21, 100, .Lxor_b21_PP_A_Neg
         .word   .Lxor_pow21, 104, .Lxor_b21_PP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b20_PP
 .Lxor_b21_PP_A_Pos_B_Neg:
-        .word   .Lxor_npow21, 160, .+4
+        .word   .Lxor_pow21, 160, .+4
         .word   12, 12, .Lxor_b20_PN
 .Lxor_b21_PP_A_Neg:
         .word   .Lxor_pow21, 104, .Lxor_b20_NN
-        .word   .Lxor_npow21, 160, .+4
+        .word   .Lxor_pow21, 160, .+4
         .word   12, 12, .Lxor_b20_NP
 .Lxor_b21_PN:
         .word   .Lxor_pow21, 100, .Lxor_b21_PN_A_Neg
         .word   .Lxor_npow21, 104, .Lxor_b21_PN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b20_PP
 .Lxor_b21_PN_A_Pos_B_Neg:
-        .word   .Lxor_npow21, 160, .+4
+        .word   .Lxor_pow21, 160, .+4
         .word   12, 12, .Lxor_b20_PN
 .Lxor_b21_PN_A_Neg:
         .word   .Lxor_npow21, 104, .Lxor_b20_NN
-        .word   .Lxor_npow21, 160, .+4
+        .word   .Lxor_pow21, 160, .+4
         .word   12, 12, .Lxor_b20_NP
 .Lxor_b21_NN:
         .word   .Lxor_npow21, 100, .Lxor_b21_NN_A_Neg
         .word   .Lxor_npow21, 104, .Lxor_b21_NN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b20_PP
 .Lxor_b21_NN_A_Pos_B_Neg:
-        .word   .Lxor_npow21, 160, .+4
+        .word   .Lxor_pow21, 160, .+4
         .word   12, 12, .Lxor_b20_PN
 .Lxor_b21_NN_A_Neg:
         .word   .Lxor_npow21, 104, .Lxor_b20_NN
-        .word   .Lxor_npow21, 160, .+4
+        .word   .Lxor_pow21, 160, .+4
 .Lxor_b20_NP:
         .word   .Lxor_npow20, 100, .Lxor_b20_NP_A_Neg
         .word   .Lxor_pow20, 104, .Lxor_b20_NP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b19_PP
 .Lxor_b20_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow20, 160, .+4
+        .word   .Lxor_pow20, 160, .+4
         .word   12, 12, .Lxor_b19_PN
 .Lxor_b20_NP_A_Neg:
         .word   .Lxor_pow20, 104, .Lxor_b19_NN
-        .word   .Lxor_npow20, 160, .+4
+        .word   .Lxor_pow20, 160, .+4
         .word   12, 12, .Lxor_b19_NP
 .Lxor_b20_PP:
         .word   .Lxor_pow20, 100, .Lxor_b20_PP_A_Neg
         .word   .Lxor_pow20, 104, .Lxor_b20_PP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b19_PP
 .Lxor_b20_PP_A_Pos_B_Neg:
-        .word   .Lxor_npow20, 160, .+4
+        .word   .Lxor_pow20, 160, .+4
         .word   12, 12, .Lxor_b19_PN
 .Lxor_b20_PP_A_Neg:
         .word   .Lxor_pow20, 104, .Lxor_b19_NN
-        .word   .Lxor_npow20, 160, .+4
+        .word   .Lxor_pow20, 160, .+4
         .word   12, 12, .Lxor_b19_NP
 .Lxor_b20_PN:
         .word   .Lxor_pow20, 100, .Lxor_b20_PN_A_Neg
         .word   .Lxor_npow20, 104, .Lxor_b20_PN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b19_PP
 .Lxor_b20_PN_A_Pos_B_Neg:
-        .word   .Lxor_npow20, 160, .+4
+        .word   .Lxor_pow20, 160, .+4
         .word   12, 12, .Lxor_b19_PN
 .Lxor_b20_PN_A_Neg:
         .word   .Lxor_npow20, 104, .Lxor_b19_NN
-        .word   .Lxor_npow20, 160, .+4
+        .word   .Lxor_pow20, 160, .+4
         .word   12, 12, .Lxor_b19_NP
 .Lxor_b20_NN:
         .word   .Lxor_npow20, 100, .Lxor_b20_NN_A_Neg
         .word   .Lxor_npow20, 104, .Lxor_b20_NN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b19_PP
 .Lxor_b20_NN_A_Pos_B_Neg:
-        .word   .Lxor_npow20, 160, .+4
+        .word   .Lxor_pow20, 160, .+4
         .word   12, 12, .Lxor_b19_PN
 .Lxor_b20_NN_A_Neg:
         .word   .Lxor_npow20, 104, .Lxor_b19_NN
-        .word   .Lxor_npow20, 160, .+4
+        .word   .Lxor_pow20, 160, .+4
 .Lxor_b19_NP:
         .word   .Lxor_npow19, 100, .Lxor_b19_NP_A_Neg
         .word   .Lxor_pow19, 104, .Lxor_b19_NP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b18_PP
 .Lxor_b19_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow19, 160, .+4
+        .word   .Lxor_pow19, 160, .+4
         .word   12, 12, .Lxor_b18_PN
 .Lxor_b19_NP_A_Neg:
         .word   .Lxor_pow19, 104, .Lxor_b18_NN
-        .word   .Lxor_npow19, 160, .+4
+        .word   .Lxor_pow19, 160, .+4
         .word   12, 12, .Lxor_b18_NP
 .Lxor_b19_PP:
         .word   .Lxor_pow19, 100, .Lxor_b19_PP_A_Neg
         .word   .Lxor_pow19, 104, .Lxor_b19_PP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b18_PP
 .Lxor_b19_PP_A_Pos_B_Neg:
-        .word   .Lxor_npow19, 160, .+4
+        .word   .Lxor_pow19, 160, .+4
         .word   12, 12, .Lxor_b18_PN
 .Lxor_b19_PP_A_Neg:
         .word   .Lxor_pow19, 104, .Lxor_b18_NN
-        .word   .Lxor_npow19, 160, .+4
+        .word   .Lxor_pow19, 160, .+4
         .word   12, 12, .Lxor_b18_NP
 .Lxor_b19_PN:
         .word   .Lxor_pow19, 100, .Lxor_b19_PN_A_Neg
         .word   .Lxor_npow19, 104, .Lxor_b19_PN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b18_PP
 .Lxor_b19_PN_A_Pos_B_Neg:
-        .word   .Lxor_npow19, 160, .+4
+        .word   .Lxor_pow19, 160, .+4
         .word   12, 12, .Lxor_b18_PN
 .Lxor_b19_PN_A_Neg:
         .word   .Lxor_npow19, 104, .Lxor_b18_NN
-        .word   .Lxor_npow19, 160, .+4
+        .word   .Lxor_pow19, 160, .+4
         .word   12, 12, .Lxor_b18_NP
 .Lxor_b19_NN:
         .word   .Lxor_npow19, 100, .Lxor_b19_NN_A_Neg
         .word   .Lxor_npow19, 104, .Lxor_b19_NN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b18_PP
 .Lxor_b19_NN_A_Pos_B_Neg:
-        .word   .Lxor_npow19, 160, .+4
+        .word   .Lxor_pow19, 160, .+4
         .word   12, 12, .Lxor_b18_PN
 .Lxor_b19_NN_A_Neg:
         .word   .Lxor_npow19, 104, .Lxor_b18_NN
-        .word   .Lxor_npow19, 160, .+4
+        .word   .Lxor_pow19, 160, .+4
 .Lxor_b18_NP:
         .word   .Lxor_npow18, 100, .Lxor_b18_NP_A_Neg
         .word   .Lxor_pow18, 104, .Lxor_b18_NP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b17_PP
 .Lxor_b18_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow18, 160, .+4
+        .word   .Lxor_pow18, 160, .+4
         .word   12, 12, .Lxor_b17_PN
 .Lxor_b18_NP_A_Neg:
         .word   .Lxor_pow18, 104, .Lxor_b17_NN
-        .word   .Lxor_npow18, 160, .+4
+        .word   .Lxor_pow18, 160, .+4
         .word   12, 12, .Lxor_b17_NP
 .Lxor_b18_PP:
         .word   .Lxor_pow18, 100, .Lxor_b18_PP_A_Neg
         .word   .Lxor_pow18, 104, .Lxor_b18_PP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b17_PP
 .Lxor_b18_PP_A_Pos_B_Neg:
-        .word   .Lxor_npow18, 160, .+4
+        .word   .Lxor_pow18, 160, .+4
         .word   12, 12, .Lxor_b17_PN
 .Lxor_b18_PP_A_Neg:
         .word   .Lxor_pow18, 104, .Lxor_b17_NN
-        .word   .Lxor_npow18, 160, .+4
+        .word   .Lxor_pow18, 160, .+4
         .word   12, 12, .Lxor_b17_NP
 .Lxor_b18_PN:
         .word   .Lxor_pow18, 100, .Lxor_b18_PN_A_Neg
         .word   .Lxor_npow18, 104, .Lxor_b18_PN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b17_PP
 .Lxor_b18_PN_A_Pos_B_Neg:
-        .word   .Lxor_npow18, 160, .+4
+        .word   .Lxor_pow18, 160, .+4
         .word   12, 12, .Lxor_b17_PN
 .Lxor_b18_PN_A_Neg:
         .word   .Lxor_npow18, 104, .Lxor_b17_NN
-        .word   .Lxor_npow18, 160, .+4
+        .word   .Lxor_pow18, 160, .+4
         .word   12, 12, .Lxor_b17_NP
 .Lxor_b18_NN:
         .word   .Lxor_npow18, 100, .Lxor_b18_NN_A_Neg
         .word   .Lxor_npow18, 104, .Lxor_b18_NN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b17_PP
 .Lxor_b18_NN_A_Pos_B_Neg:
-        .word   .Lxor_npow18, 160, .+4
+        .word   .Lxor_pow18, 160, .+4
         .word   12, 12, .Lxor_b17_PN
 .Lxor_b18_NN_A_Neg:
         .word   .Lxor_npow18, 104, .Lxor_b17_NN
-        .word   .Lxor_npow18, 160, .+4
+        .word   .Lxor_pow18, 160, .+4
 .Lxor_b17_NP:
         .word   .Lxor_npow17, 100, .Lxor_b17_NP_A_Neg
         .word   .Lxor_pow17, 104, .Lxor_b17_NP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b16_PP
 .Lxor_b17_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow17, 160, .+4
+        .word   .Lxor_pow17, 160, .+4
         .word   12, 12, .Lxor_b16_PN
 .Lxor_b17_NP_A_Neg:
         .word   .Lxor_pow17, 104, .Lxor_b16_NN
-        .word   .Lxor_npow17, 160, .+4
+        .word   .Lxor_pow17, 160, .+4
         .word   12, 12, .Lxor_b16_NP
 .Lxor_b17_PP:
         .word   .Lxor_pow17, 100, .Lxor_b17_PP_A_Neg
         .word   .Lxor_pow17, 104, .Lxor_b17_PP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b16_PP
 .Lxor_b17_PP_A_Pos_B_Neg:
-        .word   .Lxor_npow17, 160, .+4
+        .word   .Lxor_pow17, 160, .+4
         .word   12, 12, .Lxor_b16_PN
 .Lxor_b17_PP_A_Neg:
         .word   .Lxor_pow17, 104, .Lxor_b16_NN
-        .word   .Lxor_npow17, 160, .+4
+        .word   .Lxor_pow17, 160, .+4
         .word   12, 12, .Lxor_b16_NP
 .Lxor_b17_PN:
         .word   .Lxor_pow17, 100, .Lxor_b17_PN_A_Neg
         .word   .Lxor_npow17, 104, .Lxor_b17_PN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b16_PP
 .Lxor_b17_PN_A_Pos_B_Neg:
-        .word   .Lxor_npow17, 160, .+4
+        .word   .Lxor_pow17, 160, .+4
         .word   12, 12, .Lxor_b16_PN
 .Lxor_b17_PN_A_Neg:
         .word   .Lxor_npow17, 104, .Lxor_b16_NN
-        .word   .Lxor_npow17, 160, .+4
+        .word   .Lxor_pow17, 160, .+4
         .word   12, 12, .Lxor_b16_NP
 .Lxor_b17_NN:
         .word   .Lxor_npow17, 100, .Lxor_b17_NN_A_Neg
         .word   .Lxor_npow17, 104, .Lxor_b17_NN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b16_PP
 .Lxor_b17_NN_A_Pos_B_Neg:
-        .word   .Lxor_npow17, 160, .+4
+        .word   .Lxor_pow17, 160, .+4
         .word   12, 12, .Lxor_b16_PN
 .Lxor_b17_NN_A_Neg:
         .word   .Lxor_npow17, 104, .Lxor_b16_NN
-        .word   .Lxor_npow17, 160, .+4
+        .word   .Lxor_pow17, 160, .+4
 .Lxor_b16_NP:
         .word   .Lxor_npow16, 100, .Lxor_b16_NP_A_Neg
         .word   .Lxor_pow16, 104, .Lxor_b16_NP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b15_PP
 .Lxor_b16_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow16, 160, .+4
+        .word   .Lxor_pow16, 160, .+4
         .word   12, 12, .Lxor_b15_PN
 .Lxor_b16_NP_A_Neg:
         .word   .Lxor_pow16, 104, .Lxor_b15_NN
-        .word   .Lxor_npow16, 160, .+4
+        .word   .Lxor_pow16, 160, .+4
         .word   12, 12, .Lxor_b15_NP
 .Lxor_b16_PP:
         .word   .Lxor_pow16, 100, .Lxor_b16_PP_A_Neg
         .word   .Lxor_pow16, 104, .Lxor_b16_PP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b15_PP
 .Lxor_b16_PP_A_Pos_B_Neg:
-        .word   .Lxor_npow16, 160, .+4
+        .word   .Lxor_pow16, 160, .+4
         .word   12, 12, .Lxor_b15_PN
 .Lxor_b16_PP_A_Neg:
         .word   .Lxor_pow16, 104, .Lxor_b15_NN
-        .word   .Lxor_npow16, 160, .+4
+        .word   .Lxor_pow16, 160, .+4
         .word   12, 12, .Lxor_b15_NP
 .Lxor_b16_PN:
         .word   .Lxor_pow16, 100, .Lxor_b16_PN_A_Neg
         .word   .Lxor_npow16, 104, .Lxor_b16_PN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b15_PP
 .Lxor_b16_PN_A_Pos_B_Neg:
-        .word   .Lxor_npow16, 160, .+4
+        .word   .Lxor_pow16, 160, .+4
         .word   12, 12, .Lxor_b15_PN
 .Lxor_b16_PN_A_Neg:
         .word   .Lxor_npow16, 104, .Lxor_b15_NN
-        .word   .Lxor_npow16, 160, .+4
+        .word   .Lxor_pow16, 160, .+4
         .word   12, 12, .Lxor_b15_NP
 .Lxor_b16_NN:
         .word   .Lxor_npow16, 100, .Lxor_b16_NN_A_Neg
         .word   .Lxor_npow16, 104, .Lxor_b16_NN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b15_PP
 .Lxor_b16_NN_A_Pos_B_Neg:
-        .word   .Lxor_npow16, 160, .+4
+        .word   .Lxor_pow16, 160, .+4
         .word   12, 12, .Lxor_b15_PN
 .Lxor_b16_NN_A_Neg:
         .word   .Lxor_npow16, 104, .Lxor_b15_NN
-        .word   .Lxor_npow16, 160, .+4
+        .word   .Lxor_pow16, 160, .+4
 .Lxor_b15_NP:
         .word   .Lxor_npow15, 100, .Lxor_b15_NP_A_Neg
         .word   .Lxor_pow15, 104, .Lxor_b15_NP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b14_PP
 .Lxor_b15_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow15, 160, .+4
+        .word   .Lxor_pow15, 160, .+4
         .word   12, 12, .Lxor_b14_PN
 .Lxor_b15_NP_A_Neg:
         .word   .Lxor_pow15, 104, .Lxor_b14_NN
-        .word   .Lxor_npow15, 160, .+4
+        .word   .Lxor_pow15, 160, .+4
         .word   12, 12, .Lxor_b14_NP
 .Lxor_b15_PP:
         .word   .Lxor_pow15, 100, .Lxor_b15_PP_A_Neg
         .word   .Lxor_pow15, 104, .Lxor_b15_PP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b14_PP
 .Lxor_b15_PP_A_Pos_B_Neg:
-        .word   .Lxor_npow15, 160, .+4
+        .word   .Lxor_pow15, 160, .+4
         .word   12, 12, .Lxor_b14_PN
 .Lxor_b15_PP_A_Neg:
         .word   .Lxor_pow15, 104, .Lxor_b14_NN
-        .word   .Lxor_npow15, 160, .+4
+        .word   .Lxor_pow15, 160, .+4
         .word   12, 12, .Lxor_b14_NP
 .Lxor_b15_PN:
         .word   .Lxor_pow15, 100, .Lxor_b15_PN_A_Neg
         .word   .Lxor_npow15, 104, .Lxor_b15_PN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b14_PP
 .Lxor_b15_PN_A_Pos_B_Neg:
-        .word   .Lxor_npow15, 160, .+4
+        .word   .Lxor_pow15, 160, .+4
         .word   12, 12, .Lxor_b14_PN
 .Lxor_b15_PN_A_Neg:
         .word   .Lxor_npow15, 104, .Lxor_b14_NN
-        .word   .Lxor_npow15, 160, .+4
+        .word   .Lxor_pow15, 160, .+4
         .word   12, 12, .Lxor_b14_NP
 .Lxor_b15_NN:
         .word   .Lxor_npow15, 100, .Lxor_b15_NN_A_Neg
         .word   .Lxor_npow15, 104, .Lxor_b15_NN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b14_PP
 .Lxor_b15_NN_A_Pos_B_Neg:
-        .word   .Lxor_npow15, 160, .+4
+        .word   .Lxor_pow15, 160, .+4
         .word   12, 12, .Lxor_b14_PN
 .Lxor_b15_NN_A_Neg:
         .word   .Lxor_npow15, 104, .Lxor_b14_NN
-        .word   .Lxor_npow15, 160, .+4
+        .word   .Lxor_pow15, 160, .+4
 .Lxor_b14_NP:
         .word   .Lxor_npow14, 100, .Lxor_b14_NP_A_Neg
         .word   .Lxor_pow14, 104, .Lxor_b14_NP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b13_PP
 .Lxor_b14_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow14, 160, .+4
+        .word   .Lxor_pow14, 160, .+4
         .word   12, 12, .Lxor_b13_PN
 .Lxor_b14_NP_A_Neg:
         .word   .Lxor_pow14, 104, .Lxor_b13_NN
-        .word   .Lxor_npow14, 160, .+4
+        .word   .Lxor_pow14, 160, .+4
         .word   12, 12, .Lxor_b13_NP
 .Lxor_b14_PP:
         .word   .Lxor_pow14, 100, .Lxor_b14_PP_A_Neg
         .word   .Lxor_pow14, 104, .Lxor_b14_PP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b13_PP
 .Lxor_b14_PP_A_Pos_B_Neg:
-        .word   .Lxor_npow14, 160, .+4
+        .word   .Lxor_pow14, 160, .+4
         .word   12, 12, .Lxor_b13_PN
 .Lxor_b14_PP_A_Neg:
         .word   .Lxor_pow14, 104, .Lxor_b13_NN
-        .word   .Lxor_npow14, 160, .+4
+        .word   .Lxor_pow14, 160, .+4
         .word   12, 12, .Lxor_b13_NP
 .Lxor_b14_PN:
         .word   .Lxor_pow14, 100, .Lxor_b14_PN_A_Neg
         .word   .Lxor_npow14, 104, .Lxor_b14_PN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b13_PP
 .Lxor_b14_PN_A_Pos_B_Neg:
-        .word   .Lxor_npow14, 160, .+4
+        .word   .Lxor_pow14, 160, .+4
         .word   12, 12, .Lxor_b13_PN
 .Lxor_b14_PN_A_Neg:
         .word   .Lxor_npow14, 104, .Lxor_b13_NN
-        .word   .Lxor_npow14, 160, .+4
+        .word   .Lxor_pow14, 160, .+4
         .word   12, 12, .Lxor_b13_NP
 .Lxor_b14_NN:
         .word   .Lxor_npow14, 100, .Lxor_b14_NN_A_Neg
         .word   .Lxor_npow14, 104, .Lxor_b14_NN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b13_PP
 .Lxor_b14_NN_A_Pos_B_Neg:
-        .word   .Lxor_npow14, 160, .+4
+        .word   .Lxor_pow14, 160, .+4
         .word   12, 12, .Lxor_b13_PN
 .Lxor_b14_NN_A_Neg:
         .word   .Lxor_npow14, 104, .Lxor_b13_NN
-        .word   .Lxor_npow14, 160, .+4
+        .word   .Lxor_pow14, 160, .+4
 .Lxor_b13_NP:
         .word   .Lxor_npow13, 100, .Lxor_b13_NP_A_Neg
         .word   .Lxor_pow13, 104, .Lxor_b13_NP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b12_PP
 .Lxor_b13_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow13, 160, .+4
+        .word   .Lxor_pow13, 160, .+4
         .word   12, 12, .Lxor_b12_PN
 .Lxor_b13_NP_A_Neg:
         .word   .Lxor_pow13, 104, .Lxor_b12_NN
-        .word   .Lxor_npow13, 160, .+4
+        .word   .Lxor_pow13, 160, .+4
         .word   12, 12, .Lxor_b12_NP
 .Lxor_b13_PP:
         .word   .Lxor_pow13, 100, .Lxor_b13_PP_A_Neg
         .word   .Lxor_pow13, 104, .Lxor_b13_PP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b12_PP
 .Lxor_b13_PP_A_Pos_B_Neg:
-        .word   .Lxor_npow13, 160, .+4
+        .word   .Lxor_pow13, 160, .+4
         .word   12, 12, .Lxor_b12_PN
 .Lxor_b13_PP_A_Neg:
         .word   .Lxor_pow13, 104, .Lxor_b12_NN
-        .word   .Lxor_npow13, 160, .+4
+        .word   .Lxor_pow13, 160, .+4
         .word   12, 12, .Lxor_b12_NP
 .Lxor_b13_PN:
         .word   .Lxor_pow13, 100, .Lxor_b13_PN_A_Neg
         .word   .Lxor_npow13, 104, .Lxor_b13_PN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b12_PP
 .Lxor_b13_PN_A_Pos_B_Neg:
-        .word   .Lxor_npow13, 160, .+4
+        .word   .Lxor_pow13, 160, .+4
         .word   12, 12, .Lxor_b12_PN
 .Lxor_b13_PN_A_Neg:
         .word   .Lxor_npow13, 104, .Lxor_b12_NN
-        .word   .Lxor_npow13, 160, .+4
+        .word   .Lxor_pow13, 160, .+4
         .word   12, 12, .Lxor_b12_NP
 .Lxor_b13_NN:
         .word   .Lxor_npow13, 100, .Lxor_b13_NN_A_Neg
         .word   .Lxor_npow13, 104, .Lxor_b13_NN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b12_PP
 .Lxor_b13_NN_A_Pos_B_Neg:
-        .word   .Lxor_npow13, 160, .+4
+        .word   .Lxor_pow13, 160, .+4
         .word   12, 12, .Lxor_b12_PN
 .Lxor_b13_NN_A_Neg:
         .word   .Lxor_npow13, 104, .Lxor_b12_NN
-        .word   .Lxor_npow13, 160, .+4
+        .word   .Lxor_pow13, 160, .+4
 .Lxor_b12_NP:
         .word   .Lxor_npow12, 100, .Lxor_b12_NP_A_Neg
         .word   .Lxor_pow12, 104, .Lxor_b12_NP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b11_PP
 .Lxor_b12_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow12, 160, .+4
+        .word   .Lxor_pow12, 160, .+4
         .word   12, 12, .Lxor_b11_PN
 .Lxor_b12_NP_A_Neg:
         .word   .Lxor_pow12, 104, .Lxor_b11_NN
-        .word   .Lxor_npow12, 160, .+4
+        .word   .Lxor_pow12, 160, .+4
         .word   12, 12, .Lxor_b11_NP
 .Lxor_b12_PP:
         .word   .Lxor_pow12, 100, .Lxor_b12_PP_A_Neg
         .word   .Lxor_pow12, 104, .Lxor_b12_PP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b11_PP
 .Lxor_b12_PP_A_Pos_B_Neg:
-        .word   .Lxor_npow12, 160, .+4
+        .word   .Lxor_pow12, 160, .+4
         .word   12, 12, .Lxor_b11_PN
 .Lxor_b12_PP_A_Neg:
         .word   .Lxor_pow12, 104, .Lxor_b11_NN
-        .word   .Lxor_npow12, 160, .+4
+        .word   .Lxor_pow12, 160, .+4
         .word   12, 12, .Lxor_b11_NP
 .Lxor_b12_PN:
         .word   .Lxor_pow12, 100, .Lxor_b12_PN_A_Neg
         .word   .Lxor_npow12, 104, .Lxor_b12_PN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b11_PP
 .Lxor_b12_PN_A_Pos_B_Neg:
-        .word   .Lxor_npow12, 160, .+4
+        .word   .Lxor_pow12, 160, .+4
         .word   12, 12, .Lxor_b11_PN
 .Lxor_b12_PN_A_Neg:
         .word   .Lxor_npow12, 104, .Lxor_b11_NN
-        .word   .Lxor_npow12, 160, .+4
+        .word   .Lxor_pow12, 160, .+4
         .word   12, 12, .Lxor_b11_NP
 .Lxor_b12_NN:
         .word   .Lxor_npow12, 100, .Lxor_b12_NN_A_Neg
         .word   .Lxor_npow12, 104, .Lxor_b12_NN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b11_PP
 .Lxor_b12_NN_A_Pos_B_Neg:
-        .word   .Lxor_npow12, 160, .+4
+        .word   .Lxor_pow12, 160, .+4
         .word   12, 12, .Lxor_b11_PN
 .Lxor_b12_NN_A_Neg:
         .word   .Lxor_npow12, 104, .Lxor_b11_NN
-        .word   .Lxor_npow12, 160, .+4
+        .word   .Lxor_pow12, 160, .+4
 .Lxor_b11_NP:
         .word   .Lxor_npow11, 100, .Lxor_b11_NP_A_Neg
         .word   .Lxor_pow11, 104, .Lxor_b11_NP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b10_PP
 .Lxor_b11_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow11, 160, .+4
+        .word   .Lxor_pow11, 160, .+4
         .word   12, 12, .Lxor_b10_PN
 .Lxor_b11_NP_A_Neg:
         .word   .Lxor_pow11, 104, .Lxor_b10_NN
-        .word   .Lxor_npow11, 160, .+4
+        .word   .Lxor_pow11, 160, .+4
         .word   12, 12, .Lxor_b10_NP
 .Lxor_b11_PP:
         .word   .Lxor_pow11, 100, .Lxor_b11_PP_A_Neg
         .word   .Lxor_pow11, 104, .Lxor_b11_PP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b10_PP
 .Lxor_b11_PP_A_Pos_B_Neg:
-        .word   .Lxor_npow11, 160, .+4
+        .word   .Lxor_pow11, 160, .+4
         .word   12, 12, .Lxor_b10_PN
 .Lxor_b11_PP_A_Neg:
         .word   .Lxor_pow11, 104, .Lxor_b10_NN
-        .word   .Lxor_npow11, 160, .+4
+        .word   .Lxor_pow11, 160, .+4
         .word   12, 12, .Lxor_b10_NP
 .Lxor_b11_PN:
         .word   .Lxor_pow11, 100, .Lxor_b11_PN_A_Neg
         .word   .Lxor_npow11, 104, .Lxor_b11_PN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b10_PP
 .Lxor_b11_PN_A_Pos_B_Neg:
-        .word   .Lxor_npow11, 160, .+4
+        .word   .Lxor_pow11, 160, .+4
         .word   12, 12, .Lxor_b10_PN
 .Lxor_b11_PN_A_Neg:
         .word   .Lxor_npow11, 104, .Lxor_b10_NN
-        .word   .Lxor_npow11, 160, .+4
+        .word   .Lxor_pow11, 160, .+4
         .word   12, 12, .Lxor_b10_NP
 .Lxor_b11_NN:
         .word   .Lxor_npow11, 100, .Lxor_b11_NN_A_Neg
         .word   .Lxor_npow11, 104, .Lxor_b11_NN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b10_PP
 .Lxor_b11_NN_A_Pos_B_Neg:
-        .word   .Lxor_npow11, 160, .+4
+        .word   .Lxor_pow11, 160, .+4
         .word   12, 12, .Lxor_b10_PN
 .Lxor_b11_NN_A_Neg:
         .word   .Lxor_npow11, 104, .Lxor_b10_NN
-        .word   .Lxor_npow11, 160, .+4
+        .word   .Lxor_pow11, 160, .+4
 .Lxor_b10_NP:
         .word   .Lxor_npow10, 100, .Lxor_b10_NP_A_Neg
         .word   .Lxor_pow10, 104, .Lxor_b10_NP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b9_PP
 .Lxor_b10_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow10, 160, .+4
+        .word   .Lxor_pow10, 160, .+4
         .word   12, 12, .Lxor_b9_PN
 .Lxor_b10_NP_A_Neg:
         .word   .Lxor_pow10, 104, .Lxor_b9_NN
-        .word   .Lxor_npow10, 160, .+4
+        .word   .Lxor_pow10, 160, .+4
         .word   12, 12, .Lxor_b9_NP
 .Lxor_b10_PP:
         .word   .Lxor_pow10, 100, .Lxor_b10_PP_A_Neg
         .word   .Lxor_pow10, 104, .Lxor_b10_PP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b9_PP
 .Lxor_b10_PP_A_Pos_B_Neg:
-        .word   .Lxor_npow10, 160, .+4
+        .word   .Lxor_pow10, 160, .+4
         .word   12, 12, .Lxor_b9_PN
 .Lxor_b10_PP_A_Neg:
         .word   .Lxor_pow10, 104, .Lxor_b9_NN
-        .word   .Lxor_npow10, 160, .+4
+        .word   .Lxor_pow10, 160, .+4
         .word   12, 12, .Lxor_b9_NP
 .Lxor_b10_PN:
         .word   .Lxor_pow10, 100, .Lxor_b10_PN_A_Neg
         .word   .Lxor_npow10, 104, .Lxor_b10_PN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b9_PP
 .Lxor_b10_PN_A_Pos_B_Neg:
-        .word   .Lxor_npow10, 160, .+4
+        .word   .Lxor_pow10, 160, .+4
         .word   12, 12, .Lxor_b9_PN
 .Lxor_b10_PN_A_Neg:
         .word   .Lxor_npow10, 104, .Lxor_b9_NN
-        .word   .Lxor_npow10, 160, .+4
+        .word   .Lxor_pow10, 160, .+4
         .word   12, 12, .Lxor_b9_NP
 .Lxor_b10_NN:
         .word   .Lxor_npow10, 100, .Lxor_b10_NN_A_Neg
         .word   .Lxor_npow10, 104, .Lxor_b10_NN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b9_PP
 .Lxor_b10_NN_A_Pos_B_Neg:
-        .word   .Lxor_npow10, 160, .+4
+        .word   .Lxor_pow10, 160, .+4
         .word   12, 12, .Lxor_b9_PN
 .Lxor_b10_NN_A_Neg:
         .word   .Lxor_npow10, 104, .Lxor_b9_NN
-        .word   .Lxor_npow10, 160, .+4
+        .word   .Lxor_pow10, 160, .+4
 .Lxor_b9_NP:
         .word   .Lxor_npow9, 100, .Lxor_b9_NP_A_Neg
         .word   .Lxor_pow9, 104, .Lxor_b9_NP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b8_PP
 .Lxor_b9_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow9, 160, .+4
+        .word   .Lxor_pow9, 160, .+4
         .word   12, 12, .Lxor_b8_PN
 .Lxor_b9_NP_A_Neg:
         .word   .Lxor_pow9, 104, .Lxor_b8_NN
-        .word   .Lxor_npow9, 160, .+4
+        .word   .Lxor_pow9, 160, .+4
         .word   12, 12, .Lxor_b8_NP
 .Lxor_b9_PP:
         .word   .Lxor_pow9, 100, .Lxor_b9_PP_A_Neg
         .word   .Lxor_pow9, 104, .Lxor_b9_PP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b8_PP
 .Lxor_b9_PP_A_Pos_B_Neg:
-        .word   .Lxor_npow9, 160, .+4
+        .word   .Lxor_pow9, 160, .+4
         .word   12, 12, .Lxor_b8_PN
 .Lxor_b9_PP_A_Neg:
         .word   .Lxor_pow9, 104, .Lxor_b8_NN
-        .word   .Lxor_npow9, 160, .+4
+        .word   .Lxor_pow9, 160, .+4
         .word   12, 12, .Lxor_b8_NP
 .Lxor_b9_PN:
         .word   .Lxor_pow9, 100, .Lxor_b9_PN_A_Neg
         .word   .Lxor_npow9, 104, .Lxor_b9_PN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b8_PP
 .Lxor_b9_PN_A_Pos_B_Neg:
-        .word   .Lxor_npow9, 160, .+4
+        .word   .Lxor_pow9, 160, .+4
         .word   12, 12, .Lxor_b8_PN
 .Lxor_b9_PN_A_Neg:
         .word   .Lxor_npow9, 104, .Lxor_b8_NN
-        .word   .Lxor_npow9, 160, .+4
+        .word   .Lxor_pow9, 160, .+4
         .word   12, 12, .Lxor_b8_NP
 .Lxor_b9_NN:
         .word   .Lxor_npow9, 100, .Lxor_b9_NN_A_Neg
         .word   .Lxor_npow9, 104, .Lxor_b9_NN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b8_PP
 .Lxor_b9_NN_A_Pos_B_Neg:
-        .word   .Lxor_npow9, 160, .+4
+        .word   .Lxor_pow9, 160, .+4
         .word   12, 12, .Lxor_b8_PN
 .Lxor_b9_NN_A_Neg:
         .word   .Lxor_npow9, 104, .Lxor_b8_NN
-        .word   .Lxor_npow9, 160, .+4
+        .word   .Lxor_pow9, 160, .+4
 .Lxor_b8_NP:
         .word   .Lxor_npow8, 100, .Lxor_b8_NP_A_Neg
         .word   .Lxor_pow8, 104, .Lxor_b8_NP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b7_PP
 .Lxor_b8_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow8, 160, .+4
+        .word   .Lxor_pow8, 160, .+4
         .word   12, 12, .Lxor_b7_PN
 .Lxor_b8_NP_A_Neg:
         .word   .Lxor_pow8, 104, .Lxor_b7_NN
-        .word   .Lxor_npow8, 160, .+4
+        .word   .Lxor_pow8, 160, .+4
         .word   12, 12, .Lxor_b7_NP
 .Lxor_b8_PP:
         .word   .Lxor_pow8, 100, .Lxor_b8_PP_A_Neg
         .word   .Lxor_pow8, 104, .Lxor_b8_PP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b7_PP
 .Lxor_b8_PP_A_Pos_B_Neg:
-        .word   .Lxor_npow8, 160, .+4
+        .word   .Lxor_pow8, 160, .+4
         .word   12, 12, .Lxor_b7_PN
 .Lxor_b8_PP_A_Neg:
         .word   .Lxor_pow8, 104, .Lxor_b7_NN
-        .word   .Lxor_npow8, 160, .+4
+        .word   .Lxor_pow8, 160, .+4
         .word   12, 12, .Lxor_b7_NP
 .Lxor_b8_PN:
         .word   .Lxor_pow8, 100, .Lxor_b8_PN_A_Neg
         .word   .Lxor_npow8, 104, .Lxor_b8_PN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b7_PP
 .Lxor_b8_PN_A_Pos_B_Neg:
-        .word   .Lxor_npow8, 160, .+4
+        .word   .Lxor_pow8, 160, .+4
         .word   12, 12, .Lxor_b7_PN
 .Lxor_b8_PN_A_Neg:
         .word   .Lxor_npow8, 104, .Lxor_b7_NN
-        .word   .Lxor_npow8, 160, .+4
+        .word   .Lxor_pow8, 160, .+4
         .word   12, 12, .Lxor_b7_NP
 .Lxor_b8_NN:
         .word   .Lxor_npow8, 100, .Lxor_b8_NN_A_Neg
         .word   .Lxor_npow8, 104, .Lxor_b8_NN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b7_PP
 .Lxor_b8_NN_A_Pos_B_Neg:
-        .word   .Lxor_npow8, 160, .+4
+        .word   .Lxor_pow8, 160, .+4
         .word   12, 12, .Lxor_b7_PN
 .Lxor_b8_NN_A_Neg:
         .word   .Lxor_npow8, 104, .Lxor_b7_NN
-        .word   .Lxor_npow8, 160, .+4
+        .word   .Lxor_pow8, 160, .+4
 .Lxor_b7_NP:
         .word   .Lxor_npow7, 100, .Lxor_b7_NP_A_Neg
         .word   .Lxor_pow7, 104, .Lxor_b7_NP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b6_PP
 .Lxor_b7_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow7, 160, .+4
+        .word   .Lxor_pow7, 160, .+4
         .word   12, 12, .Lxor_b6_PN
 .Lxor_b7_NP_A_Neg:
         .word   .Lxor_pow7, 104, .Lxor_b6_NN
-        .word   .Lxor_npow7, 160, .+4
+        .word   .Lxor_pow7, 160, .+4
         .word   12, 12, .Lxor_b6_NP
 .Lxor_b7_PP:
         .word   .Lxor_pow7, 100, .Lxor_b7_PP_A_Neg
         .word   .Lxor_pow7, 104, .Lxor_b7_PP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b6_PP
 .Lxor_b7_PP_A_Pos_B_Neg:
-        .word   .Lxor_npow7, 160, .+4
+        .word   .Lxor_pow7, 160, .+4
         .word   12, 12, .Lxor_b6_PN
 .Lxor_b7_PP_A_Neg:
         .word   .Lxor_pow7, 104, .Lxor_b6_NN
-        .word   .Lxor_npow7, 160, .+4
+        .word   .Lxor_pow7, 160, .+4
         .word   12, 12, .Lxor_b6_NP
 .Lxor_b7_PN:
         .word   .Lxor_pow7, 100, .Lxor_b7_PN_A_Neg
         .word   .Lxor_npow7, 104, .Lxor_b7_PN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b6_PP
 .Lxor_b7_PN_A_Pos_B_Neg:
-        .word   .Lxor_npow7, 160, .+4
+        .word   .Lxor_pow7, 160, .+4
         .word   12, 12, .Lxor_b6_PN
 .Lxor_b7_PN_A_Neg:
         .word   .Lxor_npow7, 104, .Lxor_b6_NN
-        .word   .Lxor_npow7, 160, .+4
+        .word   .Lxor_pow7, 160, .+4
         .word   12, 12, .Lxor_b6_NP
 .Lxor_b7_NN:
         .word   .Lxor_npow7, 100, .Lxor_b7_NN_A_Neg
         .word   .Lxor_npow7, 104, .Lxor_b7_NN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b6_PP
 .Lxor_b7_NN_A_Pos_B_Neg:
-        .word   .Lxor_npow7, 160, .+4
+        .word   .Lxor_pow7, 160, .+4
         .word   12, 12, .Lxor_b6_PN
 .Lxor_b7_NN_A_Neg:
         .word   .Lxor_npow7, 104, .Lxor_b6_NN
-        .word   .Lxor_npow7, 160, .+4
+        .word   .Lxor_pow7, 160, .+4
 .Lxor_b6_NP:
         .word   .Lxor_npow6, 100, .Lxor_b6_NP_A_Neg
         .word   .Lxor_pow6, 104, .Lxor_b6_NP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b5_PP
 .Lxor_b6_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow6, 160, .+4
+        .word   .Lxor_pow6, 160, .+4
         .word   12, 12, .Lxor_b5_PN
 .Lxor_b6_NP_A_Neg:
         .word   .Lxor_pow6, 104, .Lxor_b5_NN
-        .word   .Lxor_npow6, 160, .+4
+        .word   .Lxor_pow6, 160, .+4
         .word   12, 12, .Lxor_b5_NP
 .Lxor_b6_PP:
         .word   .Lxor_pow6, 100, .Lxor_b6_PP_A_Neg
         .word   .Lxor_pow6, 104, .Lxor_b6_PP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b5_PP
 .Lxor_b6_PP_A_Pos_B_Neg:
-        .word   .Lxor_npow6, 160, .+4
+        .word   .Lxor_pow6, 160, .+4
         .word   12, 12, .Lxor_b5_PN
 .Lxor_b6_PP_A_Neg:
         .word   .Lxor_pow6, 104, .Lxor_b5_NN
-        .word   .Lxor_npow6, 160, .+4
+        .word   .Lxor_pow6, 160, .+4
         .word   12, 12, .Lxor_b5_NP
 .Lxor_b6_PN:
         .word   .Lxor_pow6, 100, .Lxor_b6_PN_A_Neg
         .word   .Lxor_npow6, 104, .Lxor_b6_PN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b5_PP
 .Lxor_b6_PN_A_Pos_B_Neg:
-        .word   .Lxor_npow6, 160, .+4
+        .word   .Lxor_pow6, 160, .+4
         .word   12, 12, .Lxor_b5_PN
 .Lxor_b6_PN_A_Neg:
         .word   .Lxor_npow6, 104, .Lxor_b5_NN
-        .word   .Lxor_npow6, 160, .+4
+        .word   .Lxor_pow6, 160, .+4
         .word   12, 12, .Lxor_b5_NP
 .Lxor_b6_NN:
         .word   .Lxor_npow6, 100, .Lxor_b6_NN_A_Neg
         .word   .Lxor_npow6, 104, .Lxor_b6_NN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b5_PP
 .Lxor_b6_NN_A_Pos_B_Neg:
-        .word   .Lxor_npow6, 160, .+4
+        .word   .Lxor_pow6, 160, .+4
         .word   12, 12, .Lxor_b5_PN
 .Lxor_b6_NN_A_Neg:
         .word   .Lxor_npow6, 104, .Lxor_b5_NN
-        .word   .Lxor_npow6, 160, .+4
+        .word   .Lxor_pow6, 160, .+4
 .Lxor_b5_NP:
         .word   .Lxor_npow5, 100, .Lxor_b5_NP_A_Neg
         .word   .Lxor_pow5, 104, .Lxor_b5_NP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b4_PP
 .Lxor_b5_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow5, 160, .+4
+        .word   .Lxor_pow5, 160, .+4
         .word   12, 12, .Lxor_b4_PN
 .Lxor_b5_NP_A_Neg:
         .word   .Lxor_pow5, 104, .Lxor_b4_NN
-        .word   .Lxor_npow5, 160, .+4
+        .word   .Lxor_pow5, 160, .+4
         .word   12, 12, .Lxor_b4_NP
 .Lxor_b5_PP:
         .word   .Lxor_pow5, 100, .Lxor_b5_PP_A_Neg
         .word   .Lxor_pow5, 104, .Lxor_b5_PP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b4_PP
 .Lxor_b5_PP_A_Pos_B_Neg:
-        .word   .Lxor_npow5, 160, .+4
+        .word   .Lxor_pow5, 160, .+4
         .word   12, 12, .Lxor_b4_PN
 .Lxor_b5_PP_A_Neg:
         .word   .Lxor_pow5, 104, .Lxor_b4_NN
-        .word   .Lxor_npow5, 160, .+4
+        .word   .Lxor_pow5, 160, .+4
         .word   12, 12, .Lxor_b4_NP
 .Lxor_b5_PN:
         .word   .Lxor_pow5, 100, .Lxor_b5_PN_A_Neg
         .word   .Lxor_npow5, 104, .Lxor_b5_PN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b4_PP
 .Lxor_b5_PN_A_Pos_B_Neg:
-        .word   .Lxor_npow5, 160, .+4
+        .word   .Lxor_pow5, 160, .+4
         .word   12, 12, .Lxor_b4_PN
 .Lxor_b5_PN_A_Neg:
         .word   .Lxor_npow5, 104, .Lxor_b4_NN
-        .word   .Lxor_npow5, 160, .+4
+        .word   .Lxor_pow5, 160, .+4
         .word   12, 12, .Lxor_b4_NP
 .Lxor_b5_NN:
         .word   .Lxor_npow5, 100, .Lxor_b5_NN_A_Neg
         .word   .Lxor_npow5, 104, .Lxor_b5_NN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b4_PP
 .Lxor_b5_NN_A_Pos_B_Neg:
-        .word   .Lxor_npow5, 160, .+4
+        .word   .Lxor_pow5, 160, .+4
         .word   12, 12, .Lxor_b4_PN
 .Lxor_b5_NN_A_Neg:
         .word   .Lxor_npow5, 104, .Lxor_b4_NN
-        .word   .Lxor_npow5, 160, .+4
+        .word   .Lxor_pow5, 160, .+4
 .Lxor_b4_NP:
         .word   .Lxor_npow4, 100, .Lxor_b4_NP_A_Neg
         .word   .Lxor_pow4, 104, .Lxor_b4_NP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b3_PP
 .Lxor_b4_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow4, 160, .+4
+        .word   .Lxor_pow4, 160, .+4
         .word   12, 12, .Lxor_b3_PN
 .Lxor_b4_NP_A_Neg:
         .word   .Lxor_pow4, 104, .Lxor_b3_NN
-        .word   .Lxor_npow4, 160, .+4
+        .word   .Lxor_pow4, 160, .+4
         .word   12, 12, .Lxor_b3_NP
 .Lxor_b4_PP:
         .word   .Lxor_pow4, 100, .Lxor_b4_PP_A_Neg
         .word   .Lxor_pow4, 104, .Lxor_b4_PP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b3_PP
 .Lxor_b4_PP_A_Pos_B_Neg:
-        .word   .Lxor_npow4, 160, .+4
+        .word   .Lxor_pow4, 160, .+4
         .word   12, 12, .Lxor_b3_PN
 .Lxor_b4_PP_A_Neg:
         .word   .Lxor_pow4, 104, .Lxor_b3_NN
-        .word   .Lxor_npow4, 160, .+4
+        .word   .Lxor_pow4, 160, .+4
         .word   12, 12, .Lxor_b3_NP
 .Lxor_b4_PN:
         .word   .Lxor_pow4, 100, .Lxor_b4_PN_A_Neg
         .word   .Lxor_npow4, 104, .Lxor_b4_PN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b3_PP
 .Lxor_b4_PN_A_Pos_B_Neg:
-        .word   .Lxor_npow4, 160, .+4
+        .word   .Lxor_pow4, 160, .+4
         .word   12, 12, .Lxor_b3_PN
 .Lxor_b4_PN_A_Neg:
         .word   .Lxor_npow4, 104, .Lxor_b3_NN
-        .word   .Lxor_npow4, 160, .+4
+        .word   .Lxor_pow4, 160, .+4
         .word   12, 12, .Lxor_b3_NP
 .Lxor_b4_NN:
         .word   .Lxor_npow4, 100, .Lxor_b4_NN_A_Neg
         .word   .Lxor_npow4, 104, .Lxor_b4_NN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b3_PP
 .Lxor_b4_NN_A_Pos_B_Neg:
-        .word   .Lxor_npow4, 160, .+4
+        .word   .Lxor_pow4, 160, .+4
         .word   12, 12, .Lxor_b3_PN
 .Lxor_b4_NN_A_Neg:
         .word   .Lxor_npow4, 104, .Lxor_b3_NN
-        .word   .Lxor_npow4, 160, .+4
+        .word   .Lxor_pow4, 160, .+4
 .Lxor_b3_NP:
         .word   .Lxor_npow3, 100, .Lxor_b3_NP_A_Neg
         .word   .Lxor_pow3, 104, .Lxor_b3_NP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b2_PP
 .Lxor_b3_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow3, 160, .+4
+        .word   .Lxor_pow3, 160, .+4
         .word   12, 12, .Lxor_b2_PN
 .Lxor_b3_NP_A_Neg:
         .word   .Lxor_pow3, 104, .Lxor_b2_NN
-        .word   .Lxor_npow3, 160, .+4
+        .word   .Lxor_pow3, 160, .+4
         .word   12, 12, .Lxor_b2_NP
 .Lxor_b3_PP:
         .word   .Lxor_pow3, 100, .Lxor_b3_PP_A_Neg
         .word   .Lxor_pow3, 104, .Lxor_b3_PP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b2_PP
 .Lxor_b3_PP_A_Pos_B_Neg:
-        .word   .Lxor_npow3, 160, .+4
+        .word   .Lxor_pow3, 160, .+4
         .word   12, 12, .Lxor_b2_PN
 .Lxor_b3_PP_A_Neg:
         .word   .Lxor_pow3, 104, .Lxor_b2_NN
-        .word   .Lxor_npow3, 160, .+4
+        .word   .Lxor_pow3, 160, .+4
         .word   12, 12, .Lxor_b2_NP
 .Lxor_b3_PN:
         .word   .Lxor_pow3, 100, .Lxor_b3_PN_A_Neg
         .word   .Lxor_npow3, 104, .Lxor_b3_PN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b2_PP
 .Lxor_b3_PN_A_Pos_B_Neg:
-        .word   .Lxor_npow3, 160, .+4
+        .word   .Lxor_pow3, 160, .+4
         .word   12, 12, .Lxor_b2_PN
 .Lxor_b3_PN_A_Neg:
         .word   .Lxor_npow3, 104, .Lxor_b2_NN
-        .word   .Lxor_npow3, 160, .+4
+        .word   .Lxor_pow3, 160, .+4
         .word   12, 12, .Lxor_b2_NP
 .Lxor_b3_NN:
         .word   .Lxor_npow3, 100, .Lxor_b3_NN_A_Neg
         .word   .Lxor_npow3, 104, .Lxor_b3_NN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b2_PP
 .Lxor_b3_NN_A_Pos_B_Neg:
-        .word   .Lxor_npow3, 160, .+4
+        .word   .Lxor_pow3, 160, .+4
         .word   12, 12, .Lxor_b2_PN
 .Lxor_b3_NN_A_Neg:
         .word   .Lxor_npow3, 104, .Lxor_b2_NN
-        .word   .Lxor_npow3, 160, .+4
+        .word   .Lxor_pow3, 160, .+4
 .Lxor_b2_NP:
         .word   .Lxor_npow2, 100, .Lxor_b2_NP_A_Neg
         .word   .Lxor_pow2, 104, .Lxor_b2_NP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b1_PP
 .Lxor_b2_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow2, 160, .+4
+        .word   .Lxor_pow2, 160, .+4
         .word   12, 12, .Lxor_b1_PN
 .Lxor_b2_NP_A_Neg:
         .word   .Lxor_pow2, 104, .Lxor_b1_NN
-        .word   .Lxor_npow2, 160, .+4
+        .word   .Lxor_pow2, 160, .+4
         .word   12, 12, .Lxor_b1_NP
 .Lxor_b2_PP:
         .word   .Lxor_pow2, 100, .Lxor_b2_PP_A_Neg
         .word   .Lxor_pow2, 104, .Lxor_b2_PP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b1_PP
 .Lxor_b2_PP_A_Pos_B_Neg:
-        .word   .Lxor_npow2, 160, .+4
+        .word   .Lxor_pow2, 160, .+4
         .word   12, 12, .Lxor_b1_PN
 .Lxor_b2_PP_A_Neg:
         .word   .Lxor_pow2, 104, .Lxor_b1_NN
-        .word   .Lxor_npow2, 160, .+4
+        .word   .Lxor_pow2, 160, .+4
         .word   12, 12, .Lxor_b1_NP
 .Lxor_b2_PN:
         .word   .Lxor_pow2, 100, .Lxor_b2_PN_A_Neg
         .word   .Lxor_npow2, 104, .Lxor_b2_PN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b1_PP
 .Lxor_b2_PN_A_Pos_B_Neg:
-        .word   .Lxor_npow2, 160, .+4
+        .word   .Lxor_pow2, 160, .+4
         .word   12, 12, .Lxor_b1_PN
 .Lxor_b2_PN_A_Neg:
         .word   .Lxor_npow2, 104, .Lxor_b1_NN
-        .word   .Lxor_npow2, 160, .+4
+        .word   .Lxor_pow2, 160, .+4
         .word   12, 12, .Lxor_b1_NP
 .Lxor_b2_NN:
         .word   .Lxor_npow2, 100, .Lxor_b2_NN_A_Neg
         .word   .Lxor_npow2, 104, .Lxor_b2_NN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b1_PP
 .Lxor_b2_NN_A_Pos_B_Neg:
-        .word   .Lxor_npow2, 160, .+4
+        .word   .Lxor_pow2, 160, .+4
         .word   12, 12, .Lxor_b1_PN
 .Lxor_b2_NN_A_Neg:
         .word   .Lxor_npow2, 104, .Lxor_b1_NN
-        .word   .Lxor_npow2, 160, .+4
+        .word   .Lxor_pow2, 160, .+4
 .Lxor_b1_NP:
         .word   .Lxor_npow1, 100, .Lxor_b1_NP_A_Neg
         .word   .Lxor_pow1, 104, .Lxor_b1_NP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b0_PP
 .Lxor_b1_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow1, 160, .+4
+        .word   .Lxor_pow1, 160, .+4
         .word   12, 12, .Lxor_b0_PN
 .Lxor_b1_NP_A_Neg:
         .word   .Lxor_pow1, 104, .Lxor_b0_NN
-        .word   .Lxor_npow1, 160, .+4
+        .word   .Lxor_pow1, 160, .+4
         .word   12, 12, .Lxor_b0_NP
 .Lxor_b1_PP:
         .word   .Lxor_pow1, 100, .Lxor_b1_PP_A_Neg
         .word   .Lxor_pow1, 104, .Lxor_b1_PP_A_Pos_B_Neg
         .word   12, 12, .Lxor_b0_PP
 .Lxor_b1_PP_A_Pos_B_Neg:
-        .word   .Lxor_npow1, 160, .+4
+        .word   .Lxor_pow1, 160, .+4
         .word   12, 12, .Lxor_b0_PN
 .Lxor_b1_PP_A_Neg:
         .word   .Lxor_pow1, 104, .Lxor_b0_NN
-        .word   .Lxor_npow1, 160, .+4
+        .word   .Lxor_pow1, 160, .+4
         .word   12, 12, .Lxor_b0_NP
 .Lxor_b1_PN:
         .word   .Lxor_pow1, 100, .Lxor_b1_PN_A_Neg
         .word   .Lxor_npow1, 104, .Lxor_b1_PN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b0_PP
 .Lxor_b1_PN_A_Pos_B_Neg:
-        .word   .Lxor_npow1, 160, .+4
+        .word   .Lxor_pow1, 160, .+4
         .word   12, 12, .Lxor_b0_PN
 .Lxor_b1_PN_A_Neg:
         .word   .Lxor_npow1, 104, .Lxor_b0_NN
-        .word   .Lxor_npow1, 160, .+4
+        .word   .Lxor_pow1, 160, .+4
         .word   12, 12, .Lxor_b0_NP
 .Lxor_b1_NN:
         .word   .Lxor_npow1, 100, .Lxor_b1_NN_A_Neg
         .word   .Lxor_npow1, 104, .Lxor_b1_NN_A_Pos_B_Neg
         .word   12, 12, .Lxor_b0_PP
 .Lxor_b1_NN_A_Pos_B_Neg:
-        .word   .Lxor_npow1, 160, .+4
+        .word   .Lxor_pow1, 160, .+4
         .word   12, 12, .Lxor_b0_PN
 .Lxor_b1_NN_A_Neg:
         .word   .Lxor_npow1, 104, .Lxor_b0_NN
-        .word   .Lxor_npow1, 160, .+4
+        .word   .Lxor_pow1, 160, .+4
 .Lxor_b0_NP:
         .word   .Lxor_npow0, 100, .Lxor_b0_NP_A_Neg
         .word   .Lxor_pow0, 104, .Lxor_b0_NP_A_Pos_B_Neg
         .word   12, 12, .Lxor_done
 .Lxor_b0_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow0, 160, .+4
+        .word   .Lxor_pow0, 160, .+4
         .word   12, 12, .Lxor_done
 .Lxor_b0_NP_A_Neg:
         .word   .Lxor_pow0, 104, .Lxor_done
-        .word   .Lxor_npow0, 160, .+4
+        .word   .Lxor_pow0, 160, .+4
         .word   12, 12, .Lxor_done
 .Lxor_b0_PP:
         .word   .Lxor_pow0, 100, .Lxor_b0_PP_A_Neg
         .word   .Lxor_pow0, 104, .Lxor_b0_PP_A_Pos_B_Neg
         .word   12, 12, .Lxor_done
 .Lxor_b0_PP_A_Pos_B_Neg:
-        .word   .Lxor_npow0, 160, .+4
+        .word   .Lxor_pow0, 160, .+4
         .word   12, 12, .Lxor_done
 .Lxor_b0_PP_A_Neg:
         .word   .Lxor_pow0, 104, .Lxor_done
-        .word   .Lxor_npow0, 160, .+4
+        .word   .Lxor_pow0, 160, .+4
         .word   12, 12, .Lxor_done
 .Lxor_b0_PN:
         .word   .Lxor_pow0, 100, .Lxor_b0_PN_A_Neg
         .word   .Lxor_npow0, 104, .Lxor_b0_PN_A_Pos_B_Neg
         .word   12, 12, .Lxor_done
 .Lxor_b0_PN_A_Pos_B_Neg:
-        .word   .Lxor_npow0, 160, .+4
+        .word   .Lxor_pow0, 160, .+4
         .word   12, 12, .Lxor_done
 .Lxor_b0_PN_A_Neg:
         .word   .Lxor_npow0, 104, .Lxor_done
-        .word   .Lxor_npow0, 160, .+4
+        .word   .Lxor_pow0, 160, .+4
         .word   12, 12, .Lxor_done
 .Lxor_b0_NN:
         .word   .Lxor_npow0, 100, .Lxor_b0_NN_A_Neg
         .word   .Lxor_npow0, 104, .Lxor_b0_NN_A_Pos_B_Neg
         .word   12, 12, .Lxor_done
 .Lxor_b0_NN_A_Pos_B_Neg:
-        .word   .Lxor_npow0, 160, .+4
+        .word   .Lxor_pow0, 160, .+4
         .word   12, 12, .Lxor_done
 .Lxor_b0_NN_A_Neg:
         .word   .Lxor_npow0, 104, .Lxor_done
-        .word   .Lxor_npow0, 160, .+4
+        .word   .Lxor_pow0, 160, .+4
         .word   12, 12, .Lxor_done
 .Lxor_done:
         .word   96, 96, .+4
-        .word   160, 12, .+4
-        .word   12, 96, .+4
+        .word   160, 96, .+4
 .Lxor_pop:
         .word   160, 160, .+4
         .word   12, 12, .+4

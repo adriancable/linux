@@ -71,10 +71,9 @@ subleq_direct_putcs:
  *   [SP+24] = font (arg 5)
  *===========================================================================*/
 
-        /* T8 = fb = R21 */
-        .word   REG_T8, REG_T8, .+4
-        .word   REG_Z, REG_Z, .+4
+        /* T8 = fb = R21 (Z-scratch: Z is clean at entry) */
         .word   REG_R21, REG_Z, .+4
+        .word   REG_T8, REG_T8, .+4
         .word   REG_Z, REG_T8, .+4
 
         /* T12 = fb_pitch = R22 */
@@ -142,21 +141,15 @@ subleq_direct_putcs:
         /* Skip s_pitch [SP+16] - we hardcode 2 */
         .word   .Lconst_n4, REG_T15, .+4  /* T15 = SP + 16 */
 
-        /* T13 = fg = [SP+20] */
+        /* T13 = -fg (negated for 2-op pixel writes) */
         .word   .Lconst_n4, REG_T15, .+4  /* T15 = SP + 20 */
         .word   REG_T13, REG_T13, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T15 | INDIRECT, REG_Z, .+4
-        .word   REG_Z, REG_T13, .+4
-        .word   REG_Z, REG_Z, .+4
+        .word   REG_T15 | INDIRECT, REG_T13, .+4  /* T13 = 0 - fg = -fg */
 
-        /* T14 = bg = [SP+24] */
+        /* T14 = -bg (negated for 2-op pixel writes) */
         .word   .Lconst_n4, REG_T15, .+4  /* T15 = SP + 24 */
         .word   REG_T14, REG_T14, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T15 | INDIRECT, REG_Z, .+4
-        .word   REG_Z, REG_T14, .+4
-        .word   REG_Z, REG_Z, .+4
+        .word   REG_T15 | INDIRECT, REG_T14, .+4  /* T14 = 0 - bg = -bg */
 
 /*===========================================================================
  * COMPUTE INITIAL PIXEL POINTER: T8 = fb + y*fb_pitch + x*4
@@ -299,140 +292,60 @@ subleq_direct_putcs:
         .word   REG_Z, REG_R21, .+4
 
 
-        /* Process 8 pixels - use pattern from subleq_blit_row.S */
-        /* For each pixel: subtract positive mask from R20, branch to bg if <= 0 */
-        /* fg path: clear Z, write fg, jump over bg. bg path: restore R20, clear Z, write bg */
+        /* Process 8 pixels using 2-op writes (T13=-fg, T14=-bg) */
+        /* FG inline: test, clear [R21], write via subleq(-fg,[R21]), advance */
+        /* BG cold trampolines at end: restore, clear, write, advance, jump back */
 
-        /* Pixel 7 (bit 7): test R20 & 0x80 */
-        .word   .Lconst_128, REG_R20, .Lpix7_bg
-        /* fg path */
+        /* Pixel 7 (bit 7, MSB) */
+.Lpix7: .word   .Lconst_128, REG_R20, .Lpix7_bg
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T13, REG_Z, .+4
-        .word   REG_Z, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .Lpix7_done
-.Lpix7_bg:
-        .word   .Lconst_n128, REG_R20, .+4     /* restore R20 */
-        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T14, REG_Z, .+4
-        .word   REG_Z, REG_R21 | INDIRECT, .+4
-.Lpix7_done:
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
         .word   .Lconst_n4, REG_R21, .+4
 
-        /* Pixel 6 (bit 6): test R20 & 0x40 */
-        .word   .Lconst_64, REG_R20, .Lpix6_bg
+        /* Pixel 6 */
+.Lpix6: .word   .Lconst_64, REG_R20, .Lpix6_bg
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T13, REG_Z, .+4
-        .word   REG_Z, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .Lpix6_done
-.Lpix6_bg:
-        .word   .Lconst_n64, REG_R20, .+4
-        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T14, REG_Z, .+4
-        .word   REG_Z, REG_R21 | INDIRECT, .+4
-.Lpix6_done:
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
         .word   .Lconst_n4, REG_R21, .+4
 
-        /* Pixel 5 (bit 5): test R20 & 0x20 */
-        .word   .Lconst_32, REG_R20, .Lpix5_bg
+        /* Pixel 5 */
+.Lpix5: .word   .Lconst_32, REG_R20, .Lpix5_bg
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T13, REG_Z, .+4
-        .word   REG_Z, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .Lpix5_done
-.Lpix5_bg:
-        .word   .Lconst_n32, REG_R20, .+4
-        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T14, REG_Z, .+4
-        .word   REG_Z, REG_R21 | INDIRECT, .+4
-.Lpix5_done:
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
         .word   .Lconst_n4, REG_R21, .+4
 
-        /* Pixel 4 (bit 4): test R20 & 0x10 */
-        .word   .Lconst_16, REG_R20, .Lpix4_bg
+        /* Pixel 4 */
+.Lpix4: .word   .Lconst_16, REG_R20, .Lpix4_bg
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T13, REG_Z, .+4
-        .word   REG_Z, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .Lpix4_done
-.Lpix4_bg:
-        .word   .Lconst_n16, REG_R20, .+4
-        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T14, REG_Z, .+4
-        .word   REG_Z, REG_R21 | INDIRECT, .+4
-.Lpix4_done:
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
         .word   .Lconst_n4, REG_R21, .+4
 
-        /* Pixel 3 (bit 3): test R20 & 0x08 */
-        .word   .Lconst_8, REG_R20, .Lpix3_bg
+        /* Pixel 3 */
+.Lpix3: .word   .Lconst_8, REG_R20, .Lpix3_bg
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T13, REG_Z, .+4
-        .word   REG_Z, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .Lpix3_done
-.Lpix3_bg:
-        .word   .Lconst_n8, REG_R20, .+4
-        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T14, REG_Z, .+4
-        .word   REG_Z, REG_R21 | INDIRECT, .+4
-.Lpix3_done:
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
         .word   .Lconst_n4, REG_R21, .+4
 
-        /* Pixel 2 (bit 2): test R20 & 0x04 */
-        .word   .Lconst_4, REG_R20, .Lpix2_bg
+        /* Pixel 2 */
+.Lpix2: .word   .Lconst_4, REG_R20, .Lpix2_bg
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T13, REG_Z, .+4
-        .word   REG_Z, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .Lpix2_done
-.Lpix2_bg:
-        .word   .Lconst_n4, REG_R20, .+4
-        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T14, REG_Z, .+4
-        .word   REG_Z, REG_R21 | INDIRECT, .+4
-.Lpix2_done:
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
         .word   .Lconst_n4, REG_R21, .+4
 
-        /* Pixel 1 (bit 1): test R20 & 0x02 */
-        .word   .Lconst_2, REG_R20, .Lpix1_bg
+        /* Pixel 1 */
+.Lpix1: .word   .Lconst_2, REG_R20, .Lpix1_bg
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T13, REG_Z, .+4
-        .word   REG_Z, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .Lpix1_done
-.Lpix1_bg:
-        .word   .Lconst_n2, REG_R20, .+4
-        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T14, REG_Z, .+4
-        .word   REG_Z, REG_R21 | INDIRECT, .+4
-.Lpix1_done:
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
         .word   .Lconst_n4, REG_R21, .+4
 
-        /* Pixel 0 (bit 0): test R20 & 0x01 */
-        .word   .Lconst_1, REG_R20, .Lpix0_bg
+        /* Pixel 0 (LSB, no advance needed) */
+.Lpix0: .word   .Lconst_1, REG_R20, .Lpix0_bg
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T13, REG_Z, .+4
-        .word   REG_Z, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .Lpix0_done
-.Lpix0_bg:
-        .word   .Lconst_n1, REG_R20, .+4
-        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T14, REG_Z, .+4
-        .word   REG_Z, REG_R21 | INDIRECT, .+4
-.Lpix0_done:
-        .word   REG_Z, REG_Z, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
 
-
+.Lpix_all_done:
+        /* Clean Z before row advance (pixel writes don't touch Z) */
+        .word   REG_Z, REG_Z, .+4
 
         /* Advance font_ptr by 4 bytes */
         .word   .Lconst_n4, REG_T15, .+4
@@ -458,6 +371,58 @@ subleq_direct_putcs:
         .word   .Lconst_1, REG_T11, .+4
 
         .word   REG_Z, REG_Z, .Lchar_loop
+
+/*===========================================================================
+ * BG COLD TRAMPOLINES (out-of-line to keep FG path tight)
+ * Each: restore R20, clear pixel, write bg, advance R21, jump back
+ *===========================================================================*/
+.Lpix7_bg:
+        .word   .Lconst_n128, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lpix6
+.Lpix6_bg:
+        .word   .Lconst_n64, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lpix5
+.Lpix5_bg:
+        .word   .Lconst_n32, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lpix4
+.Lpix4_bg:
+        .word   .Lconst_n16, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lpix3
+.Lpix3_bg:
+        .word   .Lconst_n8, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lpix2
+.Lpix2_bg:
+        .word   .Lconst_n4, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lpix1
+.Lpix1_bg:
+        .word   .Lconst_n2, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lpix0
+.Lpix0_bg:
+        .word   .Lconst_n1, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   REG_Z, REG_Z, .Lpix_all_done
 
 .Ldone:
         /* Return: Load RA from [SP] and jump to it */

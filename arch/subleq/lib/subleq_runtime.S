@@ -78,22 +78,14 @@ __subleq_sdivrem:
 .Lsdivrem_chk_small:
         .word   144, 172, .Lsdivrem_bit31
         .word   168, 168, .+4
-        .word   12, 12, .+4
-        .word   172, 12, .+4
-        .word   12, 168, .+4
-        .word   .Lsdivrem_c256, 168, .+4
-        .word   176, 176, .+4
-        .word   168, 176, .Lsdivrem_chk_16bit
+        .word   .Lsdivrem_n256, 168, .+4
+        .word   172, 168, .Lsdivrem_chk_16bit
         .word   12, 12, .Lsdivrem_bit7
 .Lsdivrem_chk_16bit:
         .word   144, 172, .Lsdivrem_bit31
         .word   168, 168, .+4
-        .word   12, 12, .+4
-        .word   172, 12, .+4
-        .word   12, 168, .+4
-        .word   .Lsdivrem_c65536, 168, .+4
-        .word   176, 176, .+4
-        .word   168, 176, .Lsdivrem_bit31
+        .word   .Lsdivrem_n65536, 168, .+4
+        .word   172, 168, .Lsdivrem_bit31
         .word   12, 12, .Lsdivrem_bit15
 .Lsdivrem_bit31:
         .word   12, 12, .+4
@@ -1715,7 +1707,6 @@ __subleq_sdivrem:
         .word   18, 12, .+4
         .word   12, 160, .+4
         .word   .Lsdivrem_neg4, 16, .+4
-        .word   12, 12, .+4
         .word   12
         .word   12
         .word   162
@@ -1871,22 +1862,14 @@ __subleq_udivrem:
 .Ludivrem_chk_small:
         .word   144, 172, .Ludivrem_bit31
         .word   168, 168, .+4
-        .word   12, 12, .+4
-        .word   172, 12, .+4
-        .word   12, 168, .+4
-        .word   .Ludivrem_c256, 168, .+4
-        .word   176, 176, .+4
-        .word   168, 176, .Ludivrem_chk_16bit
+        .word   .Ludivrem_n256, 168, .+4
+        .word   172, 168, .Ludivrem_chk_16bit
         .word   12, 12, .Ludivrem_bit7
 .Ludivrem_chk_16bit:
         .word   144, 172, .Ludivrem_bit31
         .word   168, 168, .+4
-        .word   12, 12, .+4
-        .word   172, 12, .+4
-        .word   12, 168, .+4
-        .word   .Ludivrem_c65536, 168, .+4
-        .word   176, 176, .+4
-        .word   168, 176, .Ludivrem_bit31
+        .word   .Ludivrem_n65536, 168, .+4
+        .word   172, 168, .Ludivrem_bit31
         .word   12, 12, .Ludivrem_bit15
 .Ludivrem_bit31:
         .word   12, 12, .+4
@@ -4152,7 +4135,6 @@ __subleq_udivrem:
         .word   18, 12, .+4
         .word   12, 160, .+4
         .word   .Ludivrem_neg4, 16, .+4
-        .word   12, 12, .+4
         .word   12
         .word   12
         .word   162
@@ -17281,7 +17263,6 @@ __subleq_sdivrem64:
         .word   18, 12, .+4
         .word   12, 160, .+4
         .word   .Lsd64v_neg4, 16, .+4
-        .word   12, 12, .+4
         .word   12
         .word   12
         .word   162
@@ -17461,13 +17442,8 @@ __subleq_udivrem64:
 .Lud64_chk_16bit:
         .word   144, 176, .Lud64_bit31
         .word   184, 184, .+4
-        .word   12, 12, .+4
-        .word   176, 12, .+4
-        .word   12, 184, .+4
-        .word   .Lud64_c32768, 184, .+4
-        .word   .Lud64_c32768, 184, .+4
-        .word   188, 188, .+4
-        .word   184, 188, .Lud64_bit31
+        .word   .Lud64_n65536, 184, .+4
+        .word   176, 184, .Lud64_bit31
         .word   12, 12, .Lud64_bit15
 .Lud64_bit63:
         .word   184, 184, .+4
@@ -34788,7 +34764,6 @@ __subleq_udivrem64:
         .word   18, 12, .+4
         .word   12, 160, .+4
         .word   .Lud64_neg4, 16, .+4
-        .word   12, 12, .+4
         .word   12
         .word   12
         .word   162
@@ -34998,7 +34973,6 @@ __divdi3:
         .word   18, 12, .+4
         .word   12, 160, .+4
         .word   .Ldivdi3_neg4, 16, .+4
-        .word   12, 12, .+4
         .word   12
         .word   12
         .word   162
@@ -35086,7 +35060,6 @@ __moddi3:
         .word   18, 12, .+4
         .word   12, 160, .+4
         .word   .Lmoddi3_neg4, 16, .+4
-        .word   12, 12, .+4
         .word   12
         .word   12
         .word   162
@@ -35166,7 +35139,6 @@ __udivdi3:
         .word   18, 12, .+4
         .word   12, 160, .+4
         .word   .Ludivdi3_neg4, 16, .+4
-        .word   12, 12, .+4
         .word   12
         .word   12
         .word   162
@@ -35254,7 +35226,6 @@ __umoddi3:
         .word   18, 12, .+4
         .word   12, 160, .+4
         .word   .Lumoddi3_neg4, 16, .+4
-        .word   12, 12, .+4
         .word   12
         .word   12
         .word   162
@@ -35275,11 +35246,10 @@ __umoddi3:
 
 # __subleq_mul: R3 = R3 * R4 (signed multiplication) - Biased Lattice Optimization
 __subleq_mul:
-        .word   172, 172, .Lmul_chk_r3_sign
+        .word   172, 172, .+4
 .Lmul_chk_r3_sign:
-        .word   164, 164, .+4
-        .word   12, 12, .+4
         .word   100, 12, .+4
+        .word   164, 164, .+4
         .word   12, 164, .+4
         .word   144, 164, .Lmul_r3_le0
         .word   12, 12, .Lmul_chk_r4_sign
@@ -35333,20 +35303,12 @@ __subleq_mul:
 .Lmul_chk_8bit:
         .word   144, 100, .Lmul_bit31
         .word   168, 168, .+4
-        .word   12, 12, .+4
-        .word   100, 12, .+4
-        .word   12, 168, .+4
-        .word   .Lmul_c256, 168, .+4
-        .word   176, 176, .+4
-        .word   168, 176, .Lmul_bit31
+        .word   .Lmul_n256, 168, .+4
+        .word   100, 168, .Lmul_bit31
         .word   144, 104, .Lmul_bit31
         .word   168, 168, .+4
-        .word   12, 12, .+4
-        .word   104, 12, .+4
-        .word   12, 168, .+4
-        .word   .Lmul_c256, 168, .+4
-        .word   176, 176, .+4
-        .word   168, 176, .Lmul_bit31
+        .word   .Lmul_n256, 168, .+4
+        .word   104, 168, .Lmul_bit31
         .word   .Lmul_negone, 164, .+4
         .word   12, 12, .Lmul_lat_b7_Pos
 .Lmul_bit31:
@@ -35819,16 +35781,12 @@ __subleq_mul:
         .word   12, 12, .Lmul_lat_done
 .Lmul_lat_done:
 .Lmul_chk_negate:
-        .word   164, 164, .+4
-        .word   12, 12, .+4
-        .word   172, 12, .+4
-        .word   12, 164, .+4
-        .word   .Lmul_one, 164, .+4
-        .word   144, 164, .Lmul_maybe_neg
+        .word   .Lmul_one, 172, .+4
+        .word   144, 172, .Lmul_maybe_neg
         .word   12, 12, .Lmul_finish
 .Lmul_maybe_neg:
         .word   168, 168, .+4
-        .word   164, 168, .Lmul_negate
+        .word   172, 168, .Lmul_negate
         .word   12, 12, .Lmul_finish
 .Lmul_negate:
         .word   164, 164, .+4
@@ -35849,7 +35807,6 @@ __subleq_mul:
         .word   18, 12, .+4
         .word   12, 160, .+4
         .word   .Lmul_neg4, 16, .+4
-        .word   12, 12, .+4
         .word   12
         .word   12
         .word   162
@@ -36098,7 +36055,6 @@ __subleq_and:
         .word   18, 12, .+4
         .word   12, 160, .+4
         .word   .Land_zero_neg4, 16, .+4
-        .word   12, 12, .+4
         .word   12
         .word   12
         .word   162
@@ -36121,22 +36077,17 @@ __subleq_and:
 .Land_small_check:
         .word   144, 100, .Land_Bit31
         .word   144, 104, .Land_Bit31
+        .word   100, 12, .+4
+        .word   .Land_n65536, 12, .Land_Bit31
         .word   164, 164, .+4
-        .word   100, 164, .+4
         .word   .Land_n65536, 164, .+4
-        .word   144, 164, .Land_Bit31
+        .word   104, 164, .Land_Bit31
         .word   164, 164, .+4
-        .word   104, 164, .+4
-        .word   .Land_n65536, 164, .+4
-        .word   144, 164, .Land_Bit31
-        .word   164, 164, .+4
-        .word   100, 164, .+4
         .word   .Land_n256, 164, .+4
-        .word   144, 164, .Land_fast_16bit
+        .word   100, 164, .Land_fast_16bit
         .word   164, 164, .+4
-        .word   104, 164, .+4
         .word   .Land_n256, 164, .+4
-        .word   144, 164, .Land_fast_16bit
+        .word   104, 164, .Land_fast_16bit
 .Land_fast_8bit:
         .word   160, 160, .+4
         .word   96, 96, .+4
@@ -36203,7 +36154,13 @@ __subleq_and:
         .word   .Land_pow30, 160, .Land_b29_PP
 .Land_b30_PP_R21_Neg:
         .word   .Land_pow30, 104, .Land_b29_NN
-        .word   12, 12, .Land_b29_NP
+.Land_b29_NP:
+        .word   .Land_npow29, 100, .Land_b29_NP_R21_Neg
+        .word   .Land_pow29, 104, .Land_b28_PN
+        .word   .Land_pow29, 160, .Land_b28_PP
+.Land_b29_NP_R21_Neg:
+        .word   .Land_pow29, 104, .Land_b28_NN
+        .word   12, 12, .Land_b28_NP
 .Land_b29_PP:
         .word   .Land_pow29, 100, .Land_b29_PP_R21_Neg
         .word   .Land_pow29, 104, .Land_b28_PN
@@ -36218,20 +36175,19 @@ __subleq_and:
 .Land_b29_PN_R21_Neg:
         .word   .Land_npow29, 104, .Land_b28_NN
         .word   12, 12, .Land_b28_NP
-.Land_b29_NP:
-        .word   .Land_npow29, 100, .Land_b29_NP_R21_Neg
-        .word   .Land_pow29, 104, .Land_b28_PN
-        .word   .Land_pow29, 160, .Land_b28_PP
-.Land_b29_NP_R21_Neg:
-        .word   .Land_pow29, 104, .Land_b28_NN
-        .word   12, 12, .Land_b28_NP
 .Land_b29_NN:
         .word   .Land_npow29, 100, .Land_b29_NN_R21_Neg
         .word   .Land_npow29, 104, .Land_b28_PN
         .word   .Land_pow29, 160, .Land_b28_PP
 .Land_b29_NN_R21_Neg:
         .word   .Land_npow29, 104, .Land_b28_NN
-        .word   12, 12, .Land_b28_NP
+.Land_b28_NP:
+        .word   .Land_npow28, 100, .Land_b28_NP_R21_Neg
+        .word   .Land_pow28, 104, .Land_b27_PN
+        .word   .Land_pow28, 160, .Land_b27_PP
+.Land_b28_NP_R21_Neg:
+        .word   .Land_pow28, 104, .Land_b27_NN
+        .word   12, 12, .Land_b27_NP
 .Land_b28_PP:
         .word   .Land_pow28, 100, .Land_b28_PP_R21_Neg
         .word   .Land_pow28, 104, .Land_b27_PN
@@ -36246,20 +36202,19 @@ __subleq_and:
 .Land_b28_PN_R21_Neg:
         .word   .Land_npow28, 104, .Land_b27_NN
         .word   12, 12, .Land_b27_NP
-.Land_b28_NP:
-        .word   .Land_npow28, 100, .Land_b28_NP_R21_Neg
-        .word   .Land_pow28, 104, .Land_b27_PN
-        .word   .Land_pow28, 160, .Land_b27_PP
-.Land_b28_NP_R21_Neg:
-        .word   .Land_pow28, 104, .Land_b27_NN
-        .word   12, 12, .Land_b27_NP
 .Land_b28_NN:
         .word   .Land_npow28, 100, .Land_b28_NN_R21_Neg
         .word   .Land_npow28, 104, .Land_b27_PN
         .word   .Land_pow28, 160, .Land_b27_PP
 .Land_b28_NN_R21_Neg:
         .word   .Land_npow28, 104, .Land_b27_NN
-        .word   12, 12, .Land_b27_NP
+.Land_b27_NP:
+        .word   .Land_npow27, 100, .Land_b27_NP_R21_Neg
+        .word   .Land_pow27, 104, .Land_b26_PN
+        .word   .Land_pow27, 160, .Land_b26_PP
+.Land_b27_NP_R21_Neg:
+        .word   .Land_pow27, 104, .Land_b26_NN
+        .word   12, 12, .Land_b26_NP
 .Land_b27_PP:
         .word   .Land_pow27, 100, .Land_b27_PP_R21_Neg
         .word   .Land_pow27, 104, .Land_b26_PN
@@ -36274,20 +36229,19 @@ __subleq_and:
 .Land_b27_PN_R21_Neg:
         .word   .Land_npow27, 104, .Land_b26_NN
         .word   12, 12, .Land_b26_NP
-.Land_b27_NP:
-        .word   .Land_npow27, 100, .Land_b27_NP_R21_Neg
-        .word   .Land_pow27, 104, .Land_b26_PN
-        .word   .Land_pow27, 160, .Land_b26_PP
-.Land_b27_NP_R21_Neg:
-        .word   .Land_pow27, 104, .Land_b26_NN
-        .word   12, 12, .Land_b26_NP
 .Land_b27_NN:
         .word   .Land_npow27, 100, .Land_b27_NN_R21_Neg
         .word   .Land_npow27, 104, .Land_b26_PN
         .word   .Land_pow27, 160, .Land_b26_PP
 .Land_b27_NN_R21_Neg:
         .word   .Land_npow27, 104, .Land_b26_NN
-        .word   12, 12, .Land_b26_NP
+.Land_b26_NP:
+        .word   .Land_npow26, 100, .Land_b26_NP_R21_Neg
+        .word   .Land_pow26, 104, .Land_b25_PN
+        .word   .Land_pow26, 160, .Land_b25_PP
+.Land_b26_NP_R21_Neg:
+        .word   .Land_pow26, 104, .Land_b25_NN
+        .word   12, 12, .Land_b25_NP
 .Land_b26_PP:
         .word   .Land_pow26, 100, .Land_b26_PP_R21_Neg
         .word   .Land_pow26, 104, .Land_b25_PN
@@ -36302,20 +36256,19 @@ __subleq_and:
 .Land_b26_PN_R21_Neg:
         .word   .Land_npow26, 104, .Land_b25_NN
         .word   12, 12, .Land_b25_NP
-.Land_b26_NP:
-        .word   .Land_npow26, 100, .Land_b26_NP_R21_Neg
-        .word   .Land_pow26, 104, .Land_b25_PN
-        .word   .Land_pow26, 160, .Land_b25_PP
-.Land_b26_NP_R21_Neg:
-        .word   .Land_pow26, 104, .Land_b25_NN
-        .word   12, 12, .Land_b25_NP
 .Land_b26_NN:
         .word   .Land_npow26, 100, .Land_b26_NN_R21_Neg
         .word   .Land_npow26, 104, .Land_b25_PN
         .word   .Land_pow26, 160, .Land_b25_PP
 .Land_b26_NN_R21_Neg:
         .word   .Land_npow26, 104, .Land_b25_NN
-        .word   12, 12, .Land_b25_NP
+.Land_b25_NP:
+        .word   .Land_npow25, 100, .Land_b25_NP_R21_Neg
+        .word   .Land_pow25, 104, .Land_b24_PN
+        .word   .Land_pow25, 160, .Land_b24_PP
+.Land_b25_NP_R21_Neg:
+        .word   .Land_pow25, 104, .Land_b24_NN
+        .word   12, 12, .Land_b24_NP
 .Land_b25_PP:
         .word   .Land_pow25, 100, .Land_b25_PP_R21_Neg
         .word   .Land_pow25, 104, .Land_b24_PN
@@ -36330,20 +36283,19 @@ __subleq_and:
 .Land_b25_PN_R21_Neg:
         .word   .Land_npow25, 104, .Land_b24_NN
         .word   12, 12, .Land_b24_NP
-.Land_b25_NP:
-        .word   .Land_npow25, 100, .Land_b25_NP_R21_Neg
-        .word   .Land_pow25, 104, .Land_b24_PN
-        .word   .Land_pow25, 160, .Land_b24_PP
-.Land_b25_NP_R21_Neg:
-        .word   .Land_pow25, 104, .Land_b24_NN
-        .word   12, 12, .Land_b24_NP
 .Land_b25_NN:
         .word   .Land_npow25, 100, .Land_b25_NN_R21_Neg
         .word   .Land_npow25, 104, .Land_b24_PN
         .word   .Land_pow25, 160, .Land_b24_PP
 .Land_b25_NN_R21_Neg:
         .word   .Land_npow25, 104, .Land_b24_NN
-        .word   12, 12, .Land_b24_NP
+.Land_b24_NP:
+        .word   .Land_npow24, 100, .Land_b24_NP_R21_Neg
+        .word   .Land_pow24, 104, .Land_b23_PN
+        .word   .Land_pow24, 160, .Land_b23_PP
+.Land_b24_NP_R21_Neg:
+        .word   .Land_pow24, 104, .Land_b23_NN
+        .word   12, 12, .Land_b23_NP
 .Land_b24_PP:
         .word   .Land_pow24, 100, .Land_b24_PP_R21_Neg
         .word   .Land_pow24, 104, .Land_b23_PN
@@ -36358,20 +36310,19 @@ __subleq_and:
 .Land_b24_PN_R21_Neg:
         .word   .Land_npow24, 104, .Land_b23_NN
         .word   12, 12, .Land_b23_NP
-.Land_b24_NP:
-        .word   .Land_npow24, 100, .Land_b24_NP_R21_Neg
-        .word   .Land_pow24, 104, .Land_b23_PN
-        .word   .Land_pow24, 160, .Land_b23_PP
-.Land_b24_NP_R21_Neg:
-        .word   .Land_pow24, 104, .Land_b23_NN
-        .word   12, 12, .Land_b23_NP
 .Land_b24_NN:
         .word   .Land_npow24, 100, .Land_b24_NN_R21_Neg
         .word   .Land_npow24, 104, .Land_b23_PN
         .word   .Land_pow24, 160, .Land_b23_PP
 .Land_b24_NN_R21_Neg:
         .word   .Land_npow24, 104, .Land_b23_NN
-        .word   12, 12, .Land_b23_NP
+.Land_b23_NP:
+        .word   .Land_npow23, 100, .Land_b23_NP_R21_Neg
+        .word   .Land_pow23, 104, .Land_b22_PN
+        .word   .Land_pow23, 160, .Land_b22_PP
+.Land_b23_NP_R21_Neg:
+        .word   .Land_pow23, 104, .Land_b22_NN
+        .word   12, 12, .Land_b22_NP
 .Land_b23_PP:
         .word   .Land_pow23, 100, .Land_b23_PP_R21_Neg
         .word   .Land_pow23, 104, .Land_b22_PN
@@ -36386,20 +36337,19 @@ __subleq_and:
 .Land_b23_PN_R21_Neg:
         .word   .Land_npow23, 104, .Land_b22_NN
         .word   12, 12, .Land_b22_NP
-.Land_b23_NP:
-        .word   .Land_npow23, 100, .Land_b23_NP_R21_Neg
-        .word   .Land_pow23, 104, .Land_b22_PN
-        .word   .Land_pow23, 160, .Land_b22_PP
-.Land_b23_NP_R21_Neg:
-        .word   .Land_pow23, 104, .Land_b22_NN
-        .word   12, 12, .Land_b22_NP
 .Land_b23_NN:
         .word   .Land_npow23, 100, .Land_b23_NN_R21_Neg
         .word   .Land_npow23, 104, .Land_b22_PN
         .word   .Land_pow23, 160, .Land_b22_PP
 .Land_b23_NN_R21_Neg:
         .word   .Land_npow23, 104, .Land_b22_NN
-        .word   12, 12, .Land_b22_NP
+.Land_b22_NP:
+        .word   .Land_npow22, 100, .Land_b22_NP_R21_Neg
+        .word   .Land_pow22, 104, .Land_b21_PN
+        .word   .Land_pow22, 160, .Land_b21_PP
+.Land_b22_NP_R21_Neg:
+        .word   .Land_pow22, 104, .Land_b21_NN
+        .word   12, 12, .Land_b21_NP
 .Land_b22_PP:
         .word   .Land_pow22, 100, .Land_b22_PP_R21_Neg
         .word   .Land_pow22, 104, .Land_b21_PN
@@ -36414,20 +36364,19 @@ __subleq_and:
 .Land_b22_PN_R21_Neg:
         .word   .Land_npow22, 104, .Land_b21_NN
         .word   12, 12, .Land_b21_NP
-.Land_b22_NP:
-        .word   .Land_npow22, 100, .Land_b22_NP_R21_Neg
-        .word   .Land_pow22, 104, .Land_b21_PN
-        .word   .Land_pow22, 160, .Land_b21_PP
-.Land_b22_NP_R21_Neg:
-        .word   .Land_pow22, 104, .Land_b21_NN
-        .word   12, 12, .Land_b21_NP
 .Land_b22_NN:
         .word   .Land_npow22, 100, .Land_b22_NN_R21_Neg
         .word   .Land_npow22, 104, .Land_b21_PN
         .word   .Land_pow22, 160, .Land_b21_PP
 .Land_b22_NN_R21_Neg:
         .word   .Land_npow22, 104, .Land_b21_NN
-        .word   12, 12, .Land_b21_NP
+.Land_b21_NP:
+        .word   .Land_npow21, 100, .Land_b21_NP_R21_Neg
+        .word   .Land_pow21, 104, .Land_b20_PN
+        .word   .Land_pow21, 160, .Land_b20_PP
+.Land_b21_NP_R21_Neg:
+        .word   .Land_pow21, 104, .Land_b20_NN
+        .word   12, 12, .Land_b20_NP
 .Land_b21_PP:
         .word   .Land_pow21, 100, .Land_b21_PP_R21_Neg
         .word   .Land_pow21, 104, .Land_b20_PN
@@ -36442,20 +36391,19 @@ __subleq_and:
 .Land_b21_PN_R21_Neg:
         .word   .Land_npow21, 104, .Land_b20_NN
         .word   12, 12, .Land_b20_NP
-.Land_b21_NP:
-        .word   .Land_npow21, 100, .Land_b21_NP_R21_Neg
-        .word   .Land_pow21, 104, .Land_b20_PN
-        .word   .Land_pow21, 160, .Land_b20_PP
-.Land_b21_NP_R21_Neg:
-        .word   .Land_pow21, 104, .Land_b20_NN
-        .word   12, 12, .Land_b20_NP
 .Land_b21_NN:
         .word   .Land_npow21, 100, .Land_b21_NN_R21_Neg
         .word   .Land_npow21, 104, .Land_b20_PN
         .word   .Land_pow21, 160, .Land_b20_PP
 .Land_b21_NN_R21_Neg:
         .word   .Land_npow21, 104, .Land_b20_NN
-        .word   12, 12, .Land_b20_NP
+.Land_b20_NP:
+        .word   .Land_npow20, 100, .Land_b20_NP_R21_Neg
+        .word   .Land_pow20, 104, .Land_b19_PN
+        .word   .Land_pow20, 160, .Land_b19_PP
+.Land_b20_NP_R21_Neg:
+        .word   .Land_pow20, 104, .Land_b19_NN
+        .word   12, 12, .Land_b19_NP
 .Land_b20_PP:
         .word   .Land_pow20, 100, .Land_b20_PP_R21_Neg
         .word   .Land_pow20, 104, .Land_b19_PN
@@ -36470,20 +36418,19 @@ __subleq_and:
 .Land_b20_PN_R21_Neg:
         .word   .Land_npow20, 104, .Land_b19_NN
         .word   12, 12, .Land_b19_NP
-.Land_b20_NP:
-        .word   .Land_npow20, 100, .Land_b20_NP_R21_Neg
-        .word   .Land_pow20, 104, .Land_b19_PN
-        .word   .Land_pow20, 160, .Land_b19_PP
-.Land_b20_NP_R21_Neg:
-        .word   .Land_pow20, 104, .Land_b19_NN
-        .word   12, 12, .Land_b19_NP
 .Land_b20_NN:
         .word   .Land_npow20, 100, .Land_b20_NN_R21_Neg
         .word   .Land_npow20, 104, .Land_b19_PN
         .word   .Land_pow20, 160, .Land_b19_PP
 .Land_b20_NN_R21_Neg:
         .word   .Land_npow20, 104, .Land_b19_NN
-        .word   12, 12, .Land_b19_NP
+.Land_b19_NP:
+        .word   .Land_npow19, 100, .Land_b19_NP_R21_Neg
+        .word   .Land_pow19, 104, .Land_b18_PN
+        .word   .Land_pow19, 160, .Land_b18_PP
+.Land_b19_NP_R21_Neg:
+        .word   .Land_pow19, 104, .Land_b18_NN
+        .word   12, 12, .Land_b18_NP
 .Land_b19_PP:
         .word   .Land_pow19, 100, .Land_b19_PP_R21_Neg
         .word   .Land_pow19, 104, .Land_b18_PN
@@ -36498,20 +36445,19 @@ __subleq_and:
 .Land_b19_PN_R21_Neg:
         .word   .Land_npow19, 104, .Land_b18_NN
         .word   12, 12, .Land_b18_NP
-.Land_b19_NP:
-        .word   .Land_npow19, 100, .Land_b19_NP_R21_Neg
-        .word   .Land_pow19, 104, .Land_b18_PN
-        .word   .Land_pow19, 160, .Land_b18_PP
-.Land_b19_NP_R21_Neg:
-        .word   .Land_pow19, 104, .Land_b18_NN
-        .word   12, 12, .Land_b18_NP
 .Land_b19_NN:
         .word   .Land_npow19, 100, .Land_b19_NN_R21_Neg
         .word   .Land_npow19, 104, .Land_b18_PN
         .word   .Land_pow19, 160, .Land_b18_PP
 .Land_b19_NN_R21_Neg:
         .word   .Land_npow19, 104, .Land_b18_NN
-        .word   12, 12, .Land_b18_NP
+.Land_b18_NP:
+        .word   .Land_npow18, 100, .Land_b18_NP_R21_Neg
+        .word   .Land_pow18, 104, .Land_b17_PN
+        .word   .Land_pow18, 160, .Land_b17_PP
+.Land_b18_NP_R21_Neg:
+        .word   .Land_pow18, 104, .Land_b17_NN
+        .word   12, 12, .Land_b17_NP
 .Land_b18_PP:
         .word   .Land_pow18, 100, .Land_b18_PP_R21_Neg
         .word   .Land_pow18, 104, .Land_b17_PN
@@ -36526,20 +36472,19 @@ __subleq_and:
 .Land_b18_PN_R21_Neg:
         .word   .Land_npow18, 104, .Land_b17_NN
         .word   12, 12, .Land_b17_NP
-.Land_b18_NP:
-        .word   .Land_npow18, 100, .Land_b18_NP_R21_Neg
-        .word   .Land_pow18, 104, .Land_b17_PN
-        .word   .Land_pow18, 160, .Land_b17_PP
-.Land_b18_NP_R21_Neg:
-        .word   .Land_pow18, 104, .Land_b17_NN
-        .word   12, 12, .Land_b17_NP
 .Land_b18_NN:
         .word   .Land_npow18, 100, .Land_b18_NN_R21_Neg
         .word   .Land_npow18, 104, .Land_b17_PN
         .word   .Land_pow18, 160, .Land_b17_PP
 .Land_b18_NN_R21_Neg:
         .word   .Land_npow18, 104, .Land_b17_NN
-        .word   12, 12, .Land_b17_NP
+.Land_b17_NP:
+        .word   .Land_npow17, 100, .Land_b17_NP_R21_Neg
+        .word   .Land_pow17, 104, .Land_b16_PN
+        .word   .Land_pow17, 160, .Land_b16_PP
+.Land_b17_NP_R21_Neg:
+        .word   .Land_pow17, 104, .Land_b16_NN
+        .word   12, 12, .Land_b16_NP
 .Land_b17_PP:
         .word   .Land_pow17, 100, .Land_b17_PP_R21_Neg
         .word   .Land_pow17, 104, .Land_b16_PN
@@ -36554,20 +36499,19 @@ __subleq_and:
 .Land_b17_PN_R21_Neg:
         .word   .Land_npow17, 104, .Land_b16_NN
         .word   12, 12, .Land_b16_NP
-.Land_b17_NP:
-        .word   .Land_npow17, 100, .Land_b17_NP_R21_Neg
-        .word   .Land_pow17, 104, .Land_b16_PN
-        .word   .Land_pow17, 160, .Land_b16_PP
-.Land_b17_NP_R21_Neg:
-        .word   .Land_pow17, 104, .Land_b16_NN
-        .word   12, 12, .Land_b16_NP
 .Land_b17_NN:
         .word   .Land_npow17, 100, .Land_b17_NN_R21_Neg
         .word   .Land_npow17, 104, .Land_b16_PN
         .word   .Land_pow17, 160, .Land_b16_PP
 .Land_b17_NN_R21_Neg:
         .word   .Land_npow17, 104, .Land_b16_NN
-        .word   12, 12, .Land_b16_NP
+.Land_b16_NP:
+        .word   .Land_npow16, 100, .Land_b16_NP_R21_Neg
+        .word   .Land_pow16, 104, .Land_b15_PN
+        .word   .Land_pow16, 160, .Land_b15_PP
+.Land_b16_NP_R21_Neg:
+        .word   .Land_pow16, 104, .Land_b15_NN
+        .word   12, 12, .Land_b15_NP
 .Land_b16_PP:
         .word   .Land_pow16, 100, .Land_b16_PP_R21_Neg
         .word   .Land_pow16, 104, .Land_b15_PN
@@ -36582,20 +36526,19 @@ __subleq_and:
 .Land_b16_PN_R21_Neg:
         .word   .Land_npow16, 104, .Land_b15_NN
         .word   12, 12, .Land_b15_NP
-.Land_b16_NP:
-        .word   .Land_npow16, 100, .Land_b16_NP_R21_Neg
-        .word   .Land_pow16, 104, .Land_b15_PN
-        .word   .Land_pow16, 160, .Land_b15_PP
-.Land_b16_NP_R21_Neg:
-        .word   .Land_pow16, 104, .Land_b15_NN
-        .word   12, 12, .Land_b15_NP
 .Land_b16_NN:
         .word   .Land_npow16, 100, .Land_b16_NN_R21_Neg
         .word   .Land_npow16, 104, .Land_b15_PN
         .word   .Land_pow16, 160, .Land_b15_PP
 .Land_b16_NN_R21_Neg:
         .word   .Land_npow16, 104, .Land_b15_NN
-        .word   12, 12, .Land_b15_NP
+.Land_b15_NP:
+        .word   .Land_npow15, 100, .Land_b15_NP_R21_Neg
+        .word   .Land_pow15, 104, .Land_b14_PN
+        .word   .Land_pow15, 160, .Land_b14_PP
+.Land_b15_NP_R21_Neg:
+        .word   .Land_pow15, 104, .Land_b14_NN
+        .word   12, 12, .Land_b14_NP
 .Land_b15_PP:
         .word   .Land_pow15, 100, .Land_b15_PP_R21_Neg
         .word   .Land_pow15, 104, .Land_b14_PN
@@ -36610,20 +36553,19 @@ __subleq_and:
 .Land_b15_PN_R21_Neg:
         .word   .Land_npow15, 104, .Land_b14_NN
         .word   12, 12, .Land_b14_NP
-.Land_b15_NP:
-        .word   .Land_npow15, 100, .Land_b15_NP_R21_Neg
-        .word   .Land_pow15, 104, .Land_b14_PN
-        .word   .Land_pow15, 160, .Land_b14_PP
-.Land_b15_NP_R21_Neg:
-        .word   .Land_pow15, 104, .Land_b14_NN
-        .word   12, 12, .Land_b14_NP
 .Land_b15_NN:
         .word   .Land_npow15, 100, .Land_b15_NN_R21_Neg
         .word   .Land_npow15, 104, .Land_b14_PN
         .word   .Land_pow15, 160, .Land_b14_PP
 .Land_b15_NN_R21_Neg:
         .word   .Land_npow15, 104, .Land_b14_NN
-        .word   12, 12, .Land_b14_NP
+.Land_b14_NP:
+        .word   .Land_npow14, 100, .Land_b14_NP_R21_Neg
+        .word   .Land_pow14, 104, .Land_b13_PN
+        .word   .Land_pow14, 160, .Land_b13_PP
+.Land_b14_NP_R21_Neg:
+        .word   .Land_pow14, 104, .Land_b13_NN
+        .word   12, 12, .Land_b13_NP
 .Land_b14_PP:
         .word   .Land_pow14, 100, .Land_b14_PP_R21_Neg
         .word   .Land_pow14, 104, .Land_b13_PN
@@ -36638,20 +36580,19 @@ __subleq_and:
 .Land_b14_PN_R21_Neg:
         .word   .Land_npow14, 104, .Land_b13_NN
         .word   12, 12, .Land_b13_NP
-.Land_b14_NP:
-        .word   .Land_npow14, 100, .Land_b14_NP_R21_Neg
-        .word   .Land_pow14, 104, .Land_b13_PN
-        .word   .Land_pow14, 160, .Land_b13_PP
-.Land_b14_NP_R21_Neg:
-        .word   .Land_pow14, 104, .Land_b13_NN
-        .word   12, 12, .Land_b13_NP
 .Land_b14_NN:
         .word   .Land_npow14, 100, .Land_b14_NN_R21_Neg
         .word   .Land_npow14, 104, .Land_b13_PN
         .word   .Land_pow14, 160, .Land_b13_PP
 .Land_b14_NN_R21_Neg:
         .word   .Land_npow14, 104, .Land_b13_NN
-        .word   12, 12, .Land_b13_NP
+.Land_b13_NP:
+        .word   .Land_npow13, 100, .Land_b13_NP_R21_Neg
+        .word   .Land_pow13, 104, .Land_b12_PN
+        .word   .Land_pow13, 160, .Land_b12_PP
+.Land_b13_NP_R21_Neg:
+        .word   .Land_pow13, 104, .Land_b12_NN
+        .word   12, 12, .Land_b12_NP
 .Land_b13_PP:
         .word   .Land_pow13, 100, .Land_b13_PP_R21_Neg
         .word   .Land_pow13, 104, .Land_b12_PN
@@ -36666,20 +36607,19 @@ __subleq_and:
 .Land_b13_PN_R21_Neg:
         .word   .Land_npow13, 104, .Land_b12_NN
         .word   12, 12, .Land_b12_NP
-.Land_b13_NP:
-        .word   .Land_npow13, 100, .Land_b13_NP_R21_Neg
-        .word   .Land_pow13, 104, .Land_b12_PN
-        .word   .Land_pow13, 160, .Land_b12_PP
-.Land_b13_NP_R21_Neg:
-        .word   .Land_pow13, 104, .Land_b12_NN
-        .word   12, 12, .Land_b12_NP
 .Land_b13_NN:
         .word   .Land_npow13, 100, .Land_b13_NN_R21_Neg
         .word   .Land_npow13, 104, .Land_b12_PN
         .word   .Land_pow13, 160, .Land_b12_PP
 .Land_b13_NN_R21_Neg:
         .word   .Land_npow13, 104, .Land_b12_NN
-        .word   12, 12, .Land_b12_NP
+.Land_b12_NP:
+        .word   .Land_npow12, 100, .Land_b12_NP_R21_Neg
+        .word   .Land_pow12, 104, .Land_b11_PN
+        .word   .Land_pow12, 160, .Land_b11_PP
+.Land_b12_NP_R21_Neg:
+        .word   .Land_pow12, 104, .Land_b11_NN
+        .word   12, 12, .Land_b11_NP
 .Land_b12_PP:
         .word   .Land_pow12, 100, .Land_b12_PP_R21_Neg
         .word   .Land_pow12, 104, .Land_b11_PN
@@ -36694,20 +36634,19 @@ __subleq_and:
 .Land_b12_PN_R21_Neg:
         .word   .Land_npow12, 104, .Land_b11_NN
         .word   12, 12, .Land_b11_NP
-.Land_b12_NP:
-        .word   .Land_npow12, 100, .Land_b12_NP_R21_Neg
-        .word   .Land_pow12, 104, .Land_b11_PN
-        .word   .Land_pow12, 160, .Land_b11_PP
-.Land_b12_NP_R21_Neg:
-        .word   .Land_pow12, 104, .Land_b11_NN
-        .word   12, 12, .Land_b11_NP
 .Land_b12_NN:
         .word   .Land_npow12, 100, .Land_b12_NN_R21_Neg
         .word   .Land_npow12, 104, .Land_b11_PN
         .word   .Land_pow12, 160, .Land_b11_PP
 .Land_b12_NN_R21_Neg:
         .word   .Land_npow12, 104, .Land_b11_NN
-        .word   12, 12, .Land_b11_NP
+.Land_b11_NP:
+        .word   .Land_npow11, 100, .Land_b11_NP_R21_Neg
+        .word   .Land_pow11, 104, .Land_b10_PN
+        .word   .Land_pow11, 160, .Land_b10_PP
+.Land_b11_NP_R21_Neg:
+        .word   .Land_pow11, 104, .Land_b10_NN
+        .word   12, 12, .Land_b10_NP
 .Land_b11_PP:
         .word   .Land_pow11, 100, .Land_b11_PP_R21_Neg
         .word   .Land_pow11, 104, .Land_b10_PN
@@ -36722,20 +36661,19 @@ __subleq_and:
 .Land_b11_PN_R21_Neg:
         .word   .Land_npow11, 104, .Land_b10_NN
         .word   12, 12, .Land_b10_NP
-.Land_b11_NP:
-        .word   .Land_npow11, 100, .Land_b11_NP_R21_Neg
-        .word   .Land_pow11, 104, .Land_b10_PN
-        .word   .Land_pow11, 160, .Land_b10_PP
-.Land_b11_NP_R21_Neg:
-        .word   .Land_pow11, 104, .Land_b10_NN
-        .word   12, 12, .Land_b10_NP
 .Land_b11_NN:
         .word   .Land_npow11, 100, .Land_b11_NN_R21_Neg
         .word   .Land_npow11, 104, .Land_b10_PN
         .word   .Land_pow11, 160, .Land_b10_PP
 .Land_b11_NN_R21_Neg:
         .word   .Land_npow11, 104, .Land_b10_NN
-        .word   12, 12, .Land_b10_NP
+.Land_b10_NP:
+        .word   .Land_npow10, 100, .Land_b10_NP_R21_Neg
+        .word   .Land_pow10, 104, .Land_b9_PN
+        .word   .Land_pow10, 160, .Land_b9_PP
+.Land_b10_NP_R21_Neg:
+        .word   .Land_pow10, 104, .Land_b9_NN
+        .word   12, 12, .Land_b9_NP
 .Land_b10_PP:
         .word   .Land_pow10, 100, .Land_b10_PP_R21_Neg
         .word   .Land_pow10, 104, .Land_b9_PN
@@ -36750,20 +36688,19 @@ __subleq_and:
 .Land_b10_PN_R21_Neg:
         .word   .Land_npow10, 104, .Land_b9_NN
         .word   12, 12, .Land_b9_NP
-.Land_b10_NP:
-        .word   .Land_npow10, 100, .Land_b10_NP_R21_Neg
-        .word   .Land_pow10, 104, .Land_b9_PN
-        .word   .Land_pow10, 160, .Land_b9_PP
-.Land_b10_NP_R21_Neg:
-        .word   .Land_pow10, 104, .Land_b9_NN
-        .word   12, 12, .Land_b9_NP
 .Land_b10_NN:
         .word   .Land_npow10, 100, .Land_b10_NN_R21_Neg
         .word   .Land_npow10, 104, .Land_b9_PN
         .word   .Land_pow10, 160, .Land_b9_PP
 .Land_b10_NN_R21_Neg:
         .word   .Land_npow10, 104, .Land_b9_NN
-        .word   12, 12, .Land_b9_NP
+.Land_b9_NP:
+        .word   .Land_npow9, 100, .Land_b9_NP_R21_Neg
+        .word   .Land_pow9, 104, .Land_b8_PN
+        .word   .Land_pow9, 160, .Land_b8_PP
+.Land_b9_NP_R21_Neg:
+        .word   .Land_pow9, 104, .Land_b8_NN
+        .word   12, 12, .Land_b8_NP
 .Land_b9_PP:
         .word   .Land_pow9, 100, .Land_b9_PP_R21_Neg
         .word   .Land_pow9, 104, .Land_b8_PN
@@ -36778,20 +36715,19 @@ __subleq_and:
 .Land_b9_PN_R21_Neg:
         .word   .Land_npow9, 104, .Land_b8_NN
         .word   12, 12, .Land_b8_NP
-.Land_b9_NP:
-        .word   .Land_npow9, 100, .Land_b9_NP_R21_Neg
-        .word   .Land_pow9, 104, .Land_b8_PN
-        .word   .Land_pow9, 160, .Land_b8_PP
-.Land_b9_NP_R21_Neg:
-        .word   .Land_pow9, 104, .Land_b8_NN
-        .word   12, 12, .Land_b8_NP
 .Land_b9_NN:
         .word   .Land_npow9, 100, .Land_b9_NN_R21_Neg
         .word   .Land_npow9, 104, .Land_b8_PN
         .word   .Land_pow9, 160, .Land_b8_PP
 .Land_b9_NN_R21_Neg:
         .word   .Land_npow9, 104, .Land_b8_NN
-        .word   12, 12, .Land_b8_NP
+.Land_b8_NP:
+        .word   .Land_npow8, 100, .Land_b8_NP_R21_Neg
+        .word   .Land_pow8, 104, .Land_b7_PN
+        .word   .Land_pow8, 160, .Land_b7_PP
+.Land_b8_NP_R21_Neg:
+        .word   .Land_pow8, 104, .Land_b7_NN
+        .word   12, 12, .Land_b7_NP
 .Land_b8_PP:
         .word   .Land_pow8, 100, .Land_b8_PP_R21_Neg
         .word   .Land_pow8, 104, .Land_b7_PN
@@ -36806,20 +36742,19 @@ __subleq_and:
 .Land_b8_PN_R21_Neg:
         .word   .Land_npow8, 104, .Land_b7_NN
         .word   12, 12, .Land_b7_NP
-.Land_b8_NP:
-        .word   .Land_npow8, 100, .Land_b8_NP_R21_Neg
-        .word   .Land_pow8, 104, .Land_b7_PN
-        .word   .Land_pow8, 160, .Land_b7_PP
-.Land_b8_NP_R21_Neg:
-        .word   .Land_pow8, 104, .Land_b7_NN
-        .word   12, 12, .Land_b7_NP
 .Land_b8_NN:
         .word   .Land_npow8, 100, .Land_b8_NN_R21_Neg
         .word   .Land_npow8, 104, .Land_b7_PN
         .word   .Land_pow8, 160, .Land_b7_PP
 .Land_b8_NN_R21_Neg:
         .word   .Land_npow8, 104, .Land_b7_NN
-        .word   12, 12, .Land_b7_NP
+.Land_b7_NP:
+        .word   .Land_npow7, 100, .Land_b7_NP_R21_Neg
+        .word   .Land_pow7, 104, .Land_b6_PN
+        .word   .Land_pow7, 160, .Land_b6_PP
+.Land_b7_NP_R21_Neg:
+        .word   .Land_pow7, 104, .Land_b6_NN
+        .word   12, 12, .Land_b6_NP
 .Land_b7_PP:
         .word   .Land_pow7, 100, .Land_b7_PP_R21_Neg
         .word   .Land_pow7, 104, .Land_b6_PN
@@ -36834,20 +36769,19 @@ __subleq_and:
 .Land_b7_PN_R21_Neg:
         .word   .Land_npow7, 104, .Land_b6_NN
         .word   12, 12, .Land_b6_NP
-.Land_b7_NP:
-        .word   .Land_npow7, 100, .Land_b7_NP_R21_Neg
-        .word   .Land_pow7, 104, .Land_b6_PN
-        .word   .Land_pow7, 160, .Land_b6_PP
-.Land_b7_NP_R21_Neg:
-        .word   .Land_pow7, 104, .Land_b6_NN
-        .word   12, 12, .Land_b6_NP
 .Land_b7_NN:
         .word   .Land_npow7, 100, .Land_b7_NN_R21_Neg
         .word   .Land_npow7, 104, .Land_b6_PN
         .word   .Land_pow7, 160, .Land_b6_PP
 .Land_b7_NN_R21_Neg:
         .word   .Land_npow7, 104, .Land_b6_NN
-        .word   12, 12, .Land_b6_NP
+.Land_b6_NP:
+        .word   .Land_npow6, 100, .Land_b6_NP_R21_Neg
+        .word   .Land_pow6, 104, .Land_b5_PN
+        .word   .Land_pow6, 160, .Land_b5_PP
+.Land_b6_NP_R21_Neg:
+        .word   .Land_pow6, 104, .Land_b5_NN
+        .word   12, 12, .Land_b5_NP
 .Land_b6_PP:
         .word   .Land_pow6, 100, .Land_b6_PP_R21_Neg
         .word   .Land_pow6, 104, .Land_b5_PN
@@ -36862,20 +36796,19 @@ __subleq_and:
 .Land_b6_PN_R21_Neg:
         .word   .Land_npow6, 104, .Land_b5_NN
         .word   12, 12, .Land_b5_NP
-.Land_b6_NP:
-        .word   .Land_npow6, 100, .Land_b6_NP_R21_Neg
-        .word   .Land_pow6, 104, .Land_b5_PN
-        .word   .Land_pow6, 160, .Land_b5_PP
-.Land_b6_NP_R21_Neg:
-        .word   .Land_pow6, 104, .Land_b5_NN
-        .word   12, 12, .Land_b5_NP
 .Land_b6_NN:
         .word   .Land_npow6, 100, .Land_b6_NN_R21_Neg
         .word   .Land_npow6, 104, .Land_b5_PN
         .word   .Land_pow6, 160, .Land_b5_PP
 .Land_b6_NN_R21_Neg:
         .word   .Land_npow6, 104, .Land_b5_NN
-        .word   12, 12, .Land_b5_NP
+.Land_b5_NP:
+        .word   .Land_npow5, 100, .Land_b5_NP_R21_Neg
+        .word   .Land_pow5, 104, .Land_b4_PN
+        .word   .Land_pow5, 160, .Land_b4_PP
+.Land_b5_NP_R21_Neg:
+        .word   .Land_pow5, 104, .Land_b4_NN
+        .word   12, 12, .Land_b4_NP
 .Land_b5_PP:
         .word   .Land_pow5, 100, .Land_b5_PP_R21_Neg
         .word   .Land_pow5, 104, .Land_b4_PN
@@ -36890,20 +36823,19 @@ __subleq_and:
 .Land_b5_PN_R21_Neg:
         .word   .Land_npow5, 104, .Land_b4_NN
         .word   12, 12, .Land_b4_NP
-.Land_b5_NP:
-        .word   .Land_npow5, 100, .Land_b5_NP_R21_Neg
-        .word   .Land_pow5, 104, .Land_b4_PN
-        .word   .Land_pow5, 160, .Land_b4_PP
-.Land_b5_NP_R21_Neg:
-        .word   .Land_pow5, 104, .Land_b4_NN
-        .word   12, 12, .Land_b4_NP
 .Land_b5_NN:
         .word   .Land_npow5, 100, .Land_b5_NN_R21_Neg
         .word   .Land_npow5, 104, .Land_b4_PN
         .word   .Land_pow5, 160, .Land_b4_PP
 .Land_b5_NN_R21_Neg:
         .word   .Land_npow5, 104, .Land_b4_NN
-        .word   12, 12, .Land_b4_NP
+.Land_b4_NP:
+        .word   .Land_npow4, 100, .Land_b4_NP_R21_Neg
+        .word   .Land_pow4, 104, .Land_b3_PN
+        .word   .Land_pow4, 160, .Land_b3_PP
+.Land_b4_NP_R21_Neg:
+        .word   .Land_pow4, 104, .Land_b3_NN
+        .word   12, 12, .Land_b3_NP
 .Land_b4_PP:
         .word   .Land_pow4, 100, .Land_b4_PP_R21_Neg
         .word   .Land_pow4, 104, .Land_b3_PN
@@ -36918,20 +36850,19 @@ __subleq_and:
 .Land_b4_PN_R21_Neg:
         .word   .Land_npow4, 104, .Land_b3_NN
         .word   12, 12, .Land_b3_NP
-.Land_b4_NP:
-        .word   .Land_npow4, 100, .Land_b4_NP_R21_Neg
-        .word   .Land_pow4, 104, .Land_b3_PN
-        .word   .Land_pow4, 160, .Land_b3_PP
-.Land_b4_NP_R21_Neg:
-        .word   .Land_pow4, 104, .Land_b3_NN
-        .word   12, 12, .Land_b3_NP
 .Land_b4_NN:
         .word   .Land_npow4, 100, .Land_b4_NN_R21_Neg
         .word   .Land_npow4, 104, .Land_b3_PN
         .word   .Land_pow4, 160, .Land_b3_PP
 .Land_b4_NN_R21_Neg:
         .word   .Land_npow4, 104, .Land_b3_NN
-        .word   12, 12, .Land_b3_NP
+.Land_b3_NP:
+        .word   .Land_npow3, 100, .Land_b3_NP_R21_Neg
+        .word   .Land_pow3, 104, .Land_b2_PN
+        .word   .Land_pow3, 160, .Land_b2_PP
+.Land_b3_NP_R21_Neg:
+        .word   .Land_pow3, 104, .Land_b2_NN
+        .word   12, 12, .Land_b2_NP
 .Land_b3_PP:
         .word   .Land_pow3, 100, .Land_b3_PP_R21_Neg
         .word   .Land_pow3, 104, .Land_b2_PN
@@ -36946,20 +36877,19 @@ __subleq_and:
 .Land_b3_PN_R21_Neg:
         .word   .Land_npow3, 104, .Land_b2_NN
         .word   12, 12, .Land_b2_NP
-.Land_b3_NP:
-        .word   .Land_npow3, 100, .Land_b3_NP_R21_Neg
-        .word   .Land_pow3, 104, .Land_b2_PN
-        .word   .Land_pow3, 160, .Land_b2_PP
-.Land_b3_NP_R21_Neg:
-        .word   .Land_pow3, 104, .Land_b2_NN
-        .word   12, 12, .Land_b2_NP
 .Land_b3_NN:
         .word   .Land_npow3, 100, .Land_b3_NN_R21_Neg
         .word   .Land_npow3, 104, .Land_b2_PN
         .word   .Land_pow3, 160, .Land_b2_PP
 .Land_b3_NN_R21_Neg:
         .word   .Land_npow3, 104, .Land_b2_NN
-        .word   12, 12, .Land_b2_NP
+.Land_b2_NP:
+        .word   .Land_npow2, 100, .Land_b2_NP_R21_Neg
+        .word   .Land_pow2, 104, .Land_b1_PN
+        .word   .Land_pow2, 160, .Land_b1_PP
+.Land_b2_NP_R21_Neg:
+        .word   .Land_pow2, 104, .Land_b1_NN
+        .word   12, 12, .Land_b1_NP
 .Land_b2_PP:
         .word   .Land_pow2, 100, .Land_b2_PP_R21_Neg
         .word   .Land_pow2, 104, .Land_b1_PN
@@ -36974,20 +36904,19 @@ __subleq_and:
 .Land_b2_PN_R21_Neg:
         .word   .Land_npow2, 104, .Land_b1_NN
         .word   12, 12, .Land_b1_NP
-.Land_b2_NP:
-        .word   .Land_npow2, 100, .Land_b2_NP_R21_Neg
-        .word   .Land_pow2, 104, .Land_b1_PN
-        .word   .Land_pow2, 160, .Land_b1_PP
-.Land_b2_NP_R21_Neg:
-        .word   .Land_pow2, 104, .Land_b1_NN
-        .word   12, 12, .Land_b1_NP
 .Land_b2_NN:
         .word   .Land_npow2, 100, .Land_b2_NN_R21_Neg
         .word   .Land_npow2, 104, .Land_b1_PN
         .word   .Land_pow2, 160, .Land_b1_PP
 .Land_b2_NN_R21_Neg:
         .word   .Land_npow2, 104, .Land_b1_NN
-        .word   12, 12, .Land_b1_NP
+.Land_b1_NP:
+        .word   .Land_npow1, 100, .Land_b1_NP_R21_Neg
+        .word   .Land_pow1, 104, .Land_b0_PN
+        .word   .Land_pow1, 160, .Land_b0_PP
+.Land_b1_NP_R21_Neg:
+        .word   .Land_pow1, 104, .Land_b0_NN
+        .word   12, 12, .Land_b0_NP
 .Land_b1_PP:
         .word   .Land_pow1, 100, .Land_b1_PP_R21_Neg
         .word   .Land_pow1, 104, .Land_b0_PN
@@ -37002,20 +36931,19 @@ __subleq_and:
 .Land_b1_PN_R21_Neg:
         .word   .Land_npow1, 104, .Land_b0_NN
         .word   12, 12, .Land_b0_NP
-.Land_b1_NP:
-        .word   .Land_npow1, 100, .Land_b1_NP_R21_Neg
-        .word   .Land_pow1, 104, .Land_b0_PN
-        .word   .Land_pow1, 160, .Land_b0_PP
-.Land_b1_NP_R21_Neg:
-        .word   .Land_pow1, 104, .Land_b0_NN
-        .word   12, 12, .Land_b0_NP
 .Land_b1_NN:
         .word   .Land_npow1, 100, .Land_b1_NN_R21_Neg
         .word   .Land_npow1, 104, .Land_b0_PN
         .word   .Land_pow1, 160, .Land_b0_PP
 .Land_b1_NN_R21_Neg:
         .word   .Land_npow1, 104, .Land_b0_NN
-        .word   12, 12, .Land_b0_NP
+.Land_b0_NP:
+        .word   .Land_npow0, 100, .Land_b0_NP_R21_Neg
+        .word   .Land_pow0, 104, .Land_done
+        .word   .Land_pow0, 160, .Land_done
+.Land_b0_NP_R21_Neg:
+        .word   .Land_pow0, 104, .Land_done
+        .word   12, 12, .Land_done
 .Land_b0_PP:
         .word   .Land_pow0, 100, .Land_b0_PP_R21_Neg
         .word   .Land_pow0, 104, .Land_done
@@ -37029,13 +36957,6 @@ __subleq_and:
         .word   .Land_pow0, 160, .Land_done
 .Land_b0_PN_R21_Neg:
         .word   .Land_npow0, 104, .Land_done
-        .word   12, 12, .Land_done
-.Land_b0_NP:
-        .word   .Land_npow0, 100, .Land_b0_NP_R21_Neg
-        .word   .Land_pow0, 104, .Land_done
-        .word   .Land_pow0, 160, .Land_done
-.Land_b0_NP_R21_Neg:
-        .word   .Land_pow0, 104, .Land_done
         .word   12, 12, .Land_done
 .Land_b0_NN:
         .word   .Land_npow0, 100, .Land_b0_NN_R21_Neg
@@ -37052,7 +36973,6 @@ __subleq_and:
         .word   18, 12, .+4
         .word   12, 160, .+4
         .word   .Land_neg4, 16, .+4
-        .word   12, 12, .+4
         .word   12
         .word   12
         .word   162
@@ -37225,7 +37145,6 @@ __subleq_or:
         .word   18, 12, .+4
         .word   12, 160, .+4
         .word   .Lor_r22_neg4, 16, .+4
-        .word   12, 12, .+4
         .word   12
         .word   12
         .word   162
@@ -37235,16 +37154,16 @@ __subleq_or:
         .word   -4
 .Lor_chk_r22_fast:
         .word   144, 104, .Lor_r22_le0_fast
-        .word   12, 12, .Lor_Bit31
+        .word   12, 12, .Lor_small_check
 .Lor_r22_le0_fast:
         .word   168, 168, .+4
         .word   104, 168, .+4
         .word   144, 168, .Lor_r22_ambig_fast
-        .word   12, 12, .Lor_Bit31
+        .word   12, 12, .Lor_small_check
 .Lor_r22_ambig_fast:
         .word   .Lor_one, 168, .+4
         .word   144, 168, .Lor_ret_r21
-        .word   12, 12, .Lor_Bit31
+        .word   12, 12, .Lor_small_check
 .Lor_ret_r21:
         .word   96, 96, .+4
         .word   12, 12, .+4
@@ -37256,7 +37175,6 @@ __subleq_or:
         .word   18, 12, .+4
         .word   12, 160, .+4
         .word   .Lor_r21_neg4, 16, .+4
-        .word   12, 12, .+4
         .word   12
         .word   12
         .word   162
@@ -37264,6 +37182,28 @@ __subleq_or:
         .word   -1
 .Lor_r21_neg4:
         .word   -4
+.Lor_small_check:
+        .word   144, 100, .Lor_Bit31
+        .word   144, 104, .Lor_Bit31
+        .word   100, 12, .+4
+        .word   .Lor_n65536, 12, .Lor_Bit31
+        .word   168, 168, .+4
+        .word   .Lor_n65536, 168, .+4
+        .word   104, 168, .Lor_Bit31
+        .word   168, 168, .+4
+        .word   .Lor_n256, 168, .+4
+        .word   100, 168, .Lor_fast_16bit
+        .word   168, 168, .+4
+        .word   .Lor_n256, 168, .+4
+        .word   104, 168, .Lor_fast_16bit
+.Lor_fast_8bit:
+        .word   .Lor_n1, 100, .+4
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b7_PP
+.Lor_fast_16bit:
+        .word   .Lor_n1, 100, .+4
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b15_PP
 .Lor_Bit31:
         .word   144, 100, .Lor_b31_r21_neg
         .word   12, 12, .Lor_b31_r21_pos
@@ -37320,7 +37260,15 @@ __subleq_or:
 .Lor_b30_PP_A_Neg:
         .word   .Lor_pow30, 104, .Lor_b29_NN
         .word   .Lor_npow30, 160, .+4
-        .word   12, 12, .Lor_b29_NP
+.Lor_b29_NP:
+        .word   .Lor_npow29, 100, .Lor_b29_NP_A_Neg
+        .word   .Lor_npow29, 160, .+4
+        .word   .Lor_pow29, 104, .Lor_b28_PN
+        .word   12, 12, .Lor_b28_PP
+.Lor_b29_NP_A_Neg:
+        .word   .Lor_pow29, 104, .Lor_b28_NN
+        .word   .Lor_npow29, 160, .+4
+        .word   12, 12, .Lor_b28_NP
 .Lor_b29_PP:
         .word   .Lor_pow29, 100, .Lor_b29_PP_A_Neg
         .word   .Lor_npow29, 160, .+4
@@ -37339,15 +37287,6 @@ __subleq_or:
         .word   .Lor_npow29, 104, .Lor_b28_NN
         .word   .Lor_npow29, 160, .+4
         .word   12, 12, .Lor_b28_NP
-.Lor_b29_NP:
-        .word   .Lor_npow29, 100, .Lor_b29_NP_A_Neg
-        .word   .Lor_npow29, 160, .+4
-        .word   .Lor_pow29, 104, .Lor_b28_PN
-        .word   12, 12, .Lor_b28_PP
-.Lor_b29_NP_A_Neg:
-        .word   .Lor_pow29, 104, .Lor_b28_NN
-        .word   .Lor_npow29, 160, .+4
-        .word   12, 12, .Lor_b28_NP
 .Lor_b29_NN:
         .word   .Lor_npow29, 100, .Lor_b29_NN_A_Neg
         .word   .Lor_npow29, 160, .+4
@@ -37356,7 +37295,15 @@ __subleq_or:
 .Lor_b29_NN_A_Neg:
         .word   .Lor_npow29, 104, .Lor_b28_NN
         .word   .Lor_npow29, 160, .+4
-        .word   12, 12, .Lor_b28_NP
+.Lor_b28_NP:
+        .word   .Lor_npow28, 100, .Lor_b28_NP_A_Neg
+        .word   .Lor_npow28, 160, .+4
+        .word   .Lor_pow28, 104, .Lor_b27_PN
+        .word   12, 12, .Lor_b27_PP
+.Lor_b28_NP_A_Neg:
+        .word   .Lor_pow28, 104, .Lor_b27_NN
+        .word   .Lor_npow28, 160, .+4
+        .word   12, 12, .Lor_b27_NP
 .Lor_b28_PP:
         .word   .Lor_pow28, 100, .Lor_b28_PP_A_Neg
         .word   .Lor_npow28, 160, .+4
@@ -37375,15 +37322,6 @@ __subleq_or:
         .word   .Lor_npow28, 104, .Lor_b27_NN
         .word   .Lor_npow28, 160, .+4
         .word   12, 12, .Lor_b27_NP
-.Lor_b28_NP:
-        .word   .Lor_npow28, 100, .Lor_b28_NP_A_Neg
-        .word   .Lor_npow28, 160, .+4
-        .word   .Lor_pow28, 104, .Lor_b27_PN
-        .word   12, 12, .Lor_b27_PP
-.Lor_b28_NP_A_Neg:
-        .word   .Lor_pow28, 104, .Lor_b27_NN
-        .word   .Lor_npow28, 160, .+4
-        .word   12, 12, .Lor_b27_NP
 .Lor_b28_NN:
         .word   .Lor_npow28, 100, .Lor_b28_NN_A_Neg
         .word   .Lor_npow28, 160, .+4
@@ -37392,7 +37330,15 @@ __subleq_or:
 .Lor_b28_NN_A_Neg:
         .word   .Lor_npow28, 104, .Lor_b27_NN
         .word   .Lor_npow28, 160, .+4
-        .word   12, 12, .Lor_b27_NP
+.Lor_b27_NP:
+        .word   .Lor_npow27, 100, .Lor_b27_NP_A_Neg
+        .word   .Lor_npow27, 160, .+4
+        .word   .Lor_pow27, 104, .Lor_b26_PN
+        .word   12, 12, .Lor_b26_PP
+.Lor_b27_NP_A_Neg:
+        .word   .Lor_pow27, 104, .Lor_b26_NN
+        .word   .Lor_npow27, 160, .+4
+        .word   12, 12, .Lor_b26_NP
 .Lor_b27_PP:
         .word   .Lor_pow27, 100, .Lor_b27_PP_A_Neg
         .word   .Lor_npow27, 160, .+4
@@ -37411,15 +37357,6 @@ __subleq_or:
         .word   .Lor_npow27, 104, .Lor_b26_NN
         .word   .Lor_npow27, 160, .+4
         .word   12, 12, .Lor_b26_NP
-.Lor_b27_NP:
-        .word   .Lor_npow27, 100, .Lor_b27_NP_A_Neg
-        .word   .Lor_npow27, 160, .+4
-        .word   .Lor_pow27, 104, .Lor_b26_PN
-        .word   12, 12, .Lor_b26_PP
-.Lor_b27_NP_A_Neg:
-        .word   .Lor_pow27, 104, .Lor_b26_NN
-        .word   .Lor_npow27, 160, .+4
-        .word   12, 12, .Lor_b26_NP
 .Lor_b27_NN:
         .word   .Lor_npow27, 100, .Lor_b27_NN_A_Neg
         .word   .Lor_npow27, 160, .+4
@@ -37428,7 +37365,15 @@ __subleq_or:
 .Lor_b27_NN_A_Neg:
         .word   .Lor_npow27, 104, .Lor_b26_NN
         .word   .Lor_npow27, 160, .+4
-        .word   12, 12, .Lor_b26_NP
+.Lor_b26_NP:
+        .word   .Lor_npow26, 100, .Lor_b26_NP_A_Neg
+        .word   .Lor_npow26, 160, .+4
+        .word   .Lor_pow26, 104, .Lor_b25_PN
+        .word   12, 12, .Lor_b25_PP
+.Lor_b26_NP_A_Neg:
+        .word   .Lor_pow26, 104, .Lor_b25_NN
+        .word   .Lor_npow26, 160, .+4
+        .word   12, 12, .Lor_b25_NP
 .Lor_b26_PP:
         .word   .Lor_pow26, 100, .Lor_b26_PP_A_Neg
         .word   .Lor_npow26, 160, .+4
@@ -37447,15 +37392,6 @@ __subleq_or:
         .word   .Lor_npow26, 104, .Lor_b25_NN
         .word   .Lor_npow26, 160, .+4
         .word   12, 12, .Lor_b25_NP
-.Lor_b26_NP:
-        .word   .Lor_npow26, 100, .Lor_b26_NP_A_Neg
-        .word   .Lor_npow26, 160, .+4
-        .word   .Lor_pow26, 104, .Lor_b25_PN
-        .word   12, 12, .Lor_b25_PP
-.Lor_b26_NP_A_Neg:
-        .word   .Lor_pow26, 104, .Lor_b25_NN
-        .word   .Lor_npow26, 160, .+4
-        .word   12, 12, .Lor_b25_NP
 .Lor_b26_NN:
         .word   .Lor_npow26, 100, .Lor_b26_NN_A_Neg
         .word   .Lor_npow26, 160, .+4
@@ -37464,7 +37400,15 @@ __subleq_or:
 .Lor_b26_NN_A_Neg:
         .word   .Lor_npow26, 104, .Lor_b25_NN
         .word   .Lor_npow26, 160, .+4
-        .word   12, 12, .Lor_b25_NP
+.Lor_b25_NP:
+        .word   .Lor_npow25, 100, .Lor_b25_NP_A_Neg
+        .word   .Lor_npow25, 160, .+4
+        .word   .Lor_pow25, 104, .Lor_b24_PN
+        .word   12, 12, .Lor_b24_PP
+.Lor_b25_NP_A_Neg:
+        .word   .Lor_pow25, 104, .Lor_b24_NN
+        .word   .Lor_npow25, 160, .+4
+        .word   12, 12, .Lor_b24_NP
 .Lor_b25_PP:
         .word   .Lor_pow25, 100, .Lor_b25_PP_A_Neg
         .word   .Lor_npow25, 160, .+4
@@ -37483,15 +37427,6 @@ __subleq_or:
         .word   .Lor_npow25, 104, .Lor_b24_NN
         .word   .Lor_npow25, 160, .+4
         .word   12, 12, .Lor_b24_NP
-.Lor_b25_NP:
-        .word   .Lor_npow25, 100, .Lor_b25_NP_A_Neg
-        .word   .Lor_npow25, 160, .+4
-        .word   .Lor_pow25, 104, .Lor_b24_PN
-        .word   12, 12, .Lor_b24_PP
-.Lor_b25_NP_A_Neg:
-        .word   .Lor_pow25, 104, .Lor_b24_NN
-        .word   .Lor_npow25, 160, .+4
-        .word   12, 12, .Lor_b24_NP
 .Lor_b25_NN:
         .word   .Lor_npow25, 100, .Lor_b25_NN_A_Neg
         .word   .Lor_npow25, 160, .+4
@@ -37500,7 +37435,15 @@ __subleq_or:
 .Lor_b25_NN_A_Neg:
         .word   .Lor_npow25, 104, .Lor_b24_NN
         .word   .Lor_npow25, 160, .+4
-        .word   12, 12, .Lor_b24_NP
+.Lor_b24_NP:
+        .word   .Lor_npow24, 100, .Lor_b24_NP_A_Neg
+        .word   .Lor_npow24, 160, .+4
+        .word   .Lor_pow24, 104, .Lor_b23_PN
+        .word   12, 12, .Lor_b23_PP
+.Lor_b24_NP_A_Neg:
+        .word   .Lor_pow24, 104, .Lor_b23_NN
+        .word   .Lor_npow24, 160, .+4
+        .word   12, 12, .Lor_b23_NP
 .Lor_b24_PP:
         .word   .Lor_pow24, 100, .Lor_b24_PP_A_Neg
         .word   .Lor_npow24, 160, .+4
@@ -37519,15 +37462,6 @@ __subleq_or:
         .word   .Lor_npow24, 104, .Lor_b23_NN
         .word   .Lor_npow24, 160, .+4
         .word   12, 12, .Lor_b23_NP
-.Lor_b24_NP:
-        .word   .Lor_npow24, 100, .Lor_b24_NP_A_Neg
-        .word   .Lor_npow24, 160, .+4
-        .word   .Lor_pow24, 104, .Lor_b23_PN
-        .word   12, 12, .Lor_b23_PP
-.Lor_b24_NP_A_Neg:
-        .word   .Lor_pow24, 104, .Lor_b23_NN
-        .word   .Lor_npow24, 160, .+4
-        .word   12, 12, .Lor_b23_NP
 .Lor_b24_NN:
         .word   .Lor_npow24, 100, .Lor_b24_NN_A_Neg
         .word   .Lor_npow24, 160, .+4
@@ -37536,7 +37470,15 @@ __subleq_or:
 .Lor_b24_NN_A_Neg:
         .word   .Lor_npow24, 104, .Lor_b23_NN
         .word   .Lor_npow24, 160, .+4
-        .word   12, 12, .Lor_b23_NP
+.Lor_b23_NP:
+        .word   .Lor_npow23, 100, .Lor_b23_NP_A_Neg
+        .word   .Lor_npow23, 160, .+4
+        .word   .Lor_pow23, 104, .Lor_b22_PN
+        .word   12, 12, .Lor_b22_PP
+.Lor_b23_NP_A_Neg:
+        .word   .Lor_pow23, 104, .Lor_b22_NN
+        .word   .Lor_npow23, 160, .+4
+        .word   12, 12, .Lor_b22_NP
 .Lor_b23_PP:
         .word   .Lor_pow23, 100, .Lor_b23_PP_A_Neg
         .word   .Lor_npow23, 160, .+4
@@ -37555,15 +37497,6 @@ __subleq_or:
         .word   .Lor_npow23, 104, .Lor_b22_NN
         .word   .Lor_npow23, 160, .+4
         .word   12, 12, .Lor_b22_NP
-.Lor_b23_NP:
-        .word   .Lor_npow23, 100, .Lor_b23_NP_A_Neg
-        .word   .Lor_npow23, 160, .+4
-        .word   .Lor_pow23, 104, .Lor_b22_PN
-        .word   12, 12, .Lor_b22_PP
-.Lor_b23_NP_A_Neg:
-        .word   .Lor_pow23, 104, .Lor_b22_NN
-        .word   .Lor_npow23, 160, .+4
-        .word   12, 12, .Lor_b22_NP
 .Lor_b23_NN:
         .word   .Lor_npow23, 100, .Lor_b23_NN_A_Neg
         .word   .Lor_npow23, 160, .+4
@@ -37572,7 +37505,15 @@ __subleq_or:
 .Lor_b23_NN_A_Neg:
         .word   .Lor_npow23, 104, .Lor_b22_NN
         .word   .Lor_npow23, 160, .+4
-        .word   12, 12, .Lor_b22_NP
+.Lor_b22_NP:
+        .word   .Lor_npow22, 100, .Lor_b22_NP_A_Neg
+        .word   .Lor_npow22, 160, .+4
+        .word   .Lor_pow22, 104, .Lor_b21_PN
+        .word   12, 12, .Lor_b21_PP
+.Lor_b22_NP_A_Neg:
+        .word   .Lor_pow22, 104, .Lor_b21_NN
+        .word   .Lor_npow22, 160, .+4
+        .word   12, 12, .Lor_b21_NP
 .Lor_b22_PP:
         .word   .Lor_pow22, 100, .Lor_b22_PP_A_Neg
         .word   .Lor_npow22, 160, .+4
@@ -37591,15 +37532,6 @@ __subleq_or:
         .word   .Lor_npow22, 104, .Lor_b21_NN
         .word   .Lor_npow22, 160, .+4
         .word   12, 12, .Lor_b21_NP
-.Lor_b22_NP:
-        .word   .Lor_npow22, 100, .Lor_b22_NP_A_Neg
-        .word   .Lor_npow22, 160, .+4
-        .word   .Lor_pow22, 104, .Lor_b21_PN
-        .word   12, 12, .Lor_b21_PP
-.Lor_b22_NP_A_Neg:
-        .word   .Lor_pow22, 104, .Lor_b21_NN
-        .word   .Lor_npow22, 160, .+4
-        .word   12, 12, .Lor_b21_NP
 .Lor_b22_NN:
         .word   .Lor_npow22, 100, .Lor_b22_NN_A_Neg
         .word   .Lor_npow22, 160, .+4
@@ -37608,7 +37540,15 @@ __subleq_or:
 .Lor_b22_NN_A_Neg:
         .word   .Lor_npow22, 104, .Lor_b21_NN
         .word   .Lor_npow22, 160, .+4
-        .word   12, 12, .Lor_b21_NP
+.Lor_b21_NP:
+        .word   .Lor_npow21, 100, .Lor_b21_NP_A_Neg
+        .word   .Lor_npow21, 160, .+4
+        .word   .Lor_pow21, 104, .Lor_b20_PN
+        .word   12, 12, .Lor_b20_PP
+.Lor_b21_NP_A_Neg:
+        .word   .Lor_pow21, 104, .Lor_b20_NN
+        .word   .Lor_npow21, 160, .+4
+        .word   12, 12, .Lor_b20_NP
 .Lor_b21_PP:
         .word   .Lor_pow21, 100, .Lor_b21_PP_A_Neg
         .word   .Lor_npow21, 160, .+4
@@ -37627,15 +37567,6 @@ __subleq_or:
         .word   .Lor_npow21, 104, .Lor_b20_NN
         .word   .Lor_npow21, 160, .+4
         .word   12, 12, .Lor_b20_NP
-.Lor_b21_NP:
-        .word   .Lor_npow21, 100, .Lor_b21_NP_A_Neg
-        .word   .Lor_npow21, 160, .+4
-        .word   .Lor_pow21, 104, .Lor_b20_PN
-        .word   12, 12, .Lor_b20_PP
-.Lor_b21_NP_A_Neg:
-        .word   .Lor_pow21, 104, .Lor_b20_NN
-        .word   .Lor_npow21, 160, .+4
-        .word   12, 12, .Lor_b20_NP
 .Lor_b21_NN:
         .word   .Lor_npow21, 100, .Lor_b21_NN_A_Neg
         .word   .Lor_npow21, 160, .+4
@@ -37644,7 +37575,15 @@ __subleq_or:
 .Lor_b21_NN_A_Neg:
         .word   .Lor_npow21, 104, .Lor_b20_NN
         .word   .Lor_npow21, 160, .+4
-        .word   12, 12, .Lor_b20_NP
+.Lor_b20_NP:
+        .word   .Lor_npow20, 100, .Lor_b20_NP_A_Neg
+        .word   .Lor_npow20, 160, .+4
+        .word   .Lor_pow20, 104, .Lor_b19_PN
+        .word   12, 12, .Lor_b19_PP
+.Lor_b20_NP_A_Neg:
+        .word   .Lor_pow20, 104, .Lor_b19_NN
+        .word   .Lor_npow20, 160, .+4
+        .word   12, 12, .Lor_b19_NP
 .Lor_b20_PP:
         .word   .Lor_pow20, 100, .Lor_b20_PP_A_Neg
         .word   .Lor_npow20, 160, .+4
@@ -37663,15 +37602,6 @@ __subleq_or:
         .word   .Lor_npow20, 104, .Lor_b19_NN
         .word   .Lor_npow20, 160, .+4
         .word   12, 12, .Lor_b19_NP
-.Lor_b20_NP:
-        .word   .Lor_npow20, 100, .Lor_b20_NP_A_Neg
-        .word   .Lor_npow20, 160, .+4
-        .word   .Lor_pow20, 104, .Lor_b19_PN
-        .word   12, 12, .Lor_b19_PP
-.Lor_b20_NP_A_Neg:
-        .word   .Lor_pow20, 104, .Lor_b19_NN
-        .word   .Lor_npow20, 160, .+4
-        .word   12, 12, .Lor_b19_NP
 .Lor_b20_NN:
         .word   .Lor_npow20, 100, .Lor_b20_NN_A_Neg
         .word   .Lor_npow20, 160, .+4
@@ -37680,7 +37610,15 @@ __subleq_or:
 .Lor_b20_NN_A_Neg:
         .word   .Lor_npow20, 104, .Lor_b19_NN
         .word   .Lor_npow20, 160, .+4
-        .word   12, 12, .Lor_b19_NP
+.Lor_b19_NP:
+        .word   .Lor_npow19, 100, .Lor_b19_NP_A_Neg
+        .word   .Lor_npow19, 160, .+4
+        .word   .Lor_pow19, 104, .Lor_b18_PN
+        .word   12, 12, .Lor_b18_PP
+.Lor_b19_NP_A_Neg:
+        .word   .Lor_pow19, 104, .Lor_b18_NN
+        .word   .Lor_npow19, 160, .+4
+        .word   12, 12, .Lor_b18_NP
 .Lor_b19_PP:
         .word   .Lor_pow19, 100, .Lor_b19_PP_A_Neg
         .word   .Lor_npow19, 160, .+4
@@ -37699,15 +37637,6 @@ __subleq_or:
         .word   .Lor_npow19, 104, .Lor_b18_NN
         .word   .Lor_npow19, 160, .+4
         .word   12, 12, .Lor_b18_NP
-.Lor_b19_NP:
-        .word   .Lor_npow19, 100, .Lor_b19_NP_A_Neg
-        .word   .Lor_npow19, 160, .+4
-        .word   .Lor_pow19, 104, .Lor_b18_PN
-        .word   12, 12, .Lor_b18_PP
-.Lor_b19_NP_A_Neg:
-        .word   .Lor_pow19, 104, .Lor_b18_NN
-        .word   .Lor_npow19, 160, .+4
-        .word   12, 12, .Lor_b18_NP
 .Lor_b19_NN:
         .word   .Lor_npow19, 100, .Lor_b19_NN_A_Neg
         .word   .Lor_npow19, 160, .+4
@@ -37716,7 +37645,15 @@ __subleq_or:
 .Lor_b19_NN_A_Neg:
         .word   .Lor_npow19, 104, .Lor_b18_NN
         .word   .Lor_npow19, 160, .+4
-        .word   12, 12, .Lor_b18_NP
+.Lor_b18_NP:
+        .word   .Lor_npow18, 100, .Lor_b18_NP_A_Neg
+        .word   .Lor_npow18, 160, .+4
+        .word   .Lor_pow18, 104, .Lor_b17_PN
+        .word   12, 12, .Lor_b17_PP
+.Lor_b18_NP_A_Neg:
+        .word   .Lor_pow18, 104, .Lor_b17_NN
+        .word   .Lor_npow18, 160, .+4
+        .word   12, 12, .Lor_b17_NP
 .Lor_b18_PP:
         .word   .Lor_pow18, 100, .Lor_b18_PP_A_Neg
         .word   .Lor_npow18, 160, .+4
@@ -37735,15 +37672,6 @@ __subleq_or:
         .word   .Lor_npow18, 104, .Lor_b17_NN
         .word   .Lor_npow18, 160, .+4
         .word   12, 12, .Lor_b17_NP
-.Lor_b18_NP:
-        .word   .Lor_npow18, 100, .Lor_b18_NP_A_Neg
-        .word   .Lor_npow18, 160, .+4
-        .word   .Lor_pow18, 104, .Lor_b17_PN
-        .word   12, 12, .Lor_b17_PP
-.Lor_b18_NP_A_Neg:
-        .word   .Lor_pow18, 104, .Lor_b17_NN
-        .word   .Lor_npow18, 160, .+4
-        .word   12, 12, .Lor_b17_NP
 .Lor_b18_NN:
         .word   .Lor_npow18, 100, .Lor_b18_NN_A_Neg
         .word   .Lor_npow18, 160, .+4
@@ -37752,7 +37680,15 @@ __subleq_or:
 .Lor_b18_NN_A_Neg:
         .word   .Lor_npow18, 104, .Lor_b17_NN
         .word   .Lor_npow18, 160, .+4
-        .word   12, 12, .Lor_b17_NP
+.Lor_b17_NP:
+        .word   .Lor_npow17, 100, .Lor_b17_NP_A_Neg
+        .word   .Lor_npow17, 160, .+4
+        .word   .Lor_pow17, 104, .Lor_b16_PN
+        .word   12, 12, .Lor_b16_PP
+.Lor_b17_NP_A_Neg:
+        .word   .Lor_pow17, 104, .Lor_b16_NN
+        .word   .Lor_npow17, 160, .+4
+        .word   12, 12, .Lor_b16_NP
 .Lor_b17_PP:
         .word   .Lor_pow17, 100, .Lor_b17_PP_A_Neg
         .word   .Lor_npow17, 160, .+4
@@ -37771,15 +37707,6 @@ __subleq_or:
         .word   .Lor_npow17, 104, .Lor_b16_NN
         .word   .Lor_npow17, 160, .+4
         .word   12, 12, .Lor_b16_NP
-.Lor_b17_NP:
-        .word   .Lor_npow17, 100, .Lor_b17_NP_A_Neg
-        .word   .Lor_npow17, 160, .+4
-        .word   .Lor_pow17, 104, .Lor_b16_PN
-        .word   12, 12, .Lor_b16_PP
-.Lor_b17_NP_A_Neg:
-        .word   .Lor_pow17, 104, .Lor_b16_NN
-        .word   .Lor_npow17, 160, .+4
-        .word   12, 12, .Lor_b16_NP
 .Lor_b17_NN:
         .word   .Lor_npow17, 100, .Lor_b17_NN_A_Neg
         .word   .Lor_npow17, 160, .+4
@@ -37788,7 +37715,15 @@ __subleq_or:
 .Lor_b17_NN_A_Neg:
         .word   .Lor_npow17, 104, .Lor_b16_NN
         .word   .Lor_npow17, 160, .+4
-        .word   12, 12, .Lor_b16_NP
+.Lor_b16_NP:
+        .word   .Lor_npow16, 100, .Lor_b16_NP_A_Neg
+        .word   .Lor_npow16, 160, .+4
+        .word   .Lor_pow16, 104, .Lor_b15_PN
+        .word   12, 12, .Lor_b15_PP
+.Lor_b16_NP_A_Neg:
+        .word   .Lor_pow16, 104, .Lor_b15_NN
+        .word   .Lor_npow16, 160, .+4
+        .word   12, 12, .Lor_b15_NP
 .Lor_b16_PP:
         .word   .Lor_pow16, 100, .Lor_b16_PP_A_Neg
         .word   .Lor_npow16, 160, .+4
@@ -37807,15 +37742,6 @@ __subleq_or:
         .word   .Lor_npow16, 104, .Lor_b15_NN
         .word   .Lor_npow16, 160, .+4
         .word   12, 12, .Lor_b15_NP
-.Lor_b16_NP:
-        .word   .Lor_npow16, 100, .Lor_b16_NP_A_Neg
-        .word   .Lor_npow16, 160, .+4
-        .word   .Lor_pow16, 104, .Lor_b15_PN
-        .word   12, 12, .Lor_b15_PP
-.Lor_b16_NP_A_Neg:
-        .word   .Lor_pow16, 104, .Lor_b15_NN
-        .word   .Lor_npow16, 160, .+4
-        .word   12, 12, .Lor_b15_NP
 .Lor_b16_NN:
         .word   .Lor_npow16, 100, .Lor_b16_NN_A_Neg
         .word   .Lor_npow16, 160, .+4
@@ -37824,7 +37750,15 @@ __subleq_or:
 .Lor_b16_NN_A_Neg:
         .word   .Lor_npow16, 104, .Lor_b15_NN
         .word   .Lor_npow16, 160, .+4
-        .word   12, 12, .Lor_b15_NP
+.Lor_b15_NP:
+        .word   .Lor_npow15, 100, .Lor_b15_NP_A_Neg
+        .word   .Lor_npow15, 160, .+4
+        .word   .Lor_pow15, 104, .Lor_b14_PN
+        .word   12, 12, .Lor_b14_PP
+.Lor_b15_NP_A_Neg:
+        .word   .Lor_pow15, 104, .Lor_b14_NN
+        .word   .Lor_npow15, 160, .+4
+        .word   12, 12, .Lor_b14_NP
 .Lor_b15_PP:
         .word   .Lor_pow15, 100, .Lor_b15_PP_A_Neg
         .word   .Lor_npow15, 160, .+4
@@ -37843,15 +37777,6 @@ __subleq_or:
         .word   .Lor_npow15, 104, .Lor_b14_NN
         .word   .Lor_npow15, 160, .+4
         .word   12, 12, .Lor_b14_NP
-.Lor_b15_NP:
-        .word   .Lor_npow15, 100, .Lor_b15_NP_A_Neg
-        .word   .Lor_npow15, 160, .+4
-        .word   .Lor_pow15, 104, .Lor_b14_PN
-        .word   12, 12, .Lor_b14_PP
-.Lor_b15_NP_A_Neg:
-        .word   .Lor_pow15, 104, .Lor_b14_NN
-        .word   .Lor_npow15, 160, .+4
-        .word   12, 12, .Lor_b14_NP
 .Lor_b15_NN:
         .word   .Lor_npow15, 100, .Lor_b15_NN_A_Neg
         .word   .Lor_npow15, 160, .+4
@@ -37860,7 +37785,15 @@ __subleq_or:
 .Lor_b15_NN_A_Neg:
         .word   .Lor_npow15, 104, .Lor_b14_NN
         .word   .Lor_npow15, 160, .+4
-        .word   12, 12, .Lor_b14_NP
+.Lor_b14_NP:
+        .word   .Lor_npow14, 100, .Lor_b14_NP_A_Neg
+        .word   .Lor_npow14, 160, .+4
+        .word   .Lor_pow14, 104, .Lor_b13_PN
+        .word   12, 12, .Lor_b13_PP
+.Lor_b14_NP_A_Neg:
+        .word   .Lor_pow14, 104, .Lor_b13_NN
+        .word   .Lor_npow14, 160, .+4
+        .word   12, 12, .Lor_b13_NP
 .Lor_b14_PP:
         .word   .Lor_pow14, 100, .Lor_b14_PP_A_Neg
         .word   .Lor_npow14, 160, .+4
@@ -37879,15 +37812,6 @@ __subleq_or:
         .word   .Lor_npow14, 104, .Lor_b13_NN
         .word   .Lor_npow14, 160, .+4
         .word   12, 12, .Lor_b13_NP
-.Lor_b14_NP:
-        .word   .Lor_npow14, 100, .Lor_b14_NP_A_Neg
-        .word   .Lor_npow14, 160, .+4
-        .word   .Lor_pow14, 104, .Lor_b13_PN
-        .word   12, 12, .Lor_b13_PP
-.Lor_b14_NP_A_Neg:
-        .word   .Lor_pow14, 104, .Lor_b13_NN
-        .word   .Lor_npow14, 160, .+4
-        .word   12, 12, .Lor_b13_NP
 .Lor_b14_NN:
         .word   .Lor_npow14, 100, .Lor_b14_NN_A_Neg
         .word   .Lor_npow14, 160, .+4
@@ -37896,7 +37820,15 @@ __subleq_or:
 .Lor_b14_NN_A_Neg:
         .word   .Lor_npow14, 104, .Lor_b13_NN
         .word   .Lor_npow14, 160, .+4
-        .word   12, 12, .Lor_b13_NP
+.Lor_b13_NP:
+        .word   .Lor_npow13, 100, .Lor_b13_NP_A_Neg
+        .word   .Lor_npow13, 160, .+4
+        .word   .Lor_pow13, 104, .Lor_b12_PN
+        .word   12, 12, .Lor_b12_PP
+.Lor_b13_NP_A_Neg:
+        .word   .Lor_pow13, 104, .Lor_b12_NN
+        .word   .Lor_npow13, 160, .+4
+        .word   12, 12, .Lor_b12_NP
 .Lor_b13_PP:
         .word   .Lor_pow13, 100, .Lor_b13_PP_A_Neg
         .word   .Lor_npow13, 160, .+4
@@ -37915,15 +37847,6 @@ __subleq_or:
         .word   .Lor_npow13, 104, .Lor_b12_NN
         .word   .Lor_npow13, 160, .+4
         .word   12, 12, .Lor_b12_NP
-.Lor_b13_NP:
-        .word   .Lor_npow13, 100, .Lor_b13_NP_A_Neg
-        .word   .Lor_npow13, 160, .+4
-        .word   .Lor_pow13, 104, .Lor_b12_PN
-        .word   12, 12, .Lor_b12_PP
-.Lor_b13_NP_A_Neg:
-        .word   .Lor_pow13, 104, .Lor_b12_NN
-        .word   .Lor_npow13, 160, .+4
-        .word   12, 12, .Lor_b12_NP
 .Lor_b13_NN:
         .word   .Lor_npow13, 100, .Lor_b13_NN_A_Neg
         .word   .Lor_npow13, 160, .+4
@@ -37932,7 +37855,15 @@ __subleq_or:
 .Lor_b13_NN_A_Neg:
         .word   .Lor_npow13, 104, .Lor_b12_NN
         .word   .Lor_npow13, 160, .+4
-        .word   12, 12, .Lor_b12_NP
+.Lor_b12_NP:
+        .word   .Lor_npow12, 100, .Lor_b12_NP_A_Neg
+        .word   .Lor_npow12, 160, .+4
+        .word   .Lor_pow12, 104, .Lor_b11_PN
+        .word   12, 12, .Lor_b11_PP
+.Lor_b12_NP_A_Neg:
+        .word   .Lor_pow12, 104, .Lor_b11_NN
+        .word   .Lor_npow12, 160, .+4
+        .word   12, 12, .Lor_b11_NP
 .Lor_b12_PP:
         .word   .Lor_pow12, 100, .Lor_b12_PP_A_Neg
         .word   .Lor_npow12, 160, .+4
@@ -37951,15 +37882,6 @@ __subleq_or:
         .word   .Lor_npow12, 104, .Lor_b11_NN
         .word   .Lor_npow12, 160, .+4
         .word   12, 12, .Lor_b11_NP
-.Lor_b12_NP:
-        .word   .Lor_npow12, 100, .Lor_b12_NP_A_Neg
-        .word   .Lor_npow12, 160, .+4
-        .word   .Lor_pow12, 104, .Lor_b11_PN
-        .word   12, 12, .Lor_b11_PP
-.Lor_b12_NP_A_Neg:
-        .word   .Lor_pow12, 104, .Lor_b11_NN
-        .word   .Lor_npow12, 160, .+4
-        .word   12, 12, .Lor_b11_NP
 .Lor_b12_NN:
         .word   .Lor_npow12, 100, .Lor_b12_NN_A_Neg
         .word   .Lor_npow12, 160, .+4
@@ -37968,7 +37890,15 @@ __subleq_or:
 .Lor_b12_NN_A_Neg:
         .word   .Lor_npow12, 104, .Lor_b11_NN
         .word   .Lor_npow12, 160, .+4
-        .word   12, 12, .Lor_b11_NP
+.Lor_b11_NP:
+        .word   .Lor_npow11, 100, .Lor_b11_NP_A_Neg
+        .word   .Lor_npow11, 160, .+4
+        .word   .Lor_pow11, 104, .Lor_b10_PN
+        .word   12, 12, .Lor_b10_PP
+.Lor_b11_NP_A_Neg:
+        .word   .Lor_pow11, 104, .Lor_b10_NN
+        .word   .Lor_npow11, 160, .+4
+        .word   12, 12, .Lor_b10_NP
 .Lor_b11_PP:
         .word   .Lor_pow11, 100, .Lor_b11_PP_A_Neg
         .word   .Lor_npow11, 160, .+4
@@ -37987,15 +37917,6 @@ __subleq_or:
         .word   .Lor_npow11, 104, .Lor_b10_NN
         .word   .Lor_npow11, 160, .+4
         .word   12, 12, .Lor_b10_NP
-.Lor_b11_NP:
-        .word   .Lor_npow11, 100, .Lor_b11_NP_A_Neg
-        .word   .Lor_npow11, 160, .+4
-        .word   .Lor_pow11, 104, .Lor_b10_PN
-        .word   12, 12, .Lor_b10_PP
-.Lor_b11_NP_A_Neg:
-        .word   .Lor_pow11, 104, .Lor_b10_NN
-        .word   .Lor_npow11, 160, .+4
-        .word   12, 12, .Lor_b10_NP
 .Lor_b11_NN:
         .word   .Lor_npow11, 100, .Lor_b11_NN_A_Neg
         .word   .Lor_npow11, 160, .+4
@@ -38004,7 +37925,15 @@ __subleq_or:
 .Lor_b11_NN_A_Neg:
         .word   .Lor_npow11, 104, .Lor_b10_NN
         .word   .Lor_npow11, 160, .+4
-        .word   12, 12, .Lor_b10_NP
+.Lor_b10_NP:
+        .word   .Lor_npow10, 100, .Lor_b10_NP_A_Neg
+        .word   .Lor_npow10, 160, .+4
+        .word   .Lor_pow10, 104, .Lor_b9_PN
+        .word   12, 12, .Lor_b9_PP
+.Lor_b10_NP_A_Neg:
+        .word   .Lor_pow10, 104, .Lor_b9_NN
+        .word   .Lor_npow10, 160, .+4
+        .word   12, 12, .Lor_b9_NP
 .Lor_b10_PP:
         .word   .Lor_pow10, 100, .Lor_b10_PP_A_Neg
         .word   .Lor_npow10, 160, .+4
@@ -38023,15 +37952,6 @@ __subleq_or:
         .word   .Lor_npow10, 104, .Lor_b9_NN
         .word   .Lor_npow10, 160, .+4
         .word   12, 12, .Lor_b9_NP
-.Lor_b10_NP:
-        .word   .Lor_npow10, 100, .Lor_b10_NP_A_Neg
-        .word   .Lor_npow10, 160, .+4
-        .word   .Lor_pow10, 104, .Lor_b9_PN
-        .word   12, 12, .Lor_b9_PP
-.Lor_b10_NP_A_Neg:
-        .word   .Lor_pow10, 104, .Lor_b9_NN
-        .word   .Lor_npow10, 160, .+4
-        .word   12, 12, .Lor_b9_NP
 .Lor_b10_NN:
         .word   .Lor_npow10, 100, .Lor_b10_NN_A_Neg
         .word   .Lor_npow10, 160, .+4
@@ -38040,7 +37960,15 @@ __subleq_or:
 .Lor_b10_NN_A_Neg:
         .word   .Lor_npow10, 104, .Lor_b9_NN
         .word   .Lor_npow10, 160, .+4
-        .word   12, 12, .Lor_b9_NP
+.Lor_b9_NP:
+        .word   .Lor_npow9, 100, .Lor_b9_NP_A_Neg
+        .word   .Lor_npow9, 160, .+4
+        .word   .Lor_pow9, 104, .Lor_b8_PN
+        .word   12, 12, .Lor_b8_PP
+.Lor_b9_NP_A_Neg:
+        .word   .Lor_pow9, 104, .Lor_b8_NN
+        .word   .Lor_npow9, 160, .+4
+        .word   12, 12, .Lor_b8_NP
 .Lor_b9_PP:
         .word   .Lor_pow9, 100, .Lor_b9_PP_A_Neg
         .word   .Lor_npow9, 160, .+4
@@ -38059,15 +37987,6 @@ __subleq_or:
         .word   .Lor_npow9, 104, .Lor_b8_NN
         .word   .Lor_npow9, 160, .+4
         .word   12, 12, .Lor_b8_NP
-.Lor_b9_NP:
-        .word   .Lor_npow9, 100, .Lor_b9_NP_A_Neg
-        .word   .Lor_npow9, 160, .+4
-        .word   .Lor_pow9, 104, .Lor_b8_PN
-        .word   12, 12, .Lor_b8_PP
-.Lor_b9_NP_A_Neg:
-        .word   .Lor_pow9, 104, .Lor_b8_NN
-        .word   .Lor_npow9, 160, .+4
-        .word   12, 12, .Lor_b8_NP
 .Lor_b9_NN:
         .word   .Lor_npow9, 100, .Lor_b9_NN_A_Neg
         .word   .Lor_npow9, 160, .+4
@@ -38076,7 +37995,15 @@ __subleq_or:
 .Lor_b9_NN_A_Neg:
         .word   .Lor_npow9, 104, .Lor_b8_NN
         .word   .Lor_npow9, 160, .+4
-        .word   12, 12, .Lor_b8_NP
+.Lor_b8_NP:
+        .word   .Lor_npow8, 100, .Lor_b8_NP_A_Neg
+        .word   .Lor_npow8, 160, .+4
+        .word   .Lor_pow8, 104, .Lor_b7_PN
+        .word   12, 12, .Lor_b7_PP
+.Lor_b8_NP_A_Neg:
+        .word   .Lor_pow8, 104, .Lor_b7_NN
+        .word   .Lor_npow8, 160, .+4
+        .word   12, 12, .Lor_b7_NP
 .Lor_b8_PP:
         .word   .Lor_pow8, 100, .Lor_b8_PP_A_Neg
         .word   .Lor_npow8, 160, .+4
@@ -38095,15 +38022,6 @@ __subleq_or:
         .word   .Lor_npow8, 104, .Lor_b7_NN
         .word   .Lor_npow8, 160, .+4
         .word   12, 12, .Lor_b7_NP
-.Lor_b8_NP:
-        .word   .Lor_npow8, 100, .Lor_b8_NP_A_Neg
-        .word   .Lor_npow8, 160, .+4
-        .word   .Lor_pow8, 104, .Lor_b7_PN
-        .word   12, 12, .Lor_b7_PP
-.Lor_b8_NP_A_Neg:
-        .word   .Lor_pow8, 104, .Lor_b7_NN
-        .word   .Lor_npow8, 160, .+4
-        .word   12, 12, .Lor_b7_NP
 .Lor_b8_NN:
         .word   .Lor_npow8, 100, .Lor_b8_NN_A_Neg
         .word   .Lor_npow8, 160, .+4
@@ -38112,7 +38030,15 @@ __subleq_or:
 .Lor_b8_NN_A_Neg:
         .word   .Lor_npow8, 104, .Lor_b7_NN
         .word   .Lor_npow8, 160, .+4
-        .word   12, 12, .Lor_b7_NP
+.Lor_b7_NP:
+        .word   .Lor_npow7, 100, .Lor_b7_NP_A_Neg
+        .word   .Lor_npow7, 160, .+4
+        .word   .Lor_pow7, 104, .Lor_b6_PN
+        .word   12, 12, .Lor_b6_PP
+.Lor_b7_NP_A_Neg:
+        .word   .Lor_pow7, 104, .Lor_b6_NN
+        .word   .Lor_npow7, 160, .+4
+        .word   12, 12, .Lor_b6_NP
 .Lor_b7_PP:
         .word   .Lor_pow7, 100, .Lor_b7_PP_A_Neg
         .word   .Lor_npow7, 160, .+4
@@ -38131,15 +38057,6 @@ __subleq_or:
         .word   .Lor_npow7, 104, .Lor_b6_NN
         .word   .Lor_npow7, 160, .+4
         .word   12, 12, .Lor_b6_NP
-.Lor_b7_NP:
-        .word   .Lor_npow7, 100, .Lor_b7_NP_A_Neg
-        .word   .Lor_npow7, 160, .+4
-        .word   .Lor_pow7, 104, .Lor_b6_PN
-        .word   12, 12, .Lor_b6_PP
-.Lor_b7_NP_A_Neg:
-        .word   .Lor_pow7, 104, .Lor_b6_NN
-        .word   .Lor_npow7, 160, .+4
-        .word   12, 12, .Lor_b6_NP
 .Lor_b7_NN:
         .word   .Lor_npow7, 100, .Lor_b7_NN_A_Neg
         .word   .Lor_npow7, 160, .+4
@@ -38148,7 +38065,15 @@ __subleq_or:
 .Lor_b7_NN_A_Neg:
         .word   .Lor_npow7, 104, .Lor_b6_NN
         .word   .Lor_npow7, 160, .+4
-        .word   12, 12, .Lor_b6_NP
+.Lor_b6_NP:
+        .word   .Lor_npow6, 100, .Lor_b6_NP_A_Neg
+        .word   .Lor_npow6, 160, .+4
+        .word   .Lor_pow6, 104, .Lor_b5_PN
+        .word   12, 12, .Lor_b5_PP
+.Lor_b6_NP_A_Neg:
+        .word   .Lor_pow6, 104, .Lor_b5_NN
+        .word   .Lor_npow6, 160, .+4
+        .word   12, 12, .Lor_b5_NP
 .Lor_b6_PP:
         .word   .Lor_pow6, 100, .Lor_b6_PP_A_Neg
         .word   .Lor_npow6, 160, .+4
@@ -38167,15 +38092,6 @@ __subleq_or:
         .word   .Lor_npow6, 104, .Lor_b5_NN
         .word   .Lor_npow6, 160, .+4
         .word   12, 12, .Lor_b5_NP
-.Lor_b6_NP:
-        .word   .Lor_npow6, 100, .Lor_b6_NP_A_Neg
-        .word   .Lor_npow6, 160, .+4
-        .word   .Lor_pow6, 104, .Lor_b5_PN
-        .word   12, 12, .Lor_b5_PP
-.Lor_b6_NP_A_Neg:
-        .word   .Lor_pow6, 104, .Lor_b5_NN
-        .word   .Lor_npow6, 160, .+4
-        .word   12, 12, .Lor_b5_NP
 .Lor_b6_NN:
         .word   .Lor_npow6, 100, .Lor_b6_NN_A_Neg
         .word   .Lor_npow6, 160, .+4
@@ -38184,7 +38100,15 @@ __subleq_or:
 .Lor_b6_NN_A_Neg:
         .word   .Lor_npow6, 104, .Lor_b5_NN
         .word   .Lor_npow6, 160, .+4
-        .word   12, 12, .Lor_b5_NP
+.Lor_b5_NP:
+        .word   .Lor_npow5, 100, .Lor_b5_NP_A_Neg
+        .word   .Lor_npow5, 160, .+4
+        .word   .Lor_pow5, 104, .Lor_b4_PN
+        .word   12, 12, .Lor_b4_PP
+.Lor_b5_NP_A_Neg:
+        .word   .Lor_pow5, 104, .Lor_b4_NN
+        .word   .Lor_npow5, 160, .+4
+        .word   12, 12, .Lor_b4_NP
 .Lor_b5_PP:
         .word   .Lor_pow5, 100, .Lor_b5_PP_A_Neg
         .word   .Lor_npow5, 160, .+4
@@ -38203,15 +38127,6 @@ __subleq_or:
         .word   .Lor_npow5, 104, .Lor_b4_NN
         .word   .Lor_npow5, 160, .+4
         .word   12, 12, .Lor_b4_NP
-.Lor_b5_NP:
-        .word   .Lor_npow5, 100, .Lor_b5_NP_A_Neg
-        .word   .Lor_npow5, 160, .+4
-        .word   .Lor_pow5, 104, .Lor_b4_PN
-        .word   12, 12, .Lor_b4_PP
-.Lor_b5_NP_A_Neg:
-        .word   .Lor_pow5, 104, .Lor_b4_NN
-        .word   .Lor_npow5, 160, .+4
-        .word   12, 12, .Lor_b4_NP
 .Lor_b5_NN:
         .word   .Lor_npow5, 100, .Lor_b5_NN_A_Neg
         .word   .Lor_npow5, 160, .+4
@@ -38220,7 +38135,15 @@ __subleq_or:
 .Lor_b5_NN_A_Neg:
         .word   .Lor_npow5, 104, .Lor_b4_NN
         .word   .Lor_npow5, 160, .+4
-        .word   12, 12, .Lor_b4_NP
+.Lor_b4_NP:
+        .word   .Lor_npow4, 100, .Lor_b4_NP_A_Neg
+        .word   .Lor_npow4, 160, .+4
+        .word   .Lor_pow4, 104, .Lor_b3_PN
+        .word   12, 12, .Lor_b3_PP
+.Lor_b4_NP_A_Neg:
+        .word   .Lor_pow4, 104, .Lor_b3_NN
+        .word   .Lor_npow4, 160, .+4
+        .word   12, 12, .Lor_b3_NP
 .Lor_b4_PP:
         .word   .Lor_pow4, 100, .Lor_b4_PP_A_Neg
         .word   .Lor_npow4, 160, .+4
@@ -38239,15 +38162,6 @@ __subleq_or:
         .word   .Lor_npow4, 104, .Lor_b3_NN
         .word   .Lor_npow4, 160, .+4
         .word   12, 12, .Lor_b3_NP
-.Lor_b4_NP:
-        .word   .Lor_npow4, 100, .Lor_b4_NP_A_Neg
-        .word   .Lor_npow4, 160, .+4
-        .word   .Lor_pow4, 104, .Lor_b3_PN
-        .word   12, 12, .Lor_b3_PP
-.Lor_b4_NP_A_Neg:
-        .word   .Lor_pow4, 104, .Lor_b3_NN
-        .word   .Lor_npow4, 160, .+4
-        .word   12, 12, .Lor_b3_NP
 .Lor_b4_NN:
         .word   .Lor_npow4, 100, .Lor_b4_NN_A_Neg
         .word   .Lor_npow4, 160, .+4
@@ -38256,7 +38170,15 @@ __subleq_or:
 .Lor_b4_NN_A_Neg:
         .word   .Lor_npow4, 104, .Lor_b3_NN
         .word   .Lor_npow4, 160, .+4
-        .word   12, 12, .Lor_b3_NP
+.Lor_b3_NP:
+        .word   .Lor_npow3, 100, .Lor_b3_NP_A_Neg
+        .word   .Lor_npow3, 160, .+4
+        .word   .Lor_pow3, 104, .Lor_b2_PN
+        .word   12, 12, .Lor_b2_PP
+.Lor_b3_NP_A_Neg:
+        .word   .Lor_pow3, 104, .Lor_b2_NN
+        .word   .Lor_npow3, 160, .+4
+        .word   12, 12, .Lor_b2_NP
 .Lor_b3_PP:
         .word   .Lor_pow3, 100, .Lor_b3_PP_A_Neg
         .word   .Lor_npow3, 160, .+4
@@ -38275,15 +38197,6 @@ __subleq_or:
         .word   .Lor_npow3, 104, .Lor_b2_NN
         .word   .Lor_npow3, 160, .+4
         .word   12, 12, .Lor_b2_NP
-.Lor_b3_NP:
-        .word   .Lor_npow3, 100, .Lor_b3_NP_A_Neg
-        .word   .Lor_npow3, 160, .+4
-        .word   .Lor_pow3, 104, .Lor_b2_PN
-        .word   12, 12, .Lor_b2_PP
-.Lor_b3_NP_A_Neg:
-        .word   .Lor_pow3, 104, .Lor_b2_NN
-        .word   .Lor_npow3, 160, .+4
-        .word   12, 12, .Lor_b2_NP
 .Lor_b3_NN:
         .word   .Lor_npow3, 100, .Lor_b3_NN_A_Neg
         .word   .Lor_npow3, 160, .+4
@@ -38292,7 +38205,15 @@ __subleq_or:
 .Lor_b3_NN_A_Neg:
         .word   .Lor_npow3, 104, .Lor_b2_NN
         .word   .Lor_npow3, 160, .+4
-        .word   12, 12, .Lor_b2_NP
+.Lor_b2_NP:
+        .word   .Lor_npow2, 100, .Lor_b2_NP_A_Neg
+        .word   .Lor_npow2, 160, .+4
+        .word   .Lor_pow2, 104, .Lor_b1_PN
+        .word   12, 12, .Lor_b1_PP
+.Lor_b2_NP_A_Neg:
+        .word   .Lor_pow2, 104, .Lor_b1_NN
+        .word   .Lor_npow2, 160, .+4
+        .word   12, 12, .Lor_b1_NP
 .Lor_b2_PP:
         .word   .Lor_pow2, 100, .Lor_b2_PP_A_Neg
         .word   .Lor_npow2, 160, .+4
@@ -38311,15 +38232,6 @@ __subleq_or:
         .word   .Lor_npow2, 104, .Lor_b1_NN
         .word   .Lor_npow2, 160, .+4
         .word   12, 12, .Lor_b1_NP
-.Lor_b2_NP:
-        .word   .Lor_npow2, 100, .Lor_b2_NP_A_Neg
-        .word   .Lor_npow2, 160, .+4
-        .word   .Lor_pow2, 104, .Lor_b1_PN
-        .word   12, 12, .Lor_b1_PP
-.Lor_b2_NP_A_Neg:
-        .word   .Lor_pow2, 104, .Lor_b1_NN
-        .word   .Lor_npow2, 160, .+4
-        .word   12, 12, .Lor_b1_NP
 .Lor_b2_NN:
         .word   .Lor_npow2, 100, .Lor_b2_NN_A_Neg
         .word   .Lor_npow2, 160, .+4
@@ -38328,7 +38240,15 @@ __subleq_or:
 .Lor_b2_NN_A_Neg:
         .word   .Lor_npow2, 104, .Lor_b1_NN
         .word   .Lor_npow2, 160, .+4
-        .word   12, 12, .Lor_b1_NP
+.Lor_b1_NP:
+        .word   .Lor_npow1, 100, .Lor_b1_NP_A_Neg
+        .word   .Lor_npow1, 160, .+4
+        .word   .Lor_pow1, 104, .Lor_b0_PN
+        .word   12, 12, .Lor_b0_PP
+.Lor_b1_NP_A_Neg:
+        .word   .Lor_pow1, 104, .Lor_b0_NN
+        .word   .Lor_npow1, 160, .+4
+        .word   12, 12, .Lor_b0_NP
 .Lor_b1_PP:
         .word   .Lor_pow1, 100, .Lor_b1_PP_A_Neg
         .word   .Lor_npow1, 160, .+4
@@ -38347,15 +38267,6 @@ __subleq_or:
         .word   .Lor_npow1, 104, .Lor_b0_NN
         .word   .Lor_npow1, 160, .+4
         .word   12, 12, .Lor_b0_NP
-.Lor_b1_NP:
-        .word   .Lor_npow1, 100, .Lor_b1_NP_A_Neg
-        .word   .Lor_npow1, 160, .+4
-        .word   .Lor_pow1, 104, .Lor_b0_PN
-        .word   12, 12, .Lor_b0_PP
-.Lor_b1_NP_A_Neg:
-        .word   .Lor_pow1, 104, .Lor_b0_NN
-        .word   .Lor_npow1, 160, .+4
-        .word   12, 12, .Lor_b0_NP
 .Lor_b1_NN:
         .word   .Lor_npow1, 100, .Lor_b1_NN_A_Neg
         .word   .Lor_npow1, 160, .+4
@@ -38364,7 +38275,15 @@ __subleq_or:
 .Lor_b1_NN_A_Neg:
         .word   .Lor_npow1, 104, .Lor_b0_NN
         .word   .Lor_npow1, 160, .+4
-        .word   12, 12, .Lor_b0_NP
+.Lor_b0_NP:
+        .word   .Lor_npow0, 100, .Lor_b0_NP_A_Neg
+        .word   .Lor_npow0, 160, .+4
+        .word   .Lor_pow0, 104, .Lor_done
+        .word   12, 12, .Lor_done
+.Lor_b0_NP_A_Neg:
+        .word   .Lor_pow0, 104, .Lor_done
+        .word   .Lor_npow0, 160, .+4
+        .word   12, 12, .Lor_done
 .Lor_b0_PP:
         .word   .Lor_pow0, 100, .Lor_b0_PP_A_Neg
         .word   .Lor_npow0, 160, .+4
@@ -38383,15 +38302,6 @@ __subleq_or:
         .word   .Lor_npow0, 104, .Lor_done
         .word   .Lor_npow0, 160, .+4
         .word   12, 12, .Lor_done
-.Lor_b0_NP:
-        .word   .Lor_npow0, 100, .Lor_b0_NP_A_Neg
-        .word   .Lor_npow0, 160, .+4
-        .word   .Lor_pow0, 104, .Lor_done
-        .word   12, 12, .Lor_done
-.Lor_b0_NP_A_Neg:
-        .word   .Lor_pow0, 104, .Lor_done
-        .word   .Lor_npow0, 160, .+4
-        .word   12, 12, .Lor_done
 .Lor_b0_NN:
         .word   .Lor_npow0, 100, .Lor_b0_NN_A_Neg
         .word   .Lor_npow0, 160, .+4
@@ -38403,7 +38313,6 @@ __subleq_or:
         .word   12, 12, .Lor_done
 .Lor_done:
         .word   96, 96, .+4
-        .word   12, 12, .+4
         .word   160, 12, .+4
         .word   12, 96, .+4
 .Lor_pop:
@@ -38412,7 +38321,6 @@ __subleq_or:
         .word   18, 12, .+4
         .word   12, 160, .+4
         .word   .Lor_neg4, 16, .+4
-        .word   12, 12, .+4
         .word   12
         .word   12
         .word   162
@@ -38426,6 +38334,10 @@ __subleq_or:
         .word   1
 .Lor_n1:
         .word   -1
+.Lor_n256:
+        .word   -256
+.Lor_n65536:
+        .word   -65536
 .Lor_pow30:
         .word   1073741824
 .Lor_npow30:
@@ -38581,7 +38493,6 @@ __subleq_xor:
         .word   18, 12, .+4
         .word   12, 160, .+4
         .word   .Lxor_r22_neg4, 16, .+4
-        .word   12, 12, .+4
         .word   12
         .word   12
         .word   162
@@ -38591,16 +38502,16 @@ __subleq_xor:
         .word   -4
 .Lxor_chk_r22_fast:
         .word   144, 104, .Lxor_r22_le0_fast
-        .word   12, 12, .Lxor_Bit31
+        .word   12, 12, .Lxor_small_check
 .Lxor_r22_le0_fast:
         .word   168, 168, .+4
         .word   104, 168, .+4
         .word   144, 168, .Lxor_r22_ambig_fast
-        .word   12, 12, .Lxor_Bit31
+        .word   12, 12, .Lxor_small_check
 .Lxor_r22_ambig_fast:
         .word   .Lxor_one, 168, .+4
         .word   144, 168, .Lxor_ret_r21
-        .word   12, 12, .Lxor_Bit31
+        .word   12, 12, .Lxor_small_check
 .Lxor_ret_r21:
         .word   96, 96, .+4
         .word   12, 12, .+4
@@ -38612,7 +38523,6 @@ __subleq_xor:
         .word   18, 12, .+4
         .word   12, 160, .+4
         .word   .Lxor_r21_neg4, 16, .+4
-        .word   12, 12, .+4
         .word   12
         .word   12
         .word   162
@@ -38620,6 +38530,28 @@ __subleq_xor:
         .word   -1
 .Lxor_r21_neg4:
         .word   -4
+.Lxor_small_check:
+        .word   144, 100, .Lxor_Bit31
+        .word   144, 104, .Lxor_Bit31
+        .word   100, 12, .+4
+        .word   .Lxor_n65536, 12, .Lxor_Bit31
+        .word   168, 168, .+4
+        .word   .Lxor_n65536, 168, .+4
+        .word   104, 168, .Lxor_Bit31
+        .word   168, 168, .+4
+        .word   .Lxor_n256, 168, .+4
+        .word   100, 168, .Lxor_fast_16bit
+        .word   168, 168, .+4
+        .word   .Lxor_n256, 168, .+4
+        .word   104, 168, .Lxor_fast_16bit
+.Lxor_fast_8bit:
+        .word   .Lxor_n1, 100, .+4
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b7_PP
+.Lxor_fast_16bit:
+        .word   .Lxor_n1, 100, .+4
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b15_PP
 .Lxor_Bit31:
         .word   144, 100, .Lxor_b31_r21_neg
         .word   12, 12, .Lxor_b31_chk_r22
@@ -38628,10 +38560,9 @@ __subleq_xor:
         .word   100, 168, .+4
         .word   144, 168, .Lxor_b31_r21_ambig
         .word   .Lxor_c80, 160, .+4
-        .word   .Lxor_c80, 100, .Lxor_b31_chk_r22
+        .word   .Lxor_c80, 100, .+4
+        .word   12, 12, .Lxor_b31_chk_r22
 .Lxor_b31_r21_ambig:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
         .word   .Lxor_one, 168, .+4
         .word   144, 168, .Lxor_b31_chk_r22
         .word   .Lxor_c80, 160, .+4
@@ -38644,10 +38575,9 @@ __subleq_xor:
         .word   104, 168, .+4
         .word   144, 168, .Lxor_b31_r22_ambig
         .word   .Lxor_c80, 160, .+4
-        .word   .Lxor_c80, 104, .Lxor_Bit30
+        .word   .Lxor_c80, 104, .+4
+        .word   12, 12, .Lxor_Bit30
 .Lxor_b31_r22_ambig:
-        .word   168, 168, .+4
-        .word   104, 168, .+4
         .word   .Lxor_one, 168, .+4
         .word   144, 168, .Lxor_Bit30
         .word   .Lxor_c80, 160, .+4
@@ -38666,7 +38596,17 @@ __subleq_xor:
 .Lxor_b30_PP_A_Neg:
         .word   .Lxor_pow30, 104, .Lxor_b29_NN
         .word   .Lxor_npow30, 160, .+4
-        .word   12, 12, .Lxor_b29_NP
+.Lxor_b29_NP:
+        .word   .Lxor_npow29, 100, .Lxor_b29_NP_A_Neg
+        .word   .Lxor_pow29, 104, .Lxor_b29_NP_A_Pos_B_Neg
+        .word   12, 12, .Lxor_b28_PP
+.Lxor_b29_NP_A_Pos_B_Neg:
+        .word   .Lxor_npow29, 160, .+4
+        .word   12, 12, .Lxor_b28_PN
+.Lxor_b29_NP_A_Neg:
+        .word   .Lxor_pow29, 104, .Lxor_b28_NN
+        .word   .Lxor_npow29, 160, .+4
+        .word   12, 12, .Lxor_b28_NP
 .Lxor_b29_PP:
         .word   .Lxor_pow29, 100, .Lxor_b29_PP_A_Neg
         .word   .Lxor_pow29, 104, .Lxor_b29_PP_A_Pos_B_Neg
@@ -38689,17 +38629,6 @@ __subleq_xor:
         .word   .Lxor_npow29, 104, .Lxor_b28_NN
         .word   .Lxor_npow29, 160, .+4
         .word   12, 12, .Lxor_b28_NP
-.Lxor_b29_NP:
-        .word   .Lxor_npow29, 100, .Lxor_b29_NP_A_Neg
-        .word   .Lxor_pow29, 104, .Lxor_b29_NP_A_Pos_B_Neg
-        .word   12, 12, .Lxor_b28_PP
-.Lxor_b29_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow29, 160, .+4
-        .word   12, 12, .Lxor_b28_PN
-.Lxor_b29_NP_A_Neg:
-        .word   .Lxor_pow29, 104, .Lxor_b28_NN
-        .word   .Lxor_npow29, 160, .+4
-        .word   12, 12, .Lxor_b28_NP
 .Lxor_b29_NN:
         .word   .Lxor_npow29, 100, .Lxor_b29_NN_A_Neg
         .word   .Lxor_npow29, 104, .Lxor_b29_NN_A_Pos_B_Neg
@@ -38710,7 +38639,17 @@ __subleq_xor:
 .Lxor_b29_NN_A_Neg:
         .word   .Lxor_npow29, 104, .Lxor_b28_NN
         .word   .Lxor_npow29, 160, .+4
-        .word   12, 12, .Lxor_b28_NP
+.Lxor_b28_NP:
+        .word   .Lxor_npow28, 100, .Lxor_b28_NP_A_Neg
+        .word   .Lxor_pow28, 104, .Lxor_b28_NP_A_Pos_B_Neg
+        .word   12, 12, .Lxor_b27_PP
+.Lxor_b28_NP_A_Pos_B_Neg:
+        .word   .Lxor_npow28, 160, .+4
+        .word   12, 12, .Lxor_b27_PN
+.Lxor_b28_NP_A_Neg:
+        .word   .Lxor_pow28, 104, .Lxor_b27_NN
+        .word   .Lxor_npow28, 160, .+4
+        .word   12, 12, .Lxor_b27_NP
 .Lxor_b28_PP:
         .word   .Lxor_pow28, 100, .Lxor_b28_PP_A_Neg
         .word   .Lxor_pow28, 104, .Lxor_b28_PP_A_Pos_B_Neg
@@ -38733,17 +38672,6 @@ __subleq_xor:
         .word   .Lxor_npow28, 104, .Lxor_b27_NN
         .word   .Lxor_npow28, 160, .+4
         .word   12, 12, .Lxor_b27_NP
-.Lxor_b28_NP:
-        .word   .Lxor_npow28, 100, .Lxor_b28_NP_A_Neg
-        .word   .Lxor_pow28, 104, .Lxor_b28_NP_A_Pos_B_Neg
-        .word   12, 12, .Lxor_b27_PP
-.Lxor_b28_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow28, 160, .+4
-        .word   12, 12, .Lxor_b27_PN
-.Lxor_b28_NP_A_Neg:
-        .word   .Lxor_pow28, 104, .Lxor_b27_NN
-        .word   .Lxor_npow28, 160, .+4
-        .word   12, 12, .Lxor_b27_NP
 .Lxor_b28_NN:
         .word   .Lxor_npow28, 100, .Lxor_b28_NN_A_Neg
         .word   .Lxor_npow28, 104, .Lxor_b28_NN_A_Pos_B_Neg
@@ -38754,7 +38682,17 @@ __subleq_xor:
 .Lxor_b28_NN_A_Neg:
         .word   .Lxor_npow28, 104, .Lxor_b27_NN
         .word   .Lxor_npow28, 160, .+4
-        .word   12, 12, .Lxor_b27_NP
+.Lxor_b27_NP:
+        .word   .Lxor_npow27, 100, .Lxor_b27_NP_A_Neg
+        .word   .Lxor_pow27, 104, .Lxor_b27_NP_A_Pos_B_Neg
+        .word   12, 12, .Lxor_b26_PP
+.Lxor_b27_NP_A_Pos_B_Neg:
+        .word   .Lxor_npow27, 160, .+4
+        .word   12, 12, .Lxor_b26_PN
+.Lxor_b27_NP_A_Neg:
+        .word   .Lxor_pow27, 104, .Lxor_b26_NN
+        .word   .Lxor_npow27, 160, .+4
+        .word   12, 12, .Lxor_b26_NP
 .Lxor_b27_PP:
         .word   .Lxor_pow27, 100, .Lxor_b27_PP_A_Neg
         .word   .Lxor_pow27, 104, .Lxor_b27_PP_A_Pos_B_Neg
@@ -38777,17 +38715,6 @@ __subleq_xor:
         .word   .Lxor_npow27, 104, .Lxor_b26_NN
         .word   .Lxor_npow27, 160, .+4
         .word   12, 12, .Lxor_b26_NP
-.Lxor_b27_NP:
-        .word   .Lxor_npow27, 100, .Lxor_b27_NP_A_Neg
-        .word   .Lxor_pow27, 104, .Lxor_b27_NP_A_Pos_B_Neg
-        .word   12, 12, .Lxor_b26_PP
-.Lxor_b27_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow27, 160, .+4
-        .word   12, 12, .Lxor_b26_PN
-.Lxor_b27_NP_A_Neg:
-        .word   .Lxor_pow27, 104, .Lxor_b26_NN
-        .word   .Lxor_npow27, 160, .+4
-        .word   12, 12, .Lxor_b26_NP
 .Lxor_b27_NN:
         .word   .Lxor_npow27, 100, .Lxor_b27_NN_A_Neg
         .word   .Lxor_npow27, 104, .Lxor_b27_NN_A_Pos_B_Neg
@@ -38798,7 +38725,17 @@ __subleq_xor:
 .Lxor_b27_NN_A_Neg:
         .word   .Lxor_npow27, 104, .Lxor_b26_NN
         .word   .Lxor_npow27, 160, .+4
-        .word   12, 12, .Lxor_b26_NP
+.Lxor_b26_NP:
+        .word   .Lxor_npow26, 100, .Lxor_b26_NP_A_Neg
+        .word   .Lxor_pow26, 104, .Lxor_b26_NP_A_Pos_B_Neg
+        .word   12, 12, .Lxor_b25_PP
+.Lxor_b26_NP_A_Pos_B_Neg:
+        .word   .Lxor_npow26, 160, .+4
+        .word   12, 12, .Lxor_b25_PN
+.Lxor_b26_NP_A_Neg:
+        .word   .Lxor_pow26, 104, .Lxor_b25_NN
+        .word   .Lxor_npow26, 160, .+4
+        .word   12, 12, .Lxor_b25_NP
 .Lxor_b26_PP:
         .word   .Lxor_pow26, 100, .Lxor_b26_PP_A_Neg
         .word   .Lxor_pow26, 104, .Lxor_b26_PP_A_Pos_B_Neg
@@ -38821,17 +38758,6 @@ __subleq_xor:
         .word   .Lxor_npow26, 104, .Lxor_b25_NN
         .word   .Lxor_npow26, 160, .+4
         .word   12, 12, .Lxor_b25_NP
-.Lxor_b26_NP:
-        .word   .Lxor_npow26, 100, .Lxor_b26_NP_A_Neg
-        .word   .Lxor_pow26, 104, .Lxor_b26_NP_A_Pos_B_Neg
-        .word   12, 12, .Lxor_b25_PP
-.Lxor_b26_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow26, 160, .+4
-        .word   12, 12, .Lxor_b25_PN
-.Lxor_b26_NP_A_Neg:
-        .word   .Lxor_pow26, 104, .Lxor_b25_NN
-        .word   .Lxor_npow26, 160, .+4
-        .word   12, 12, .Lxor_b25_NP
 .Lxor_b26_NN:
         .word   .Lxor_npow26, 100, .Lxor_b26_NN_A_Neg
         .word   .Lxor_npow26, 104, .Lxor_b26_NN_A_Pos_B_Neg
@@ -38842,7 +38768,17 @@ __subleq_xor:
 .Lxor_b26_NN_A_Neg:
         .word   .Lxor_npow26, 104, .Lxor_b25_NN
         .word   .Lxor_npow26, 160, .+4
-        .word   12, 12, .Lxor_b25_NP
+.Lxor_b25_NP:
+        .word   .Lxor_npow25, 100, .Lxor_b25_NP_A_Neg
+        .word   .Lxor_pow25, 104, .Lxor_b25_NP_A_Pos_B_Neg
+        .word   12, 12, .Lxor_b24_PP
+.Lxor_b25_NP_A_Pos_B_Neg:
+        .word   .Lxor_npow25, 160, .+4
+        .word   12, 12, .Lxor_b24_PN
+.Lxor_b25_NP_A_Neg:
+        .word   .Lxor_pow25, 104, .Lxor_b24_NN
+        .word   .Lxor_npow25, 160, .+4
+        .word   12, 12, .Lxor_b24_NP
 .Lxor_b25_PP:
         .word   .Lxor_pow25, 100, .Lxor_b25_PP_A_Neg
         .word   .Lxor_pow25, 104, .Lxor_b25_PP_A_Pos_B_Neg
@@ -38865,17 +38801,6 @@ __subleq_xor:
         .word   .Lxor_npow25, 104, .Lxor_b24_NN
         .word   .Lxor_npow25, 160, .+4
         .word   12, 12, .Lxor_b24_NP
-.Lxor_b25_NP:
-        .word   .Lxor_npow25, 100, .Lxor_b25_NP_A_Neg
-        .word   .Lxor_pow25, 104, .Lxor_b25_NP_A_Pos_B_Neg
-        .word   12, 12, .Lxor_b24_PP
-.Lxor_b25_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow25, 160, .+4
-        .word   12, 12, .Lxor_b24_PN
-.Lxor_b25_NP_A_Neg:
-        .word   .Lxor_pow25, 104, .Lxor_b24_NN
-        .word   .Lxor_npow25, 160, .+4
-        .word   12, 12, .Lxor_b24_NP
 .Lxor_b25_NN:
         .word   .Lxor_npow25, 100, .Lxor_b25_NN_A_Neg
         .word   .Lxor_npow25, 104, .Lxor_b25_NN_A_Pos_B_Neg
@@ -38886,7 +38811,17 @@ __subleq_xor:
 .Lxor_b25_NN_A_Neg:
         .word   .Lxor_npow25, 104, .Lxor_b24_NN
         .word   .Lxor_npow25, 160, .+4
-        .word   12, 12, .Lxor_b24_NP
+.Lxor_b24_NP:
+        .word   .Lxor_npow24, 100, .Lxor_b24_NP_A_Neg
+        .word   .Lxor_pow24, 104, .Lxor_b24_NP_A_Pos_B_Neg
+        .word   12, 12, .Lxor_b23_PP
+.Lxor_b24_NP_A_Pos_B_Neg:
+        .word   .Lxor_npow24, 160, .+4
+        .word   12, 12, .Lxor_b23_PN
+.Lxor_b24_NP_A_Neg:
+        .word   .Lxor_pow24, 104, .Lxor_b23_NN
+        .word   .Lxor_npow24, 160, .+4
+        .word   12, 12, .Lxor_b23_NP
 .Lxor_b24_PP:
         .word   .Lxor_pow24, 100, .Lxor_b24_PP_A_Neg
         .word   .Lxor_pow24, 104, .Lxor_b24_PP_A_Pos_B_Neg
@@ -38909,17 +38844,6 @@ __subleq_xor:
         .word   .Lxor_npow24, 104, .Lxor_b23_NN
         .word   .Lxor_npow24, 160, .+4
         .word   12, 12, .Lxor_b23_NP
-.Lxor_b24_NP:
-        .word   .Lxor_npow24, 100, .Lxor_b24_NP_A_Neg
-        .word   .Lxor_pow24, 104, .Lxor_b24_NP_A_Pos_B_Neg
-        .word   12, 12, .Lxor_b23_PP
-.Lxor_b24_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow24, 160, .+4
-        .word   12, 12, .Lxor_b23_PN
-.Lxor_b24_NP_A_Neg:
-        .word   .Lxor_pow24, 104, .Lxor_b23_NN
-        .word   .Lxor_npow24, 160, .+4
-        .word   12, 12, .Lxor_b23_NP
 .Lxor_b24_NN:
         .word   .Lxor_npow24, 100, .Lxor_b24_NN_A_Neg
         .word   .Lxor_npow24, 104, .Lxor_b24_NN_A_Pos_B_Neg
@@ -38930,7 +38854,17 @@ __subleq_xor:
 .Lxor_b24_NN_A_Neg:
         .word   .Lxor_npow24, 104, .Lxor_b23_NN
         .word   .Lxor_npow24, 160, .+4
-        .word   12, 12, .Lxor_b23_NP
+.Lxor_b23_NP:
+        .word   .Lxor_npow23, 100, .Lxor_b23_NP_A_Neg
+        .word   .Lxor_pow23, 104, .Lxor_b23_NP_A_Pos_B_Neg
+        .word   12, 12, .Lxor_b22_PP
+.Lxor_b23_NP_A_Pos_B_Neg:
+        .word   .Lxor_npow23, 160, .+4
+        .word   12, 12, .Lxor_b22_PN
+.Lxor_b23_NP_A_Neg:
+        .word   .Lxor_pow23, 104, .Lxor_b22_NN
+        .word   .Lxor_npow23, 160, .+4
+        .word   12, 12, .Lxor_b22_NP
 .Lxor_b23_PP:
         .word   .Lxor_pow23, 100, .Lxor_b23_PP_A_Neg
         .word   .Lxor_pow23, 104, .Lxor_b23_PP_A_Pos_B_Neg
@@ -38953,17 +38887,6 @@ __subleq_xor:
         .word   .Lxor_npow23, 104, .Lxor_b22_NN
         .word   .Lxor_npow23, 160, .+4
         .word   12, 12, .Lxor_b22_NP
-.Lxor_b23_NP:
-        .word   .Lxor_npow23, 100, .Lxor_b23_NP_A_Neg
-        .word   .Lxor_pow23, 104, .Lxor_b23_NP_A_Pos_B_Neg
-        .word   12, 12, .Lxor_b22_PP
-.Lxor_b23_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow23, 160, .+4
-        .word   12, 12, .Lxor_b22_PN
-.Lxor_b23_NP_A_Neg:
-        .word   .Lxor_pow23, 104, .Lxor_b22_NN
-        .word   .Lxor_npow23, 160, .+4
-        .word   12, 12, .Lxor_b22_NP
 .Lxor_b23_NN:
         .word   .Lxor_npow23, 100, .Lxor_b23_NN_A_Neg
         .word   .Lxor_npow23, 104, .Lxor_b23_NN_A_Pos_B_Neg
@@ -38974,7 +38897,17 @@ __subleq_xor:
 .Lxor_b23_NN_A_Neg:
         .word   .Lxor_npow23, 104, .Lxor_b22_NN
         .word   .Lxor_npow23, 160, .+4
-        .word   12, 12, .Lxor_b22_NP
+.Lxor_b22_NP:
+        .word   .Lxor_npow22, 100, .Lxor_b22_NP_A_Neg
+        .word   .Lxor_pow22, 104, .Lxor_b22_NP_A_Pos_B_Neg
+        .word   12, 12, .Lxor_b21_PP
+.Lxor_b22_NP_A_Pos_B_Neg:
+        .word   .Lxor_npow22, 160, .+4
+        .word   12, 12, .Lxor_b21_PN
+.Lxor_b22_NP_A_Neg:
+        .word   .Lxor_pow22, 104, .Lxor_b21_NN
+        .word   .Lxor_npow22, 160, .+4
+        .word   12, 12, .Lxor_b21_NP
 .Lxor_b22_PP:
         .word   .Lxor_pow22, 100, .Lxor_b22_PP_A_Neg
         .word   .Lxor_pow22, 104, .Lxor_b22_PP_A_Pos_B_Neg
@@ -38997,17 +38930,6 @@ __subleq_xor:
         .word   .Lxor_npow22, 104, .Lxor_b21_NN
         .word   .Lxor_npow22, 160, .+4
         .word   12, 12, .Lxor_b21_NP
-.Lxor_b22_NP:
-        .word   .Lxor_npow22, 100, .Lxor_b22_NP_A_Neg
-        .word   .Lxor_pow22, 104, .Lxor_b22_NP_A_Pos_B_Neg
-        .word   12, 12, .Lxor_b21_PP
-.Lxor_b22_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow22, 160, .+4
-        .word   12, 12, .Lxor_b21_PN
-.Lxor_b22_NP_A_Neg:
-        .word   .Lxor_pow22, 104, .Lxor_b21_NN
-        .word   .Lxor_npow22, 160, .+4
-        .word   12, 12, .Lxor_b21_NP
 .Lxor_b22_NN:
         .word   .Lxor_npow22, 100, .Lxor_b22_NN_A_Neg
         .word   .Lxor_npow22, 104, .Lxor_b22_NN_A_Pos_B_Neg
@@ -39018,7 +38940,17 @@ __subleq_xor:
 .Lxor_b22_NN_A_Neg:
         .word   .Lxor_npow22, 104, .Lxor_b21_NN
         .word   .Lxor_npow22, 160, .+4
-        .word   12, 12, .Lxor_b21_NP
+.Lxor_b21_NP:
+        .word   .Lxor_npow21, 100, .Lxor_b21_NP_A_Neg
+        .word   .Lxor_pow21, 104, .Lxor_b21_NP_A_Pos_B_Neg
+        .word   12, 12, .Lxor_b20_PP
+.Lxor_b21_NP_A_Pos_B_Neg:
+        .word   .Lxor_npow21, 160, .+4
+        .word   12, 12, .Lxor_b20_PN
+.Lxor_b21_NP_A_Neg:
+        .word   .Lxor_pow21, 104, .Lxor_b20_NN
+        .word   .Lxor_npow21, 160, .+4
+        .word   12, 12, .Lxor_b20_NP
 .Lxor_b21_PP:
         .word   .Lxor_pow21, 100, .Lxor_b21_PP_A_Neg
         .word   .Lxor_pow21, 104, .Lxor_b21_PP_A_Pos_B_Neg
@@ -39041,17 +38973,6 @@ __subleq_xor:
         .word   .Lxor_npow21, 104, .Lxor_b20_NN
         .word   .Lxor_npow21, 160, .+4
         .word   12, 12, .Lxor_b20_NP
-.Lxor_b21_NP:
-        .word   .Lxor_npow21, 100, .Lxor_b21_NP_A_Neg
-        .word   .Lxor_pow21, 104, .Lxor_b21_NP_A_Pos_B_Neg
-        .word   12, 12, .Lxor_b20_PP
-.Lxor_b21_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow21, 160, .+4
-        .word   12, 12, .Lxor_b20_PN
-.Lxor_b21_NP_A_Neg:
-        .word   .Lxor_pow21, 104, .Lxor_b20_NN
-        .word   .Lxor_npow21, 160, .+4
-        .word   12, 12, .Lxor_b20_NP
 .Lxor_b21_NN:
         .word   .Lxor_npow21, 100, .Lxor_b21_NN_A_Neg
         .word   .Lxor_npow21, 104, .Lxor_b21_NN_A_Pos_B_Neg
@@ -39062,7 +38983,17 @@ __subleq_xor:
 .Lxor_b21_NN_A_Neg:
         .word   .Lxor_npow21, 104, .Lxor_b20_NN
         .word   .Lxor_npow21, 160, .+4
-        .word   12, 12, .Lxor_b20_NP
+.Lxor_b20_NP:
+        .word   .Lxor_npow20, 100, .Lxor_b20_NP_A_Neg
+        .word   .Lxor_pow20, 104, .Lxor_b20_NP_A_Pos_B_Neg
+        .word   12, 12, .Lxor_b19_PP
+.Lxor_b20_NP_A_Pos_B_Neg:
+        .word   .Lxor_npow20, 160, .+4
+        .word   12, 12, .Lxor_b19_PN
+.Lxor_b20_NP_A_Neg:
+        .word   .Lxor_pow20, 104, .Lxor_b19_NN
+        .word   .Lxor_npow20, 160, .+4
+        .word   12, 12, .Lxor_b19_NP
 .Lxor_b20_PP:
         .word   .Lxor_pow20, 100, .Lxor_b20_PP_A_Neg
         .word   .Lxor_pow20, 104, .Lxor_b20_PP_A_Pos_B_Neg
@@ -39085,17 +39016,6 @@ __subleq_xor:
         .word   .Lxor_npow20, 104, .Lxor_b19_NN
         .word   .Lxor_npow20, 160, .+4
         .word   12, 12, .Lxor_b19_NP
-.Lxor_b20_NP:
-        .word   .Lxor_npow20, 100, .Lxor_b20_NP_A_Neg
-        .word   .Lxor_pow20, 104, .Lxor_b20_NP_A_Pos_B_Neg
-        .word   12, 12, .Lxor_b19_PP
-.Lxor_b20_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow20, 160, .+4
-        .word   12, 12, .Lxor_b19_PN
-.Lxor_b20_NP_A_Neg:
-        .word   .Lxor_pow20, 104, .Lxor_b19_NN
-        .word   .Lxor_npow20, 160, .+4
-        .word   12, 12, .Lxor_b19_NP
 .Lxor_b20_NN:
         .word   .Lxor_npow20, 100, .Lxor_b20_NN_A_Neg
         .word   .Lxor_npow20, 104, .Lxor_b20_NN_A_Pos_B_Neg
@@ -39106,7 +39026,17 @@ __subleq_xor:
 .Lxor_b20_NN_A_Neg:
         .word   .Lxor_npow20, 104, .Lxor_b19_NN
         .word   .Lxor_npow20, 160, .+4
-        .word   12, 12, .Lxor_b19_NP
+.Lxor_b19_NP:
+        .word   .Lxor_npow19, 100, .Lxor_b19_NP_A_Neg
+        .word   .Lxor_pow19, 104, .Lxor_b19_NP_A_Pos_B_Neg
+        .word   12, 12, .Lxor_b18_PP
+.Lxor_b19_NP_A_Pos_B_Neg:
+        .word   .Lxor_npow19, 160, .+4
+        .word   12, 12, .Lxor_b18_PN
+.Lxor_b19_NP_A_Neg:
+        .word   .Lxor_pow19, 104, .Lxor_b18_NN
+        .word   .Lxor_npow19, 160, .+4
+        .word   12, 12, .Lxor_b18_NP
 .Lxor_b19_PP:
         .word   .Lxor_pow19, 100, .Lxor_b19_PP_A_Neg
         .word   .Lxor_pow19, 104, .Lxor_b19_PP_A_Pos_B_Neg
@@ -39129,17 +39059,6 @@ __subleq_xor:
         .word   .Lxor_npow19, 104, .Lxor_b18_NN
         .word   .Lxor_npow19, 160, .+4
         .word   12, 12, .Lxor_b18_NP
-.Lxor_b19_NP:
-        .word   .Lxor_npow19, 100, .Lxor_b19_NP_A_Neg
-        .word   .Lxor_pow19, 104, .Lxor_b19_NP_A_Pos_B_Neg
-        .word   12, 12, .Lxor_b18_PP
-.Lxor_b19_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow19, 160, .+4
-        .word   12, 12, .Lxor_b18_PN
-.Lxor_b19_NP_A_Neg:
-        .word   .Lxor_pow19, 104, .Lxor_b18_NN
-        .word   .Lxor_npow19, 160, .+4
-        .word   12, 12, .Lxor_b18_NP
 .Lxor_b19_NN:
         .word   .Lxor_npow19, 100, .Lxor_b19_NN_A_Neg
         .word   .Lxor_npow19, 104, .Lxor_b19_NN_A_Pos_B_Neg
@@ -39150,7 +39069,17 @@ __subleq_xor:
 .Lxor_b19_NN_A_Neg:
         .word   .Lxor_npow19, 104, .Lxor_b18_NN
         .word   .Lxor_npow19, 160, .+4
-        .word   12, 12, .Lxor_b18_NP
+.Lxor_b18_NP:
+        .word   .Lxor_npow18, 100, .Lxor_b18_NP_A_Neg
+        .word   .Lxor_pow18, 104, .Lxor_b18_NP_A_Pos_B_Neg
+        .word   12, 12, .Lxor_b17_PP
+.Lxor_b18_NP_A_Pos_B_Neg:
+        .word   .Lxor_npow18, 160, .+4
+        .word   12, 12, .Lxor_b17_PN
+.Lxor_b18_NP_A_Neg:
+        .word   .Lxor_pow18, 104, .Lxor_b17_NN
+        .word   .Lxor_npow18, 160, .+4
+        .word   12, 12, .Lxor_b17_NP
 .Lxor_b18_PP:
         .word   .Lxor_pow18, 100, .Lxor_b18_PP_A_Neg
         .word   .Lxor_pow18, 104, .Lxor_b18_PP_A_Pos_B_Neg
@@ -39173,17 +39102,6 @@ __subleq_xor:
         .word   .Lxor_npow18, 104, .Lxor_b17_NN
         .word   .Lxor_npow18, 160, .+4
         .word   12, 12, .Lxor_b17_NP
-.Lxor_b18_NP:
-        .word   .Lxor_npow18, 100, .Lxor_b18_NP_A_Neg
-        .word   .Lxor_pow18, 104, .Lxor_b18_NP_A_Pos_B_Neg
-        .word   12, 12, .Lxor_b17_PP
-.Lxor_b18_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow18, 160, .+4
-        .word   12, 12, .Lxor_b17_PN
-.Lxor_b18_NP_A_Neg:
-        .word   .Lxor_pow18, 104, .Lxor_b17_NN
-        .word   .Lxor_npow18, 160, .+4
-        .word   12, 12, .Lxor_b17_NP
 .Lxor_b18_NN:
         .word   .Lxor_npow18, 100, .Lxor_b18_NN_A_Neg
         .word   .Lxor_npow18, 104, .Lxor_b18_NN_A_Pos_B_Neg
@@ -39194,7 +39112,17 @@ __subleq_xor:
 .Lxor_b18_NN_A_Neg:
         .word   .Lxor_npow18, 104, .Lxor_b17_NN
         .word   .Lxor_npow18, 160, .+4
-        .word   12, 12, .Lxor_b17_NP
+.Lxor_b17_NP:
+        .word   .Lxor_npow17, 100, .Lxor_b17_NP_A_Neg
+        .word   .Lxor_pow17, 104, .Lxor_b17_NP_A_Pos_B_Neg
+        .word   12, 12, .Lxor_b16_PP
+.Lxor_b17_NP_A_Pos_B_Neg:
+        .word   .Lxor_npow17, 160, .+4
+        .word   12, 12, .Lxor_b16_PN
+.Lxor_b17_NP_A_Neg:
+        .word   .Lxor_pow17, 104, .Lxor_b16_NN
+        .word   .Lxor_npow17, 160, .+4
+        .word   12, 12, .Lxor_b16_NP
 .Lxor_b17_PP:
         .word   .Lxor_pow17, 100, .Lxor_b17_PP_A_Neg
         .word   .Lxor_pow17, 104, .Lxor_b17_PP_A_Pos_B_Neg
@@ -39217,17 +39145,6 @@ __subleq_xor:
         .word   .Lxor_npow17, 104, .Lxor_b16_NN
         .word   .Lxor_npow17, 160, .+4
         .word   12, 12, .Lxor_b16_NP
-.Lxor_b17_NP:
-        .word   .Lxor_npow17, 100, .Lxor_b17_NP_A_Neg
-        .word   .Lxor_pow17, 104, .Lxor_b17_NP_A_Pos_B_Neg
-        .word   12, 12, .Lxor_b16_PP
-.Lxor_b17_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow17, 160, .+4
-        .word   12, 12, .Lxor_b16_PN
-.Lxor_b17_NP_A_Neg:
-        .word   .Lxor_pow17, 104, .Lxor_b16_NN
-        .word   .Lxor_npow17, 160, .+4
-        .word   12, 12, .Lxor_b16_NP
 .Lxor_b17_NN:
         .word   .Lxor_npow17, 100, .Lxor_b17_NN_A_Neg
         .word   .Lxor_npow17, 104, .Lxor_b17_NN_A_Pos_B_Neg
@@ -39238,7 +39155,17 @@ __subleq_xor:
 .Lxor_b17_NN_A_Neg:
         .word   .Lxor_npow17, 104, .Lxor_b16_NN
         .word   .Lxor_npow17, 160, .+4
-        .word   12, 12, .Lxor_b16_NP
+.Lxor_b16_NP:
+        .word   .Lxor_npow16, 100, .Lxor_b16_NP_A_Neg
+        .word   .Lxor_pow16, 104, .Lxor_b16_NP_A_Pos_B_Neg
+        .word   12, 12, .Lxor_b15_PP
+.Lxor_b16_NP_A_Pos_B_Neg:
+        .word   .Lxor_npow16, 160, .+4
+        .word   12, 12, .Lxor_b15_PN
+.Lxor_b16_NP_A_Neg:
+        .word   .Lxor_pow16, 104, .Lxor_b15_NN
+        .word   .Lxor_npow16, 160, .+4
+        .word   12, 12, .Lxor_b15_NP
 .Lxor_b16_PP:
         .word   .Lxor_pow16, 100, .Lxor_b16_PP_A_Neg
         .word   .Lxor_pow16, 104, .Lxor_b16_PP_A_Pos_B_Neg
@@ -39261,17 +39188,6 @@ __subleq_xor:
         .word   .Lxor_npow16, 104, .Lxor_b15_NN
         .word   .Lxor_npow16, 160, .+4
         .word   12, 12, .Lxor_b15_NP
-.Lxor_b16_NP:
-        .word   .Lxor_npow16, 100, .Lxor_b16_NP_A_Neg
-        .word   .Lxor_pow16, 104, .Lxor_b16_NP_A_Pos_B_Neg
-        .word   12, 12, .Lxor_b15_PP
-.Lxor_b16_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow16, 160, .+4
-        .word   12, 12, .Lxor_b15_PN
-.Lxor_b16_NP_A_Neg:
-        .word   .Lxor_pow16, 104, .Lxor_b15_NN
-        .word   .Lxor_npow16, 160, .+4
-        .word   12, 12, .Lxor_b15_NP
 .Lxor_b16_NN:
         .word   .Lxor_npow16, 100, .Lxor_b16_NN_A_Neg
         .word   .Lxor_npow16, 104, .Lxor_b16_NN_A_Pos_B_Neg
@@ -39282,7 +39198,17 @@ __subleq_xor:
 .Lxor_b16_NN_A_Neg:
         .word   .Lxor_npow16, 104, .Lxor_b15_NN
         .word   .Lxor_npow16, 160, .+4
-        .word   12, 12, .Lxor_b15_NP
+.Lxor_b15_NP:
+        .word   .Lxor_npow15, 100, .Lxor_b15_NP_A_Neg
+        .word   .Lxor_pow15, 104, .Lxor_b15_NP_A_Pos_B_Neg
+        .word   12, 12, .Lxor_b14_PP
+.Lxor_b15_NP_A_Pos_B_Neg:
+        .word   .Lxor_npow15, 160, .+4
+        .word   12, 12, .Lxor_b14_PN
+.Lxor_b15_NP_A_Neg:
+        .word   .Lxor_pow15, 104, .Lxor_b14_NN
+        .word   .Lxor_npow15, 160, .+4
+        .word   12, 12, .Lxor_b14_NP
 .Lxor_b15_PP:
         .word   .Lxor_pow15, 100, .Lxor_b15_PP_A_Neg
         .word   .Lxor_pow15, 104, .Lxor_b15_PP_A_Pos_B_Neg
@@ -39305,17 +39231,6 @@ __subleq_xor:
         .word   .Lxor_npow15, 104, .Lxor_b14_NN
         .word   .Lxor_npow15, 160, .+4
         .word   12, 12, .Lxor_b14_NP
-.Lxor_b15_NP:
-        .word   .Lxor_npow15, 100, .Lxor_b15_NP_A_Neg
-        .word   .Lxor_pow15, 104, .Lxor_b15_NP_A_Pos_B_Neg
-        .word   12, 12, .Lxor_b14_PP
-.Lxor_b15_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow15, 160, .+4
-        .word   12, 12, .Lxor_b14_PN
-.Lxor_b15_NP_A_Neg:
-        .word   .Lxor_pow15, 104, .Lxor_b14_NN
-        .word   .Lxor_npow15, 160, .+4
-        .word   12, 12, .Lxor_b14_NP
 .Lxor_b15_NN:
         .word   .Lxor_npow15, 100, .Lxor_b15_NN_A_Neg
         .word   .Lxor_npow15, 104, .Lxor_b15_NN_A_Pos_B_Neg
@@ -39326,7 +39241,17 @@ __subleq_xor:
 .Lxor_b15_NN_A_Neg:
         .word   .Lxor_npow15, 104, .Lxor_b14_NN
         .word   .Lxor_npow15, 160, .+4
-        .word   12, 12, .Lxor_b14_NP
+.Lxor_b14_NP:
+        .word   .Lxor_npow14, 100, .Lxor_b14_NP_A_Neg
+        .word   .Lxor_pow14, 104, .Lxor_b14_NP_A_Pos_B_Neg
+        .word   12, 12, .Lxor_b13_PP
+.Lxor_b14_NP_A_Pos_B_Neg:
+        .word   .Lxor_npow14, 160, .+4
+        .word   12, 12, .Lxor_b13_PN
+.Lxor_b14_NP_A_Neg:
+        .word   .Lxor_pow14, 104, .Lxor_b13_NN
+        .word   .Lxor_npow14, 160, .+4
+        .word   12, 12, .Lxor_b13_NP
 .Lxor_b14_PP:
         .word   .Lxor_pow14, 100, .Lxor_b14_PP_A_Neg
         .word   .Lxor_pow14, 104, .Lxor_b14_PP_A_Pos_B_Neg
@@ -39349,17 +39274,6 @@ __subleq_xor:
         .word   .Lxor_npow14, 104, .Lxor_b13_NN
         .word   .Lxor_npow14, 160, .+4
         .word   12, 12, .Lxor_b13_NP
-.Lxor_b14_NP:
-        .word   .Lxor_npow14, 100, .Lxor_b14_NP_A_Neg
-        .word   .Lxor_pow14, 104, .Lxor_b14_NP_A_Pos_B_Neg
-        .word   12, 12, .Lxor_b13_PP
-.Lxor_b14_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow14, 160, .+4
-        .word   12, 12, .Lxor_b13_PN
-.Lxor_b14_NP_A_Neg:
-        .word   .Lxor_pow14, 104, .Lxor_b13_NN
-        .word   .Lxor_npow14, 160, .+4
-        .word   12, 12, .Lxor_b13_NP
 .Lxor_b14_NN:
         .word   .Lxor_npow14, 100, .Lxor_b14_NN_A_Neg
         .word   .Lxor_npow14, 104, .Lxor_b14_NN_A_Pos_B_Neg
@@ -39370,7 +39284,17 @@ __subleq_xor:
 .Lxor_b14_NN_A_Neg:
         .word   .Lxor_npow14, 104, .Lxor_b13_NN
         .word   .Lxor_npow14, 160, .+4
-        .word   12, 12, .Lxor_b13_NP
+.Lxor_b13_NP:
+        .word   .Lxor_npow13, 100, .Lxor_b13_NP_A_Neg
+        .word   .Lxor_pow13, 104, .Lxor_b13_NP_A_Pos_B_Neg
+        .word   12, 12, .Lxor_b12_PP
+.Lxor_b13_NP_A_Pos_B_Neg:
+        .word   .Lxor_npow13, 160, .+4
+        .word   12, 12, .Lxor_b12_PN
+.Lxor_b13_NP_A_Neg:
+        .word   .Lxor_pow13, 104, .Lxor_b12_NN
+        .word   .Lxor_npow13, 160, .+4
+        .word   12, 12, .Lxor_b12_NP
 .Lxor_b13_PP:
         .word   .Lxor_pow13, 100, .Lxor_b13_PP_A_Neg
         .word   .Lxor_pow13, 104, .Lxor_b13_PP_A_Pos_B_Neg
@@ -39393,17 +39317,6 @@ __subleq_xor:
         .word   .Lxor_npow13, 104, .Lxor_b12_NN
         .word   .Lxor_npow13, 160, .+4
         .word   12, 12, .Lxor_b12_NP
-.Lxor_b13_NP:
-        .word   .Lxor_npow13, 100, .Lxor_b13_NP_A_Neg
-        .word   .Lxor_pow13, 104, .Lxor_b13_NP_A_Pos_B_Neg
-        .word   12, 12, .Lxor_b12_PP
-.Lxor_b13_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow13, 160, .+4
-        .word   12, 12, .Lxor_b12_PN
-.Lxor_b13_NP_A_Neg:
-        .word   .Lxor_pow13, 104, .Lxor_b12_NN
-        .word   .Lxor_npow13, 160, .+4
-        .word   12, 12, .Lxor_b12_NP
 .Lxor_b13_NN:
         .word   .Lxor_npow13, 100, .Lxor_b13_NN_A_Neg
         .word   .Lxor_npow13, 104, .Lxor_b13_NN_A_Pos_B_Neg
@@ -39414,7 +39327,17 @@ __subleq_xor:
 .Lxor_b13_NN_A_Neg:
         .word   .Lxor_npow13, 104, .Lxor_b12_NN
         .word   .Lxor_npow13, 160, .+4
-        .word   12, 12, .Lxor_b12_NP
+.Lxor_b12_NP:
+        .word   .Lxor_npow12, 100, .Lxor_b12_NP_A_Neg
+        .word   .Lxor_pow12, 104, .Lxor_b12_NP_A_Pos_B_Neg
+        .word   12, 12, .Lxor_b11_PP
+.Lxor_b12_NP_A_Pos_B_Neg:
+        .word   .Lxor_npow12, 160, .+4
+        .word   12, 12, .Lxor_b11_PN
+.Lxor_b12_NP_A_Neg:
+        .word   .Lxor_pow12, 104, .Lxor_b11_NN
+        .word   .Lxor_npow12, 160, .+4
+        .word   12, 12, .Lxor_b11_NP
 .Lxor_b12_PP:
         .word   .Lxor_pow12, 100, .Lxor_b12_PP_A_Neg
         .word   .Lxor_pow12, 104, .Lxor_b12_PP_A_Pos_B_Neg
@@ -39437,17 +39360,6 @@ __subleq_xor:
         .word   .Lxor_npow12, 104, .Lxor_b11_NN
         .word   .Lxor_npow12, 160, .+4
         .word   12, 12, .Lxor_b11_NP
-.Lxor_b12_NP:
-        .word   .Lxor_npow12, 100, .Lxor_b12_NP_A_Neg
-        .word   .Lxor_pow12, 104, .Lxor_b12_NP_A_Pos_B_Neg
-        .word   12, 12, .Lxor_b11_PP
-.Lxor_b12_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow12, 160, .+4
-        .word   12, 12, .Lxor_b11_PN
-.Lxor_b12_NP_A_Neg:
-        .word   .Lxor_pow12, 104, .Lxor_b11_NN
-        .word   .Lxor_npow12, 160, .+4
-        .word   12, 12, .Lxor_b11_NP
 .Lxor_b12_NN:
         .word   .Lxor_npow12, 100, .Lxor_b12_NN_A_Neg
         .word   .Lxor_npow12, 104, .Lxor_b12_NN_A_Pos_B_Neg
@@ -39458,7 +39370,17 @@ __subleq_xor:
 .Lxor_b12_NN_A_Neg:
         .word   .Lxor_npow12, 104, .Lxor_b11_NN
         .word   .Lxor_npow12, 160, .+4
-        .word   12, 12, .Lxor_b11_NP
+.Lxor_b11_NP:
+        .word   .Lxor_npow11, 100, .Lxor_b11_NP_A_Neg
+        .word   .Lxor_pow11, 104, .Lxor_b11_NP_A_Pos_B_Neg
+        .word   12, 12, .Lxor_b10_PP
+.Lxor_b11_NP_A_Pos_B_Neg:
+        .word   .Lxor_npow11, 160, .+4
+        .word   12, 12, .Lxor_b10_PN
+.Lxor_b11_NP_A_Neg:
+        .word   .Lxor_pow11, 104, .Lxor_b10_NN
+        .word   .Lxor_npow11, 160, .+4
+        .word   12, 12, .Lxor_b10_NP
 .Lxor_b11_PP:
         .word   .Lxor_pow11, 100, .Lxor_b11_PP_A_Neg
         .word   .Lxor_pow11, 104, .Lxor_b11_PP_A_Pos_B_Neg
@@ -39481,17 +39403,6 @@ __subleq_xor:
         .word   .Lxor_npow11, 104, .Lxor_b10_NN
         .word   .Lxor_npow11, 160, .+4
         .word   12, 12, .Lxor_b10_NP
-.Lxor_b11_NP:
-        .word   .Lxor_npow11, 100, .Lxor_b11_NP_A_Neg
-        .word   .Lxor_pow11, 104, .Lxor_b11_NP_A_Pos_B_Neg
-        .word   12, 12, .Lxor_b10_PP
-.Lxor_b11_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow11, 160, .+4
-        .word   12, 12, .Lxor_b10_PN
-.Lxor_b11_NP_A_Neg:
-        .word   .Lxor_pow11, 104, .Lxor_b10_NN
-        .word   .Lxor_npow11, 160, .+4
-        .word   12, 12, .Lxor_b10_NP
 .Lxor_b11_NN:
         .word   .Lxor_npow11, 100, .Lxor_b11_NN_A_Neg
         .word   .Lxor_npow11, 104, .Lxor_b11_NN_A_Pos_B_Neg
@@ -39502,7 +39413,17 @@ __subleq_xor:
 .Lxor_b11_NN_A_Neg:
         .word   .Lxor_npow11, 104, .Lxor_b10_NN
         .word   .Lxor_npow11, 160, .+4
-        .word   12, 12, .Lxor_b10_NP
+.Lxor_b10_NP:
+        .word   .Lxor_npow10, 100, .Lxor_b10_NP_A_Neg
+        .word   .Lxor_pow10, 104, .Lxor_b10_NP_A_Pos_B_Neg
+        .word   12, 12, .Lxor_b9_PP
+.Lxor_b10_NP_A_Pos_B_Neg:
+        .word   .Lxor_npow10, 160, .+4
+        .word   12, 12, .Lxor_b9_PN
+.Lxor_b10_NP_A_Neg:
+        .word   .Lxor_pow10, 104, .Lxor_b9_NN
+        .word   .Lxor_npow10, 160, .+4
+        .word   12, 12, .Lxor_b9_NP
 .Lxor_b10_PP:
         .word   .Lxor_pow10, 100, .Lxor_b10_PP_A_Neg
         .word   .Lxor_pow10, 104, .Lxor_b10_PP_A_Pos_B_Neg
@@ -39525,17 +39446,6 @@ __subleq_xor:
         .word   .Lxor_npow10, 104, .Lxor_b9_NN
         .word   .Lxor_npow10, 160, .+4
         .word   12, 12, .Lxor_b9_NP
-.Lxor_b10_NP:
-        .word   .Lxor_npow10, 100, .Lxor_b10_NP_A_Neg
-        .word   .Lxor_pow10, 104, .Lxor_b10_NP_A_Pos_B_Neg
-        .word   12, 12, .Lxor_b9_PP
-.Lxor_b10_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow10, 160, .+4
-        .word   12, 12, .Lxor_b9_PN
-.Lxor_b10_NP_A_Neg:
-        .word   .Lxor_pow10, 104, .Lxor_b9_NN
-        .word   .Lxor_npow10, 160, .+4
-        .word   12, 12, .Lxor_b9_NP
 .Lxor_b10_NN:
         .word   .Lxor_npow10, 100, .Lxor_b10_NN_A_Neg
         .word   .Lxor_npow10, 104, .Lxor_b10_NN_A_Pos_B_Neg
@@ -39546,7 +39456,17 @@ __subleq_xor:
 .Lxor_b10_NN_A_Neg:
         .word   .Lxor_npow10, 104, .Lxor_b9_NN
         .word   .Lxor_npow10, 160, .+4
-        .word   12, 12, .Lxor_b9_NP
+.Lxor_b9_NP:
+        .word   .Lxor_npow9, 100, .Lxor_b9_NP_A_Neg
+        .word   .Lxor_pow9, 104, .Lxor_b9_NP_A_Pos_B_Neg
+        .word   12, 12, .Lxor_b8_PP
+.Lxor_b9_NP_A_Pos_B_Neg:
+        .word   .Lxor_npow9, 160, .+4
+        .word   12, 12, .Lxor_b8_PN
+.Lxor_b9_NP_A_Neg:
+        .word   .Lxor_pow9, 104, .Lxor_b8_NN
+        .word   .Lxor_npow9, 160, .+4
+        .word   12, 12, .Lxor_b8_NP
 .Lxor_b9_PP:
         .word   .Lxor_pow9, 100, .Lxor_b9_PP_A_Neg
         .word   .Lxor_pow9, 104, .Lxor_b9_PP_A_Pos_B_Neg
@@ -39569,17 +39489,6 @@ __subleq_xor:
         .word   .Lxor_npow9, 104, .Lxor_b8_NN
         .word   .Lxor_npow9, 160, .+4
         .word   12, 12, .Lxor_b8_NP
-.Lxor_b9_NP:
-        .word   .Lxor_npow9, 100, .Lxor_b9_NP_A_Neg
-        .word   .Lxor_pow9, 104, .Lxor_b9_NP_A_Pos_B_Neg
-        .word   12, 12, .Lxor_b8_PP
-.Lxor_b9_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow9, 160, .+4
-        .word   12, 12, .Lxor_b8_PN
-.Lxor_b9_NP_A_Neg:
-        .word   .Lxor_pow9, 104, .Lxor_b8_NN
-        .word   .Lxor_npow9, 160, .+4
-        .word   12, 12, .Lxor_b8_NP
 .Lxor_b9_NN:
         .word   .Lxor_npow9, 100, .Lxor_b9_NN_A_Neg
         .word   .Lxor_npow9, 104, .Lxor_b9_NN_A_Pos_B_Neg
@@ -39590,7 +39499,17 @@ __subleq_xor:
 .Lxor_b9_NN_A_Neg:
         .word   .Lxor_npow9, 104, .Lxor_b8_NN
         .word   .Lxor_npow9, 160, .+4
-        .word   12, 12, .Lxor_b8_NP
+.Lxor_b8_NP:
+        .word   .Lxor_npow8, 100, .Lxor_b8_NP_A_Neg
+        .word   .Lxor_pow8, 104, .Lxor_b8_NP_A_Pos_B_Neg
+        .word   12, 12, .Lxor_b7_PP
+.Lxor_b8_NP_A_Pos_B_Neg:
+        .word   .Lxor_npow8, 160, .+4
+        .word   12, 12, .Lxor_b7_PN
+.Lxor_b8_NP_A_Neg:
+        .word   .Lxor_pow8, 104, .Lxor_b7_NN
+        .word   .Lxor_npow8, 160, .+4
+        .word   12, 12, .Lxor_b7_NP
 .Lxor_b8_PP:
         .word   .Lxor_pow8, 100, .Lxor_b8_PP_A_Neg
         .word   .Lxor_pow8, 104, .Lxor_b8_PP_A_Pos_B_Neg
@@ -39613,17 +39532,6 @@ __subleq_xor:
         .word   .Lxor_npow8, 104, .Lxor_b7_NN
         .word   .Lxor_npow8, 160, .+4
         .word   12, 12, .Lxor_b7_NP
-.Lxor_b8_NP:
-        .word   .Lxor_npow8, 100, .Lxor_b8_NP_A_Neg
-        .word   .Lxor_pow8, 104, .Lxor_b8_NP_A_Pos_B_Neg
-        .word   12, 12, .Lxor_b7_PP
-.Lxor_b8_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow8, 160, .+4
-        .word   12, 12, .Lxor_b7_PN
-.Lxor_b8_NP_A_Neg:
-        .word   .Lxor_pow8, 104, .Lxor_b7_NN
-        .word   .Lxor_npow8, 160, .+4
-        .word   12, 12, .Lxor_b7_NP
 .Lxor_b8_NN:
         .word   .Lxor_npow8, 100, .Lxor_b8_NN_A_Neg
         .word   .Lxor_npow8, 104, .Lxor_b8_NN_A_Pos_B_Neg
@@ -39634,7 +39542,17 @@ __subleq_xor:
 .Lxor_b8_NN_A_Neg:
         .word   .Lxor_npow8, 104, .Lxor_b7_NN
         .word   .Lxor_npow8, 160, .+4
-        .word   12, 12, .Lxor_b7_NP
+.Lxor_b7_NP:
+        .word   .Lxor_npow7, 100, .Lxor_b7_NP_A_Neg
+        .word   .Lxor_pow7, 104, .Lxor_b7_NP_A_Pos_B_Neg
+        .word   12, 12, .Lxor_b6_PP
+.Lxor_b7_NP_A_Pos_B_Neg:
+        .word   .Lxor_npow7, 160, .+4
+        .word   12, 12, .Lxor_b6_PN
+.Lxor_b7_NP_A_Neg:
+        .word   .Lxor_pow7, 104, .Lxor_b6_NN
+        .word   .Lxor_npow7, 160, .+4
+        .word   12, 12, .Lxor_b6_NP
 .Lxor_b7_PP:
         .word   .Lxor_pow7, 100, .Lxor_b7_PP_A_Neg
         .word   .Lxor_pow7, 104, .Lxor_b7_PP_A_Pos_B_Neg
@@ -39657,17 +39575,6 @@ __subleq_xor:
         .word   .Lxor_npow7, 104, .Lxor_b6_NN
         .word   .Lxor_npow7, 160, .+4
         .word   12, 12, .Lxor_b6_NP
-.Lxor_b7_NP:
-        .word   .Lxor_npow7, 100, .Lxor_b7_NP_A_Neg
-        .word   .Lxor_pow7, 104, .Lxor_b7_NP_A_Pos_B_Neg
-        .word   12, 12, .Lxor_b6_PP
-.Lxor_b7_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow7, 160, .+4
-        .word   12, 12, .Lxor_b6_PN
-.Lxor_b7_NP_A_Neg:
-        .word   .Lxor_pow7, 104, .Lxor_b6_NN
-        .word   .Lxor_npow7, 160, .+4
-        .word   12, 12, .Lxor_b6_NP
 .Lxor_b7_NN:
         .word   .Lxor_npow7, 100, .Lxor_b7_NN_A_Neg
         .word   .Lxor_npow7, 104, .Lxor_b7_NN_A_Pos_B_Neg
@@ -39678,7 +39585,17 @@ __subleq_xor:
 .Lxor_b7_NN_A_Neg:
         .word   .Lxor_npow7, 104, .Lxor_b6_NN
         .word   .Lxor_npow7, 160, .+4
-        .word   12, 12, .Lxor_b6_NP
+.Lxor_b6_NP:
+        .word   .Lxor_npow6, 100, .Lxor_b6_NP_A_Neg
+        .word   .Lxor_pow6, 104, .Lxor_b6_NP_A_Pos_B_Neg
+        .word   12, 12, .Lxor_b5_PP
+.Lxor_b6_NP_A_Pos_B_Neg:
+        .word   .Lxor_npow6, 160, .+4
+        .word   12, 12, .Lxor_b5_PN
+.Lxor_b6_NP_A_Neg:
+        .word   .Lxor_pow6, 104, .Lxor_b5_NN
+        .word   .Lxor_npow6, 160, .+4
+        .word   12, 12, .Lxor_b5_NP
 .Lxor_b6_PP:
         .word   .Lxor_pow6, 100, .Lxor_b6_PP_A_Neg
         .word   .Lxor_pow6, 104, .Lxor_b6_PP_A_Pos_B_Neg
@@ -39701,17 +39618,6 @@ __subleq_xor:
         .word   .Lxor_npow6, 104, .Lxor_b5_NN
         .word   .Lxor_npow6, 160, .+4
         .word   12, 12, .Lxor_b5_NP
-.Lxor_b6_NP:
-        .word   .Lxor_npow6, 100, .Lxor_b6_NP_A_Neg
-        .word   .Lxor_pow6, 104, .Lxor_b6_NP_A_Pos_B_Neg
-        .word   12, 12, .Lxor_b5_PP
-.Lxor_b6_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow6, 160, .+4
-        .word   12, 12, .Lxor_b5_PN
-.Lxor_b6_NP_A_Neg:
-        .word   .Lxor_pow6, 104, .Lxor_b5_NN
-        .word   .Lxor_npow6, 160, .+4
-        .word   12, 12, .Lxor_b5_NP
 .Lxor_b6_NN:
         .word   .Lxor_npow6, 100, .Lxor_b6_NN_A_Neg
         .word   .Lxor_npow6, 104, .Lxor_b6_NN_A_Pos_B_Neg
@@ -39722,7 +39628,17 @@ __subleq_xor:
 .Lxor_b6_NN_A_Neg:
         .word   .Lxor_npow6, 104, .Lxor_b5_NN
         .word   .Lxor_npow6, 160, .+4
-        .word   12, 12, .Lxor_b5_NP
+.Lxor_b5_NP:
+        .word   .Lxor_npow5, 100, .Lxor_b5_NP_A_Neg
+        .word   .Lxor_pow5, 104, .Lxor_b5_NP_A_Pos_B_Neg
+        .word   12, 12, .Lxor_b4_PP
+.Lxor_b5_NP_A_Pos_B_Neg:
+        .word   .Lxor_npow5, 160, .+4
+        .word   12, 12, .Lxor_b4_PN
+.Lxor_b5_NP_A_Neg:
+        .word   .Lxor_pow5, 104, .Lxor_b4_NN
+        .word   .Lxor_npow5, 160, .+4
+        .word   12, 12, .Lxor_b4_NP
 .Lxor_b5_PP:
         .word   .Lxor_pow5, 100, .Lxor_b5_PP_A_Neg
         .word   .Lxor_pow5, 104, .Lxor_b5_PP_A_Pos_B_Neg
@@ -39745,17 +39661,6 @@ __subleq_xor:
         .word   .Lxor_npow5, 104, .Lxor_b4_NN
         .word   .Lxor_npow5, 160, .+4
         .word   12, 12, .Lxor_b4_NP
-.Lxor_b5_NP:
-        .word   .Lxor_npow5, 100, .Lxor_b5_NP_A_Neg
-        .word   .Lxor_pow5, 104, .Lxor_b5_NP_A_Pos_B_Neg
-        .word   12, 12, .Lxor_b4_PP
-.Lxor_b5_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow5, 160, .+4
-        .word   12, 12, .Lxor_b4_PN
-.Lxor_b5_NP_A_Neg:
-        .word   .Lxor_pow5, 104, .Lxor_b4_NN
-        .word   .Lxor_npow5, 160, .+4
-        .word   12, 12, .Lxor_b4_NP
 .Lxor_b5_NN:
         .word   .Lxor_npow5, 100, .Lxor_b5_NN_A_Neg
         .word   .Lxor_npow5, 104, .Lxor_b5_NN_A_Pos_B_Neg
@@ -39766,7 +39671,17 @@ __subleq_xor:
 .Lxor_b5_NN_A_Neg:
         .word   .Lxor_npow5, 104, .Lxor_b4_NN
         .word   .Lxor_npow5, 160, .+4
-        .word   12, 12, .Lxor_b4_NP
+.Lxor_b4_NP:
+        .word   .Lxor_npow4, 100, .Lxor_b4_NP_A_Neg
+        .word   .Lxor_pow4, 104, .Lxor_b4_NP_A_Pos_B_Neg
+        .word   12, 12, .Lxor_b3_PP
+.Lxor_b4_NP_A_Pos_B_Neg:
+        .word   .Lxor_npow4, 160, .+4
+        .word   12, 12, .Lxor_b3_PN
+.Lxor_b4_NP_A_Neg:
+        .word   .Lxor_pow4, 104, .Lxor_b3_NN
+        .word   .Lxor_npow4, 160, .+4
+        .word   12, 12, .Lxor_b3_NP
 .Lxor_b4_PP:
         .word   .Lxor_pow4, 100, .Lxor_b4_PP_A_Neg
         .word   .Lxor_pow4, 104, .Lxor_b4_PP_A_Pos_B_Neg
@@ -39789,17 +39704,6 @@ __subleq_xor:
         .word   .Lxor_npow4, 104, .Lxor_b3_NN
         .word   .Lxor_npow4, 160, .+4
         .word   12, 12, .Lxor_b3_NP
-.Lxor_b4_NP:
-        .word   .Lxor_npow4, 100, .Lxor_b4_NP_A_Neg
-        .word   .Lxor_pow4, 104, .Lxor_b4_NP_A_Pos_B_Neg
-        .word   12, 12, .Lxor_b3_PP
-.Lxor_b4_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow4, 160, .+4
-        .word   12, 12, .Lxor_b3_PN
-.Lxor_b4_NP_A_Neg:
-        .word   .Lxor_pow4, 104, .Lxor_b3_NN
-        .word   .Lxor_npow4, 160, .+4
-        .word   12, 12, .Lxor_b3_NP
 .Lxor_b4_NN:
         .word   .Lxor_npow4, 100, .Lxor_b4_NN_A_Neg
         .word   .Lxor_npow4, 104, .Lxor_b4_NN_A_Pos_B_Neg
@@ -39810,7 +39714,17 @@ __subleq_xor:
 .Lxor_b4_NN_A_Neg:
         .word   .Lxor_npow4, 104, .Lxor_b3_NN
         .word   .Lxor_npow4, 160, .+4
-        .word   12, 12, .Lxor_b3_NP
+.Lxor_b3_NP:
+        .word   .Lxor_npow3, 100, .Lxor_b3_NP_A_Neg
+        .word   .Lxor_pow3, 104, .Lxor_b3_NP_A_Pos_B_Neg
+        .word   12, 12, .Lxor_b2_PP
+.Lxor_b3_NP_A_Pos_B_Neg:
+        .word   .Lxor_npow3, 160, .+4
+        .word   12, 12, .Lxor_b2_PN
+.Lxor_b3_NP_A_Neg:
+        .word   .Lxor_pow3, 104, .Lxor_b2_NN
+        .word   .Lxor_npow3, 160, .+4
+        .word   12, 12, .Lxor_b2_NP
 .Lxor_b3_PP:
         .word   .Lxor_pow3, 100, .Lxor_b3_PP_A_Neg
         .word   .Lxor_pow3, 104, .Lxor_b3_PP_A_Pos_B_Neg
@@ -39833,17 +39747,6 @@ __subleq_xor:
         .word   .Lxor_npow3, 104, .Lxor_b2_NN
         .word   .Lxor_npow3, 160, .+4
         .word   12, 12, .Lxor_b2_NP
-.Lxor_b3_NP:
-        .word   .Lxor_npow3, 100, .Lxor_b3_NP_A_Neg
-        .word   .Lxor_pow3, 104, .Lxor_b3_NP_A_Pos_B_Neg
-        .word   12, 12, .Lxor_b2_PP
-.Lxor_b3_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow3, 160, .+4
-        .word   12, 12, .Lxor_b2_PN
-.Lxor_b3_NP_A_Neg:
-        .word   .Lxor_pow3, 104, .Lxor_b2_NN
-        .word   .Lxor_npow3, 160, .+4
-        .word   12, 12, .Lxor_b2_NP
 .Lxor_b3_NN:
         .word   .Lxor_npow3, 100, .Lxor_b3_NN_A_Neg
         .word   .Lxor_npow3, 104, .Lxor_b3_NN_A_Pos_B_Neg
@@ -39854,7 +39757,17 @@ __subleq_xor:
 .Lxor_b3_NN_A_Neg:
         .word   .Lxor_npow3, 104, .Lxor_b2_NN
         .word   .Lxor_npow3, 160, .+4
-        .word   12, 12, .Lxor_b2_NP
+.Lxor_b2_NP:
+        .word   .Lxor_npow2, 100, .Lxor_b2_NP_A_Neg
+        .word   .Lxor_pow2, 104, .Lxor_b2_NP_A_Pos_B_Neg
+        .word   12, 12, .Lxor_b1_PP
+.Lxor_b2_NP_A_Pos_B_Neg:
+        .word   .Lxor_npow2, 160, .+4
+        .word   12, 12, .Lxor_b1_PN
+.Lxor_b2_NP_A_Neg:
+        .word   .Lxor_pow2, 104, .Lxor_b1_NN
+        .word   .Lxor_npow2, 160, .+4
+        .word   12, 12, .Lxor_b1_NP
 .Lxor_b2_PP:
         .word   .Lxor_pow2, 100, .Lxor_b2_PP_A_Neg
         .word   .Lxor_pow2, 104, .Lxor_b2_PP_A_Pos_B_Neg
@@ -39877,17 +39790,6 @@ __subleq_xor:
         .word   .Lxor_npow2, 104, .Lxor_b1_NN
         .word   .Lxor_npow2, 160, .+4
         .word   12, 12, .Lxor_b1_NP
-.Lxor_b2_NP:
-        .word   .Lxor_npow2, 100, .Lxor_b2_NP_A_Neg
-        .word   .Lxor_pow2, 104, .Lxor_b2_NP_A_Pos_B_Neg
-        .word   12, 12, .Lxor_b1_PP
-.Lxor_b2_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow2, 160, .+4
-        .word   12, 12, .Lxor_b1_PN
-.Lxor_b2_NP_A_Neg:
-        .word   .Lxor_pow2, 104, .Lxor_b1_NN
-        .word   .Lxor_npow2, 160, .+4
-        .word   12, 12, .Lxor_b1_NP
 .Lxor_b2_NN:
         .word   .Lxor_npow2, 100, .Lxor_b2_NN_A_Neg
         .word   .Lxor_npow2, 104, .Lxor_b2_NN_A_Pos_B_Neg
@@ -39898,7 +39800,17 @@ __subleq_xor:
 .Lxor_b2_NN_A_Neg:
         .word   .Lxor_npow2, 104, .Lxor_b1_NN
         .word   .Lxor_npow2, 160, .+4
-        .word   12, 12, .Lxor_b1_NP
+.Lxor_b1_NP:
+        .word   .Lxor_npow1, 100, .Lxor_b1_NP_A_Neg
+        .word   .Lxor_pow1, 104, .Lxor_b1_NP_A_Pos_B_Neg
+        .word   12, 12, .Lxor_b0_PP
+.Lxor_b1_NP_A_Pos_B_Neg:
+        .word   .Lxor_npow1, 160, .+4
+        .word   12, 12, .Lxor_b0_PN
+.Lxor_b1_NP_A_Neg:
+        .word   .Lxor_pow1, 104, .Lxor_b0_NN
+        .word   .Lxor_npow1, 160, .+4
+        .word   12, 12, .Lxor_b0_NP
 .Lxor_b1_PP:
         .word   .Lxor_pow1, 100, .Lxor_b1_PP_A_Neg
         .word   .Lxor_pow1, 104, .Lxor_b1_PP_A_Pos_B_Neg
@@ -39921,17 +39833,6 @@ __subleq_xor:
         .word   .Lxor_npow1, 104, .Lxor_b0_NN
         .word   .Lxor_npow1, 160, .+4
         .word   12, 12, .Lxor_b0_NP
-.Lxor_b1_NP:
-        .word   .Lxor_npow1, 100, .Lxor_b1_NP_A_Neg
-        .word   .Lxor_pow1, 104, .Lxor_b1_NP_A_Pos_B_Neg
-        .word   12, 12, .Lxor_b0_PP
-.Lxor_b1_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow1, 160, .+4
-        .word   12, 12, .Lxor_b0_PN
-.Lxor_b1_NP_A_Neg:
-        .word   .Lxor_pow1, 104, .Lxor_b0_NN
-        .word   .Lxor_npow1, 160, .+4
-        .word   12, 12, .Lxor_b0_NP
 .Lxor_b1_NN:
         .word   .Lxor_npow1, 100, .Lxor_b1_NN_A_Neg
         .word   .Lxor_npow1, 104, .Lxor_b1_NN_A_Pos_B_Neg
@@ -39942,7 +39843,17 @@ __subleq_xor:
 .Lxor_b1_NN_A_Neg:
         .word   .Lxor_npow1, 104, .Lxor_b0_NN
         .word   .Lxor_npow1, 160, .+4
-        .word   12, 12, .Lxor_b0_NP
+.Lxor_b0_NP:
+        .word   .Lxor_npow0, 100, .Lxor_b0_NP_A_Neg
+        .word   .Lxor_pow0, 104, .Lxor_b0_NP_A_Pos_B_Neg
+        .word   12, 12, .Lxor_done
+.Lxor_b0_NP_A_Pos_B_Neg:
+        .word   .Lxor_npow0, 160, .+4
+        .word   12, 12, .Lxor_done
+.Lxor_b0_NP_A_Neg:
+        .word   .Lxor_pow0, 104, .Lxor_done
+        .word   .Lxor_npow0, 160, .+4
+        .word   12, 12, .Lxor_done
 .Lxor_b0_PP:
         .word   .Lxor_pow0, 100, .Lxor_b0_PP_A_Neg
         .word   .Lxor_pow0, 104, .Lxor_b0_PP_A_Pos_B_Neg
@@ -39965,17 +39876,6 @@ __subleq_xor:
         .word   .Lxor_npow0, 104, .Lxor_done
         .word   .Lxor_npow0, 160, .+4
         .word   12, 12, .Lxor_done
-.Lxor_b0_NP:
-        .word   .Lxor_npow0, 100, .Lxor_b0_NP_A_Neg
-        .word   .Lxor_pow0, 104, .Lxor_b0_NP_A_Pos_B_Neg
-        .word   12, 12, .Lxor_done
-.Lxor_b0_NP_A_Pos_B_Neg:
-        .word   .Lxor_npow0, 160, .+4
-        .word   12, 12, .Lxor_done
-.Lxor_b0_NP_A_Neg:
-        .word   .Lxor_pow0, 104, .Lxor_done
-        .word   .Lxor_npow0, 160, .+4
-        .word   12, 12, .Lxor_done
 .Lxor_b0_NN:
         .word   .Lxor_npow0, 100, .Lxor_b0_NN_A_Neg
         .word   .Lxor_npow0, 104, .Lxor_b0_NN_A_Pos_B_Neg
@@ -39989,7 +39889,6 @@ __subleq_xor:
         .word   12, 12, .Lxor_done
 .Lxor_done:
         .word   96, 96, .+4
-        .word   12, 12, .+4
         .word   160, 12, .+4
         .word   12, 96, .+4
 .Lxor_pop:
@@ -39998,7 +39897,6 @@ __subleq_xor:
         .word   18, 12, .+4
         .word   12, 160, .+4
         .word   .Lxor_neg4, 16, .+4
-        .word   12, 12, .+4
         .word   12
         .word   12
         .word   162
@@ -40012,6 +39910,10 @@ __subleq_xor:
         .word   1
 .Lxor_n1:
         .word   -1
+.Lxor_n256:
+        .word   -256
+.Lxor_n65536:
+        .word   -65536
 .Lxor_pow30:
         .word   1073741824
 .Lxor_npow30:
@@ -40144,9 +40046,8 @@ __subleq_xor:
 
 # __subleq_shl: R3 = R3 << R4 (Unrolled Linear Dispatch)
 __subleq_shl:
-        .word   160, 160, .+4
-        .word   12, 12, .+4
         .word   104, 12, .+4
+        .word   160, 160, .+4
         .word   12, 160, .Lshl_chk_le0
 .Lshl_chk_le0:
         .word   164, 164, .+4
@@ -40320,7 +40221,6 @@ __subleq_shl:
         .word   18, 12, .+4
         .word   12, 160, .+4
         .word   .Lshl_neg4, 16, .+4
-        .word   12, 12, .+4
         .word   12
         .word   12
         .word   162
@@ -40336,9 +40236,8 @@ __subleq_shl:
         .type   __subleq_srl,@function
 
 __subleq_srl:
-        .word   164, 164, .+4
-        .word   12, 12, .+4
         .word   100, 12, .+4
+        .word   164, 164, .+4
         .word   12, 164, .Lsrl_dispatch
 .Lsrl_dispatch:
         .word   160, 160, .+4
@@ -40346,17 +40245,10 @@ __subleq_srl:
         .word   104, 12, .+4
         .word   12, 160, .+4
         .word   144, 160, .Lsrl_copy_input
-        .word   160, 160, .+4
-        .word   12, 12, .+4
-        .word   104, 12, .+4
-        .word   12, 160, .+4
-        .word   .Lsrl_sh32, 160, .+4
         .word   172, 172, .+4
+        .word   .Lsrl_n32, 172, .+4
         .word   160, 172, .Lsrl_zero
-        .word   160, 160, .+4
-        .word   12, 12, .+4
-        .word   104, 12, .+4
-        .word   12, 160, .Lsrl_chk1
+        .word   12, 12, .Lsrl_chk1
 .Lsrl_chk1:
         .word   .Lsrl_one, 160, .Lsrl_shift_1
 .Lsrl_chk2:
@@ -44778,7 +44670,6 @@ __subleq_srl:
         .word   18, 12, .+4
         .word   12, 160, .+4
         .word   .Lsrl_neg4, 16, .+4
-        .word   12, 12, .+4
         .word   12
         .word   12
         .word   162
@@ -44859,9 +44750,8 @@ __subleq_srl:
         .type   __subleq_sra,@function
 
 __subleq_sra:
-        .word   164, 164, .+4
-        .word   12, 12, .+4
         .word   100, 12, .+4
+        .word   164, 164, .+4
         .word   12, 164, .Lsra_dispatch
 .Lsra_dispatch:
         .word   160, 160, .+4
@@ -44869,17 +44759,10 @@ __subleq_sra:
         .word   104, 12, .+4
         .word   12, 160, .+4
         .word   144, 160, .Lsra_copy_input
-        .word   160, 160, .+4
-        .word   12, 12, .+4
-        .word   104, 12, .+4
-        .word   12, 160, .+4
-        .word   .Lsra_sh32, 160, .+4
         .word   172, 172, .+4
+        .word   .Lsra_n32, 172, .+4
         .word   160, 172, .Lsra_allbits
-        .word   160, 160, .+4
-        .word   12, 12, .+4
-        .word   104, 12, .+4
-        .word   12, 160, .Lsra_chk1
+        .word   12, 12, .Lsra_chk1
 .Lsra_chk1:
         .word   .Lsra_one, 160, .Lsra_shift_1
 .Lsra_chk2:
@@ -50033,7 +49916,6 @@ __subleq_sra:
         .word   18, 12, .+4
         .word   12, 160, .+4
         .word   .Lsra_neg4, 16, .+4
-        .word   12, 12, .+4
         .word   12
         .word   12
         .word   162
@@ -50113,354 +49995,243 @@ __subleq_sra:
         .globl  __subleq_lb
         .type   __subleq_lb,@function
 
-# __subleq_lb: Load byte - O(1) modulo + Non-Restoring Lattice Extraction
+# __subleq_lb: Load byte - Aggressively Optimized
 __subleq_lb:
-        .word   160, 160, .+4
-        .word   12, 12, .+4
         .word   100, 12, .+4
+        .word   160, 160, .+4
         .word   12, 160, .Llb_offset
 .Llb_offset:
-        .word   164, 164, .Llb_mod1
-.Llb_mod1:
-        .word   180, 180, .+4
-        .word   12, 12, .+4
-        .word   100, 12, .+4
-        .word   12, 180, .Llb_mod_sign
-.Llb_mod_sign:
-        .word   144, 180, .Llb_mod_b31_neg
-        .word   12, 12, .Llb_mod_bias
-.Llb_mod_b31_neg:
-        .word   184, 184, .+4
-        .word   180, 184, .+4
-        .word   144, 184, .Llb_mod_b31_ambig
-        .word   .Llb_min, 180, .+4
-        .word   12, 12, .Llb_mod_bias
-.Llb_mod_b31_ambig:
-        .word   .Llb_neg1, 184, .+4
-        .word   144, 184, .Llb_mod_bias
-        .word   .Llb_min, 180, .+4
+        .word   164, 164, .Llb_mod_bias
 .Llb_mod_bias:
-        .word   .Llb_neg1, 180, .+4
-        .word   12, 12, .Llb_mod_b30_P
+        .word   .Llb_neg1, 100, .+4
 .Llb_mod_b30_P:
-        .word   .Llb_c1073741824, 180, .Llb_mod_b30_P_to_N
-        .word   12, 12, .Llb_mod_b29_P
-.Llb_mod_b30_P_to_N:
-        .word   12, 12, .Llb_mod_b29_N
-.Llb_mod_b30_N:
-        .word   .Llb_n1073741824, 180, .Llb_mod_b30_N_to_N
-        .word   12, 12, .Llb_mod_b29_P
-.Llb_mod_b30_N_to_N:
-        .word   12, 12, .Llb_mod_b29_N
+        .word   .Llb_c1073741824, 100, .Llb_mod_b30_P_to_N
 .Llb_mod_b29_P:
-        .word   .Llb_c536870912, 180, .Llb_mod_b29_P_to_N
-        .word   12, 12, .Llb_mod_b28_P
-.Llb_mod_b29_P_to_N:
-        .word   12, 12, .Llb_mod_b28_N
-.Llb_mod_b29_N:
-        .word   .Llb_n536870912, 180, .Llb_mod_b29_N_to_N
-        .word   12, 12, .Llb_mod_b28_P
-.Llb_mod_b29_N_to_N:
-        .word   12, 12, .Llb_mod_b28_N
+        .word   .Llb_c536870912, 100, .Llb_mod_b29_P_to_N
 .Llb_mod_b28_P:
-        .word   .Llb_c268435456, 180, .Llb_mod_b28_P_to_N
-        .word   12, 12, .Llb_mod_b27_P
-.Llb_mod_b28_P_to_N:
-        .word   12, 12, .Llb_mod_b27_N
-.Llb_mod_b28_N:
-        .word   .Llb_n268435456, 180, .Llb_mod_b28_N_to_N
-        .word   12, 12, .Llb_mod_b27_P
-.Llb_mod_b28_N_to_N:
-        .word   12, 12, .Llb_mod_b27_N
+        .word   .Llb_c268435456, 100, .Llb_mod_b28_P_to_N
 .Llb_mod_b27_P:
-        .word   .Llb_c134217728, 180, .Llb_mod_b27_P_to_N
-        .word   12, 12, .Llb_mod_b26_P
-.Llb_mod_b27_P_to_N:
-        .word   12, 12, .Llb_mod_b26_N
-.Llb_mod_b27_N:
-        .word   .Llb_n134217728, 180, .Llb_mod_b27_N_to_N
-        .word   12, 12, .Llb_mod_b26_P
-.Llb_mod_b27_N_to_N:
-        .word   12, 12, .Llb_mod_b26_N
+        .word   .Llb_c134217728, 100, .Llb_mod_b27_P_to_N
 .Llb_mod_b26_P:
-        .word   .Llb_c67108864, 180, .Llb_mod_b26_P_to_N
-        .word   12, 12, .Llb_mod_b25_P
-.Llb_mod_b26_P_to_N:
-        .word   12, 12, .Llb_mod_b25_N
-.Llb_mod_b26_N:
-        .word   .Llb_n67108864, 180, .Llb_mod_b26_N_to_N
-        .word   12, 12, .Llb_mod_b25_P
-.Llb_mod_b26_N_to_N:
-        .word   12, 12, .Llb_mod_b25_N
+        .word   .Llb_c67108864, 100, .Llb_mod_b26_P_to_N
 .Llb_mod_b25_P:
-        .word   .Llb_c33554432, 180, .Llb_mod_b25_P_to_N
-        .word   12, 12, .Llb_mod_b24_P
-.Llb_mod_b25_P_to_N:
-        .word   12, 12, .Llb_mod_b24_N
-.Llb_mod_b25_N:
-        .word   .Llb_n33554432, 180, .Llb_mod_b25_N_to_N
-        .word   12, 12, .Llb_mod_b24_P
-.Llb_mod_b25_N_to_N:
-        .word   12, 12, .Llb_mod_b24_N
+        .word   .Llb_c33554432, 100, .Llb_mod_b25_P_to_N
 .Llb_mod_b24_P:
-        .word   .Llb_c16777216, 180, .Llb_mod_b24_P_to_N
-        .word   12, 12, .Llb_mod_b23_P
-.Llb_mod_b24_P_to_N:
-        .word   12, 12, .Llb_mod_b23_N
-.Llb_mod_b24_N:
-        .word   .Llb_n16777216, 180, .Llb_mod_b24_N_to_N
-        .word   12, 12, .Llb_mod_b23_P
-.Llb_mod_b24_N_to_N:
-        .word   12, 12, .Llb_mod_b23_N
+        .word   .Llb_c16777216, 100, .Llb_mod_b24_P_to_N
 .Llb_mod_b23_P:
-        .word   .Llb_c8388608, 180, .Llb_mod_b23_P_to_N
-        .word   12, 12, .Llb_mod_b22_P
-.Llb_mod_b23_P_to_N:
-        .word   12, 12, .Llb_mod_b22_N
-.Llb_mod_b23_N:
-        .word   .Llb_n8388608, 180, .Llb_mod_b23_N_to_N
-        .word   12, 12, .Llb_mod_b22_P
-.Llb_mod_b23_N_to_N:
-        .word   12, 12, .Llb_mod_b22_N
+        .word   .Llb_c8388608, 100, .Llb_mod_b23_P_to_N
 .Llb_mod_b22_P:
-        .word   .Llb_c4194304, 180, .Llb_mod_b22_P_to_N
-        .word   12, 12, .Llb_mod_b21_P
-.Llb_mod_b22_P_to_N:
-        .word   12, 12, .Llb_mod_b21_N
-.Llb_mod_b22_N:
-        .word   .Llb_n4194304, 180, .Llb_mod_b22_N_to_N
-        .word   12, 12, .Llb_mod_b21_P
-.Llb_mod_b22_N_to_N:
-        .word   12, 12, .Llb_mod_b21_N
+        .word   .Llb_c4194304, 100, .Llb_mod_b22_P_to_N
 .Llb_mod_b21_P:
-        .word   .Llb_c2097152, 180, .Llb_mod_b21_P_to_N
-        .word   12, 12, .Llb_mod_b20_P
-.Llb_mod_b21_P_to_N:
-        .word   12, 12, .Llb_mod_b20_N
-.Llb_mod_b21_N:
-        .word   .Llb_n2097152, 180, .Llb_mod_b21_N_to_N
-        .word   12, 12, .Llb_mod_b20_P
-.Llb_mod_b21_N_to_N:
-        .word   12, 12, .Llb_mod_b20_N
+        .word   .Llb_c2097152, 100, .Llb_mod_b21_P_to_N
 .Llb_mod_b20_P:
-        .word   .Llb_c1048576, 180, .Llb_mod_b20_P_to_N
-        .word   12, 12, .Llb_mod_b19_P
-.Llb_mod_b20_P_to_N:
-        .word   12, 12, .Llb_mod_b19_N
-.Llb_mod_b20_N:
-        .word   .Llb_n1048576, 180, .Llb_mod_b20_N_to_N
-        .word   12, 12, .Llb_mod_b19_P
-.Llb_mod_b20_N_to_N:
-        .word   12, 12, .Llb_mod_b19_N
+        .word   .Llb_c1048576, 100, .Llb_mod_b20_P_to_N
 .Llb_mod_b19_P:
-        .word   .Llb_c524288, 180, .Llb_mod_b19_P_to_N
-        .word   12, 12, .Llb_mod_b18_P
-.Llb_mod_b19_P_to_N:
-        .word   12, 12, .Llb_mod_b18_N
-.Llb_mod_b19_N:
-        .word   .Llb_n524288, 180, .Llb_mod_b19_N_to_N
-        .word   12, 12, .Llb_mod_b18_P
-.Llb_mod_b19_N_to_N:
-        .word   12, 12, .Llb_mod_b18_N
+        .word   .Llb_c524288, 100, .Llb_mod_b19_P_to_N
 .Llb_mod_b18_P:
-        .word   .Llb_c262144, 180, .Llb_mod_b18_P_to_N
-        .word   12, 12, .Llb_mod_b17_P
-.Llb_mod_b18_P_to_N:
-        .word   12, 12, .Llb_mod_b17_N
-.Llb_mod_b18_N:
-        .word   .Llb_n262144, 180, .Llb_mod_b18_N_to_N
-        .word   12, 12, .Llb_mod_b17_P
-.Llb_mod_b18_N_to_N:
-        .word   12, 12, .Llb_mod_b17_N
+        .word   .Llb_c262144, 100, .Llb_mod_b18_P_to_N
 .Llb_mod_b17_P:
-        .word   .Llb_c131072, 180, .Llb_mod_b17_P_to_N
-        .word   12, 12, .Llb_mod_b16_P
-.Llb_mod_b17_P_to_N:
-        .word   12, 12, .Llb_mod_b16_N
-.Llb_mod_b17_N:
-        .word   .Llb_n131072, 180, .Llb_mod_b17_N_to_N
-        .word   12, 12, .Llb_mod_b16_P
-.Llb_mod_b17_N_to_N:
-        .word   12, 12, .Llb_mod_b16_N
+        .word   .Llb_c131072, 100, .Llb_mod_b17_P_to_N
 .Llb_mod_b16_P:
-        .word   .Llb_c65536, 180, .Llb_mod_b16_P_to_N
-        .word   12, 12, .Llb_mod_b15_P
-.Llb_mod_b16_P_to_N:
-        .word   12, 12, .Llb_mod_b15_N
-.Llb_mod_b16_N:
-        .word   .Llb_n65536, 180, .Llb_mod_b16_N_to_N
-        .word   12, 12, .Llb_mod_b15_P
-.Llb_mod_b16_N_to_N:
-        .word   12, 12, .Llb_mod_b15_N
+        .word   .Llb_c65536, 100, .Llb_mod_b16_P_to_N
 .Llb_mod_b15_P:
-        .word   .Llb_c32768, 180, .Llb_mod_b15_P_to_N
-        .word   12, 12, .Llb_mod_b14_P
-.Llb_mod_b15_P_to_N:
-        .word   12, 12, .Llb_mod_b14_N
-.Llb_mod_b15_N:
-        .word   .Llb_n32768, 180, .Llb_mod_b15_N_to_N
-        .word   12, 12, .Llb_mod_b14_P
-.Llb_mod_b15_N_to_N:
-        .word   12, 12, .Llb_mod_b14_N
+        .word   .Llb_c32768, 100, .Llb_mod_b15_P_to_N
 .Llb_mod_b14_P:
-        .word   .Llb_c16384, 180, .Llb_mod_b14_P_to_N
-        .word   12, 12, .Llb_mod_b13_P
-.Llb_mod_b14_P_to_N:
-        .word   12, 12, .Llb_mod_b13_N
-.Llb_mod_b14_N:
-        .word   .Llb_n16384, 180, .Llb_mod_b14_N_to_N
-        .word   12, 12, .Llb_mod_b13_P
-.Llb_mod_b14_N_to_N:
-        .word   12, 12, .Llb_mod_b13_N
+        .word   .Llb_c16384, 100, .Llb_mod_b14_P_to_N
 .Llb_mod_b13_P:
-        .word   .Llb_c8192, 180, .Llb_mod_b13_P_to_N
-        .word   12, 12, .Llb_mod_b12_P
-.Llb_mod_b13_P_to_N:
-        .word   12, 12, .Llb_mod_b12_N
-.Llb_mod_b13_N:
-        .word   .Llb_n8192, 180, .Llb_mod_b13_N_to_N
-        .word   12, 12, .Llb_mod_b12_P
-.Llb_mod_b13_N_to_N:
-        .word   12, 12, .Llb_mod_b12_N
+        .word   .Llb_c8192, 100, .Llb_mod_b13_P_to_N
 .Llb_mod_b12_P:
-        .word   .Llb_c4096, 180, .Llb_mod_b12_P_to_N
-        .word   12, 12, .Llb_mod_b11_P
-.Llb_mod_b12_P_to_N:
-        .word   12, 12, .Llb_mod_b11_N
-.Llb_mod_b12_N:
-        .word   .Llb_n4096, 180, .Llb_mod_b12_N_to_N
-        .word   12, 12, .Llb_mod_b11_P
-.Llb_mod_b12_N_to_N:
-        .word   12, 12, .Llb_mod_b11_N
+        .word   .Llb_c4096, 100, .Llb_mod_b12_P_to_N
 .Llb_mod_b11_P:
-        .word   .Llb_c2048, 180, .Llb_mod_b11_P_to_N
-        .word   12, 12, .Llb_mod_b10_P
-.Llb_mod_b11_P_to_N:
-        .word   12, 12, .Llb_mod_b10_N
-.Llb_mod_b11_N:
-        .word   .Llb_n2048, 180, .Llb_mod_b11_N_to_N
-        .word   12, 12, .Llb_mod_b10_P
-.Llb_mod_b11_N_to_N:
-        .word   12, 12, .Llb_mod_b10_N
+        .word   .Llb_c2048, 100, .Llb_mod_b11_P_to_N
 .Llb_mod_b10_P:
-        .word   .Llb_c1024, 180, .Llb_mod_b10_P_to_N
-        .word   12, 12, .Llb_mod_b9_P
-.Llb_mod_b10_P_to_N:
-        .word   12, 12, .Llb_mod_b9_N
-.Llb_mod_b10_N:
-        .word   .Llb_n1024, 180, .Llb_mod_b10_N_to_N
-        .word   12, 12, .Llb_mod_b9_P
-.Llb_mod_b10_N_to_N:
-        .word   12, 12, .Llb_mod_b9_N
+        .word   .Llb_c1024, 100, .Llb_mod_b10_P_to_N
 .Llb_mod_b9_P:
-        .word   .Llb_c512, 180, .Llb_mod_b9_P_to_N
-        .word   12, 12, .Llb_mod_b8_P
-.Llb_mod_b9_P_to_N:
-        .word   12, 12, .Llb_mod_b8_N
-.Llb_mod_b9_N:
-        .word   .Llb_n512, 180, .Llb_mod_b9_N_to_N
-        .word   12, 12, .Llb_mod_b8_P
-.Llb_mod_b9_N_to_N:
-        .word   12, 12, .Llb_mod_b8_N
+        .word   .Llb_c512, 100, .Llb_mod_b9_P_to_N
 .Llb_mod_b8_P:
-        .word   .Llb_c256, 180, .Llb_mod_b8_P_to_N
-        .word   12, 12, .Llb_mod_b7_P
-.Llb_mod_b8_P_to_N:
-        .word   12, 12, .Llb_mod_b7_N
-.Llb_mod_b8_N:
-        .word   .Llb_n256, 180, .Llb_mod_b8_N_to_N
-        .word   12, 12, .Llb_mod_b7_P
-.Llb_mod_b8_N_to_N:
-        .word   12, 12, .Llb_mod_b7_N
+        .word   .Llb_c256, 100, .Llb_mod_b8_P_to_N
 .Llb_mod_b7_P:
-        .word   .Llb_c128, 180, .Llb_mod_b7_P_to_N
-        .word   12, 12, .Llb_mod_b6_P
-.Llb_mod_b7_P_to_N:
-        .word   12, 12, .Llb_mod_b6_N
-.Llb_mod_b7_N:
-        .word   .Llb_n128, 180, .Llb_mod_b7_N_to_N
-        .word   12, 12, .Llb_mod_b6_P
-.Llb_mod_b7_N_to_N:
-        .word   12, 12, .Llb_mod_b6_N
+        .word   .Llb_c128, 100, .Llb_mod_b7_P_to_N
 .Llb_mod_b6_P:
-        .word   .Llb_c64, 180, .Llb_mod_b6_P_to_N
-        .word   12, 12, .Llb_mod_b5_P
-.Llb_mod_b6_P_to_N:
-        .word   12, 12, .Llb_mod_b5_N
-.Llb_mod_b6_N:
-        .word   .Llb_n64, 180, .Llb_mod_b6_N_to_N
-        .word   12, 12, .Llb_mod_b5_P
-.Llb_mod_b6_N_to_N:
-        .word   12, 12, .Llb_mod_b5_N
+        .word   .Llb_c64, 100, .Llb_mod_b6_P_to_N
 .Llb_mod_b5_P:
-        .word   .Llb_c32, 180, .Llb_mod_b5_P_to_N
-        .word   12, 12, .Llb_mod_b4_P
-.Llb_mod_b5_P_to_N:
-        .word   12, 12, .Llb_mod_b4_N
-.Llb_mod_b5_N:
-        .word   .Llb_n32, 180, .Llb_mod_b5_N_to_N
-        .word   12, 12, .Llb_mod_b4_P
-.Llb_mod_b5_N_to_N:
-        .word   12, 12, .Llb_mod_b4_N
+        .word   .Llb_c32, 100, .Llb_mod_b5_P_to_N
 .Llb_mod_b4_P:
-        .word   .Llb_c16, 180, .Llb_mod_b4_P_to_N
-        .word   12, 12, .Llb_mod_b3_P
-.Llb_mod_b4_P_to_N:
-        .word   12, 12, .Llb_mod_b3_N
-.Llb_mod_b4_N:
-        .word   .Llb_n16, 180, .Llb_mod_b4_N_to_N
-        .word   12, 12, .Llb_mod_b3_P
-.Llb_mod_b4_N_to_N:
-        .word   12, 12, .Llb_mod_b3_N
+        .word   .Llb_c16, 100, .Llb_mod_b4_P_to_N
 .Llb_mod_b3_P:
-        .word   .Llb_c8, 180, .Llb_mod_b3_P_to_N
-        .word   12, 12, .Llb_mod_b2_P
-.Llb_mod_b3_P_to_N:
-        .word   12, 12, .Llb_mod_b2_N
-.Llb_mod_b3_N:
-        .word   .Llb_n8, 180, .Llb_mod_b3_N_to_N
-        .word   12, 12, .Llb_mod_b2_P
-.Llb_mod_b3_N_to_N:
-        .word   12, 12, .Llb_mod_b2_N
+        .word   .Llb_c8, 100, .Llb_mod_b3_P_to_N
 .Llb_mod_b2_P:
-        .word   .Llb_c4, 180, .Llb_mod_b2_P_to_N
-        .word   12, 12, .Llb_mod_b1_P
-.Llb_mod_b2_P_to_N:
-        .word   12, 12, .Llb_mod_b1_N
-.Llb_mod_b2_N:
-        .word   .Llb_n4, 180, .Llb_mod_b2_N_to_N
-        .word   12, 12, .Llb_mod_b1_P
-.Llb_mod_b2_N_to_N:
-        .word   12, 12, .Llb_mod_b1_N
+        .word   .Llb_c4, 100, .Llb_mod_b2_P_to_N
 .Llb_mod_b1_P:
-        .word   .Llb_c2, 180, .Llb_mod_b1_P_to_N
+        .word   .Llb_c2, 100, .Llb_mod_b1_P_to_N
         .word   .Llb_c2, 164, .Llb_mod_b0_P
 .Llb_mod_b1_P_to_N:
         .word   12, 12, .Llb_mod_b0_N
 .Llb_mod_b1_N:
-        .word   .Llb_n2, 180, .Llb_mod_b1_N_to_N
+        .word   .Llb_n2, 100, .Llb_mod_b1_N_to_N
         .word   .Llb_c2, 164, .Llb_mod_b0_P
 .Llb_mod_b1_N_to_N:
         .word   12, 12, .Llb_mod_b0_N
 .Llb_mod_b0_P:
-        .word   .Llb_c1, 180, .Llb_mod_b0_P_to_N
+        .word   .Llb_c1, 100, .Llb_mod_b0_P_to_N
         .word   .Llb_c1, 164, .Llb_mod_done
 .Llb_mod_b0_P_to_N:
         .word   12, 12, .Llb_mod_done
 .Llb_mod_b0_N:
-        .word   .Llb_n1, 180, .Llb_mod_b0_N_to_N
+        .word   .Llb_n1, 100, .Llb_mod_b0_N_to_N
         .word   .Llb_c1, 164, .Llb_mod_done
 .Llb_mod_b0_N_to_N:
         .word   12, 12, .Llb_mod_done
+.Llb_mod_b30_P_to_N:
+        .word   12, 12, .Llb_mod_b29_N
+.Llb_mod_b29_P_to_N:
+        .word   12, 12, .Llb_mod_b28_N
+.Llb_mod_b28_P_to_N:
+        .word   12, 12, .Llb_mod_b27_N
+.Llb_mod_b27_P_to_N:
+        .word   12, 12, .Llb_mod_b26_N
+.Llb_mod_b26_P_to_N:
+        .word   12, 12, .Llb_mod_b25_N
+.Llb_mod_b25_P_to_N:
+        .word   12, 12, .Llb_mod_b24_N
+.Llb_mod_b24_P_to_N:
+        .word   12, 12, .Llb_mod_b23_N
+.Llb_mod_b23_P_to_N:
+        .word   12, 12, .Llb_mod_b22_N
+.Llb_mod_b22_P_to_N:
+        .word   12, 12, .Llb_mod_b21_N
+.Llb_mod_b21_P_to_N:
+        .word   12, 12, .Llb_mod_b20_N
+.Llb_mod_b20_P_to_N:
+        .word   12, 12, .Llb_mod_b19_N
+.Llb_mod_b19_P_to_N:
+        .word   12, 12, .Llb_mod_b18_N
+.Llb_mod_b18_P_to_N:
+        .word   12, 12, .Llb_mod_b17_N
+.Llb_mod_b17_P_to_N:
+        .word   12, 12, .Llb_mod_b16_N
+.Llb_mod_b16_P_to_N:
+        .word   12, 12, .Llb_mod_b15_N
+.Llb_mod_b15_P_to_N:
+        .word   12, 12, .Llb_mod_b14_N
+.Llb_mod_b14_P_to_N:
+        .word   12, 12, .Llb_mod_b13_N
+.Llb_mod_b13_P_to_N:
+        .word   12, 12, .Llb_mod_b12_N
+.Llb_mod_b12_P_to_N:
+        .word   12, 12, .Llb_mod_b11_N
+.Llb_mod_b11_P_to_N:
+        .word   12, 12, .Llb_mod_b10_N
+.Llb_mod_b10_P_to_N:
+        .word   12, 12, .Llb_mod_b9_N
+.Llb_mod_b9_P_to_N:
+        .word   12, 12, .Llb_mod_b8_N
+.Llb_mod_b8_P_to_N:
+        .word   12, 12, .Llb_mod_b7_N
+.Llb_mod_b7_P_to_N:
+        .word   12, 12, .Llb_mod_b6_N
+.Llb_mod_b6_P_to_N:
+        .word   12, 12, .Llb_mod_b5_N
+.Llb_mod_b5_P_to_N:
+        .word   12, 12, .Llb_mod_b4_N
+.Llb_mod_b4_P_to_N:
+        .word   12, 12, .Llb_mod_b3_N
+.Llb_mod_b3_P_to_N:
+        .word   12, 12, .Llb_mod_b2_N
+.Llb_mod_b2_P_to_N:
+        .word   12, 12, .Llb_mod_b1_N
+.Llb_mod_b30_N:
+        .word   .Llb_n1073741824, 100, .Llb_mod_b29_N
+        .word   12, 12, .Llb_mod_b29_P
+.Llb_mod_b29_N:
+        .word   .Llb_n536870912, 100, .Llb_mod_b28_N
+        .word   12, 12, .Llb_mod_b28_P
+.Llb_mod_b28_N:
+        .word   .Llb_n268435456, 100, .Llb_mod_b27_N
+        .word   12, 12, .Llb_mod_b27_P
+.Llb_mod_b27_N:
+        .word   .Llb_n134217728, 100, .Llb_mod_b26_N
+        .word   12, 12, .Llb_mod_b26_P
+.Llb_mod_b26_N:
+        .word   .Llb_n67108864, 100, .Llb_mod_b25_N
+        .word   12, 12, .Llb_mod_b25_P
+.Llb_mod_b25_N:
+        .word   .Llb_n33554432, 100, .Llb_mod_b24_N
+        .word   12, 12, .Llb_mod_b24_P
+.Llb_mod_b24_N:
+        .word   .Llb_n16777216, 100, .Llb_mod_b23_N
+        .word   12, 12, .Llb_mod_b23_P
+.Llb_mod_b23_N:
+        .word   .Llb_n8388608, 100, .Llb_mod_b22_N
+        .word   12, 12, .Llb_mod_b22_P
+.Llb_mod_b22_N:
+        .word   .Llb_n4194304, 100, .Llb_mod_b21_N
+        .word   12, 12, .Llb_mod_b21_P
+.Llb_mod_b21_N:
+        .word   .Llb_n2097152, 100, .Llb_mod_b20_N
+        .word   12, 12, .Llb_mod_b20_P
+.Llb_mod_b20_N:
+        .word   .Llb_n1048576, 100, .Llb_mod_b19_N
+        .word   12, 12, .Llb_mod_b19_P
+.Llb_mod_b19_N:
+        .word   .Llb_n524288, 100, .Llb_mod_b18_N
+        .word   12, 12, .Llb_mod_b18_P
+.Llb_mod_b18_N:
+        .word   .Llb_n262144, 100, .Llb_mod_b17_N
+        .word   12, 12, .Llb_mod_b17_P
+.Llb_mod_b17_N:
+        .word   .Llb_n131072, 100, .Llb_mod_b16_N
+        .word   12, 12, .Llb_mod_b16_P
+.Llb_mod_b16_N:
+        .word   .Llb_n65536, 100, .Llb_mod_b15_N
+        .word   12, 12, .Llb_mod_b15_P
+.Llb_mod_b15_N:
+        .word   .Llb_n32768, 100, .Llb_mod_b14_N
+        .word   12, 12, .Llb_mod_b14_P
+.Llb_mod_b14_N:
+        .word   .Llb_n16384, 100, .Llb_mod_b13_N
+        .word   12, 12, .Llb_mod_b13_P
+.Llb_mod_b13_N:
+        .word   .Llb_n8192, 100, .Llb_mod_b12_N
+        .word   12, 12, .Llb_mod_b12_P
+.Llb_mod_b12_N:
+        .word   .Llb_n4096, 100, .Llb_mod_b11_N
+        .word   12, 12, .Llb_mod_b11_P
+.Llb_mod_b11_N:
+        .word   .Llb_n2048, 100, .Llb_mod_b10_N
+        .word   12, 12, .Llb_mod_b10_P
+.Llb_mod_b10_N:
+        .word   .Llb_n1024, 100, .Llb_mod_b9_N
+        .word   12, 12, .Llb_mod_b9_P
+.Llb_mod_b9_N:
+        .word   .Llb_n512, 100, .Llb_mod_b8_N
+        .word   12, 12, .Llb_mod_b8_P
+.Llb_mod_b8_N:
+        .word   .Llb_n256, 100, .Llb_mod_b7_N
+        .word   12, 12, .Llb_mod_b7_P
+.Llb_mod_b7_N:
+        .word   .Llb_n128, 100, .Llb_mod_b6_N
+        .word   12, 12, .Llb_mod_b6_P
+.Llb_mod_b6_N:
+        .word   .Llb_n64, 100, .Llb_mod_b5_N
+        .word   12, 12, .Llb_mod_b5_P
+.Llb_mod_b5_N:
+        .word   .Llb_n32, 100, .Llb_mod_b4_N
+        .word   12, 12, .Llb_mod_b4_P
+.Llb_mod_b4_N:
+        .word   .Llb_n16, 100, .Llb_mod_b3_N
+        .word   12, 12, .Llb_mod_b3_P
+.Llb_mod_b3_N:
+        .word   .Llb_n8, 100, .Llb_mod_b2_N
+        .word   12, 12, .Llb_mod_b2_P
+.Llb_mod_b2_N:
+        .word   .Llb_n4, 100, .Llb_mod_b1_N
+        .word   12, 12, .Llb_mod_b1_P
 .Llb_mod_done:
         .word   184, 184, .+4
         .word   164, 184, .+4
-        .word   164, 164, .+4
-        .word   12, 12, .+4
-        .word   184, 12, .+4
-        .word   12, 164, .+4
 .Llb_align:
-        .word   164, 160, .Llb_ldword
+        .word   184, 160, .Llb_ldword
 .Llb_ldword:
         .word   172, 172, .+4
         .word   12, 12, .+4
@@ -50468,270 +50239,61 @@ __subleq_lb:
         .word   12, 172, .Llb_branch
 .Llb_branch:
         .word   100, 100, .+4
-        .word   144, 164, .Llb_byte0
-        .word   180, 180, .+4
-        .word   12, 12, .+4
-        .word   164, 12, .+4
-        .word   12, 180, .+4
-        .word   .Llb_c1, 180, .+4
-        .word   144, 180, .Llb_byte1
-        .word   180, 180, .+4
-        .word   12, 12, .+4
-        .word   164, 12, .+4
-        .word   12, 180, .+4
-        .word   .Llb_c2, 180, .Llb_bra
-.Llb_bra:
-        .word   144, 180, .Llb_byte2
+        .word   144, 184, .Llb_byte0
+        .word   .Llb_c1, 184, .Llb_byte1
+        .word   .Llb_c1, 184, .Llb_byte2
         .word   12, 12, .Llb_byte3
 .Llb_byte0:
 .Llb_b0_sign:
-        .word   184, 184, .+4
-        .word   12, 12, .+4
-        .word   172, 12, .+4
-        .word   12, 184, .+4
-        .word   .Llb_min, 184, .+4
-        .word   144, 184, .Llb_b0_im6
-        .word   12, 12, .Llb_b0_sn0
-.Llb_b0_im6:
-        .word   12, 12, .+4
-        .word   .Llb_neg1, 184, .+4
-        .word   144, 184, .Llb_b0_sn0
-        .word   12, 12, .Llb_b0_imclr
-.Llb_b0_imclr:
-        .word   .Llb_min, 172, .Llb_b0_b30
-.Llb_b0_sn0:
-        .word   180, 180, .+4
-        .word   172, 180, .Llb_b0_b30
-        .word   .Llb_min, 172, .Llb_b0_b30
-.Llb_b0_b30:
-        .word   .Llb_c1073741824, 172, .Llb_b0_b30_fail
-        .word   12, 12, .Llb_b0_bias
-.Llb_b0_b30_fail:
-        .word   180, 180, .+4
-        .word   172, 180, .Llb_b0_b30_ex0
-        .word   .Llb_n1073741824, 172, .+4
-        .word   12, 12, .Llb_b0_bias
-.Llb_b0_b30_ex0:
-        .word   12, 12, .Llb_b0_bias
+        .word   144, 172, .Llb_b0_le0
 .Llb_b0_bias:
         .word   .Llb_neg1, 172, .+4
-.Llb_b0_loop:
-        .word   12, 12, .Llb_b0_b29_P
+.Llb_b0_b30_P:
+        .word   .Llb_c1073741824, 172, .Llb_b0_b30_P_N
 .Llb_b0_b29_P:
         .word   .Llb_c536870912, 172, .Llb_b0_b29_P_N
-        .word   12, 12, .Llb_b0_b28_P
-.Llb_b0_b29_P_N:
-        .word   12, 12, .Llb_b0_b28_N
 .Llb_b0_b28_P:
         .word   .Llb_c268435456, 172, .Llb_b0_b28_P_N
-        .word   12, 12, .Llb_b0_b27_P
-.Llb_b0_b28_P_N:
-        .word   12, 12, .Llb_b0_b27_N
-.Llb_b0_b28_N:
-        .word   .Llb_n268435456, 172, .Llb_b0_b28_N_st
-        .word   12, 12, .Llb_b0_b27_P
-.Llb_b0_b28_N_st:
-        .word   12, 12, .Llb_b0_b27_N
 .Llb_b0_b27_P:
         .word   .Llb_c134217728, 172, .Llb_b0_b27_P_N
-        .word   12, 12, .Llb_b0_b26_P
-.Llb_b0_b27_P_N:
-        .word   12, 12, .Llb_b0_b26_N
-.Llb_b0_b27_N:
-        .word   .Llb_n134217728, 172, .Llb_b0_b27_N_st
-        .word   12, 12, .Llb_b0_b26_P
-.Llb_b0_b27_N_st:
-        .word   12, 12, .Llb_b0_b26_N
 .Llb_b0_b26_P:
         .word   .Llb_c67108864, 172, .Llb_b0_b26_P_N
-        .word   12, 12, .Llb_b0_b25_P
-.Llb_b0_b26_P_N:
-        .word   12, 12, .Llb_b0_b25_N
-.Llb_b0_b26_N:
-        .word   .Llb_n67108864, 172, .Llb_b0_b26_N_st
-        .word   12, 12, .Llb_b0_b25_P
-.Llb_b0_b26_N_st:
-        .word   12, 12, .Llb_b0_b25_N
 .Llb_b0_b25_P:
         .word   .Llb_c33554432, 172, .Llb_b0_b25_P_N
-        .word   12, 12, .Llb_b0_b24_P
-.Llb_b0_b25_P_N:
-        .word   12, 12, .Llb_b0_b24_N
-.Llb_b0_b25_N:
-        .word   .Llb_n33554432, 172, .Llb_b0_b25_N_st
-        .word   12, 12, .Llb_b0_b24_P
-.Llb_b0_b25_N_st:
-        .word   12, 12, .Llb_b0_b24_N
 .Llb_b0_b24_P:
         .word   .Llb_c16777216, 172, .Llb_b0_b24_P_N
-        .word   12, 12, .Llb_b0_b23_P
-.Llb_b0_b24_P_N:
-        .word   12, 12, .Llb_b0_b23_N
-.Llb_b0_b24_N:
-        .word   .Llb_n16777216, 172, .Llb_b0_b24_N_st
-        .word   12, 12, .Llb_b0_b23_P
-.Llb_b0_b24_N_st:
-        .word   12, 12, .Llb_b0_b23_N
 .Llb_b0_b23_P:
         .word   .Llb_c8388608, 172, .Llb_b0_b23_P_N
-        .word   12, 12, .Llb_b0_b22_P
-.Llb_b0_b23_P_N:
-        .word   12, 12, .Llb_b0_b22_N
-.Llb_b0_b23_N:
-        .word   .Llb_n8388608, 172, .Llb_b0_b23_N_st
-        .word   12, 12, .Llb_b0_b22_P
-.Llb_b0_b23_N_st:
-        .word   12, 12, .Llb_b0_b22_N
 .Llb_b0_b22_P:
         .word   .Llb_c4194304, 172, .Llb_b0_b22_P_N
-        .word   12, 12, .Llb_b0_b21_P
-.Llb_b0_b22_P_N:
-        .word   12, 12, .Llb_b0_b21_N
-.Llb_b0_b22_N:
-        .word   .Llb_n4194304, 172, .Llb_b0_b22_N_st
-        .word   12, 12, .Llb_b0_b21_P
-.Llb_b0_b22_N_st:
-        .word   12, 12, .Llb_b0_b21_N
 .Llb_b0_b21_P:
         .word   .Llb_c2097152, 172, .Llb_b0_b21_P_N
-        .word   12, 12, .Llb_b0_b20_P
-.Llb_b0_b21_P_N:
-        .word   12, 12, .Llb_b0_b20_N
-.Llb_b0_b21_N:
-        .word   .Llb_n2097152, 172, .Llb_b0_b21_N_st
-        .word   12, 12, .Llb_b0_b20_P
-.Llb_b0_b21_N_st:
-        .word   12, 12, .Llb_b0_b20_N
 .Llb_b0_b20_P:
         .word   .Llb_c1048576, 172, .Llb_b0_b20_P_N
-        .word   12, 12, .Llb_b0_b19_P
-.Llb_b0_b20_P_N:
-        .word   12, 12, .Llb_b0_b19_N
-.Llb_b0_b20_N:
-        .word   .Llb_n1048576, 172, .Llb_b0_b20_N_st
-        .word   12, 12, .Llb_b0_b19_P
-.Llb_b0_b20_N_st:
-        .word   12, 12, .Llb_b0_b19_N
 .Llb_b0_b19_P:
         .word   .Llb_c524288, 172, .Llb_b0_b19_P_N
-        .word   12, 12, .Llb_b0_b18_P
-.Llb_b0_b19_P_N:
-        .word   12, 12, .Llb_b0_b18_N
-.Llb_b0_b19_N:
-        .word   .Llb_n524288, 172, .Llb_b0_b19_N_st
-        .word   12, 12, .Llb_b0_b18_P
-.Llb_b0_b19_N_st:
-        .word   12, 12, .Llb_b0_b18_N
 .Llb_b0_b18_P:
         .word   .Llb_c262144, 172, .Llb_b0_b18_P_N
-        .word   12, 12, .Llb_b0_b17_P
-.Llb_b0_b18_P_N:
-        .word   12, 12, .Llb_b0_b17_N
-.Llb_b0_b18_N:
-        .word   .Llb_n262144, 172, .Llb_b0_b18_N_st
-        .word   12, 12, .Llb_b0_b17_P
-.Llb_b0_b18_N_st:
-        .word   12, 12, .Llb_b0_b17_N
 .Llb_b0_b17_P:
         .word   .Llb_c131072, 172, .Llb_b0_b17_P_N
-        .word   12, 12, .Llb_b0_b16_P
-.Llb_b0_b17_P_N:
-        .word   12, 12, .Llb_b0_b16_N
-.Llb_b0_b17_N:
-        .word   .Llb_n131072, 172, .Llb_b0_b17_N_st
-        .word   12, 12, .Llb_b0_b16_P
-.Llb_b0_b17_N_st:
-        .word   12, 12, .Llb_b0_b16_N
 .Llb_b0_b16_P:
         .word   .Llb_c65536, 172, .Llb_b0_b16_P_N
-        .word   12, 12, .Llb_b0_b15_P
-.Llb_b0_b16_P_N:
-        .word   12, 12, .Llb_b0_b15_N
-.Llb_b0_b16_N:
-        .word   .Llb_n65536, 172, .Llb_b0_b16_N_st
-        .word   12, 12, .Llb_b0_b15_P
-.Llb_b0_b16_N_st:
-        .word   12, 12, .Llb_b0_b15_N
 .Llb_b0_b15_P:
         .word   .Llb_c32768, 172, .Llb_b0_b15_P_N
-        .word   12, 12, .Llb_b0_b14_P
-.Llb_b0_b15_P_N:
-        .word   12, 12, .Llb_b0_b14_N
-.Llb_b0_b15_N:
-        .word   .Llb_n32768, 172, .Llb_b0_b15_N_st
-        .word   12, 12, .Llb_b0_b14_P
-.Llb_b0_b15_N_st:
-        .word   12, 12, .Llb_b0_b14_N
 .Llb_b0_b14_P:
         .word   .Llb_c16384, 172, .Llb_b0_b14_P_N
-        .word   12, 12, .Llb_b0_b13_P
-.Llb_b0_b14_P_N:
-        .word   12, 12, .Llb_b0_b13_N
-.Llb_b0_b14_N:
-        .word   .Llb_n16384, 172, .Llb_b0_b14_N_st
-        .word   12, 12, .Llb_b0_b13_P
-.Llb_b0_b14_N_st:
-        .word   12, 12, .Llb_b0_b13_N
 .Llb_b0_b13_P:
         .word   .Llb_c8192, 172, .Llb_b0_b13_P_N
-        .word   12, 12, .Llb_b0_b12_P
-.Llb_b0_b13_P_N:
-        .word   12, 12, .Llb_b0_b12_N
-.Llb_b0_b13_N:
-        .word   .Llb_n8192, 172, .Llb_b0_b13_N_st
-        .word   12, 12, .Llb_b0_b12_P
-.Llb_b0_b13_N_st:
-        .word   12, 12, .Llb_b0_b12_N
 .Llb_b0_b12_P:
         .word   .Llb_c4096, 172, .Llb_b0_b12_P_N
-        .word   12, 12, .Llb_b0_b11_P
-.Llb_b0_b12_P_N:
-        .word   12, 12, .Llb_b0_b11_N
-.Llb_b0_b12_N:
-        .word   .Llb_n4096, 172, .Llb_b0_b12_N_st
-        .word   12, 12, .Llb_b0_b11_P
-.Llb_b0_b12_N_st:
-        .word   12, 12, .Llb_b0_b11_N
 .Llb_b0_b11_P:
         .word   .Llb_c2048, 172, .Llb_b0_b11_P_N
-        .word   12, 12, .Llb_b0_b10_P
-.Llb_b0_b11_P_N:
-        .word   12, 12, .Llb_b0_b10_N
-.Llb_b0_b11_N:
-        .word   .Llb_n2048, 172, .Llb_b0_b11_N_st
-        .word   12, 12, .Llb_b0_b10_P
-.Llb_b0_b11_N_st:
-        .word   12, 12, .Llb_b0_b10_N
 .Llb_b0_b10_P:
         .word   .Llb_c1024, 172, .Llb_b0_b10_P_N
-        .word   12, 12, .Llb_b0_b9_P
-.Llb_b0_b10_P_N:
-        .word   12, 12, .Llb_b0_b9_N
-.Llb_b0_b10_N:
-        .word   .Llb_n1024, 172, .Llb_b0_b10_N_st
-        .word   12, 12, .Llb_b0_b9_P
-.Llb_b0_b10_N_st:
-        .word   12, 12, .Llb_b0_b9_N
 .Llb_b0_b9_P:
         .word   .Llb_c512, 172, .Llb_b0_b9_P_N
-        .word   12, 12, .Llb_b0_b8_P
-.Llb_b0_b9_P_N:
-        .word   12, 12, .Llb_b0_b8_N
-.Llb_b0_b9_N:
-        .word   .Llb_n512, 172, .Llb_b0_b9_N_st
-        .word   12, 12, .Llb_b0_b8_P
-.Llb_b0_b9_N_st:
-        .word   12, 12, .Llb_b0_b8_N
 .Llb_b0_b8_P:
         .word   .Llb_c256, 172, .Llb_b0_b8_P_N
-        .word   12, 12, .Llb_b0_b7_P
-.Llb_b0_b8_P_N:
-        .word   12, 12, .Llb_b0_b7_N
-.Llb_b0_b8_N:
-        .word   .Llb_n256, 172, .Llb_b0_b8_N_st
-        .word   12, 12, .Llb_b0_b7_P
-.Llb_b0_b8_N_st:
-        .word   12, 12, .Llb_b0_b7_N
 .Llb_b0_b7_P:
         .word   .Llb_c128, 172, .Llb_b0_b7_P_N
         .word   .Llb_n128, 100, .+4
@@ -50828,175 +50390,167 @@ __subleq_lb:
         .word   12, 12, .Llb_ret1
 .Llb_b0_b0_N_st:
         .word   12, 12, .Llb_ret1
-.Llb_byte1:
-.Llb_b1_sign:
+.Llb_b0_b30_P_N:
+        .word   12, 12, .Llb_b0_b29_N
+.Llb_b0_b29_P_N:
+        .word   12, 12, .Llb_b0_b28_N
+.Llb_b0_b28_P_N:
+        .word   12, 12, .Llb_b0_b27_N
+.Llb_b0_b27_P_N:
+        .word   12, 12, .Llb_b0_b26_N
+.Llb_b0_b26_P_N:
+        .word   12, 12, .Llb_b0_b25_N
+.Llb_b0_b25_P_N:
+        .word   12, 12, .Llb_b0_b24_N
+.Llb_b0_b24_P_N:
+        .word   12, 12, .Llb_b0_b23_N
+.Llb_b0_b23_P_N:
+        .word   12, 12, .Llb_b0_b22_N
+.Llb_b0_b22_P_N:
+        .word   12, 12, .Llb_b0_b21_N
+.Llb_b0_b21_P_N:
+        .word   12, 12, .Llb_b0_b20_N
+.Llb_b0_b20_P_N:
+        .word   12, 12, .Llb_b0_b19_N
+.Llb_b0_b19_P_N:
+        .word   12, 12, .Llb_b0_b18_N
+.Llb_b0_b18_P_N:
+        .word   12, 12, .Llb_b0_b17_N
+.Llb_b0_b17_P_N:
+        .word   12, 12, .Llb_b0_b16_N
+.Llb_b0_b16_P_N:
+        .word   12, 12, .Llb_b0_b15_N
+.Llb_b0_b15_P_N:
+        .word   12, 12, .Llb_b0_b14_N
+.Llb_b0_b14_P_N:
+        .word   12, 12, .Llb_b0_b13_N
+.Llb_b0_b13_P_N:
+        .word   12, 12, .Llb_b0_b12_N
+.Llb_b0_b12_P_N:
+        .word   12, 12, .Llb_b0_b11_N
+.Llb_b0_b11_P_N:
+        .word   12, 12, .Llb_b0_b10_N
+.Llb_b0_b10_P_N:
+        .word   12, 12, .Llb_b0_b9_N
+.Llb_b0_b9_P_N:
+        .word   12, 12, .Llb_b0_b8_N
+.Llb_b0_b8_P_N:
+        .word   12, 12, .Llb_b0_b7_N
+.Llb_b0_b30_N:
+        .word   .Llb_n1073741824, 172, .Llb_b0_b29_N
+        .word   12, 12, .Llb_b0_b29_P
+.Llb_b0_b29_N:
+        .word   .Llb_n536870912, 172, .Llb_b0_b28_N
+        .word   12, 12, .Llb_b0_b28_P
+.Llb_b0_b28_N:
+        .word   .Llb_n268435456, 172, .Llb_b0_b27_N
+        .word   12, 12, .Llb_b0_b27_P
+.Llb_b0_b27_N:
+        .word   .Llb_n134217728, 172, .Llb_b0_b26_N
+        .word   12, 12, .Llb_b0_b26_P
+.Llb_b0_b26_N:
+        .word   .Llb_n67108864, 172, .Llb_b0_b25_N
+        .word   12, 12, .Llb_b0_b25_P
+.Llb_b0_b25_N:
+        .word   .Llb_n33554432, 172, .Llb_b0_b24_N
+        .word   12, 12, .Llb_b0_b24_P
+.Llb_b0_b24_N:
+        .word   .Llb_n16777216, 172, .Llb_b0_b23_N
+        .word   12, 12, .Llb_b0_b23_P
+.Llb_b0_b23_N:
+        .word   .Llb_n8388608, 172, .Llb_b0_b22_N
+        .word   12, 12, .Llb_b0_b22_P
+.Llb_b0_b22_N:
+        .word   .Llb_n4194304, 172, .Llb_b0_b21_N
+        .word   12, 12, .Llb_b0_b21_P
+.Llb_b0_b21_N:
+        .word   .Llb_n2097152, 172, .Llb_b0_b20_N
+        .word   12, 12, .Llb_b0_b20_P
+.Llb_b0_b20_N:
+        .word   .Llb_n1048576, 172, .Llb_b0_b19_N
+        .word   12, 12, .Llb_b0_b19_P
+.Llb_b0_b19_N:
+        .word   .Llb_n524288, 172, .Llb_b0_b18_N
+        .word   12, 12, .Llb_b0_b18_P
+.Llb_b0_b18_N:
+        .word   .Llb_n262144, 172, .Llb_b0_b17_N
+        .word   12, 12, .Llb_b0_b17_P
+.Llb_b0_b17_N:
+        .word   .Llb_n131072, 172, .Llb_b0_b16_N
+        .word   12, 12, .Llb_b0_b16_P
+.Llb_b0_b16_N:
+        .word   .Llb_n65536, 172, .Llb_b0_b15_N
+        .word   12, 12, .Llb_b0_b15_P
+.Llb_b0_b15_N:
+        .word   .Llb_n32768, 172, .Llb_b0_b14_N
+        .word   12, 12, .Llb_b0_b14_P
+.Llb_b0_b14_N:
+        .word   .Llb_n16384, 172, .Llb_b0_b13_N
+        .word   12, 12, .Llb_b0_b13_P
+.Llb_b0_b13_N:
+        .word   .Llb_n8192, 172, .Llb_b0_b12_N
+        .word   12, 12, .Llb_b0_b12_P
+.Llb_b0_b12_N:
+        .word   .Llb_n4096, 172, .Llb_b0_b11_N
+        .word   12, 12, .Llb_b0_b11_P
+.Llb_b0_b11_N:
+        .word   .Llb_n2048, 172, .Llb_b0_b10_N
+        .word   12, 12, .Llb_b0_b10_P
+.Llb_b0_b10_N:
+        .word   .Llb_n1024, 172, .Llb_b0_b9_N
+        .word   12, 12, .Llb_b0_b9_P
+.Llb_b0_b9_N:
+        .word   .Llb_n512, 172, .Llb_b0_b8_N
+        .word   12, 12, .Llb_b0_b8_P
+.Llb_b0_b8_N:
+        .word   .Llb_n256, 172, .Llb_b0_b7_N
+        .word   12, 12, .Llb_b0_b7_P
+.Llb_b0_le0:
         .word   184, 184, .+4
         .word   12, 12, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
-        .word   .Llb_min, 184, .+4
-        .word   144, 184, .Llb_b1_im6
-        .word   12, 12, .Llb_b1_sn0
-.Llb_b1_im6:
-        .word   12, 12, .+4
         .word   .Llb_neg1, 184, .+4
-        .word   144, 184, .Llb_b1_sn0
-        .word   12, 12, .Llb_b1_imclr
-.Llb_b1_imclr:
-        .word   .Llb_min, 172, .Llb_b1_b30
-.Llb_b1_sn0:
-        .word   180, 180, .+4
-        .word   172, 180, .Llb_b1_b30
-        .word   .Llb_min, 172, .Llb_b1_b30
-.Llb_b1_b30:
-        .word   .Llb_c1073741824, 172, .Llb_b1_b30_fail
-        .word   12, 12, .Llb_b1_bias
-.Llb_b1_b30_fail:
-        .word   180, 180, .+4
-        .word   172, 180, .Llb_b1_b30_ex0
-        .word   .Llb_n1073741824, 172, .+4
-        .word   12, 12, .Llb_b1_bias
-.Llb_b1_b30_ex0:
-        .word   12, 12, .Llb_b1_bias
+        .word   144, 184, .Llb_b0_neg
+        .word   12, 12, .Llb_b0_bias
+.Llb_b0_neg:
+        .word   .Llb_min, 172, .+4
+        .word   12, 12, .Llb_b0_bias
+.Llb_byte1:
+.Llb_b1_sign:
+        .word   144, 172, .Llb_b1_le0
 .Llb_b1_bias:
         .word   .Llb_neg1, 172, .+4
-.Llb_b1_loop:
-        .word   12, 12, .Llb_b1_b29_P
+.Llb_b1_b30_P:
+        .word   .Llb_c1073741824, 172, .Llb_b1_b30_P_N
 .Llb_b1_b29_P:
         .word   .Llb_c536870912, 172, .Llb_b1_b29_P_N
-        .word   12, 12, .Llb_b1_b28_P
-.Llb_b1_b29_P_N:
-        .word   12, 12, .Llb_b1_b28_N
 .Llb_b1_b28_P:
         .word   .Llb_c268435456, 172, .Llb_b1_b28_P_N
-        .word   12, 12, .Llb_b1_b27_P
-.Llb_b1_b28_P_N:
-        .word   12, 12, .Llb_b1_b27_N
-.Llb_b1_b28_N:
-        .word   .Llb_n268435456, 172, .Llb_b1_b28_N_st
-        .word   12, 12, .Llb_b1_b27_P
-.Llb_b1_b28_N_st:
-        .word   12, 12, .Llb_b1_b27_N
 .Llb_b1_b27_P:
         .word   .Llb_c134217728, 172, .Llb_b1_b27_P_N
-        .word   12, 12, .Llb_b1_b26_P
-.Llb_b1_b27_P_N:
-        .word   12, 12, .Llb_b1_b26_N
-.Llb_b1_b27_N:
-        .word   .Llb_n134217728, 172, .Llb_b1_b27_N_st
-        .word   12, 12, .Llb_b1_b26_P
-.Llb_b1_b27_N_st:
-        .word   12, 12, .Llb_b1_b26_N
 .Llb_b1_b26_P:
         .word   .Llb_c67108864, 172, .Llb_b1_b26_P_N
-        .word   12, 12, .Llb_b1_b25_P
-.Llb_b1_b26_P_N:
-        .word   12, 12, .Llb_b1_b25_N
-.Llb_b1_b26_N:
-        .word   .Llb_n67108864, 172, .Llb_b1_b26_N_st
-        .word   12, 12, .Llb_b1_b25_P
-.Llb_b1_b26_N_st:
-        .word   12, 12, .Llb_b1_b25_N
 .Llb_b1_b25_P:
         .word   .Llb_c33554432, 172, .Llb_b1_b25_P_N
-        .word   12, 12, .Llb_b1_b24_P
-.Llb_b1_b25_P_N:
-        .word   12, 12, .Llb_b1_b24_N
-.Llb_b1_b25_N:
-        .word   .Llb_n33554432, 172, .Llb_b1_b25_N_st
-        .word   12, 12, .Llb_b1_b24_P
-.Llb_b1_b25_N_st:
-        .word   12, 12, .Llb_b1_b24_N
 .Llb_b1_b24_P:
         .word   .Llb_c16777216, 172, .Llb_b1_b24_P_N
-        .word   12, 12, .Llb_b1_b23_P
-.Llb_b1_b24_P_N:
-        .word   12, 12, .Llb_b1_b23_N
-.Llb_b1_b24_N:
-        .word   .Llb_n16777216, 172, .Llb_b1_b24_N_st
-        .word   12, 12, .Llb_b1_b23_P
-.Llb_b1_b24_N_st:
-        .word   12, 12, .Llb_b1_b23_N
 .Llb_b1_b23_P:
         .word   .Llb_c8388608, 172, .Llb_b1_b23_P_N
-        .word   12, 12, .Llb_b1_b22_P
-.Llb_b1_b23_P_N:
-        .word   12, 12, .Llb_b1_b22_N
-.Llb_b1_b23_N:
-        .word   .Llb_n8388608, 172, .Llb_b1_b23_N_st
-        .word   12, 12, .Llb_b1_b22_P
-.Llb_b1_b23_N_st:
-        .word   12, 12, .Llb_b1_b22_N
 .Llb_b1_b22_P:
         .word   .Llb_c4194304, 172, .Llb_b1_b22_P_N
-        .word   12, 12, .Llb_b1_b21_P
-.Llb_b1_b22_P_N:
-        .word   12, 12, .Llb_b1_b21_N
-.Llb_b1_b22_N:
-        .word   .Llb_n4194304, 172, .Llb_b1_b22_N_st
-        .word   12, 12, .Llb_b1_b21_P
-.Llb_b1_b22_N_st:
-        .word   12, 12, .Llb_b1_b21_N
 .Llb_b1_b21_P:
         .word   .Llb_c2097152, 172, .Llb_b1_b21_P_N
-        .word   12, 12, .Llb_b1_b20_P
-.Llb_b1_b21_P_N:
-        .word   12, 12, .Llb_b1_b20_N
-.Llb_b1_b21_N:
-        .word   .Llb_n2097152, 172, .Llb_b1_b21_N_st
-        .word   12, 12, .Llb_b1_b20_P
-.Llb_b1_b21_N_st:
-        .word   12, 12, .Llb_b1_b20_N
 .Llb_b1_b20_P:
         .word   .Llb_c1048576, 172, .Llb_b1_b20_P_N
-        .word   12, 12, .Llb_b1_b19_P
-.Llb_b1_b20_P_N:
-        .word   12, 12, .Llb_b1_b19_N
-.Llb_b1_b20_N:
-        .word   .Llb_n1048576, 172, .Llb_b1_b20_N_st
-        .word   12, 12, .Llb_b1_b19_P
-.Llb_b1_b20_N_st:
-        .word   12, 12, .Llb_b1_b19_N
 .Llb_b1_b19_P:
         .word   .Llb_c524288, 172, .Llb_b1_b19_P_N
-        .word   12, 12, .Llb_b1_b18_P
-.Llb_b1_b19_P_N:
-        .word   12, 12, .Llb_b1_b18_N
-.Llb_b1_b19_N:
-        .word   .Llb_n524288, 172, .Llb_b1_b19_N_st
-        .word   12, 12, .Llb_b1_b18_P
-.Llb_b1_b19_N_st:
-        .word   12, 12, .Llb_b1_b18_N
 .Llb_b1_b18_P:
         .word   .Llb_c262144, 172, .Llb_b1_b18_P_N
-        .word   12, 12, .Llb_b1_b17_P
-.Llb_b1_b18_P_N:
-        .word   12, 12, .Llb_b1_b17_N
-.Llb_b1_b18_N:
-        .word   .Llb_n262144, 172, .Llb_b1_b18_N_st
-        .word   12, 12, .Llb_b1_b17_P
-.Llb_b1_b18_N_st:
-        .word   12, 12, .Llb_b1_b17_N
 .Llb_b1_b17_P:
         .word   .Llb_c131072, 172, .Llb_b1_b17_P_N
-        .word   12, 12, .Llb_b1_b16_P
-.Llb_b1_b17_P_N:
-        .word   12, 12, .Llb_b1_b16_N
-.Llb_b1_b17_N:
-        .word   .Llb_n131072, 172, .Llb_b1_b17_N_st
-        .word   12, 12, .Llb_b1_b16_P
-.Llb_b1_b17_N_st:
-        .word   12, 12, .Llb_b1_b16_N
 .Llb_b1_b16_P:
         .word   .Llb_c65536, 172, .Llb_b1_b16_P_N
-        .word   12, 12, .Llb_b1_b15_P
-.Llb_b1_b16_P_N:
-        .word   12, 12, .Llb_b1_b15_N
-.Llb_b1_b16_N:
-        .word   .Llb_n65536, 172, .Llb_b1_b16_N_st
-        .word   12, 12, .Llb_b1_b15_P
-.Llb_b1_b16_N_st:
-        .word   12, 12, .Llb_b1_b15_N
 .Llb_b1_b15_P:
         .word   .Llb_c32768, 172, .Llb_b1_b15_P_N
         .word   .Llb_n128, 100, .+4
@@ -51093,95 +50647,111 @@ __subleq_lb:
         .word   12, 12, .Llb_ret1
 .Llb_b1_b8_N_st:
         .word   12, 12, .Llb_ret1
-.Llb_byte2:
-.Llb_b2_sign:
+.Llb_b1_b30_P_N:
+        .word   12, 12, .Llb_b1_b29_N
+.Llb_b1_b29_P_N:
+        .word   12, 12, .Llb_b1_b28_N
+.Llb_b1_b28_P_N:
+        .word   12, 12, .Llb_b1_b27_N
+.Llb_b1_b27_P_N:
+        .word   12, 12, .Llb_b1_b26_N
+.Llb_b1_b26_P_N:
+        .word   12, 12, .Llb_b1_b25_N
+.Llb_b1_b25_P_N:
+        .word   12, 12, .Llb_b1_b24_N
+.Llb_b1_b24_P_N:
+        .word   12, 12, .Llb_b1_b23_N
+.Llb_b1_b23_P_N:
+        .word   12, 12, .Llb_b1_b22_N
+.Llb_b1_b22_P_N:
+        .word   12, 12, .Llb_b1_b21_N
+.Llb_b1_b21_P_N:
+        .word   12, 12, .Llb_b1_b20_N
+.Llb_b1_b20_P_N:
+        .word   12, 12, .Llb_b1_b19_N
+.Llb_b1_b19_P_N:
+        .word   12, 12, .Llb_b1_b18_N
+.Llb_b1_b18_P_N:
+        .word   12, 12, .Llb_b1_b17_N
+.Llb_b1_b17_P_N:
+        .word   12, 12, .Llb_b1_b16_N
+.Llb_b1_b16_P_N:
+        .word   12, 12, .Llb_b1_b15_N
+.Llb_b1_b30_N:
+        .word   .Llb_n1073741824, 172, .Llb_b1_b29_N
+        .word   12, 12, .Llb_b1_b29_P
+.Llb_b1_b29_N:
+        .word   .Llb_n536870912, 172, .Llb_b1_b28_N
+        .word   12, 12, .Llb_b1_b28_P
+.Llb_b1_b28_N:
+        .word   .Llb_n268435456, 172, .Llb_b1_b27_N
+        .word   12, 12, .Llb_b1_b27_P
+.Llb_b1_b27_N:
+        .word   .Llb_n134217728, 172, .Llb_b1_b26_N
+        .word   12, 12, .Llb_b1_b26_P
+.Llb_b1_b26_N:
+        .word   .Llb_n67108864, 172, .Llb_b1_b25_N
+        .word   12, 12, .Llb_b1_b25_P
+.Llb_b1_b25_N:
+        .word   .Llb_n33554432, 172, .Llb_b1_b24_N
+        .word   12, 12, .Llb_b1_b24_P
+.Llb_b1_b24_N:
+        .word   .Llb_n16777216, 172, .Llb_b1_b23_N
+        .word   12, 12, .Llb_b1_b23_P
+.Llb_b1_b23_N:
+        .word   .Llb_n8388608, 172, .Llb_b1_b22_N
+        .word   12, 12, .Llb_b1_b22_P
+.Llb_b1_b22_N:
+        .word   .Llb_n4194304, 172, .Llb_b1_b21_N
+        .word   12, 12, .Llb_b1_b21_P
+.Llb_b1_b21_N:
+        .word   .Llb_n2097152, 172, .Llb_b1_b20_N
+        .word   12, 12, .Llb_b1_b20_P
+.Llb_b1_b20_N:
+        .word   .Llb_n1048576, 172, .Llb_b1_b19_N
+        .word   12, 12, .Llb_b1_b19_P
+.Llb_b1_b19_N:
+        .word   .Llb_n524288, 172, .Llb_b1_b18_N
+        .word   12, 12, .Llb_b1_b18_P
+.Llb_b1_b18_N:
+        .word   .Llb_n262144, 172, .Llb_b1_b17_N
+        .word   12, 12, .Llb_b1_b17_P
+.Llb_b1_b17_N:
+        .word   .Llb_n131072, 172, .Llb_b1_b16_N
+        .word   12, 12, .Llb_b1_b16_P
+.Llb_b1_b16_N:
+        .word   .Llb_n65536, 172, .Llb_b1_b15_N
+        .word   12, 12, .Llb_b1_b15_P
+.Llb_b1_le0:
         .word   184, 184, .+4
         .word   12, 12, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
-        .word   .Llb_min, 184, .+4
-        .word   144, 184, .Llb_b2_im6
-        .word   12, 12, .Llb_b2_sn0
-.Llb_b2_im6:
-        .word   12, 12, .+4
         .word   .Llb_neg1, 184, .+4
-        .word   144, 184, .Llb_b2_sn0
-        .word   12, 12, .Llb_b2_imclr
-.Llb_b2_imclr:
-        .word   .Llb_min, 172, .Llb_b2_b30
-.Llb_b2_sn0:
-        .word   180, 180, .+4
-        .word   172, 180, .Llb_b2_b30
-        .word   .Llb_min, 172, .Llb_b2_b30
-.Llb_b2_b30:
-        .word   .Llb_c1073741824, 172, .Llb_b2_b30_fail
-        .word   12, 12, .Llb_b2_bias
-.Llb_b2_b30_fail:
-        .word   180, 180, .+4
-        .word   172, 180, .Llb_b2_b30_ex0
-        .word   .Llb_n1073741824, 172, .+4
-        .word   12, 12, .Llb_b2_bias
-.Llb_b2_b30_ex0:
-        .word   12, 12, .Llb_b2_bias
+        .word   144, 184, .Llb_b1_neg
+        .word   12, 12, .Llb_b1_bias
+.Llb_b1_neg:
+        .word   .Llb_min, 172, .+4
+        .word   12, 12, .Llb_b1_bias
+.Llb_byte2:
+.Llb_b2_sign:
+        .word   144, 172, .Llb_b2_le0
 .Llb_b2_bias:
         .word   .Llb_neg1, 172, .+4
-.Llb_b2_loop:
-        .word   12, 12, .Llb_b2_b29_P
+.Llb_b2_b30_P:
+        .word   .Llb_c1073741824, 172, .Llb_b2_b30_P_N
 .Llb_b2_b29_P:
         .word   .Llb_c536870912, 172, .Llb_b2_b29_P_N
-        .word   12, 12, .Llb_b2_b28_P
-.Llb_b2_b29_P_N:
-        .word   12, 12, .Llb_b2_b28_N
 .Llb_b2_b28_P:
         .word   .Llb_c268435456, 172, .Llb_b2_b28_P_N
-        .word   12, 12, .Llb_b2_b27_P
-.Llb_b2_b28_P_N:
-        .word   12, 12, .Llb_b2_b27_N
-.Llb_b2_b28_N:
-        .word   .Llb_n268435456, 172, .Llb_b2_b28_N_st
-        .word   12, 12, .Llb_b2_b27_P
-.Llb_b2_b28_N_st:
-        .word   12, 12, .Llb_b2_b27_N
 .Llb_b2_b27_P:
         .word   .Llb_c134217728, 172, .Llb_b2_b27_P_N
-        .word   12, 12, .Llb_b2_b26_P
-.Llb_b2_b27_P_N:
-        .word   12, 12, .Llb_b2_b26_N
-.Llb_b2_b27_N:
-        .word   .Llb_n134217728, 172, .Llb_b2_b27_N_st
-        .word   12, 12, .Llb_b2_b26_P
-.Llb_b2_b27_N_st:
-        .word   12, 12, .Llb_b2_b26_N
 .Llb_b2_b26_P:
         .word   .Llb_c67108864, 172, .Llb_b2_b26_P_N
-        .word   12, 12, .Llb_b2_b25_P
-.Llb_b2_b26_P_N:
-        .word   12, 12, .Llb_b2_b25_N
-.Llb_b2_b26_N:
-        .word   .Llb_n67108864, 172, .Llb_b2_b26_N_st
-        .word   12, 12, .Llb_b2_b25_P
-.Llb_b2_b26_N_st:
-        .word   12, 12, .Llb_b2_b25_N
 .Llb_b2_b25_P:
         .word   .Llb_c33554432, 172, .Llb_b2_b25_P_N
-        .word   12, 12, .Llb_b2_b24_P
-.Llb_b2_b25_P_N:
-        .word   12, 12, .Llb_b2_b24_N
-.Llb_b2_b25_N:
-        .word   .Llb_n33554432, 172, .Llb_b2_b25_N_st
-        .word   12, 12, .Llb_b2_b24_P
-.Llb_b2_b25_N_st:
-        .word   12, 12, .Llb_b2_b24_N
 .Llb_b2_b24_P:
         .word   .Llb_c16777216, 172, .Llb_b2_b24_P_N
-        .word   12, 12, .Llb_b2_b23_P
-.Llb_b2_b24_P_N:
-        .word   12, 12, .Llb_b2_b23_N
-.Llb_b2_b24_N:
-        .word   .Llb_n16777216, 172, .Llb_b2_b24_N_st
-        .word   12, 12, .Llb_b2_b23_P
-.Llb_b2_b24_N_st:
-        .word   12, 12, .Llb_b2_b23_N
 .Llb_b2_b23_P:
         .word   .Llb_c8388608, 172, .Llb_b2_b23_P_N
         .word   .Llb_n128, 100, .+4
@@ -51278,49 +50848,80 @@ __subleq_lb:
         .word   12, 12, .Llb_ret1
 .Llb_b2_b16_N_st:
         .word   12, 12, .Llb_ret1
-.Llb_byte3:
-.Llb_b3_sign:
+.Llb_b2_b30_P_N:
+        .word   12, 12, .Llb_b2_b29_N
+.Llb_b2_b29_P_N:
+        .word   12, 12, .Llb_b2_b28_N
+.Llb_b2_b28_P_N:
+        .word   12, 12, .Llb_b2_b27_N
+.Llb_b2_b27_P_N:
+        .word   12, 12, .Llb_b2_b26_N
+.Llb_b2_b26_P_N:
+        .word   12, 12, .Llb_b2_b25_N
+.Llb_b2_b25_P_N:
+        .word   12, 12, .Llb_b2_b24_N
+.Llb_b2_b24_P_N:
+        .word   12, 12, .Llb_b2_b23_N
+.Llb_b2_b30_N:
+        .word   .Llb_n1073741824, 172, .Llb_b2_b29_N
+        .word   12, 12, .Llb_b2_b29_P
+.Llb_b2_b29_N:
+        .word   .Llb_n536870912, 172, .Llb_b2_b28_N
+        .word   12, 12, .Llb_b2_b28_P
+.Llb_b2_b28_N:
+        .word   .Llb_n268435456, 172, .Llb_b2_b27_N
+        .word   12, 12, .Llb_b2_b27_P
+.Llb_b2_b27_N:
+        .word   .Llb_n134217728, 172, .Llb_b2_b26_N
+        .word   12, 12, .Llb_b2_b26_P
+.Llb_b2_b26_N:
+        .word   .Llb_n67108864, 172, .Llb_b2_b25_N
+        .word   12, 12, .Llb_b2_b25_P
+.Llb_b2_b25_N:
+        .word   .Llb_n33554432, 172, .Llb_b2_b24_N
+        .word   12, 12, .Llb_b2_b24_P
+.Llb_b2_b24_N:
+        .word   .Llb_n16777216, 172, .Llb_b2_b23_N
+        .word   12, 12, .Llb_b2_b23_P
+.Llb_b2_le0:
         .word   184, 184, .+4
         .word   12, 12, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
-        .word   .Llb_min, 184, .+4
-        .word   144, 184, .Llb_b3_im6
-        .word   12, 12, .Llb_b3_sn0
-.Llb_b3_im6:
-        .word   12, 12, .+4
         .word   .Llb_neg1, 184, .+4
-        .word   144, 184, .Llb_b3_sn0
-        .word   12, 12, .Llb_b3_imclr
-.Llb_b3_imclr:
-        .word   .Llb_n128, 100, .+4
-        .word   .Llb_min, 172, .Llb_b3_b30
-.Llb_b3_sn0:
-        .word   180, 180, .+4
-        .word   172, 180, .Llb_b3_b30
-        .word   .Llb_n128, 100, .+4
-        .word   .Llb_min, 172, .Llb_b3_b30
-.Llb_b3_b30:
-        .word   .Llb_c1073741824, 172, .Llb_b3_b30_fail
-        .word   .Llb_n64, 100, .+4
-        .word   12, 12, .Llb_b3_bias
-.Llb_b3_b30_fail:
-        .word   180, 180, .+4
-        .word   172, 180, .Llb_b3_b30_ex0
-        .word   .Llb_n1073741824, 172, .+4
-        .word   12, 12, .Llb_b3_bias
-.Llb_b3_b30_ex0:
-        .word   .Llb_n64, 100, .+4
-        .word   12, 12, .Llb_b3_bias
+        .word   144, 184, .Llb_b2_neg
+        .word   12, 12, .Llb_b2_bias
+.Llb_b2_neg:
+        .word   .Llb_min, 172, .+4
+        .word   12, 12, .Llb_b2_bias
+.Llb_byte3:
+.Llb_b3_sign:
+        .word   144, 172, .Llb_b3_le0
 .Llb_b3_bias:
         .word   .Llb_neg1, 172, .+4
-.Llb_b3_loop:
+.Llb_b3_b30_P:
+        .word   .Llb_c1073741824, 172, .Llb_b3_b30_P_N
+        .word   .Llb_n64, 100, .+4
         .word   12, 12, .Llb_b3_b29_P
+.Llb_b3_b30_P_N:
+        .word   12, 12, .Llb_b3_b29_N
+.Llb_b3_b30_N:
+        .word   .Llb_n1073741824, 172, .Llb_b3_b30_N_st
+        .word   .Llb_n64, 100, .+4
+        .word   12, 12, .Llb_b3_b29_P
+.Llb_b3_b30_N_st:
+        .word   12, 12, .Llb_b3_b29_N
 .Llb_b3_b29_P:
         .word   .Llb_c536870912, 172, .Llb_b3_b29_P_N
         .word   .Llb_n32, 100, .+4
         .word   12, 12, .Llb_b3_b28_P
 .Llb_b3_b29_P_N:
+        .word   12, 12, .Llb_b3_b28_N
+.Llb_b3_b29_N:
+        .word   .Llb_n536870912, 172, .Llb_b3_b29_N_st
+        .word   .Llb_n32, 100, .+4
+        .word   12, 12, .Llb_b3_b28_P
+.Llb_b3_b29_N_st:
         .word   12, 12, .Llb_b3_b28_N
 .Llb_b3_b28_P:
         .word   .Llb_c268435456, 172, .Llb_b3_b28_P_N
@@ -51382,6 +50983,18 @@ __subleq_lb:
         .word   12, 12, .Llb_ret1
 .Llb_b3_b24_N_st:
         .word   12, 12, .Llb_ret1
+.Llb_b3_le0:
+        .word   184, 184, .+4
+        .word   12, 12, .+4
+        .word   172, 12, .+4
+        .word   12, 184, .+4
+        .word   .Llb_neg1, 184, .+4
+        .word   144, 184, .Llb_b3_neg
+        .word   12, 12, .Llb_b3_bias
+.Llb_b3_neg:
+        .word   .Llb_n128, 100, .+4
+        .word   .Llb_min, 172, .+4
+        .word   12, 12, .Llb_b3_bias
 .Llb_ret1:
         .word   96, 96, .+4
         .word   12, 12, .+4
@@ -51393,7 +51006,6 @@ __subleq_lb:
         .word   18, 12, .+4
         .word   12, 160, .+4
         .word   .Llb_neg4, 16, .+4
-        .word   12, 12, .+4
         .word   12
         .word   12
         .word   162
@@ -51535,9 +51147,8 @@ __subleq_lb:
 
 # __subleq_sb: Store byte - Biased Non-Restoring Lattice
 __subleq_sb:
-        .word   160, 160, .+4
-        .word   12, 12, .+4
         .word   100, 12, .+4
+        .word   160, 160, .+4
         .word   12, 160, .+4
         .word   164, 164, .+4
         .word   12, 12, .+4
@@ -51738,314 +51349,68 @@ __subleq_sb:
         .word   168, 168, .+4
         .word   12, 12, .+4
         .word   160, 12, .+4
-        .word   12, 168, .Lsb_msign
-.Lsb_msign:
-        .word   144, 168, .Lsb_msign_neg
-        .word   12, 12, .Lsb_mod_bias
-.Lsb_msign_neg:
-        .word   180, 180, .+4
-        .word   168, 180, .+4
-        .word   144, 180, .Lsb_msign_ambig
-        .word   .Lsb_min, 168, .+4
-        .word   12, 12, .Lsb_mod_bias
-.Lsb_msign_ambig:
-        .word   .Lsb_neg1, 180, .+4
-        .word   144, 180, .Lsb_mod_bias
-        .word   .Lsb_min, 168, .+4
+        .word   12, 168, .Lsb_mod_bias
 .Lsb_mod_bias:
         .word   184, 184, .+4
         .word   .Lsb_neg1, 168, .+4
-        .word   12, 12, .Lsb_mb30_P
 .Lsb_mb30_P:
         .word   .Lsb_pow1073741824, 168, .Lsb_mb30_P_to_N
-        .word   12, 12, .Lsb_mb29_P
-.Lsb_mb30_P_to_N:
-        .word   12, 12, .Lsb_mb29_N
-.Lsb_mb30_N:
-        .word   .Lsb_npow1073741824, 168, .Lsb_mb30_N_to_N
-        .word   12, 12, .Lsb_mb29_P
-.Lsb_mb30_N_to_N:
-        .word   12, 12, .Lsb_mb29_N
 .Lsb_mb29_P:
         .word   .Lsb_pow536870912, 168, .Lsb_mb29_P_to_N
-        .word   12, 12, .Lsb_mb28_P
-.Lsb_mb29_P_to_N:
-        .word   12, 12, .Lsb_mb28_N
-.Lsb_mb29_N:
-        .word   .Lsb_npow536870912, 168, .Lsb_mb29_N_to_N
-        .word   12, 12, .Lsb_mb28_P
-.Lsb_mb29_N_to_N:
-        .word   12, 12, .Lsb_mb28_N
 .Lsb_mb28_P:
         .word   .Lsb_pow268435456, 168, .Lsb_mb28_P_to_N
-        .word   12, 12, .Lsb_mb27_P
-.Lsb_mb28_P_to_N:
-        .word   12, 12, .Lsb_mb27_N
-.Lsb_mb28_N:
-        .word   .Lsb_npow268435456, 168, .Lsb_mb28_N_to_N
-        .word   12, 12, .Lsb_mb27_P
-.Lsb_mb28_N_to_N:
-        .word   12, 12, .Lsb_mb27_N
 .Lsb_mb27_P:
         .word   .Lsb_pow134217728, 168, .Lsb_mb27_P_to_N
-        .word   12, 12, .Lsb_mb26_P
-.Lsb_mb27_P_to_N:
-        .word   12, 12, .Lsb_mb26_N
-.Lsb_mb27_N:
-        .word   .Lsb_npow134217728, 168, .Lsb_mb27_N_to_N
-        .word   12, 12, .Lsb_mb26_P
-.Lsb_mb27_N_to_N:
-        .word   12, 12, .Lsb_mb26_N
 .Lsb_mb26_P:
         .word   .Lsb_pow67108864, 168, .Lsb_mb26_P_to_N
-        .word   12, 12, .Lsb_mb25_P
-.Lsb_mb26_P_to_N:
-        .word   12, 12, .Lsb_mb25_N
-.Lsb_mb26_N:
-        .word   .Lsb_npow67108864, 168, .Lsb_mb26_N_to_N
-        .word   12, 12, .Lsb_mb25_P
-.Lsb_mb26_N_to_N:
-        .word   12, 12, .Lsb_mb25_N
 .Lsb_mb25_P:
         .word   .Lsb_pow33554432, 168, .Lsb_mb25_P_to_N
-        .word   12, 12, .Lsb_mb24_P
-.Lsb_mb25_P_to_N:
-        .word   12, 12, .Lsb_mb24_N
-.Lsb_mb25_N:
-        .word   .Lsb_npow33554432, 168, .Lsb_mb25_N_to_N
-        .word   12, 12, .Lsb_mb24_P
-.Lsb_mb25_N_to_N:
-        .word   12, 12, .Lsb_mb24_N
 .Lsb_mb24_P:
         .word   .Lsb_pow16777216, 168, .Lsb_mb24_P_to_N
-        .word   12, 12, .Lsb_mb23_P
-.Lsb_mb24_P_to_N:
-        .word   12, 12, .Lsb_mb23_N
-.Lsb_mb24_N:
-        .word   .Lsb_npow16777216, 168, .Lsb_mb24_N_to_N
-        .word   12, 12, .Lsb_mb23_P
-.Lsb_mb24_N_to_N:
-        .word   12, 12, .Lsb_mb23_N
 .Lsb_mb23_P:
         .word   .Lsb_pow8388608, 168, .Lsb_mb23_P_to_N
-        .word   12, 12, .Lsb_mb22_P
-.Lsb_mb23_P_to_N:
-        .word   12, 12, .Lsb_mb22_N
-.Lsb_mb23_N:
-        .word   .Lsb_npow8388608, 168, .Lsb_mb23_N_to_N
-        .word   12, 12, .Lsb_mb22_P
-.Lsb_mb23_N_to_N:
-        .word   12, 12, .Lsb_mb22_N
 .Lsb_mb22_P:
         .word   .Lsb_pow4194304, 168, .Lsb_mb22_P_to_N
-        .word   12, 12, .Lsb_mb21_P
-.Lsb_mb22_P_to_N:
-        .word   12, 12, .Lsb_mb21_N
-.Lsb_mb22_N:
-        .word   .Lsb_npow4194304, 168, .Lsb_mb22_N_to_N
-        .word   12, 12, .Lsb_mb21_P
-.Lsb_mb22_N_to_N:
-        .word   12, 12, .Lsb_mb21_N
 .Lsb_mb21_P:
         .word   .Lsb_pow2097152, 168, .Lsb_mb21_P_to_N
-        .word   12, 12, .Lsb_mb20_P
-.Lsb_mb21_P_to_N:
-        .word   12, 12, .Lsb_mb20_N
-.Lsb_mb21_N:
-        .word   .Lsb_npow2097152, 168, .Lsb_mb21_N_to_N
-        .word   12, 12, .Lsb_mb20_P
-.Lsb_mb21_N_to_N:
-        .word   12, 12, .Lsb_mb20_N
 .Lsb_mb20_P:
         .word   .Lsb_pow1048576, 168, .Lsb_mb20_P_to_N
-        .word   12, 12, .Lsb_mb19_P
-.Lsb_mb20_P_to_N:
-        .word   12, 12, .Lsb_mb19_N
-.Lsb_mb20_N:
-        .word   .Lsb_npow1048576, 168, .Lsb_mb20_N_to_N
-        .word   12, 12, .Lsb_mb19_P
-.Lsb_mb20_N_to_N:
-        .word   12, 12, .Lsb_mb19_N
 .Lsb_mb19_P:
         .word   .Lsb_pow524288, 168, .Lsb_mb19_P_to_N
-        .word   12, 12, .Lsb_mb18_P
-.Lsb_mb19_P_to_N:
-        .word   12, 12, .Lsb_mb18_N
-.Lsb_mb19_N:
-        .word   .Lsb_npow524288, 168, .Lsb_mb19_N_to_N
-        .word   12, 12, .Lsb_mb18_P
-.Lsb_mb19_N_to_N:
-        .word   12, 12, .Lsb_mb18_N
 .Lsb_mb18_P:
         .word   .Lsb_pow262144, 168, .Lsb_mb18_P_to_N
-        .word   12, 12, .Lsb_mb17_P
-.Lsb_mb18_P_to_N:
-        .word   12, 12, .Lsb_mb17_N
-.Lsb_mb18_N:
-        .word   .Lsb_npow262144, 168, .Lsb_mb18_N_to_N
-        .word   12, 12, .Lsb_mb17_P
-.Lsb_mb18_N_to_N:
-        .word   12, 12, .Lsb_mb17_N
 .Lsb_mb17_P:
         .word   .Lsb_pow131072, 168, .Lsb_mb17_P_to_N
-        .word   12, 12, .Lsb_mb16_P
-.Lsb_mb17_P_to_N:
-        .word   12, 12, .Lsb_mb16_N
-.Lsb_mb17_N:
-        .word   .Lsb_npow131072, 168, .Lsb_mb17_N_to_N
-        .word   12, 12, .Lsb_mb16_P
-.Lsb_mb17_N_to_N:
-        .word   12, 12, .Lsb_mb16_N
 .Lsb_mb16_P:
         .word   .Lsb_pow65536, 168, .Lsb_mb16_P_to_N
-        .word   12, 12, .Lsb_mb15_P
-.Lsb_mb16_P_to_N:
-        .word   12, 12, .Lsb_mb15_N
-.Lsb_mb16_N:
-        .word   .Lsb_npow65536, 168, .Lsb_mb16_N_to_N
-        .word   12, 12, .Lsb_mb15_P
-.Lsb_mb16_N_to_N:
-        .word   12, 12, .Lsb_mb15_N
 .Lsb_mb15_P:
         .word   .Lsb_pow32768, 168, .Lsb_mb15_P_to_N
-        .word   12, 12, .Lsb_mb14_P
-.Lsb_mb15_P_to_N:
-        .word   12, 12, .Lsb_mb14_N
-.Lsb_mb15_N:
-        .word   .Lsb_npow32768, 168, .Lsb_mb15_N_to_N
-        .word   12, 12, .Lsb_mb14_P
-.Lsb_mb15_N_to_N:
-        .word   12, 12, .Lsb_mb14_N
 .Lsb_mb14_P:
         .word   .Lsb_pow16384, 168, .Lsb_mb14_P_to_N
-        .word   12, 12, .Lsb_mb13_P
-.Lsb_mb14_P_to_N:
-        .word   12, 12, .Lsb_mb13_N
-.Lsb_mb14_N:
-        .word   .Lsb_npow16384, 168, .Lsb_mb14_N_to_N
-        .word   12, 12, .Lsb_mb13_P
-.Lsb_mb14_N_to_N:
-        .word   12, 12, .Lsb_mb13_N
 .Lsb_mb13_P:
         .word   .Lsb_pow8192, 168, .Lsb_mb13_P_to_N
-        .word   12, 12, .Lsb_mb12_P
-.Lsb_mb13_P_to_N:
-        .word   12, 12, .Lsb_mb12_N
-.Lsb_mb13_N:
-        .word   .Lsb_npow8192, 168, .Lsb_mb13_N_to_N
-        .word   12, 12, .Lsb_mb12_P
-.Lsb_mb13_N_to_N:
-        .word   12, 12, .Lsb_mb12_N
 .Lsb_mb12_P:
         .word   .Lsb_pow4096, 168, .Lsb_mb12_P_to_N
-        .word   12, 12, .Lsb_mb11_P
-.Lsb_mb12_P_to_N:
-        .word   12, 12, .Lsb_mb11_N
-.Lsb_mb12_N:
-        .word   .Lsb_npow4096, 168, .Lsb_mb12_N_to_N
-        .word   12, 12, .Lsb_mb11_P
-.Lsb_mb12_N_to_N:
-        .word   12, 12, .Lsb_mb11_N
 .Lsb_mb11_P:
         .word   .Lsb_pow2048, 168, .Lsb_mb11_P_to_N
-        .word   12, 12, .Lsb_mb10_P
-.Lsb_mb11_P_to_N:
-        .word   12, 12, .Lsb_mb10_N
-.Lsb_mb11_N:
-        .word   .Lsb_npow2048, 168, .Lsb_mb11_N_to_N
-        .word   12, 12, .Lsb_mb10_P
-.Lsb_mb11_N_to_N:
-        .word   12, 12, .Lsb_mb10_N
 .Lsb_mb10_P:
         .word   .Lsb_pow1024, 168, .Lsb_mb10_P_to_N
-        .word   12, 12, .Lsb_mb9_P
-.Lsb_mb10_P_to_N:
-        .word   12, 12, .Lsb_mb9_N
-.Lsb_mb10_N:
-        .word   .Lsb_npow1024, 168, .Lsb_mb10_N_to_N
-        .word   12, 12, .Lsb_mb9_P
-.Lsb_mb10_N_to_N:
-        .word   12, 12, .Lsb_mb9_N
 .Lsb_mb9_P:
         .word   .Lsb_pow512, 168, .Lsb_mb9_P_to_N
-        .word   12, 12, .Lsb_mb8_P
-.Lsb_mb9_P_to_N:
-        .word   12, 12, .Lsb_mb8_N
-.Lsb_mb9_N:
-        .word   .Lsb_npow512, 168, .Lsb_mb9_N_to_N
-        .word   12, 12, .Lsb_mb8_P
-.Lsb_mb9_N_to_N:
-        .word   12, 12, .Lsb_mb8_N
 .Lsb_mb8_P:
         .word   .Lsb_pow256, 168, .Lsb_mb8_P_to_N
-        .word   12, 12, .Lsb_mb7_P
-.Lsb_mb8_P_to_N:
-        .word   12, 12, .Lsb_mb7_N
-.Lsb_mb8_N:
-        .word   .Lsb_npow256, 168, .Lsb_mb8_N_to_N
-        .word   12, 12, .Lsb_mb7_P
-.Lsb_mb8_N_to_N:
-        .word   12, 12, .Lsb_mb7_N
 .Lsb_mb7_P:
         .word   .Lsb_pow128, 168, .Lsb_mb7_P_to_N
-        .word   12, 12, .Lsb_mb6_P
-.Lsb_mb7_P_to_N:
-        .word   12, 12, .Lsb_mb6_N
-.Lsb_mb7_N:
-        .word   .Lsb_npow128, 168, .Lsb_mb7_N_to_N
-        .word   12, 12, .Lsb_mb6_P
-.Lsb_mb7_N_to_N:
-        .word   12, 12, .Lsb_mb6_N
 .Lsb_mb6_P:
         .word   .Lsb_pow64, 168, .Lsb_mb6_P_to_N
-        .word   12, 12, .Lsb_mb5_P
-.Lsb_mb6_P_to_N:
-        .word   12, 12, .Lsb_mb5_N
-.Lsb_mb6_N:
-        .word   .Lsb_npow64, 168, .Lsb_mb6_N_to_N
-        .word   12, 12, .Lsb_mb5_P
-.Lsb_mb6_N_to_N:
-        .word   12, 12, .Lsb_mb5_N
 .Lsb_mb5_P:
         .word   .Lsb_pow32, 168, .Lsb_mb5_P_to_N
-        .word   12, 12, .Lsb_mb4_P
-.Lsb_mb5_P_to_N:
-        .word   12, 12, .Lsb_mb4_N
-.Lsb_mb5_N:
-        .word   .Lsb_npow32, 168, .Lsb_mb5_N_to_N
-        .word   12, 12, .Lsb_mb4_P
-.Lsb_mb5_N_to_N:
-        .word   12, 12, .Lsb_mb4_N
 .Lsb_mb4_P:
         .word   .Lsb_pow16, 168, .Lsb_mb4_P_to_N
-        .word   12, 12, .Lsb_mb3_P
-.Lsb_mb4_P_to_N:
-        .word   12, 12, .Lsb_mb3_N
-.Lsb_mb4_N:
-        .word   .Lsb_npow16, 168, .Lsb_mb4_N_to_N
-        .word   12, 12, .Lsb_mb3_P
-.Lsb_mb4_N_to_N:
-        .word   12, 12, .Lsb_mb3_N
 .Lsb_mb3_P:
         .word   .Lsb_pow8, 168, .Lsb_mb3_P_to_N
-        .word   12, 12, .Lsb_mb2_P
-.Lsb_mb3_P_to_N:
-        .word   12, 12, .Lsb_mb2_N
-.Lsb_mb3_N:
-        .word   .Lsb_npow8, 168, .Lsb_mb3_N_to_N
-        .word   12, 12, .Lsb_mb2_P
-.Lsb_mb3_N_to_N:
-        .word   12, 12, .Lsb_mb2_N
 .Lsb_mb2_P:
         .word   .Lsb_pow4, 168, .Lsb_mb2_P_to_N
-        .word   12, 12, .Lsb_mb1_P
-.Lsb_mb2_P_to_N:
-        .word   12, 12, .Lsb_mb1_N
-.Lsb_mb2_N:
-        .word   .Lsb_npow4, 168, .Lsb_mb2_N_to_N
-        .word   12, 12, .Lsb_mb1_P
-.Lsb_mb2_N_to_N:
-        .word   12, 12, .Lsb_mb1_N
 .Lsb_mb1_P:
         .word   .Lsb_pow2, 168, .Lsb_mb1_P_to_N
         .word   .Lsb_pow2, 184, .Lsb_mb0_P
@@ -52066,6 +51431,151 @@ __subleq_sb:
         .word   .Lsb_pow1, 184, .Lsb_mod_done
 .Lsb_mb0_N_to_N:
         .word   12, 12, .Lsb_mod_done
+.Lsb_mb30_P_to_N:
+        .word   12, 12, .Lsb_mb29_N
+.Lsb_mb29_P_to_N:
+        .word   12, 12, .Lsb_mb28_N
+.Lsb_mb28_P_to_N:
+        .word   12, 12, .Lsb_mb27_N
+.Lsb_mb27_P_to_N:
+        .word   12, 12, .Lsb_mb26_N
+.Lsb_mb26_P_to_N:
+        .word   12, 12, .Lsb_mb25_N
+.Lsb_mb25_P_to_N:
+        .word   12, 12, .Lsb_mb24_N
+.Lsb_mb24_P_to_N:
+        .word   12, 12, .Lsb_mb23_N
+.Lsb_mb23_P_to_N:
+        .word   12, 12, .Lsb_mb22_N
+.Lsb_mb22_P_to_N:
+        .word   12, 12, .Lsb_mb21_N
+.Lsb_mb21_P_to_N:
+        .word   12, 12, .Lsb_mb20_N
+.Lsb_mb20_P_to_N:
+        .word   12, 12, .Lsb_mb19_N
+.Lsb_mb19_P_to_N:
+        .word   12, 12, .Lsb_mb18_N
+.Lsb_mb18_P_to_N:
+        .word   12, 12, .Lsb_mb17_N
+.Lsb_mb17_P_to_N:
+        .word   12, 12, .Lsb_mb16_N
+.Lsb_mb16_P_to_N:
+        .word   12, 12, .Lsb_mb15_N
+.Lsb_mb15_P_to_N:
+        .word   12, 12, .Lsb_mb14_N
+.Lsb_mb14_P_to_N:
+        .word   12, 12, .Lsb_mb13_N
+.Lsb_mb13_P_to_N:
+        .word   12, 12, .Lsb_mb12_N
+.Lsb_mb12_P_to_N:
+        .word   12, 12, .Lsb_mb11_N
+.Lsb_mb11_P_to_N:
+        .word   12, 12, .Lsb_mb10_N
+.Lsb_mb10_P_to_N:
+        .word   12, 12, .Lsb_mb9_N
+.Lsb_mb9_P_to_N:
+        .word   12, 12, .Lsb_mb8_N
+.Lsb_mb8_P_to_N:
+        .word   12, 12, .Lsb_mb7_N
+.Lsb_mb7_P_to_N:
+        .word   12, 12, .Lsb_mb6_N
+.Lsb_mb6_P_to_N:
+        .word   12, 12, .Lsb_mb5_N
+.Lsb_mb5_P_to_N:
+        .word   12, 12, .Lsb_mb4_N
+.Lsb_mb4_P_to_N:
+        .word   12, 12, .Lsb_mb3_N
+.Lsb_mb3_P_to_N:
+        .word   12, 12, .Lsb_mb2_N
+.Lsb_mb2_P_to_N:
+        .word   12, 12, .Lsb_mb1_N
+.Lsb_mb30_N:
+        .word   .Lsb_npow1073741824, 168, .Lsb_mb29_N
+        .word   12, 12, .Lsb_mb29_P
+.Lsb_mb29_N:
+        .word   .Lsb_npow536870912, 168, .Lsb_mb28_N
+        .word   12, 12, .Lsb_mb28_P
+.Lsb_mb28_N:
+        .word   .Lsb_npow268435456, 168, .Lsb_mb27_N
+        .word   12, 12, .Lsb_mb27_P
+.Lsb_mb27_N:
+        .word   .Lsb_npow134217728, 168, .Lsb_mb26_N
+        .word   12, 12, .Lsb_mb26_P
+.Lsb_mb26_N:
+        .word   .Lsb_npow67108864, 168, .Lsb_mb25_N
+        .word   12, 12, .Lsb_mb25_P
+.Lsb_mb25_N:
+        .word   .Lsb_npow33554432, 168, .Lsb_mb24_N
+        .word   12, 12, .Lsb_mb24_P
+.Lsb_mb24_N:
+        .word   .Lsb_npow16777216, 168, .Lsb_mb23_N
+        .word   12, 12, .Lsb_mb23_P
+.Lsb_mb23_N:
+        .word   .Lsb_npow8388608, 168, .Lsb_mb22_N
+        .word   12, 12, .Lsb_mb22_P
+.Lsb_mb22_N:
+        .word   .Lsb_npow4194304, 168, .Lsb_mb21_N
+        .word   12, 12, .Lsb_mb21_P
+.Lsb_mb21_N:
+        .word   .Lsb_npow2097152, 168, .Lsb_mb20_N
+        .word   12, 12, .Lsb_mb20_P
+.Lsb_mb20_N:
+        .word   .Lsb_npow1048576, 168, .Lsb_mb19_N
+        .word   12, 12, .Lsb_mb19_P
+.Lsb_mb19_N:
+        .word   .Lsb_npow524288, 168, .Lsb_mb18_N
+        .word   12, 12, .Lsb_mb18_P
+.Lsb_mb18_N:
+        .word   .Lsb_npow262144, 168, .Lsb_mb17_N
+        .word   12, 12, .Lsb_mb17_P
+.Lsb_mb17_N:
+        .word   .Lsb_npow131072, 168, .Lsb_mb16_N
+        .word   12, 12, .Lsb_mb16_P
+.Lsb_mb16_N:
+        .word   .Lsb_npow65536, 168, .Lsb_mb15_N
+        .word   12, 12, .Lsb_mb15_P
+.Lsb_mb15_N:
+        .word   .Lsb_npow32768, 168, .Lsb_mb14_N
+        .word   12, 12, .Lsb_mb14_P
+.Lsb_mb14_N:
+        .word   .Lsb_npow16384, 168, .Lsb_mb13_N
+        .word   12, 12, .Lsb_mb13_P
+.Lsb_mb13_N:
+        .word   .Lsb_npow8192, 168, .Lsb_mb12_N
+        .word   12, 12, .Lsb_mb12_P
+.Lsb_mb12_N:
+        .word   .Lsb_npow4096, 168, .Lsb_mb11_N
+        .word   12, 12, .Lsb_mb11_P
+.Lsb_mb11_N:
+        .word   .Lsb_npow2048, 168, .Lsb_mb10_N
+        .word   12, 12, .Lsb_mb10_P
+.Lsb_mb10_N:
+        .word   .Lsb_npow1024, 168, .Lsb_mb9_N
+        .word   12, 12, .Lsb_mb9_P
+.Lsb_mb9_N:
+        .word   .Lsb_npow512, 168, .Lsb_mb8_N
+        .word   12, 12, .Lsb_mb8_P
+.Lsb_mb8_N:
+        .word   .Lsb_npow256, 168, .Lsb_mb7_N
+        .word   12, 12, .Lsb_mb7_P
+.Lsb_mb7_N:
+        .word   .Lsb_npow128, 168, .Lsb_mb6_N
+        .word   12, 12, .Lsb_mb6_P
+.Lsb_mb6_N:
+        .word   .Lsb_npow64, 168, .Lsb_mb5_N
+        .word   12, 12, .Lsb_mb5_P
+.Lsb_mb5_N:
+        .word   .Lsb_npow32, 168, .Lsb_mb4_N
+        .word   12, 12, .Lsb_mb4_P
+.Lsb_mb4_N:
+        .word   .Lsb_npow16, 168, .Lsb_mb3_N
+        .word   12, 12, .Lsb_mb3_P
+.Lsb_mb3_N:
+        .word   .Lsb_npow8, 168, .Lsb_mb2_N
+        .word   12, 12, .Lsb_mb2_P
+.Lsb_mb2_N:
+        .word   .Lsb_npow4, 168, .Lsb_mb1_N
+        .word   12, 12, .Lsb_mb1_P
 .Lsb_mod_done:
         .word   168, 168, .+4
         .word   184, 168, .+4
@@ -52078,64 +51588,32 @@ __subleq_sb:
         .word   12, 172, .Lsb_branch
 .Lsb_branch:
         .word   176, 176, .+4
-        .word   180, 180, .+4
         .word   144, 168, .Lsb_byte0
-        .word   12, 12, .+4
-        .word   168, 12, .Lsb_br1b
-.Lsb_br1b:
-        .word   180, 180, .+4
-        .word   12, 180, .+4
-        .word   .Lsb_one, 180, .+4
-        .word   144, 180, .Lsb_byte1
-        .word   12, 12, .+4
-        .word   168, 12, .Lsb_br2b
-.Lsb_br2b:
-        .word   180, 180, .+4
-        .word   12, 180, .+4
-        .word   .Lsb_two, 180, .+4
-        .word   144, 180, .Lsb_byte2
+        .word   .Lsb_one, 168, .Lsb_byte1
+        .word   .Lsb_one, 168, .Lsb_byte2
         .word   12, 12, .Lsb_byte3
 .Lsb_byte0:
 .Lsb_b0_sign:
-        .word   180, 180, .+4
-        .word   12, 12, .+4
-        .word   172, 12, .+4
-        .word   12, 180, .+4
-        .word   .Lsb_min, 180, .+4
-        .word   144, 180, .Lsb_b0_im6
-        .word   12, 12, .Lsb_b0_sn0
-.Lsb_b0_im6:
-        .word   12, 12, .+4
-        .word   .Lsb_neg1, 180, .+4
-        .word   144, 180, .Lsb_b0_sn0
-        .word   .Lsb_n2147483648, 176, .+4
-        .word   .Lsb_min, 172, .Lsb_b0_b30
-.Lsb_b0_sn0:
-        .word   180, 180, .+4
-        .word   172, 180, .Lsb_b0_b30
-        .word   .Lsb_n2147483648, 176, .+4
-        .word   .Lsb_min, 172, .Lsb_b0_b30
-.Lsb_b0_b30:
-        .word   .Lsb_pow1073741824, 172, .Lsb_b0_b30_fail
-        .word   .Lsb_npow1073741824, 176, .+4
-        .word   12, 12, .Lsb_b0_bias
-.Lsb_b0_b30_fail:
-        .word   180, 180, .+4
-        .word   172, 180, .Lsb_b0_b30_ex0
-        .word   .Lsb_npow1073741824, 172, .+4
-        .word   12, 12, .Lsb_b0_bias
-.Lsb_b0_b30_ex0:
-        .word   .Lsb_npow1073741824, 176, .+4
-        .word   12, 12, .Lsb_b0_bias
+        .word   144, 172, .Lsb_b0_le0
 .Lsb_b0_bias:
         .word   .Lsb_neg1, 172, .+4
-.Lsb_b0_loop:
+.Lsb_b0_b30_P:
+        .word   .Lsb_pow1073741824, 172, .Lsb_b0_b30_P_N
+        .word   .Lsb_npow1073741824, 176, .+4
         .word   12, 12, .Lsb_b0_b29_P
+.Lsb_b0_b30_P_N:
+        .word   12, 12, .Lsb_b0_b29_N
 .Lsb_b0_b29_P:
         .word   .Lsb_pow536870912, 172, .Lsb_b0_b29_P_N
         .word   .Lsb_npow536870912, 176, .+4
         .word   12, 12, .Lsb_b0_b28_P
 .Lsb_b0_b29_P_N:
+        .word   12, 12, .Lsb_b0_b28_N
+.Lsb_b0_b29_N:
+        .word   .Lsb_npow536870912, 172, .Lsb_b0_b29_N_st
+        .word   .Lsb_npow536870912, 176, .+4
+        .word   12, 12, .Lsb_b0_b28_P
+.Lsb_b0_b29_N_st:
         .word   12, 12, .Lsb_b0_b28_N
 .Lsb_b0_b28_P:
         .word   .Lsb_pow268435456, 172, .Lsb_b0_b28_P_N
@@ -52469,6 +51947,18 @@ __subleq_sb:
         .word   12, 12, .Lsb_b0_shift
 .Lsb_b0_b0_N_st:
         .word   12, 12, .Lsb_b0_shift
+.Lsb_b0_le0:
+        .word   180, 180, .+4
+        .word   12, 12, .+4
+        .word   172, 12, .+4
+        .word   12, 180, .+4
+        .word   .Lsb_neg1, 180, .+4
+        .word   144, 180, .Lsb_b0_neg
+        .word   12, 12, .Lsb_b0_bias
+.Lsb_b0_neg:
+        .word   .Lsb_n2147483648, 176, .+4
+        .word   .Lsb_min, 172, .+4
+        .word   12, 12, .Lsb_b0_bias
 .Lsb_b0_shift:
         .word   12, 12, .+4
         .word   164, 12, .+4
@@ -52477,45 +51967,26 @@ __subleq_sb:
         .word   12, 12, .Lsb_store
 .Lsb_byte1:
 .Lsb_b1_sign:
-        .word   180, 180, .+4
-        .word   12, 12, .+4
-        .word   172, 12, .+4
-        .word   12, 180, .+4
-        .word   .Lsb_min, 180, .+4
-        .word   144, 180, .Lsb_b1_im6
-        .word   12, 12, .Lsb_b1_sn0
-.Lsb_b1_im6:
-        .word   12, 12, .+4
-        .word   .Lsb_neg1, 180, .+4
-        .word   144, 180, .Lsb_b1_sn0
-        .word   .Lsb_n2147483648, 176, .+4
-        .word   .Lsb_min, 172, .Lsb_b1_b30
-.Lsb_b1_sn0:
-        .word   180, 180, .+4
-        .word   172, 180, .Lsb_b1_b30
-        .word   .Lsb_n2147483648, 176, .+4
-        .word   .Lsb_min, 172, .Lsb_b1_b30
-.Lsb_b1_b30:
-        .word   .Lsb_pow1073741824, 172, .Lsb_b1_b30_fail
-        .word   .Lsb_npow1073741824, 176, .+4
-        .word   12, 12, .Lsb_b1_bias
-.Lsb_b1_b30_fail:
-        .word   180, 180, .+4
-        .word   172, 180, .Lsb_b1_b30_ex0
-        .word   .Lsb_npow1073741824, 172, .+4
-        .word   12, 12, .Lsb_b1_bias
-.Lsb_b1_b30_ex0:
-        .word   .Lsb_npow1073741824, 176, .+4
-        .word   12, 12, .Lsb_b1_bias
+        .word   144, 172, .Lsb_b1_le0
 .Lsb_b1_bias:
         .word   .Lsb_neg1, 172, .+4
-.Lsb_b1_loop:
+.Lsb_b1_b30_P:
+        .word   .Lsb_pow1073741824, 172, .Lsb_b1_b30_P_N
+        .word   .Lsb_npow1073741824, 176, .+4
         .word   12, 12, .Lsb_b1_b29_P
+.Lsb_b1_b30_P_N:
+        .word   12, 12, .Lsb_b1_b29_N
 .Lsb_b1_b29_P:
         .word   .Lsb_pow536870912, 172, .Lsb_b1_b29_P_N
         .word   .Lsb_npow536870912, 176, .+4
         .word   12, 12, .Lsb_b1_b28_P
 .Lsb_b1_b29_P_N:
+        .word   12, 12, .Lsb_b1_b28_N
+.Lsb_b1_b29_N:
+        .word   .Lsb_npow536870912, 172, .Lsb_b1_b29_N_st
+        .word   .Lsb_npow536870912, 176, .+4
+        .word   12, 12, .Lsb_b1_b28_P
+.Lsb_b1_b29_N_st:
         .word   12, 12, .Lsb_b1_b28_N
 .Lsb_b1_b28_P:
         .word   .Lsb_pow268435456, 172, .Lsb_b1_b28_P_N
@@ -52849,6 +52320,18 @@ __subleq_sb:
         .word   12, 12, .Lsb_b1_shift
 .Lsb_b1_b0_N_st:
         .word   12, 12, .Lsb_b1_shift
+.Lsb_b1_le0:
+        .word   180, 180, .+4
+        .word   12, 12, .+4
+        .word   172, 12, .+4
+        .word   12, 180, .+4
+        .word   .Lsb_neg1, 180, .+4
+        .word   144, 180, .Lsb_b1_neg
+        .word   12, 12, .Lsb_b1_bias
+.Lsb_b1_neg:
+        .word   .Lsb_n2147483648, 176, .+4
+        .word   .Lsb_min, 172, .+4
+        .word   12, 12, .Lsb_b1_bias
 .Lsb_b1_shift:
         .word   180, 180, .Lsb_b1_sh1
 .Lsb_b1_sh1:
@@ -52895,45 +52378,26 @@ __subleq_sb:
         .word   12, 12, .Lsb_store
 .Lsb_byte2:
 .Lsb_b2_sign:
-        .word   180, 180, .+4
-        .word   12, 12, .+4
-        .word   172, 12, .+4
-        .word   12, 180, .+4
-        .word   .Lsb_min, 180, .+4
-        .word   144, 180, .Lsb_b2_im6
-        .word   12, 12, .Lsb_b2_sn0
-.Lsb_b2_im6:
-        .word   12, 12, .+4
-        .word   .Lsb_neg1, 180, .+4
-        .word   144, 180, .Lsb_b2_sn0
-        .word   .Lsb_n2147483648, 176, .+4
-        .word   .Lsb_min, 172, .Lsb_b2_b30
-.Lsb_b2_sn0:
-        .word   180, 180, .+4
-        .word   172, 180, .Lsb_b2_b30
-        .word   .Lsb_n2147483648, 176, .+4
-        .word   .Lsb_min, 172, .Lsb_b2_b30
-.Lsb_b2_b30:
-        .word   .Lsb_pow1073741824, 172, .Lsb_b2_b30_fail
-        .word   .Lsb_npow1073741824, 176, .+4
-        .word   12, 12, .Lsb_b2_bias
-.Lsb_b2_b30_fail:
-        .word   180, 180, .+4
-        .word   172, 180, .Lsb_b2_b30_ex0
-        .word   .Lsb_npow1073741824, 172, .+4
-        .word   12, 12, .Lsb_b2_bias
-.Lsb_b2_b30_ex0:
-        .word   .Lsb_npow1073741824, 176, .+4
-        .word   12, 12, .Lsb_b2_bias
+        .word   144, 172, .Lsb_b2_le0
 .Lsb_b2_bias:
         .word   .Lsb_neg1, 172, .+4
-.Lsb_b2_loop:
+.Lsb_b2_b30_P:
+        .word   .Lsb_pow1073741824, 172, .Lsb_b2_b30_P_N
+        .word   .Lsb_npow1073741824, 176, .+4
         .word   12, 12, .Lsb_b2_b29_P
+.Lsb_b2_b30_P_N:
+        .word   12, 12, .Lsb_b2_b29_N
 .Lsb_b2_b29_P:
         .word   .Lsb_pow536870912, 172, .Lsb_b2_b29_P_N
         .word   .Lsb_npow536870912, 176, .+4
         .word   12, 12, .Lsb_b2_b28_P
 .Lsb_b2_b29_P_N:
+        .word   12, 12, .Lsb_b2_b28_N
+.Lsb_b2_b29_N:
+        .word   .Lsb_npow536870912, 172, .Lsb_b2_b29_N_st
+        .word   .Lsb_npow536870912, 176, .+4
+        .word   12, 12, .Lsb_b2_b28_P
+.Lsb_b2_b29_N_st:
         .word   12, 12, .Lsb_b2_b28_N
 .Lsb_b2_b28_P:
         .word   .Lsb_pow268435456, 172, .Lsb_b2_b28_P_N
@@ -53267,6 +52731,18 @@ __subleq_sb:
         .word   12, 12, .Lsb_b2_shift
 .Lsb_b2_b0_N_st:
         .word   12, 12, .Lsb_b2_shift
+.Lsb_b2_le0:
+        .word   180, 180, .+4
+        .word   12, 12, .+4
+        .word   172, 12, .+4
+        .word   12, 180, .+4
+        .word   .Lsb_neg1, 180, .+4
+        .word   144, 180, .Lsb_b2_neg
+        .word   12, 12, .Lsb_b2_bias
+.Lsb_b2_neg:
+        .word   .Lsb_n2147483648, 176, .+4
+        .word   .Lsb_min, 172, .+4
+        .word   12, 12, .Lsb_b2_bias
 .Lsb_b2_shift:
         .word   180, 180, .Lsb_b2_sh1
 .Lsb_b2_sh1:
@@ -53345,91 +52821,23 @@ __subleq_sb:
         .word   12, 12, .Lsb_store
 .Lsb_byte3:
 .Lsb_b3_sign:
-        .word   180, 180, .+4
-        .word   12, 12, .+4
-        .word   172, 12, .+4
-        .word   12, 180, .+4
-        .word   .Lsb_min, 180, .+4
-        .word   144, 180, .Lsb_b3_im6
-        .word   12, 12, .Lsb_b3_sn0
-.Lsb_b3_im6:
-        .word   12, 12, .+4
-        .word   .Lsb_neg1, 180, .+4
-        .word   144, 180, .Lsb_b3_sn0
-        .word   .Lsb_min, 172, .Lsb_b3_b30
-.Lsb_b3_sn0:
-        .word   180, 180, .+4
-        .word   172, 180, .Lsb_b3_b30
-        .word   .Lsb_min, 172, .Lsb_b3_b30
-.Lsb_b3_b30:
-        .word   .Lsb_pow1073741824, 172, .Lsb_b3_b30_fail
-        .word   12, 12, .Lsb_b3_bias
-.Lsb_b3_b30_fail:
-        .word   180, 180, .+4
-        .word   172, 180, .Lsb_b3_b30_ex0
-        .word   .Lsb_npow1073741824, 172, .+4
-        .word   12, 12, .Lsb_b3_bias
-.Lsb_b3_b30_ex0:
-        .word   12, 12, .Lsb_b3_bias
+        .word   144, 172, .Lsb_b3_le0
 .Lsb_b3_bias:
         .word   .Lsb_neg1, 172, .+4
-.Lsb_b3_loop:
-        .word   12, 12, .Lsb_b3_b29_P
+.Lsb_b3_b30_P:
+        .word   .Lsb_pow1073741824, 172, .Lsb_b3_b30_P_N
 .Lsb_b3_b29_P:
         .word   .Lsb_pow536870912, 172, .Lsb_b3_b29_P_N
-        .word   12, 12, .Lsb_b3_b28_P
-.Lsb_b3_b29_P_N:
-        .word   12, 12, .Lsb_b3_b28_N
 .Lsb_b3_b28_P:
         .word   .Lsb_pow268435456, 172, .Lsb_b3_b28_P_N
-        .word   12, 12, .Lsb_b3_b27_P
-.Lsb_b3_b28_P_N:
-        .word   12, 12, .Lsb_b3_b27_N
-.Lsb_b3_b28_N:
-        .word   .Lsb_npow268435456, 172, .Lsb_b3_b28_N_st
-        .word   12, 12, .Lsb_b3_b27_P
-.Lsb_b3_b28_N_st:
-        .word   12, 12, .Lsb_b3_b27_N
 .Lsb_b3_b27_P:
         .word   .Lsb_pow134217728, 172, .Lsb_b3_b27_P_N
-        .word   12, 12, .Lsb_b3_b26_P
-.Lsb_b3_b27_P_N:
-        .word   12, 12, .Lsb_b3_b26_N
-.Lsb_b3_b27_N:
-        .word   .Lsb_npow134217728, 172, .Lsb_b3_b27_N_st
-        .word   12, 12, .Lsb_b3_b26_P
-.Lsb_b3_b27_N_st:
-        .word   12, 12, .Lsb_b3_b26_N
 .Lsb_b3_b26_P:
         .word   .Lsb_pow67108864, 172, .Lsb_b3_b26_P_N
-        .word   12, 12, .Lsb_b3_b25_P
-.Lsb_b3_b26_P_N:
-        .word   12, 12, .Lsb_b3_b25_N
-.Lsb_b3_b26_N:
-        .word   .Lsb_npow67108864, 172, .Lsb_b3_b26_N_st
-        .word   12, 12, .Lsb_b3_b25_P
-.Lsb_b3_b26_N_st:
-        .word   12, 12, .Lsb_b3_b25_N
 .Lsb_b3_b25_P:
         .word   .Lsb_pow33554432, 172, .Lsb_b3_b25_P_N
-        .word   12, 12, .Lsb_b3_b24_P
-.Lsb_b3_b25_P_N:
-        .word   12, 12, .Lsb_b3_b24_N
-.Lsb_b3_b25_N:
-        .word   .Lsb_npow33554432, 172, .Lsb_b3_b25_N_st
-        .word   12, 12, .Lsb_b3_b24_P
-.Lsb_b3_b25_N_st:
-        .word   12, 12, .Lsb_b3_b24_N
 .Lsb_b3_b24_P:
         .word   .Lsb_pow16777216, 172, .Lsb_b3_b24_P_N
-        .word   12, 12, .Lsb_b3_b23_P
-.Lsb_b3_b24_P_N:
-        .word   12, 12, .Lsb_b3_b23_N
-.Lsb_b3_b24_N:
-        .word   .Lsb_npow16777216, 172, .Lsb_b3_b24_N_st
-        .word   12, 12, .Lsb_b3_b23_P
-.Lsb_b3_b24_N_st:
-        .word   12, 12, .Lsb_b3_b23_N
 .Lsb_b3_b23_P:
         .word   .Lsb_pow8388608, 172, .Lsb_b3_b23_P_N
         .word   .Lsb_npow8388608, 176, .+4
@@ -53718,6 +53126,52 @@ __subleq_sb:
         .word   12, 12, .Lsb_b3_shift
 .Lsb_b3_b0_N_st:
         .word   12, 12, .Lsb_b3_shift
+.Lsb_b3_b30_P_N:
+        .word   12, 12, .Lsb_b3_b29_N
+.Lsb_b3_b29_P_N:
+        .word   12, 12, .Lsb_b3_b28_N
+.Lsb_b3_b28_P_N:
+        .word   12, 12, .Lsb_b3_b27_N
+.Lsb_b3_b27_P_N:
+        .word   12, 12, .Lsb_b3_b26_N
+.Lsb_b3_b26_P_N:
+        .word   12, 12, .Lsb_b3_b25_N
+.Lsb_b3_b25_P_N:
+        .word   12, 12, .Lsb_b3_b24_N
+.Lsb_b3_b24_P_N:
+        .word   12, 12, .Lsb_b3_b23_N
+.Lsb_b3_b30_N:
+        .word   .Lsb_npow1073741824, 172, .Lsb_b3_b29_N
+        .word   12, 12, .Lsb_b3_b29_P
+.Lsb_b3_b29_N:
+        .word   .Lsb_npow536870912, 172, .Lsb_b3_b28_N
+        .word   12, 12, .Lsb_b3_b28_P
+.Lsb_b3_b28_N:
+        .word   .Lsb_npow268435456, 172, .Lsb_b3_b27_N
+        .word   12, 12, .Lsb_b3_b27_P
+.Lsb_b3_b27_N:
+        .word   .Lsb_npow134217728, 172, .Lsb_b3_b26_N
+        .word   12, 12, .Lsb_b3_b26_P
+.Lsb_b3_b26_N:
+        .word   .Lsb_npow67108864, 172, .Lsb_b3_b25_N
+        .word   12, 12, .Lsb_b3_b25_P
+.Lsb_b3_b25_N:
+        .word   .Lsb_npow33554432, 172, .Lsb_b3_b24_N
+        .word   12, 12, .Lsb_b3_b24_P
+.Lsb_b3_b24_N:
+        .word   .Lsb_npow16777216, 172, .Lsb_b3_b23_N
+        .word   12, 12, .Lsb_b3_b23_P
+.Lsb_b3_le0:
+        .word   180, 180, .+4
+        .word   12, 12, .+4
+        .word   172, 12, .+4
+        .word   12, 180, .+4
+        .word   .Lsb_neg1, 180, .+4
+        .word   144, 180, .Lsb_b3_neg
+        .word   12, 12, .Lsb_b3_bias
+.Lsb_b3_neg:
+        .word   .Lsb_min, 172, .+4
+        .word   12, 12, .Lsb_b3_bias
 .Lsb_b3_shift:
         .word   180, 180, .Lsb_b3_sh1
 .Lsb_b3_sh1:
@@ -53838,7 +53292,6 @@ __subleq_sb:
         .word   18, 12, .+4
         .word   12, 160, .+4
         .word   .Lsb_neg4, 16, .+4
-        .word   12, 12, .+4
         .word   12
         .word   12
         .word   162
@@ -53920,324 +53373,76 @@ __subleq_sb:
 
 # __subleq_lh: Load halfword - Biased Non-Restoring Lattice
 __subleq_lh:
-        .word   160, 160, .+4
-        .word   12, 12, .+4
         .word   100, 12, .+4
+        .word   160, 160, .+4
         .word   12, 160, .Llh_offset
 .Llh_offset:
-        .word   164, 164, .Llh_mod1
-.Llh_mod1:
-        .word   180, 180, .+4
-        .word   12, 12, .+4
-        .word   100, 12, .+4
-        .word   12, 180, .Llh_mod_sign
-.Llh_mod_sign:
-        .word   144, 180, .Llh_msign_neg
-        .word   12, 12, .Llh_mod_bias
-.Llh_msign_neg:
-        .word   184, 184, .+4
-        .word   180, 184, .+4
-        .word   144, 184, .Llh_msign_ambig
-        .word   .Llh_min, 180, .+4
-        .word   12, 12, .Llh_mod_bias
-.Llh_msign_ambig:
-        .word   .Llh_neg1, 184, .+4
-        .word   144, 184, .Llh_mod_bias
-        .word   .Llh_min, 180, .+4
+        .word   164, 164, .Llh_mod_bias
 .Llh_mod_bias:
         .word   184, 184, .+4
+        .word   180, 180, .+4
+        .word   12, 12, .+4
+        .word   160, 12, .+4
+        .word   12, 180, .+4
         .word   .Llh_neg1, 180, .+4
-        .word   12, 12, .Llh_mod_b30_P
 .Llh_mod_b30_P:
         .word   .Llh_c1073741824, 180, .Llh_mod_b30_P_to_N
-        .word   12, 12, .Llh_mod_b29_P
-.Llh_mod_b30_P_to_N:
-        .word   12, 12, .Llh_mod_b29_N
-.Llh_mod_b30_N:
-        .word   .Llh_n1073741824, 180, .Llh_mod_b30_N_to_N
-        .word   12, 12, .Llh_mod_b29_P
-.Llh_mod_b30_N_to_N:
-        .word   12, 12, .Llh_mod_b29_N
 .Llh_mod_b29_P:
         .word   .Llh_c536870912, 180, .Llh_mod_b29_P_to_N
-        .word   12, 12, .Llh_mod_b28_P
-.Llh_mod_b29_P_to_N:
-        .word   12, 12, .Llh_mod_b28_N
-.Llh_mod_b29_N:
-        .word   .Llh_n536870912, 180, .Llh_mod_b29_N_to_N
-        .word   12, 12, .Llh_mod_b28_P
-.Llh_mod_b29_N_to_N:
-        .word   12, 12, .Llh_mod_b28_N
 .Llh_mod_b28_P:
         .word   .Llh_c268435456, 180, .Llh_mod_b28_P_to_N
-        .word   12, 12, .Llh_mod_b27_P
-.Llh_mod_b28_P_to_N:
-        .word   12, 12, .Llh_mod_b27_N
-.Llh_mod_b28_N:
-        .word   .Llh_n268435456, 180, .Llh_mod_b28_N_to_N
-        .word   12, 12, .Llh_mod_b27_P
-.Llh_mod_b28_N_to_N:
-        .word   12, 12, .Llh_mod_b27_N
 .Llh_mod_b27_P:
         .word   .Llh_c134217728, 180, .Llh_mod_b27_P_to_N
-        .word   12, 12, .Llh_mod_b26_P
-.Llh_mod_b27_P_to_N:
-        .word   12, 12, .Llh_mod_b26_N
-.Llh_mod_b27_N:
-        .word   .Llh_n134217728, 180, .Llh_mod_b27_N_to_N
-        .word   12, 12, .Llh_mod_b26_P
-.Llh_mod_b27_N_to_N:
-        .word   12, 12, .Llh_mod_b26_N
 .Llh_mod_b26_P:
         .word   .Llh_c67108864, 180, .Llh_mod_b26_P_to_N
-        .word   12, 12, .Llh_mod_b25_P
-.Llh_mod_b26_P_to_N:
-        .word   12, 12, .Llh_mod_b25_N
-.Llh_mod_b26_N:
-        .word   .Llh_n67108864, 180, .Llh_mod_b26_N_to_N
-        .word   12, 12, .Llh_mod_b25_P
-.Llh_mod_b26_N_to_N:
-        .word   12, 12, .Llh_mod_b25_N
 .Llh_mod_b25_P:
         .word   .Llh_c33554432, 180, .Llh_mod_b25_P_to_N
-        .word   12, 12, .Llh_mod_b24_P
-.Llh_mod_b25_P_to_N:
-        .word   12, 12, .Llh_mod_b24_N
-.Llh_mod_b25_N:
-        .word   .Llh_n33554432, 180, .Llh_mod_b25_N_to_N
-        .word   12, 12, .Llh_mod_b24_P
-.Llh_mod_b25_N_to_N:
-        .word   12, 12, .Llh_mod_b24_N
 .Llh_mod_b24_P:
         .word   .Llh_c16777216, 180, .Llh_mod_b24_P_to_N
-        .word   12, 12, .Llh_mod_b23_P
-.Llh_mod_b24_P_to_N:
-        .word   12, 12, .Llh_mod_b23_N
-.Llh_mod_b24_N:
-        .word   .Llh_n16777216, 180, .Llh_mod_b24_N_to_N
-        .word   12, 12, .Llh_mod_b23_P
-.Llh_mod_b24_N_to_N:
-        .word   12, 12, .Llh_mod_b23_N
 .Llh_mod_b23_P:
         .word   .Llh_c8388608, 180, .Llh_mod_b23_P_to_N
-        .word   12, 12, .Llh_mod_b22_P
-.Llh_mod_b23_P_to_N:
-        .word   12, 12, .Llh_mod_b22_N
-.Llh_mod_b23_N:
-        .word   .Llh_n8388608, 180, .Llh_mod_b23_N_to_N
-        .word   12, 12, .Llh_mod_b22_P
-.Llh_mod_b23_N_to_N:
-        .word   12, 12, .Llh_mod_b22_N
 .Llh_mod_b22_P:
         .word   .Llh_c4194304, 180, .Llh_mod_b22_P_to_N
-        .word   12, 12, .Llh_mod_b21_P
-.Llh_mod_b22_P_to_N:
-        .word   12, 12, .Llh_mod_b21_N
-.Llh_mod_b22_N:
-        .word   .Llh_n4194304, 180, .Llh_mod_b22_N_to_N
-        .word   12, 12, .Llh_mod_b21_P
-.Llh_mod_b22_N_to_N:
-        .word   12, 12, .Llh_mod_b21_N
 .Llh_mod_b21_P:
         .word   .Llh_c2097152, 180, .Llh_mod_b21_P_to_N
-        .word   12, 12, .Llh_mod_b20_P
-.Llh_mod_b21_P_to_N:
-        .word   12, 12, .Llh_mod_b20_N
-.Llh_mod_b21_N:
-        .word   .Llh_n2097152, 180, .Llh_mod_b21_N_to_N
-        .word   12, 12, .Llh_mod_b20_P
-.Llh_mod_b21_N_to_N:
-        .word   12, 12, .Llh_mod_b20_N
 .Llh_mod_b20_P:
         .word   .Llh_c1048576, 180, .Llh_mod_b20_P_to_N
-        .word   12, 12, .Llh_mod_b19_P
-.Llh_mod_b20_P_to_N:
-        .word   12, 12, .Llh_mod_b19_N
-.Llh_mod_b20_N:
-        .word   .Llh_n1048576, 180, .Llh_mod_b20_N_to_N
-        .word   12, 12, .Llh_mod_b19_P
-.Llh_mod_b20_N_to_N:
-        .word   12, 12, .Llh_mod_b19_N
 .Llh_mod_b19_P:
         .word   .Llh_c524288, 180, .Llh_mod_b19_P_to_N
-        .word   12, 12, .Llh_mod_b18_P
-.Llh_mod_b19_P_to_N:
-        .word   12, 12, .Llh_mod_b18_N
-.Llh_mod_b19_N:
-        .word   .Llh_n524288, 180, .Llh_mod_b19_N_to_N
-        .word   12, 12, .Llh_mod_b18_P
-.Llh_mod_b19_N_to_N:
-        .word   12, 12, .Llh_mod_b18_N
 .Llh_mod_b18_P:
         .word   .Llh_c262144, 180, .Llh_mod_b18_P_to_N
-        .word   12, 12, .Llh_mod_b17_P
-.Llh_mod_b18_P_to_N:
-        .word   12, 12, .Llh_mod_b17_N
-.Llh_mod_b18_N:
-        .word   .Llh_n262144, 180, .Llh_mod_b18_N_to_N
-        .word   12, 12, .Llh_mod_b17_P
-.Llh_mod_b18_N_to_N:
-        .word   12, 12, .Llh_mod_b17_N
 .Llh_mod_b17_P:
         .word   .Llh_c131072, 180, .Llh_mod_b17_P_to_N
-        .word   12, 12, .Llh_mod_b16_P
-.Llh_mod_b17_P_to_N:
-        .word   12, 12, .Llh_mod_b16_N
-.Llh_mod_b17_N:
-        .word   .Llh_n131072, 180, .Llh_mod_b17_N_to_N
-        .word   12, 12, .Llh_mod_b16_P
-.Llh_mod_b17_N_to_N:
-        .word   12, 12, .Llh_mod_b16_N
 .Llh_mod_b16_P:
         .word   .Llh_c65536, 180, .Llh_mod_b16_P_to_N
-        .word   12, 12, .Llh_mod_b15_P
-.Llh_mod_b16_P_to_N:
-        .word   12, 12, .Llh_mod_b15_N
-.Llh_mod_b16_N:
-        .word   .Llh_n65536, 180, .Llh_mod_b16_N_to_N
-        .word   12, 12, .Llh_mod_b15_P
-.Llh_mod_b16_N_to_N:
-        .word   12, 12, .Llh_mod_b15_N
 .Llh_mod_b15_P:
         .word   .Llh_c32768, 180, .Llh_mod_b15_P_to_N
-        .word   12, 12, .Llh_mod_b14_P
-.Llh_mod_b15_P_to_N:
-        .word   12, 12, .Llh_mod_b14_N
-.Llh_mod_b15_N:
-        .word   .Llh_n32768, 180, .Llh_mod_b15_N_to_N
-        .word   12, 12, .Llh_mod_b14_P
-.Llh_mod_b15_N_to_N:
-        .word   12, 12, .Llh_mod_b14_N
 .Llh_mod_b14_P:
         .word   .Llh_c16384, 180, .Llh_mod_b14_P_to_N
-        .word   12, 12, .Llh_mod_b13_P
-.Llh_mod_b14_P_to_N:
-        .word   12, 12, .Llh_mod_b13_N
-.Llh_mod_b14_N:
-        .word   .Llh_n16384, 180, .Llh_mod_b14_N_to_N
-        .word   12, 12, .Llh_mod_b13_P
-.Llh_mod_b14_N_to_N:
-        .word   12, 12, .Llh_mod_b13_N
 .Llh_mod_b13_P:
         .word   .Llh_c8192, 180, .Llh_mod_b13_P_to_N
-        .word   12, 12, .Llh_mod_b12_P
-.Llh_mod_b13_P_to_N:
-        .word   12, 12, .Llh_mod_b12_N
-.Llh_mod_b13_N:
-        .word   .Llh_n8192, 180, .Llh_mod_b13_N_to_N
-        .word   12, 12, .Llh_mod_b12_P
-.Llh_mod_b13_N_to_N:
-        .word   12, 12, .Llh_mod_b12_N
 .Llh_mod_b12_P:
         .word   .Llh_c4096, 180, .Llh_mod_b12_P_to_N
-        .word   12, 12, .Llh_mod_b11_P
-.Llh_mod_b12_P_to_N:
-        .word   12, 12, .Llh_mod_b11_N
-.Llh_mod_b12_N:
-        .word   .Llh_n4096, 180, .Llh_mod_b12_N_to_N
-        .word   12, 12, .Llh_mod_b11_P
-.Llh_mod_b12_N_to_N:
-        .word   12, 12, .Llh_mod_b11_N
 .Llh_mod_b11_P:
         .word   .Llh_c2048, 180, .Llh_mod_b11_P_to_N
-        .word   12, 12, .Llh_mod_b10_P
-.Llh_mod_b11_P_to_N:
-        .word   12, 12, .Llh_mod_b10_N
-.Llh_mod_b11_N:
-        .word   .Llh_n2048, 180, .Llh_mod_b11_N_to_N
-        .word   12, 12, .Llh_mod_b10_P
-.Llh_mod_b11_N_to_N:
-        .word   12, 12, .Llh_mod_b10_N
 .Llh_mod_b10_P:
         .word   .Llh_c1024, 180, .Llh_mod_b10_P_to_N
-        .word   12, 12, .Llh_mod_b9_P
-.Llh_mod_b10_P_to_N:
-        .word   12, 12, .Llh_mod_b9_N
-.Llh_mod_b10_N:
-        .word   .Llh_n1024, 180, .Llh_mod_b10_N_to_N
-        .word   12, 12, .Llh_mod_b9_P
-.Llh_mod_b10_N_to_N:
-        .word   12, 12, .Llh_mod_b9_N
 .Llh_mod_b9_P:
         .word   .Llh_c512, 180, .Llh_mod_b9_P_to_N
-        .word   12, 12, .Llh_mod_b8_P
-.Llh_mod_b9_P_to_N:
-        .word   12, 12, .Llh_mod_b8_N
-.Llh_mod_b9_N:
-        .word   .Llh_n512, 180, .Llh_mod_b9_N_to_N
-        .word   12, 12, .Llh_mod_b8_P
-.Llh_mod_b9_N_to_N:
-        .word   12, 12, .Llh_mod_b8_N
 .Llh_mod_b8_P:
         .word   .Llh_c256, 180, .Llh_mod_b8_P_to_N
-        .word   12, 12, .Llh_mod_b7_P
-.Llh_mod_b8_P_to_N:
-        .word   12, 12, .Llh_mod_b7_N
-.Llh_mod_b8_N:
-        .word   .Llh_n256, 180, .Llh_mod_b8_N_to_N
-        .word   12, 12, .Llh_mod_b7_P
-.Llh_mod_b8_N_to_N:
-        .word   12, 12, .Llh_mod_b7_N
 .Llh_mod_b7_P:
         .word   .Llh_c128, 180, .Llh_mod_b7_P_to_N
-        .word   12, 12, .Llh_mod_b6_P
-.Llh_mod_b7_P_to_N:
-        .word   12, 12, .Llh_mod_b6_N
-.Llh_mod_b7_N:
-        .word   .Llh_n128, 180, .Llh_mod_b7_N_to_N
-        .word   12, 12, .Llh_mod_b6_P
-.Llh_mod_b7_N_to_N:
-        .word   12, 12, .Llh_mod_b6_N
 .Llh_mod_b6_P:
         .word   .Llh_c64, 180, .Llh_mod_b6_P_to_N
-        .word   12, 12, .Llh_mod_b5_P
-.Llh_mod_b6_P_to_N:
-        .word   12, 12, .Llh_mod_b5_N
-.Llh_mod_b6_N:
-        .word   .Llh_n64, 180, .Llh_mod_b6_N_to_N
-        .word   12, 12, .Llh_mod_b5_P
-.Llh_mod_b6_N_to_N:
-        .word   12, 12, .Llh_mod_b5_N
 .Llh_mod_b5_P:
         .word   .Llh_c32, 180, .Llh_mod_b5_P_to_N
-        .word   12, 12, .Llh_mod_b4_P
-.Llh_mod_b5_P_to_N:
-        .word   12, 12, .Llh_mod_b4_N
-.Llh_mod_b5_N:
-        .word   .Llh_n32, 180, .Llh_mod_b5_N_to_N
-        .word   12, 12, .Llh_mod_b4_P
-.Llh_mod_b5_N_to_N:
-        .word   12, 12, .Llh_mod_b4_N
 .Llh_mod_b4_P:
         .word   .Llh_c16, 180, .Llh_mod_b4_P_to_N
-        .word   12, 12, .Llh_mod_b3_P
-.Llh_mod_b4_P_to_N:
-        .word   12, 12, .Llh_mod_b3_N
-.Llh_mod_b4_N:
-        .word   .Llh_n16, 180, .Llh_mod_b4_N_to_N
-        .word   12, 12, .Llh_mod_b3_P
-.Llh_mod_b4_N_to_N:
-        .word   12, 12, .Llh_mod_b3_N
 .Llh_mod_b3_P:
         .word   .Llh_c8, 180, .Llh_mod_b3_P_to_N
-        .word   12, 12, .Llh_mod_b2_P
-.Llh_mod_b3_P_to_N:
-        .word   12, 12, .Llh_mod_b2_N
-.Llh_mod_b3_N:
-        .word   .Llh_n8, 180, .Llh_mod_b3_N_to_N
-        .word   12, 12, .Llh_mod_b2_P
-.Llh_mod_b3_N_to_N:
-        .word   12, 12, .Llh_mod_b2_N
 .Llh_mod_b2_P:
         .word   .Llh_c4, 180, .Llh_mod_b2_P_to_N
-        .word   12, 12, .Llh_mod_b1_P
-.Llh_mod_b2_P_to_N:
-        .word   12, 12, .Llh_mod_b1_N
-.Llh_mod_b2_N:
-        .word   .Llh_n4, 180, .Llh_mod_b2_N_to_N
-        .word   12, 12, .Llh_mod_b1_P
-.Llh_mod_b2_N_to_N:
-        .word   12, 12, .Llh_mod_b1_N
 .Llh_mod_b1_P:
         .word   .Llh_c2, 180, .Llh_mod_b1_P_to_N
         .word   .Llh_c2, 184, .Llh_mod_b0_P
@@ -54258,6 +53463,151 @@ __subleq_lh:
         .word   .Llh_c1, 184, .Llh_mod_done
 .Llh_mod_b0_N_to_N:
         .word   12, 12, .Llh_mod_done
+.Llh_mod_b30_P_to_N:
+        .word   12, 12, .Llh_mod_b29_N
+.Llh_mod_b29_P_to_N:
+        .word   12, 12, .Llh_mod_b28_N
+.Llh_mod_b28_P_to_N:
+        .word   12, 12, .Llh_mod_b27_N
+.Llh_mod_b27_P_to_N:
+        .word   12, 12, .Llh_mod_b26_N
+.Llh_mod_b26_P_to_N:
+        .word   12, 12, .Llh_mod_b25_N
+.Llh_mod_b25_P_to_N:
+        .word   12, 12, .Llh_mod_b24_N
+.Llh_mod_b24_P_to_N:
+        .word   12, 12, .Llh_mod_b23_N
+.Llh_mod_b23_P_to_N:
+        .word   12, 12, .Llh_mod_b22_N
+.Llh_mod_b22_P_to_N:
+        .word   12, 12, .Llh_mod_b21_N
+.Llh_mod_b21_P_to_N:
+        .word   12, 12, .Llh_mod_b20_N
+.Llh_mod_b20_P_to_N:
+        .word   12, 12, .Llh_mod_b19_N
+.Llh_mod_b19_P_to_N:
+        .word   12, 12, .Llh_mod_b18_N
+.Llh_mod_b18_P_to_N:
+        .word   12, 12, .Llh_mod_b17_N
+.Llh_mod_b17_P_to_N:
+        .word   12, 12, .Llh_mod_b16_N
+.Llh_mod_b16_P_to_N:
+        .word   12, 12, .Llh_mod_b15_N
+.Llh_mod_b15_P_to_N:
+        .word   12, 12, .Llh_mod_b14_N
+.Llh_mod_b14_P_to_N:
+        .word   12, 12, .Llh_mod_b13_N
+.Llh_mod_b13_P_to_N:
+        .word   12, 12, .Llh_mod_b12_N
+.Llh_mod_b12_P_to_N:
+        .word   12, 12, .Llh_mod_b11_N
+.Llh_mod_b11_P_to_N:
+        .word   12, 12, .Llh_mod_b10_N
+.Llh_mod_b10_P_to_N:
+        .word   12, 12, .Llh_mod_b9_N
+.Llh_mod_b9_P_to_N:
+        .word   12, 12, .Llh_mod_b8_N
+.Llh_mod_b8_P_to_N:
+        .word   12, 12, .Llh_mod_b7_N
+.Llh_mod_b7_P_to_N:
+        .word   12, 12, .Llh_mod_b6_N
+.Llh_mod_b6_P_to_N:
+        .word   12, 12, .Llh_mod_b5_N
+.Llh_mod_b5_P_to_N:
+        .word   12, 12, .Llh_mod_b4_N
+.Llh_mod_b4_P_to_N:
+        .word   12, 12, .Llh_mod_b3_N
+.Llh_mod_b3_P_to_N:
+        .word   12, 12, .Llh_mod_b2_N
+.Llh_mod_b2_P_to_N:
+        .word   12, 12, .Llh_mod_b1_N
+.Llh_mod_b30_N:
+        .word   .Llh_n1073741824, 180, .Llh_mod_b29_N
+        .word   12, 12, .Llh_mod_b29_P
+.Llh_mod_b29_N:
+        .word   .Llh_n536870912, 180, .Llh_mod_b28_N
+        .word   12, 12, .Llh_mod_b28_P
+.Llh_mod_b28_N:
+        .word   .Llh_n268435456, 180, .Llh_mod_b27_N
+        .word   12, 12, .Llh_mod_b27_P
+.Llh_mod_b27_N:
+        .word   .Llh_n134217728, 180, .Llh_mod_b26_N
+        .word   12, 12, .Llh_mod_b26_P
+.Llh_mod_b26_N:
+        .word   .Llh_n67108864, 180, .Llh_mod_b25_N
+        .word   12, 12, .Llh_mod_b25_P
+.Llh_mod_b25_N:
+        .word   .Llh_n33554432, 180, .Llh_mod_b24_N
+        .word   12, 12, .Llh_mod_b24_P
+.Llh_mod_b24_N:
+        .word   .Llh_n16777216, 180, .Llh_mod_b23_N
+        .word   12, 12, .Llh_mod_b23_P
+.Llh_mod_b23_N:
+        .word   .Llh_n8388608, 180, .Llh_mod_b22_N
+        .word   12, 12, .Llh_mod_b22_P
+.Llh_mod_b22_N:
+        .word   .Llh_n4194304, 180, .Llh_mod_b21_N
+        .word   12, 12, .Llh_mod_b21_P
+.Llh_mod_b21_N:
+        .word   .Llh_n2097152, 180, .Llh_mod_b20_N
+        .word   12, 12, .Llh_mod_b20_P
+.Llh_mod_b20_N:
+        .word   .Llh_n1048576, 180, .Llh_mod_b19_N
+        .word   12, 12, .Llh_mod_b19_P
+.Llh_mod_b19_N:
+        .word   .Llh_n524288, 180, .Llh_mod_b18_N
+        .word   12, 12, .Llh_mod_b18_P
+.Llh_mod_b18_N:
+        .word   .Llh_n262144, 180, .Llh_mod_b17_N
+        .word   12, 12, .Llh_mod_b17_P
+.Llh_mod_b17_N:
+        .word   .Llh_n131072, 180, .Llh_mod_b16_N
+        .word   12, 12, .Llh_mod_b16_P
+.Llh_mod_b16_N:
+        .word   .Llh_n65536, 180, .Llh_mod_b15_N
+        .word   12, 12, .Llh_mod_b15_P
+.Llh_mod_b15_N:
+        .word   .Llh_n32768, 180, .Llh_mod_b14_N
+        .word   12, 12, .Llh_mod_b14_P
+.Llh_mod_b14_N:
+        .word   .Llh_n16384, 180, .Llh_mod_b13_N
+        .word   12, 12, .Llh_mod_b13_P
+.Llh_mod_b13_N:
+        .word   .Llh_n8192, 180, .Llh_mod_b12_N
+        .word   12, 12, .Llh_mod_b12_P
+.Llh_mod_b12_N:
+        .word   .Llh_n4096, 180, .Llh_mod_b11_N
+        .word   12, 12, .Llh_mod_b11_P
+.Llh_mod_b11_N:
+        .word   .Llh_n2048, 180, .Llh_mod_b10_N
+        .word   12, 12, .Llh_mod_b10_P
+.Llh_mod_b10_N:
+        .word   .Llh_n1024, 180, .Llh_mod_b9_N
+        .word   12, 12, .Llh_mod_b9_P
+.Llh_mod_b9_N:
+        .word   .Llh_n512, 180, .Llh_mod_b8_N
+        .word   12, 12, .Llh_mod_b8_P
+.Llh_mod_b8_N:
+        .word   .Llh_n256, 180, .Llh_mod_b7_N
+        .word   12, 12, .Llh_mod_b7_P
+.Llh_mod_b7_N:
+        .word   .Llh_n128, 180, .Llh_mod_b6_N
+        .word   12, 12, .Llh_mod_b6_P
+.Llh_mod_b6_N:
+        .word   .Llh_n64, 180, .Llh_mod_b5_N
+        .word   12, 12, .Llh_mod_b5_P
+.Llh_mod_b5_N:
+        .word   .Llh_n32, 180, .Llh_mod_b4_N
+        .word   12, 12, .Llh_mod_b4_P
+.Llh_mod_b4_N:
+        .word   .Llh_n16, 180, .Llh_mod_b3_N
+        .word   12, 12, .Llh_mod_b3_P
+.Llh_mod_b3_N:
+        .word   .Llh_n8, 180, .Llh_mod_b2_N
+        .word   12, 12, .Llh_mod_b2_P
+.Llh_mod_b2_N:
+        .word   .Llh_n4, 180, .Llh_mod_b1_N
+        .word   12, 12, .Llh_mod_b1_P
 .Llh_mod_done:
         .word   180, 180, .+4
         .word   184, 180, .+4
@@ -54280,173 +53630,39 @@ __subleq_lh:
         .word   12, 12, .Llh_half1
 .Llh_half0:
 .Llh_h0_sign:
-        .word   184, 184, .+4
-        .word   12, 12, .+4
-        .word   172, 12, .+4
-        .word   12, 184, .+4
-        .word   .Llh_min, 184, .+4
-        .word   144, 184, .Llh_h0_im6
-        .word   12, 12, .Llh_h0_sn0
-.Llh_h0_im6:
-        .word   12, 12, .+4
-        .word   .Llh_neg1, 184, .+4
-        .word   144, 184, .Llh_h0_sn0
-        .word   12, 12, .Llh_h0_imclr
-.Llh_h0_imclr:
-        .word   .Llh_min, 172, .Llh_h0_b30
-.Llh_h0_sn0:
-        .word   180, 180, .+4
-        .word   172, 180, .Llh_h0_b30
-        .word   .Llh_min, 172, .Llh_h0_b30
-.Llh_h0_b30:
-        .word   .Llh_c1073741824, 172, .Llh_h0_b30_fail
-        .word   12, 12, .Llh_h0_bias
-.Llh_h0_b30_fail:
-        .word   180, 180, .+4
-        .word   172, 180, .Llh_h0_b30_ex0
-        .word   .Llh_n1073741824, 172, .+4
-        .word   12, 12, .Llh_h0_bias
-.Llh_h0_b30_ex0:
-        .word   12, 12, .Llh_h0_bias
+        .word   144, 172, .Llh_h0_le0
 .Llh_h0_bias:
         .word   .Llh_neg1, 172, .+4
-.Llh_h0_loop:
-        .word   12, 12, .Llh_h0_b29_P
+.Llh_h0_b30_P:
+        .word   .Llh_c1073741824, 172, .Llh_h0_b30_P_N
 .Llh_h0_b29_P:
         .word   .Llh_c536870912, 172, .Llh_h0_b29_P_N
-        .word   12, 12, .Llh_h0_b28_P
-.Llh_h0_b29_P_N:
-        .word   12, 12, .Llh_h0_b28_N
 .Llh_h0_b28_P:
         .word   .Llh_c268435456, 172, .Llh_h0_b28_P_N
-        .word   12, 12, .Llh_h0_b27_P
-.Llh_h0_b28_P_N:
-        .word   12, 12, .Llh_h0_b27_N
-.Llh_h0_b28_N:
-        .word   .Llh_n268435456, 172, .Llh_h0_b28_N_st
-        .word   12, 12, .Llh_h0_b27_P
-.Llh_h0_b28_N_st:
-        .word   12, 12, .Llh_h0_b27_N
 .Llh_h0_b27_P:
         .word   .Llh_c134217728, 172, .Llh_h0_b27_P_N
-        .word   12, 12, .Llh_h0_b26_P
-.Llh_h0_b27_P_N:
-        .word   12, 12, .Llh_h0_b26_N
-.Llh_h0_b27_N:
-        .word   .Llh_n134217728, 172, .Llh_h0_b27_N_st
-        .word   12, 12, .Llh_h0_b26_P
-.Llh_h0_b27_N_st:
-        .word   12, 12, .Llh_h0_b26_N
 .Llh_h0_b26_P:
         .word   .Llh_c67108864, 172, .Llh_h0_b26_P_N
-        .word   12, 12, .Llh_h0_b25_P
-.Llh_h0_b26_P_N:
-        .word   12, 12, .Llh_h0_b25_N
-.Llh_h0_b26_N:
-        .word   .Llh_n67108864, 172, .Llh_h0_b26_N_st
-        .word   12, 12, .Llh_h0_b25_P
-.Llh_h0_b26_N_st:
-        .word   12, 12, .Llh_h0_b25_N
 .Llh_h0_b25_P:
         .word   .Llh_c33554432, 172, .Llh_h0_b25_P_N
-        .word   12, 12, .Llh_h0_b24_P
-.Llh_h0_b25_P_N:
-        .word   12, 12, .Llh_h0_b24_N
-.Llh_h0_b25_N:
-        .word   .Llh_n33554432, 172, .Llh_h0_b25_N_st
-        .word   12, 12, .Llh_h0_b24_P
-.Llh_h0_b25_N_st:
-        .word   12, 12, .Llh_h0_b24_N
 .Llh_h0_b24_P:
         .word   .Llh_c16777216, 172, .Llh_h0_b24_P_N
-        .word   12, 12, .Llh_h0_b23_P
-.Llh_h0_b24_P_N:
-        .word   12, 12, .Llh_h0_b23_N
-.Llh_h0_b24_N:
-        .word   .Llh_n16777216, 172, .Llh_h0_b24_N_st
-        .word   12, 12, .Llh_h0_b23_P
-.Llh_h0_b24_N_st:
-        .word   12, 12, .Llh_h0_b23_N
 .Llh_h0_b23_P:
         .word   .Llh_c8388608, 172, .Llh_h0_b23_P_N
-        .word   12, 12, .Llh_h0_b22_P
-.Llh_h0_b23_P_N:
-        .word   12, 12, .Llh_h0_b22_N
-.Llh_h0_b23_N:
-        .word   .Llh_n8388608, 172, .Llh_h0_b23_N_st
-        .word   12, 12, .Llh_h0_b22_P
-.Llh_h0_b23_N_st:
-        .word   12, 12, .Llh_h0_b22_N
 .Llh_h0_b22_P:
         .word   .Llh_c4194304, 172, .Llh_h0_b22_P_N
-        .word   12, 12, .Llh_h0_b21_P
-.Llh_h0_b22_P_N:
-        .word   12, 12, .Llh_h0_b21_N
-.Llh_h0_b22_N:
-        .word   .Llh_n4194304, 172, .Llh_h0_b22_N_st
-        .word   12, 12, .Llh_h0_b21_P
-.Llh_h0_b22_N_st:
-        .word   12, 12, .Llh_h0_b21_N
 .Llh_h0_b21_P:
         .word   .Llh_c2097152, 172, .Llh_h0_b21_P_N
-        .word   12, 12, .Llh_h0_b20_P
-.Llh_h0_b21_P_N:
-        .word   12, 12, .Llh_h0_b20_N
-.Llh_h0_b21_N:
-        .word   .Llh_n2097152, 172, .Llh_h0_b21_N_st
-        .word   12, 12, .Llh_h0_b20_P
-.Llh_h0_b21_N_st:
-        .word   12, 12, .Llh_h0_b20_N
 .Llh_h0_b20_P:
         .word   .Llh_c1048576, 172, .Llh_h0_b20_P_N
-        .word   12, 12, .Llh_h0_b19_P
-.Llh_h0_b20_P_N:
-        .word   12, 12, .Llh_h0_b19_N
-.Llh_h0_b20_N:
-        .word   .Llh_n1048576, 172, .Llh_h0_b20_N_st
-        .word   12, 12, .Llh_h0_b19_P
-.Llh_h0_b20_N_st:
-        .word   12, 12, .Llh_h0_b19_N
 .Llh_h0_b19_P:
         .word   .Llh_c524288, 172, .Llh_h0_b19_P_N
-        .word   12, 12, .Llh_h0_b18_P
-.Llh_h0_b19_P_N:
-        .word   12, 12, .Llh_h0_b18_N
-.Llh_h0_b19_N:
-        .word   .Llh_n524288, 172, .Llh_h0_b19_N_st
-        .word   12, 12, .Llh_h0_b18_P
-.Llh_h0_b19_N_st:
-        .word   12, 12, .Llh_h0_b18_N
 .Llh_h0_b18_P:
         .word   .Llh_c262144, 172, .Llh_h0_b18_P_N
-        .word   12, 12, .Llh_h0_b17_P
-.Llh_h0_b18_P_N:
-        .word   12, 12, .Llh_h0_b17_N
-.Llh_h0_b18_N:
-        .word   .Llh_n262144, 172, .Llh_h0_b18_N_st
-        .word   12, 12, .Llh_h0_b17_P
-.Llh_h0_b18_N_st:
-        .word   12, 12, .Llh_h0_b17_N
 .Llh_h0_b17_P:
         .word   .Llh_c131072, 172, .Llh_h0_b17_P_N
-        .word   12, 12, .Llh_h0_b16_P
-.Llh_h0_b17_P_N:
-        .word   12, 12, .Llh_h0_b16_N
-.Llh_h0_b17_N:
-        .word   .Llh_n131072, 172, .Llh_h0_b17_N_st
-        .word   12, 12, .Llh_h0_b16_P
-.Llh_h0_b17_N_st:
-        .word   12, 12, .Llh_h0_b16_N
 .Llh_h0_b16_P:
         .word   .Llh_c65536, 172, .Llh_h0_b16_P_N
-        .word   12, 12, .Llh_h0_b15_P
-.Llh_h0_b16_P_N:
-        .word   12, 12, .Llh_h0_b15_N
-.Llh_h0_b16_N:
-        .word   .Llh_n65536, 172, .Llh_h0_b16_N_st
-        .word   12, 12, .Llh_h0_b15_P
-.Llh_h0_b16_N_st:
-        .word   12, 12, .Llh_h0_b15_N
 .Llh_h0_b15_P:
         .word   .Llh_c32768, 172, .Llh_h0_b15_P_N
         .word   .Llh_n32768, 100, .+4
@@ -54639,49 +53855,114 @@ __subleq_lh:
         .word   12, 12, .Llh_ret1
 .Llh_h0_b0_N_st:
         .word   12, 12, .Llh_ret1
-.Llh_half1:
-.Llh_h1_sign:
+.Llh_h0_b30_P_N:
+        .word   12, 12, .Llh_h0_b29_N
+.Llh_h0_b29_P_N:
+        .word   12, 12, .Llh_h0_b28_N
+.Llh_h0_b28_P_N:
+        .word   12, 12, .Llh_h0_b27_N
+.Llh_h0_b27_P_N:
+        .word   12, 12, .Llh_h0_b26_N
+.Llh_h0_b26_P_N:
+        .word   12, 12, .Llh_h0_b25_N
+.Llh_h0_b25_P_N:
+        .word   12, 12, .Llh_h0_b24_N
+.Llh_h0_b24_P_N:
+        .word   12, 12, .Llh_h0_b23_N
+.Llh_h0_b23_P_N:
+        .word   12, 12, .Llh_h0_b22_N
+.Llh_h0_b22_P_N:
+        .word   12, 12, .Llh_h0_b21_N
+.Llh_h0_b21_P_N:
+        .word   12, 12, .Llh_h0_b20_N
+.Llh_h0_b20_P_N:
+        .word   12, 12, .Llh_h0_b19_N
+.Llh_h0_b19_P_N:
+        .word   12, 12, .Llh_h0_b18_N
+.Llh_h0_b18_P_N:
+        .word   12, 12, .Llh_h0_b17_N
+.Llh_h0_b17_P_N:
+        .word   12, 12, .Llh_h0_b16_N
+.Llh_h0_b16_P_N:
+        .word   12, 12, .Llh_h0_b15_N
+.Llh_h0_b30_N:
+        .word   .Llh_n1073741824, 172, .Llh_h0_b29_N
+        .word   12, 12, .Llh_h0_b29_P
+.Llh_h0_b29_N:
+        .word   .Llh_n536870912, 172, .Llh_h0_b28_N
+        .word   12, 12, .Llh_h0_b28_P
+.Llh_h0_b28_N:
+        .word   .Llh_n268435456, 172, .Llh_h0_b27_N
+        .word   12, 12, .Llh_h0_b27_P
+.Llh_h0_b27_N:
+        .word   .Llh_n134217728, 172, .Llh_h0_b26_N
+        .word   12, 12, .Llh_h0_b26_P
+.Llh_h0_b26_N:
+        .word   .Llh_n67108864, 172, .Llh_h0_b25_N
+        .word   12, 12, .Llh_h0_b25_P
+.Llh_h0_b25_N:
+        .word   .Llh_n33554432, 172, .Llh_h0_b24_N
+        .word   12, 12, .Llh_h0_b24_P
+.Llh_h0_b24_N:
+        .word   .Llh_n16777216, 172, .Llh_h0_b23_N
+        .word   12, 12, .Llh_h0_b23_P
+.Llh_h0_b23_N:
+        .word   .Llh_n8388608, 172, .Llh_h0_b22_N
+        .word   12, 12, .Llh_h0_b22_P
+.Llh_h0_b22_N:
+        .word   .Llh_n4194304, 172, .Llh_h0_b21_N
+        .word   12, 12, .Llh_h0_b21_P
+.Llh_h0_b21_N:
+        .word   .Llh_n2097152, 172, .Llh_h0_b20_N
+        .word   12, 12, .Llh_h0_b20_P
+.Llh_h0_b20_N:
+        .word   .Llh_n1048576, 172, .Llh_h0_b19_N
+        .word   12, 12, .Llh_h0_b19_P
+.Llh_h0_b19_N:
+        .word   .Llh_n524288, 172, .Llh_h0_b18_N
+        .word   12, 12, .Llh_h0_b18_P
+.Llh_h0_b18_N:
+        .word   .Llh_n262144, 172, .Llh_h0_b17_N
+        .word   12, 12, .Llh_h0_b17_P
+.Llh_h0_b17_N:
+        .word   .Llh_n131072, 172, .Llh_h0_b16_N
+        .word   12, 12, .Llh_h0_b16_P
+.Llh_h0_b16_N:
+        .word   .Llh_n65536, 172, .Llh_h0_b15_N
+        .word   12, 12, .Llh_h0_b15_P
+.Llh_h0_le0:
         .word   184, 184, .+4
         .word   12, 12, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
-        .word   .Llh_min, 184, .+4
-        .word   144, 184, .Llh_h1_im6
-        .word   12, 12, .Llh_h1_sn0
-.Llh_h1_im6:
-        .word   12, 12, .+4
         .word   .Llh_neg1, 184, .+4
-        .word   144, 184, .Llh_h1_sn0
-        .word   12, 12, .Llh_h1_imclr
-.Llh_h1_imclr:
-        .word   .Llh_n32768, 100, .+4
-        .word   .Llh_min, 172, .Llh_h1_b30
-.Llh_h1_sn0:
-        .word   180, 180, .+4
-        .word   172, 180, .Llh_h1_b30
-        .word   .Llh_n32768, 100, .+4
-        .word   .Llh_min, 172, .Llh_h1_b30
-.Llh_h1_b30:
-        .word   .Llh_c1073741824, 172, .Llh_h1_b30_fail
-        .word   .Llh_n16384, 100, .+4
-        .word   12, 12, .Llh_h1_bias
-.Llh_h1_b30_fail:
-        .word   180, 180, .+4
-        .word   172, 180, .Llh_h1_b30_ex0
-        .word   .Llh_n1073741824, 172, .+4
-        .word   12, 12, .Llh_h1_bias
-.Llh_h1_b30_ex0:
-        .word   .Llh_n16384, 100, .+4
-        .word   12, 12, .Llh_h1_bias
+        .word   144, 184, .Llh_h0_neg
+        .word   12, 12, .Llh_h0_bias
+.Llh_h0_neg:
+        .word   .Llh_min, 172, .+4
+        .word   12, 12, .Llh_h0_bias
+.Llh_half1:
+.Llh_h1_sign:
+        .word   144, 172, .Llh_h1_le0
 .Llh_h1_bias:
         .word   .Llh_neg1, 172, .+4
-.Llh_h1_loop:
+.Llh_h1_b30_P:
+        .word   .Llh_c1073741824, 172, .Llh_h1_b30_P_N
+        .word   .Llh_n16384, 100, .+4
         .word   12, 12, .Llh_h1_b29_P
+.Llh_h1_b30_P_N:
+        .word   12, 12, .Llh_h1_b29_N
 .Llh_h1_b29_P:
         .word   .Llh_c536870912, 172, .Llh_h1_b29_P_N
         .word   .Llh_n8192, 100, .+4
         .word   12, 12, .Llh_h1_b28_P
 .Llh_h1_b29_P_N:
+        .word   12, 12, .Llh_h1_b28_N
+.Llh_h1_b29_N:
+        .word   .Llh_n536870912, 172, .Llh_h1_b29_N_st
+        .word   .Llh_n8192, 100, .+4
+        .word   12, 12, .Llh_h1_b28_P
+.Llh_h1_b29_N_st:
         .word   12, 12, .Llh_h1_b28_N
 .Llh_h1_b28_P:
         .word   .Llh_c268435456, 172, .Llh_h1_b28_P_N
@@ -54999,6 +54280,18 @@ __subleq_lh:
         .word   12, 12, .Llh_ret1
 .Llh_h1_b0_N_st:
         .word   12, 12, .Llh_ret1
+.Llh_h1_le0:
+        .word   184, 184, .+4
+        .word   12, 12, .+4
+        .word   172, 12, .+4
+        .word   12, 184, .+4
+        .word   .Llh_neg1, 184, .+4
+        .word   144, 184, .Llh_h1_neg
+        .word   12, 12, .Llh_h1_bias
+.Llh_h1_neg:
+        .word   .Llh_n32768, 100, .+4
+        .word   .Llh_min, 172, .+4
+        .word   12, 12, .Llh_h1_bias
 .Llh_ret1:
         .word   96, 96, .+4
         .word   12, 12, .+4
@@ -55010,7 +54303,6 @@ __subleq_lh:
         .word   18, 12, .+4
         .word   12, 160, .+4
         .word   .Llh_neg4, 16, .+4
-        .word   12, 12, .+4
         .word   12
         .word   12
         .word   162
@@ -55089,9 +54381,8 @@ __subleq_lh:
 
 # __subleq_sh: Store Halfword - Biased Non-Restoring Lattice
 __subleq_sh:
-        .word   160, 160, .+4
-        .word   12, 12, .+4
         .word   100, 12, .+4
+        .word   160, 160, .+4
         .word   12, 160, .+4
         .word   164, 164, .+4
         .word   12, 12, .+4
@@ -55236,314 +54527,68 @@ __subleq_sh:
         .word   168, 168, .+4
         .word   12, 12, .+4
         .word   160, 12, .+4
-        .word   12, 168, .Lsh_msign
-.Lsh_msign:
-        .word   144, 168, .Lsh_msign_neg
-        .word   12, 12, .Lsh_mod_bias
-.Lsh_msign_neg:
-        .word   180, 180, .+4
-        .word   168, 180, .+4
-        .word   144, 180, .Lsh_msign_ambig
-        .word   .Lsh_min, 168, .+4
-        .word   12, 12, .Lsh_mod_bias
-.Lsh_msign_ambig:
-        .word   .Lsh_neg1, 180, .+4
-        .word   144, 180, .Lsh_mod_bias
-        .word   .Lsh_min, 168, .+4
+        .word   12, 168, .Lsh_mod_bias
 .Lsh_mod_bias:
         .word   184, 184, .+4
         .word   .Lsh_neg1, 168, .+4
-        .word   12, 12, .Lsh_mb30_P
 .Lsh_mb30_P:
         .word   .Lsh_pow1073741824, 168, .Lsh_mb30_P_to_N
-        .word   12, 12, .Lsh_mb29_P
-.Lsh_mb30_P_to_N:
-        .word   12, 12, .Lsh_mb29_N
-.Lsh_mb30_N:
-        .word   .Lsh_npow1073741824, 168, .Lsh_mb30_N_to_N
-        .word   12, 12, .Lsh_mb29_P
-.Lsh_mb30_N_to_N:
-        .word   12, 12, .Lsh_mb29_N
 .Lsh_mb29_P:
         .word   .Lsh_pow536870912, 168, .Lsh_mb29_P_to_N
-        .word   12, 12, .Lsh_mb28_P
-.Lsh_mb29_P_to_N:
-        .word   12, 12, .Lsh_mb28_N
-.Lsh_mb29_N:
-        .word   .Lsh_npow536870912, 168, .Lsh_mb29_N_to_N
-        .word   12, 12, .Lsh_mb28_P
-.Lsh_mb29_N_to_N:
-        .word   12, 12, .Lsh_mb28_N
 .Lsh_mb28_P:
         .word   .Lsh_pow268435456, 168, .Lsh_mb28_P_to_N
-        .word   12, 12, .Lsh_mb27_P
-.Lsh_mb28_P_to_N:
-        .word   12, 12, .Lsh_mb27_N
-.Lsh_mb28_N:
-        .word   .Lsh_npow268435456, 168, .Lsh_mb28_N_to_N
-        .word   12, 12, .Lsh_mb27_P
-.Lsh_mb28_N_to_N:
-        .word   12, 12, .Lsh_mb27_N
 .Lsh_mb27_P:
         .word   .Lsh_pow134217728, 168, .Lsh_mb27_P_to_N
-        .word   12, 12, .Lsh_mb26_P
-.Lsh_mb27_P_to_N:
-        .word   12, 12, .Lsh_mb26_N
-.Lsh_mb27_N:
-        .word   .Lsh_npow134217728, 168, .Lsh_mb27_N_to_N
-        .word   12, 12, .Lsh_mb26_P
-.Lsh_mb27_N_to_N:
-        .word   12, 12, .Lsh_mb26_N
 .Lsh_mb26_P:
         .word   .Lsh_pow67108864, 168, .Lsh_mb26_P_to_N
-        .word   12, 12, .Lsh_mb25_P
-.Lsh_mb26_P_to_N:
-        .word   12, 12, .Lsh_mb25_N
-.Lsh_mb26_N:
-        .word   .Lsh_npow67108864, 168, .Lsh_mb26_N_to_N
-        .word   12, 12, .Lsh_mb25_P
-.Lsh_mb26_N_to_N:
-        .word   12, 12, .Lsh_mb25_N
 .Lsh_mb25_P:
         .word   .Lsh_pow33554432, 168, .Lsh_mb25_P_to_N
-        .word   12, 12, .Lsh_mb24_P
-.Lsh_mb25_P_to_N:
-        .word   12, 12, .Lsh_mb24_N
-.Lsh_mb25_N:
-        .word   .Lsh_npow33554432, 168, .Lsh_mb25_N_to_N
-        .word   12, 12, .Lsh_mb24_P
-.Lsh_mb25_N_to_N:
-        .word   12, 12, .Lsh_mb24_N
 .Lsh_mb24_P:
         .word   .Lsh_pow16777216, 168, .Lsh_mb24_P_to_N
-        .word   12, 12, .Lsh_mb23_P
-.Lsh_mb24_P_to_N:
-        .word   12, 12, .Lsh_mb23_N
-.Lsh_mb24_N:
-        .word   .Lsh_npow16777216, 168, .Lsh_mb24_N_to_N
-        .word   12, 12, .Lsh_mb23_P
-.Lsh_mb24_N_to_N:
-        .word   12, 12, .Lsh_mb23_N
 .Lsh_mb23_P:
         .word   .Lsh_pow8388608, 168, .Lsh_mb23_P_to_N
-        .word   12, 12, .Lsh_mb22_P
-.Lsh_mb23_P_to_N:
-        .word   12, 12, .Lsh_mb22_N
-.Lsh_mb23_N:
-        .word   .Lsh_npow8388608, 168, .Lsh_mb23_N_to_N
-        .word   12, 12, .Lsh_mb22_P
-.Lsh_mb23_N_to_N:
-        .word   12, 12, .Lsh_mb22_N
 .Lsh_mb22_P:
         .word   .Lsh_pow4194304, 168, .Lsh_mb22_P_to_N
-        .word   12, 12, .Lsh_mb21_P
-.Lsh_mb22_P_to_N:
-        .word   12, 12, .Lsh_mb21_N
-.Lsh_mb22_N:
-        .word   .Lsh_npow4194304, 168, .Lsh_mb22_N_to_N
-        .word   12, 12, .Lsh_mb21_P
-.Lsh_mb22_N_to_N:
-        .word   12, 12, .Lsh_mb21_N
 .Lsh_mb21_P:
         .word   .Lsh_pow2097152, 168, .Lsh_mb21_P_to_N
-        .word   12, 12, .Lsh_mb20_P
-.Lsh_mb21_P_to_N:
-        .word   12, 12, .Lsh_mb20_N
-.Lsh_mb21_N:
-        .word   .Lsh_npow2097152, 168, .Lsh_mb21_N_to_N
-        .word   12, 12, .Lsh_mb20_P
-.Lsh_mb21_N_to_N:
-        .word   12, 12, .Lsh_mb20_N
 .Lsh_mb20_P:
         .word   .Lsh_pow1048576, 168, .Lsh_mb20_P_to_N
-        .word   12, 12, .Lsh_mb19_P
-.Lsh_mb20_P_to_N:
-        .word   12, 12, .Lsh_mb19_N
-.Lsh_mb20_N:
-        .word   .Lsh_npow1048576, 168, .Lsh_mb20_N_to_N
-        .word   12, 12, .Lsh_mb19_P
-.Lsh_mb20_N_to_N:
-        .word   12, 12, .Lsh_mb19_N
 .Lsh_mb19_P:
         .word   .Lsh_pow524288, 168, .Lsh_mb19_P_to_N
-        .word   12, 12, .Lsh_mb18_P
-.Lsh_mb19_P_to_N:
-        .word   12, 12, .Lsh_mb18_N
-.Lsh_mb19_N:
-        .word   .Lsh_npow524288, 168, .Lsh_mb19_N_to_N
-        .word   12, 12, .Lsh_mb18_P
-.Lsh_mb19_N_to_N:
-        .word   12, 12, .Lsh_mb18_N
 .Lsh_mb18_P:
         .word   .Lsh_pow262144, 168, .Lsh_mb18_P_to_N
-        .word   12, 12, .Lsh_mb17_P
-.Lsh_mb18_P_to_N:
-        .word   12, 12, .Lsh_mb17_N
-.Lsh_mb18_N:
-        .word   .Lsh_npow262144, 168, .Lsh_mb18_N_to_N
-        .word   12, 12, .Lsh_mb17_P
-.Lsh_mb18_N_to_N:
-        .word   12, 12, .Lsh_mb17_N
 .Lsh_mb17_P:
         .word   .Lsh_pow131072, 168, .Lsh_mb17_P_to_N
-        .word   12, 12, .Lsh_mb16_P
-.Lsh_mb17_P_to_N:
-        .word   12, 12, .Lsh_mb16_N
-.Lsh_mb17_N:
-        .word   .Lsh_npow131072, 168, .Lsh_mb17_N_to_N
-        .word   12, 12, .Lsh_mb16_P
-.Lsh_mb17_N_to_N:
-        .word   12, 12, .Lsh_mb16_N
 .Lsh_mb16_P:
         .word   .Lsh_pow65536, 168, .Lsh_mb16_P_to_N
-        .word   12, 12, .Lsh_mb15_P
-.Lsh_mb16_P_to_N:
-        .word   12, 12, .Lsh_mb15_N
-.Lsh_mb16_N:
-        .word   .Lsh_npow65536, 168, .Lsh_mb16_N_to_N
-        .word   12, 12, .Lsh_mb15_P
-.Lsh_mb16_N_to_N:
-        .word   12, 12, .Lsh_mb15_N
 .Lsh_mb15_P:
         .word   .Lsh_pow32768, 168, .Lsh_mb15_P_to_N
-        .word   12, 12, .Lsh_mb14_P
-.Lsh_mb15_P_to_N:
-        .word   12, 12, .Lsh_mb14_N
-.Lsh_mb15_N:
-        .word   .Lsh_npow32768, 168, .Lsh_mb15_N_to_N
-        .word   12, 12, .Lsh_mb14_P
-.Lsh_mb15_N_to_N:
-        .word   12, 12, .Lsh_mb14_N
 .Lsh_mb14_P:
         .word   .Lsh_pow16384, 168, .Lsh_mb14_P_to_N
-        .word   12, 12, .Lsh_mb13_P
-.Lsh_mb14_P_to_N:
-        .word   12, 12, .Lsh_mb13_N
-.Lsh_mb14_N:
-        .word   .Lsh_npow16384, 168, .Lsh_mb14_N_to_N
-        .word   12, 12, .Lsh_mb13_P
-.Lsh_mb14_N_to_N:
-        .word   12, 12, .Lsh_mb13_N
 .Lsh_mb13_P:
         .word   .Lsh_pow8192, 168, .Lsh_mb13_P_to_N
-        .word   12, 12, .Lsh_mb12_P
-.Lsh_mb13_P_to_N:
-        .word   12, 12, .Lsh_mb12_N
-.Lsh_mb13_N:
-        .word   .Lsh_npow8192, 168, .Lsh_mb13_N_to_N
-        .word   12, 12, .Lsh_mb12_P
-.Lsh_mb13_N_to_N:
-        .word   12, 12, .Lsh_mb12_N
 .Lsh_mb12_P:
         .word   .Lsh_pow4096, 168, .Lsh_mb12_P_to_N
-        .word   12, 12, .Lsh_mb11_P
-.Lsh_mb12_P_to_N:
-        .word   12, 12, .Lsh_mb11_N
-.Lsh_mb12_N:
-        .word   .Lsh_npow4096, 168, .Lsh_mb12_N_to_N
-        .word   12, 12, .Lsh_mb11_P
-.Lsh_mb12_N_to_N:
-        .word   12, 12, .Lsh_mb11_N
 .Lsh_mb11_P:
         .word   .Lsh_pow2048, 168, .Lsh_mb11_P_to_N
-        .word   12, 12, .Lsh_mb10_P
-.Lsh_mb11_P_to_N:
-        .word   12, 12, .Lsh_mb10_N
-.Lsh_mb11_N:
-        .word   .Lsh_npow2048, 168, .Lsh_mb11_N_to_N
-        .word   12, 12, .Lsh_mb10_P
-.Lsh_mb11_N_to_N:
-        .word   12, 12, .Lsh_mb10_N
 .Lsh_mb10_P:
         .word   .Lsh_pow1024, 168, .Lsh_mb10_P_to_N
-        .word   12, 12, .Lsh_mb9_P
-.Lsh_mb10_P_to_N:
-        .word   12, 12, .Lsh_mb9_N
-.Lsh_mb10_N:
-        .word   .Lsh_npow1024, 168, .Lsh_mb10_N_to_N
-        .word   12, 12, .Lsh_mb9_P
-.Lsh_mb10_N_to_N:
-        .word   12, 12, .Lsh_mb9_N
 .Lsh_mb9_P:
         .word   .Lsh_pow512, 168, .Lsh_mb9_P_to_N
-        .word   12, 12, .Lsh_mb8_P
-.Lsh_mb9_P_to_N:
-        .word   12, 12, .Lsh_mb8_N
-.Lsh_mb9_N:
-        .word   .Lsh_npow512, 168, .Lsh_mb9_N_to_N
-        .word   12, 12, .Lsh_mb8_P
-.Lsh_mb9_N_to_N:
-        .word   12, 12, .Lsh_mb8_N
 .Lsh_mb8_P:
         .word   .Lsh_pow256, 168, .Lsh_mb8_P_to_N
-        .word   12, 12, .Lsh_mb7_P
-.Lsh_mb8_P_to_N:
-        .word   12, 12, .Lsh_mb7_N
-.Lsh_mb8_N:
-        .word   .Lsh_npow256, 168, .Lsh_mb8_N_to_N
-        .word   12, 12, .Lsh_mb7_P
-.Lsh_mb8_N_to_N:
-        .word   12, 12, .Lsh_mb7_N
 .Lsh_mb7_P:
         .word   .Lsh_pow128, 168, .Lsh_mb7_P_to_N
-        .word   12, 12, .Lsh_mb6_P
-.Lsh_mb7_P_to_N:
-        .word   12, 12, .Lsh_mb6_N
-.Lsh_mb7_N:
-        .word   .Lsh_npow128, 168, .Lsh_mb7_N_to_N
-        .word   12, 12, .Lsh_mb6_P
-.Lsh_mb7_N_to_N:
-        .word   12, 12, .Lsh_mb6_N
 .Lsh_mb6_P:
         .word   .Lsh_pow64, 168, .Lsh_mb6_P_to_N
-        .word   12, 12, .Lsh_mb5_P
-.Lsh_mb6_P_to_N:
-        .word   12, 12, .Lsh_mb5_N
-.Lsh_mb6_N:
-        .word   .Lsh_npow64, 168, .Lsh_mb6_N_to_N
-        .word   12, 12, .Lsh_mb5_P
-.Lsh_mb6_N_to_N:
-        .word   12, 12, .Lsh_mb5_N
 .Lsh_mb5_P:
         .word   .Lsh_pow32, 168, .Lsh_mb5_P_to_N
-        .word   12, 12, .Lsh_mb4_P
-.Lsh_mb5_P_to_N:
-        .word   12, 12, .Lsh_mb4_N
-.Lsh_mb5_N:
-        .word   .Lsh_npow32, 168, .Lsh_mb5_N_to_N
-        .word   12, 12, .Lsh_mb4_P
-.Lsh_mb5_N_to_N:
-        .word   12, 12, .Lsh_mb4_N
 .Lsh_mb4_P:
         .word   .Lsh_pow16, 168, .Lsh_mb4_P_to_N
-        .word   12, 12, .Lsh_mb3_P
-.Lsh_mb4_P_to_N:
-        .word   12, 12, .Lsh_mb3_N
-.Lsh_mb4_N:
-        .word   .Lsh_npow16, 168, .Lsh_mb4_N_to_N
-        .word   12, 12, .Lsh_mb3_P
-.Lsh_mb4_N_to_N:
-        .word   12, 12, .Lsh_mb3_N
 .Lsh_mb3_P:
         .word   .Lsh_pow8, 168, .Lsh_mb3_P_to_N
-        .word   12, 12, .Lsh_mb2_P
-.Lsh_mb3_P_to_N:
-        .word   12, 12, .Lsh_mb2_N
-.Lsh_mb3_N:
-        .word   .Lsh_npow8, 168, .Lsh_mb3_N_to_N
-        .word   12, 12, .Lsh_mb2_P
-.Lsh_mb3_N_to_N:
-        .word   12, 12, .Lsh_mb2_N
 .Lsh_mb2_P:
         .word   .Lsh_pow4, 168, .Lsh_mb2_P_to_N
-        .word   12, 12, .Lsh_mb1_P
-.Lsh_mb2_P_to_N:
-        .word   12, 12, .Lsh_mb1_N
-.Lsh_mb2_N:
-        .word   .Lsh_npow4, 168, .Lsh_mb2_N_to_N
-        .word   12, 12, .Lsh_mb1_P
-.Lsh_mb2_N_to_N:
-        .word   12, 12, .Lsh_mb1_N
 .Lsh_mb1_P:
         .word   .Lsh_pow2, 168, .Lsh_mb1_P_to_N
         .word   .Lsh_pow2, 184, .Lsh_mb0_P
@@ -55564,6 +54609,151 @@ __subleq_sh:
         .word   .Lsh_pow1, 184, .Lsh_mod_done
 .Lsh_mb0_N_to_N:
         .word   12, 12, .Lsh_mod_done
+.Lsh_mb30_P_to_N:
+        .word   12, 12, .Lsh_mb29_N
+.Lsh_mb29_P_to_N:
+        .word   12, 12, .Lsh_mb28_N
+.Lsh_mb28_P_to_N:
+        .word   12, 12, .Lsh_mb27_N
+.Lsh_mb27_P_to_N:
+        .word   12, 12, .Lsh_mb26_N
+.Lsh_mb26_P_to_N:
+        .word   12, 12, .Lsh_mb25_N
+.Lsh_mb25_P_to_N:
+        .word   12, 12, .Lsh_mb24_N
+.Lsh_mb24_P_to_N:
+        .word   12, 12, .Lsh_mb23_N
+.Lsh_mb23_P_to_N:
+        .word   12, 12, .Lsh_mb22_N
+.Lsh_mb22_P_to_N:
+        .word   12, 12, .Lsh_mb21_N
+.Lsh_mb21_P_to_N:
+        .word   12, 12, .Lsh_mb20_N
+.Lsh_mb20_P_to_N:
+        .word   12, 12, .Lsh_mb19_N
+.Lsh_mb19_P_to_N:
+        .word   12, 12, .Lsh_mb18_N
+.Lsh_mb18_P_to_N:
+        .word   12, 12, .Lsh_mb17_N
+.Lsh_mb17_P_to_N:
+        .word   12, 12, .Lsh_mb16_N
+.Lsh_mb16_P_to_N:
+        .word   12, 12, .Lsh_mb15_N
+.Lsh_mb15_P_to_N:
+        .word   12, 12, .Lsh_mb14_N
+.Lsh_mb14_P_to_N:
+        .word   12, 12, .Lsh_mb13_N
+.Lsh_mb13_P_to_N:
+        .word   12, 12, .Lsh_mb12_N
+.Lsh_mb12_P_to_N:
+        .word   12, 12, .Lsh_mb11_N
+.Lsh_mb11_P_to_N:
+        .word   12, 12, .Lsh_mb10_N
+.Lsh_mb10_P_to_N:
+        .word   12, 12, .Lsh_mb9_N
+.Lsh_mb9_P_to_N:
+        .word   12, 12, .Lsh_mb8_N
+.Lsh_mb8_P_to_N:
+        .word   12, 12, .Lsh_mb7_N
+.Lsh_mb7_P_to_N:
+        .word   12, 12, .Lsh_mb6_N
+.Lsh_mb6_P_to_N:
+        .word   12, 12, .Lsh_mb5_N
+.Lsh_mb5_P_to_N:
+        .word   12, 12, .Lsh_mb4_N
+.Lsh_mb4_P_to_N:
+        .word   12, 12, .Lsh_mb3_N
+.Lsh_mb3_P_to_N:
+        .word   12, 12, .Lsh_mb2_N
+.Lsh_mb2_P_to_N:
+        .word   12, 12, .Lsh_mb1_N
+.Lsh_mb30_N:
+        .word   .Lsh_npow1073741824, 168, .Lsh_mb29_N
+        .word   12, 12, .Lsh_mb29_P
+.Lsh_mb29_N:
+        .word   .Lsh_npow536870912, 168, .Lsh_mb28_N
+        .word   12, 12, .Lsh_mb28_P
+.Lsh_mb28_N:
+        .word   .Lsh_npow268435456, 168, .Lsh_mb27_N
+        .word   12, 12, .Lsh_mb27_P
+.Lsh_mb27_N:
+        .word   .Lsh_npow134217728, 168, .Lsh_mb26_N
+        .word   12, 12, .Lsh_mb26_P
+.Lsh_mb26_N:
+        .word   .Lsh_npow67108864, 168, .Lsh_mb25_N
+        .word   12, 12, .Lsh_mb25_P
+.Lsh_mb25_N:
+        .word   .Lsh_npow33554432, 168, .Lsh_mb24_N
+        .word   12, 12, .Lsh_mb24_P
+.Lsh_mb24_N:
+        .word   .Lsh_npow16777216, 168, .Lsh_mb23_N
+        .word   12, 12, .Lsh_mb23_P
+.Lsh_mb23_N:
+        .word   .Lsh_npow8388608, 168, .Lsh_mb22_N
+        .word   12, 12, .Lsh_mb22_P
+.Lsh_mb22_N:
+        .word   .Lsh_npow4194304, 168, .Lsh_mb21_N
+        .word   12, 12, .Lsh_mb21_P
+.Lsh_mb21_N:
+        .word   .Lsh_npow2097152, 168, .Lsh_mb20_N
+        .word   12, 12, .Lsh_mb20_P
+.Lsh_mb20_N:
+        .word   .Lsh_npow1048576, 168, .Lsh_mb19_N
+        .word   12, 12, .Lsh_mb19_P
+.Lsh_mb19_N:
+        .word   .Lsh_npow524288, 168, .Lsh_mb18_N
+        .word   12, 12, .Lsh_mb18_P
+.Lsh_mb18_N:
+        .word   .Lsh_npow262144, 168, .Lsh_mb17_N
+        .word   12, 12, .Lsh_mb17_P
+.Lsh_mb17_N:
+        .word   .Lsh_npow131072, 168, .Lsh_mb16_N
+        .word   12, 12, .Lsh_mb16_P
+.Lsh_mb16_N:
+        .word   .Lsh_npow65536, 168, .Lsh_mb15_N
+        .word   12, 12, .Lsh_mb15_P
+.Lsh_mb15_N:
+        .word   .Lsh_npow32768, 168, .Lsh_mb14_N
+        .word   12, 12, .Lsh_mb14_P
+.Lsh_mb14_N:
+        .word   .Lsh_npow16384, 168, .Lsh_mb13_N
+        .word   12, 12, .Lsh_mb13_P
+.Lsh_mb13_N:
+        .word   .Lsh_npow8192, 168, .Lsh_mb12_N
+        .word   12, 12, .Lsh_mb12_P
+.Lsh_mb12_N:
+        .word   .Lsh_npow4096, 168, .Lsh_mb11_N
+        .word   12, 12, .Lsh_mb11_P
+.Lsh_mb11_N:
+        .word   .Lsh_npow2048, 168, .Lsh_mb10_N
+        .word   12, 12, .Lsh_mb10_P
+.Lsh_mb10_N:
+        .word   .Lsh_npow1024, 168, .Lsh_mb9_N
+        .word   12, 12, .Lsh_mb9_P
+.Lsh_mb9_N:
+        .word   .Lsh_npow512, 168, .Lsh_mb8_N
+        .word   12, 12, .Lsh_mb8_P
+.Lsh_mb8_N:
+        .word   .Lsh_npow256, 168, .Lsh_mb7_N
+        .word   12, 12, .Lsh_mb7_P
+.Lsh_mb7_N:
+        .word   .Lsh_npow128, 168, .Lsh_mb6_N
+        .word   12, 12, .Lsh_mb6_P
+.Lsh_mb6_N:
+        .word   .Lsh_npow64, 168, .Lsh_mb5_N
+        .word   12, 12, .Lsh_mb5_P
+.Lsh_mb5_N:
+        .word   .Lsh_npow32, 168, .Lsh_mb4_N
+        .word   12, 12, .Lsh_mb4_P
+.Lsh_mb4_N:
+        .word   .Lsh_npow16, 168, .Lsh_mb3_N
+        .word   12, 12, .Lsh_mb3_P
+.Lsh_mb3_N:
+        .word   .Lsh_npow8, 168, .Lsh_mb2_N
+        .word   12, 12, .Lsh_mb2_P
+.Lsh_mb2_N:
+        .word   .Lsh_npow4, 168, .Lsh_mb1_N
+        .word   12, 12, .Lsh_mb1_P
 .Lsh_mod_done:
         .word   168, 168, .+4
         .word   184, 168, .+4
@@ -55580,44 +54770,26 @@ __subleq_sh:
         .word   12, 12, .Lsh_h1
 .Lsh_h0:
 .Lsh_b0_sign:
-        .word   180, 180, .+4
-        .word   12, 12, .+4
-        .word   172, 12, .+4
-        .word   12, 180, .+4
-        .word   .Lsh_min, 180, .+4
-        .word   144, 180, .Lsh_b0_im6
-        .word   12, 12, .Lsh_b0_sn0
-.Lsh_b0_im6:
-        .word   12, 12, .+4
-        .word   .Lsh_neg1, 180, .+4
-        .word   144, 180, .Lsh_b0_sn0
-        .word   .Lsh_n2147483648, 176, .+4
-        .word   .Lsh_min, 172, .Lsh_b0_b30
-.Lsh_b0_sn0:
-        .word   180, 180, .+4
-        .word   172, 180, .Lsh_b0_b30
-        .word   .Lsh_n2147483648, 176, .+4
-        .word   .Lsh_min, 172, .Lsh_b0_b30
-.Lsh_b0_b30:
-        .word   .Lsh_pow1073741824, 172, .Lsh_b0_b30_fail
-        .word   .Lsh_npow1073741824, 176, .+4
-        .word   12, 12, .Lsh_b0_bias
-.Lsh_b0_b30_fail:
-        .word   180, 180, .+4
-        .word   172, 180, .Lsh_b0_b30_ex0
-        .word   .Lsh_npow1073741824, 172, .+4
-        .word   12, 12, .Lsh_b0_bias
-.Lsh_b0_b30_ex0:
-        .word   .Lsh_npow1073741824, 176, .+4
-        .word   12, 12, .Lsh_b0_bias
+        .word   144, 172, .Lsh_b0_le0
 .Lsh_b0_bias:
         .word   .Lsh_neg1, 172, .+4
-.Lsh_b0_loop:
+.Lsh_b0_b30_P:
+        .word   .Lsh_pow1073741824, 172, .Lsh_b0_b30_P_N
+        .word   .Lsh_npow1073741824, 176, .+4
+        .word   12, 12, .Lsh_b0_b29_P
+.Lsh_b0_b30_P_N:
+        .word   12, 12, .Lsh_b0_b29_N
 .Lsh_b0_b29_P:
         .word   .Lsh_pow536870912, 172, .Lsh_b0_b29_P_N
         .word   .Lsh_npow536870912, 176, .+4
         .word   12, 12, .Lsh_b0_b28_P
 .Lsh_b0_b29_P_N:
+        .word   12, 12, .Lsh_b0_b28_N
+.Lsh_b0_b29_N:
+        .word   .Lsh_npow536870912, 172, .Lsh_b0_b29_N_st
+        .word   .Lsh_npow536870912, 176, .+4
+        .word   12, 12, .Lsh_b0_b28_P
+.Lsh_b0_b29_N_st:
         .word   12, 12, .Lsh_b0_b28_N
 .Lsh_b0_b28_P:
         .word   .Lsh_pow268435456, 172, .Lsh_b0_b28_P_N
@@ -55935,6 +55107,18 @@ __subleq_sh:
         .word   12, 12, .Lsh_b0_shift
 .Lsh_b0_b0_N_st:
         .word   12, 12, .Lsh_b0_shift
+.Lsh_b0_le0:
+        .word   180, 180, .+4
+        .word   12, 12, .+4
+        .word   172, 12, .+4
+        .word   12, 180, .+4
+        .word   .Lsh_neg1, 180, .+4
+        .word   144, 180, .Lsh_b0_neg
+        .word   12, 12, .Lsh_b0_bias
+.Lsh_b0_neg:
+        .word   .Lsh_n2147483648, 176, .+4
+        .word   .Lsh_min, 172, .+4
+        .word   12, 12, .Lsh_b0_bias
 .Lsh_b0_shift:
         .word   12, 12, .+4
         .word   164, 12, .+4
@@ -55943,170 +55127,39 @@ __subleq_sh:
         .word   12, 12, .Lsh_store
 .Lsh_h1:
 .Lsh_b1_sign:
-        .word   180, 180, .+4
-        .word   12, 12, .+4
-        .word   172, 12, .+4
-        .word   12, 180, .+4
-        .word   .Lsh_min, 180, .+4
-        .word   144, 180, .Lsh_b1_im6
-        .word   12, 12, .Lsh_b1_sn0
-.Lsh_b1_im6:
-        .word   12, 12, .+4
-        .word   .Lsh_neg1, 180, .+4
-        .word   144, 180, .Lsh_b1_sn0
-        .word   .Lsh_min, 172, .Lsh_b1_b30
-.Lsh_b1_sn0:
-        .word   180, 180, .+4
-        .word   172, 180, .Lsh_b1_b30
-        .word   .Lsh_min, 172, .Lsh_b1_b30
-.Lsh_b1_b30:
-        .word   .Lsh_pow1073741824, 172, .Lsh_b1_b30_fail
-        .word   12, 12, .Lsh_b1_bias
-.Lsh_b1_b30_fail:
-        .word   180, 180, .+4
-        .word   172, 180, .Lsh_b1_b30_ex0
-        .word   .Lsh_npow1073741824, 172, .+4
-        .word   12, 12, .Lsh_b1_bias
-.Lsh_b1_b30_ex0:
-        .word   12, 12, .Lsh_b1_bias
+        .word   144, 172, .Lsh_b1_le0
 .Lsh_b1_bias:
         .word   .Lsh_neg1, 172, .+4
-.Lsh_b1_loop:
+.Lsh_b1_b30_P:
+        .word   .Lsh_pow1073741824, 172, .Lsh_b1_b30_P_N
 .Lsh_b1_b29_P:
         .word   .Lsh_pow536870912, 172, .Lsh_b1_b29_P_N
-        .word   12, 12, .Lsh_b1_b28_P
-.Lsh_b1_b29_P_N:
-        .word   12, 12, .Lsh_b1_b28_N
 .Lsh_b1_b28_P:
         .word   .Lsh_pow268435456, 172, .Lsh_b1_b28_P_N
-        .word   12, 12, .Lsh_b1_b27_P
-.Lsh_b1_b28_P_N:
-        .word   12, 12, .Lsh_b1_b27_N
-.Lsh_b1_b28_N:
-        .word   .Lsh_npow268435456, 172, .Lsh_b1_b28_N_st
-        .word   12, 12, .Lsh_b1_b27_P
-.Lsh_b1_b28_N_st:
-        .word   12, 12, .Lsh_b1_b27_N
 .Lsh_b1_b27_P:
         .word   .Lsh_pow134217728, 172, .Lsh_b1_b27_P_N
-        .word   12, 12, .Lsh_b1_b26_P
-.Lsh_b1_b27_P_N:
-        .word   12, 12, .Lsh_b1_b26_N
-.Lsh_b1_b27_N:
-        .word   .Lsh_npow134217728, 172, .Lsh_b1_b27_N_st
-        .word   12, 12, .Lsh_b1_b26_P
-.Lsh_b1_b27_N_st:
-        .word   12, 12, .Lsh_b1_b26_N
 .Lsh_b1_b26_P:
         .word   .Lsh_pow67108864, 172, .Lsh_b1_b26_P_N
-        .word   12, 12, .Lsh_b1_b25_P
-.Lsh_b1_b26_P_N:
-        .word   12, 12, .Lsh_b1_b25_N
-.Lsh_b1_b26_N:
-        .word   .Lsh_npow67108864, 172, .Lsh_b1_b26_N_st
-        .word   12, 12, .Lsh_b1_b25_P
-.Lsh_b1_b26_N_st:
-        .word   12, 12, .Lsh_b1_b25_N
 .Lsh_b1_b25_P:
         .word   .Lsh_pow33554432, 172, .Lsh_b1_b25_P_N
-        .word   12, 12, .Lsh_b1_b24_P
-.Lsh_b1_b25_P_N:
-        .word   12, 12, .Lsh_b1_b24_N
-.Lsh_b1_b25_N:
-        .word   .Lsh_npow33554432, 172, .Lsh_b1_b25_N_st
-        .word   12, 12, .Lsh_b1_b24_P
-.Lsh_b1_b25_N_st:
-        .word   12, 12, .Lsh_b1_b24_N
 .Lsh_b1_b24_P:
         .word   .Lsh_pow16777216, 172, .Lsh_b1_b24_P_N
-        .word   12, 12, .Lsh_b1_b23_P
-.Lsh_b1_b24_P_N:
-        .word   12, 12, .Lsh_b1_b23_N
-.Lsh_b1_b24_N:
-        .word   .Lsh_npow16777216, 172, .Lsh_b1_b24_N_st
-        .word   12, 12, .Lsh_b1_b23_P
-.Lsh_b1_b24_N_st:
-        .word   12, 12, .Lsh_b1_b23_N
 .Lsh_b1_b23_P:
         .word   .Lsh_pow8388608, 172, .Lsh_b1_b23_P_N
-        .word   12, 12, .Lsh_b1_b22_P
-.Lsh_b1_b23_P_N:
-        .word   12, 12, .Lsh_b1_b22_N
-.Lsh_b1_b23_N:
-        .word   .Lsh_npow8388608, 172, .Lsh_b1_b23_N_st
-        .word   12, 12, .Lsh_b1_b22_P
-.Lsh_b1_b23_N_st:
-        .word   12, 12, .Lsh_b1_b22_N
 .Lsh_b1_b22_P:
         .word   .Lsh_pow4194304, 172, .Lsh_b1_b22_P_N
-        .word   12, 12, .Lsh_b1_b21_P
-.Lsh_b1_b22_P_N:
-        .word   12, 12, .Lsh_b1_b21_N
-.Lsh_b1_b22_N:
-        .word   .Lsh_npow4194304, 172, .Lsh_b1_b22_N_st
-        .word   12, 12, .Lsh_b1_b21_P
-.Lsh_b1_b22_N_st:
-        .word   12, 12, .Lsh_b1_b21_N
 .Lsh_b1_b21_P:
         .word   .Lsh_pow2097152, 172, .Lsh_b1_b21_P_N
-        .word   12, 12, .Lsh_b1_b20_P
-.Lsh_b1_b21_P_N:
-        .word   12, 12, .Lsh_b1_b20_N
-.Lsh_b1_b21_N:
-        .word   .Lsh_npow2097152, 172, .Lsh_b1_b21_N_st
-        .word   12, 12, .Lsh_b1_b20_P
-.Lsh_b1_b21_N_st:
-        .word   12, 12, .Lsh_b1_b20_N
 .Lsh_b1_b20_P:
         .word   .Lsh_pow1048576, 172, .Lsh_b1_b20_P_N
-        .word   12, 12, .Lsh_b1_b19_P
-.Lsh_b1_b20_P_N:
-        .word   12, 12, .Lsh_b1_b19_N
-.Lsh_b1_b20_N:
-        .word   .Lsh_npow1048576, 172, .Lsh_b1_b20_N_st
-        .word   12, 12, .Lsh_b1_b19_P
-.Lsh_b1_b20_N_st:
-        .word   12, 12, .Lsh_b1_b19_N
 .Lsh_b1_b19_P:
         .word   .Lsh_pow524288, 172, .Lsh_b1_b19_P_N
-        .word   12, 12, .Lsh_b1_b18_P
-.Lsh_b1_b19_P_N:
-        .word   12, 12, .Lsh_b1_b18_N
-.Lsh_b1_b19_N:
-        .word   .Lsh_npow524288, 172, .Lsh_b1_b19_N_st
-        .word   12, 12, .Lsh_b1_b18_P
-.Lsh_b1_b19_N_st:
-        .word   12, 12, .Lsh_b1_b18_N
 .Lsh_b1_b18_P:
         .word   .Lsh_pow262144, 172, .Lsh_b1_b18_P_N
-        .word   12, 12, .Lsh_b1_b17_P
-.Lsh_b1_b18_P_N:
-        .word   12, 12, .Lsh_b1_b17_N
-.Lsh_b1_b18_N:
-        .word   .Lsh_npow262144, 172, .Lsh_b1_b18_N_st
-        .word   12, 12, .Lsh_b1_b17_P
-.Lsh_b1_b18_N_st:
-        .word   12, 12, .Lsh_b1_b17_N
 .Lsh_b1_b17_P:
         .word   .Lsh_pow131072, 172, .Lsh_b1_b17_P_N
-        .word   12, 12, .Lsh_b1_b16_P
-.Lsh_b1_b17_P_N:
-        .word   12, 12, .Lsh_b1_b16_N
-.Lsh_b1_b17_N:
-        .word   .Lsh_npow131072, 172, .Lsh_b1_b17_N_st
-        .word   12, 12, .Lsh_b1_b16_P
-.Lsh_b1_b17_N_st:
-        .word   12, 12, .Lsh_b1_b16_N
 .Lsh_b1_b16_P:
         .word   .Lsh_pow65536, 172, .Lsh_b1_b16_P_N
-        .word   12, 12, .Lsh_b1_b15_P
-.Lsh_b1_b16_P_N:
-        .word   12, 12, .Lsh_b1_b15_N
-.Lsh_b1_b16_N:
-        .word   .Lsh_npow65536, 172, .Lsh_b1_b16_N_st
-        .word   12, 12, .Lsh_b1_b15_P
-.Lsh_b1_b16_N_st:
-        .word   12, 12, .Lsh_b1_b15_N
 .Lsh_b1_b15_P:
         .word   .Lsh_pow32768, 172, .Lsh_b1_b15_P_N
         .word   .Lsh_npow32768, 176, .+4
@@ -56299,6 +55352,92 @@ __subleq_sh:
         .word   12, 12, .Lsh_b1_shift
 .Lsh_b1_b0_N_st:
         .word   12, 12, .Lsh_b1_shift
+.Lsh_b1_b30_P_N:
+        .word   12, 12, .Lsh_b1_b29_N
+.Lsh_b1_b29_P_N:
+        .word   12, 12, .Lsh_b1_b28_N
+.Lsh_b1_b28_P_N:
+        .word   12, 12, .Lsh_b1_b27_N
+.Lsh_b1_b27_P_N:
+        .word   12, 12, .Lsh_b1_b26_N
+.Lsh_b1_b26_P_N:
+        .word   12, 12, .Lsh_b1_b25_N
+.Lsh_b1_b25_P_N:
+        .word   12, 12, .Lsh_b1_b24_N
+.Lsh_b1_b24_P_N:
+        .word   12, 12, .Lsh_b1_b23_N
+.Lsh_b1_b23_P_N:
+        .word   12, 12, .Lsh_b1_b22_N
+.Lsh_b1_b22_P_N:
+        .word   12, 12, .Lsh_b1_b21_N
+.Lsh_b1_b21_P_N:
+        .word   12, 12, .Lsh_b1_b20_N
+.Lsh_b1_b20_P_N:
+        .word   12, 12, .Lsh_b1_b19_N
+.Lsh_b1_b19_P_N:
+        .word   12, 12, .Lsh_b1_b18_N
+.Lsh_b1_b18_P_N:
+        .word   12, 12, .Lsh_b1_b17_N
+.Lsh_b1_b17_P_N:
+        .word   12, 12, .Lsh_b1_b16_N
+.Lsh_b1_b16_P_N:
+        .word   12, 12, .Lsh_b1_b15_N
+.Lsh_b1_b30_N:
+        .word   .Lsh_npow1073741824, 172, .Lsh_b1_b29_N
+        .word   12, 12, .Lsh_b1_b29_P
+.Lsh_b1_b29_N:
+        .word   .Lsh_npow536870912, 172, .Lsh_b1_b28_N
+        .word   12, 12, .Lsh_b1_b28_P
+.Lsh_b1_b28_N:
+        .word   .Lsh_npow268435456, 172, .Lsh_b1_b27_N
+        .word   12, 12, .Lsh_b1_b27_P
+.Lsh_b1_b27_N:
+        .word   .Lsh_npow134217728, 172, .Lsh_b1_b26_N
+        .word   12, 12, .Lsh_b1_b26_P
+.Lsh_b1_b26_N:
+        .word   .Lsh_npow67108864, 172, .Lsh_b1_b25_N
+        .word   12, 12, .Lsh_b1_b25_P
+.Lsh_b1_b25_N:
+        .word   .Lsh_npow33554432, 172, .Lsh_b1_b24_N
+        .word   12, 12, .Lsh_b1_b24_P
+.Lsh_b1_b24_N:
+        .word   .Lsh_npow16777216, 172, .Lsh_b1_b23_N
+        .word   12, 12, .Lsh_b1_b23_P
+.Lsh_b1_b23_N:
+        .word   .Lsh_npow8388608, 172, .Lsh_b1_b22_N
+        .word   12, 12, .Lsh_b1_b22_P
+.Lsh_b1_b22_N:
+        .word   .Lsh_npow4194304, 172, .Lsh_b1_b21_N
+        .word   12, 12, .Lsh_b1_b21_P
+.Lsh_b1_b21_N:
+        .word   .Lsh_npow2097152, 172, .Lsh_b1_b20_N
+        .word   12, 12, .Lsh_b1_b20_P
+.Lsh_b1_b20_N:
+        .word   .Lsh_npow1048576, 172, .Lsh_b1_b19_N
+        .word   12, 12, .Lsh_b1_b19_P
+.Lsh_b1_b19_N:
+        .word   .Lsh_npow524288, 172, .Lsh_b1_b18_N
+        .word   12, 12, .Lsh_b1_b18_P
+.Lsh_b1_b18_N:
+        .word   .Lsh_npow262144, 172, .Lsh_b1_b17_N
+        .word   12, 12, .Lsh_b1_b17_P
+.Lsh_b1_b17_N:
+        .word   .Lsh_npow131072, 172, .Lsh_b1_b16_N
+        .word   12, 12, .Lsh_b1_b16_P
+.Lsh_b1_b16_N:
+        .word   .Lsh_npow65536, 172, .Lsh_b1_b15_N
+        .word   12, 12, .Lsh_b1_b15_P
+.Lsh_b1_le0:
+        .word   180, 180, .+4
+        .word   12, 12, .+4
+        .word   172, 12, .+4
+        .word   12, 180, .+4
+        .word   .Lsh_neg1, 180, .+4
+        .word   144, 180, .Lsh_b1_neg
+        .word   12, 12, .Lsh_b1_bias
+.Lsh_b1_neg:
+        .word   .Lsh_min, 172, .+4
+        .word   12, 12, .Lsh_b1_bias
 .Lsh_b1_shift:
         .word   180, 180, .Lsh_b1_sh1
 .Lsh_b1_sh1:
@@ -56387,7 +55526,6 @@ __subleq_sh:
         .word   18, 12, .+4
         .word   12, 160, .+4
         .word   .Lsh_neg4, 16, .+4
-        .word   12, 12, .+4
         .word   12
         .word   12
         .word   162
@@ -56615,7 +55753,6 @@ __ashldi3:
         .word   18, 12, .+4
         .word   12, 160, .+4
         .word   .Lashldi3_neg4, 16, .+4
-        .word   12, 12, .+4
         .word   12
         .word   12
         .word   162
@@ -58440,7 +57577,6 @@ __lshrdi3:
         .word   18, 12, .+4
         .word   12, 160, .+4
         .word   .Llshrdi3_neg4, 16, .+4
-        .word   12, 12, .+4
         .word   12
         .word   12
         .word   162
@@ -60405,7 +59541,6 @@ __ashrdi3:
         .word   18, 12, .+4
         .word   12, 160, .+4
         .word   .Lashrdi3_neg4, 16, .+4
-        .word   12, 12, .+4
         .word   12
         .word   12
         .word   162
@@ -60775,302 +59910,71 @@ __subleq_memset:
         .word 12, 12, .Lmemset_align_bias
 .Lmemset_align_sign_ambig:
         .word .Lmemset_n1, 184, .+4
-        .word 144, 184, .Lmemset_align_bias
+        .word 144, 184, .Lmemset_align_sign_intmin
+        .word 12, 12, .Lmemset_align_bias
+.Lmemset_align_sign_intmin:
         .word .Lmemset_min, 180, .+4
 .Lmemset_align_bias:
         .word 184, 184, .+4
         .word .Lmemset_n1, 180, .+4
-        .word 12, 12, .Lmemset_align_b30_P
 .Lmemset_align_b30_P:
         .word .Lmemset_pow1073741824, 180, .Lmemset_align_b30_P_to_N
-        .word 12, 12, .Lmemset_align_b29_P
-.Lmemset_align_b30_P_to_N:
-        .word 12, 12, .Lmemset_align_b29_N
-.Lmemset_align_b30_N:
-        .word .Lmemset_npow1073741824, 180, .Lmemset_align_b30_N_to_N
-        .word 12, 12, .Lmemset_align_b29_P
-.Lmemset_align_b30_N_to_N:
-        .word 12, 12, .Lmemset_align_b29_N
 .Lmemset_align_b29_P:
         .word .Lmemset_pow536870912, 180, .Lmemset_align_b29_P_to_N
-        .word 12, 12, .Lmemset_align_b28_P
-.Lmemset_align_b29_P_to_N:
-        .word 12, 12, .Lmemset_align_b28_N
-.Lmemset_align_b29_N:
-        .word .Lmemset_npow536870912, 180, .Lmemset_align_b29_N_to_N
-        .word 12, 12, .Lmemset_align_b28_P
-.Lmemset_align_b29_N_to_N:
-        .word 12, 12, .Lmemset_align_b28_N
 .Lmemset_align_b28_P:
         .word .Lmemset_pow268435456, 180, .Lmemset_align_b28_P_to_N
-        .word 12, 12, .Lmemset_align_b27_P
-.Lmemset_align_b28_P_to_N:
-        .word 12, 12, .Lmemset_align_b27_N
-.Lmemset_align_b28_N:
-        .word .Lmemset_npow268435456, 180, .Lmemset_align_b28_N_to_N
-        .word 12, 12, .Lmemset_align_b27_P
-.Lmemset_align_b28_N_to_N:
-        .word 12, 12, .Lmemset_align_b27_N
 .Lmemset_align_b27_P:
         .word .Lmemset_pow134217728, 180, .Lmemset_align_b27_P_to_N
-        .word 12, 12, .Lmemset_align_b26_P
-.Lmemset_align_b27_P_to_N:
-        .word 12, 12, .Lmemset_align_b26_N
-.Lmemset_align_b27_N:
-        .word .Lmemset_npow134217728, 180, .Lmemset_align_b27_N_to_N
-        .word 12, 12, .Lmemset_align_b26_P
-.Lmemset_align_b27_N_to_N:
-        .word 12, 12, .Lmemset_align_b26_N
 .Lmemset_align_b26_P:
         .word .Lmemset_pow67108864, 180, .Lmemset_align_b26_P_to_N
-        .word 12, 12, .Lmemset_align_b25_P
-.Lmemset_align_b26_P_to_N:
-        .word 12, 12, .Lmemset_align_b25_N
-.Lmemset_align_b26_N:
-        .word .Lmemset_npow67108864, 180, .Lmemset_align_b26_N_to_N
-        .word 12, 12, .Lmemset_align_b25_P
-.Lmemset_align_b26_N_to_N:
-        .word 12, 12, .Lmemset_align_b25_N
 .Lmemset_align_b25_P:
         .word .Lmemset_pow33554432, 180, .Lmemset_align_b25_P_to_N
-        .word 12, 12, .Lmemset_align_b24_P
-.Lmemset_align_b25_P_to_N:
-        .word 12, 12, .Lmemset_align_b24_N
-.Lmemset_align_b25_N:
-        .word .Lmemset_npow33554432, 180, .Lmemset_align_b25_N_to_N
-        .word 12, 12, .Lmemset_align_b24_P
-.Lmemset_align_b25_N_to_N:
-        .word 12, 12, .Lmemset_align_b24_N
 .Lmemset_align_b24_P:
         .word .Lmemset_pow16777216, 180, .Lmemset_align_b24_P_to_N
-        .word 12, 12, .Lmemset_align_b23_P
-.Lmemset_align_b24_P_to_N:
-        .word 12, 12, .Lmemset_align_b23_N
-.Lmemset_align_b24_N:
-        .word .Lmemset_npow16777216, 180, .Lmemset_align_b24_N_to_N
-        .word 12, 12, .Lmemset_align_b23_P
-.Lmemset_align_b24_N_to_N:
-        .word 12, 12, .Lmemset_align_b23_N
 .Lmemset_align_b23_P:
         .word .Lmemset_pow8388608, 180, .Lmemset_align_b23_P_to_N
-        .word 12, 12, .Lmemset_align_b22_P
-.Lmemset_align_b23_P_to_N:
-        .word 12, 12, .Lmemset_align_b22_N
-.Lmemset_align_b23_N:
-        .word .Lmemset_npow8388608, 180, .Lmemset_align_b23_N_to_N
-        .word 12, 12, .Lmemset_align_b22_P
-.Lmemset_align_b23_N_to_N:
-        .word 12, 12, .Lmemset_align_b22_N
 .Lmemset_align_b22_P:
         .word .Lmemset_pow4194304, 180, .Lmemset_align_b22_P_to_N
-        .word 12, 12, .Lmemset_align_b21_P
-.Lmemset_align_b22_P_to_N:
-        .word 12, 12, .Lmemset_align_b21_N
-.Lmemset_align_b22_N:
-        .word .Lmemset_npow4194304, 180, .Lmemset_align_b22_N_to_N
-        .word 12, 12, .Lmemset_align_b21_P
-.Lmemset_align_b22_N_to_N:
-        .word 12, 12, .Lmemset_align_b21_N
 .Lmemset_align_b21_P:
         .word .Lmemset_pow2097152, 180, .Lmemset_align_b21_P_to_N
-        .word 12, 12, .Lmemset_align_b20_P
-.Lmemset_align_b21_P_to_N:
-        .word 12, 12, .Lmemset_align_b20_N
-.Lmemset_align_b21_N:
-        .word .Lmemset_npow2097152, 180, .Lmemset_align_b21_N_to_N
-        .word 12, 12, .Lmemset_align_b20_P
-.Lmemset_align_b21_N_to_N:
-        .word 12, 12, .Lmemset_align_b20_N
 .Lmemset_align_b20_P:
         .word .Lmemset_pow1048576, 180, .Lmemset_align_b20_P_to_N
-        .word 12, 12, .Lmemset_align_b19_P
-.Lmemset_align_b20_P_to_N:
-        .word 12, 12, .Lmemset_align_b19_N
-.Lmemset_align_b20_N:
-        .word .Lmemset_npow1048576, 180, .Lmemset_align_b20_N_to_N
-        .word 12, 12, .Lmemset_align_b19_P
-.Lmemset_align_b20_N_to_N:
-        .word 12, 12, .Lmemset_align_b19_N
 .Lmemset_align_b19_P:
         .word .Lmemset_pow524288, 180, .Lmemset_align_b19_P_to_N
-        .word 12, 12, .Lmemset_align_b18_P
-.Lmemset_align_b19_P_to_N:
-        .word 12, 12, .Lmemset_align_b18_N
-.Lmemset_align_b19_N:
-        .word .Lmemset_npow524288, 180, .Lmemset_align_b19_N_to_N
-        .word 12, 12, .Lmemset_align_b18_P
-.Lmemset_align_b19_N_to_N:
-        .word 12, 12, .Lmemset_align_b18_N
 .Lmemset_align_b18_P:
         .word .Lmemset_pow262144, 180, .Lmemset_align_b18_P_to_N
-        .word 12, 12, .Lmemset_align_b17_P
-.Lmemset_align_b18_P_to_N:
-        .word 12, 12, .Lmemset_align_b17_N
-.Lmemset_align_b18_N:
-        .word .Lmemset_npow262144, 180, .Lmemset_align_b18_N_to_N
-        .word 12, 12, .Lmemset_align_b17_P
-.Lmemset_align_b18_N_to_N:
-        .word 12, 12, .Lmemset_align_b17_N
 .Lmemset_align_b17_P:
         .word .Lmemset_pow131072, 180, .Lmemset_align_b17_P_to_N
-        .word 12, 12, .Lmemset_align_b16_P
-.Lmemset_align_b17_P_to_N:
-        .word 12, 12, .Lmemset_align_b16_N
-.Lmemset_align_b17_N:
-        .word .Lmemset_npow131072, 180, .Lmemset_align_b17_N_to_N
-        .word 12, 12, .Lmemset_align_b16_P
-.Lmemset_align_b17_N_to_N:
-        .word 12, 12, .Lmemset_align_b16_N
 .Lmemset_align_b16_P:
         .word .Lmemset_pow65536, 180, .Lmemset_align_b16_P_to_N
-        .word 12, 12, .Lmemset_align_b15_P
-.Lmemset_align_b16_P_to_N:
-        .word 12, 12, .Lmemset_align_b15_N
-.Lmemset_align_b16_N:
-        .word .Lmemset_npow65536, 180, .Lmemset_align_b16_N_to_N
-        .word 12, 12, .Lmemset_align_b15_P
-.Lmemset_align_b16_N_to_N:
-        .word 12, 12, .Lmemset_align_b15_N
 .Lmemset_align_b15_P:
         .word .Lmemset_pow32768, 180, .Lmemset_align_b15_P_to_N
-        .word 12, 12, .Lmemset_align_b14_P
-.Lmemset_align_b15_P_to_N:
-        .word 12, 12, .Lmemset_align_b14_N
-.Lmemset_align_b15_N:
-        .word .Lmemset_npow32768, 180, .Lmemset_align_b15_N_to_N
-        .word 12, 12, .Lmemset_align_b14_P
-.Lmemset_align_b15_N_to_N:
-        .word 12, 12, .Lmemset_align_b14_N
 .Lmemset_align_b14_P:
         .word .Lmemset_pow16384, 180, .Lmemset_align_b14_P_to_N
-        .word 12, 12, .Lmemset_align_b13_P
-.Lmemset_align_b14_P_to_N:
-        .word 12, 12, .Lmemset_align_b13_N
-.Lmemset_align_b14_N:
-        .word .Lmemset_npow16384, 180, .Lmemset_align_b14_N_to_N
-        .word 12, 12, .Lmemset_align_b13_P
-.Lmemset_align_b14_N_to_N:
-        .word 12, 12, .Lmemset_align_b13_N
 .Lmemset_align_b13_P:
         .word .Lmemset_pow8192, 180, .Lmemset_align_b13_P_to_N
-        .word 12, 12, .Lmemset_align_b12_P
-.Lmemset_align_b13_P_to_N:
-        .word 12, 12, .Lmemset_align_b12_N
-.Lmemset_align_b13_N:
-        .word .Lmemset_npow8192, 180, .Lmemset_align_b13_N_to_N
-        .word 12, 12, .Lmemset_align_b12_P
-.Lmemset_align_b13_N_to_N:
-        .word 12, 12, .Lmemset_align_b12_N
 .Lmemset_align_b12_P:
         .word .Lmemset_pow4096, 180, .Lmemset_align_b12_P_to_N
-        .word 12, 12, .Lmemset_align_b11_P
-.Lmemset_align_b12_P_to_N:
-        .word 12, 12, .Lmemset_align_b11_N
-.Lmemset_align_b12_N:
-        .word .Lmemset_npow4096, 180, .Lmemset_align_b12_N_to_N
-        .word 12, 12, .Lmemset_align_b11_P
-.Lmemset_align_b12_N_to_N:
-        .word 12, 12, .Lmemset_align_b11_N
 .Lmemset_align_b11_P:
         .word .Lmemset_pow2048, 180, .Lmemset_align_b11_P_to_N
-        .word 12, 12, .Lmemset_align_b10_P
-.Lmemset_align_b11_P_to_N:
-        .word 12, 12, .Lmemset_align_b10_N
-.Lmemset_align_b11_N:
-        .word .Lmemset_npow2048, 180, .Lmemset_align_b11_N_to_N
-        .word 12, 12, .Lmemset_align_b10_P
-.Lmemset_align_b11_N_to_N:
-        .word 12, 12, .Lmemset_align_b10_N
 .Lmemset_align_b10_P:
         .word .Lmemset_pow1024, 180, .Lmemset_align_b10_P_to_N
-        .word 12, 12, .Lmemset_align_b9_P
-.Lmemset_align_b10_P_to_N:
-        .word 12, 12, .Lmemset_align_b9_N
-.Lmemset_align_b10_N:
-        .word .Lmemset_npow1024, 180, .Lmemset_align_b10_N_to_N
-        .word 12, 12, .Lmemset_align_b9_P
-.Lmemset_align_b10_N_to_N:
-        .word 12, 12, .Lmemset_align_b9_N
 .Lmemset_align_b9_P:
         .word .Lmemset_pow512, 180, .Lmemset_align_b9_P_to_N
-        .word 12, 12, .Lmemset_align_b8_P
-.Lmemset_align_b9_P_to_N:
-        .word 12, 12, .Lmemset_align_b8_N
-.Lmemset_align_b9_N:
-        .word .Lmemset_npow512, 180, .Lmemset_align_b9_N_to_N
-        .word 12, 12, .Lmemset_align_b8_P
-.Lmemset_align_b9_N_to_N:
-        .word 12, 12, .Lmemset_align_b8_N
 .Lmemset_align_b8_P:
         .word .Lmemset_pow256, 180, .Lmemset_align_b8_P_to_N
-        .word 12, 12, .Lmemset_align_b7_P
-.Lmemset_align_b8_P_to_N:
-        .word 12, 12, .Lmemset_align_b7_N
-.Lmemset_align_b8_N:
-        .word .Lmemset_npow256, 180, .Lmemset_align_b8_N_to_N
-        .word 12, 12, .Lmemset_align_b7_P
-.Lmemset_align_b8_N_to_N:
-        .word 12, 12, .Lmemset_align_b7_N
 .Lmemset_align_b7_P:
         .word .Lmemset_pow128, 180, .Lmemset_align_b7_P_to_N
-        .word 12, 12, .Lmemset_align_b6_P
-.Lmemset_align_b7_P_to_N:
-        .word 12, 12, .Lmemset_align_b6_N
-.Lmemset_align_b7_N:
-        .word .Lmemset_npow128, 180, .Lmemset_align_b7_N_to_N
-        .word 12, 12, .Lmemset_align_b6_P
-.Lmemset_align_b7_N_to_N:
-        .word 12, 12, .Lmemset_align_b6_N
 .Lmemset_align_b6_P:
         .word .Lmemset_pow64, 180, .Lmemset_align_b6_P_to_N
-        .word 12, 12, .Lmemset_align_b5_P
-.Lmemset_align_b6_P_to_N:
-        .word 12, 12, .Lmemset_align_b5_N
-.Lmemset_align_b6_N:
-        .word .Lmemset_npow64, 180, .Lmemset_align_b6_N_to_N
-        .word 12, 12, .Lmemset_align_b5_P
-.Lmemset_align_b6_N_to_N:
-        .word 12, 12, .Lmemset_align_b5_N
 .Lmemset_align_b5_P:
         .word .Lmemset_pow32, 180, .Lmemset_align_b5_P_to_N
-        .word 12, 12, .Lmemset_align_b4_P
-.Lmemset_align_b5_P_to_N:
-        .word 12, 12, .Lmemset_align_b4_N
-.Lmemset_align_b5_N:
-        .word .Lmemset_npow32, 180, .Lmemset_align_b5_N_to_N
-        .word 12, 12, .Lmemset_align_b4_P
-.Lmemset_align_b5_N_to_N:
-        .word 12, 12, .Lmemset_align_b4_N
 .Lmemset_align_b4_P:
         .word .Lmemset_pow16, 180, .Lmemset_align_b4_P_to_N
-        .word 12, 12, .Lmemset_align_b3_P
-.Lmemset_align_b4_P_to_N:
-        .word 12, 12, .Lmemset_align_b3_N
-.Lmemset_align_b4_N:
-        .word .Lmemset_npow16, 180, .Lmemset_align_b4_N_to_N
-        .word 12, 12, .Lmemset_align_b3_P
-.Lmemset_align_b4_N_to_N:
-        .word 12, 12, .Lmemset_align_b3_N
 .Lmemset_align_b3_P:
         .word .Lmemset_pow8, 180, .Lmemset_align_b3_P_to_N
-        .word 12, 12, .Lmemset_align_b2_P
-.Lmemset_align_b3_P_to_N:
-        .word 12, 12, .Lmemset_align_b2_N
-.Lmemset_align_b3_N:
-        .word .Lmemset_npow8, 180, .Lmemset_align_b3_N_to_N
-        .word 12, 12, .Lmemset_align_b2_P
-.Lmemset_align_b3_N_to_N:
-        .word 12, 12, .Lmemset_align_b2_N
 .Lmemset_align_b2_P:
         .word .Lmemset_pow4, 180, .Lmemset_align_b2_P_to_N
-        .word 12, 12, .Lmemset_align_b1_P
-.Lmemset_align_b2_P_to_N:
-        .word 12, 12, .Lmemset_align_b1_N
-.Lmemset_align_b2_N:
-        .word .Lmemset_npow4, 180, .Lmemset_align_b2_N_to_N
-        .word 12, 12, .Lmemset_align_b1_P
-.Lmemset_align_b2_N_to_N:
-        .word 12, 12, .Lmemset_align_b1_N
 .Lmemset_align_b1_P:
         .word .Lmemset_pow2, 180, .Lmemset_align_b1_P_to_N
         .word .Lmemset_pow2, 184, .Lmemset_align_b0_P
@@ -61091,6 +59995,209 @@ __subleq_memset:
         .word .Lmemset_pow1, 184, .Lmemset_align_done
 .Lmemset_align_b0_N_to_N:
         .word 12, 12, .Lmemset_align_done
+.Lmemset_align_b30_P_to_N:
+        .word 12, 12, .Lmemset_align_b29_N
+.Lmemset_align_b30_N:
+        .word .Lmemset_npow1073741824, 180, .Lmemset_align_b30_N_to_N
+        .word 12, 12, .Lmemset_align_b29_P
+.Lmemset_align_b30_N_to_N:
+        .word 12, 12, .Lmemset_align_b29_N
+.Lmemset_align_b29_P_to_N:
+        .word 12, 12, .Lmemset_align_b28_N
+.Lmemset_align_b29_N:
+        .word .Lmemset_npow536870912, 180, .Lmemset_align_b29_N_to_N
+        .word 12, 12, .Lmemset_align_b28_P
+.Lmemset_align_b29_N_to_N:
+        .word 12, 12, .Lmemset_align_b28_N
+.Lmemset_align_b28_P_to_N:
+        .word 12, 12, .Lmemset_align_b27_N
+.Lmemset_align_b28_N:
+        .word .Lmemset_npow268435456, 180, .Lmemset_align_b28_N_to_N
+        .word 12, 12, .Lmemset_align_b27_P
+.Lmemset_align_b28_N_to_N:
+        .word 12, 12, .Lmemset_align_b27_N
+.Lmemset_align_b27_P_to_N:
+        .word 12, 12, .Lmemset_align_b26_N
+.Lmemset_align_b27_N:
+        .word .Lmemset_npow134217728, 180, .Lmemset_align_b27_N_to_N
+        .word 12, 12, .Lmemset_align_b26_P
+.Lmemset_align_b27_N_to_N:
+        .word 12, 12, .Lmemset_align_b26_N
+.Lmemset_align_b26_P_to_N:
+        .word 12, 12, .Lmemset_align_b25_N
+.Lmemset_align_b26_N:
+        .word .Lmemset_npow67108864, 180, .Lmemset_align_b26_N_to_N
+        .word 12, 12, .Lmemset_align_b25_P
+.Lmemset_align_b26_N_to_N:
+        .word 12, 12, .Lmemset_align_b25_N
+.Lmemset_align_b25_P_to_N:
+        .word 12, 12, .Lmemset_align_b24_N
+.Lmemset_align_b25_N:
+        .word .Lmemset_npow33554432, 180, .Lmemset_align_b25_N_to_N
+        .word 12, 12, .Lmemset_align_b24_P
+.Lmemset_align_b25_N_to_N:
+        .word 12, 12, .Lmemset_align_b24_N
+.Lmemset_align_b24_P_to_N:
+        .word 12, 12, .Lmemset_align_b23_N
+.Lmemset_align_b24_N:
+        .word .Lmemset_npow16777216, 180, .Lmemset_align_b24_N_to_N
+        .word 12, 12, .Lmemset_align_b23_P
+.Lmemset_align_b24_N_to_N:
+        .word 12, 12, .Lmemset_align_b23_N
+.Lmemset_align_b23_P_to_N:
+        .word 12, 12, .Lmemset_align_b22_N
+.Lmemset_align_b23_N:
+        .word .Lmemset_npow8388608, 180, .Lmemset_align_b23_N_to_N
+        .word 12, 12, .Lmemset_align_b22_P
+.Lmemset_align_b23_N_to_N:
+        .word 12, 12, .Lmemset_align_b22_N
+.Lmemset_align_b22_P_to_N:
+        .word 12, 12, .Lmemset_align_b21_N
+.Lmemset_align_b22_N:
+        .word .Lmemset_npow4194304, 180, .Lmemset_align_b22_N_to_N
+        .word 12, 12, .Lmemset_align_b21_P
+.Lmemset_align_b22_N_to_N:
+        .word 12, 12, .Lmemset_align_b21_N
+.Lmemset_align_b21_P_to_N:
+        .word 12, 12, .Lmemset_align_b20_N
+.Lmemset_align_b21_N:
+        .word .Lmemset_npow2097152, 180, .Lmemset_align_b21_N_to_N
+        .word 12, 12, .Lmemset_align_b20_P
+.Lmemset_align_b21_N_to_N:
+        .word 12, 12, .Lmemset_align_b20_N
+.Lmemset_align_b20_P_to_N:
+        .word 12, 12, .Lmemset_align_b19_N
+.Lmemset_align_b20_N:
+        .word .Lmemset_npow1048576, 180, .Lmemset_align_b20_N_to_N
+        .word 12, 12, .Lmemset_align_b19_P
+.Lmemset_align_b20_N_to_N:
+        .word 12, 12, .Lmemset_align_b19_N
+.Lmemset_align_b19_P_to_N:
+        .word 12, 12, .Lmemset_align_b18_N
+.Lmemset_align_b19_N:
+        .word .Lmemset_npow524288, 180, .Lmemset_align_b19_N_to_N
+        .word 12, 12, .Lmemset_align_b18_P
+.Lmemset_align_b19_N_to_N:
+        .word 12, 12, .Lmemset_align_b18_N
+.Lmemset_align_b18_P_to_N:
+        .word 12, 12, .Lmemset_align_b17_N
+.Lmemset_align_b18_N:
+        .word .Lmemset_npow262144, 180, .Lmemset_align_b18_N_to_N
+        .word 12, 12, .Lmemset_align_b17_P
+.Lmemset_align_b18_N_to_N:
+        .word 12, 12, .Lmemset_align_b17_N
+.Lmemset_align_b17_P_to_N:
+        .word 12, 12, .Lmemset_align_b16_N
+.Lmemset_align_b17_N:
+        .word .Lmemset_npow131072, 180, .Lmemset_align_b17_N_to_N
+        .word 12, 12, .Lmemset_align_b16_P
+.Lmemset_align_b17_N_to_N:
+        .word 12, 12, .Lmemset_align_b16_N
+.Lmemset_align_b16_P_to_N:
+        .word 12, 12, .Lmemset_align_b15_N
+.Lmemset_align_b16_N:
+        .word .Lmemset_npow65536, 180, .Lmemset_align_b16_N_to_N
+        .word 12, 12, .Lmemset_align_b15_P
+.Lmemset_align_b16_N_to_N:
+        .word 12, 12, .Lmemset_align_b15_N
+.Lmemset_align_b15_P_to_N:
+        .word 12, 12, .Lmemset_align_b14_N
+.Lmemset_align_b15_N:
+        .word .Lmemset_npow32768, 180, .Lmemset_align_b15_N_to_N
+        .word 12, 12, .Lmemset_align_b14_P
+.Lmemset_align_b15_N_to_N:
+        .word 12, 12, .Lmemset_align_b14_N
+.Lmemset_align_b14_P_to_N:
+        .word 12, 12, .Lmemset_align_b13_N
+.Lmemset_align_b14_N:
+        .word .Lmemset_npow16384, 180, .Lmemset_align_b14_N_to_N
+        .word 12, 12, .Lmemset_align_b13_P
+.Lmemset_align_b14_N_to_N:
+        .word 12, 12, .Lmemset_align_b13_N
+.Lmemset_align_b13_P_to_N:
+        .word 12, 12, .Lmemset_align_b12_N
+.Lmemset_align_b13_N:
+        .word .Lmemset_npow8192, 180, .Lmemset_align_b13_N_to_N
+        .word 12, 12, .Lmemset_align_b12_P
+.Lmemset_align_b13_N_to_N:
+        .word 12, 12, .Lmemset_align_b12_N
+.Lmemset_align_b12_P_to_N:
+        .word 12, 12, .Lmemset_align_b11_N
+.Lmemset_align_b12_N:
+        .word .Lmemset_npow4096, 180, .Lmemset_align_b12_N_to_N
+        .word 12, 12, .Lmemset_align_b11_P
+.Lmemset_align_b12_N_to_N:
+        .word 12, 12, .Lmemset_align_b11_N
+.Lmemset_align_b11_P_to_N:
+        .word 12, 12, .Lmemset_align_b10_N
+.Lmemset_align_b11_N:
+        .word .Lmemset_npow2048, 180, .Lmemset_align_b11_N_to_N
+        .word 12, 12, .Lmemset_align_b10_P
+.Lmemset_align_b11_N_to_N:
+        .word 12, 12, .Lmemset_align_b10_N
+.Lmemset_align_b10_P_to_N:
+        .word 12, 12, .Lmemset_align_b9_N
+.Lmemset_align_b10_N:
+        .word .Lmemset_npow1024, 180, .Lmemset_align_b10_N_to_N
+        .word 12, 12, .Lmemset_align_b9_P
+.Lmemset_align_b10_N_to_N:
+        .word 12, 12, .Lmemset_align_b9_N
+.Lmemset_align_b9_P_to_N:
+        .word 12, 12, .Lmemset_align_b8_N
+.Lmemset_align_b9_N:
+        .word .Lmemset_npow512, 180, .Lmemset_align_b9_N_to_N
+        .word 12, 12, .Lmemset_align_b8_P
+.Lmemset_align_b9_N_to_N:
+        .word 12, 12, .Lmemset_align_b8_N
+.Lmemset_align_b8_P_to_N:
+        .word 12, 12, .Lmemset_align_b7_N
+.Lmemset_align_b8_N:
+        .word .Lmemset_npow256, 180, .Lmemset_align_b8_N_to_N
+        .word 12, 12, .Lmemset_align_b7_P
+.Lmemset_align_b8_N_to_N:
+        .word 12, 12, .Lmemset_align_b7_N
+.Lmemset_align_b7_P_to_N:
+        .word 12, 12, .Lmemset_align_b6_N
+.Lmemset_align_b7_N:
+        .word .Lmemset_npow128, 180, .Lmemset_align_b7_N_to_N
+        .word 12, 12, .Lmemset_align_b6_P
+.Lmemset_align_b7_N_to_N:
+        .word 12, 12, .Lmemset_align_b6_N
+.Lmemset_align_b6_P_to_N:
+        .word 12, 12, .Lmemset_align_b5_N
+.Lmemset_align_b6_N:
+        .word .Lmemset_npow64, 180, .Lmemset_align_b6_N_to_N
+        .word 12, 12, .Lmemset_align_b5_P
+.Lmemset_align_b6_N_to_N:
+        .word 12, 12, .Lmemset_align_b5_N
+.Lmemset_align_b5_P_to_N:
+        .word 12, 12, .Lmemset_align_b4_N
+.Lmemset_align_b5_N:
+        .word .Lmemset_npow32, 180, .Lmemset_align_b5_N_to_N
+        .word 12, 12, .Lmemset_align_b4_P
+.Lmemset_align_b5_N_to_N:
+        .word 12, 12, .Lmemset_align_b4_N
+.Lmemset_align_b4_P_to_N:
+        .word 12, 12, .Lmemset_align_b3_N
+.Lmemset_align_b4_N:
+        .word .Lmemset_npow16, 180, .Lmemset_align_b4_N_to_N
+        .word 12, 12, .Lmemset_align_b3_P
+.Lmemset_align_b4_N_to_N:
+        .word 12, 12, .Lmemset_align_b3_N
+.Lmemset_align_b3_P_to_N:
+        .word 12, 12, .Lmemset_align_b2_N
+.Lmemset_align_b3_N:
+        .word .Lmemset_npow8, 180, .Lmemset_align_b3_N_to_N
+        .word 12, 12, .Lmemset_align_b2_P
+.Lmemset_align_b3_N_to_N:
+        .word 12, 12, .Lmemset_align_b2_N
+.Lmemset_align_b2_P_to_N:
+        .word 12, 12, .Lmemset_align_b1_N
+.Lmemset_align_b2_N:
+        .word .Lmemset_npow4, 180, .Lmemset_align_b2_N_to_N
+        .word 12, 12, .Lmemset_align_b1_P
+.Lmemset_align_b2_N_to_N:
+        .word 12, 12, .Lmemset_align_b1_N
 .Lmemset_align_done:
         .word 180, 180, .+4
         .word 184, 180, .+4
@@ -61123,27 +60230,15 @@ __subleq_memset:
         .word 12, 12, .Lmemset_head_loop
 .Lmemset_body_setup:
         .word 12, 12, .+4
-        .word 192, 192, .+4
-        .word 100, 12, .+4
-        .word 12, 192, .+4
-        .word 12, 12, .+4
-        .word 196, 196, .+4
-        .word 104, 12, .+4
-        .word 12, 196, .+4
-        .word 12, 12, .+4
-        .word 160, 160, .+4
-        .word 108, 12, .+4
-        .word 12, 160, .+4
-        .word 12, 12, .+4
         .word 172, 172, .+4
-        .word 160, 12, .+4
+        .word 108, 12, .+4
         .word 12, 172, .+4
-        .word 180, 180, .+4
+        .word 188, 188, .+4
 .Lmemset_srl_b31:
         .word 176, 176, .+4
         .word 172, 176, .+4
         .word 144, 176, .Lmemset_srl_b30_check
-        .word .Lmemset_npow536870912, 180, .+4
+        .word .Lmemset_npow536870912, 188, .+4
         .word .Lmemset_min, 172, .+4
 .Lmemset_srl_b30_check:
         .word 176, 176, .+4
@@ -61151,406 +60246,490 @@ __subleq_memset:
         .word .Lmemset_npow1073741824, 176, .Lmemset_srl_b30_set
         .word 12, 12, .Lmemset_srl_lattice_start
 .Lmemset_srl_b30_set:
-        .word .Lmemset_npow268435456, 180, .+4
+        .word .Lmemset_npow268435456, 188, .+4
         .word .Lmemset_pow1073741824, 172, .+4
 .Lmemset_srl_lattice_start:
         .word .Lmemset_n1, 172, .+4
 .Lmemset_srl_b29_P:
         .word .Lmemset_pow536870912, 172, .Lmemset_srl_b29_P_to_N
-        .word .Lmemset_npow134217728, 180, .+4
+        .word .Lmemset_npow134217728, 188, .+4
         .word 12, 12, .Lmemset_srl_b28_P
 .Lmemset_srl_b29_P_to_N:
         .word 12, 12, .Lmemset_srl_b28_N
 .Lmemset_srl_b29_N:
         .word .Lmemset_npow536870912, 172, .Lmemset_srl_b29_N_to_N
-        .word .Lmemset_npow134217728, 180, .+4
+        .word .Lmemset_npow134217728, 188, .+4
         .word 12, 12, .Lmemset_srl_b28_P
 .Lmemset_srl_b29_N_to_N:
         .word 12, 12, .Lmemset_srl_b28_N
 .Lmemset_srl_b28_P:
         .word .Lmemset_pow268435456, 172, .Lmemset_srl_b28_P_to_N
-        .word .Lmemset_npow67108864, 180, .+4
+        .word .Lmemset_npow67108864, 188, .+4
         .word 12, 12, .Lmemset_srl_b27_P
 .Lmemset_srl_b28_P_to_N:
         .word 12, 12, .Lmemset_srl_b27_N
 .Lmemset_srl_b28_N:
         .word .Lmemset_npow268435456, 172, .Lmemset_srl_b28_N_to_N
-        .word .Lmemset_npow67108864, 180, .+4
+        .word .Lmemset_npow67108864, 188, .+4
         .word 12, 12, .Lmemset_srl_b27_P
 .Lmemset_srl_b28_N_to_N:
         .word 12, 12, .Lmemset_srl_b27_N
 .Lmemset_srl_b27_P:
         .word .Lmemset_pow134217728, 172, .Lmemset_srl_b27_P_to_N
-        .word .Lmemset_npow33554432, 180, .+4
+        .word .Lmemset_npow33554432, 188, .+4
         .word 12, 12, .Lmemset_srl_b26_P
 .Lmemset_srl_b27_P_to_N:
         .word 12, 12, .Lmemset_srl_b26_N
 .Lmemset_srl_b27_N:
         .word .Lmemset_npow134217728, 172, .Lmemset_srl_b27_N_to_N
-        .word .Lmemset_npow33554432, 180, .+4
+        .word .Lmemset_npow33554432, 188, .+4
         .word 12, 12, .Lmemset_srl_b26_P
 .Lmemset_srl_b27_N_to_N:
         .word 12, 12, .Lmemset_srl_b26_N
 .Lmemset_srl_b26_P:
         .word .Lmemset_pow67108864, 172, .Lmemset_srl_b26_P_to_N
-        .word .Lmemset_npow16777216, 180, .+4
+        .word .Lmemset_npow16777216, 188, .+4
         .word 12, 12, .Lmemset_srl_b25_P
 .Lmemset_srl_b26_P_to_N:
         .word 12, 12, .Lmemset_srl_b25_N
 .Lmemset_srl_b26_N:
         .word .Lmemset_npow67108864, 172, .Lmemset_srl_b26_N_to_N
-        .word .Lmemset_npow16777216, 180, .+4
+        .word .Lmemset_npow16777216, 188, .+4
         .word 12, 12, .Lmemset_srl_b25_P
 .Lmemset_srl_b26_N_to_N:
         .word 12, 12, .Lmemset_srl_b25_N
 .Lmemset_srl_b25_P:
         .word .Lmemset_pow33554432, 172, .Lmemset_srl_b25_P_to_N
-        .word .Lmemset_npow8388608, 180, .+4
+        .word .Lmemset_npow8388608, 188, .+4
         .word 12, 12, .Lmemset_srl_b24_P
 .Lmemset_srl_b25_P_to_N:
         .word 12, 12, .Lmemset_srl_b24_N
 .Lmemset_srl_b25_N:
         .word .Lmemset_npow33554432, 172, .Lmemset_srl_b25_N_to_N
-        .word .Lmemset_npow8388608, 180, .+4
+        .word .Lmemset_npow8388608, 188, .+4
         .word 12, 12, .Lmemset_srl_b24_P
 .Lmemset_srl_b25_N_to_N:
         .word 12, 12, .Lmemset_srl_b24_N
 .Lmemset_srl_b24_P:
         .word .Lmemset_pow16777216, 172, .Lmemset_srl_b24_P_to_N
-        .word .Lmemset_npow4194304, 180, .+4
+        .word .Lmemset_npow4194304, 188, .+4
         .word 12, 12, .Lmemset_srl_b23_P
 .Lmemset_srl_b24_P_to_N:
         .word 12, 12, .Lmemset_srl_b23_N
 .Lmemset_srl_b24_N:
         .word .Lmemset_npow16777216, 172, .Lmemset_srl_b24_N_to_N
-        .word .Lmemset_npow4194304, 180, .+4
+        .word .Lmemset_npow4194304, 188, .+4
         .word 12, 12, .Lmemset_srl_b23_P
 .Lmemset_srl_b24_N_to_N:
         .word 12, 12, .Lmemset_srl_b23_N
 .Lmemset_srl_b23_P:
         .word .Lmemset_pow8388608, 172, .Lmemset_srl_b23_P_to_N
-        .word .Lmemset_npow2097152, 180, .+4
+        .word .Lmemset_npow2097152, 188, .+4
         .word 12, 12, .Lmemset_srl_b22_P
 .Lmemset_srl_b23_P_to_N:
         .word 12, 12, .Lmemset_srl_b22_N
 .Lmemset_srl_b23_N:
         .word .Lmemset_npow8388608, 172, .Lmemset_srl_b23_N_to_N
-        .word .Lmemset_npow2097152, 180, .+4
+        .word .Lmemset_npow2097152, 188, .+4
         .word 12, 12, .Lmemset_srl_b22_P
 .Lmemset_srl_b23_N_to_N:
         .word 12, 12, .Lmemset_srl_b22_N
 .Lmemset_srl_b22_P:
         .word .Lmemset_pow4194304, 172, .Lmemset_srl_b22_P_to_N
-        .word .Lmemset_npow1048576, 180, .+4
+        .word .Lmemset_npow1048576, 188, .+4
         .word 12, 12, .Lmemset_srl_b21_P
 .Lmemset_srl_b22_P_to_N:
         .word 12, 12, .Lmemset_srl_b21_N
 .Lmemset_srl_b22_N:
         .word .Lmemset_npow4194304, 172, .Lmemset_srl_b22_N_to_N
-        .word .Lmemset_npow1048576, 180, .+4
+        .word .Lmemset_npow1048576, 188, .+4
         .word 12, 12, .Lmemset_srl_b21_P
 .Lmemset_srl_b22_N_to_N:
         .word 12, 12, .Lmemset_srl_b21_N
 .Lmemset_srl_b21_P:
         .word .Lmemset_pow2097152, 172, .Lmemset_srl_b21_P_to_N
-        .word .Lmemset_npow524288, 180, .+4
+        .word .Lmemset_npow524288, 188, .+4
         .word 12, 12, .Lmemset_srl_b20_P
 .Lmemset_srl_b21_P_to_N:
         .word 12, 12, .Lmemset_srl_b20_N
 .Lmemset_srl_b21_N:
         .word .Lmemset_npow2097152, 172, .Lmemset_srl_b21_N_to_N
-        .word .Lmemset_npow524288, 180, .+4
+        .word .Lmemset_npow524288, 188, .+4
         .word 12, 12, .Lmemset_srl_b20_P
 .Lmemset_srl_b21_N_to_N:
         .word 12, 12, .Lmemset_srl_b20_N
 .Lmemset_srl_b20_P:
         .word .Lmemset_pow1048576, 172, .Lmemset_srl_b20_P_to_N
-        .word .Lmemset_npow262144, 180, .+4
+        .word .Lmemset_npow262144, 188, .+4
         .word 12, 12, .Lmemset_srl_b19_P
 .Lmemset_srl_b20_P_to_N:
         .word 12, 12, .Lmemset_srl_b19_N
 .Lmemset_srl_b20_N:
         .word .Lmemset_npow1048576, 172, .Lmemset_srl_b20_N_to_N
-        .word .Lmemset_npow262144, 180, .+4
+        .word .Lmemset_npow262144, 188, .+4
         .word 12, 12, .Lmemset_srl_b19_P
 .Lmemset_srl_b20_N_to_N:
         .word 12, 12, .Lmemset_srl_b19_N
 .Lmemset_srl_b19_P:
         .word .Lmemset_pow524288, 172, .Lmemset_srl_b19_P_to_N
-        .word .Lmemset_npow131072, 180, .+4
+        .word .Lmemset_npow131072, 188, .+4
         .word 12, 12, .Lmemset_srl_b18_P
 .Lmemset_srl_b19_P_to_N:
         .word 12, 12, .Lmemset_srl_b18_N
 .Lmemset_srl_b19_N:
         .word .Lmemset_npow524288, 172, .Lmemset_srl_b19_N_to_N
-        .word .Lmemset_npow131072, 180, .+4
+        .word .Lmemset_npow131072, 188, .+4
         .word 12, 12, .Lmemset_srl_b18_P
 .Lmemset_srl_b19_N_to_N:
         .word 12, 12, .Lmemset_srl_b18_N
 .Lmemset_srl_b18_P:
         .word .Lmemset_pow262144, 172, .Lmemset_srl_b18_P_to_N
-        .word .Lmemset_npow65536, 180, .+4
+        .word .Lmemset_npow65536, 188, .+4
         .word 12, 12, .Lmemset_srl_b17_P
 .Lmemset_srl_b18_P_to_N:
         .word 12, 12, .Lmemset_srl_b17_N
 .Lmemset_srl_b18_N:
         .word .Lmemset_npow262144, 172, .Lmemset_srl_b18_N_to_N
-        .word .Lmemset_npow65536, 180, .+4
+        .word .Lmemset_npow65536, 188, .+4
         .word 12, 12, .Lmemset_srl_b17_P
 .Lmemset_srl_b18_N_to_N:
         .word 12, 12, .Lmemset_srl_b17_N
 .Lmemset_srl_b17_P:
         .word .Lmemset_pow131072, 172, .Lmemset_srl_b17_P_to_N
-        .word .Lmemset_npow32768, 180, .+4
+        .word .Lmemset_npow32768, 188, .+4
         .word 12, 12, .Lmemset_srl_b16_P
 .Lmemset_srl_b17_P_to_N:
         .word 12, 12, .Lmemset_srl_b16_N
 .Lmemset_srl_b17_N:
         .word .Lmemset_npow131072, 172, .Lmemset_srl_b17_N_to_N
-        .word .Lmemset_npow32768, 180, .+4
+        .word .Lmemset_npow32768, 188, .+4
         .word 12, 12, .Lmemset_srl_b16_P
 .Lmemset_srl_b17_N_to_N:
         .word 12, 12, .Lmemset_srl_b16_N
 .Lmemset_srl_b16_P:
         .word .Lmemset_pow65536, 172, .Lmemset_srl_b16_P_to_N
-        .word .Lmemset_npow16384, 180, .+4
+        .word .Lmemset_npow16384, 188, .+4
         .word 12, 12, .Lmemset_srl_b15_P
 .Lmemset_srl_b16_P_to_N:
         .word 12, 12, .Lmemset_srl_b15_N
 .Lmemset_srl_b16_N:
         .word .Lmemset_npow65536, 172, .Lmemset_srl_b16_N_to_N
-        .word .Lmemset_npow16384, 180, .+4
+        .word .Lmemset_npow16384, 188, .+4
         .word 12, 12, .Lmemset_srl_b15_P
 .Lmemset_srl_b16_N_to_N:
         .word 12, 12, .Lmemset_srl_b15_N
 .Lmemset_srl_b15_P:
         .word .Lmemset_pow32768, 172, .Lmemset_srl_b15_P_to_N
-        .word .Lmemset_npow8192, 180, .+4
+        .word .Lmemset_npow8192, 188, .+4
         .word 12, 12, .Lmemset_srl_b14_P
 .Lmemset_srl_b15_P_to_N:
         .word 12, 12, .Lmemset_srl_b14_N
 .Lmemset_srl_b15_N:
         .word .Lmemset_npow32768, 172, .Lmemset_srl_b15_N_to_N
-        .word .Lmemset_npow8192, 180, .+4
+        .word .Lmemset_npow8192, 188, .+4
         .word 12, 12, .Lmemset_srl_b14_P
 .Lmemset_srl_b15_N_to_N:
         .word 12, 12, .Lmemset_srl_b14_N
 .Lmemset_srl_b14_P:
         .word .Lmemset_pow16384, 172, .Lmemset_srl_b14_P_to_N
-        .word .Lmemset_npow4096, 180, .+4
+        .word .Lmemset_npow4096, 188, .+4
         .word 12, 12, .Lmemset_srl_b13_P
 .Lmemset_srl_b14_P_to_N:
         .word 12, 12, .Lmemset_srl_b13_N
 .Lmemset_srl_b14_N:
         .word .Lmemset_npow16384, 172, .Lmemset_srl_b14_N_to_N
-        .word .Lmemset_npow4096, 180, .+4
+        .word .Lmemset_npow4096, 188, .+4
         .word 12, 12, .Lmemset_srl_b13_P
 .Lmemset_srl_b14_N_to_N:
         .word 12, 12, .Lmemset_srl_b13_N
 .Lmemset_srl_b13_P:
         .word .Lmemset_pow8192, 172, .Lmemset_srl_b13_P_to_N
-        .word .Lmemset_npow2048, 180, .+4
+        .word .Lmemset_npow2048, 188, .+4
         .word 12, 12, .Lmemset_srl_b12_P
 .Lmemset_srl_b13_P_to_N:
         .word 12, 12, .Lmemset_srl_b12_N
 .Lmemset_srl_b13_N:
         .word .Lmemset_npow8192, 172, .Lmemset_srl_b13_N_to_N
-        .word .Lmemset_npow2048, 180, .+4
+        .word .Lmemset_npow2048, 188, .+4
         .word 12, 12, .Lmemset_srl_b12_P
 .Lmemset_srl_b13_N_to_N:
         .word 12, 12, .Lmemset_srl_b12_N
 .Lmemset_srl_b12_P:
         .word .Lmemset_pow4096, 172, .Lmemset_srl_b12_P_to_N
-        .word .Lmemset_npow1024, 180, .+4
+        .word .Lmemset_npow1024, 188, .+4
         .word 12, 12, .Lmemset_srl_b11_P
 .Lmemset_srl_b12_P_to_N:
         .word 12, 12, .Lmemset_srl_b11_N
 .Lmemset_srl_b12_N:
         .word .Lmemset_npow4096, 172, .Lmemset_srl_b12_N_to_N
-        .word .Lmemset_npow1024, 180, .+4
+        .word .Lmemset_npow1024, 188, .+4
         .word 12, 12, .Lmemset_srl_b11_P
 .Lmemset_srl_b12_N_to_N:
         .word 12, 12, .Lmemset_srl_b11_N
 .Lmemset_srl_b11_P:
         .word .Lmemset_pow2048, 172, .Lmemset_srl_b11_P_to_N
-        .word .Lmemset_npow512, 180, .+4
+        .word .Lmemset_npow512, 188, .+4
         .word 12, 12, .Lmemset_srl_b10_P
 .Lmemset_srl_b11_P_to_N:
         .word 12, 12, .Lmemset_srl_b10_N
 .Lmemset_srl_b11_N:
         .word .Lmemset_npow2048, 172, .Lmemset_srl_b11_N_to_N
-        .word .Lmemset_npow512, 180, .+4
+        .word .Lmemset_npow512, 188, .+4
         .word 12, 12, .Lmemset_srl_b10_P
 .Lmemset_srl_b11_N_to_N:
         .word 12, 12, .Lmemset_srl_b10_N
 .Lmemset_srl_b10_P:
         .word .Lmemset_pow1024, 172, .Lmemset_srl_b10_P_to_N
-        .word .Lmemset_npow256, 180, .+4
+        .word .Lmemset_npow256, 188, .+4
         .word 12, 12, .Lmemset_srl_b9_P
 .Lmemset_srl_b10_P_to_N:
         .word 12, 12, .Lmemset_srl_b9_N
 .Lmemset_srl_b10_N:
         .word .Lmemset_npow1024, 172, .Lmemset_srl_b10_N_to_N
-        .word .Lmemset_npow256, 180, .+4
+        .word .Lmemset_npow256, 188, .+4
         .word 12, 12, .Lmemset_srl_b9_P
 .Lmemset_srl_b10_N_to_N:
         .word 12, 12, .Lmemset_srl_b9_N
 .Lmemset_srl_b9_P:
         .word .Lmemset_pow512, 172, .Lmemset_srl_b9_P_to_N
-        .word .Lmemset_npow128, 180, .+4
+        .word .Lmemset_npow128, 188, .+4
         .word 12, 12, .Lmemset_srl_b8_P
 .Lmemset_srl_b9_P_to_N:
         .word 12, 12, .Lmemset_srl_b8_N
 .Lmemset_srl_b9_N:
         .word .Lmemset_npow512, 172, .Lmemset_srl_b9_N_to_N
-        .word .Lmemset_npow128, 180, .+4
+        .word .Lmemset_npow128, 188, .+4
         .word 12, 12, .Lmemset_srl_b8_P
 .Lmemset_srl_b9_N_to_N:
         .word 12, 12, .Lmemset_srl_b8_N
 .Lmemset_srl_b8_P:
         .word .Lmemset_pow256, 172, .Lmemset_srl_b8_P_to_N
-        .word .Lmemset_npow64, 180, .+4
+        .word .Lmemset_npow64, 188, .+4
         .word 12, 12, .Lmemset_srl_b7_P
 .Lmemset_srl_b8_P_to_N:
         .word 12, 12, .Lmemset_srl_b7_N
 .Lmemset_srl_b8_N:
         .word .Lmemset_npow256, 172, .Lmemset_srl_b8_N_to_N
-        .word .Lmemset_npow64, 180, .+4
+        .word .Lmemset_npow64, 188, .+4
         .word 12, 12, .Lmemset_srl_b7_P
 .Lmemset_srl_b8_N_to_N:
         .word 12, 12, .Lmemset_srl_b7_N
 .Lmemset_srl_b7_P:
         .word .Lmemset_pow128, 172, .Lmemset_srl_b7_P_to_N
-        .word .Lmemset_npow32, 180, .+4
+        .word .Lmemset_npow32, 188, .+4
         .word 12, 12, .Lmemset_srl_b6_P
 .Lmemset_srl_b7_P_to_N:
         .word 12, 12, .Lmemset_srl_b6_N
 .Lmemset_srl_b7_N:
         .word .Lmemset_npow128, 172, .Lmemset_srl_b7_N_to_N
-        .word .Lmemset_npow32, 180, .+4
+        .word .Lmemset_npow32, 188, .+4
         .word 12, 12, .Lmemset_srl_b6_P
 .Lmemset_srl_b7_N_to_N:
         .word 12, 12, .Lmemset_srl_b6_N
 .Lmemset_srl_b6_P:
         .word .Lmemset_pow64, 172, .Lmemset_srl_b6_P_to_N
-        .word .Lmemset_npow16, 180, .+4
+        .word .Lmemset_npow16, 188, .+4
         .word 12, 12, .Lmemset_srl_b5_P
 .Lmemset_srl_b6_P_to_N:
         .word 12, 12, .Lmemset_srl_b5_N
 .Lmemset_srl_b6_N:
         .word .Lmemset_npow64, 172, .Lmemset_srl_b6_N_to_N
-        .word .Lmemset_npow16, 180, .+4
+        .word .Lmemset_npow16, 188, .+4
         .word 12, 12, .Lmemset_srl_b5_P
 .Lmemset_srl_b6_N_to_N:
         .word 12, 12, .Lmemset_srl_b5_N
 .Lmemset_srl_b5_P:
         .word .Lmemset_pow32, 172, .Lmemset_srl_b5_P_to_N
-        .word .Lmemset_npow8, 180, .+4
+        .word .Lmemset_npow8, 188, .+4
         .word 12, 12, .Lmemset_srl_b4_P
 .Lmemset_srl_b5_P_to_N:
         .word 12, 12, .Lmemset_srl_b4_N
 .Lmemset_srl_b5_N:
         .word .Lmemset_npow32, 172, .Lmemset_srl_b5_N_to_N
-        .word .Lmemset_npow8, 180, .+4
+        .word .Lmemset_npow8, 188, .+4
         .word 12, 12, .Lmemset_srl_b4_P
 .Lmemset_srl_b5_N_to_N:
         .word 12, 12, .Lmemset_srl_b4_N
 .Lmemset_srl_b4_P:
         .word .Lmemset_pow16, 172, .Lmemset_srl_b4_P_to_N
-        .word .Lmemset_npow4, 180, .+4
+        .word .Lmemset_npow4, 188, .+4
         .word 12, 12, .Lmemset_srl_b3_P
 .Lmemset_srl_b4_P_to_N:
         .word 12, 12, .Lmemset_srl_b3_N
 .Lmemset_srl_b4_N:
         .word .Lmemset_npow16, 172, .Lmemset_srl_b4_N_to_N
-        .word .Lmemset_npow4, 180, .+4
+        .word .Lmemset_npow4, 188, .+4
         .word 12, 12, .Lmemset_srl_b3_P
 .Lmemset_srl_b4_N_to_N:
         .word 12, 12, .Lmemset_srl_b3_N
 .Lmemset_srl_b3_P:
         .word .Lmemset_pow8, 172, .Lmemset_srl_b3_P_to_N
-        .word .Lmemset_npow2, 180, .+4
+        .word .Lmemset_npow2, 188, .+4
         .word 12, 12, .Lmemset_srl_b2_P
 .Lmemset_srl_b3_P_to_N:
         .word 12, 12, .Lmemset_srl_b2_N
 .Lmemset_srl_b3_N:
         .word .Lmemset_npow8, 172, .Lmemset_srl_b3_N_to_N
-        .word .Lmemset_npow2, 180, .+4
+        .word .Lmemset_npow2, 188, .+4
         .word 12, 12, .Lmemset_srl_b2_P
 .Lmemset_srl_b3_N_to_N:
         .word 12, 12, .Lmemset_srl_b2_N
 .Lmemset_srl_b2_P:
         .word .Lmemset_pow4, 172, .Lmemset_srl_b2_P_to_N
-        .word .Lmemset_npow1, 180, .+4
+        .word .Lmemset_npow1, 188, .+4
         .word 12, 12, .Lmemset_srl_done
 .Lmemset_srl_b2_P_to_N:
         .word 12, 12, .Lmemset_srl_done
 .Lmemset_srl_b2_N:
         .word .Lmemset_npow4, 172, .Lmemset_srl_b2_N_to_N
-        .word .Lmemset_npow1, 180, .+4
+        .word .Lmemset_npow1, 188, .+4
         .word 12, 12, .Lmemset_srl_done
 .Lmemset_srl_b2_N_to_N:
         .word 12, 12, .Lmemset_srl_done
 .Lmemset_srl_done:
         .word 12, 12, .+4
-        .word 12, 12, .+4
-        .word 188, 188, .+4
-        .word 180, 12, .+4
-        .word 12, 188, .+4
-        .word 12, 12, .+4
-        .word 100, 100, .+4
-        .word 192, 12, .+4
-        .word 12, 100, .+4
-        .word 12, 12, .+4
-        .word 104, 104, .+4
-        .word 196, 12, .+4
-        .word 12, 104, .+4
-        .word 12, 12, .+4
-        .word 192, 192, .+4
-        .word 100, 12, .+4
-        .word 12, 192, .+4
-        .word 12, 12, .+4
-        .word 196, 196, .+4
-        .word 104, 12, .+4
-        .word 12, 196, .+4
-        .word 12, 12, .+4
-        .word 100, 100, .+4
-        .word 104, 12, .+4
-        .word 12, 100, .+4
-        .word 12, 12, .+4
-        .word 104, 104, .+4
-        .word .Lmemset_pattern_mult, 12, .+4
-        .word 12, 104, .+4
-        .word .Lmemset_c4, 16, .+4
-        .word 18, 18, .+4
-        .word 12, 12, .+4
-        .word .Lmemset_mul_ret_const, 12, .+4
-        .word 12, 18, .+4
-        .word 12, 12, __subleq_mul
-.Lmemset_mul_ret:
         .word 164, 164, .+4
+        .word 104, 12, .+4
+        .word 12, 164, .+4
         .word 12, 12, .+4
-        .word 96, 12, .+4
+        .word 168, 168, .+4
+        .word 104, 12, .+4
+        .word 12, 168, .+4
+.Lmemset_pat_shl8_dbl0:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemset_pat_shl8_dbl1:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemset_pat_shl8_dbl2:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemset_pat_shl8_dbl3:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemset_pat_shl8_dbl4:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemset_pat_shl8_dbl5:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemset_pat_shl8_dbl6:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemset_pat_shl8_dbl7:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+.Lmemset_pat_shl8_done:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 164, .+4
+        .word 12, 12, .+4
+        .word 168, 168, .+4
+        .word 164, 12, .+4
+        .word 12, 168, .+4
+.Lmemset_pat_shl16_dbl0:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemset_pat_shl16_dbl1:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemset_pat_shl16_dbl2:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemset_pat_shl16_dbl3:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemset_pat_shl16_dbl4:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemset_pat_shl16_dbl5:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemset_pat_shl16_dbl6:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemset_pat_shl16_dbl7:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemset_pat_shl16_dbl8:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemset_pat_shl16_dbl9:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemset_pat_shl16_dbl10:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemset_pat_shl16_dbl11:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemset_pat_shl16_dbl12:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemset_pat_shl16_dbl13:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemset_pat_shl16_dbl14:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemset_pat_shl16_dbl15:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+.Lmemset_pat_shl16_done:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
         .word 12, 164, .+4
         .word 160, 160, .+4
         .word 164, 160, .+4
-        .word 12, 12, .+4
-        .word 100, 100, .+4
-        .word 192, 12, .+4
-        .word 12, 100, .+4
-        .word 12, 12, .+4
-        .word 104, 104, .+4
-        .word 196, 12, .+4
-        .word 12, 104, .+4
         .word 12, 12, .Lmemset_body_loop
 .Lmemset_body_loop:
-        .word .Lmemset_zero, 188, .Lmemset_tail_setup
-        .word 168, 168, .+4
-        .word 188, 12, .+4
-        .word 12, 168, .+4
-        .word 12, 12, .+4
-        .word .Lmemset_c8, 168, .Lmemset_body_single
-.Lmemset_body_unrolled:
+        .word .Lmemset_c16, 188, .Lmemset_body_fixup
         .word 102, 102, .+4
         .word 160, 102, .+4
         .word .Lmemset_n4, 100, .+4
@@ -61575,16 +60754,42 @@ __subleq_memset:
         .word 102, 102, .+4
         .word 160, 102, .+4
         .word .Lmemset_n4, 100, .+4
-        .word .Lmemset_c32, 108, .+4
-        .word .Lmemset_c8, 188, .Lmemset_body_loop
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lmemset_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lmemset_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lmemset_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lmemset_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lmemset_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lmemset_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lmemset_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lmemset_n4, 100, .+4
+        .word .Lmemset_c64, 108, .+4
         .word 12, 12, .Lmemset_body_loop
+.Lmemset_body_fixup:
+        .word .Lmemset_n16, 188, .+4
+        .word .Lmemset_zero, 188, .Lmemset_tail_setup
 .Lmemset_body_single:
         .word 102, 102, .+4
         .word 160, 102, .+4
         .word .Lmemset_n4, 100, .+4
         .word .Lmemset_c4, 108, .+4
-        .word .Lmemset_c1, 188, .+4
-        .word 12, 12, .Lmemset_body_loop
+        .word .Lmemset_c1, 188, .Lmemset_tail_setup
+        .word 12, 12, .Lmemset_body_single
 .Lmemset_tail_setup:
 .Lmemset_tail_loop:
         .word .Lmemset_zero, 108, .Lmemset_done
@@ -61631,302 +60836,71 @@ __subleq_memset:
         .word 12, 12, .Lmemset_fz_align_bias
 .Lmemset_fz_align_sign_ambig:
         .word .Lmemset_n1, 184, .+4
-        .word 144, 184, .Lmemset_fz_align_bias
+        .word 144, 184, .Lmemset_fz_align_sign_intmin
+        .word 12, 12, .Lmemset_fz_align_bias
+.Lmemset_fz_align_sign_intmin:
         .word .Lmemset_min, 180, .+4
 .Lmemset_fz_align_bias:
         .word 184, 184, .+4
         .word .Lmemset_n1, 180, .+4
-        .word 12, 12, .Lmemset_fz_align_b30_P
 .Lmemset_fz_align_b30_P:
         .word .Lmemset_pow1073741824, 180, .Lmemset_fz_align_b30_P_to_N
-        .word 12, 12, .Lmemset_fz_align_b29_P
-.Lmemset_fz_align_b30_P_to_N:
-        .word 12, 12, .Lmemset_fz_align_b29_N
-.Lmemset_fz_align_b30_N:
-        .word .Lmemset_npow1073741824, 180, .Lmemset_fz_align_b30_N_to_N
-        .word 12, 12, .Lmemset_fz_align_b29_P
-.Lmemset_fz_align_b30_N_to_N:
-        .word 12, 12, .Lmemset_fz_align_b29_N
 .Lmemset_fz_align_b29_P:
         .word .Lmemset_pow536870912, 180, .Lmemset_fz_align_b29_P_to_N
-        .word 12, 12, .Lmemset_fz_align_b28_P
-.Lmemset_fz_align_b29_P_to_N:
-        .word 12, 12, .Lmemset_fz_align_b28_N
-.Lmemset_fz_align_b29_N:
-        .word .Lmemset_npow536870912, 180, .Lmemset_fz_align_b29_N_to_N
-        .word 12, 12, .Lmemset_fz_align_b28_P
-.Lmemset_fz_align_b29_N_to_N:
-        .word 12, 12, .Lmemset_fz_align_b28_N
 .Lmemset_fz_align_b28_P:
         .word .Lmemset_pow268435456, 180, .Lmemset_fz_align_b28_P_to_N
-        .word 12, 12, .Lmemset_fz_align_b27_P
-.Lmemset_fz_align_b28_P_to_N:
-        .word 12, 12, .Lmemset_fz_align_b27_N
-.Lmemset_fz_align_b28_N:
-        .word .Lmemset_npow268435456, 180, .Lmemset_fz_align_b28_N_to_N
-        .word 12, 12, .Lmemset_fz_align_b27_P
-.Lmemset_fz_align_b28_N_to_N:
-        .word 12, 12, .Lmemset_fz_align_b27_N
 .Lmemset_fz_align_b27_P:
         .word .Lmemset_pow134217728, 180, .Lmemset_fz_align_b27_P_to_N
-        .word 12, 12, .Lmemset_fz_align_b26_P
-.Lmemset_fz_align_b27_P_to_N:
-        .word 12, 12, .Lmemset_fz_align_b26_N
-.Lmemset_fz_align_b27_N:
-        .word .Lmemset_npow134217728, 180, .Lmemset_fz_align_b27_N_to_N
-        .word 12, 12, .Lmemset_fz_align_b26_P
-.Lmemset_fz_align_b27_N_to_N:
-        .word 12, 12, .Lmemset_fz_align_b26_N
 .Lmemset_fz_align_b26_P:
         .word .Lmemset_pow67108864, 180, .Lmemset_fz_align_b26_P_to_N
-        .word 12, 12, .Lmemset_fz_align_b25_P
-.Lmemset_fz_align_b26_P_to_N:
-        .word 12, 12, .Lmemset_fz_align_b25_N
-.Lmemset_fz_align_b26_N:
-        .word .Lmemset_npow67108864, 180, .Lmemset_fz_align_b26_N_to_N
-        .word 12, 12, .Lmemset_fz_align_b25_P
-.Lmemset_fz_align_b26_N_to_N:
-        .word 12, 12, .Lmemset_fz_align_b25_N
 .Lmemset_fz_align_b25_P:
         .word .Lmemset_pow33554432, 180, .Lmemset_fz_align_b25_P_to_N
-        .word 12, 12, .Lmemset_fz_align_b24_P
-.Lmemset_fz_align_b25_P_to_N:
-        .word 12, 12, .Lmemset_fz_align_b24_N
-.Lmemset_fz_align_b25_N:
-        .word .Lmemset_npow33554432, 180, .Lmemset_fz_align_b25_N_to_N
-        .word 12, 12, .Lmemset_fz_align_b24_P
-.Lmemset_fz_align_b25_N_to_N:
-        .word 12, 12, .Lmemset_fz_align_b24_N
 .Lmemset_fz_align_b24_P:
         .word .Lmemset_pow16777216, 180, .Lmemset_fz_align_b24_P_to_N
-        .word 12, 12, .Lmemset_fz_align_b23_P
-.Lmemset_fz_align_b24_P_to_N:
-        .word 12, 12, .Lmemset_fz_align_b23_N
-.Lmemset_fz_align_b24_N:
-        .word .Lmemset_npow16777216, 180, .Lmemset_fz_align_b24_N_to_N
-        .word 12, 12, .Lmemset_fz_align_b23_P
-.Lmemset_fz_align_b24_N_to_N:
-        .word 12, 12, .Lmemset_fz_align_b23_N
 .Lmemset_fz_align_b23_P:
         .word .Lmemset_pow8388608, 180, .Lmemset_fz_align_b23_P_to_N
-        .word 12, 12, .Lmemset_fz_align_b22_P
-.Lmemset_fz_align_b23_P_to_N:
-        .word 12, 12, .Lmemset_fz_align_b22_N
-.Lmemset_fz_align_b23_N:
-        .word .Lmemset_npow8388608, 180, .Lmemset_fz_align_b23_N_to_N
-        .word 12, 12, .Lmemset_fz_align_b22_P
-.Lmemset_fz_align_b23_N_to_N:
-        .word 12, 12, .Lmemset_fz_align_b22_N
 .Lmemset_fz_align_b22_P:
         .word .Lmemset_pow4194304, 180, .Lmemset_fz_align_b22_P_to_N
-        .word 12, 12, .Lmemset_fz_align_b21_P
-.Lmemset_fz_align_b22_P_to_N:
-        .word 12, 12, .Lmemset_fz_align_b21_N
-.Lmemset_fz_align_b22_N:
-        .word .Lmemset_npow4194304, 180, .Lmemset_fz_align_b22_N_to_N
-        .word 12, 12, .Lmemset_fz_align_b21_P
-.Lmemset_fz_align_b22_N_to_N:
-        .word 12, 12, .Lmemset_fz_align_b21_N
 .Lmemset_fz_align_b21_P:
         .word .Lmemset_pow2097152, 180, .Lmemset_fz_align_b21_P_to_N
-        .word 12, 12, .Lmemset_fz_align_b20_P
-.Lmemset_fz_align_b21_P_to_N:
-        .word 12, 12, .Lmemset_fz_align_b20_N
-.Lmemset_fz_align_b21_N:
-        .word .Lmemset_npow2097152, 180, .Lmemset_fz_align_b21_N_to_N
-        .word 12, 12, .Lmemset_fz_align_b20_P
-.Lmemset_fz_align_b21_N_to_N:
-        .word 12, 12, .Lmemset_fz_align_b20_N
 .Lmemset_fz_align_b20_P:
         .word .Lmemset_pow1048576, 180, .Lmemset_fz_align_b20_P_to_N
-        .word 12, 12, .Lmemset_fz_align_b19_P
-.Lmemset_fz_align_b20_P_to_N:
-        .word 12, 12, .Lmemset_fz_align_b19_N
-.Lmemset_fz_align_b20_N:
-        .word .Lmemset_npow1048576, 180, .Lmemset_fz_align_b20_N_to_N
-        .word 12, 12, .Lmemset_fz_align_b19_P
-.Lmemset_fz_align_b20_N_to_N:
-        .word 12, 12, .Lmemset_fz_align_b19_N
 .Lmemset_fz_align_b19_P:
         .word .Lmemset_pow524288, 180, .Lmemset_fz_align_b19_P_to_N
-        .word 12, 12, .Lmemset_fz_align_b18_P
-.Lmemset_fz_align_b19_P_to_N:
-        .word 12, 12, .Lmemset_fz_align_b18_N
-.Lmemset_fz_align_b19_N:
-        .word .Lmemset_npow524288, 180, .Lmemset_fz_align_b19_N_to_N
-        .word 12, 12, .Lmemset_fz_align_b18_P
-.Lmemset_fz_align_b19_N_to_N:
-        .word 12, 12, .Lmemset_fz_align_b18_N
 .Lmemset_fz_align_b18_P:
         .word .Lmemset_pow262144, 180, .Lmemset_fz_align_b18_P_to_N
-        .word 12, 12, .Lmemset_fz_align_b17_P
-.Lmemset_fz_align_b18_P_to_N:
-        .word 12, 12, .Lmemset_fz_align_b17_N
-.Lmemset_fz_align_b18_N:
-        .word .Lmemset_npow262144, 180, .Lmemset_fz_align_b18_N_to_N
-        .word 12, 12, .Lmemset_fz_align_b17_P
-.Lmemset_fz_align_b18_N_to_N:
-        .word 12, 12, .Lmemset_fz_align_b17_N
 .Lmemset_fz_align_b17_P:
         .word .Lmemset_pow131072, 180, .Lmemset_fz_align_b17_P_to_N
-        .word 12, 12, .Lmemset_fz_align_b16_P
-.Lmemset_fz_align_b17_P_to_N:
-        .word 12, 12, .Lmemset_fz_align_b16_N
-.Lmemset_fz_align_b17_N:
-        .word .Lmemset_npow131072, 180, .Lmemset_fz_align_b17_N_to_N
-        .word 12, 12, .Lmemset_fz_align_b16_P
-.Lmemset_fz_align_b17_N_to_N:
-        .word 12, 12, .Lmemset_fz_align_b16_N
 .Lmemset_fz_align_b16_P:
         .word .Lmemset_pow65536, 180, .Lmemset_fz_align_b16_P_to_N
-        .word 12, 12, .Lmemset_fz_align_b15_P
-.Lmemset_fz_align_b16_P_to_N:
-        .word 12, 12, .Lmemset_fz_align_b15_N
-.Lmemset_fz_align_b16_N:
-        .word .Lmemset_npow65536, 180, .Lmemset_fz_align_b16_N_to_N
-        .word 12, 12, .Lmemset_fz_align_b15_P
-.Lmemset_fz_align_b16_N_to_N:
-        .word 12, 12, .Lmemset_fz_align_b15_N
 .Lmemset_fz_align_b15_P:
         .word .Lmemset_pow32768, 180, .Lmemset_fz_align_b15_P_to_N
-        .word 12, 12, .Lmemset_fz_align_b14_P
-.Lmemset_fz_align_b15_P_to_N:
-        .word 12, 12, .Lmemset_fz_align_b14_N
-.Lmemset_fz_align_b15_N:
-        .word .Lmemset_npow32768, 180, .Lmemset_fz_align_b15_N_to_N
-        .word 12, 12, .Lmemset_fz_align_b14_P
-.Lmemset_fz_align_b15_N_to_N:
-        .word 12, 12, .Lmemset_fz_align_b14_N
 .Lmemset_fz_align_b14_P:
         .word .Lmemset_pow16384, 180, .Lmemset_fz_align_b14_P_to_N
-        .word 12, 12, .Lmemset_fz_align_b13_P
-.Lmemset_fz_align_b14_P_to_N:
-        .word 12, 12, .Lmemset_fz_align_b13_N
-.Lmemset_fz_align_b14_N:
-        .word .Lmemset_npow16384, 180, .Lmemset_fz_align_b14_N_to_N
-        .word 12, 12, .Lmemset_fz_align_b13_P
-.Lmemset_fz_align_b14_N_to_N:
-        .word 12, 12, .Lmemset_fz_align_b13_N
 .Lmemset_fz_align_b13_P:
         .word .Lmemset_pow8192, 180, .Lmemset_fz_align_b13_P_to_N
-        .word 12, 12, .Lmemset_fz_align_b12_P
-.Lmemset_fz_align_b13_P_to_N:
-        .word 12, 12, .Lmemset_fz_align_b12_N
-.Lmemset_fz_align_b13_N:
-        .word .Lmemset_npow8192, 180, .Lmemset_fz_align_b13_N_to_N
-        .word 12, 12, .Lmemset_fz_align_b12_P
-.Lmemset_fz_align_b13_N_to_N:
-        .word 12, 12, .Lmemset_fz_align_b12_N
 .Lmemset_fz_align_b12_P:
         .word .Lmemset_pow4096, 180, .Lmemset_fz_align_b12_P_to_N
-        .word 12, 12, .Lmemset_fz_align_b11_P
-.Lmemset_fz_align_b12_P_to_N:
-        .word 12, 12, .Lmemset_fz_align_b11_N
-.Lmemset_fz_align_b12_N:
-        .word .Lmemset_npow4096, 180, .Lmemset_fz_align_b12_N_to_N
-        .word 12, 12, .Lmemset_fz_align_b11_P
-.Lmemset_fz_align_b12_N_to_N:
-        .word 12, 12, .Lmemset_fz_align_b11_N
 .Lmemset_fz_align_b11_P:
         .word .Lmemset_pow2048, 180, .Lmemset_fz_align_b11_P_to_N
-        .word 12, 12, .Lmemset_fz_align_b10_P
-.Lmemset_fz_align_b11_P_to_N:
-        .word 12, 12, .Lmemset_fz_align_b10_N
-.Lmemset_fz_align_b11_N:
-        .word .Lmemset_npow2048, 180, .Lmemset_fz_align_b11_N_to_N
-        .word 12, 12, .Lmemset_fz_align_b10_P
-.Lmemset_fz_align_b11_N_to_N:
-        .word 12, 12, .Lmemset_fz_align_b10_N
 .Lmemset_fz_align_b10_P:
         .word .Lmemset_pow1024, 180, .Lmemset_fz_align_b10_P_to_N
-        .word 12, 12, .Lmemset_fz_align_b9_P
-.Lmemset_fz_align_b10_P_to_N:
-        .word 12, 12, .Lmemset_fz_align_b9_N
-.Lmemset_fz_align_b10_N:
-        .word .Lmemset_npow1024, 180, .Lmemset_fz_align_b10_N_to_N
-        .word 12, 12, .Lmemset_fz_align_b9_P
-.Lmemset_fz_align_b10_N_to_N:
-        .word 12, 12, .Lmemset_fz_align_b9_N
 .Lmemset_fz_align_b9_P:
         .word .Lmemset_pow512, 180, .Lmemset_fz_align_b9_P_to_N
-        .word 12, 12, .Lmemset_fz_align_b8_P
-.Lmemset_fz_align_b9_P_to_N:
-        .word 12, 12, .Lmemset_fz_align_b8_N
-.Lmemset_fz_align_b9_N:
-        .word .Lmemset_npow512, 180, .Lmemset_fz_align_b9_N_to_N
-        .word 12, 12, .Lmemset_fz_align_b8_P
-.Lmemset_fz_align_b9_N_to_N:
-        .word 12, 12, .Lmemset_fz_align_b8_N
 .Lmemset_fz_align_b8_P:
         .word .Lmemset_pow256, 180, .Lmemset_fz_align_b8_P_to_N
-        .word 12, 12, .Lmemset_fz_align_b7_P
-.Lmemset_fz_align_b8_P_to_N:
-        .word 12, 12, .Lmemset_fz_align_b7_N
-.Lmemset_fz_align_b8_N:
-        .word .Lmemset_npow256, 180, .Lmemset_fz_align_b8_N_to_N
-        .word 12, 12, .Lmemset_fz_align_b7_P
-.Lmemset_fz_align_b8_N_to_N:
-        .word 12, 12, .Lmemset_fz_align_b7_N
 .Lmemset_fz_align_b7_P:
         .word .Lmemset_pow128, 180, .Lmemset_fz_align_b7_P_to_N
-        .word 12, 12, .Lmemset_fz_align_b6_P
-.Lmemset_fz_align_b7_P_to_N:
-        .word 12, 12, .Lmemset_fz_align_b6_N
-.Lmemset_fz_align_b7_N:
-        .word .Lmemset_npow128, 180, .Lmemset_fz_align_b7_N_to_N
-        .word 12, 12, .Lmemset_fz_align_b6_P
-.Lmemset_fz_align_b7_N_to_N:
-        .word 12, 12, .Lmemset_fz_align_b6_N
 .Lmemset_fz_align_b6_P:
         .word .Lmemset_pow64, 180, .Lmemset_fz_align_b6_P_to_N
-        .word 12, 12, .Lmemset_fz_align_b5_P
-.Lmemset_fz_align_b6_P_to_N:
-        .word 12, 12, .Lmemset_fz_align_b5_N
-.Lmemset_fz_align_b6_N:
-        .word .Lmemset_npow64, 180, .Lmemset_fz_align_b6_N_to_N
-        .word 12, 12, .Lmemset_fz_align_b5_P
-.Lmemset_fz_align_b6_N_to_N:
-        .word 12, 12, .Lmemset_fz_align_b5_N
 .Lmemset_fz_align_b5_P:
         .word .Lmemset_pow32, 180, .Lmemset_fz_align_b5_P_to_N
-        .word 12, 12, .Lmemset_fz_align_b4_P
-.Lmemset_fz_align_b5_P_to_N:
-        .word 12, 12, .Lmemset_fz_align_b4_N
-.Lmemset_fz_align_b5_N:
-        .word .Lmemset_npow32, 180, .Lmemset_fz_align_b5_N_to_N
-        .word 12, 12, .Lmemset_fz_align_b4_P
-.Lmemset_fz_align_b5_N_to_N:
-        .word 12, 12, .Lmemset_fz_align_b4_N
 .Lmemset_fz_align_b4_P:
         .word .Lmemset_pow16, 180, .Lmemset_fz_align_b4_P_to_N
-        .word 12, 12, .Lmemset_fz_align_b3_P
-.Lmemset_fz_align_b4_P_to_N:
-        .word 12, 12, .Lmemset_fz_align_b3_N
-.Lmemset_fz_align_b4_N:
-        .word .Lmemset_npow16, 180, .Lmemset_fz_align_b4_N_to_N
-        .word 12, 12, .Lmemset_fz_align_b3_P
-.Lmemset_fz_align_b4_N_to_N:
-        .word 12, 12, .Lmemset_fz_align_b3_N
 .Lmemset_fz_align_b3_P:
         .word .Lmemset_pow8, 180, .Lmemset_fz_align_b3_P_to_N
-        .word 12, 12, .Lmemset_fz_align_b2_P
-.Lmemset_fz_align_b3_P_to_N:
-        .word 12, 12, .Lmemset_fz_align_b2_N
-.Lmemset_fz_align_b3_N:
-        .word .Lmemset_npow8, 180, .Lmemset_fz_align_b3_N_to_N
-        .word 12, 12, .Lmemset_fz_align_b2_P
-.Lmemset_fz_align_b3_N_to_N:
-        .word 12, 12, .Lmemset_fz_align_b2_N
 .Lmemset_fz_align_b2_P:
         .word .Lmemset_pow4, 180, .Lmemset_fz_align_b2_P_to_N
-        .word 12, 12, .Lmemset_fz_align_b1_P
-.Lmemset_fz_align_b2_P_to_N:
-        .word 12, 12, .Lmemset_fz_align_b1_N
-.Lmemset_fz_align_b2_N:
-        .word .Lmemset_npow4, 180, .Lmemset_fz_align_b2_N_to_N
-        .word 12, 12, .Lmemset_fz_align_b1_P
-.Lmemset_fz_align_b2_N_to_N:
-        .word 12, 12, .Lmemset_fz_align_b1_N
 .Lmemset_fz_align_b1_P:
         .word .Lmemset_pow2, 180, .Lmemset_fz_align_b1_P_to_N
         .word .Lmemset_pow2, 184, .Lmemset_fz_align_b0_P
@@ -61947,6 +60921,209 @@ __subleq_memset:
         .word .Lmemset_pow1, 184, .Lmemset_fz_align_done
 .Lmemset_fz_align_b0_N_to_N:
         .word 12, 12, .Lmemset_fz_align_done
+.Lmemset_fz_align_b30_P_to_N:
+        .word 12, 12, .Lmemset_fz_align_b29_N
+.Lmemset_fz_align_b30_N:
+        .word .Lmemset_npow1073741824, 180, .Lmemset_fz_align_b30_N_to_N
+        .word 12, 12, .Lmemset_fz_align_b29_P
+.Lmemset_fz_align_b30_N_to_N:
+        .word 12, 12, .Lmemset_fz_align_b29_N
+.Lmemset_fz_align_b29_P_to_N:
+        .word 12, 12, .Lmemset_fz_align_b28_N
+.Lmemset_fz_align_b29_N:
+        .word .Lmemset_npow536870912, 180, .Lmemset_fz_align_b29_N_to_N
+        .word 12, 12, .Lmemset_fz_align_b28_P
+.Lmemset_fz_align_b29_N_to_N:
+        .word 12, 12, .Lmemset_fz_align_b28_N
+.Lmemset_fz_align_b28_P_to_N:
+        .word 12, 12, .Lmemset_fz_align_b27_N
+.Lmemset_fz_align_b28_N:
+        .word .Lmemset_npow268435456, 180, .Lmemset_fz_align_b28_N_to_N
+        .word 12, 12, .Lmemset_fz_align_b27_P
+.Lmemset_fz_align_b28_N_to_N:
+        .word 12, 12, .Lmemset_fz_align_b27_N
+.Lmemset_fz_align_b27_P_to_N:
+        .word 12, 12, .Lmemset_fz_align_b26_N
+.Lmemset_fz_align_b27_N:
+        .word .Lmemset_npow134217728, 180, .Lmemset_fz_align_b27_N_to_N
+        .word 12, 12, .Lmemset_fz_align_b26_P
+.Lmemset_fz_align_b27_N_to_N:
+        .word 12, 12, .Lmemset_fz_align_b26_N
+.Lmemset_fz_align_b26_P_to_N:
+        .word 12, 12, .Lmemset_fz_align_b25_N
+.Lmemset_fz_align_b26_N:
+        .word .Lmemset_npow67108864, 180, .Lmemset_fz_align_b26_N_to_N
+        .word 12, 12, .Lmemset_fz_align_b25_P
+.Lmemset_fz_align_b26_N_to_N:
+        .word 12, 12, .Lmemset_fz_align_b25_N
+.Lmemset_fz_align_b25_P_to_N:
+        .word 12, 12, .Lmemset_fz_align_b24_N
+.Lmemset_fz_align_b25_N:
+        .word .Lmemset_npow33554432, 180, .Lmemset_fz_align_b25_N_to_N
+        .word 12, 12, .Lmemset_fz_align_b24_P
+.Lmemset_fz_align_b25_N_to_N:
+        .word 12, 12, .Lmemset_fz_align_b24_N
+.Lmemset_fz_align_b24_P_to_N:
+        .word 12, 12, .Lmemset_fz_align_b23_N
+.Lmemset_fz_align_b24_N:
+        .word .Lmemset_npow16777216, 180, .Lmemset_fz_align_b24_N_to_N
+        .word 12, 12, .Lmemset_fz_align_b23_P
+.Lmemset_fz_align_b24_N_to_N:
+        .word 12, 12, .Lmemset_fz_align_b23_N
+.Lmemset_fz_align_b23_P_to_N:
+        .word 12, 12, .Lmemset_fz_align_b22_N
+.Lmemset_fz_align_b23_N:
+        .word .Lmemset_npow8388608, 180, .Lmemset_fz_align_b23_N_to_N
+        .word 12, 12, .Lmemset_fz_align_b22_P
+.Lmemset_fz_align_b23_N_to_N:
+        .word 12, 12, .Lmemset_fz_align_b22_N
+.Lmemset_fz_align_b22_P_to_N:
+        .word 12, 12, .Lmemset_fz_align_b21_N
+.Lmemset_fz_align_b22_N:
+        .word .Lmemset_npow4194304, 180, .Lmemset_fz_align_b22_N_to_N
+        .word 12, 12, .Lmemset_fz_align_b21_P
+.Lmemset_fz_align_b22_N_to_N:
+        .word 12, 12, .Lmemset_fz_align_b21_N
+.Lmemset_fz_align_b21_P_to_N:
+        .word 12, 12, .Lmemset_fz_align_b20_N
+.Lmemset_fz_align_b21_N:
+        .word .Lmemset_npow2097152, 180, .Lmemset_fz_align_b21_N_to_N
+        .word 12, 12, .Lmemset_fz_align_b20_P
+.Lmemset_fz_align_b21_N_to_N:
+        .word 12, 12, .Lmemset_fz_align_b20_N
+.Lmemset_fz_align_b20_P_to_N:
+        .word 12, 12, .Lmemset_fz_align_b19_N
+.Lmemset_fz_align_b20_N:
+        .word .Lmemset_npow1048576, 180, .Lmemset_fz_align_b20_N_to_N
+        .word 12, 12, .Lmemset_fz_align_b19_P
+.Lmemset_fz_align_b20_N_to_N:
+        .word 12, 12, .Lmemset_fz_align_b19_N
+.Lmemset_fz_align_b19_P_to_N:
+        .word 12, 12, .Lmemset_fz_align_b18_N
+.Lmemset_fz_align_b19_N:
+        .word .Lmemset_npow524288, 180, .Lmemset_fz_align_b19_N_to_N
+        .word 12, 12, .Lmemset_fz_align_b18_P
+.Lmemset_fz_align_b19_N_to_N:
+        .word 12, 12, .Lmemset_fz_align_b18_N
+.Lmemset_fz_align_b18_P_to_N:
+        .word 12, 12, .Lmemset_fz_align_b17_N
+.Lmemset_fz_align_b18_N:
+        .word .Lmemset_npow262144, 180, .Lmemset_fz_align_b18_N_to_N
+        .word 12, 12, .Lmemset_fz_align_b17_P
+.Lmemset_fz_align_b18_N_to_N:
+        .word 12, 12, .Lmemset_fz_align_b17_N
+.Lmemset_fz_align_b17_P_to_N:
+        .word 12, 12, .Lmemset_fz_align_b16_N
+.Lmemset_fz_align_b17_N:
+        .word .Lmemset_npow131072, 180, .Lmemset_fz_align_b17_N_to_N
+        .word 12, 12, .Lmemset_fz_align_b16_P
+.Lmemset_fz_align_b17_N_to_N:
+        .word 12, 12, .Lmemset_fz_align_b16_N
+.Lmemset_fz_align_b16_P_to_N:
+        .word 12, 12, .Lmemset_fz_align_b15_N
+.Lmemset_fz_align_b16_N:
+        .word .Lmemset_npow65536, 180, .Lmemset_fz_align_b16_N_to_N
+        .word 12, 12, .Lmemset_fz_align_b15_P
+.Lmemset_fz_align_b16_N_to_N:
+        .word 12, 12, .Lmemset_fz_align_b15_N
+.Lmemset_fz_align_b15_P_to_N:
+        .word 12, 12, .Lmemset_fz_align_b14_N
+.Lmemset_fz_align_b15_N:
+        .word .Lmemset_npow32768, 180, .Lmemset_fz_align_b15_N_to_N
+        .word 12, 12, .Lmemset_fz_align_b14_P
+.Lmemset_fz_align_b15_N_to_N:
+        .word 12, 12, .Lmemset_fz_align_b14_N
+.Lmemset_fz_align_b14_P_to_N:
+        .word 12, 12, .Lmemset_fz_align_b13_N
+.Lmemset_fz_align_b14_N:
+        .word .Lmemset_npow16384, 180, .Lmemset_fz_align_b14_N_to_N
+        .word 12, 12, .Lmemset_fz_align_b13_P
+.Lmemset_fz_align_b14_N_to_N:
+        .word 12, 12, .Lmemset_fz_align_b13_N
+.Lmemset_fz_align_b13_P_to_N:
+        .word 12, 12, .Lmemset_fz_align_b12_N
+.Lmemset_fz_align_b13_N:
+        .word .Lmemset_npow8192, 180, .Lmemset_fz_align_b13_N_to_N
+        .word 12, 12, .Lmemset_fz_align_b12_P
+.Lmemset_fz_align_b13_N_to_N:
+        .word 12, 12, .Lmemset_fz_align_b12_N
+.Lmemset_fz_align_b12_P_to_N:
+        .word 12, 12, .Lmemset_fz_align_b11_N
+.Lmemset_fz_align_b12_N:
+        .word .Lmemset_npow4096, 180, .Lmemset_fz_align_b12_N_to_N
+        .word 12, 12, .Lmemset_fz_align_b11_P
+.Lmemset_fz_align_b12_N_to_N:
+        .word 12, 12, .Lmemset_fz_align_b11_N
+.Lmemset_fz_align_b11_P_to_N:
+        .word 12, 12, .Lmemset_fz_align_b10_N
+.Lmemset_fz_align_b11_N:
+        .word .Lmemset_npow2048, 180, .Lmemset_fz_align_b11_N_to_N
+        .word 12, 12, .Lmemset_fz_align_b10_P
+.Lmemset_fz_align_b11_N_to_N:
+        .word 12, 12, .Lmemset_fz_align_b10_N
+.Lmemset_fz_align_b10_P_to_N:
+        .word 12, 12, .Lmemset_fz_align_b9_N
+.Lmemset_fz_align_b10_N:
+        .word .Lmemset_npow1024, 180, .Lmemset_fz_align_b10_N_to_N
+        .word 12, 12, .Lmemset_fz_align_b9_P
+.Lmemset_fz_align_b10_N_to_N:
+        .word 12, 12, .Lmemset_fz_align_b9_N
+.Lmemset_fz_align_b9_P_to_N:
+        .word 12, 12, .Lmemset_fz_align_b8_N
+.Lmemset_fz_align_b9_N:
+        .word .Lmemset_npow512, 180, .Lmemset_fz_align_b9_N_to_N
+        .word 12, 12, .Lmemset_fz_align_b8_P
+.Lmemset_fz_align_b9_N_to_N:
+        .word 12, 12, .Lmemset_fz_align_b8_N
+.Lmemset_fz_align_b8_P_to_N:
+        .word 12, 12, .Lmemset_fz_align_b7_N
+.Lmemset_fz_align_b8_N:
+        .word .Lmemset_npow256, 180, .Lmemset_fz_align_b8_N_to_N
+        .word 12, 12, .Lmemset_fz_align_b7_P
+.Lmemset_fz_align_b8_N_to_N:
+        .word 12, 12, .Lmemset_fz_align_b7_N
+.Lmemset_fz_align_b7_P_to_N:
+        .word 12, 12, .Lmemset_fz_align_b6_N
+.Lmemset_fz_align_b7_N:
+        .word .Lmemset_npow128, 180, .Lmemset_fz_align_b7_N_to_N
+        .word 12, 12, .Lmemset_fz_align_b6_P
+.Lmemset_fz_align_b7_N_to_N:
+        .word 12, 12, .Lmemset_fz_align_b6_N
+.Lmemset_fz_align_b6_P_to_N:
+        .word 12, 12, .Lmemset_fz_align_b5_N
+.Lmemset_fz_align_b6_N:
+        .word .Lmemset_npow64, 180, .Lmemset_fz_align_b6_N_to_N
+        .word 12, 12, .Lmemset_fz_align_b5_P
+.Lmemset_fz_align_b6_N_to_N:
+        .word 12, 12, .Lmemset_fz_align_b5_N
+.Lmemset_fz_align_b5_P_to_N:
+        .word 12, 12, .Lmemset_fz_align_b4_N
+.Lmemset_fz_align_b5_N:
+        .word .Lmemset_npow32, 180, .Lmemset_fz_align_b5_N_to_N
+        .word 12, 12, .Lmemset_fz_align_b4_P
+.Lmemset_fz_align_b5_N_to_N:
+        .word 12, 12, .Lmemset_fz_align_b4_N
+.Lmemset_fz_align_b4_P_to_N:
+        .word 12, 12, .Lmemset_fz_align_b3_N
+.Lmemset_fz_align_b4_N:
+        .word .Lmemset_npow16, 180, .Lmemset_fz_align_b4_N_to_N
+        .word 12, 12, .Lmemset_fz_align_b3_P
+.Lmemset_fz_align_b4_N_to_N:
+        .word 12, 12, .Lmemset_fz_align_b3_N
+.Lmemset_fz_align_b3_P_to_N:
+        .word 12, 12, .Lmemset_fz_align_b2_N
+.Lmemset_fz_align_b3_N:
+        .word .Lmemset_npow8, 180, .Lmemset_fz_align_b3_N_to_N
+        .word 12, 12, .Lmemset_fz_align_b2_P
+.Lmemset_fz_align_b3_N_to_N:
+        .word 12, 12, .Lmemset_fz_align_b2_N
+.Lmemset_fz_align_b2_P_to_N:
+        .word 12, 12, .Lmemset_fz_align_b1_N
+.Lmemset_fz_align_b2_N:
+        .word .Lmemset_npow4, 180, .Lmemset_fz_align_b2_N_to_N
+        .word 12, 12, .Lmemset_fz_align_b1_P
+.Lmemset_fz_align_b2_N_to_N:
+        .word 12, 12, .Lmemset_fz_align_b1_N
 .Lmemset_fz_align_done:
         .word 180, 180, .+4
         .word 184, 180, .+4
@@ -61973,23 +61150,15 @@ __subleq_memset:
         .word 12, 12, .Lmemset_fast_zero_head
 .Lmemset_fz_body_setup:
         .word 12, 12, .+4
-        .word 192, 192, .+4
-        .word 100, 12, .+4
-        .word 12, 192, .+4
-        .word 12, 12, .+4
-        .word 160, 160, .+4
-        .word 108, 12, .+4
-        .word 12, 160, .+4
-        .word 12, 12, .+4
         .word 172, 172, .+4
-        .word 160, 12, .+4
+        .word 108, 12, .+4
         .word 12, 172, .+4
-        .word 180, 180, .+4
+        .word 188, 188, .+4
 .Lmemset_fz_srl_b31:
         .word 176, 176, .+4
         .word 172, 176, .+4
         .word 144, 176, .Lmemset_fz_srl_b30_check
-        .word .Lmemset_npow536870912, 180, .+4
+        .word .Lmemset_npow536870912, 188, .+4
         .word .Lmemset_min, 172, .+4
 .Lmemset_fz_srl_b30_check:
         .word 176, 176, .+4
@@ -61997,366 +61166,351 @@ __subleq_memset:
         .word .Lmemset_npow1073741824, 176, .Lmemset_fz_srl_b30_set
         .word 12, 12, .Lmemset_fz_srl_lattice_start
 .Lmemset_fz_srl_b30_set:
-        .word .Lmemset_npow268435456, 180, .+4
+        .word .Lmemset_npow268435456, 188, .+4
         .word .Lmemset_pow1073741824, 172, .+4
 .Lmemset_fz_srl_lattice_start:
         .word .Lmemset_n1, 172, .+4
 .Lmemset_fz_srl_b29_P:
         .word .Lmemset_pow536870912, 172, .Lmemset_fz_srl_b29_P_to_N
-        .word .Lmemset_npow134217728, 180, .+4
+        .word .Lmemset_npow134217728, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b28_P
 .Lmemset_fz_srl_b29_P_to_N:
         .word 12, 12, .Lmemset_fz_srl_b28_N
 .Lmemset_fz_srl_b29_N:
         .word .Lmemset_npow536870912, 172, .Lmemset_fz_srl_b29_N_to_N
-        .word .Lmemset_npow134217728, 180, .+4
+        .word .Lmemset_npow134217728, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b28_P
 .Lmemset_fz_srl_b29_N_to_N:
         .word 12, 12, .Lmemset_fz_srl_b28_N
 .Lmemset_fz_srl_b28_P:
         .word .Lmemset_pow268435456, 172, .Lmemset_fz_srl_b28_P_to_N
-        .word .Lmemset_npow67108864, 180, .+4
+        .word .Lmemset_npow67108864, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b27_P
 .Lmemset_fz_srl_b28_P_to_N:
         .word 12, 12, .Lmemset_fz_srl_b27_N
 .Lmemset_fz_srl_b28_N:
         .word .Lmemset_npow268435456, 172, .Lmemset_fz_srl_b28_N_to_N
-        .word .Lmemset_npow67108864, 180, .+4
+        .word .Lmemset_npow67108864, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b27_P
 .Lmemset_fz_srl_b28_N_to_N:
         .word 12, 12, .Lmemset_fz_srl_b27_N
 .Lmemset_fz_srl_b27_P:
         .word .Lmemset_pow134217728, 172, .Lmemset_fz_srl_b27_P_to_N
-        .word .Lmemset_npow33554432, 180, .+4
+        .word .Lmemset_npow33554432, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b26_P
 .Lmemset_fz_srl_b27_P_to_N:
         .word 12, 12, .Lmemset_fz_srl_b26_N
 .Lmemset_fz_srl_b27_N:
         .word .Lmemset_npow134217728, 172, .Lmemset_fz_srl_b27_N_to_N
-        .word .Lmemset_npow33554432, 180, .+4
+        .word .Lmemset_npow33554432, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b26_P
 .Lmemset_fz_srl_b27_N_to_N:
         .word 12, 12, .Lmemset_fz_srl_b26_N
 .Lmemset_fz_srl_b26_P:
         .word .Lmemset_pow67108864, 172, .Lmemset_fz_srl_b26_P_to_N
-        .word .Lmemset_npow16777216, 180, .+4
+        .word .Lmemset_npow16777216, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b25_P
 .Lmemset_fz_srl_b26_P_to_N:
         .word 12, 12, .Lmemset_fz_srl_b25_N
 .Lmemset_fz_srl_b26_N:
         .word .Lmemset_npow67108864, 172, .Lmemset_fz_srl_b26_N_to_N
-        .word .Lmemset_npow16777216, 180, .+4
+        .word .Lmemset_npow16777216, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b25_P
 .Lmemset_fz_srl_b26_N_to_N:
         .word 12, 12, .Lmemset_fz_srl_b25_N
 .Lmemset_fz_srl_b25_P:
         .word .Lmemset_pow33554432, 172, .Lmemset_fz_srl_b25_P_to_N
-        .word .Lmemset_npow8388608, 180, .+4
+        .word .Lmemset_npow8388608, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b24_P
 .Lmemset_fz_srl_b25_P_to_N:
         .word 12, 12, .Lmemset_fz_srl_b24_N
 .Lmemset_fz_srl_b25_N:
         .word .Lmemset_npow33554432, 172, .Lmemset_fz_srl_b25_N_to_N
-        .word .Lmemset_npow8388608, 180, .+4
+        .word .Lmemset_npow8388608, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b24_P
 .Lmemset_fz_srl_b25_N_to_N:
         .word 12, 12, .Lmemset_fz_srl_b24_N
 .Lmemset_fz_srl_b24_P:
         .word .Lmemset_pow16777216, 172, .Lmemset_fz_srl_b24_P_to_N
-        .word .Lmemset_npow4194304, 180, .+4
+        .word .Lmemset_npow4194304, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b23_P
 .Lmemset_fz_srl_b24_P_to_N:
         .word 12, 12, .Lmemset_fz_srl_b23_N
 .Lmemset_fz_srl_b24_N:
         .word .Lmemset_npow16777216, 172, .Lmemset_fz_srl_b24_N_to_N
-        .word .Lmemset_npow4194304, 180, .+4
+        .word .Lmemset_npow4194304, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b23_P
 .Lmemset_fz_srl_b24_N_to_N:
         .word 12, 12, .Lmemset_fz_srl_b23_N
 .Lmemset_fz_srl_b23_P:
         .word .Lmemset_pow8388608, 172, .Lmemset_fz_srl_b23_P_to_N
-        .word .Lmemset_npow2097152, 180, .+4
+        .word .Lmemset_npow2097152, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b22_P
 .Lmemset_fz_srl_b23_P_to_N:
         .word 12, 12, .Lmemset_fz_srl_b22_N
 .Lmemset_fz_srl_b23_N:
         .word .Lmemset_npow8388608, 172, .Lmemset_fz_srl_b23_N_to_N
-        .word .Lmemset_npow2097152, 180, .+4
+        .word .Lmemset_npow2097152, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b22_P
 .Lmemset_fz_srl_b23_N_to_N:
         .word 12, 12, .Lmemset_fz_srl_b22_N
 .Lmemset_fz_srl_b22_P:
         .word .Lmemset_pow4194304, 172, .Lmemset_fz_srl_b22_P_to_N
-        .word .Lmemset_npow1048576, 180, .+4
+        .word .Lmemset_npow1048576, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b21_P
 .Lmemset_fz_srl_b22_P_to_N:
         .word 12, 12, .Lmemset_fz_srl_b21_N
 .Lmemset_fz_srl_b22_N:
         .word .Lmemset_npow4194304, 172, .Lmemset_fz_srl_b22_N_to_N
-        .word .Lmemset_npow1048576, 180, .+4
+        .word .Lmemset_npow1048576, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b21_P
 .Lmemset_fz_srl_b22_N_to_N:
         .word 12, 12, .Lmemset_fz_srl_b21_N
 .Lmemset_fz_srl_b21_P:
         .word .Lmemset_pow2097152, 172, .Lmemset_fz_srl_b21_P_to_N
-        .word .Lmemset_npow524288, 180, .+4
+        .word .Lmemset_npow524288, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b20_P
 .Lmemset_fz_srl_b21_P_to_N:
         .word 12, 12, .Lmemset_fz_srl_b20_N
 .Lmemset_fz_srl_b21_N:
         .word .Lmemset_npow2097152, 172, .Lmemset_fz_srl_b21_N_to_N
-        .word .Lmemset_npow524288, 180, .+4
+        .word .Lmemset_npow524288, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b20_P
 .Lmemset_fz_srl_b21_N_to_N:
         .word 12, 12, .Lmemset_fz_srl_b20_N
 .Lmemset_fz_srl_b20_P:
         .word .Lmemset_pow1048576, 172, .Lmemset_fz_srl_b20_P_to_N
-        .word .Lmemset_npow262144, 180, .+4
+        .word .Lmemset_npow262144, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b19_P
 .Lmemset_fz_srl_b20_P_to_N:
         .word 12, 12, .Lmemset_fz_srl_b19_N
 .Lmemset_fz_srl_b20_N:
         .word .Lmemset_npow1048576, 172, .Lmemset_fz_srl_b20_N_to_N
-        .word .Lmemset_npow262144, 180, .+4
+        .word .Lmemset_npow262144, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b19_P
 .Lmemset_fz_srl_b20_N_to_N:
         .word 12, 12, .Lmemset_fz_srl_b19_N
 .Lmemset_fz_srl_b19_P:
         .word .Lmemset_pow524288, 172, .Lmemset_fz_srl_b19_P_to_N
-        .word .Lmemset_npow131072, 180, .+4
+        .word .Lmemset_npow131072, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b18_P
 .Lmemset_fz_srl_b19_P_to_N:
         .word 12, 12, .Lmemset_fz_srl_b18_N
 .Lmemset_fz_srl_b19_N:
         .word .Lmemset_npow524288, 172, .Lmemset_fz_srl_b19_N_to_N
-        .word .Lmemset_npow131072, 180, .+4
+        .word .Lmemset_npow131072, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b18_P
 .Lmemset_fz_srl_b19_N_to_N:
         .word 12, 12, .Lmemset_fz_srl_b18_N
 .Lmemset_fz_srl_b18_P:
         .word .Lmemset_pow262144, 172, .Lmemset_fz_srl_b18_P_to_N
-        .word .Lmemset_npow65536, 180, .+4
+        .word .Lmemset_npow65536, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b17_P
 .Lmemset_fz_srl_b18_P_to_N:
         .word 12, 12, .Lmemset_fz_srl_b17_N
 .Lmemset_fz_srl_b18_N:
         .word .Lmemset_npow262144, 172, .Lmemset_fz_srl_b18_N_to_N
-        .word .Lmemset_npow65536, 180, .+4
+        .word .Lmemset_npow65536, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b17_P
 .Lmemset_fz_srl_b18_N_to_N:
         .word 12, 12, .Lmemset_fz_srl_b17_N
 .Lmemset_fz_srl_b17_P:
         .word .Lmemset_pow131072, 172, .Lmemset_fz_srl_b17_P_to_N
-        .word .Lmemset_npow32768, 180, .+4
+        .word .Lmemset_npow32768, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b16_P
 .Lmemset_fz_srl_b17_P_to_N:
         .word 12, 12, .Lmemset_fz_srl_b16_N
 .Lmemset_fz_srl_b17_N:
         .word .Lmemset_npow131072, 172, .Lmemset_fz_srl_b17_N_to_N
-        .word .Lmemset_npow32768, 180, .+4
+        .word .Lmemset_npow32768, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b16_P
 .Lmemset_fz_srl_b17_N_to_N:
         .word 12, 12, .Lmemset_fz_srl_b16_N
 .Lmemset_fz_srl_b16_P:
         .word .Lmemset_pow65536, 172, .Lmemset_fz_srl_b16_P_to_N
-        .word .Lmemset_npow16384, 180, .+4
+        .word .Lmemset_npow16384, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b15_P
 .Lmemset_fz_srl_b16_P_to_N:
         .word 12, 12, .Lmemset_fz_srl_b15_N
 .Lmemset_fz_srl_b16_N:
         .word .Lmemset_npow65536, 172, .Lmemset_fz_srl_b16_N_to_N
-        .word .Lmemset_npow16384, 180, .+4
+        .word .Lmemset_npow16384, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b15_P
 .Lmemset_fz_srl_b16_N_to_N:
         .word 12, 12, .Lmemset_fz_srl_b15_N
 .Lmemset_fz_srl_b15_P:
         .word .Lmemset_pow32768, 172, .Lmemset_fz_srl_b15_P_to_N
-        .word .Lmemset_npow8192, 180, .+4
+        .word .Lmemset_npow8192, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b14_P
 .Lmemset_fz_srl_b15_P_to_N:
         .word 12, 12, .Lmemset_fz_srl_b14_N
 .Lmemset_fz_srl_b15_N:
         .word .Lmemset_npow32768, 172, .Lmemset_fz_srl_b15_N_to_N
-        .word .Lmemset_npow8192, 180, .+4
+        .word .Lmemset_npow8192, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b14_P
 .Lmemset_fz_srl_b15_N_to_N:
         .word 12, 12, .Lmemset_fz_srl_b14_N
 .Lmemset_fz_srl_b14_P:
         .word .Lmemset_pow16384, 172, .Lmemset_fz_srl_b14_P_to_N
-        .word .Lmemset_npow4096, 180, .+4
+        .word .Lmemset_npow4096, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b13_P
 .Lmemset_fz_srl_b14_P_to_N:
         .word 12, 12, .Lmemset_fz_srl_b13_N
 .Lmemset_fz_srl_b14_N:
         .word .Lmemset_npow16384, 172, .Lmemset_fz_srl_b14_N_to_N
-        .word .Lmemset_npow4096, 180, .+4
+        .word .Lmemset_npow4096, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b13_P
 .Lmemset_fz_srl_b14_N_to_N:
         .word 12, 12, .Lmemset_fz_srl_b13_N
 .Lmemset_fz_srl_b13_P:
         .word .Lmemset_pow8192, 172, .Lmemset_fz_srl_b13_P_to_N
-        .word .Lmemset_npow2048, 180, .+4
+        .word .Lmemset_npow2048, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b12_P
 .Lmemset_fz_srl_b13_P_to_N:
         .word 12, 12, .Lmemset_fz_srl_b12_N
 .Lmemset_fz_srl_b13_N:
         .word .Lmemset_npow8192, 172, .Lmemset_fz_srl_b13_N_to_N
-        .word .Lmemset_npow2048, 180, .+4
+        .word .Lmemset_npow2048, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b12_P
 .Lmemset_fz_srl_b13_N_to_N:
         .word 12, 12, .Lmemset_fz_srl_b12_N
 .Lmemset_fz_srl_b12_P:
         .word .Lmemset_pow4096, 172, .Lmemset_fz_srl_b12_P_to_N
-        .word .Lmemset_npow1024, 180, .+4
+        .word .Lmemset_npow1024, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b11_P
 .Lmemset_fz_srl_b12_P_to_N:
         .word 12, 12, .Lmemset_fz_srl_b11_N
 .Lmemset_fz_srl_b12_N:
         .word .Lmemset_npow4096, 172, .Lmemset_fz_srl_b12_N_to_N
-        .word .Lmemset_npow1024, 180, .+4
+        .word .Lmemset_npow1024, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b11_P
 .Lmemset_fz_srl_b12_N_to_N:
         .word 12, 12, .Lmemset_fz_srl_b11_N
 .Lmemset_fz_srl_b11_P:
         .word .Lmemset_pow2048, 172, .Lmemset_fz_srl_b11_P_to_N
-        .word .Lmemset_npow512, 180, .+4
+        .word .Lmemset_npow512, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b10_P
 .Lmemset_fz_srl_b11_P_to_N:
         .word 12, 12, .Lmemset_fz_srl_b10_N
 .Lmemset_fz_srl_b11_N:
         .word .Lmemset_npow2048, 172, .Lmemset_fz_srl_b11_N_to_N
-        .word .Lmemset_npow512, 180, .+4
+        .word .Lmemset_npow512, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b10_P
 .Lmemset_fz_srl_b11_N_to_N:
         .word 12, 12, .Lmemset_fz_srl_b10_N
 .Lmemset_fz_srl_b10_P:
         .word .Lmemset_pow1024, 172, .Lmemset_fz_srl_b10_P_to_N
-        .word .Lmemset_npow256, 180, .+4
+        .word .Lmemset_npow256, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b9_P
 .Lmemset_fz_srl_b10_P_to_N:
         .word 12, 12, .Lmemset_fz_srl_b9_N
 .Lmemset_fz_srl_b10_N:
         .word .Lmemset_npow1024, 172, .Lmemset_fz_srl_b10_N_to_N
-        .word .Lmemset_npow256, 180, .+4
+        .word .Lmemset_npow256, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b9_P
 .Lmemset_fz_srl_b10_N_to_N:
         .word 12, 12, .Lmemset_fz_srl_b9_N
 .Lmemset_fz_srl_b9_P:
         .word .Lmemset_pow512, 172, .Lmemset_fz_srl_b9_P_to_N
-        .word .Lmemset_npow128, 180, .+4
+        .word .Lmemset_npow128, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b8_P
 .Lmemset_fz_srl_b9_P_to_N:
         .word 12, 12, .Lmemset_fz_srl_b8_N
 .Lmemset_fz_srl_b9_N:
         .word .Lmemset_npow512, 172, .Lmemset_fz_srl_b9_N_to_N
-        .word .Lmemset_npow128, 180, .+4
+        .word .Lmemset_npow128, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b8_P
 .Lmemset_fz_srl_b9_N_to_N:
         .word 12, 12, .Lmemset_fz_srl_b8_N
 .Lmemset_fz_srl_b8_P:
         .word .Lmemset_pow256, 172, .Lmemset_fz_srl_b8_P_to_N
-        .word .Lmemset_npow64, 180, .+4
+        .word .Lmemset_npow64, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b7_P
 .Lmemset_fz_srl_b8_P_to_N:
         .word 12, 12, .Lmemset_fz_srl_b7_N
 .Lmemset_fz_srl_b8_N:
         .word .Lmemset_npow256, 172, .Lmemset_fz_srl_b8_N_to_N
-        .word .Lmemset_npow64, 180, .+4
+        .word .Lmemset_npow64, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b7_P
 .Lmemset_fz_srl_b8_N_to_N:
         .word 12, 12, .Lmemset_fz_srl_b7_N
 .Lmemset_fz_srl_b7_P:
         .word .Lmemset_pow128, 172, .Lmemset_fz_srl_b7_P_to_N
-        .word .Lmemset_npow32, 180, .+4
+        .word .Lmemset_npow32, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b6_P
 .Lmemset_fz_srl_b7_P_to_N:
         .word 12, 12, .Lmemset_fz_srl_b6_N
 .Lmemset_fz_srl_b7_N:
         .word .Lmemset_npow128, 172, .Lmemset_fz_srl_b7_N_to_N
-        .word .Lmemset_npow32, 180, .+4
+        .word .Lmemset_npow32, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b6_P
 .Lmemset_fz_srl_b7_N_to_N:
         .word 12, 12, .Lmemset_fz_srl_b6_N
 .Lmemset_fz_srl_b6_P:
         .word .Lmemset_pow64, 172, .Lmemset_fz_srl_b6_P_to_N
-        .word .Lmemset_npow16, 180, .+4
+        .word .Lmemset_npow16, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b5_P
 .Lmemset_fz_srl_b6_P_to_N:
         .word 12, 12, .Lmemset_fz_srl_b5_N
 .Lmemset_fz_srl_b6_N:
         .word .Lmemset_npow64, 172, .Lmemset_fz_srl_b6_N_to_N
-        .word .Lmemset_npow16, 180, .+4
+        .word .Lmemset_npow16, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b5_P
 .Lmemset_fz_srl_b6_N_to_N:
         .word 12, 12, .Lmemset_fz_srl_b5_N
 .Lmemset_fz_srl_b5_P:
         .word .Lmemset_pow32, 172, .Lmemset_fz_srl_b5_P_to_N
-        .word .Lmemset_npow8, 180, .+4
+        .word .Lmemset_npow8, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b4_P
 .Lmemset_fz_srl_b5_P_to_N:
         .word 12, 12, .Lmemset_fz_srl_b4_N
 .Lmemset_fz_srl_b5_N:
         .word .Lmemset_npow32, 172, .Lmemset_fz_srl_b5_N_to_N
-        .word .Lmemset_npow8, 180, .+4
+        .word .Lmemset_npow8, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b4_P
 .Lmemset_fz_srl_b5_N_to_N:
         .word 12, 12, .Lmemset_fz_srl_b4_N
 .Lmemset_fz_srl_b4_P:
         .word .Lmemset_pow16, 172, .Lmemset_fz_srl_b4_P_to_N
-        .word .Lmemset_npow4, 180, .+4
+        .word .Lmemset_npow4, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b3_P
 .Lmemset_fz_srl_b4_P_to_N:
         .word 12, 12, .Lmemset_fz_srl_b3_N
 .Lmemset_fz_srl_b4_N:
         .word .Lmemset_npow16, 172, .Lmemset_fz_srl_b4_N_to_N
-        .word .Lmemset_npow4, 180, .+4
+        .word .Lmemset_npow4, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b3_P
 .Lmemset_fz_srl_b4_N_to_N:
         .word 12, 12, .Lmemset_fz_srl_b3_N
 .Lmemset_fz_srl_b3_P:
         .word .Lmemset_pow8, 172, .Lmemset_fz_srl_b3_P_to_N
-        .word .Lmemset_npow2, 180, .+4
+        .word .Lmemset_npow2, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b2_P
 .Lmemset_fz_srl_b3_P_to_N:
         .word 12, 12, .Lmemset_fz_srl_b2_N
 .Lmemset_fz_srl_b3_N:
         .word .Lmemset_npow8, 172, .Lmemset_fz_srl_b3_N_to_N
-        .word .Lmemset_npow2, 180, .+4
+        .word .Lmemset_npow2, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_b2_P
 .Lmemset_fz_srl_b3_N_to_N:
         .word 12, 12, .Lmemset_fz_srl_b2_N
 .Lmemset_fz_srl_b2_P:
         .word .Lmemset_pow4, 172, .Lmemset_fz_srl_b2_P_to_N
-        .word .Lmemset_npow1, 180, .+4
+        .word .Lmemset_npow1, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_done
 .Lmemset_fz_srl_b2_P_to_N:
         .word 12, 12, .Lmemset_fz_srl_done
 .Lmemset_fz_srl_b2_N:
         .word .Lmemset_npow4, 172, .Lmemset_fz_srl_b2_N_to_N
-        .word .Lmemset_npow1, 180, .+4
+        .word .Lmemset_npow1, 188, .+4
         .word 12, 12, .Lmemset_fz_srl_done
 .Lmemset_fz_srl_b2_N_to_N:
         .word 12, 12, .Lmemset_fz_srl_done
 .Lmemset_fz_srl_done:
-        .word 12, 12, .+4
-        .word 12, 12, .+4
-        .word 188, 188, .+4
-        .word 180, 12, .+4
-        .word 12, 188, .+4
-        .word 12, 12, .+4
-        .word 100, 100, .+4
-        .word 192, 12, .+4
-        .word 12, 100, .+4
         .word 104, 104, .+4
         .word 12, 12, .Lmemset_fz_body_loop
 .Lmemset_fz_body_loop:
-        .word .Lmemset_zero, 188, .Lmemset_fz_tail
-        .word 168, 168, .+4
-        .word 188, 12, .+4
-        .word 12, 168, .+4
-        .word 12, 12, .+4
-        .word .Lmemset_c8, 168, .Lmemset_fz_body_single
-.Lmemset_fz_body_unrolled:
+        .word .Lmemset_c16, 188, .Lmemset_fz_body_fixup
         .word 102, 102, .+4
         .word .Lmemset_n4, 100, .+4
         .word 102, 102, .+4
@@ -62373,15 +61527,33 @@ __subleq_memset:
         .word .Lmemset_n4, 100, .+4
         .word 102, 102, .+4
         .word .Lmemset_n4, 100, .+4
-        .word .Lmemset_c32, 108, .+4
-        .word .Lmemset_c8, 188, .Lmemset_fz_body_loop
+        .word 102, 102, .+4
+        .word .Lmemset_n4, 100, .+4
+        .word 102, 102, .+4
+        .word .Lmemset_n4, 100, .+4
+        .word 102, 102, .+4
+        .word .Lmemset_n4, 100, .+4
+        .word 102, 102, .+4
+        .word .Lmemset_n4, 100, .+4
+        .word 102, 102, .+4
+        .word .Lmemset_n4, 100, .+4
+        .word 102, 102, .+4
+        .word .Lmemset_n4, 100, .+4
+        .word 102, 102, .+4
+        .word .Lmemset_n4, 100, .+4
+        .word 102, 102, .+4
+        .word .Lmemset_n4, 100, .+4
+        .word .Lmemset_c64, 108, .+4
         .word 12, 12, .Lmemset_fz_body_loop
+.Lmemset_fz_body_fixup:
+        .word .Lmemset_n16, 188, .+4
+        .word .Lmemset_zero, 188, .Lmemset_fz_tail
 .Lmemset_fz_body_single:
         .word 102, 102, .+4
         .word .Lmemset_n4, 100, .+4
         .word .Lmemset_c4, 108, .+4
-        .word .Lmemset_c1, 188, .+4
-        .word 12, 12, .Lmemset_fz_body_loop
+        .word .Lmemset_c1, 188, .Lmemset_fz_tail
+        .word 12, 12, .Lmemset_fz_body_single
 .Lmemset_fz_tail:
         .word .Lmemset_zero, 108, .Lmemset_done
         .word 12, 12, .+4
@@ -62415,7 +61587,6 @@ __subleq_memset:
         .word   18, 12, .+4
         .word   12, 160, .+4
         .word   .Lmemset_neg4, 16, .+4
-        .word   12, 12, .+4
         .word   12
         .word   12
         .word   162
@@ -62433,14 +61604,18 @@ __subleq_memset:
         .word 4
 .Lmemset_c8:
         .word 8
+.Lmemset_c16:
+        .word 16
 .Lmemset_c32:
         .word 32
+.Lmemset_c64:
+        .word 64
 .Lmemset_n1:
         .word -1
 .Lmemset_n4:
         .word -4
-.Lmemset_pattern_mult:
-        .word 0x01010101
+.Lmemset_n16:
+        .word -16
 .Lmemset_min:
         .word -2147483648
 .Lmemset_pow1:
@@ -62569,8 +61744,6 @@ __subleq_memset:
         .word -1073741824
 .Lmemset_head_sb_ret_const:
         .word .Lmemset_head_sb_ret
-.Lmemset_mul_ret_const:
-        .word .Lmemset_mul_ret
 .Lmemset_tail_sb_ret_const:
         .word .Lmemset_tail_sb_ret
 .Lmemset_fz_head_sb_ret_const:
@@ -62585,704 +61758,320 @@ __subleq_memset:
 # __subleq_memmove(dest=R21, src=R22, n=R23) returns R20=dest
 # Optimized 3-phase when (src&3)==(dst&3), handles overlap
 __subleq_memmove:
-        .word 96, 96, .+4
         .word 12, 12, .+4
-        .word 100, 12, .+4
-        .word 12, 96, .+4
         .word 200, 200, .+4
-        .word 100, 200, .+4
-        .word 200, 200, .+4
-        .word 12, 12, .+4
         .word 100, 12, .+4
         .word 12, 200, .+4
-        .word 12, 12, .+4
         .word .Lmemmove_zero, 108, .Lmemmove_done
-        .word 172, 172, .+4
-        .word 12, 12, .+4
-        .word 104, 12, .+4
-        .word 12, 172, .+4
-.Lmemmove_src_sign:
-        .word 144, 172, .Lmemmove_src_sign_neg
-        .word 12, 12, .Lmemmove_src_bias
-.Lmemmove_src_sign_neg:
-        .word 180, 180, .+4
-        .word 172, 180, .+4
-        .word 144, 180, .Lmemmove_src_sign_ambig
-        .word .Lmemmove_min, 172, .+4
-        .word 12, 12, .Lmemmove_src_bias
-.Lmemmove_src_sign_ambig:
-        .word .Lmemmove_n1, 180, .+4
-        .word 144, 180, .Lmemmove_src_bias
-        .word .Lmemmove_min, 172, .+4
-.Lmemmove_src_bias:
-        .word 180, 180, .+4
-        .word .Lmemmove_n1, 172, .+4
-        .word 12, 12, .Lmemmove_src_b30_P
-.Lmemmove_src_b30_P:
-        .word .Lmemmove_pow1073741824, 172, .Lmemmove_src_b30_P_to_N
-        .word 12, 12, .Lmemmove_src_b29_P
-.Lmemmove_src_b30_P_to_N:
-        .word 12, 12, .Lmemmove_src_b29_N
-.Lmemmove_src_b30_N:
-        .word .Lmemmove_npow1073741824, 172, .Lmemmove_src_b30_N_to_N
-        .word 12, 12, .Lmemmove_src_b29_P
-.Lmemmove_src_b30_N_to_N:
-        .word 12, 12, .Lmemmove_src_b29_N
-.Lmemmove_src_b29_P:
-        .word .Lmemmove_pow536870912, 172, .Lmemmove_src_b29_P_to_N
-        .word 12, 12, .Lmemmove_src_b28_P
-.Lmemmove_src_b29_P_to_N:
-        .word 12, 12, .Lmemmove_src_b28_N
-.Lmemmove_src_b29_N:
-        .word .Lmemmove_npow536870912, 172, .Lmemmove_src_b29_N_to_N
-        .word 12, 12, .Lmemmove_src_b28_P
-.Lmemmove_src_b29_N_to_N:
-        .word 12, 12, .Lmemmove_src_b28_N
-.Lmemmove_src_b28_P:
-        .word .Lmemmove_pow268435456, 172, .Lmemmove_src_b28_P_to_N
-        .word 12, 12, .Lmemmove_src_b27_P
-.Lmemmove_src_b28_P_to_N:
-        .word 12, 12, .Lmemmove_src_b27_N
-.Lmemmove_src_b28_N:
-        .word .Lmemmove_npow268435456, 172, .Lmemmove_src_b28_N_to_N
-        .word 12, 12, .Lmemmove_src_b27_P
-.Lmemmove_src_b28_N_to_N:
-        .word 12, 12, .Lmemmove_src_b27_N
-.Lmemmove_src_b27_P:
-        .word .Lmemmove_pow134217728, 172, .Lmemmove_src_b27_P_to_N
-        .word 12, 12, .Lmemmove_src_b26_P
-.Lmemmove_src_b27_P_to_N:
-        .word 12, 12, .Lmemmove_src_b26_N
-.Lmemmove_src_b27_N:
-        .word .Lmemmove_npow134217728, 172, .Lmemmove_src_b27_N_to_N
-        .word 12, 12, .Lmemmove_src_b26_P
-.Lmemmove_src_b27_N_to_N:
-        .word 12, 12, .Lmemmove_src_b26_N
-.Lmemmove_src_b26_P:
-        .word .Lmemmove_pow67108864, 172, .Lmemmove_src_b26_P_to_N
-        .word 12, 12, .Lmemmove_src_b25_P
-.Lmemmove_src_b26_P_to_N:
-        .word 12, 12, .Lmemmove_src_b25_N
-.Lmemmove_src_b26_N:
-        .word .Lmemmove_npow67108864, 172, .Lmemmove_src_b26_N_to_N
-        .word 12, 12, .Lmemmove_src_b25_P
-.Lmemmove_src_b26_N_to_N:
-        .word 12, 12, .Lmemmove_src_b25_N
-.Lmemmove_src_b25_P:
-        .word .Lmemmove_pow33554432, 172, .Lmemmove_src_b25_P_to_N
-        .word 12, 12, .Lmemmove_src_b24_P
-.Lmemmove_src_b25_P_to_N:
-        .word 12, 12, .Lmemmove_src_b24_N
-.Lmemmove_src_b25_N:
-        .word .Lmemmove_npow33554432, 172, .Lmemmove_src_b25_N_to_N
-        .word 12, 12, .Lmemmove_src_b24_P
-.Lmemmove_src_b25_N_to_N:
-        .word 12, 12, .Lmemmove_src_b24_N
-.Lmemmove_src_b24_P:
-        .word .Lmemmove_pow16777216, 172, .Lmemmove_src_b24_P_to_N
-        .word 12, 12, .Lmemmove_src_b23_P
-.Lmemmove_src_b24_P_to_N:
-        .word 12, 12, .Lmemmove_src_b23_N
-.Lmemmove_src_b24_N:
-        .word .Lmemmove_npow16777216, 172, .Lmemmove_src_b24_N_to_N
-        .word 12, 12, .Lmemmove_src_b23_P
-.Lmemmove_src_b24_N_to_N:
-        .word 12, 12, .Lmemmove_src_b23_N
-.Lmemmove_src_b23_P:
-        .word .Lmemmove_pow8388608, 172, .Lmemmove_src_b23_P_to_N
-        .word 12, 12, .Lmemmove_src_b22_P
-.Lmemmove_src_b23_P_to_N:
-        .word 12, 12, .Lmemmove_src_b22_N
-.Lmemmove_src_b23_N:
-        .word .Lmemmove_npow8388608, 172, .Lmemmove_src_b23_N_to_N
-        .word 12, 12, .Lmemmove_src_b22_P
-.Lmemmove_src_b23_N_to_N:
-        .word 12, 12, .Lmemmove_src_b22_N
-.Lmemmove_src_b22_P:
-        .word .Lmemmove_pow4194304, 172, .Lmemmove_src_b22_P_to_N
-        .word 12, 12, .Lmemmove_src_b21_P
-.Lmemmove_src_b22_P_to_N:
-        .word 12, 12, .Lmemmove_src_b21_N
-.Lmemmove_src_b22_N:
-        .word .Lmemmove_npow4194304, 172, .Lmemmove_src_b22_N_to_N
-        .word 12, 12, .Lmemmove_src_b21_P
-.Lmemmove_src_b22_N_to_N:
-        .word 12, 12, .Lmemmove_src_b21_N
-.Lmemmove_src_b21_P:
-        .word .Lmemmove_pow2097152, 172, .Lmemmove_src_b21_P_to_N
-        .word 12, 12, .Lmemmove_src_b20_P
-.Lmemmove_src_b21_P_to_N:
-        .word 12, 12, .Lmemmove_src_b20_N
-.Lmemmove_src_b21_N:
-        .word .Lmemmove_npow2097152, 172, .Lmemmove_src_b21_N_to_N
-        .word 12, 12, .Lmemmove_src_b20_P
-.Lmemmove_src_b21_N_to_N:
-        .word 12, 12, .Lmemmove_src_b20_N
-.Lmemmove_src_b20_P:
-        .word .Lmemmove_pow1048576, 172, .Lmemmove_src_b20_P_to_N
-        .word 12, 12, .Lmemmove_src_b19_P
-.Lmemmove_src_b20_P_to_N:
-        .word 12, 12, .Lmemmove_src_b19_N
-.Lmemmove_src_b20_N:
-        .word .Lmemmove_npow1048576, 172, .Lmemmove_src_b20_N_to_N
-        .word 12, 12, .Lmemmove_src_b19_P
-.Lmemmove_src_b20_N_to_N:
-        .word 12, 12, .Lmemmove_src_b19_N
-.Lmemmove_src_b19_P:
-        .word .Lmemmove_pow524288, 172, .Lmemmove_src_b19_P_to_N
-        .word 12, 12, .Lmemmove_src_b18_P
-.Lmemmove_src_b19_P_to_N:
-        .word 12, 12, .Lmemmove_src_b18_N
-.Lmemmove_src_b19_N:
-        .word .Lmemmove_npow524288, 172, .Lmemmove_src_b19_N_to_N
-        .word 12, 12, .Lmemmove_src_b18_P
-.Lmemmove_src_b19_N_to_N:
-        .word 12, 12, .Lmemmove_src_b18_N
-.Lmemmove_src_b18_P:
-        .word .Lmemmove_pow262144, 172, .Lmemmove_src_b18_P_to_N
-        .word 12, 12, .Lmemmove_src_b17_P
-.Lmemmove_src_b18_P_to_N:
-        .word 12, 12, .Lmemmove_src_b17_N
-.Lmemmove_src_b18_N:
-        .word .Lmemmove_npow262144, 172, .Lmemmove_src_b18_N_to_N
-        .word 12, 12, .Lmemmove_src_b17_P
-.Lmemmove_src_b18_N_to_N:
-        .word 12, 12, .Lmemmove_src_b17_N
-.Lmemmove_src_b17_P:
-        .word .Lmemmove_pow131072, 172, .Lmemmove_src_b17_P_to_N
-        .word 12, 12, .Lmemmove_src_b16_P
-.Lmemmove_src_b17_P_to_N:
-        .word 12, 12, .Lmemmove_src_b16_N
-.Lmemmove_src_b17_N:
-        .word .Lmemmove_npow131072, 172, .Lmemmove_src_b17_N_to_N
-        .word 12, 12, .Lmemmove_src_b16_P
-.Lmemmove_src_b17_N_to_N:
-        .word 12, 12, .Lmemmove_src_b16_N
-.Lmemmove_src_b16_P:
-        .word .Lmemmove_pow65536, 172, .Lmemmove_src_b16_P_to_N
-        .word 12, 12, .Lmemmove_src_b15_P
-.Lmemmove_src_b16_P_to_N:
-        .word 12, 12, .Lmemmove_src_b15_N
-.Lmemmove_src_b16_N:
-        .word .Lmemmove_npow65536, 172, .Lmemmove_src_b16_N_to_N
-        .word 12, 12, .Lmemmove_src_b15_P
-.Lmemmove_src_b16_N_to_N:
-        .word 12, 12, .Lmemmove_src_b15_N
-.Lmemmove_src_b15_P:
-        .word .Lmemmove_pow32768, 172, .Lmemmove_src_b15_P_to_N
-        .word 12, 12, .Lmemmove_src_b14_P
-.Lmemmove_src_b15_P_to_N:
-        .word 12, 12, .Lmemmove_src_b14_N
-.Lmemmove_src_b15_N:
-        .word .Lmemmove_npow32768, 172, .Lmemmove_src_b15_N_to_N
-        .word 12, 12, .Lmemmove_src_b14_P
-.Lmemmove_src_b15_N_to_N:
-        .word 12, 12, .Lmemmove_src_b14_N
-.Lmemmove_src_b14_P:
-        .word .Lmemmove_pow16384, 172, .Lmemmove_src_b14_P_to_N
-        .word 12, 12, .Lmemmove_src_b13_P
-.Lmemmove_src_b14_P_to_N:
-        .word 12, 12, .Lmemmove_src_b13_N
-.Lmemmove_src_b14_N:
-        .word .Lmemmove_npow16384, 172, .Lmemmove_src_b14_N_to_N
-        .word 12, 12, .Lmemmove_src_b13_P
-.Lmemmove_src_b14_N_to_N:
-        .word 12, 12, .Lmemmove_src_b13_N
-.Lmemmove_src_b13_P:
-        .word .Lmemmove_pow8192, 172, .Lmemmove_src_b13_P_to_N
-        .word 12, 12, .Lmemmove_src_b12_P
-.Lmemmove_src_b13_P_to_N:
-        .word 12, 12, .Lmemmove_src_b12_N
-.Lmemmove_src_b13_N:
-        .word .Lmemmove_npow8192, 172, .Lmemmove_src_b13_N_to_N
-        .word 12, 12, .Lmemmove_src_b12_P
-.Lmemmove_src_b13_N_to_N:
-        .word 12, 12, .Lmemmove_src_b12_N
-.Lmemmove_src_b12_P:
-        .word .Lmemmove_pow4096, 172, .Lmemmove_src_b12_P_to_N
-        .word 12, 12, .Lmemmove_src_b11_P
-.Lmemmove_src_b12_P_to_N:
-        .word 12, 12, .Lmemmove_src_b11_N
-.Lmemmove_src_b12_N:
-        .word .Lmemmove_npow4096, 172, .Lmemmove_src_b12_N_to_N
-        .word 12, 12, .Lmemmove_src_b11_P
-.Lmemmove_src_b12_N_to_N:
-        .word 12, 12, .Lmemmove_src_b11_N
-.Lmemmove_src_b11_P:
-        .word .Lmemmove_pow2048, 172, .Lmemmove_src_b11_P_to_N
-        .word 12, 12, .Lmemmove_src_b10_P
-.Lmemmove_src_b11_P_to_N:
-        .word 12, 12, .Lmemmove_src_b10_N
-.Lmemmove_src_b11_N:
-        .word .Lmemmove_npow2048, 172, .Lmemmove_src_b11_N_to_N
-        .word 12, 12, .Lmemmove_src_b10_P
-.Lmemmove_src_b11_N_to_N:
-        .word 12, 12, .Lmemmove_src_b10_N
-.Lmemmove_src_b10_P:
-        .word .Lmemmove_pow1024, 172, .Lmemmove_src_b10_P_to_N
-        .word 12, 12, .Lmemmove_src_b9_P
-.Lmemmove_src_b10_P_to_N:
-        .word 12, 12, .Lmemmove_src_b9_N
-.Lmemmove_src_b10_N:
-        .word .Lmemmove_npow1024, 172, .Lmemmove_src_b10_N_to_N
-        .word 12, 12, .Lmemmove_src_b9_P
-.Lmemmove_src_b10_N_to_N:
-        .word 12, 12, .Lmemmove_src_b9_N
-.Lmemmove_src_b9_P:
-        .word .Lmemmove_pow512, 172, .Lmemmove_src_b9_P_to_N
-        .word 12, 12, .Lmemmove_src_b8_P
-.Lmemmove_src_b9_P_to_N:
-        .word 12, 12, .Lmemmove_src_b8_N
-.Lmemmove_src_b9_N:
-        .word .Lmemmove_npow512, 172, .Lmemmove_src_b9_N_to_N
-        .word 12, 12, .Lmemmove_src_b8_P
-.Lmemmove_src_b9_N_to_N:
-        .word 12, 12, .Lmemmove_src_b8_N
-.Lmemmove_src_b8_P:
-        .word .Lmemmove_pow256, 172, .Lmemmove_src_b8_P_to_N
-        .word 12, 12, .Lmemmove_src_b7_P
-.Lmemmove_src_b8_P_to_N:
-        .word 12, 12, .Lmemmove_src_b7_N
-.Lmemmove_src_b8_N:
-        .word .Lmemmove_npow256, 172, .Lmemmove_src_b8_N_to_N
-        .word 12, 12, .Lmemmove_src_b7_P
-.Lmemmove_src_b8_N_to_N:
-        .word 12, 12, .Lmemmove_src_b7_N
-.Lmemmove_src_b7_P:
-        .word .Lmemmove_pow128, 172, .Lmemmove_src_b7_P_to_N
-        .word 12, 12, .Lmemmove_src_b6_P
-.Lmemmove_src_b7_P_to_N:
-        .word 12, 12, .Lmemmove_src_b6_N
-.Lmemmove_src_b7_N:
-        .word .Lmemmove_npow128, 172, .Lmemmove_src_b7_N_to_N
-        .word 12, 12, .Lmemmove_src_b6_P
-.Lmemmove_src_b7_N_to_N:
-        .word 12, 12, .Lmemmove_src_b6_N
-.Lmemmove_src_b6_P:
-        .word .Lmemmove_pow64, 172, .Lmemmove_src_b6_P_to_N
-        .word 12, 12, .Lmemmove_src_b5_P
-.Lmemmove_src_b6_P_to_N:
-        .word 12, 12, .Lmemmove_src_b5_N
-.Lmemmove_src_b6_N:
-        .word .Lmemmove_npow64, 172, .Lmemmove_src_b6_N_to_N
-        .word 12, 12, .Lmemmove_src_b5_P
-.Lmemmove_src_b6_N_to_N:
-        .word 12, 12, .Lmemmove_src_b5_N
-.Lmemmove_src_b5_P:
-        .word .Lmemmove_pow32, 172, .Lmemmove_src_b5_P_to_N
-        .word 12, 12, .Lmemmove_src_b4_P
-.Lmemmove_src_b5_P_to_N:
-        .word 12, 12, .Lmemmove_src_b4_N
-.Lmemmove_src_b5_N:
-        .word .Lmemmove_npow32, 172, .Lmemmove_src_b5_N_to_N
-        .word 12, 12, .Lmemmove_src_b4_P
-.Lmemmove_src_b5_N_to_N:
-        .word 12, 12, .Lmemmove_src_b4_N
-.Lmemmove_src_b4_P:
-        .word .Lmemmove_pow16, 172, .Lmemmove_src_b4_P_to_N
-        .word 12, 12, .Lmemmove_src_b3_P
-.Lmemmove_src_b4_P_to_N:
-        .word 12, 12, .Lmemmove_src_b3_N
-.Lmemmove_src_b4_N:
-        .word .Lmemmove_npow16, 172, .Lmemmove_src_b4_N_to_N
-        .word 12, 12, .Lmemmove_src_b3_P
-.Lmemmove_src_b4_N_to_N:
-        .word 12, 12, .Lmemmove_src_b3_N
-.Lmemmove_src_b3_P:
-        .word .Lmemmove_pow8, 172, .Lmemmove_src_b3_P_to_N
-        .word 12, 12, .Lmemmove_src_b2_P
-.Lmemmove_src_b3_P_to_N:
-        .word 12, 12, .Lmemmove_src_b2_N
-.Lmemmove_src_b3_N:
-        .word .Lmemmove_npow8, 172, .Lmemmove_src_b3_N_to_N
-        .word 12, 12, .Lmemmove_src_b2_P
-.Lmemmove_src_b3_N_to_N:
-        .word 12, 12, .Lmemmove_src_b2_N
-.Lmemmove_src_b2_P:
-        .word .Lmemmove_pow4, 172, .Lmemmove_src_b2_P_to_N
-        .word 12, 12, .Lmemmove_src_b1_P
-.Lmemmove_src_b2_P_to_N:
-        .word 12, 12, .Lmemmove_src_b1_N
-.Lmemmove_src_b2_N:
-        .word .Lmemmove_npow4, 172, .Lmemmove_src_b2_N_to_N
-        .word 12, 12, .Lmemmove_src_b1_P
-.Lmemmove_src_b2_N_to_N:
-        .word 12, 12, .Lmemmove_src_b1_N
-.Lmemmove_src_b1_P:
-        .word .Lmemmove_pow2, 172, .Lmemmove_src_b1_P_to_N
-        .word .Lmemmove_pow2, 180, .Lmemmove_src_b0_P
-.Lmemmove_src_b1_P_to_N:
-        .word 12, 12, .Lmemmove_src_b0_N
-.Lmemmove_src_b1_N:
-        .word .Lmemmove_npow2, 172, .Lmemmove_src_b1_N_to_N
-        .word .Lmemmove_pow2, 180, .Lmemmove_src_b0_P
-.Lmemmove_src_b1_N_to_N:
-        .word 12, 12, .Lmemmove_src_b0_N
-.Lmemmove_src_b0_P:
-        .word .Lmemmove_pow1, 172, .Lmemmove_src_b0_P_to_N
-        .word .Lmemmove_pow1, 180, .Lmemmove_src_done
-.Lmemmove_src_b0_P_to_N:
-        .word 12, 12, .Lmemmove_src_done
-.Lmemmove_src_b0_N:
-        .word .Lmemmove_npow1, 172, .Lmemmove_src_b0_N_to_N
-        .word .Lmemmove_pow1, 180, .Lmemmove_src_done
-.Lmemmove_src_b0_N_to_N:
-        .word 12, 12, .Lmemmove_src_done
-.Lmemmove_src_done:
-        .word 172, 172, .+4
-        .word 180, 172, .+4
-        .word 176, 176, .+4
-        .word 12, 12, .+4
-        .word 100, 12, .+4
-        .word 12, 176, .+4
-.Lmemmove_dst_sign:
-        .word 144, 176, .Lmemmove_dst_sign_neg
-        .word 12, 12, .Lmemmove_dst_bias
-.Lmemmove_dst_sign_neg:
-        .word 180, 180, .+4
-        .word 176, 180, .+4
-        .word 144, 180, .Lmemmove_dst_sign_ambig
-        .word .Lmemmove_min, 176, .+4
-        .word 12, 12, .Lmemmove_dst_bias
-.Lmemmove_dst_sign_ambig:
-        .word .Lmemmove_n1, 180, .+4
-        .word 144, 180, .Lmemmove_dst_bias
-        .word .Lmemmove_min, 176, .+4
-.Lmemmove_dst_bias:
-        .word 180, 180, .+4
-        .word .Lmemmove_n1, 176, .+4
-        .word 12, 12, .Lmemmove_dst_b30_P
-.Lmemmove_dst_b30_P:
-        .word .Lmemmove_pow1073741824, 176, .Lmemmove_dst_b30_P_to_N
-        .word 12, 12, .Lmemmove_dst_b29_P
-.Lmemmove_dst_b30_P_to_N:
-        .word 12, 12, .Lmemmove_dst_b29_N
-.Lmemmove_dst_b30_N:
-        .word .Lmemmove_npow1073741824, 176, .Lmemmove_dst_b30_N_to_N
-        .word 12, 12, .Lmemmove_dst_b29_P
-.Lmemmove_dst_b30_N_to_N:
-        .word 12, 12, .Lmemmove_dst_b29_N
-.Lmemmove_dst_b29_P:
-        .word .Lmemmove_pow536870912, 176, .Lmemmove_dst_b29_P_to_N
-        .word 12, 12, .Lmemmove_dst_b28_P
-.Lmemmove_dst_b29_P_to_N:
-        .word 12, 12, .Lmemmove_dst_b28_N
-.Lmemmove_dst_b29_N:
-        .word .Lmemmove_npow536870912, 176, .Lmemmove_dst_b29_N_to_N
-        .word 12, 12, .Lmemmove_dst_b28_P
-.Lmemmove_dst_b29_N_to_N:
-        .word 12, 12, .Lmemmove_dst_b28_N
-.Lmemmove_dst_b28_P:
-        .word .Lmemmove_pow268435456, 176, .Lmemmove_dst_b28_P_to_N
-        .word 12, 12, .Lmemmove_dst_b27_P
-.Lmemmove_dst_b28_P_to_N:
-        .word 12, 12, .Lmemmove_dst_b27_N
-.Lmemmove_dst_b28_N:
-        .word .Lmemmove_npow268435456, 176, .Lmemmove_dst_b28_N_to_N
-        .word 12, 12, .Lmemmove_dst_b27_P
-.Lmemmove_dst_b28_N_to_N:
-        .word 12, 12, .Lmemmove_dst_b27_N
-.Lmemmove_dst_b27_P:
-        .word .Lmemmove_pow134217728, 176, .Lmemmove_dst_b27_P_to_N
-        .word 12, 12, .Lmemmove_dst_b26_P
-.Lmemmove_dst_b27_P_to_N:
-        .word 12, 12, .Lmemmove_dst_b26_N
-.Lmemmove_dst_b27_N:
-        .word .Lmemmove_npow134217728, 176, .Lmemmove_dst_b27_N_to_N
-        .word 12, 12, .Lmemmove_dst_b26_P
-.Lmemmove_dst_b27_N_to_N:
-        .word 12, 12, .Lmemmove_dst_b26_N
-.Lmemmove_dst_b26_P:
-        .word .Lmemmove_pow67108864, 176, .Lmemmove_dst_b26_P_to_N
-        .word 12, 12, .Lmemmove_dst_b25_P
-.Lmemmove_dst_b26_P_to_N:
-        .word 12, 12, .Lmemmove_dst_b25_N
-.Lmemmove_dst_b26_N:
-        .word .Lmemmove_npow67108864, 176, .Lmemmove_dst_b26_N_to_N
-        .word 12, 12, .Lmemmove_dst_b25_P
-.Lmemmove_dst_b26_N_to_N:
-        .word 12, 12, .Lmemmove_dst_b25_N
-.Lmemmove_dst_b25_P:
-        .word .Lmemmove_pow33554432, 176, .Lmemmove_dst_b25_P_to_N
-        .word 12, 12, .Lmemmove_dst_b24_P
-.Lmemmove_dst_b25_P_to_N:
-        .word 12, 12, .Lmemmove_dst_b24_N
-.Lmemmove_dst_b25_N:
-        .word .Lmemmove_npow33554432, 176, .Lmemmove_dst_b25_N_to_N
-        .word 12, 12, .Lmemmove_dst_b24_P
-.Lmemmove_dst_b25_N_to_N:
-        .word 12, 12, .Lmemmove_dst_b24_N
-.Lmemmove_dst_b24_P:
-        .word .Lmemmove_pow16777216, 176, .Lmemmove_dst_b24_P_to_N
-        .word 12, 12, .Lmemmove_dst_b23_P
-.Lmemmove_dst_b24_P_to_N:
-        .word 12, 12, .Lmemmove_dst_b23_N
-.Lmemmove_dst_b24_N:
-        .word .Lmemmove_npow16777216, 176, .Lmemmove_dst_b24_N_to_N
-        .word 12, 12, .Lmemmove_dst_b23_P
-.Lmemmove_dst_b24_N_to_N:
-        .word 12, 12, .Lmemmove_dst_b23_N
-.Lmemmove_dst_b23_P:
-        .word .Lmemmove_pow8388608, 176, .Lmemmove_dst_b23_P_to_N
-        .word 12, 12, .Lmemmove_dst_b22_P
-.Lmemmove_dst_b23_P_to_N:
-        .word 12, 12, .Lmemmove_dst_b22_N
-.Lmemmove_dst_b23_N:
-        .word .Lmemmove_npow8388608, 176, .Lmemmove_dst_b23_N_to_N
-        .word 12, 12, .Lmemmove_dst_b22_P
-.Lmemmove_dst_b23_N_to_N:
-        .word 12, 12, .Lmemmove_dst_b22_N
-.Lmemmove_dst_b22_P:
-        .word .Lmemmove_pow4194304, 176, .Lmemmove_dst_b22_P_to_N
-        .word 12, 12, .Lmemmove_dst_b21_P
-.Lmemmove_dst_b22_P_to_N:
-        .word 12, 12, .Lmemmove_dst_b21_N
-.Lmemmove_dst_b22_N:
-        .word .Lmemmove_npow4194304, 176, .Lmemmove_dst_b22_N_to_N
-        .word 12, 12, .Lmemmove_dst_b21_P
-.Lmemmove_dst_b22_N_to_N:
-        .word 12, 12, .Lmemmove_dst_b21_N
-.Lmemmove_dst_b21_P:
-        .word .Lmemmove_pow2097152, 176, .Lmemmove_dst_b21_P_to_N
-        .word 12, 12, .Lmemmove_dst_b20_P
-.Lmemmove_dst_b21_P_to_N:
-        .word 12, 12, .Lmemmove_dst_b20_N
-.Lmemmove_dst_b21_N:
-        .word .Lmemmove_npow2097152, 176, .Lmemmove_dst_b21_N_to_N
-        .word 12, 12, .Lmemmove_dst_b20_P
-.Lmemmove_dst_b21_N_to_N:
-        .word 12, 12, .Lmemmove_dst_b20_N
-.Lmemmove_dst_b20_P:
-        .word .Lmemmove_pow1048576, 176, .Lmemmove_dst_b20_P_to_N
-        .word 12, 12, .Lmemmove_dst_b19_P
-.Lmemmove_dst_b20_P_to_N:
-        .word 12, 12, .Lmemmove_dst_b19_N
-.Lmemmove_dst_b20_N:
-        .word .Lmemmove_npow1048576, 176, .Lmemmove_dst_b20_N_to_N
-        .word 12, 12, .Lmemmove_dst_b19_P
-.Lmemmove_dst_b20_N_to_N:
-        .word 12, 12, .Lmemmove_dst_b19_N
-.Lmemmove_dst_b19_P:
-        .word .Lmemmove_pow524288, 176, .Lmemmove_dst_b19_P_to_N
-        .word 12, 12, .Lmemmove_dst_b18_P
-.Lmemmove_dst_b19_P_to_N:
-        .word 12, 12, .Lmemmove_dst_b18_N
-.Lmemmove_dst_b19_N:
-        .word .Lmemmove_npow524288, 176, .Lmemmove_dst_b19_N_to_N
-        .word 12, 12, .Lmemmove_dst_b18_P
-.Lmemmove_dst_b19_N_to_N:
-        .word 12, 12, .Lmemmove_dst_b18_N
-.Lmemmove_dst_b18_P:
-        .word .Lmemmove_pow262144, 176, .Lmemmove_dst_b18_P_to_N
-        .word 12, 12, .Lmemmove_dst_b17_P
-.Lmemmove_dst_b18_P_to_N:
-        .word 12, 12, .Lmemmove_dst_b17_N
-.Lmemmove_dst_b18_N:
-        .word .Lmemmove_npow262144, 176, .Lmemmove_dst_b18_N_to_N
-        .word 12, 12, .Lmemmove_dst_b17_P
-.Lmemmove_dst_b18_N_to_N:
-        .word 12, 12, .Lmemmove_dst_b17_N
-.Lmemmove_dst_b17_P:
-        .word .Lmemmove_pow131072, 176, .Lmemmove_dst_b17_P_to_N
-        .word 12, 12, .Lmemmove_dst_b16_P
-.Lmemmove_dst_b17_P_to_N:
-        .word 12, 12, .Lmemmove_dst_b16_N
-.Lmemmove_dst_b17_N:
-        .word .Lmemmove_npow131072, 176, .Lmemmove_dst_b17_N_to_N
-        .word 12, 12, .Lmemmove_dst_b16_P
-.Lmemmove_dst_b17_N_to_N:
-        .word 12, 12, .Lmemmove_dst_b16_N
-.Lmemmove_dst_b16_P:
-        .word .Lmemmove_pow65536, 176, .Lmemmove_dst_b16_P_to_N
-        .word 12, 12, .Lmemmove_dst_b15_P
-.Lmemmove_dst_b16_P_to_N:
-        .word 12, 12, .Lmemmove_dst_b15_N
-.Lmemmove_dst_b16_N:
-        .word .Lmemmove_npow65536, 176, .Lmemmove_dst_b16_N_to_N
-        .word 12, 12, .Lmemmove_dst_b15_P
-.Lmemmove_dst_b16_N_to_N:
-        .word 12, 12, .Lmemmove_dst_b15_N
-.Lmemmove_dst_b15_P:
-        .word .Lmemmove_pow32768, 176, .Lmemmove_dst_b15_P_to_N
-        .word 12, 12, .Lmemmove_dst_b14_P
-.Lmemmove_dst_b15_P_to_N:
-        .word 12, 12, .Lmemmove_dst_b14_N
-.Lmemmove_dst_b15_N:
-        .word .Lmemmove_npow32768, 176, .Lmemmove_dst_b15_N_to_N
-        .word 12, 12, .Lmemmove_dst_b14_P
-.Lmemmove_dst_b15_N_to_N:
-        .word 12, 12, .Lmemmove_dst_b14_N
-.Lmemmove_dst_b14_P:
-        .word .Lmemmove_pow16384, 176, .Lmemmove_dst_b14_P_to_N
-        .word 12, 12, .Lmemmove_dst_b13_P
-.Lmemmove_dst_b14_P_to_N:
-        .word 12, 12, .Lmemmove_dst_b13_N
-.Lmemmove_dst_b14_N:
-        .word .Lmemmove_npow16384, 176, .Lmemmove_dst_b14_N_to_N
-        .word 12, 12, .Lmemmove_dst_b13_P
-.Lmemmove_dst_b14_N_to_N:
-        .word 12, 12, .Lmemmove_dst_b13_N
-.Lmemmove_dst_b13_P:
-        .word .Lmemmove_pow8192, 176, .Lmemmove_dst_b13_P_to_N
-        .word 12, 12, .Lmemmove_dst_b12_P
-.Lmemmove_dst_b13_P_to_N:
-        .word 12, 12, .Lmemmove_dst_b12_N
-.Lmemmove_dst_b13_N:
-        .word .Lmemmove_npow8192, 176, .Lmemmove_dst_b13_N_to_N
-        .word 12, 12, .Lmemmove_dst_b12_P
-.Lmemmove_dst_b13_N_to_N:
-        .word 12, 12, .Lmemmove_dst_b12_N
-.Lmemmove_dst_b12_P:
-        .word .Lmemmove_pow4096, 176, .Lmemmove_dst_b12_P_to_N
-        .word 12, 12, .Lmemmove_dst_b11_P
-.Lmemmove_dst_b12_P_to_N:
-        .word 12, 12, .Lmemmove_dst_b11_N
-.Lmemmove_dst_b12_N:
-        .word .Lmemmove_npow4096, 176, .Lmemmove_dst_b12_N_to_N
-        .word 12, 12, .Lmemmove_dst_b11_P
-.Lmemmove_dst_b12_N_to_N:
-        .word 12, 12, .Lmemmove_dst_b11_N
-.Lmemmove_dst_b11_P:
-        .word .Lmemmove_pow2048, 176, .Lmemmove_dst_b11_P_to_N
-        .word 12, 12, .Lmemmove_dst_b10_P
-.Lmemmove_dst_b11_P_to_N:
-        .word 12, 12, .Lmemmove_dst_b10_N
-.Lmemmove_dst_b11_N:
-        .word .Lmemmove_npow2048, 176, .Lmemmove_dst_b11_N_to_N
-        .word 12, 12, .Lmemmove_dst_b10_P
-.Lmemmove_dst_b11_N_to_N:
-        .word 12, 12, .Lmemmove_dst_b10_N
-.Lmemmove_dst_b10_P:
-        .word .Lmemmove_pow1024, 176, .Lmemmove_dst_b10_P_to_N
-        .word 12, 12, .Lmemmove_dst_b9_P
-.Lmemmove_dst_b10_P_to_N:
-        .word 12, 12, .Lmemmove_dst_b9_N
-.Lmemmove_dst_b10_N:
-        .word .Lmemmove_npow1024, 176, .Lmemmove_dst_b10_N_to_N
-        .word 12, 12, .Lmemmove_dst_b9_P
-.Lmemmove_dst_b10_N_to_N:
-        .word 12, 12, .Lmemmove_dst_b9_N
-.Lmemmove_dst_b9_P:
-        .word .Lmemmove_pow512, 176, .Lmemmove_dst_b9_P_to_N
-        .word 12, 12, .Lmemmove_dst_b8_P
-.Lmemmove_dst_b9_P_to_N:
-        .word 12, 12, .Lmemmove_dst_b8_N
-.Lmemmove_dst_b9_N:
-        .word .Lmemmove_npow512, 176, .Lmemmove_dst_b9_N_to_N
-        .word 12, 12, .Lmemmove_dst_b8_P
-.Lmemmove_dst_b9_N_to_N:
-        .word 12, 12, .Lmemmove_dst_b8_N
-.Lmemmove_dst_b8_P:
-        .word .Lmemmove_pow256, 176, .Lmemmove_dst_b8_P_to_N
-        .word 12, 12, .Lmemmove_dst_b7_P
-.Lmemmove_dst_b8_P_to_N:
-        .word 12, 12, .Lmemmove_dst_b7_N
-.Lmemmove_dst_b8_N:
-        .word .Lmemmove_npow256, 176, .Lmemmove_dst_b8_N_to_N
-        .word 12, 12, .Lmemmove_dst_b7_P
-.Lmemmove_dst_b8_N_to_N:
-        .word 12, 12, .Lmemmove_dst_b7_N
-.Lmemmove_dst_b7_P:
-        .word .Lmemmove_pow128, 176, .Lmemmove_dst_b7_P_to_N
-        .word 12, 12, .Lmemmove_dst_b6_P
-.Lmemmove_dst_b7_P_to_N:
-        .word 12, 12, .Lmemmove_dst_b6_N
-.Lmemmove_dst_b7_N:
-        .word .Lmemmove_npow128, 176, .Lmemmove_dst_b7_N_to_N
-        .word 12, 12, .Lmemmove_dst_b6_P
-.Lmemmove_dst_b7_N_to_N:
-        .word 12, 12, .Lmemmove_dst_b6_N
-.Lmemmove_dst_b6_P:
-        .word .Lmemmove_pow64, 176, .Lmemmove_dst_b6_P_to_N
-        .word 12, 12, .Lmemmove_dst_b5_P
-.Lmemmove_dst_b6_P_to_N:
-        .word 12, 12, .Lmemmove_dst_b5_N
-.Lmemmove_dst_b6_N:
-        .word .Lmemmove_npow64, 176, .Lmemmove_dst_b6_N_to_N
-        .word 12, 12, .Lmemmove_dst_b5_P
-.Lmemmove_dst_b6_N_to_N:
-        .word 12, 12, .Lmemmove_dst_b5_N
-.Lmemmove_dst_b5_P:
-        .word .Lmemmove_pow32, 176, .Lmemmove_dst_b5_P_to_N
-        .word 12, 12, .Lmemmove_dst_b4_P
-.Lmemmove_dst_b5_P_to_N:
-        .word 12, 12, .Lmemmove_dst_b4_N
-.Lmemmove_dst_b5_N:
-        .word .Lmemmove_npow32, 176, .Lmemmove_dst_b5_N_to_N
-        .word 12, 12, .Lmemmove_dst_b4_P
-.Lmemmove_dst_b5_N_to_N:
-        .word 12, 12, .Lmemmove_dst_b4_N
-.Lmemmove_dst_b4_P:
-        .word .Lmemmove_pow16, 176, .Lmemmove_dst_b4_P_to_N
-        .word 12, 12, .Lmemmove_dst_b3_P
-.Lmemmove_dst_b4_P_to_N:
-        .word 12, 12, .Lmemmove_dst_b3_N
-.Lmemmove_dst_b4_N:
-        .word .Lmemmove_npow16, 176, .Lmemmove_dst_b4_N_to_N
-        .word 12, 12, .Lmemmove_dst_b3_P
-.Lmemmove_dst_b4_N_to_N:
-        .word 12, 12, .Lmemmove_dst_b3_N
-.Lmemmove_dst_b3_P:
-        .word .Lmemmove_pow8, 176, .Lmemmove_dst_b3_P_to_N
-        .word 12, 12, .Lmemmove_dst_b2_P
-.Lmemmove_dst_b3_P_to_N:
-        .word 12, 12, .Lmemmove_dst_b2_N
-.Lmemmove_dst_b3_N:
-        .word .Lmemmove_npow8, 176, .Lmemmove_dst_b3_N_to_N
-        .word 12, 12, .Lmemmove_dst_b2_P
-.Lmemmove_dst_b3_N_to_N:
-        .word 12, 12, .Lmemmove_dst_b2_N
-.Lmemmove_dst_b2_P:
-        .word .Lmemmove_pow4, 176, .Lmemmove_dst_b2_P_to_N
-        .word 12, 12, .Lmemmove_dst_b1_P
-.Lmemmove_dst_b2_P_to_N:
-        .word 12, 12, .Lmemmove_dst_b1_N
-.Lmemmove_dst_b2_N:
-        .word .Lmemmove_npow4, 176, .Lmemmove_dst_b2_N_to_N
-        .word 12, 12, .Lmemmove_dst_b1_P
-.Lmemmove_dst_b2_N_to_N:
-        .word 12, 12, .Lmemmove_dst_b1_N
-.Lmemmove_dst_b1_P:
-        .word .Lmemmove_pow2, 176, .Lmemmove_dst_b1_P_to_N
-        .word .Lmemmove_pow2, 180, .Lmemmove_dst_b0_P
-.Lmemmove_dst_b1_P_to_N:
-        .word 12, 12, .Lmemmove_dst_b0_N
-.Lmemmove_dst_b1_N:
-        .word .Lmemmove_npow2, 176, .Lmemmove_dst_b1_N_to_N
-        .word .Lmemmove_pow2, 180, .Lmemmove_dst_b0_P
-.Lmemmove_dst_b1_N_to_N:
-        .word 12, 12, .Lmemmove_dst_b0_N
-.Lmemmove_dst_b0_P:
-        .word .Lmemmove_pow1, 176, .Lmemmove_dst_b0_P_to_N
-        .word .Lmemmove_pow1, 180, .Lmemmove_dst_done
-.Lmemmove_dst_b0_P_to_N:
-        .word 12, 12, .Lmemmove_dst_done
-.Lmemmove_dst_b0_N:
-        .word .Lmemmove_npow1, 176, .Lmemmove_dst_b0_N_to_N
-        .word .Lmemmove_pow1, 180, .Lmemmove_dst_done
-.Lmemmove_dst_b0_N_to_N:
-        .word 12, 12, .Lmemmove_dst_done
-.Lmemmove_dst_done:
-        .word 176, 176, .+4
-        .word 180, 176, .+4
-        .word 164, 164, .+4
-        .word 12, 12, .+4
-        .word 172, 12, .+4
-        .word 12, 164, .+4
-        .word 176, 164, .+4
         .word 12, 12, .+4
         .word 160, 160, .+4
-        .word 104, 160, .+4
-        .word 12, 12, .+4
         .word 100, 12, .+4
         .word 12, 160, .+4
-        .word 12, 12, .+4
+        .word 104, 160, .+4
         .word .Lmemmove_zero, 160, .Lmemmove_forward_check
-        .word .Lmemmove_zero, 164, .Lmemmove_bwd_chk_eq
-        .word 160, 160, .Lmemmove_bwd_slow_start
-.Lmemmove_bwd_chk_eq:
+.Lmemmove_bwd_align_sign:
+        .word 144, 160, .Lmemmove_bwd_align_sign_neg
+        .word 12, 12, .Lmemmove_bwd_align_bias
+.Lmemmove_bwd_align_sign_neg:
         .word 180, 180, .+4
-        .word 164, 180, .Lmemmove_bwd_fast_setup
+        .word 160, 180, .+4
+        .word 144, 180, .Lmemmove_bwd_align_sign_ambig
+        .word .Lmemmove_min, 160, .+4
+        .word 12, 12, .Lmemmove_bwd_align_bias
+.Lmemmove_bwd_align_sign_ambig:
+        .word .Lmemmove_n1, 180, .+4
+        .word 144, 180, .Lmemmove_bwd_align_sign_intmin
+        .word 12, 12, .Lmemmove_bwd_align_bias
+.Lmemmove_bwd_align_sign_intmin:
+        .word .Lmemmove_min, 160, .+4
+.Lmemmove_bwd_align_bias:
+        .word 180, 180, .+4
+        .word .Lmemmove_n1, 160, .+4
+.Lmemmove_bwd_align_b30_P:
+        .word .Lmemmove_pow1073741824, 160, .Lmemmove_bwd_align_b30_P_to_N
+.Lmemmove_bwd_align_b29_P:
+        .word .Lmemmove_pow536870912, 160, .Lmemmove_bwd_align_b29_P_to_N
+.Lmemmove_bwd_align_b28_P:
+        .word .Lmemmove_pow268435456, 160, .Lmemmove_bwd_align_b28_P_to_N
+.Lmemmove_bwd_align_b27_P:
+        .word .Lmemmove_pow134217728, 160, .Lmemmove_bwd_align_b27_P_to_N
+.Lmemmove_bwd_align_b26_P:
+        .word .Lmemmove_pow67108864, 160, .Lmemmove_bwd_align_b26_P_to_N
+.Lmemmove_bwd_align_b25_P:
+        .word .Lmemmove_pow33554432, 160, .Lmemmove_bwd_align_b25_P_to_N
+.Lmemmove_bwd_align_b24_P:
+        .word .Lmemmove_pow16777216, 160, .Lmemmove_bwd_align_b24_P_to_N
+.Lmemmove_bwd_align_b23_P:
+        .word .Lmemmove_pow8388608, 160, .Lmemmove_bwd_align_b23_P_to_N
+.Lmemmove_bwd_align_b22_P:
+        .word .Lmemmove_pow4194304, 160, .Lmemmove_bwd_align_b22_P_to_N
+.Lmemmove_bwd_align_b21_P:
+        .word .Lmemmove_pow2097152, 160, .Lmemmove_bwd_align_b21_P_to_N
+.Lmemmove_bwd_align_b20_P:
+        .word .Lmemmove_pow1048576, 160, .Lmemmove_bwd_align_b20_P_to_N
+.Lmemmove_bwd_align_b19_P:
+        .word .Lmemmove_pow524288, 160, .Lmemmove_bwd_align_b19_P_to_N
+.Lmemmove_bwd_align_b18_P:
+        .word .Lmemmove_pow262144, 160, .Lmemmove_bwd_align_b18_P_to_N
+.Lmemmove_bwd_align_b17_P:
+        .word .Lmemmove_pow131072, 160, .Lmemmove_bwd_align_b17_P_to_N
+.Lmemmove_bwd_align_b16_P:
+        .word .Lmemmove_pow65536, 160, .Lmemmove_bwd_align_b16_P_to_N
+.Lmemmove_bwd_align_b15_P:
+        .word .Lmemmove_pow32768, 160, .Lmemmove_bwd_align_b15_P_to_N
+.Lmemmove_bwd_align_b14_P:
+        .word .Lmemmove_pow16384, 160, .Lmemmove_bwd_align_b14_P_to_N
+.Lmemmove_bwd_align_b13_P:
+        .word .Lmemmove_pow8192, 160, .Lmemmove_bwd_align_b13_P_to_N
+.Lmemmove_bwd_align_b12_P:
+        .word .Lmemmove_pow4096, 160, .Lmemmove_bwd_align_b12_P_to_N
+.Lmemmove_bwd_align_b11_P:
+        .word .Lmemmove_pow2048, 160, .Lmemmove_bwd_align_b11_P_to_N
+.Lmemmove_bwd_align_b10_P:
+        .word .Lmemmove_pow1024, 160, .Lmemmove_bwd_align_b10_P_to_N
+.Lmemmove_bwd_align_b9_P:
+        .word .Lmemmove_pow512, 160, .Lmemmove_bwd_align_b9_P_to_N
+.Lmemmove_bwd_align_b8_P:
+        .word .Lmemmove_pow256, 160, .Lmemmove_bwd_align_b8_P_to_N
+.Lmemmove_bwd_align_b7_P:
+        .word .Lmemmove_pow128, 160, .Lmemmove_bwd_align_b7_P_to_N
+.Lmemmove_bwd_align_b6_P:
+        .word .Lmemmove_pow64, 160, .Lmemmove_bwd_align_b6_P_to_N
+.Lmemmove_bwd_align_b5_P:
+        .word .Lmemmove_pow32, 160, .Lmemmove_bwd_align_b5_P_to_N
+.Lmemmove_bwd_align_b4_P:
+        .word .Lmemmove_pow16, 160, .Lmemmove_bwd_align_b4_P_to_N
+.Lmemmove_bwd_align_b3_P:
+        .word .Lmemmove_pow8, 160, .Lmemmove_bwd_align_b3_P_to_N
+.Lmemmove_bwd_align_b2_P:
+        .word .Lmemmove_pow4, 160, .Lmemmove_bwd_align_b2_P_to_N
+.Lmemmove_bwd_align_b1_P:
+        .word .Lmemmove_pow2, 160, .Lmemmove_bwd_align_b1_P_to_N
+        .word .Lmemmove_pow2, 180, .Lmemmove_bwd_align_b0_P
+.Lmemmove_bwd_align_b1_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b0_N
+.Lmemmove_bwd_align_b1_N:
+        .word .Lmemmove_npow2, 160, .Lmemmove_bwd_align_b1_N_to_N
+        .word .Lmemmove_pow2, 180, .Lmemmove_bwd_align_b0_P
+.Lmemmove_bwd_align_b1_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b0_N
+.Lmemmove_bwd_align_b0_P:
+        .word .Lmemmove_pow1, 160, .Lmemmove_bwd_align_b0_P_to_N
+        .word .Lmemmove_pow1, 180, .Lmemmove_bwd_align_done
+.Lmemmove_bwd_align_b0_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_done
+.Lmemmove_bwd_align_b0_N:
+        .word .Lmemmove_npow1, 160, .Lmemmove_bwd_align_b0_N_to_N
+        .word .Lmemmove_pow1, 180, .Lmemmove_bwd_align_done
+.Lmemmove_bwd_align_b0_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_done
+.Lmemmove_bwd_align_b30_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b29_N
+.Lmemmove_bwd_align_b30_N:
+        .word .Lmemmove_npow1073741824, 160, .Lmemmove_bwd_align_b30_N_to_N
+        .word 12, 12, .Lmemmove_bwd_align_b29_P
+.Lmemmove_bwd_align_b30_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b29_N
+.Lmemmove_bwd_align_b29_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b28_N
+.Lmemmove_bwd_align_b29_N:
+        .word .Lmemmove_npow536870912, 160, .Lmemmove_bwd_align_b29_N_to_N
+        .word 12, 12, .Lmemmove_bwd_align_b28_P
+.Lmemmove_bwd_align_b29_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b28_N
+.Lmemmove_bwd_align_b28_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b27_N
+.Lmemmove_bwd_align_b28_N:
+        .word .Lmemmove_npow268435456, 160, .Lmemmove_bwd_align_b28_N_to_N
+        .word 12, 12, .Lmemmove_bwd_align_b27_P
+.Lmemmove_bwd_align_b28_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b27_N
+.Lmemmove_bwd_align_b27_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b26_N
+.Lmemmove_bwd_align_b27_N:
+        .word .Lmemmove_npow134217728, 160, .Lmemmove_bwd_align_b27_N_to_N
+        .word 12, 12, .Lmemmove_bwd_align_b26_P
+.Lmemmove_bwd_align_b27_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b26_N
+.Lmemmove_bwd_align_b26_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b25_N
+.Lmemmove_bwd_align_b26_N:
+        .word .Lmemmove_npow67108864, 160, .Lmemmove_bwd_align_b26_N_to_N
+        .word 12, 12, .Lmemmove_bwd_align_b25_P
+.Lmemmove_bwd_align_b26_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b25_N
+.Lmemmove_bwd_align_b25_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b24_N
+.Lmemmove_bwd_align_b25_N:
+        .word .Lmemmove_npow33554432, 160, .Lmemmove_bwd_align_b25_N_to_N
+        .word 12, 12, .Lmemmove_bwd_align_b24_P
+.Lmemmove_bwd_align_b25_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b24_N
+.Lmemmove_bwd_align_b24_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b23_N
+.Lmemmove_bwd_align_b24_N:
+        .word .Lmemmove_npow16777216, 160, .Lmemmove_bwd_align_b24_N_to_N
+        .word 12, 12, .Lmemmove_bwd_align_b23_P
+.Lmemmove_bwd_align_b24_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b23_N
+.Lmemmove_bwd_align_b23_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b22_N
+.Lmemmove_bwd_align_b23_N:
+        .word .Lmemmove_npow8388608, 160, .Lmemmove_bwd_align_b23_N_to_N
+        .word 12, 12, .Lmemmove_bwd_align_b22_P
+.Lmemmove_bwd_align_b23_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b22_N
+.Lmemmove_bwd_align_b22_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b21_N
+.Lmemmove_bwd_align_b22_N:
+        .word .Lmemmove_npow4194304, 160, .Lmemmove_bwd_align_b22_N_to_N
+        .word 12, 12, .Lmemmove_bwd_align_b21_P
+.Lmemmove_bwd_align_b22_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b21_N
+.Lmemmove_bwd_align_b21_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b20_N
+.Lmemmove_bwd_align_b21_N:
+        .word .Lmemmove_npow2097152, 160, .Lmemmove_bwd_align_b21_N_to_N
+        .word 12, 12, .Lmemmove_bwd_align_b20_P
+.Lmemmove_bwd_align_b21_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b20_N
+.Lmemmove_bwd_align_b20_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b19_N
+.Lmemmove_bwd_align_b20_N:
+        .word .Lmemmove_npow1048576, 160, .Lmemmove_bwd_align_b20_N_to_N
+        .word 12, 12, .Lmemmove_bwd_align_b19_P
+.Lmemmove_bwd_align_b20_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b19_N
+.Lmemmove_bwd_align_b19_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b18_N
+.Lmemmove_bwd_align_b19_N:
+        .word .Lmemmove_npow524288, 160, .Lmemmove_bwd_align_b19_N_to_N
+        .word 12, 12, .Lmemmove_bwd_align_b18_P
+.Lmemmove_bwd_align_b19_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b18_N
+.Lmemmove_bwd_align_b18_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b17_N
+.Lmemmove_bwd_align_b18_N:
+        .word .Lmemmove_npow262144, 160, .Lmemmove_bwd_align_b18_N_to_N
+        .word 12, 12, .Lmemmove_bwd_align_b17_P
+.Lmemmove_bwd_align_b18_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b17_N
+.Lmemmove_bwd_align_b17_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b16_N
+.Lmemmove_bwd_align_b17_N:
+        .word .Lmemmove_npow131072, 160, .Lmemmove_bwd_align_b17_N_to_N
+        .word 12, 12, .Lmemmove_bwd_align_b16_P
+.Lmemmove_bwd_align_b17_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b16_N
+.Lmemmove_bwd_align_b16_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b15_N
+.Lmemmove_bwd_align_b16_N:
+        .word .Lmemmove_npow65536, 160, .Lmemmove_bwd_align_b16_N_to_N
+        .word 12, 12, .Lmemmove_bwd_align_b15_P
+.Lmemmove_bwd_align_b16_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b15_N
+.Lmemmove_bwd_align_b15_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b14_N
+.Lmemmove_bwd_align_b15_N:
+        .word .Lmemmove_npow32768, 160, .Lmemmove_bwd_align_b15_N_to_N
+        .word 12, 12, .Lmemmove_bwd_align_b14_P
+.Lmemmove_bwd_align_b15_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b14_N
+.Lmemmove_bwd_align_b14_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b13_N
+.Lmemmove_bwd_align_b14_N:
+        .word .Lmemmove_npow16384, 160, .Lmemmove_bwd_align_b14_N_to_N
+        .word 12, 12, .Lmemmove_bwd_align_b13_P
+.Lmemmove_bwd_align_b14_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b13_N
+.Lmemmove_bwd_align_b13_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b12_N
+.Lmemmove_bwd_align_b13_N:
+        .word .Lmemmove_npow8192, 160, .Lmemmove_bwd_align_b13_N_to_N
+        .word 12, 12, .Lmemmove_bwd_align_b12_P
+.Lmemmove_bwd_align_b13_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b12_N
+.Lmemmove_bwd_align_b12_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b11_N
+.Lmemmove_bwd_align_b12_N:
+        .word .Lmemmove_npow4096, 160, .Lmemmove_bwd_align_b12_N_to_N
+        .word 12, 12, .Lmemmove_bwd_align_b11_P
+.Lmemmove_bwd_align_b12_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b11_N
+.Lmemmove_bwd_align_b11_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b10_N
+.Lmemmove_bwd_align_b11_N:
+        .word .Lmemmove_npow2048, 160, .Lmemmove_bwd_align_b11_N_to_N
+        .word 12, 12, .Lmemmove_bwd_align_b10_P
+.Lmemmove_bwd_align_b11_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b10_N
+.Lmemmove_bwd_align_b10_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b9_N
+.Lmemmove_bwd_align_b10_N:
+        .word .Lmemmove_npow1024, 160, .Lmemmove_bwd_align_b10_N_to_N
+        .word 12, 12, .Lmemmove_bwd_align_b9_P
+.Lmemmove_bwd_align_b10_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b9_N
+.Lmemmove_bwd_align_b9_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b8_N
+.Lmemmove_bwd_align_b9_N:
+        .word .Lmemmove_npow512, 160, .Lmemmove_bwd_align_b9_N_to_N
+        .word 12, 12, .Lmemmove_bwd_align_b8_P
+.Lmemmove_bwd_align_b9_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b8_N
+.Lmemmove_bwd_align_b8_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b7_N
+.Lmemmove_bwd_align_b8_N:
+        .word .Lmemmove_npow256, 160, .Lmemmove_bwd_align_b8_N_to_N
+        .word 12, 12, .Lmemmove_bwd_align_b7_P
+.Lmemmove_bwd_align_b8_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b7_N
+.Lmemmove_bwd_align_b7_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b6_N
+.Lmemmove_bwd_align_b7_N:
+        .word .Lmemmove_npow128, 160, .Lmemmove_bwd_align_b7_N_to_N
+        .word 12, 12, .Lmemmove_bwd_align_b6_P
+.Lmemmove_bwd_align_b7_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b6_N
+.Lmemmove_bwd_align_b6_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b5_N
+.Lmemmove_bwd_align_b6_N:
+        .word .Lmemmove_npow64, 160, .Lmemmove_bwd_align_b6_N_to_N
+        .word 12, 12, .Lmemmove_bwd_align_b5_P
+.Lmemmove_bwd_align_b6_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b5_N
+.Lmemmove_bwd_align_b5_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b4_N
+.Lmemmove_bwd_align_b5_N:
+        .word .Lmemmove_npow32, 160, .Lmemmove_bwd_align_b5_N_to_N
+        .word 12, 12, .Lmemmove_bwd_align_b4_P
+.Lmemmove_bwd_align_b5_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b4_N
+.Lmemmove_bwd_align_b4_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b3_N
+.Lmemmove_bwd_align_b4_N:
+        .word .Lmemmove_npow16, 160, .Lmemmove_bwd_align_b4_N_to_N
+        .word 12, 12, .Lmemmove_bwd_align_b3_P
+.Lmemmove_bwd_align_b4_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b3_N
+.Lmemmove_bwd_align_b3_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b2_N
+.Lmemmove_bwd_align_b3_N:
+        .word .Lmemmove_npow8, 160, .Lmemmove_bwd_align_b3_N_to_N
+        .word 12, 12, .Lmemmove_bwd_align_b2_P
+.Lmemmove_bwd_align_b3_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b2_N
+.Lmemmove_bwd_align_b2_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b1_N
+.Lmemmove_bwd_align_b2_N:
+        .word .Lmemmove_npow4, 160, .Lmemmove_bwd_align_b2_N_to_N
+        .word 12, 12, .Lmemmove_bwd_align_b1_P
+.Lmemmove_bwd_align_b2_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_align_b1_N
+.Lmemmove_bwd_align_done:
+        .word 164, 164, .+4
+        .word 180, 164, .+4
+        .word .Lmemmove_zero, 164, .Lmemmove_bwd_fast_setup
         .word 160, 160, .Lmemmove_bwd_slow_start
 .Lmemmove_bwd_slow_start:
         .word 160, 160, .+4
@@ -63308,302 +62097,71 @@ __subleq_memmove:
         .word 12, 12, .Lmemmove_bh_bias
 .Lmemmove_bh_sign_ambig:
         .word .Lmemmove_n1, 184, .+4
-        .word 144, 184, .Lmemmove_bh_bias
+        .word 144, 184, .Lmemmove_bh_sign_intmin
+        .word 12, 12, .Lmemmove_bh_bias
+.Lmemmove_bh_sign_intmin:
         .word .Lmemmove_min, 180, .+4
 .Lmemmove_bh_bias:
         .word 184, 184, .+4
         .word .Lmemmove_n1, 180, .+4
-        .word 12, 12, .Lmemmove_bh_b30_P
 .Lmemmove_bh_b30_P:
         .word .Lmemmove_pow1073741824, 180, .Lmemmove_bh_b30_P_to_N
-        .word 12, 12, .Lmemmove_bh_b29_P
-.Lmemmove_bh_b30_P_to_N:
-        .word 12, 12, .Lmemmove_bh_b29_N
-.Lmemmove_bh_b30_N:
-        .word .Lmemmove_npow1073741824, 180, .Lmemmove_bh_b30_N_to_N
-        .word 12, 12, .Lmemmove_bh_b29_P
-.Lmemmove_bh_b30_N_to_N:
-        .word 12, 12, .Lmemmove_bh_b29_N
 .Lmemmove_bh_b29_P:
         .word .Lmemmove_pow536870912, 180, .Lmemmove_bh_b29_P_to_N
-        .word 12, 12, .Lmemmove_bh_b28_P
-.Lmemmove_bh_b29_P_to_N:
-        .word 12, 12, .Lmemmove_bh_b28_N
-.Lmemmove_bh_b29_N:
-        .word .Lmemmove_npow536870912, 180, .Lmemmove_bh_b29_N_to_N
-        .word 12, 12, .Lmemmove_bh_b28_P
-.Lmemmove_bh_b29_N_to_N:
-        .word 12, 12, .Lmemmove_bh_b28_N
 .Lmemmove_bh_b28_P:
         .word .Lmemmove_pow268435456, 180, .Lmemmove_bh_b28_P_to_N
-        .word 12, 12, .Lmemmove_bh_b27_P
-.Lmemmove_bh_b28_P_to_N:
-        .word 12, 12, .Lmemmove_bh_b27_N
-.Lmemmove_bh_b28_N:
-        .word .Lmemmove_npow268435456, 180, .Lmemmove_bh_b28_N_to_N
-        .word 12, 12, .Lmemmove_bh_b27_P
-.Lmemmove_bh_b28_N_to_N:
-        .word 12, 12, .Lmemmove_bh_b27_N
 .Lmemmove_bh_b27_P:
         .word .Lmemmove_pow134217728, 180, .Lmemmove_bh_b27_P_to_N
-        .word 12, 12, .Lmemmove_bh_b26_P
-.Lmemmove_bh_b27_P_to_N:
-        .word 12, 12, .Lmemmove_bh_b26_N
-.Lmemmove_bh_b27_N:
-        .word .Lmemmove_npow134217728, 180, .Lmemmove_bh_b27_N_to_N
-        .word 12, 12, .Lmemmove_bh_b26_P
-.Lmemmove_bh_b27_N_to_N:
-        .word 12, 12, .Lmemmove_bh_b26_N
 .Lmemmove_bh_b26_P:
         .word .Lmemmove_pow67108864, 180, .Lmemmove_bh_b26_P_to_N
-        .word 12, 12, .Lmemmove_bh_b25_P
-.Lmemmove_bh_b26_P_to_N:
-        .word 12, 12, .Lmemmove_bh_b25_N
-.Lmemmove_bh_b26_N:
-        .word .Lmemmove_npow67108864, 180, .Lmemmove_bh_b26_N_to_N
-        .word 12, 12, .Lmemmove_bh_b25_P
-.Lmemmove_bh_b26_N_to_N:
-        .word 12, 12, .Lmemmove_bh_b25_N
 .Lmemmove_bh_b25_P:
         .word .Lmemmove_pow33554432, 180, .Lmemmove_bh_b25_P_to_N
-        .word 12, 12, .Lmemmove_bh_b24_P
-.Lmemmove_bh_b25_P_to_N:
-        .word 12, 12, .Lmemmove_bh_b24_N
-.Lmemmove_bh_b25_N:
-        .word .Lmemmove_npow33554432, 180, .Lmemmove_bh_b25_N_to_N
-        .word 12, 12, .Lmemmove_bh_b24_P
-.Lmemmove_bh_b25_N_to_N:
-        .word 12, 12, .Lmemmove_bh_b24_N
 .Lmemmove_bh_b24_P:
         .word .Lmemmove_pow16777216, 180, .Lmemmove_bh_b24_P_to_N
-        .word 12, 12, .Lmemmove_bh_b23_P
-.Lmemmove_bh_b24_P_to_N:
-        .word 12, 12, .Lmemmove_bh_b23_N
-.Lmemmove_bh_b24_N:
-        .word .Lmemmove_npow16777216, 180, .Lmemmove_bh_b24_N_to_N
-        .word 12, 12, .Lmemmove_bh_b23_P
-.Lmemmove_bh_b24_N_to_N:
-        .word 12, 12, .Lmemmove_bh_b23_N
 .Lmemmove_bh_b23_P:
         .word .Lmemmove_pow8388608, 180, .Lmemmove_bh_b23_P_to_N
-        .word 12, 12, .Lmemmove_bh_b22_P
-.Lmemmove_bh_b23_P_to_N:
-        .word 12, 12, .Lmemmove_bh_b22_N
-.Lmemmove_bh_b23_N:
-        .word .Lmemmove_npow8388608, 180, .Lmemmove_bh_b23_N_to_N
-        .word 12, 12, .Lmemmove_bh_b22_P
-.Lmemmove_bh_b23_N_to_N:
-        .word 12, 12, .Lmemmove_bh_b22_N
 .Lmemmove_bh_b22_P:
         .word .Lmemmove_pow4194304, 180, .Lmemmove_bh_b22_P_to_N
-        .word 12, 12, .Lmemmove_bh_b21_P
-.Lmemmove_bh_b22_P_to_N:
-        .word 12, 12, .Lmemmove_bh_b21_N
-.Lmemmove_bh_b22_N:
-        .word .Lmemmove_npow4194304, 180, .Lmemmove_bh_b22_N_to_N
-        .word 12, 12, .Lmemmove_bh_b21_P
-.Lmemmove_bh_b22_N_to_N:
-        .word 12, 12, .Lmemmove_bh_b21_N
 .Lmemmove_bh_b21_P:
         .word .Lmemmove_pow2097152, 180, .Lmemmove_bh_b21_P_to_N
-        .word 12, 12, .Lmemmove_bh_b20_P
-.Lmemmove_bh_b21_P_to_N:
-        .word 12, 12, .Lmemmove_bh_b20_N
-.Lmemmove_bh_b21_N:
-        .word .Lmemmove_npow2097152, 180, .Lmemmove_bh_b21_N_to_N
-        .word 12, 12, .Lmemmove_bh_b20_P
-.Lmemmove_bh_b21_N_to_N:
-        .word 12, 12, .Lmemmove_bh_b20_N
 .Lmemmove_bh_b20_P:
         .word .Lmemmove_pow1048576, 180, .Lmemmove_bh_b20_P_to_N
-        .word 12, 12, .Lmemmove_bh_b19_P
-.Lmemmove_bh_b20_P_to_N:
-        .word 12, 12, .Lmemmove_bh_b19_N
-.Lmemmove_bh_b20_N:
-        .word .Lmemmove_npow1048576, 180, .Lmemmove_bh_b20_N_to_N
-        .word 12, 12, .Lmemmove_bh_b19_P
-.Lmemmove_bh_b20_N_to_N:
-        .word 12, 12, .Lmemmove_bh_b19_N
 .Lmemmove_bh_b19_P:
         .word .Lmemmove_pow524288, 180, .Lmemmove_bh_b19_P_to_N
-        .word 12, 12, .Lmemmove_bh_b18_P
-.Lmemmove_bh_b19_P_to_N:
-        .word 12, 12, .Lmemmove_bh_b18_N
-.Lmemmove_bh_b19_N:
-        .word .Lmemmove_npow524288, 180, .Lmemmove_bh_b19_N_to_N
-        .word 12, 12, .Lmemmove_bh_b18_P
-.Lmemmove_bh_b19_N_to_N:
-        .word 12, 12, .Lmemmove_bh_b18_N
 .Lmemmove_bh_b18_P:
         .word .Lmemmove_pow262144, 180, .Lmemmove_bh_b18_P_to_N
-        .word 12, 12, .Lmemmove_bh_b17_P
-.Lmemmove_bh_b18_P_to_N:
-        .word 12, 12, .Lmemmove_bh_b17_N
-.Lmemmove_bh_b18_N:
-        .word .Lmemmove_npow262144, 180, .Lmemmove_bh_b18_N_to_N
-        .word 12, 12, .Lmemmove_bh_b17_P
-.Lmemmove_bh_b18_N_to_N:
-        .word 12, 12, .Lmemmove_bh_b17_N
 .Lmemmove_bh_b17_P:
         .word .Lmemmove_pow131072, 180, .Lmemmove_bh_b17_P_to_N
-        .word 12, 12, .Lmemmove_bh_b16_P
-.Lmemmove_bh_b17_P_to_N:
-        .word 12, 12, .Lmemmove_bh_b16_N
-.Lmemmove_bh_b17_N:
-        .word .Lmemmove_npow131072, 180, .Lmemmove_bh_b17_N_to_N
-        .word 12, 12, .Lmemmove_bh_b16_P
-.Lmemmove_bh_b17_N_to_N:
-        .word 12, 12, .Lmemmove_bh_b16_N
 .Lmemmove_bh_b16_P:
         .word .Lmemmove_pow65536, 180, .Lmemmove_bh_b16_P_to_N
-        .word 12, 12, .Lmemmove_bh_b15_P
-.Lmemmove_bh_b16_P_to_N:
-        .word 12, 12, .Lmemmove_bh_b15_N
-.Lmemmove_bh_b16_N:
-        .word .Lmemmove_npow65536, 180, .Lmemmove_bh_b16_N_to_N
-        .word 12, 12, .Lmemmove_bh_b15_P
-.Lmemmove_bh_b16_N_to_N:
-        .word 12, 12, .Lmemmove_bh_b15_N
 .Lmemmove_bh_b15_P:
         .word .Lmemmove_pow32768, 180, .Lmemmove_bh_b15_P_to_N
-        .word 12, 12, .Lmemmove_bh_b14_P
-.Lmemmove_bh_b15_P_to_N:
-        .word 12, 12, .Lmemmove_bh_b14_N
-.Lmemmove_bh_b15_N:
-        .word .Lmemmove_npow32768, 180, .Lmemmove_bh_b15_N_to_N
-        .word 12, 12, .Lmemmove_bh_b14_P
-.Lmemmove_bh_b15_N_to_N:
-        .word 12, 12, .Lmemmove_bh_b14_N
 .Lmemmove_bh_b14_P:
         .word .Lmemmove_pow16384, 180, .Lmemmove_bh_b14_P_to_N
-        .word 12, 12, .Lmemmove_bh_b13_P
-.Lmemmove_bh_b14_P_to_N:
-        .word 12, 12, .Lmemmove_bh_b13_N
-.Lmemmove_bh_b14_N:
-        .word .Lmemmove_npow16384, 180, .Lmemmove_bh_b14_N_to_N
-        .word 12, 12, .Lmemmove_bh_b13_P
-.Lmemmove_bh_b14_N_to_N:
-        .word 12, 12, .Lmemmove_bh_b13_N
 .Lmemmove_bh_b13_P:
         .word .Lmemmove_pow8192, 180, .Lmemmove_bh_b13_P_to_N
-        .word 12, 12, .Lmemmove_bh_b12_P
-.Lmemmove_bh_b13_P_to_N:
-        .word 12, 12, .Lmemmove_bh_b12_N
-.Lmemmove_bh_b13_N:
-        .word .Lmemmove_npow8192, 180, .Lmemmove_bh_b13_N_to_N
-        .word 12, 12, .Lmemmove_bh_b12_P
-.Lmemmove_bh_b13_N_to_N:
-        .word 12, 12, .Lmemmove_bh_b12_N
 .Lmemmove_bh_b12_P:
         .word .Lmemmove_pow4096, 180, .Lmemmove_bh_b12_P_to_N
-        .word 12, 12, .Lmemmove_bh_b11_P
-.Lmemmove_bh_b12_P_to_N:
-        .word 12, 12, .Lmemmove_bh_b11_N
-.Lmemmove_bh_b12_N:
-        .word .Lmemmove_npow4096, 180, .Lmemmove_bh_b12_N_to_N
-        .word 12, 12, .Lmemmove_bh_b11_P
-.Lmemmove_bh_b12_N_to_N:
-        .word 12, 12, .Lmemmove_bh_b11_N
 .Lmemmove_bh_b11_P:
         .word .Lmemmove_pow2048, 180, .Lmemmove_bh_b11_P_to_N
-        .word 12, 12, .Lmemmove_bh_b10_P
-.Lmemmove_bh_b11_P_to_N:
-        .word 12, 12, .Lmemmove_bh_b10_N
-.Lmemmove_bh_b11_N:
-        .word .Lmemmove_npow2048, 180, .Lmemmove_bh_b11_N_to_N
-        .word 12, 12, .Lmemmove_bh_b10_P
-.Lmemmove_bh_b11_N_to_N:
-        .word 12, 12, .Lmemmove_bh_b10_N
 .Lmemmove_bh_b10_P:
         .word .Lmemmove_pow1024, 180, .Lmemmove_bh_b10_P_to_N
-        .word 12, 12, .Lmemmove_bh_b9_P
-.Lmemmove_bh_b10_P_to_N:
-        .word 12, 12, .Lmemmove_bh_b9_N
-.Lmemmove_bh_b10_N:
-        .word .Lmemmove_npow1024, 180, .Lmemmove_bh_b10_N_to_N
-        .word 12, 12, .Lmemmove_bh_b9_P
-.Lmemmove_bh_b10_N_to_N:
-        .word 12, 12, .Lmemmove_bh_b9_N
 .Lmemmove_bh_b9_P:
         .word .Lmemmove_pow512, 180, .Lmemmove_bh_b9_P_to_N
-        .word 12, 12, .Lmemmove_bh_b8_P
-.Lmemmove_bh_b9_P_to_N:
-        .word 12, 12, .Lmemmove_bh_b8_N
-.Lmemmove_bh_b9_N:
-        .word .Lmemmove_npow512, 180, .Lmemmove_bh_b9_N_to_N
-        .word 12, 12, .Lmemmove_bh_b8_P
-.Lmemmove_bh_b9_N_to_N:
-        .word 12, 12, .Lmemmove_bh_b8_N
 .Lmemmove_bh_b8_P:
         .word .Lmemmove_pow256, 180, .Lmemmove_bh_b8_P_to_N
-        .word 12, 12, .Lmemmove_bh_b7_P
-.Lmemmove_bh_b8_P_to_N:
-        .word 12, 12, .Lmemmove_bh_b7_N
-.Lmemmove_bh_b8_N:
-        .word .Lmemmove_npow256, 180, .Lmemmove_bh_b8_N_to_N
-        .word 12, 12, .Lmemmove_bh_b7_P
-.Lmemmove_bh_b8_N_to_N:
-        .word 12, 12, .Lmemmove_bh_b7_N
 .Lmemmove_bh_b7_P:
         .word .Lmemmove_pow128, 180, .Lmemmove_bh_b7_P_to_N
-        .word 12, 12, .Lmemmove_bh_b6_P
-.Lmemmove_bh_b7_P_to_N:
-        .word 12, 12, .Lmemmove_bh_b6_N
-.Lmemmove_bh_b7_N:
-        .word .Lmemmove_npow128, 180, .Lmemmove_bh_b7_N_to_N
-        .word 12, 12, .Lmemmove_bh_b6_P
-.Lmemmove_bh_b7_N_to_N:
-        .word 12, 12, .Lmemmove_bh_b6_N
 .Lmemmove_bh_b6_P:
         .word .Lmemmove_pow64, 180, .Lmemmove_bh_b6_P_to_N
-        .word 12, 12, .Lmemmove_bh_b5_P
-.Lmemmove_bh_b6_P_to_N:
-        .word 12, 12, .Lmemmove_bh_b5_N
-.Lmemmove_bh_b6_N:
-        .word .Lmemmove_npow64, 180, .Lmemmove_bh_b6_N_to_N
-        .word 12, 12, .Lmemmove_bh_b5_P
-.Lmemmove_bh_b6_N_to_N:
-        .word 12, 12, .Lmemmove_bh_b5_N
 .Lmemmove_bh_b5_P:
         .word .Lmemmove_pow32, 180, .Lmemmove_bh_b5_P_to_N
-        .word 12, 12, .Lmemmove_bh_b4_P
-.Lmemmove_bh_b5_P_to_N:
-        .word 12, 12, .Lmemmove_bh_b4_N
-.Lmemmove_bh_b5_N:
-        .word .Lmemmove_npow32, 180, .Lmemmove_bh_b5_N_to_N
-        .word 12, 12, .Lmemmove_bh_b4_P
-.Lmemmove_bh_b5_N_to_N:
-        .word 12, 12, .Lmemmove_bh_b4_N
 .Lmemmove_bh_b4_P:
         .word .Lmemmove_pow16, 180, .Lmemmove_bh_b4_P_to_N
-        .word 12, 12, .Lmemmove_bh_b3_P
-.Lmemmove_bh_b4_P_to_N:
-        .word 12, 12, .Lmemmove_bh_b3_N
-.Lmemmove_bh_b4_N:
-        .word .Lmemmove_npow16, 180, .Lmemmove_bh_b4_N_to_N
-        .word 12, 12, .Lmemmove_bh_b3_P
-.Lmemmove_bh_b4_N_to_N:
-        .word 12, 12, .Lmemmove_bh_b3_N
 .Lmemmove_bh_b3_P:
         .word .Lmemmove_pow8, 180, .Lmemmove_bh_b3_P_to_N
-        .word 12, 12, .Lmemmove_bh_b2_P
-.Lmemmove_bh_b3_P_to_N:
-        .word 12, 12, .Lmemmove_bh_b2_N
-.Lmemmove_bh_b3_N:
-        .word .Lmemmove_npow8, 180, .Lmemmove_bh_b3_N_to_N
-        .word 12, 12, .Lmemmove_bh_b2_P
-.Lmemmove_bh_b3_N_to_N:
-        .word 12, 12, .Lmemmove_bh_b2_N
 .Lmemmove_bh_b2_P:
         .word .Lmemmove_pow4, 180, .Lmemmove_bh_b2_P_to_N
-        .word 12, 12, .Lmemmove_bh_b1_P
-.Lmemmove_bh_b2_P_to_N:
-        .word 12, 12, .Lmemmove_bh_b1_N
-.Lmemmove_bh_b2_N:
-        .word .Lmemmove_npow4, 180, .Lmemmove_bh_b2_N_to_N
-        .word 12, 12, .Lmemmove_bh_b1_P
-.Lmemmove_bh_b2_N_to_N:
-        .word 12, 12, .Lmemmove_bh_b1_N
 .Lmemmove_bh_b1_P:
         .word .Lmemmove_pow2, 180, .Lmemmove_bh_b1_P_to_N
         .word .Lmemmove_pow2, 184, .Lmemmove_bh_b0_P
@@ -63624,6 +62182,209 @@ __subleq_memmove:
         .word .Lmemmove_pow1, 184, .Lmemmove_bh_done
 .Lmemmove_bh_b0_N_to_N:
         .word 12, 12, .Lmemmove_bh_done
+.Lmemmove_bh_b30_P_to_N:
+        .word 12, 12, .Lmemmove_bh_b29_N
+.Lmemmove_bh_b30_N:
+        .word .Lmemmove_npow1073741824, 180, .Lmemmove_bh_b30_N_to_N
+        .word 12, 12, .Lmemmove_bh_b29_P
+.Lmemmove_bh_b30_N_to_N:
+        .word 12, 12, .Lmemmove_bh_b29_N
+.Lmemmove_bh_b29_P_to_N:
+        .word 12, 12, .Lmemmove_bh_b28_N
+.Lmemmove_bh_b29_N:
+        .word .Lmemmove_npow536870912, 180, .Lmemmove_bh_b29_N_to_N
+        .word 12, 12, .Lmemmove_bh_b28_P
+.Lmemmove_bh_b29_N_to_N:
+        .word 12, 12, .Lmemmove_bh_b28_N
+.Lmemmove_bh_b28_P_to_N:
+        .word 12, 12, .Lmemmove_bh_b27_N
+.Lmemmove_bh_b28_N:
+        .word .Lmemmove_npow268435456, 180, .Lmemmove_bh_b28_N_to_N
+        .word 12, 12, .Lmemmove_bh_b27_P
+.Lmemmove_bh_b28_N_to_N:
+        .word 12, 12, .Lmemmove_bh_b27_N
+.Lmemmove_bh_b27_P_to_N:
+        .word 12, 12, .Lmemmove_bh_b26_N
+.Lmemmove_bh_b27_N:
+        .word .Lmemmove_npow134217728, 180, .Lmemmove_bh_b27_N_to_N
+        .word 12, 12, .Lmemmove_bh_b26_P
+.Lmemmove_bh_b27_N_to_N:
+        .word 12, 12, .Lmemmove_bh_b26_N
+.Lmemmove_bh_b26_P_to_N:
+        .word 12, 12, .Lmemmove_bh_b25_N
+.Lmemmove_bh_b26_N:
+        .word .Lmemmove_npow67108864, 180, .Lmemmove_bh_b26_N_to_N
+        .word 12, 12, .Lmemmove_bh_b25_P
+.Lmemmove_bh_b26_N_to_N:
+        .word 12, 12, .Lmemmove_bh_b25_N
+.Lmemmove_bh_b25_P_to_N:
+        .word 12, 12, .Lmemmove_bh_b24_N
+.Lmemmove_bh_b25_N:
+        .word .Lmemmove_npow33554432, 180, .Lmemmove_bh_b25_N_to_N
+        .word 12, 12, .Lmemmove_bh_b24_P
+.Lmemmove_bh_b25_N_to_N:
+        .word 12, 12, .Lmemmove_bh_b24_N
+.Lmemmove_bh_b24_P_to_N:
+        .word 12, 12, .Lmemmove_bh_b23_N
+.Lmemmove_bh_b24_N:
+        .word .Lmemmove_npow16777216, 180, .Lmemmove_bh_b24_N_to_N
+        .word 12, 12, .Lmemmove_bh_b23_P
+.Lmemmove_bh_b24_N_to_N:
+        .word 12, 12, .Lmemmove_bh_b23_N
+.Lmemmove_bh_b23_P_to_N:
+        .word 12, 12, .Lmemmove_bh_b22_N
+.Lmemmove_bh_b23_N:
+        .word .Lmemmove_npow8388608, 180, .Lmemmove_bh_b23_N_to_N
+        .word 12, 12, .Lmemmove_bh_b22_P
+.Lmemmove_bh_b23_N_to_N:
+        .word 12, 12, .Lmemmove_bh_b22_N
+.Lmemmove_bh_b22_P_to_N:
+        .word 12, 12, .Lmemmove_bh_b21_N
+.Lmemmove_bh_b22_N:
+        .word .Lmemmove_npow4194304, 180, .Lmemmove_bh_b22_N_to_N
+        .word 12, 12, .Lmemmove_bh_b21_P
+.Lmemmove_bh_b22_N_to_N:
+        .word 12, 12, .Lmemmove_bh_b21_N
+.Lmemmove_bh_b21_P_to_N:
+        .word 12, 12, .Lmemmove_bh_b20_N
+.Lmemmove_bh_b21_N:
+        .word .Lmemmove_npow2097152, 180, .Lmemmove_bh_b21_N_to_N
+        .word 12, 12, .Lmemmove_bh_b20_P
+.Lmemmove_bh_b21_N_to_N:
+        .word 12, 12, .Lmemmove_bh_b20_N
+.Lmemmove_bh_b20_P_to_N:
+        .word 12, 12, .Lmemmove_bh_b19_N
+.Lmemmove_bh_b20_N:
+        .word .Lmemmove_npow1048576, 180, .Lmemmove_bh_b20_N_to_N
+        .word 12, 12, .Lmemmove_bh_b19_P
+.Lmemmove_bh_b20_N_to_N:
+        .word 12, 12, .Lmemmove_bh_b19_N
+.Lmemmove_bh_b19_P_to_N:
+        .word 12, 12, .Lmemmove_bh_b18_N
+.Lmemmove_bh_b19_N:
+        .word .Lmemmove_npow524288, 180, .Lmemmove_bh_b19_N_to_N
+        .word 12, 12, .Lmemmove_bh_b18_P
+.Lmemmove_bh_b19_N_to_N:
+        .word 12, 12, .Lmemmove_bh_b18_N
+.Lmemmove_bh_b18_P_to_N:
+        .word 12, 12, .Lmemmove_bh_b17_N
+.Lmemmove_bh_b18_N:
+        .word .Lmemmove_npow262144, 180, .Lmemmove_bh_b18_N_to_N
+        .word 12, 12, .Lmemmove_bh_b17_P
+.Lmemmove_bh_b18_N_to_N:
+        .word 12, 12, .Lmemmove_bh_b17_N
+.Lmemmove_bh_b17_P_to_N:
+        .word 12, 12, .Lmemmove_bh_b16_N
+.Lmemmove_bh_b17_N:
+        .word .Lmemmove_npow131072, 180, .Lmemmove_bh_b17_N_to_N
+        .word 12, 12, .Lmemmove_bh_b16_P
+.Lmemmove_bh_b17_N_to_N:
+        .word 12, 12, .Lmemmove_bh_b16_N
+.Lmemmove_bh_b16_P_to_N:
+        .word 12, 12, .Lmemmove_bh_b15_N
+.Lmemmove_bh_b16_N:
+        .word .Lmemmove_npow65536, 180, .Lmemmove_bh_b16_N_to_N
+        .word 12, 12, .Lmemmove_bh_b15_P
+.Lmemmove_bh_b16_N_to_N:
+        .word 12, 12, .Lmemmove_bh_b15_N
+.Lmemmove_bh_b15_P_to_N:
+        .word 12, 12, .Lmemmove_bh_b14_N
+.Lmemmove_bh_b15_N:
+        .word .Lmemmove_npow32768, 180, .Lmemmove_bh_b15_N_to_N
+        .word 12, 12, .Lmemmove_bh_b14_P
+.Lmemmove_bh_b15_N_to_N:
+        .word 12, 12, .Lmemmove_bh_b14_N
+.Lmemmove_bh_b14_P_to_N:
+        .word 12, 12, .Lmemmove_bh_b13_N
+.Lmemmove_bh_b14_N:
+        .word .Lmemmove_npow16384, 180, .Lmemmove_bh_b14_N_to_N
+        .word 12, 12, .Lmemmove_bh_b13_P
+.Lmemmove_bh_b14_N_to_N:
+        .word 12, 12, .Lmemmove_bh_b13_N
+.Lmemmove_bh_b13_P_to_N:
+        .word 12, 12, .Lmemmove_bh_b12_N
+.Lmemmove_bh_b13_N:
+        .word .Lmemmove_npow8192, 180, .Lmemmove_bh_b13_N_to_N
+        .word 12, 12, .Lmemmove_bh_b12_P
+.Lmemmove_bh_b13_N_to_N:
+        .word 12, 12, .Lmemmove_bh_b12_N
+.Lmemmove_bh_b12_P_to_N:
+        .word 12, 12, .Lmemmove_bh_b11_N
+.Lmemmove_bh_b12_N:
+        .word .Lmemmove_npow4096, 180, .Lmemmove_bh_b12_N_to_N
+        .word 12, 12, .Lmemmove_bh_b11_P
+.Lmemmove_bh_b12_N_to_N:
+        .word 12, 12, .Lmemmove_bh_b11_N
+.Lmemmove_bh_b11_P_to_N:
+        .word 12, 12, .Lmemmove_bh_b10_N
+.Lmemmove_bh_b11_N:
+        .word .Lmemmove_npow2048, 180, .Lmemmove_bh_b11_N_to_N
+        .word 12, 12, .Lmemmove_bh_b10_P
+.Lmemmove_bh_b11_N_to_N:
+        .word 12, 12, .Lmemmove_bh_b10_N
+.Lmemmove_bh_b10_P_to_N:
+        .word 12, 12, .Lmemmove_bh_b9_N
+.Lmemmove_bh_b10_N:
+        .word .Lmemmove_npow1024, 180, .Lmemmove_bh_b10_N_to_N
+        .word 12, 12, .Lmemmove_bh_b9_P
+.Lmemmove_bh_b10_N_to_N:
+        .word 12, 12, .Lmemmove_bh_b9_N
+.Lmemmove_bh_b9_P_to_N:
+        .word 12, 12, .Lmemmove_bh_b8_N
+.Lmemmove_bh_b9_N:
+        .word .Lmemmove_npow512, 180, .Lmemmove_bh_b9_N_to_N
+        .word 12, 12, .Lmemmove_bh_b8_P
+.Lmemmove_bh_b9_N_to_N:
+        .word 12, 12, .Lmemmove_bh_b8_N
+.Lmemmove_bh_b8_P_to_N:
+        .word 12, 12, .Lmemmove_bh_b7_N
+.Lmemmove_bh_b8_N:
+        .word .Lmemmove_npow256, 180, .Lmemmove_bh_b8_N_to_N
+        .word 12, 12, .Lmemmove_bh_b7_P
+.Lmemmove_bh_b8_N_to_N:
+        .word 12, 12, .Lmemmove_bh_b7_N
+.Lmemmove_bh_b7_P_to_N:
+        .word 12, 12, .Lmemmove_bh_b6_N
+.Lmemmove_bh_b7_N:
+        .word .Lmemmove_npow128, 180, .Lmemmove_bh_b7_N_to_N
+        .word 12, 12, .Lmemmove_bh_b6_P
+.Lmemmove_bh_b7_N_to_N:
+        .word 12, 12, .Lmemmove_bh_b6_N
+.Lmemmove_bh_b6_P_to_N:
+        .word 12, 12, .Lmemmove_bh_b5_N
+.Lmemmove_bh_b6_N:
+        .word .Lmemmove_npow64, 180, .Lmemmove_bh_b6_N_to_N
+        .word 12, 12, .Lmemmove_bh_b5_P
+.Lmemmove_bh_b6_N_to_N:
+        .word 12, 12, .Lmemmove_bh_b5_N
+.Lmemmove_bh_b5_P_to_N:
+        .word 12, 12, .Lmemmove_bh_b4_N
+.Lmemmove_bh_b5_N:
+        .word .Lmemmove_npow32, 180, .Lmemmove_bh_b5_N_to_N
+        .word 12, 12, .Lmemmove_bh_b4_P
+.Lmemmove_bh_b5_N_to_N:
+        .word 12, 12, .Lmemmove_bh_b4_N
+.Lmemmove_bh_b4_P_to_N:
+        .word 12, 12, .Lmemmove_bh_b3_N
+.Lmemmove_bh_b4_N:
+        .word .Lmemmove_npow16, 180, .Lmemmove_bh_b4_N_to_N
+        .word 12, 12, .Lmemmove_bh_b3_P
+.Lmemmove_bh_b4_N_to_N:
+        .word 12, 12, .Lmemmove_bh_b3_N
+.Lmemmove_bh_b3_P_to_N:
+        .word 12, 12, .Lmemmove_bh_b2_N
+.Lmemmove_bh_b3_N:
+        .word .Lmemmove_npow8, 180, .Lmemmove_bh_b3_N_to_N
+        .word 12, 12, .Lmemmove_bh_b2_P
+.Lmemmove_bh_b3_N_to_N:
+        .word 12, 12, .Lmemmove_bh_b2_N
+.Lmemmove_bh_b2_P_to_N:
+        .word 12, 12, .Lmemmove_bh_b1_N
+.Lmemmove_bh_b2_N:
+        .word .Lmemmove_npow4, 180, .Lmemmove_bh_b2_N_to_N
+        .word 12, 12, .Lmemmove_bh_b1_P
+.Lmemmove_bh_b2_N_to_N:
+        .word 12, 12, .Lmemmove_bh_b1_N
 .Lmemmove_bh_done:
         .word 180, 180, .+4
         .word 184, 180, .+4
@@ -63696,7 +62457,7 @@ __subleq_memmove:
         .word 12, 12, .+4
         .word 108, 12, .+4
         .word 12, 180, .+4
-        .word .Lmemmove_c3, 180, .Lmemmove_bwd_tail
+        .word .Lmemmove_c3, 180, .Lmemmove_bwd_tail_early
         .word 180, 180, .+4
         .word 12, 12, .+4
         .word 104, 12, .+4
@@ -63712,302 +62473,71 @@ __subleq_memmove:
         .word 12, 12, .Lmemmove_bs_bias
 .Lmemmove_bs_sign_ambig:
         .word .Lmemmove_n1, 184, .+4
-        .word 144, 184, .Lmemmove_bs_bias
+        .word 144, 184, .Lmemmove_bs_sign_intmin
+        .word 12, 12, .Lmemmove_bs_bias
+.Lmemmove_bs_sign_intmin:
         .word .Lmemmove_min, 180, .+4
 .Lmemmove_bs_bias:
         .word 184, 184, .+4
         .word .Lmemmove_n1, 180, .+4
-        .word 12, 12, .Lmemmove_bs_b30_P
 .Lmemmove_bs_b30_P:
         .word .Lmemmove_pow1073741824, 180, .Lmemmove_bs_b30_P_to_N
-        .word 12, 12, .Lmemmove_bs_b29_P
-.Lmemmove_bs_b30_P_to_N:
-        .word 12, 12, .Lmemmove_bs_b29_N
-.Lmemmove_bs_b30_N:
-        .word .Lmemmove_npow1073741824, 180, .Lmemmove_bs_b30_N_to_N
-        .word 12, 12, .Lmemmove_bs_b29_P
-.Lmemmove_bs_b30_N_to_N:
-        .word 12, 12, .Lmemmove_bs_b29_N
 .Lmemmove_bs_b29_P:
         .word .Lmemmove_pow536870912, 180, .Lmemmove_bs_b29_P_to_N
-        .word 12, 12, .Lmemmove_bs_b28_P
-.Lmemmove_bs_b29_P_to_N:
-        .word 12, 12, .Lmemmove_bs_b28_N
-.Lmemmove_bs_b29_N:
-        .word .Lmemmove_npow536870912, 180, .Lmemmove_bs_b29_N_to_N
-        .word 12, 12, .Lmemmove_bs_b28_P
-.Lmemmove_bs_b29_N_to_N:
-        .word 12, 12, .Lmemmove_bs_b28_N
 .Lmemmove_bs_b28_P:
         .word .Lmemmove_pow268435456, 180, .Lmemmove_bs_b28_P_to_N
-        .word 12, 12, .Lmemmove_bs_b27_P
-.Lmemmove_bs_b28_P_to_N:
-        .word 12, 12, .Lmemmove_bs_b27_N
-.Lmemmove_bs_b28_N:
-        .word .Lmemmove_npow268435456, 180, .Lmemmove_bs_b28_N_to_N
-        .word 12, 12, .Lmemmove_bs_b27_P
-.Lmemmove_bs_b28_N_to_N:
-        .word 12, 12, .Lmemmove_bs_b27_N
 .Lmemmove_bs_b27_P:
         .word .Lmemmove_pow134217728, 180, .Lmemmove_bs_b27_P_to_N
-        .word 12, 12, .Lmemmove_bs_b26_P
-.Lmemmove_bs_b27_P_to_N:
-        .word 12, 12, .Lmemmove_bs_b26_N
-.Lmemmove_bs_b27_N:
-        .word .Lmemmove_npow134217728, 180, .Lmemmove_bs_b27_N_to_N
-        .word 12, 12, .Lmemmove_bs_b26_P
-.Lmemmove_bs_b27_N_to_N:
-        .word 12, 12, .Lmemmove_bs_b26_N
 .Lmemmove_bs_b26_P:
         .word .Lmemmove_pow67108864, 180, .Lmemmove_bs_b26_P_to_N
-        .word 12, 12, .Lmemmove_bs_b25_P
-.Lmemmove_bs_b26_P_to_N:
-        .word 12, 12, .Lmemmove_bs_b25_N
-.Lmemmove_bs_b26_N:
-        .word .Lmemmove_npow67108864, 180, .Lmemmove_bs_b26_N_to_N
-        .word 12, 12, .Lmemmove_bs_b25_P
-.Lmemmove_bs_b26_N_to_N:
-        .word 12, 12, .Lmemmove_bs_b25_N
 .Lmemmove_bs_b25_P:
         .word .Lmemmove_pow33554432, 180, .Lmemmove_bs_b25_P_to_N
-        .word 12, 12, .Lmemmove_bs_b24_P
-.Lmemmove_bs_b25_P_to_N:
-        .word 12, 12, .Lmemmove_bs_b24_N
-.Lmemmove_bs_b25_N:
-        .word .Lmemmove_npow33554432, 180, .Lmemmove_bs_b25_N_to_N
-        .word 12, 12, .Lmemmove_bs_b24_P
-.Lmemmove_bs_b25_N_to_N:
-        .word 12, 12, .Lmemmove_bs_b24_N
 .Lmemmove_bs_b24_P:
         .word .Lmemmove_pow16777216, 180, .Lmemmove_bs_b24_P_to_N
-        .word 12, 12, .Lmemmove_bs_b23_P
-.Lmemmove_bs_b24_P_to_N:
-        .word 12, 12, .Lmemmove_bs_b23_N
-.Lmemmove_bs_b24_N:
-        .word .Lmemmove_npow16777216, 180, .Lmemmove_bs_b24_N_to_N
-        .word 12, 12, .Lmemmove_bs_b23_P
-.Lmemmove_bs_b24_N_to_N:
-        .word 12, 12, .Lmemmove_bs_b23_N
 .Lmemmove_bs_b23_P:
         .word .Lmemmove_pow8388608, 180, .Lmemmove_bs_b23_P_to_N
-        .word 12, 12, .Lmemmove_bs_b22_P
-.Lmemmove_bs_b23_P_to_N:
-        .word 12, 12, .Lmemmove_bs_b22_N
-.Lmemmove_bs_b23_N:
-        .word .Lmemmove_npow8388608, 180, .Lmemmove_bs_b23_N_to_N
-        .word 12, 12, .Lmemmove_bs_b22_P
-.Lmemmove_bs_b23_N_to_N:
-        .word 12, 12, .Lmemmove_bs_b22_N
 .Lmemmove_bs_b22_P:
         .word .Lmemmove_pow4194304, 180, .Lmemmove_bs_b22_P_to_N
-        .word 12, 12, .Lmemmove_bs_b21_P
-.Lmemmove_bs_b22_P_to_N:
-        .word 12, 12, .Lmemmove_bs_b21_N
-.Lmemmove_bs_b22_N:
-        .word .Lmemmove_npow4194304, 180, .Lmemmove_bs_b22_N_to_N
-        .word 12, 12, .Lmemmove_bs_b21_P
-.Lmemmove_bs_b22_N_to_N:
-        .word 12, 12, .Lmemmove_bs_b21_N
 .Lmemmove_bs_b21_P:
         .word .Lmemmove_pow2097152, 180, .Lmemmove_bs_b21_P_to_N
-        .word 12, 12, .Lmemmove_bs_b20_P
-.Lmemmove_bs_b21_P_to_N:
-        .word 12, 12, .Lmemmove_bs_b20_N
-.Lmemmove_bs_b21_N:
-        .word .Lmemmove_npow2097152, 180, .Lmemmove_bs_b21_N_to_N
-        .word 12, 12, .Lmemmove_bs_b20_P
-.Lmemmove_bs_b21_N_to_N:
-        .word 12, 12, .Lmemmove_bs_b20_N
 .Lmemmove_bs_b20_P:
         .word .Lmemmove_pow1048576, 180, .Lmemmove_bs_b20_P_to_N
-        .word 12, 12, .Lmemmove_bs_b19_P
-.Lmemmove_bs_b20_P_to_N:
-        .word 12, 12, .Lmemmove_bs_b19_N
-.Lmemmove_bs_b20_N:
-        .word .Lmemmove_npow1048576, 180, .Lmemmove_bs_b20_N_to_N
-        .word 12, 12, .Lmemmove_bs_b19_P
-.Lmemmove_bs_b20_N_to_N:
-        .word 12, 12, .Lmemmove_bs_b19_N
 .Lmemmove_bs_b19_P:
         .word .Lmemmove_pow524288, 180, .Lmemmove_bs_b19_P_to_N
-        .word 12, 12, .Lmemmove_bs_b18_P
-.Lmemmove_bs_b19_P_to_N:
-        .word 12, 12, .Lmemmove_bs_b18_N
-.Lmemmove_bs_b19_N:
-        .word .Lmemmove_npow524288, 180, .Lmemmove_bs_b19_N_to_N
-        .word 12, 12, .Lmemmove_bs_b18_P
-.Lmemmove_bs_b19_N_to_N:
-        .word 12, 12, .Lmemmove_bs_b18_N
 .Lmemmove_bs_b18_P:
         .word .Lmemmove_pow262144, 180, .Lmemmove_bs_b18_P_to_N
-        .word 12, 12, .Lmemmove_bs_b17_P
-.Lmemmove_bs_b18_P_to_N:
-        .word 12, 12, .Lmemmove_bs_b17_N
-.Lmemmove_bs_b18_N:
-        .word .Lmemmove_npow262144, 180, .Lmemmove_bs_b18_N_to_N
-        .word 12, 12, .Lmemmove_bs_b17_P
-.Lmemmove_bs_b18_N_to_N:
-        .word 12, 12, .Lmemmove_bs_b17_N
 .Lmemmove_bs_b17_P:
         .word .Lmemmove_pow131072, 180, .Lmemmove_bs_b17_P_to_N
-        .word 12, 12, .Lmemmove_bs_b16_P
-.Lmemmove_bs_b17_P_to_N:
-        .word 12, 12, .Lmemmove_bs_b16_N
-.Lmemmove_bs_b17_N:
-        .word .Lmemmove_npow131072, 180, .Lmemmove_bs_b17_N_to_N
-        .word 12, 12, .Lmemmove_bs_b16_P
-.Lmemmove_bs_b17_N_to_N:
-        .word 12, 12, .Lmemmove_bs_b16_N
 .Lmemmove_bs_b16_P:
         .word .Lmemmove_pow65536, 180, .Lmemmove_bs_b16_P_to_N
-        .word 12, 12, .Lmemmove_bs_b15_P
-.Lmemmove_bs_b16_P_to_N:
-        .word 12, 12, .Lmemmove_bs_b15_N
-.Lmemmove_bs_b16_N:
-        .word .Lmemmove_npow65536, 180, .Lmemmove_bs_b16_N_to_N
-        .word 12, 12, .Lmemmove_bs_b15_P
-.Lmemmove_bs_b16_N_to_N:
-        .word 12, 12, .Lmemmove_bs_b15_N
 .Lmemmove_bs_b15_P:
         .word .Lmemmove_pow32768, 180, .Lmemmove_bs_b15_P_to_N
-        .word 12, 12, .Lmemmove_bs_b14_P
-.Lmemmove_bs_b15_P_to_N:
-        .word 12, 12, .Lmemmove_bs_b14_N
-.Lmemmove_bs_b15_N:
-        .word .Lmemmove_npow32768, 180, .Lmemmove_bs_b15_N_to_N
-        .word 12, 12, .Lmemmove_bs_b14_P
-.Lmemmove_bs_b15_N_to_N:
-        .word 12, 12, .Lmemmove_bs_b14_N
 .Lmemmove_bs_b14_P:
         .word .Lmemmove_pow16384, 180, .Lmemmove_bs_b14_P_to_N
-        .word 12, 12, .Lmemmove_bs_b13_P
-.Lmemmove_bs_b14_P_to_N:
-        .word 12, 12, .Lmemmove_bs_b13_N
-.Lmemmove_bs_b14_N:
-        .word .Lmemmove_npow16384, 180, .Lmemmove_bs_b14_N_to_N
-        .word 12, 12, .Lmemmove_bs_b13_P
-.Lmemmove_bs_b14_N_to_N:
-        .word 12, 12, .Lmemmove_bs_b13_N
 .Lmemmove_bs_b13_P:
         .word .Lmemmove_pow8192, 180, .Lmemmove_bs_b13_P_to_N
-        .word 12, 12, .Lmemmove_bs_b12_P
-.Lmemmove_bs_b13_P_to_N:
-        .word 12, 12, .Lmemmove_bs_b12_N
-.Lmemmove_bs_b13_N:
-        .word .Lmemmove_npow8192, 180, .Lmemmove_bs_b13_N_to_N
-        .word 12, 12, .Lmemmove_bs_b12_P
-.Lmemmove_bs_b13_N_to_N:
-        .word 12, 12, .Lmemmove_bs_b12_N
 .Lmemmove_bs_b12_P:
         .word .Lmemmove_pow4096, 180, .Lmemmove_bs_b12_P_to_N
-        .word 12, 12, .Lmemmove_bs_b11_P
-.Lmemmove_bs_b12_P_to_N:
-        .word 12, 12, .Lmemmove_bs_b11_N
-.Lmemmove_bs_b12_N:
-        .word .Lmemmove_npow4096, 180, .Lmemmove_bs_b12_N_to_N
-        .word 12, 12, .Lmemmove_bs_b11_P
-.Lmemmove_bs_b12_N_to_N:
-        .word 12, 12, .Lmemmove_bs_b11_N
 .Lmemmove_bs_b11_P:
         .word .Lmemmove_pow2048, 180, .Lmemmove_bs_b11_P_to_N
-        .word 12, 12, .Lmemmove_bs_b10_P
-.Lmemmove_bs_b11_P_to_N:
-        .word 12, 12, .Lmemmove_bs_b10_N
-.Lmemmove_bs_b11_N:
-        .word .Lmemmove_npow2048, 180, .Lmemmove_bs_b11_N_to_N
-        .word 12, 12, .Lmemmove_bs_b10_P
-.Lmemmove_bs_b11_N_to_N:
-        .word 12, 12, .Lmemmove_bs_b10_N
 .Lmemmove_bs_b10_P:
         .word .Lmemmove_pow1024, 180, .Lmemmove_bs_b10_P_to_N
-        .word 12, 12, .Lmemmove_bs_b9_P
-.Lmemmove_bs_b10_P_to_N:
-        .word 12, 12, .Lmemmove_bs_b9_N
-.Lmemmove_bs_b10_N:
-        .word .Lmemmove_npow1024, 180, .Lmemmove_bs_b10_N_to_N
-        .word 12, 12, .Lmemmove_bs_b9_P
-.Lmemmove_bs_b10_N_to_N:
-        .word 12, 12, .Lmemmove_bs_b9_N
 .Lmemmove_bs_b9_P:
         .word .Lmemmove_pow512, 180, .Lmemmove_bs_b9_P_to_N
-        .word 12, 12, .Lmemmove_bs_b8_P
-.Lmemmove_bs_b9_P_to_N:
-        .word 12, 12, .Lmemmove_bs_b8_N
-.Lmemmove_bs_b9_N:
-        .word .Lmemmove_npow512, 180, .Lmemmove_bs_b9_N_to_N
-        .word 12, 12, .Lmemmove_bs_b8_P
-.Lmemmove_bs_b9_N_to_N:
-        .word 12, 12, .Lmemmove_bs_b8_N
 .Lmemmove_bs_b8_P:
         .word .Lmemmove_pow256, 180, .Lmemmove_bs_b8_P_to_N
-        .word 12, 12, .Lmemmove_bs_b7_P
-.Lmemmove_bs_b8_P_to_N:
-        .word 12, 12, .Lmemmove_bs_b7_N
-.Lmemmove_bs_b8_N:
-        .word .Lmemmove_npow256, 180, .Lmemmove_bs_b8_N_to_N
-        .word 12, 12, .Lmemmove_bs_b7_P
-.Lmemmove_bs_b8_N_to_N:
-        .word 12, 12, .Lmemmove_bs_b7_N
 .Lmemmove_bs_b7_P:
         .word .Lmemmove_pow128, 180, .Lmemmove_bs_b7_P_to_N
-        .word 12, 12, .Lmemmove_bs_b6_P
-.Lmemmove_bs_b7_P_to_N:
-        .word 12, 12, .Lmemmove_bs_b6_N
-.Lmemmove_bs_b7_N:
-        .word .Lmemmove_npow128, 180, .Lmemmove_bs_b7_N_to_N
-        .word 12, 12, .Lmemmove_bs_b6_P
-.Lmemmove_bs_b7_N_to_N:
-        .word 12, 12, .Lmemmove_bs_b6_N
 .Lmemmove_bs_b6_P:
         .word .Lmemmove_pow64, 180, .Lmemmove_bs_b6_P_to_N
-        .word 12, 12, .Lmemmove_bs_b5_P
-.Lmemmove_bs_b6_P_to_N:
-        .word 12, 12, .Lmemmove_bs_b5_N
-.Lmemmove_bs_b6_N:
-        .word .Lmemmove_npow64, 180, .Lmemmove_bs_b6_N_to_N
-        .word 12, 12, .Lmemmove_bs_b5_P
-.Lmemmove_bs_b6_N_to_N:
-        .word 12, 12, .Lmemmove_bs_b5_N
 .Lmemmove_bs_b5_P:
         .word .Lmemmove_pow32, 180, .Lmemmove_bs_b5_P_to_N
-        .word 12, 12, .Lmemmove_bs_b4_P
-.Lmemmove_bs_b5_P_to_N:
-        .word 12, 12, .Lmemmove_bs_b4_N
-.Lmemmove_bs_b5_N:
-        .word .Lmemmove_npow32, 180, .Lmemmove_bs_b5_N_to_N
-        .word 12, 12, .Lmemmove_bs_b4_P
-.Lmemmove_bs_b5_N_to_N:
-        .word 12, 12, .Lmemmove_bs_b4_N
 .Lmemmove_bs_b4_P:
         .word .Lmemmove_pow16, 180, .Lmemmove_bs_b4_P_to_N
-        .word 12, 12, .Lmemmove_bs_b3_P
-.Lmemmove_bs_b4_P_to_N:
-        .word 12, 12, .Lmemmove_bs_b3_N
-.Lmemmove_bs_b4_N:
-        .word .Lmemmove_npow16, 180, .Lmemmove_bs_b4_N_to_N
-        .word 12, 12, .Lmemmove_bs_b3_P
-.Lmemmove_bs_b4_N_to_N:
-        .word 12, 12, .Lmemmove_bs_b3_N
 .Lmemmove_bs_b3_P:
         .word .Lmemmove_pow8, 180, .Lmemmove_bs_b3_P_to_N
-        .word 12, 12, .Lmemmove_bs_b2_P
-.Lmemmove_bs_b3_P_to_N:
-        .word 12, 12, .Lmemmove_bs_b2_N
-.Lmemmove_bs_b3_N:
-        .word .Lmemmove_npow8, 180, .Lmemmove_bs_b3_N_to_N
-        .word 12, 12, .Lmemmove_bs_b2_P
-.Lmemmove_bs_b3_N_to_N:
-        .word 12, 12, .Lmemmove_bs_b2_N
 .Lmemmove_bs_b2_P:
         .word .Lmemmove_pow4, 180, .Lmemmove_bs_b2_P_to_N
-        .word 12, 12, .Lmemmove_bs_b1_P
-.Lmemmove_bs_b2_P_to_N:
-        .word 12, 12, .Lmemmove_bs_b1_N
-.Lmemmove_bs_b2_N:
-        .word .Lmemmove_npow4, 180, .Lmemmove_bs_b2_N_to_N
-        .word 12, 12, .Lmemmove_bs_b1_P
-.Lmemmove_bs_b2_N_to_N:
-        .word 12, 12, .Lmemmove_bs_b1_N
 .Lmemmove_bs_b1_P:
         .word .Lmemmove_pow2, 180, .Lmemmove_bs_b1_P_to_N
         .word .Lmemmove_pow2, 184, .Lmemmove_bs_b0_P
@@ -64028,6 +62558,209 @@ __subleq_memmove:
         .word .Lmemmove_pow1, 184, .Lmemmove_bs_done
 .Lmemmove_bs_b0_N_to_N:
         .word 12, 12, .Lmemmove_bs_done
+.Lmemmove_bs_b30_P_to_N:
+        .word 12, 12, .Lmemmove_bs_b29_N
+.Lmemmove_bs_b30_N:
+        .word .Lmemmove_npow1073741824, 180, .Lmemmove_bs_b30_N_to_N
+        .word 12, 12, .Lmemmove_bs_b29_P
+.Lmemmove_bs_b30_N_to_N:
+        .word 12, 12, .Lmemmove_bs_b29_N
+.Lmemmove_bs_b29_P_to_N:
+        .word 12, 12, .Lmemmove_bs_b28_N
+.Lmemmove_bs_b29_N:
+        .word .Lmemmove_npow536870912, 180, .Lmemmove_bs_b29_N_to_N
+        .word 12, 12, .Lmemmove_bs_b28_P
+.Lmemmove_bs_b29_N_to_N:
+        .word 12, 12, .Lmemmove_bs_b28_N
+.Lmemmove_bs_b28_P_to_N:
+        .word 12, 12, .Lmemmove_bs_b27_N
+.Lmemmove_bs_b28_N:
+        .word .Lmemmove_npow268435456, 180, .Lmemmove_bs_b28_N_to_N
+        .word 12, 12, .Lmemmove_bs_b27_P
+.Lmemmove_bs_b28_N_to_N:
+        .word 12, 12, .Lmemmove_bs_b27_N
+.Lmemmove_bs_b27_P_to_N:
+        .word 12, 12, .Lmemmove_bs_b26_N
+.Lmemmove_bs_b27_N:
+        .word .Lmemmove_npow134217728, 180, .Lmemmove_bs_b27_N_to_N
+        .word 12, 12, .Lmemmove_bs_b26_P
+.Lmemmove_bs_b27_N_to_N:
+        .word 12, 12, .Lmemmove_bs_b26_N
+.Lmemmove_bs_b26_P_to_N:
+        .word 12, 12, .Lmemmove_bs_b25_N
+.Lmemmove_bs_b26_N:
+        .word .Lmemmove_npow67108864, 180, .Lmemmove_bs_b26_N_to_N
+        .word 12, 12, .Lmemmove_bs_b25_P
+.Lmemmove_bs_b26_N_to_N:
+        .word 12, 12, .Lmemmove_bs_b25_N
+.Lmemmove_bs_b25_P_to_N:
+        .word 12, 12, .Lmemmove_bs_b24_N
+.Lmemmove_bs_b25_N:
+        .word .Lmemmove_npow33554432, 180, .Lmemmove_bs_b25_N_to_N
+        .word 12, 12, .Lmemmove_bs_b24_P
+.Lmemmove_bs_b25_N_to_N:
+        .word 12, 12, .Lmemmove_bs_b24_N
+.Lmemmove_bs_b24_P_to_N:
+        .word 12, 12, .Lmemmove_bs_b23_N
+.Lmemmove_bs_b24_N:
+        .word .Lmemmove_npow16777216, 180, .Lmemmove_bs_b24_N_to_N
+        .word 12, 12, .Lmemmove_bs_b23_P
+.Lmemmove_bs_b24_N_to_N:
+        .word 12, 12, .Lmemmove_bs_b23_N
+.Lmemmove_bs_b23_P_to_N:
+        .word 12, 12, .Lmemmove_bs_b22_N
+.Lmemmove_bs_b23_N:
+        .word .Lmemmove_npow8388608, 180, .Lmemmove_bs_b23_N_to_N
+        .word 12, 12, .Lmemmove_bs_b22_P
+.Lmemmove_bs_b23_N_to_N:
+        .word 12, 12, .Lmemmove_bs_b22_N
+.Lmemmove_bs_b22_P_to_N:
+        .word 12, 12, .Lmemmove_bs_b21_N
+.Lmemmove_bs_b22_N:
+        .word .Lmemmove_npow4194304, 180, .Lmemmove_bs_b22_N_to_N
+        .word 12, 12, .Lmemmove_bs_b21_P
+.Lmemmove_bs_b22_N_to_N:
+        .word 12, 12, .Lmemmove_bs_b21_N
+.Lmemmove_bs_b21_P_to_N:
+        .word 12, 12, .Lmemmove_bs_b20_N
+.Lmemmove_bs_b21_N:
+        .word .Lmemmove_npow2097152, 180, .Lmemmove_bs_b21_N_to_N
+        .word 12, 12, .Lmemmove_bs_b20_P
+.Lmemmove_bs_b21_N_to_N:
+        .word 12, 12, .Lmemmove_bs_b20_N
+.Lmemmove_bs_b20_P_to_N:
+        .word 12, 12, .Lmemmove_bs_b19_N
+.Lmemmove_bs_b20_N:
+        .word .Lmemmove_npow1048576, 180, .Lmemmove_bs_b20_N_to_N
+        .word 12, 12, .Lmemmove_bs_b19_P
+.Lmemmove_bs_b20_N_to_N:
+        .word 12, 12, .Lmemmove_bs_b19_N
+.Lmemmove_bs_b19_P_to_N:
+        .word 12, 12, .Lmemmove_bs_b18_N
+.Lmemmove_bs_b19_N:
+        .word .Lmemmove_npow524288, 180, .Lmemmove_bs_b19_N_to_N
+        .word 12, 12, .Lmemmove_bs_b18_P
+.Lmemmove_bs_b19_N_to_N:
+        .word 12, 12, .Lmemmove_bs_b18_N
+.Lmemmove_bs_b18_P_to_N:
+        .word 12, 12, .Lmemmove_bs_b17_N
+.Lmemmove_bs_b18_N:
+        .word .Lmemmove_npow262144, 180, .Lmemmove_bs_b18_N_to_N
+        .word 12, 12, .Lmemmove_bs_b17_P
+.Lmemmove_bs_b18_N_to_N:
+        .word 12, 12, .Lmemmove_bs_b17_N
+.Lmemmove_bs_b17_P_to_N:
+        .word 12, 12, .Lmemmove_bs_b16_N
+.Lmemmove_bs_b17_N:
+        .word .Lmemmove_npow131072, 180, .Lmemmove_bs_b17_N_to_N
+        .word 12, 12, .Lmemmove_bs_b16_P
+.Lmemmove_bs_b17_N_to_N:
+        .word 12, 12, .Lmemmove_bs_b16_N
+.Lmemmove_bs_b16_P_to_N:
+        .word 12, 12, .Lmemmove_bs_b15_N
+.Lmemmove_bs_b16_N:
+        .word .Lmemmove_npow65536, 180, .Lmemmove_bs_b16_N_to_N
+        .word 12, 12, .Lmemmove_bs_b15_P
+.Lmemmove_bs_b16_N_to_N:
+        .word 12, 12, .Lmemmove_bs_b15_N
+.Lmemmove_bs_b15_P_to_N:
+        .word 12, 12, .Lmemmove_bs_b14_N
+.Lmemmove_bs_b15_N:
+        .word .Lmemmove_npow32768, 180, .Lmemmove_bs_b15_N_to_N
+        .word 12, 12, .Lmemmove_bs_b14_P
+.Lmemmove_bs_b15_N_to_N:
+        .word 12, 12, .Lmemmove_bs_b14_N
+.Lmemmove_bs_b14_P_to_N:
+        .word 12, 12, .Lmemmove_bs_b13_N
+.Lmemmove_bs_b14_N:
+        .word .Lmemmove_npow16384, 180, .Lmemmove_bs_b14_N_to_N
+        .word 12, 12, .Lmemmove_bs_b13_P
+.Lmemmove_bs_b14_N_to_N:
+        .word 12, 12, .Lmemmove_bs_b13_N
+.Lmemmove_bs_b13_P_to_N:
+        .word 12, 12, .Lmemmove_bs_b12_N
+.Lmemmove_bs_b13_N:
+        .word .Lmemmove_npow8192, 180, .Lmemmove_bs_b13_N_to_N
+        .word 12, 12, .Lmemmove_bs_b12_P
+.Lmemmove_bs_b13_N_to_N:
+        .word 12, 12, .Lmemmove_bs_b12_N
+.Lmemmove_bs_b12_P_to_N:
+        .word 12, 12, .Lmemmove_bs_b11_N
+.Lmemmove_bs_b12_N:
+        .word .Lmemmove_npow4096, 180, .Lmemmove_bs_b12_N_to_N
+        .word 12, 12, .Lmemmove_bs_b11_P
+.Lmemmove_bs_b12_N_to_N:
+        .word 12, 12, .Lmemmove_bs_b11_N
+.Lmemmove_bs_b11_P_to_N:
+        .word 12, 12, .Lmemmove_bs_b10_N
+.Lmemmove_bs_b11_N:
+        .word .Lmemmove_npow2048, 180, .Lmemmove_bs_b11_N_to_N
+        .word 12, 12, .Lmemmove_bs_b10_P
+.Lmemmove_bs_b11_N_to_N:
+        .word 12, 12, .Lmemmove_bs_b10_N
+.Lmemmove_bs_b10_P_to_N:
+        .word 12, 12, .Lmemmove_bs_b9_N
+.Lmemmove_bs_b10_N:
+        .word .Lmemmove_npow1024, 180, .Lmemmove_bs_b10_N_to_N
+        .word 12, 12, .Lmemmove_bs_b9_P
+.Lmemmove_bs_b10_N_to_N:
+        .word 12, 12, .Lmemmove_bs_b9_N
+.Lmemmove_bs_b9_P_to_N:
+        .word 12, 12, .Lmemmove_bs_b8_N
+.Lmemmove_bs_b9_N:
+        .word .Lmemmove_npow512, 180, .Lmemmove_bs_b9_N_to_N
+        .word 12, 12, .Lmemmove_bs_b8_P
+.Lmemmove_bs_b9_N_to_N:
+        .word 12, 12, .Lmemmove_bs_b8_N
+.Lmemmove_bs_b8_P_to_N:
+        .word 12, 12, .Lmemmove_bs_b7_N
+.Lmemmove_bs_b8_N:
+        .word .Lmemmove_npow256, 180, .Lmemmove_bs_b8_N_to_N
+        .word 12, 12, .Lmemmove_bs_b7_P
+.Lmemmove_bs_b8_N_to_N:
+        .word 12, 12, .Lmemmove_bs_b7_N
+.Lmemmove_bs_b7_P_to_N:
+        .word 12, 12, .Lmemmove_bs_b6_N
+.Lmemmove_bs_b7_N:
+        .word .Lmemmove_npow128, 180, .Lmemmove_bs_b7_N_to_N
+        .word 12, 12, .Lmemmove_bs_b6_P
+.Lmemmove_bs_b7_N_to_N:
+        .word 12, 12, .Lmemmove_bs_b6_N
+.Lmemmove_bs_b6_P_to_N:
+        .word 12, 12, .Lmemmove_bs_b5_N
+.Lmemmove_bs_b6_N:
+        .word .Lmemmove_npow64, 180, .Lmemmove_bs_b6_N_to_N
+        .word 12, 12, .Lmemmove_bs_b5_P
+.Lmemmove_bs_b6_N_to_N:
+        .word 12, 12, .Lmemmove_bs_b5_N
+.Lmemmove_bs_b5_P_to_N:
+        .word 12, 12, .Lmemmove_bs_b4_N
+.Lmemmove_bs_b5_N:
+        .word .Lmemmove_npow32, 180, .Lmemmove_bs_b5_N_to_N
+        .word 12, 12, .Lmemmove_bs_b4_P
+.Lmemmove_bs_b5_N_to_N:
+        .word 12, 12, .Lmemmove_bs_b4_N
+.Lmemmove_bs_b4_P_to_N:
+        .word 12, 12, .Lmemmove_bs_b3_N
+.Lmemmove_bs_b4_N:
+        .word .Lmemmove_npow16, 180, .Lmemmove_bs_b4_N_to_N
+        .word 12, 12, .Lmemmove_bs_b3_P
+.Lmemmove_bs_b4_N_to_N:
+        .word 12, 12, .Lmemmove_bs_b3_N
+.Lmemmove_bs_b3_P_to_N:
+        .word 12, 12, .Lmemmove_bs_b2_N
+.Lmemmove_bs_b3_N:
+        .word .Lmemmove_npow8, 180, .Lmemmove_bs_b3_N_to_N
+        .word 12, 12, .Lmemmove_bs_b2_P
+.Lmemmove_bs_b3_N_to_N:
+        .word 12, 12, .Lmemmove_bs_b2_N
+.Lmemmove_bs_b2_P_to_N:
+        .word 12, 12, .Lmemmove_bs_b1_N
+.Lmemmove_bs_b2_N:
+        .word .Lmemmove_npow4, 180, .Lmemmove_bs_b2_N_to_N
+        .word 12, 12, .Lmemmove_bs_b1_P
+.Lmemmove_bs_b2_N_to_N:
+        .word 12, 12, .Lmemmove_bs_b1_N
 .Lmemmove_bs_done:
         .word 180, 180, .+4
         .word 184, 180, .+4
@@ -64035,6 +62768,10 @@ __subleq_memmove:
         .word 168, 168, .+4
         .word 180, 12, .+4
         .word 12, 168, .+4
+        .word 12, 12, .+4
+        .word 204, 204, .+4
+        .word 180, 12, .+4
+        .word 12, 204, .+4
         .word .Lmemmove_n1, 180, .+4
         .word 184, 184, .+4
         .word 12, 12, .+4
@@ -64055,12 +62792,12 @@ __subleq_memmove:
         .word 180, 12, .+4
         .word 12, 164, .+4
         .word .Lmemmove_c2, 164, .Lmemmove_bwd_ua_chk12
-        .word .Lmemmove_c1, 164, .Lmemmove_bwd_ua24_body
-        .word 12, 12, .Lmemmove_bwd_ua32_body
+        .word .Lmemmove_c1, 164, .Lmemmove_bwd_ua24_e_body
+        .word 12, 12, .Lmemmove_bwd_ua32_e_body
 .Lmemmove_bwd_ua_chk12:
-        .word .Lmemmove_n1, 164, .Lmemmove_bwd_ua8_body
-        .word 12, 12, .Lmemmove_bwd_ua16_body
-.Lmemmove_bwd_ua8_body:
+        .word .Lmemmove_n1, 164, .Lmemmove_bwd_ua8_e_body
+        .word 12, 12, .Lmemmove_bwd_ua16_e_body
+.Lmemmove_bwd_ua8_e_body:
         .word 180, 180, .+4
         .word 12, 12, .+4
         .word 108, 12, .+4
@@ -64074,438 +62811,1237 @@ __subleq_memmove:
         .word 12, 12, .+4
         .word 180, 12, .+4
         .word 12, 164, .+4
-        .word 12, 12, .+4
-        .word 208, 208, .+4
-        .word 164, 12, .+4
-        .word 12, 208, .+4
-        .word 12, 12, .+4
-        .word 188, 188, .+4
-        .word 160, 12, .+4
-        .word 12, 188, .+4
-.Lmemmove_bwd_ua8_shl_dbl0:
-        .word 12, 12, .+4
-        .word 188, 12, .+4
-        .word 12, 188, .+4
-        .word 12, 12, .+4
-.Lmemmove_bwd_ua8_shl_dbl1:
-        .word 12, 12, .+4
-        .word 188, 12, .+4
-        .word 12, 188, .+4
-        .word 12, 12, .+4
-.Lmemmove_bwd_ua8_shl_dbl2:
-        .word 12, 12, .+4
-        .word 188, 12, .+4
-        .word 12, 188, .+4
-        .word 12, 12, .+4
-.Lmemmove_bwd_ua8_shl_dbl3:
-        .word 12, 12, .+4
-        .word 188, 12, .+4
-        .word 12, 188, .+4
-        .word 12, 12, .+4
-.Lmemmove_bwd_ua8_shl_dbl4:
-        .word 12, 12, .+4
-        .word 188, 12, .+4
-        .word 12, 188, .+4
-        .word 12, 12, .+4
-.Lmemmove_bwd_ua8_shl_dbl5:
-        .word 12, 12, .+4
-        .word 188, 12, .+4
-        .word 12, 188, .+4
-        .word 12, 12, .+4
-.Lmemmove_bwd_ua8_shl_dbl6:
-        .word 12, 12, .+4
-        .word 188, 12, .+4
-        .word 12, 188, .+4
-        .word 12, 12, .+4
-.Lmemmove_bwd_ua8_shl_dbl7:
-        .word 12, 12, .+4
-        .word 188, 12, .+4
-        .word 12, 188, .+4
-        .word 12, 12, .+4
-.Lmemmove_bwd_ua8_shl_dbl8:
-        .word 12, 12, .+4
-        .word 188, 12, .+4
-        .word 12, 188, .+4
-        .word 12, 12, .+4
-.Lmemmove_bwd_ua8_shl_dbl9:
-        .word 12, 12, .+4
-        .word 188, 12, .+4
-        .word 12, 188, .+4
-        .word 12, 12, .+4
-.Lmemmove_bwd_ua8_shl_dbl10:
-        .word 12, 12, .+4
-        .word 188, 12, .+4
-        .word 12, 188, .+4
-        .word 12, 12, .+4
-.Lmemmove_bwd_ua8_shl_dbl11:
-        .word 12, 12, .+4
-        .word 188, 12, .+4
-        .word 12, 188, .+4
-        .word 12, 12, .+4
-.Lmemmove_bwd_ua8_shl_dbl12:
-        .word 12, 12, .+4
-        .word 188, 12, .+4
-        .word 12, 188, .+4
-        .word 12, 12, .+4
-.Lmemmove_bwd_ua8_shl_dbl13:
-        .word 12, 12, .+4
-        .word 188, 12, .+4
-        .word 12, 188, .+4
-        .word 12, 12, .+4
-.Lmemmove_bwd_ua8_shl_dbl14:
-        .word 12, 12, .+4
-        .word 188, 12, .+4
-        .word 12, 188, .+4
-        .word 12, 12, .+4
-.Lmemmove_bwd_ua8_shl_dbl15:
-        .word 12, 12, .+4
-        .word 188, 12, .+4
-        .word 12, 188, .+4
-        .word 12, 12, .+4
-.Lmemmove_bwd_ua8_shl_dbl16:
-        .word 12, 12, .+4
-        .word 188, 12, .+4
-        .word 12, 188, .+4
-        .word 12, 12, .+4
-.Lmemmove_bwd_ua8_shl_dbl17:
-        .word 12, 12, .+4
-        .word 188, 12, .+4
-        .word 12, 188, .+4
-        .word 12, 12, .+4
-.Lmemmove_bwd_ua8_shl_dbl18:
-        .word 12, 12, .+4
-        .word 188, 12, .+4
-        .word 12, 188, .+4
-        .word 12, 12, .+4
-.Lmemmove_bwd_ua8_shl_dbl19:
-        .word 12, 12, .+4
-        .word 188, 12, .+4
-        .word 12, 188, .+4
-        .word 12, 12, .+4
-.Lmemmove_bwd_ua8_shl_dbl20:
-        .word 12, 12, .+4
-        .word 188, 12, .+4
-        .word 12, 188, .+4
-        .word 12, 12, .+4
-.Lmemmove_bwd_ua8_shl_dbl21:
-        .word 12, 12, .+4
-        .word 188, 12, .+4
-        .word 12, 188, .+4
-        .word 12, 12, .+4
-.Lmemmove_bwd_ua8_shl_dbl22:
-        .word 12, 12, .+4
-        .word 188, 12, .+4
-        .word 12, 188, .+4
-        .word 12, 12, .+4
-.Lmemmove_bwd_ua8_shl_dbl23:
-        .word 12, 12, .+4
-        .word 188, 12, .+4
-        .word 12, 188, .+4
-.Lmemmove_bwd_ua8_shl_done:
+        .word 180, 180, .+4
         .word 12, 12, .+4
         .word 172, 172, .+4
-        .word 208, 12, .+4
+        .word 164, 12, .+4
         .word 12, 172, .+4
-        .word 180, 180, .+4
-.Lmemmove_bwd_ua8_srl_b31:
+.Lmemmove_bwd_ua8_e_fuse_w0_b31:
         .word 176, 176, .+4
         .word 172, 176, .+4
-        .word 144, 176, .Lmemmove_bwd_ua8_srl_b30_check
+        .word 144, 176, .Lmemmove_bwd_ua8_e_fuse_w0_b30_check
         .word .Lmemmove_npow8388608, 180, .+4
         .word .Lmemmove_min, 172, .+4
-.Lmemmove_bwd_ua8_srl_b30_check:
+.Lmemmove_bwd_ua8_e_fuse_w0_b30_check:
         .word 176, 176, .+4
         .word 172, 176, .+4
-        .word .Lmemmove_npow1073741824, 176, .Lmemmove_bwd_ua8_srl_b30_set
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_lattice_start
-.Lmemmove_bwd_ua8_srl_b30_set:
+        .word .Lmemmove_npow1073741824, 176, .Lmemmove_bwd_ua8_e_fuse_w0_b30_set
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_lattice_start
+.Lmemmove_bwd_ua8_e_fuse_w0_b30_set:
         .word .Lmemmove_npow4194304, 180, .+4
         .word .Lmemmove_pow1073741824, 172, .+4
-.Lmemmove_bwd_ua8_srl_lattice_start:
+.Lmemmove_bwd_ua8_e_fuse_w0_lattice_start:
         .word .Lmemmove_n1, 172, .+4
-.Lmemmove_bwd_ua8_srl_b29_P:
-        .word .Lmemmove_pow536870912, 172, .Lmemmove_bwd_ua8_srl_b29_P_to_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b29_P:
+        .word .Lmemmove_pow536870912, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b29_P_to_N
         .word .Lmemmove_npow2097152, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b28_P
-.Lmemmove_bwd_ua8_srl_b29_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b28_N
-.Lmemmove_bwd_ua8_srl_b29_N:
-        .word .Lmemmove_npow536870912, 172, .Lmemmove_bwd_ua8_srl_b29_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b28_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b29_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b28_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b29_N:
+        .word .Lmemmove_npow536870912, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b29_N_to_N
         .word .Lmemmove_npow2097152, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b28_P
-.Lmemmove_bwd_ua8_srl_b29_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b28_N
-.Lmemmove_bwd_ua8_srl_b28_P:
-        .word .Lmemmove_pow268435456, 172, .Lmemmove_bwd_ua8_srl_b28_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b28_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b29_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b28_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b28_P:
+        .word .Lmemmove_pow268435456, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b28_P_to_N
         .word .Lmemmove_npow1048576, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b27_P
-.Lmemmove_bwd_ua8_srl_b28_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b27_N
-.Lmemmove_bwd_ua8_srl_b28_N:
-        .word .Lmemmove_npow268435456, 172, .Lmemmove_bwd_ua8_srl_b28_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b27_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b28_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b27_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b28_N:
+        .word .Lmemmove_npow268435456, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b28_N_to_N
         .word .Lmemmove_npow1048576, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b27_P
-.Lmemmove_bwd_ua8_srl_b28_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b27_N
-.Lmemmove_bwd_ua8_srl_b27_P:
-        .word .Lmemmove_pow134217728, 172, .Lmemmove_bwd_ua8_srl_b27_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b27_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b28_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b27_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b27_P:
+        .word .Lmemmove_pow134217728, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b27_P_to_N
         .word .Lmemmove_npow524288, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b26_P
-.Lmemmove_bwd_ua8_srl_b27_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b26_N
-.Lmemmove_bwd_ua8_srl_b27_N:
-        .word .Lmemmove_npow134217728, 172, .Lmemmove_bwd_ua8_srl_b27_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b26_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b27_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b26_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b27_N:
+        .word .Lmemmove_npow134217728, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b27_N_to_N
         .word .Lmemmove_npow524288, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b26_P
-.Lmemmove_bwd_ua8_srl_b27_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b26_N
-.Lmemmove_bwd_ua8_srl_b26_P:
-        .word .Lmemmove_pow67108864, 172, .Lmemmove_bwd_ua8_srl_b26_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b26_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b27_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b26_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b26_P:
+        .word .Lmemmove_pow67108864, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b26_P_to_N
         .word .Lmemmove_npow262144, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b25_P
-.Lmemmove_bwd_ua8_srl_b26_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b25_N
-.Lmemmove_bwd_ua8_srl_b26_N:
-        .word .Lmemmove_npow67108864, 172, .Lmemmove_bwd_ua8_srl_b26_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b25_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b26_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b25_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b26_N:
+        .word .Lmemmove_npow67108864, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b26_N_to_N
         .word .Lmemmove_npow262144, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b25_P
-.Lmemmove_bwd_ua8_srl_b26_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b25_N
-.Lmemmove_bwd_ua8_srl_b25_P:
-        .word .Lmemmove_pow33554432, 172, .Lmemmove_bwd_ua8_srl_b25_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b25_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b26_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b25_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b25_P:
+        .word .Lmemmove_pow33554432, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b25_P_to_N
         .word .Lmemmove_npow131072, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b24_P
-.Lmemmove_bwd_ua8_srl_b25_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b24_N
-.Lmemmove_bwd_ua8_srl_b25_N:
-        .word .Lmemmove_npow33554432, 172, .Lmemmove_bwd_ua8_srl_b25_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b24_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b25_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b24_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b25_N:
+        .word .Lmemmove_npow33554432, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b25_N_to_N
         .word .Lmemmove_npow131072, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b24_P
-.Lmemmove_bwd_ua8_srl_b25_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b24_N
-.Lmemmove_bwd_ua8_srl_b24_P:
-        .word .Lmemmove_pow16777216, 172, .Lmemmove_bwd_ua8_srl_b24_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b24_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b25_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b24_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b24_P:
+        .word .Lmemmove_pow16777216, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b24_P_to_N
         .word .Lmemmove_npow65536, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b23_P
-.Lmemmove_bwd_ua8_srl_b24_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b23_N
-.Lmemmove_bwd_ua8_srl_b24_N:
-        .word .Lmemmove_npow16777216, 172, .Lmemmove_bwd_ua8_srl_b24_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b23_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b24_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b23_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b24_N:
+        .word .Lmemmove_npow16777216, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b24_N_to_N
         .word .Lmemmove_npow65536, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b23_P
-.Lmemmove_bwd_ua8_srl_b24_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b23_N
-.Lmemmove_bwd_ua8_srl_b23_P:
-        .word .Lmemmove_pow8388608, 172, .Lmemmove_bwd_ua8_srl_b23_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b23_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b24_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b23_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b23_P:
+        .word .Lmemmove_pow8388608, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b23_P_to_N
         .word .Lmemmove_npow32768, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b22_P
-.Lmemmove_bwd_ua8_srl_b23_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b22_N
-.Lmemmove_bwd_ua8_srl_b23_N:
-        .word .Lmemmove_npow8388608, 172, .Lmemmove_bwd_ua8_srl_b23_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b22_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b23_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b22_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b23_N:
+        .word .Lmemmove_npow8388608, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b23_N_to_N
         .word .Lmemmove_npow32768, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b22_P
-.Lmemmove_bwd_ua8_srl_b23_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b22_N
-.Lmemmove_bwd_ua8_srl_b22_P:
-        .word .Lmemmove_pow4194304, 172, .Lmemmove_bwd_ua8_srl_b22_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b22_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b23_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b22_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b22_P:
+        .word .Lmemmove_pow4194304, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b22_P_to_N
         .word .Lmemmove_npow16384, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b21_P
-.Lmemmove_bwd_ua8_srl_b22_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b21_N
-.Lmemmove_bwd_ua8_srl_b22_N:
-        .word .Lmemmove_npow4194304, 172, .Lmemmove_bwd_ua8_srl_b22_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b21_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b22_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b21_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b22_N:
+        .word .Lmemmove_npow4194304, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b22_N_to_N
         .word .Lmemmove_npow16384, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b21_P
-.Lmemmove_bwd_ua8_srl_b22_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b21_N
-.Lmemmove_bwd_ua8_srl_b21_P:
-        .word .Lmemmove_pow2097152, 172, .Lmemmove_bwd_ua8_srl_b21_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b21_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b22_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b21_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b21_P:
+        .word .Lmemmove_pow2097152, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b21_P_to_N
         .word .Lmemmove_npow8192, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b20_P
-.Lmemmove_bwd_ua8_srl_b21_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b20_N
-.Lmemmove_bwd_ua8_srl_b21_N:
-        .word .Lmemmove_npow2097152, 172, .Lmemmove_bwd_ua8_srl_b21_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b20_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b21_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b20_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b21_N:
+        .word .Lmemmove_npow2097152, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b21_N_to_N
         .word .Lmemmove_npow8192, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b20_P
-.Lmemmove_bwd_ua8_srl_b21_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b20_N
-.Lmemmove_bwd_ua8_srl_b20_P:
-        .word .Lmemmove_pow1048576, 172, .Lmemmove_bwd_ua8_srl_b20_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b20_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b21_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b20_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b20_P:
+        .word .Lmemmove_pow1048576, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b20_P_to_N
         .word .Lmemmove_npow4096, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b19_P
-.Lmemmove_bwd_ua8_srl_b20_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b19_N
-.Lmemmove_bwd_ua8_srl_b20_N:
-        .word .Lmemmove_npow1048576, 172, .Lmemmove_bwd_ua8_srl_b20_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b19_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b20_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b19_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b20_N:
+        .word .Lmemmove_npow1048576, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b20_N_to_N
         .word .Lmemmove_npow4096, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b19_P
-.Lmemmove_bwd_ua8_srl_b20_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b19_N
-.Lmemmove_bwd_ua8_srl_b19_P:
-        .word .Lmemmove_pow524288, 172, .Lmemmove_bwd_ua8_srl_b19_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b19_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b20_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b19_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b19_P:
+        .word .Lmemmove_pow524288, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b19_P_to_N
         .word .Lmemmove_npow2048, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b18_P
-.Lmemmove_bwd_ua8_srl_b19_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b18_N
-.Lmemmove_bwd_ua8_srl_b19_N:
-        .word .Lmemmove_npow524288, 172, .Lmemmove_bwd_ua8_srl_b19_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b18_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b19_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b18_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b19_N:
+        .word .Lmemmove_npow524288, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b19_N_to_N
         .word .Lmemmove_npow2048, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b18_P
-.Lmemmove_bwd_ua8_srl_b19_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b18_N
-.Lmemmove_bwd_ua8_srl_b18_P:
-        .word .Lmemmove_pow262144, 172, .Lmemmove_bwd_ua8_srl_b18_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b18_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b19_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b18_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b18_P:
+        .word .Lmemmove_pow262144, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b18_P_to_N
         .word .Lmemmove_npow1024, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b17_P
-.Lmemmove_bwd_ua8_srl_b18_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b17_N
-.Lmemmove_bwd_ua8_srl_b18_N:
-        .word .Lmemmove_npow262144, 172, .Lmemmove_bwd_ua8_srl_b18_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b17_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b18_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b17_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b18_N:
+        .word .Lmemmove_npow262144, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b18_N_to_N
         .word .Lmemmove_npow1024, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b17_P
-.Lmemmove_bwd_ua8_srl_b18_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b17_N
-.Lmemmove_bwd_ua8_srl_b17_P:
-        .word .Lmemmove_pow131072, 172, .Lmemmove_bwd_ua8_srl_b17_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b17_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b18_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b17_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b17_P:
+        .word .Lmemmove_pow131072, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b17_P_to_N
         .word .Lmemmove_npow512, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b16_P
-.Lmemmove_bwd_ua8_srl_b17_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b16_N
-.Lmemmove_bwd_ua8_srl_b17_N:
-        .word .Lmemmove_npow131072, 172, .Lmemmove_bwd_ua8_srl_b17_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b16_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b17_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b16_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b17_N:
+        .word .Lmemmove_npow131072, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b17_N_to_N
         .word .Lmemmove_npow512, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b16_P
-.Lmemmove_bwd_ua8_srl_b17_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b16_N
-.Lmemmove_bwd_ua8_srl_b16_P:
-        .word .Lmemmove_pow65536, 172, .Lmemmove_bwd_ua8_srl_b16_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b16_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b17_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b16_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b16_P:
+        .word .Lmemmove_pow65536, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b16_P_to_N
         .word .Lmemmove_npow256, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b15_P
-.Lmemmove_bwd_ua8_srl_b16_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b15_N
-.Lmemmove_bwd_ua8_srl_b16_N:
-        .word .Lmemmove_npow65536, 172, .Lmemmove_bwd_ua8_srl_b16_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b15_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b16_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b15_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b16_N:
+        .word .Lmemmove_npow65536, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b16_N_to_N
         .word .Lmemmove_npow256, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b15_P
-.Lmemmove_bwd_ua8_srl_b16_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b15_N
-.Lmemmove_bwd_ua8_srl_b15_P:
-        .word .Lmemmove_pow32768, 172, .Lmemmove_bwd_ua8_srl_b15_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b15_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b16_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b15_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b15_P:
+        .word .Lmemmove_pow32768, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b15_P_to_N
         .word .Lmemmove_npow128, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b14_P
-.Lmemmove_bwd_ua8_srl_b15_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b14_N
-.Lmemmove_bwd_ua8_srl_b15_N:
-        .word .Lmemmove_npow32768, 172, .Lmemmove_bwd_ua8_srl_b15_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b14_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b15_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b14_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b15_N:
+        .word .Lmemmove_npow32768, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b15_N_to_N
         .word .Lmemmove_npow128, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b14_P
-.Lmemmove_bwd_ua8_srl_b15_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b14_N
-.Lmemmove_bwd_ua8_srl_b14_P:
-        .word .Lmemmove_pow16384, 172, .Lmemmove_bwd_ua8_srl_b14_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b14_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b15_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b14_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b14_P:
+        .word .Lmemmove_pow16384, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b14_P_to_N
         .word .Lmemmove_npow64, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b13_P
-.Lmemmove_bwd_ua8_srl_b14_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b13_N
-.Lmemmove_bwd_ua8_srl_b14_N:
-        .word .Lmemmove_npow16384, 172, .Lmemmove_bwd_ua8_srl_b14_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b13_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b14_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b13_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b14_N:
+        .word .Lmemmove_npow16384, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b14_N_to_N
         .word .Lmemmove_npow64, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b13_P
-.Lmemmove_bwd_ua8_srl_b14_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b13_N
-.Lmemmove_bwd_ua8_srl_b13_P:
-        .word .Lmemmove_pow8192, 172, .Lmemmove_bwd_ua8_srl_b13_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b13_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b14_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b13_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b13_P:
+        .word .Lmemmove_pow8192, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b13_P_to_N
         .word .Lmemmove_npow32, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b12_P
-.Lmemmove_bwd_ua8_srl_b13_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b12_N
-.Lmemmove_bwd_ua8_srl_b13_N:
-        .word .Lmemmove_npow8192, 172, .Lmemmove_bwd_ua8_srl_b13_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b12_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b13_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b12_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b13_N:
+        .word .Lmemmove_npow8192, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b13_N_to_N
         .word .Lmemmove_npow32, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b12_P
-.Lmemmove_bwd_ua8_srl_b13_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b12_N
-.Lmemmove_bwd_ua8_srl_b12_P:
-        .word .Lmemmove_pow4096, 172, .Lmemmove_bwd_ua8_srl_b12_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b12_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b13_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b12_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b12_P:
+        .word .Lmemmove_pow4096, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b12_P_to_N
         .word .Lmemmove_npow16, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b11_P
-.Lmemmove_bwd_ua8_srl_b12_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b11_N
-.Lmemmove_bwd_ua8_srl_b12_N:
-        .word .Lmemmove_npow4096, 172, .Lmemmove_bwd_ua8_srl_b12_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b11_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b12_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b11_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b12_N:
+        .word .Lmemmove_npow4096, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b12_N_to_N
         .word .Lmemmove_npow16, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b11_P
-.Lmemmove_bwd_ua8_srl_b12_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b11_N
-.Lmemmove_bwd_ua8_srl_b11_P:
-        .word .Lmemmove_pow2048, 172, .Lmemmove_bwd_ua8_srl_b11_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b11_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b12_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b11_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b11_P:
+        .word .Lmemmove_pow2048, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b11_P_to_N
         .word .Lmemmove_npow8, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b10_P
-.Lmemmove_bwd_ua8_srl_b11_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b10_N
-.Lmemmove_bwd_ua8_srl_b11_N:
-        .word .Lmemmove_npow2048, 172, .Lmemmove_bwd_ua8_srl_b11_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b10_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b11_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b10_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b11_N:
+        .word .Lmemmove_npow2048, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b11_N_to_N
         .word .Lmemmove_npow8, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b10_P
-.Lmemmove_bwd_ua8_srl_b11_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b10_N
-.Lmemmove_bwd_ua8_srl_b10_P:
-        .word .Lmemmove_pow1024, 172, .Lmemmove_bwd_ua8_srl_b10_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b10_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b11_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b10_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b10_P:
+        .word .Lmemmove_pow1024, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b10_P_to_N
         .word .Lmemmove_npow4, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b9_P
-.Lmemmove_bwd_ua8_srl_b10_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b9_N
-.Lmemmove_bwd_ua8_srl_b10_N:
-        .word .Lmemmove_npow1024, 172, .Lmemmove_bwd_ua8_srl_b10_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b9_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b10_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b9_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b10_N:
+        .word .Lmemmove_npow1024, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b10_N_to_N
         .word .Lmemmove_npow4, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b9_P
-.Lmemmove_bwd_ua8_srl_b10_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b9_N
-.Lmemmove_bwd_ua8_srl_b9_P:
-        .word .Lmemmove_pow512, 172, .Lmemmove_bwd_ua8_srl_b9_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b9_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b10_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b9_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b9_P:
+        .word .Lmemmove_pow512, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b9_P_to_N
         .word .Lmemmove_npow2, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b8_P
-.Lmemmove_bwd_ua8_srl_b9_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b8_N
-.Lmemmove_bwd_ua8_srl_b9_N:
-        .word .Lmemmove_npow512, 172, .Lmemmove_bwd_ua8_srl_b9_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b8_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b9_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b8_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b9_N:
+        .word .Lmemmove_npow512, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b9_N_to_N
         .word .Lmemmove_npow2, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b8_P
-.Lmemmove_bwd_ua8_srl_b9_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_b8_N
-.Lmemmove_bwd_ua8_srl_b8_P:
-        .word .Lmemmove_pow256, 172, .Lmemmove_bwd_ua8_srl_b8_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b8_P
+.Lmemmove_bwd_ua8_e_fuse_w0_b9_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w0_b8_N
+.Lmemmove_bwd_ua8_e_fuse_w0_b8_P:
+        .word .Lmemmove_pow256, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b8_P_to_N
         .word .Lmemmove_npow1, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_done
-.Lmemmove_bwd_ua8_srl_b8_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_done
-.Lmemmove_bwd_ua8_srl_b8_N:
-        .word .Lmemmove_npow256, 172, .Lmemmove_bwd_ua8_srl_b8_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_word1_start
+.Lmemmove_bwd_ua8_e_fuse_w0_b8_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_word1_start
+.Lmemmove_bwd_ua8_e_fuse_w0_b8_N:
+        .word .Lmemmove_npow256, 172, .Lmemmove_bwd_ua8_e_fuse_w0_b8_N_to_N
         .word .Lmemmove_npow1, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_done
-.Lmemmove_bwd_ua8_srl_b8_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua8_srl_done
-.Lmemmove_bwd_ua8_srl_done:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_word1_start
+.Lmemmove_bwd_ua8_e_fuse_w0_b8_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_word1_start
+.Lmemmove_bwd_ua8_e_fuse_word1_start:
         .word 12, 12, .+4
+        .word 172, 172, .+4
+        .word 160, 12, .+4
+        .word 12, 172, .+4
+.Lmemmove_bwd_ua8_e_fuse_w1_b31:
+        .word 176, 176, .+4
+        .word 172, 176, .+4
+        .word 144, 176, .Lmemmove_bwd_ua8_e_fuse_w1_b30_check
+        .word .Lmemmove_min, 172, .+4
+.Lmemmove_bwd_ua8_e_fuse_w1_b30_check:
+        .word 176, 176, .+4
+        .word 172, 176, .+4
+        .word .Lmemmove_npow1073741824, 176, .Lmemmove_bwd_ua8_e_fuse_w1_b30_clear
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_lattice_start
+.Lmemmove_bwd_ua8_e_fuse_w1_b30_clear:
+        .word .Lmemmove_pow1073741824, 172, .+4
+.Lmemmove_bwd_ua8_e_fuse_w1_lattice_start:
+        .word .Lmemmove_n1, 172, .+4
+.Lmemmove_bwd_ua8_e_fuse_w1_b29_P:
+        .word .Lmemmove_pow536870912, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b29_P_to_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b28_P:
+        .word .Lmemmove_pow268435456, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b28_P_to_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b27_P:
+        .word .Lmemmove_pow134217728, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b27_P_to_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b26_P:
+        .word .Lmemmove_pow67108864, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b26_P_to_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b25_P:
+        .word .Lmemmove_pow33554432, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b25_P_to_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b24_P:
+        .word .Lmemmove_pow16777216, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b24_P_to_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b23_P:
+        .word .Lmemmove_pow8388608, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b23_P_to_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b22_P:
+        .word .Lmemmove_pow4194304, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b22_P_to_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b21_P:
+        .word .Lmemmove_pow2097152, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b21_P_to_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b20_P:
+        .word .Lmemmove_pow1048576, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b20_P_to_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b19_P:
+        .word .Lmemmove_pow524288, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b19_P_to_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b18_P:
+        .word .Lmemmove_pow262144, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b18_P_to_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b17_P:
+        .word .Lmemmove_pow131072, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b17_P_to_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b16_P:
+        .word .Lmemmove_pow65536, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b16_P_to_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b15_P:
+        .word .Lmemmove_pow32768, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b15_P_to_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b14_P:
+        .word .Lmemmove_pow16384, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b14_P_to_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b13_P:
+        .word .Lmemmove_pow8192, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b13_P_to_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b12_P:
+        .word .Lmemmove_pow4096, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b12_P_to_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b11_P:
+        .word .Lmemmove_pow2048, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b11_P_to_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b10_P:
+        .word .Lmemmove_pow1024, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b10_P_to_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b9_P:
+        .word .Lmemmove_pow512, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b9_P_to_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b8_P:
+        .word .Lmemmove_pow256, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b8_P_to_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b7_P:
+        .word .Lmemmove_pow128, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b7_P_to_N
+        .word .Lmemmove_min, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b6_P
+.Lmemmove_bwd_ua8_e_fuse_w1_b7_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b6_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b7_N:
+        .word .Lmemmove_npow128, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b7_N_to_N
+        .word .Lmemmove_min, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b6_P
+.Lmemmove_bwd_ua8_e_fuse_w1_b7_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b6_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b6_P:
+        .word .Lmemmove_pow64, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b6_P_to_N
+        .word .Lmemmove_npow1073741824, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b5_P
+.Lmemmove_bwd_ua8_e_fuse_w1_b6_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b5_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b6_N:
+        .word .Lmemmove_npow64, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b6_N_to_N
+        .word .Lmemmove_npow1073741824, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b5_P
+.Lmemmove_bwd_ua8_e_fuse_w1_b6_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b5_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b5_P:
+        .word .Lmemmove_pow32, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b5_P_to_N
+        .word .Lmemmove_npow536870912, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b4_P
+.Lmemmove_bwd_ua8_e_fuse_w1_b5_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b4_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b5_N:
+        .word .Lmemmove_npow32, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b5_N_to_N
+        .word .Lmemmove_npow536870912, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b4_P
+.Lmemmove_bwd_ua8_e_fuse_w1_b5_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b4_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b4_P:
+        .word .Lmemmove_pow16, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b4_P_to_N
+        .word .Lmemmove_npow268435456, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b3_P
+.Lmemmove_bwd_ua8_e_fuse_w1_b4_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b3_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b4_N:
+        .word .Lmemmove_npow16, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b4_N_to_N
+        .word .Lmemmove_npow268435456, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b3_P
+.Lmemmove_bwd_ua8_e_fuse_w1_b4_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b3_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b3_P:
+        .word .Lmemmove_pow8, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b3_P_to_N
+        .word .Lmemmove_npow134217728, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b2_P
+.Lmemmove_bwd_ua8_e_fuse_w1_b3_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b2_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b3_N:
+        .word .Lmemmove_npow8, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b3_N_to_N
+        .word .Lmemmove_npow134217728, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b2_P
+.Lmemmove_bwd_ua8_e_fuse_w1_b3_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b2_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b2_P:
+        .word .Lmemmove_pow4, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b2_P_to_N
+        .word .Lmemmove_npow67108864, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b1_P
+.Lmemmove_bwd_ua8_e_fuse_w1_b2_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b1_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b2_N:
+        .word .Lmemmove_npow4, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b2_N_to_N
+        .word .Lmemmove_npow67108864, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b1_P
+.Lmemmove_bwd_ua8_e_fuse_w1_b2_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b1_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b1_P:
+        .word .Lmemmove_pow2, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b1_P_to_N
+        .word .Lmemmove_npow33554432, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b0_P
+.Lmemmove_bwd_ua8_e_fuse_w1_b1_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b0_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b1_N:
+        .word .Lmemmove_npow2, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b1_N_to_N
+        .word .Lmemmove_npow33554432, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b0_P
+.Lmemmove_bwd_ua8_e_fuse_w1_b1_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b0_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b0_P:
+        .word .Lmemmove_pow1, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b0_P_to_N
+        .word .Lmemmove_npow16777216, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_done
+.Lmemmove_bwd_ua8_e_fuse_w1_b0_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_done
+.Lmemmove_bwd_ua8_e_fuse_w1_b0_N:
+        .word .Lmemmove_npow1, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b0_N_to_N
+        .word .Lmemmove_npow16777216, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_done
+.Lmemmove_bwd_ua8_e_fuse_w1_b0_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_done
+.Lmemmove_bwd_ua8_e_fuse_w1_b29_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b28_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b29_N:
+        .word .Lmemmove_npow536870912, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b29_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b28_P
+.Lmemmove_bwd_ua8_e_fuse_w1_b29_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b28_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b28_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b27_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b28_N:
+        .word .Lmemmove_npow268435456, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b28_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b27_P
+.Lmemmove_bwd_ua8_e_fuse_w1_b28_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b27_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b27_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b26_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b27_N:
+        .word .Lmemmove_npow134217728, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b27_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b26_P
+.Lmemmove_bwd_ua8_e_fuse_w1_b27_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b26_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b26_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b25_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b26_N:
+        .word .Lmemmove_npow67108864, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b26_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b25_P
+.Lmemmove_bwd_ua8_e_fuse_w1_b26_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b25_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b25_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b24_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b25_N:
+        .word .Lmemmove_npow33554432, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b25_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b24_P
+.Lmemmove_bwd_ua8_e_fuse_w1_b25_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b24_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b24_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b23_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b24_N:
+        .word .Lmemmove_npow16777216, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b24_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b23_P
+.Lmemmove_bwd_ua8_e_fuse_w1_b24_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b23_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b23_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b22_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b23_N:
+        .word .Lmemmove_npow8388608, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b23_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b22_P
+.Lmemmove_bwd_ua8_e_fuse_w1_b23_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b22_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b22_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b21_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b22_N:
+        .word .Lmemmove_npow4194304, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b22_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b21_P
+.Lmemmove_bwd_ua8_e_fuse_w1_b22_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b21_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b21_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b20_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b21_N:
+        .word .Lmemmove_npow2097152, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b21_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b20_P
+.Lmemmove_bwd_ua8_e_fuse_w1_b21_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b20_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b20_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b19_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b20_N:
+        .word .Lmemmove_npow1048576, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b20_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b19_P
+.Lmemmove_bwd_ua8_e_fuse_w1_b20_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b19_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b19_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b18_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b19_N:
+        .word .Lmemmove_npow524288, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b19_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b18_P
+.Lmemmove_bwd_ua8_e_fuse_w1_b19_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b18_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b18_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b17_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b18_N:
+        .word .Lmemmove_npow262144, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b18_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b17_P
+.Lmemmove_bwd_ua8_e_fuse_w1_b18_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b17_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b17_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b16_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b17_N:
+        .word .Lmemmove_npow131072, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b17_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b16_P
+.Lmemmove_bwd_ua8_e_fuse_w1_b17_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b16_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b16_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b15_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b16_N:
+        .word .Lmemmove_npow65536, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b16_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b15_P
+.Lmemmove_bwd_ua8_e_fuse_w1_b16_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b15_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b15_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b14_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b15_N:
+        .word .Lmemmove_npow32768, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b15_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b14_P
+.Lmemmove_bwd_ua8_e_fuse_w1_b15_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b14_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b14_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b13_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b14_N:
+        .word .Lmemmove_npow16384, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b14_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b13_P
+.Lmemmove_bwd_ua8_e_fuse_w1_b14_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b13_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b13_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b12_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b13_N:
+        .word .Lmemmove_npow8192, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b13_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b12_P
+.Lmemmove_bwd_ua8_e_fuse_w1_b13_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b12_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b12_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b11_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b12_N:
+        .word .Lmemmove_npow4096, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b12_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b11_P
+.Lmemmove_bwd_ua8_e_fuse_w1_b12_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b11_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b11_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b10_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b11_N:
+        .word .Lmemmove_npow2048, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b11_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b10_P
+.Lmemmove_bwd_ua8_e_fuse_w1_b11_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b10_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b10_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b9_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b10_N:
+        .word .Lmemmove_npow1024, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b10_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b9_P
+.Lmemmove_bwd_ua8_e_fuse_w1_b10_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b9_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b9_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b8_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b9_N:
+        .word .Lmemmove_npow512, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b9_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b8_P
+.Lmemmove_bwd_ua8_e_fuse_w1_b9_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b8_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b8_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b7_N
+.Lmemmove_bwd_ua8_e_fuse_w1_b8_N:
+        .word .Lmemmove_npow256, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b8_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b7_P
+.Lmemmove_bwd_ua8_e_fuse_w1_b8_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b7_N
+.Lmemmove_bwd_ua8_e_fuse_done:
         .word 12, 12, .+4
-        .word 188, 12, .+4
-        .word 12, 180, .+4
         .word 102, 102, .+4
         .word 168, 168, .+4
         .word 180, 168, .+4
         .word 168, 102, .+4
-        .word 12, 12, .+4
-        .word 160, 160, .+4
-        .word 208, 12, .+4
-        .word 12, 160, .+4
         .word .Lmemmove_c4, 184, .+4
         .word .Lmemmove_c4, 100, .+4
-        .word .Lmemmove_c4, 104, .+4
         .word .Lmemmove_c4, 108, .+4
-        .word 12, 12, .Lmemmove_bwd_ua8_body
-.Lmemmove_bwd_ua16_body:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_body
+.Lmemmove_bwd_ua8_o_body:
+        .word 180, 180, .+4
+        .word 12, 12, .+4
+        .word 108, 12, .+4
+        .word 12, 180, .+4
+        .word .Lmemmove_c3, 180, .Lmemmove_bwd_tail
+        .word 160, 160, .+4
+        .word 186, 160, .+4
+        .word 180, 180, .+4
+        .word 160, 180, .+4
+        .word 160, 160, .+4
+        .word 12, 12, .+4
+        .word 180, 12, .+4
+        .word 12, 160, .+4
+        .word 180, 180, .+4
+        .word 12, 12, .+4
+        .word 172, 172, .+4
+        .word 160, 12, .+4
+        .word 12, 172, .+4
+.Lmemmove_bwd_ua8_o_fuse_w0_b31:
+        .word 176, 176, .+4
+        .word 172, 176, .+4
+        .word 144, 176, .Lmemmove_bwd_ua8_o_fuse_w0_b30_check
+        .word .Lmemmove_npow8388608, 180, .+4
+        .word .Lmemmove_min, 172, .+4
+.Lmemmove_bwd_ua8_o_fuse_w0_b30_check:
+        .word 176, 176, .+4
+        .word 172, 176, .+4
+        .word .Lmemmove_npow1073741824, 176, .Lmemmove_bwd_ua8_o_fuse_w0_b30_set
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_lattice_start
+.Lmemmove_bwd_ua8_o_fuse_w0_b30_set:
+        .word .Lmemmove_npow4194304, 180, .+4
+        .word .Lmemmove_pow1073741824, 172, .+4
+.Lmemmove_bwd_ua8_o_fuse_w0_lattice_start:
+        .word .Lmemmove_n1, 172, .+4
+.Lmemmove_bwd_ua8_o_fuse_w0_b29_P:
+        .word .Lmemmove_pow536870912, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b29_P_to_N
+        .word .Lmemmove_npow2097152, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b28_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b29_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b28_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b29_N:
+        .word .Lmemmove_npow536870912, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b29_N_to_N
+        .word .Lmemmove_npow2097152, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b28_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b29_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b28_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b28_P:
+        .word .Lmemmove_pow268435456, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b28_P_to_N
+        .word .Lmemmove_npow1048576, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b27_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b28_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b27_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b28_N:
+        .word .Lmemmove_npow268435456, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b28_N_to_N
+        .word .Lmemmove_npow1048576, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b27_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b28_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b27_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b27_P:
+        .word .Lmemmove_pow134217728, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b27_P_to_N
+        .word .Lmemmove_npow524288, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b26_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b27_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b26_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b27_N:
+        .word .Lmemmove_npow134217728, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b27_N_to_N
+        .word .Lmemmove_npow524288, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b26_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b27_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b26_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b26_P:
+        .word .Lmemmove_pow67108864, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b26_P_to_N
+        .word .Lmemmove_npow262144, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b25_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b26_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b25_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b26_N:
+        .word .Lmemmove_npow67108864, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b26_N_to_N
+        .word .Lmemmove_npow262144, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b25_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b26_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b25_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b25_P:
+        .word .Lmemmove_pow33554432, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b25_P_to_N
+        .word .Lmemmove_npow131072, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b24_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b25_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b24_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b25_N:
+        .word .Lmemmove_npow33554432, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b25_N_to_N
+        .word .Lmemmove_npow131072, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b24_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b25_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b24_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b24_P:
+        .word .Lmemmove_pow16777216, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b24_P_to_N
+        .word .Lmemmove_npow65536, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b23_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b24_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b23_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b24_N:
+        .word .Lmemmove_npow16777216, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b24_N_to_N
+        .word .Lmemmove_npow65536, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b23_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b24_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b23_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b23_P:
+        .word .Lmemmove_pow8388608, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b23_P_to_N
+        .word .Lmemmove_npow32768, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b22_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b23_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b22_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b23_N:
+        .word .Lmemmove_npow8388608, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b23_N_to_N
+        .word .Lmemmove_npow32768, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b22_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b23_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b22_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b22_P:
+        .word .Lmemmove_pow4194304, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b22_P_to_N
+        .word .Lmemmove_npow16384, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b21_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b22_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b21_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b22_N:
+        .word .Lmemmove_npow4194304, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b22_N_to_N
+        .word .Lmemmove_npow16384, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b21_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b22_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b21_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b21_P:
+        .word .Lmemmove_pow2097152, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b21_P_to_N
+        .word .Lmemmove_npow8192, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b20_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b21_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b20_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b21_N:
+        .word .Lmemmove_npow2097152, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b21_N_to_N
+        .word .Lmemmove_npow8192, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b20_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b21_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b20_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b20_P:
+        .word .Lmemmove_pow1048576, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b20_P_to_N
+        .word .Lmemmove_npow4096, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b19_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b20_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b19_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b20_N:
+        .word .Lmemmove_npow1048576, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b20_N_to_N
+        .word .Lmemmove_npow4096, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b19_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b20_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b19_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b19_P:
+        .word .Lmemmove_pow524288, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b19_P_to_N
+        .word .Lmemmove_npow2048, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b18_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b19_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b18_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b19_N:
+        .word .Lmemmove_npow524288, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b19_N_to_N
+        .word .Lmemmove_npow2048, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b18_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b19_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b18_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b18_P:
+        .word .Lmemmove_pow262144, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b18_P_to_N
+        .word .Lmemmove_npow1024, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b17_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b18_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b17_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b18_N:
+        .word .Lmemmove_npow262144, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b18_N_to_N
+        .word .Lmemmove_npow1024, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b17_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b18_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b17_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b17_P:
+        .word .Lmemmove_pow131072, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b17_P_to_N
+        .word .Lmemmove_npow512, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b16_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b17_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b16_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b17_N:
+        .word .Lmemmove_npow131072, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b17_N_to_N
+        .word .Lmemmove_npow512, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b16_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b17_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b16_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b16_P:
+        .word .Lmemmove_pow65536, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b16_P_to_N
+        .word .Lmemmove_npow256, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b15_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b16_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b15_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b16_N:
+        .word .Lmemmove_npow65536, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b16_N_to_N
+        .word .Lmemmove_npow256, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b15_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b16_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b15_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b15_P:
+        .word .Lmemmove_pow32768, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b15_P_to_N
+        .word .Lmemmove_npow128, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b14_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b15_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b14_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b15_N:
+        .word .Lmemmove_npow32768, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b15_N_to_N
+        .word .Lmemmove_npow128, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b14_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b15_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b14_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b14_P:
+        .word .Lmemmove_pow16384, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b14_P_to_N
+        .word .Lmemmove_npow64, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b13_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b14_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b13_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b14_N:
+        .word .Lmemmove_npow16384, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b14_N_to_N
+        .word .Lmemmove_npow64, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b13_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b14_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b13_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b13_P:
+        .word .Lmemmove_pow8192, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b13_P_to_N
+        .word .Lmemmove_npow32, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b12_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b13_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b12_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b13_N:
+        .word .Lmemmove_npow8192, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b13_N_to_N
+        .word .Lmemmove_npow32, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b12_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b13_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b12_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b12_P:
+        .word .Lmemmove_pow4096, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b12_P_to_N
+        .word .Lmemmove_npow16, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b11_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b12_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b11_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b12_N:
+        .word .Lmemmove_npow4096, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b12_N_to_N
+        .word .Lmemmove_npow16, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b11_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b12_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b11_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b11_P:
+        .word .Lmemmove_pow2048, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b11_P_to_N
+        .word .Lmemmove_npow8, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b10_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b11_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b10_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b11_N:
+        .word .Lmemmove_npow2048, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b11_N_to_N
+        .word .Lmemmove_npow8, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b10_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b11_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b10_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b10_P:
+        .word .Lmemmove_pow1024, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b10_P_to_N
+        .word .Lmemmove_npow4, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b9_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b10_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b9_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b10_N:
+        .word .Lmemmove_npow1024, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b10_N_to_N
+        .word .Lmemmove_npow4, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b9_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b10_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b9_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b9_P:
+        .word .Lmemmove_pow512, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b9_P_to_N
+        .word .Lmemmove_npow2, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b8_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b9_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b8_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b9_N:
+        .word .Lmemmove_npow512, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b9_N_to_N
+        .word .Lmemmove_npow2, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b8_P
+.Lmemmove_bwd_ua8_o_fuse_w0_b9_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w0_b8_N
+.Lmemmove_bwd_ua8_o_fuse_w0_b8_P:
+        .word .Lmemmove_pow256, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b8_P_to_N
+        .word .Lmemmove_npow1, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_word1_start
+.Lmemmove_bwd_ua8_o_fuse_w0_b8_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_word1_start
+.Lmemmove_bwd_ua8_o_fuse_w0_b8_N:
+        .word .Lmemmove_npow256, 172, .Lmemmove_bwd_ua8_o_fuse_w0_b8_N_to_N
+        .word .Lmemmove_npow1, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_word1_start
+.Lmemmove_bwd_ua8_o_fuse_w0_b8_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_word1_start
+.Lmemmove_bwd_ua8_o_fuse_word1_start:
+        .word 12, 12, .+4
+        .word 172, 172, .+4
+        .word 164, 12, .+4
+        .word 12, 172, .+4
+.Lmemmove_bwd_ua8_o_fuse_w1_b31:
+        .word 176, 176, .+4
+        .word 172, 176, .+4
+        .word 144, 176, .Lmemmove_bwd_ua8_o_fuse_w1_b30_check
+        .word .Lmemmove_min, 172, .+4
+.Lmemmove_bwd_ua8_o_fuse_w1_b30_check:
+        .word 176, 176, .+4
+        .word 172, 176, .+4
+        .word .Lmemmove_npow1073741824, 176, .Lmemmove_bwd_ua8_o_fuse_w1_b30_clear
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_lattice_start
+.Lmemmove_bwd_ua8_o_fuse_w1_b30_clear:
+        .word .Lmemmove_pow1073741824, 172, .+4
+.Lmemmove_bwd_ua8_o_fuse_w1_lattice_start:
+        .word .Lmemmove_n1, 172, .+4
+.Lmemmove_bwd_ua8_o_fuse_w1_b29_P:
+        .word .Lmemmove_pow536870912, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b29_P_to_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b28_P:
+        .word .Lmemmove_pow268435456, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b28_P_to_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b27_P:
+        .word .Lmemmove_pow134217728, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b27_P_to_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b26_P:
+        .word .Lmemmove_pow67108864, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b26_P_to_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b25_P:
+        .word .Lmemmove_pow33554432, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b25_P_to_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b24_P:
+        .word .Lmemmove_pow16777216, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b24_P_to_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b23_P:
+        .word .Lmemmove_pow8388608, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b23_P_to_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b22_P:
+        .word .Lmemmove_pow4194304, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b22_P_to_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b21_P:
+        .word .Lmemmove_pow2097152, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b21_P_to_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b20_P:
+        .word .Lmemmove_pow1048576, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b20_P_to_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b19_P:
+        .word .Lmemmove_pow524288, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b19_P_to_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b18_P:
+        .word .Lmemmove_pow262144, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b18_P_to_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b17_P:
+        .word .Lmemmove_pow131072, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b17_P_to_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b16_P:
+        .word .Lmemmove_pow65536, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b16_P_to_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b15_P:
+        .word .Lmemmove_pow32768, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b15_P_to_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b14_P:
+        .word .Lmemmove_pow16384, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b14_P_to_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b13_P:
+        .word .Lmemmove_pow8192, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b13_P_to_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b12_P:
+        .word .Lmemmove_pow4096, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b12_P_to_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b11_P:
+        .word .Lmemmove_pow2048, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b11_P_to_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b10_P:
+        .word .Lmemmove_pow1024, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b10_P_to_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b9_P:
+        .word .Lmemmove_pow512, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b9_P_to_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b8_P:
+        .word .Lmemmove_pow256, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b8_P_to_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b7_P:
+        .word .Lmemmove_pow128, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b7_P_to_N
+        .word .Lmemmove_min, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b6_P
+.Lmemmove_bwd_ua8_o_fuse_w1_b7_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b6_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b7_N:
+        .word .Lmemmove_npow128, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b7_N_to_N
+        .word .Lmemmove_min, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b6_P
+.Lmemmove_bwd_ua8_o_fuse_w1_b7_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b6_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b6_P:
+        .word .Lmemmove_pow64, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b6_P_to_N
+        .word .Lmemmove_npow1073741824, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b5_P
+.Lmemmove_bwd_ua8_o_fuse_w1_b6_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b5_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b6_N:
+        .word .Lmemmove_npow64, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b6_N_to_N
+        .word .Lmemmove_npow1073741824, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b5_P
+.Lmemmove_bwd_ua8_o_fuse_w1_b6_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b5_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b5_P:
+        .word .Lmemmove_pow32, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b5_P_to_N
+        .word .Lmemmove_npow536870912, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b4_P
+.Lmemmove_bwd_ua8_o_fuse_w1_b5_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b4_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b5_N:
+        .word .Lmemmove_npow32, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b5_N_to_N
+        .word .Lmemmove_npow536870912, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b4_P
+.Lmemmove_bwd_ua8_o_fuse_w1_b5_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b4_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b4_P:
+        .word .Lmemmove_pow16, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b4_P_to_N
+        .word .Lmemmove_npow268435456, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b3_P
+.Lmemmove_bwd_ua8_o_fuse_w1_b4_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b3_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b4_N:
+        .word .Lmemmove_npow16, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b4_N_to_N
+        .word .Lmemmove_npow268435456, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b3_P
+.Lmemmove_bwd_ua8_o_fuse_w1_b4_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b3_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b3_P:
+        .word .Lmemmove_pow8, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b3_P_to_N
+        .word .Lmemmove_npow134217728, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b2_P
+.Lmemmove_bwd_ua8_o_fuse_w1_b3_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b2_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b3_N:
+        .word .Lmemmove_npow8, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b3_N_to_N
+        .word .Lmemmove_npow134217728, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b2_P
+.Lmemmove_bwd_ua8_o_fuse_w1_b3_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b2_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b2_P:
+        .word .Lmemmove_pow4, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b2_P_to_N
+        .word .Lmemmove_npow67108864, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b1_P
+.Lmemmove_bwd_ua8_o_fuse_w1_b2_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b1_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b2_N:
+        .word .Lmemmove_npow4, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b2_N_to_N
+        .word .Lmemmove_npow67108864, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b1_P
+.Lmemmove_bwd_ua8_o_fuse_w1_b2_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b1_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b1_P:
+        .word .Lmemmove_pow2, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b1_P_to_N
+        .word .Lmemmove_npow33554432, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b0_P
+.Lmemmove_bwd_ua8_o_fuse_w1_b1_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b0_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b1_N:
+        .word .Lmemmove_npow2, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b1_N_to_N
+        .word .Lmemmove_npow33554432, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b0_P
+.Lmemmove_bwd_ua8_o_fuse_w1_b1_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b0_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b0_P:
+        .word .Lmemmove_pow1, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b0_P_to_N
+        .word .Lmemmove_npow16777216, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_done
+.Lmemmove_bwd_ua8_o_fuse_w1_b0_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_done
+.Lmemmove_bwd_ua8_o_fuse_w1_b0_N:
+        .word .Lmemmove_npow1, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b0_N_to_N
+        .word .Lmemmove_npow16777216, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_done
+.Lmemmove_bwd_ua8_o_fuse_w1_b0_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_done
+.Lmemmove_bwd_ua8_o_fuse_w1_b29_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b28_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b29_N:
+        .word .Lmemmove_npow536870912, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b29_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b28_P
+.Lmemmove_bwd_ua8_o_fuse_w1_b29_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b28_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b28_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b27_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b28_N:
+        .word .Lmemmove_npow268435456, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b28_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b27_P
+.Lmemmove_bwd_ua8_o_fuse_w1_b28_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b27_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b27_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b26_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b27_N:
+        .word .Lmemmove_npow134217728, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b27_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b26_P
+.Lmemmove_bwd_ua8_o_fuse_w1_b27_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b26_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b26_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b25_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b26_N:
+        .word .Lmemmove_npow67108864, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b26_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b25_P
+.Lmemmove_bwd_ua8_o_fuse_w1_b26_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b25_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b25_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b24_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b25_N:
+        .word .Lmemmove_npow33554432, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b25_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b24_P
+.Lmemmove_bwd_ua8_o_fuse_w1_b25_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b24_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b24_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b23_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b24_N:
+        .word .Lmemmove_npow16777216, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b24_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b23_P
+.Lmemmove_bwd_ua8_o_fuse_w1_b24_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b23_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b23_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b22_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b23_N:
+        .word .Lmemmove_npow8388608, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b23_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b22_P
+.Lmemmove_bwd_ua8_o_fuse_w1_b23_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b22_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b22_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b21_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b22_N:
+        .word .Lmemmove_npow4194304, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b22_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b21_P
+.Lmemmove_bwd_ua8_o_fuse_w1_b22_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b21_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b21_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b20_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b21_N:
+        .word .Lmemmove_npow2097152, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b21_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b20_P
+.Lmemmove_bwd_ua8_o_fuse_w1_b21_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b20_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b20_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b19_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b20_N:
+        .word .Lmemmove_npow1048576, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b20_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b19_P
+.Lmemmove_bwd_ua8_o_fuse_w1_b20_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b19_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b19_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b18_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b19_N:
+        .word .Lmemmove_npow524288, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b19_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b18_P
+.Lmemmove_bwd_ua8_o_fuse_w1_b19_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b18_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b18_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b17_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b18_N:
+        .word .Lmemmove_npow262144, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b18_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b17_P
+.Lmemmove_bwd_ua8_o_fuse_w1_b18_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b17_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b17_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b16_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b17_N:
+        .word .Lmemmove_npow131072, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b17_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b16_P
+.Lmemmove_bwd_ua8_o_fuse_w1_b17_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b16_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b16_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b15_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b16_N:
+        .word .Lmemmove_npow65536, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b16_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b15_P
+.Lmemmove_bwd_ua8_o_fuse_w1_b16_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b15_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b15_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b14_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b15_N:
+        .word .Lmemmove_npow32768, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b15_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b14_P
+.Lmemmove_bwd_ua8_o_fuse_w1_b15_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b14_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b14_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b13_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b14_N:
+        .word .Lmemmove_npow16384, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b14_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b13_P
+.Lmemmove_bwd_ua8_o_fuse_w1_b14_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b13_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b13_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b12_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b13_N:
+        .word .Lmemmove_npow8192, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b13_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b12_P
+.Lmemmove_bwd_ua8_o_fuse_w1_b13_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b12_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b12_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b11_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b12_N:
+        .word .Lmemmove_npow4096, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b12_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b11_P
+.Lmemmove_bwd_ua8_o_fuse_w1_b12_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b11_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b11_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b10_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b11_N:
+        .word .Lmemmove_npow2048, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b11_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b10_P
+.Lmemmove_bwd_ua8_o_fuse_w1_b11_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b10_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b10_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b9_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b10_N:
+        .word .Lmemmove_npow1024, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b10_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b9_P
+.Lmemmove_bwd_ua8_o_fuse_w1_b10_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b9_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b9_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b8_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b9_N:
+        .word .Lmemmove_npow512, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b9_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b8_P
+.Lmemmove_bwd_ua8_o_fuse_w1_b9_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b8_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b8_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b7_N
+.Lmemmove_bwd_ua8_o_fuse_w1_b8_N:
+        .word .Lmemmove_npow256, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b8_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b7_P
+.Lmemmove_bwd_ua8_o_fuse_w1_b8_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b7_N
+.Lmemmove_bwd_ua8_o_fuse_done:
+        .word 12, 12, .+4
+        .word 102, 102, .+4
+        .word 168, 168, .+4
+        .word 180, 168, .+4
+        .word 168, 102, .+4
+        .word .Lmemmove_c4, 184, .+4
+        .word .Lmemmove_c4, 100, .+4
+        .word .Lmemmove_c4, 108, .+4
+        .word 12, 12, .Lmemmove_bwd_ua8_e_body
+.Lmemmove_bwd_ua16_e_body:
         .word 180, 180, .+4
         .word 12, 12, .+4
         .word 108, 12, .+4
@@ -64520,284 +64056,279 @@ __subleq_memmove:
         .word 180, 12, .+4
         .word 12, 164, .+4
         .word 12, 12, .+4
-        .word 208, 208, .+4
-        .word 164, 12, .+4
-        .word 12, 208, .+4
-        .word 12, 12, .+4
         .word 188, 188, .+4
         .word 160, 12, .+4
         .word 12, 188, .+4
-.Lmemmove_bwd_ua16_shl_dbl0:
+.Lmemmove_bwd_ua16_e_shl_dbl0:
         .word 12, 12, .+4
         .word 188, 12, .+4
         .word 12, 188, .+4
         .word 12, 12, .+4
-.Lmemmove_bwd_ua16_shl_dbl1:
+.Lmemmove_bwd_ua16_e_shl_dbl1:
         .word 12, 12, .+4
         .word 188, 12, .+4
         .word 12, 188, .+4
         .word 12, 12, .+4
-.Lmemmove_bwd_ua16_shl_dbl2:
+.Lmemmove_bwd_ua16_e_shl_dbl2:
         .word 12, 12, .+4
         .word 188, 12, .+4
         .word 12, 188, .+4
         .word 12, 12, .+4
-.Lmemmove_bwd_ua16_shl_dbl3:
+.Lmemmove_bwd_ua16_e_shl_dbl3:
         .word 12, 12, .+4
         .word 188, 12, .+4
         .word 12, 188, .+4
         .word 12, 12, .+4
-.Lmemmove_bwd_ua16_shl_dbl4:
+.Lmemmove_bwd_ua16_e_shl_dbl4:
         .word 12, 12, .+4
         .word 188, 12, .+4
         .word 12, 188, .+4
         .word 12, 12, .+4
-.Lmemmove_bwd_ua16_shl_dbl5:
+.Lmemmove_bwd_ua16_e_shl_dbl5:
         .word 12, 12, .+4
         .word 188, 12, .+4
         .word 12, 188, .+4
         .word 12, 12, .+4
-.Lmemmove_bwd_ua16_shl_dbl6:
+.Lmemmove_bwd_ua16_e_shl_dbl6:
         .word 12, 12, .+4
         .word 188, 12, .+4
         .word 12, 188, .+4
         .word 12, 12, .+4
-.Lmemmove_bwd_ua16_shl_dbl7:
+.Lmemmove_bwd_ua16_e_shl_dbl7:
         .word 12, 12, .+4
         .word 188, 12, .+4
         .word 12, 188, .+4
         .word 12, 12, .+4
-.Lmemmove_bwd_ua16_shl_dbl8:
+.Lmemmove_bwd_ua16_e_shl_dbl8:
         .word 12, 12, .+4
         .word 188, 12, .+4
         .word 12, 188, .+4
         .word 12, 12, .+4
-.Lmemmove_bwd_ua16_shl_dbl9:
+.Lmemmove_bwd_ua16_e_shl_dbl9:
         .word 12, 12, .+4
         .word 188, 12, .+4
         .word 12, 188, .+4
         .word 12, 12, .+4
-.Lmemmove_bwd_ua16_shl_dbl10:
+.Lmemmove_bwd_ua16_e_shl_dbl10:
         .word 12, 12, .+4
         .word 188, 12, .+4
         .word 12, 188, .+4
         .word 12, 12, .+4
-.Lmemmove_bwd_ua16_shl_dbl11:
+.Lmemmove_bwd_ua16_e_shl_dbl11:
         .word 12, 12, .+4
         .word 188, 12, .+4
         .word 12, 188, .+4
         .word 12, 12, .+4
-.Lmemmove_bwd_ua16_shl_dbl12:
+.Lmemmove_bwd_ua16_e_shl_dbl12:
         .word 12, 12, .+4
         .word 188, 12, .+4
         .word 12, 188, .+4
         .word 12, 12, .+4
-.Lmemmove_bwd_ua16_shl_dbl13:
+.Lmemmove_bwd_ua16_e_shl_dbl13:
         .word 12, 12, .+4
         .word 188, 12, .+4
         .word 12, 188, .+4
         .word 12, 12, .+4
-.Lmemmove_bwd_ua16_shl_dbl14:
+.Lmemmove_bwd_ua16_e_shl_dbl14:
         .word 12, 12, .+4
         .word 188, 12, .+4
         .word 12, 188, .+4
         .word 12, 12, .+4
-.Lmemmove_bwd_ua16_shl_dbl15:
+.Lmemmove_bwd_ua16_e_shl_dbl15:
         .word 12, 12, .+4
         .word 188, 12, .+4
         .word 12, 188, .+4
-.Lmemmove_bwd_ua16_shl_done:
+.Lmemmove_bwd_ua16_e_shl_done:
         .word 12, 12, .+4
         .word 172, 172, .+4
-        .word 208, 12, .+4
+        .word 164, 12, .+4
         .word 12, 172, .+4
         .word 180, 180, .+4
-.Lmemmove_bwd_ua16_srl_b31:
+.Lmemmove_bwd_ua16_e_srl_b31:
         .word 176, 176, .+4
         .word 172, 176, .+4
-        .word 144, 176, .Lmemmove_bwd_ua16_srl_b30_check
+        .word 144, 176, .Lmemmove_bwd_ua16_e_srl_b30_check
         .word .Lmemmove_npow32768, 180, .+4
         .word .Lmemmove_min, 172, .+4
-.Lmemmove_bwd_ua16_srl_b30_check:
+.Lmemmove_bwd_ua16_e_srl_b30_check:
         .word 176, 176, .+4
         .word 172, 176, .+4
-        .word .Lmemmove_npow1073741824, 176, .Lmemmove_bwd_ua16_srl_b30_set
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_lattice_start
-.Lmemmove_bwd_ua16_srl_b30_set:
+        .word .Lmemmove_npow1073741824, 176, .Lmemmove_bwd_ua16_e_srl_b30_set
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_lattice_start
+.Lmemmove_bwd_ua16_e_srl_b30_set:
         .word .Lmemmove_npow16384, 180, .+4
         .word .Lmemmove_pow1073741824, 172, .+4
-.Lmemmove_bwd_ua16_srl_lattice_start:
+.Lmemmove_bwd_ua16_e_srl_lattice_start:
         .word .Lmemmove_n1, 172, .+4
-.Lmemmove_bwd_ua16_srl_b29_P:
-        .word .Lmemmove_pow536870912, 172, .Lmemmove_bwd_ua16_srl_b29_P_to_N
+.Lmemmove_bwd_ua16_e_srl_b29_P:
+        .word .Lmemmove_pow536870912, 172, .Lmemmove_bwd_ua16_e_srl_b29_P_to_N
         .word .Lmemmove_npow8192, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b28_P
-.Lmemmove_bwd_ua16_srl_b29_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b28_N
-.Lmemmove_bwd_ua16_srl_b29_N:
-        .word .Lmemmove_npow536870912, 172, .Lmemmove_bwd_ua16_srl_b29_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b28_P
+.Lmemmove_bwd_ua16_e_srl_b29_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b28_N
+.Lmemmove_bwd_ua16_e_srl_b29_N:
+        .word .Lmemmove_npow536870912, 172, .Lmemmove_bwd_ua16_e_srl_b29_N_to_N
         .word .Lmemmove_npow8192, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b28_P
-.Lmemmove_bwd_ua16_srl_b29_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b28_N
-.Lmemmove_bwd_ua16_srl_b28_P:
-        .word .Lmemmove_pow268435456, 172, .Lmemmove_bwd_ua16_srl_b28_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b28_P
+.Lmemmove_bwd_ua16_e_srl_b29_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b28_N
+.Lmemmove_bwd_ua16_e_srl_b28_P:
+        .word .Lmemmove_pow268435456, 172, .Lmemmove_bwd_ua16_e_srl_b28_P_to_N
         .word .Lmemmove_npow4096, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b27_P
-.Lmemmove_bwd_ua16_srl_b28_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b27_N
-.Lmemmove_bwd_ua16_srl_b28_N:
-        .word .Lmemmove_npow268435456, 172, .Lmemmove_bwd_ua16_srl_b28_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b27_P
+.Lmemmove_bwd_ua16_e_srl_b28_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b27_N
+.Lmemmove_bwd_ua16_e_srl_b28_N:
+        .word .Lmemmove_npow268435456, 172, .Lmemmove_bwd_ua16_e_srl_b28_N_to_N
         .word .Lmemmove_npow4096, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b27_P
-.Lmemmove_bwd_ua16_srl_b28_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b27_N
-.Lmemmove_bwd_ua16_srl_b27_P:
-        .word .Lmemmove_pow134217728, 172, .Lmemmove_bwd_ua16_srl_b27_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b27_P
+.Lmemmove_bwd_ua16_e_srl_b28_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b27_N
+.Lmemmove_bwd_ua16_e_srl_b27_P:
+        .word .Lmemmove_pow134217728, 172, .Lmemmove_bwd_ua16_e_srl_b27_P_to_N
         .word .Lmemmove_npow2048, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b26_P
-.Lmemmove_bwd_ua16_srl_b27_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b26_N
-.Lmemmove_bwd_ua16_srl_b27_N:
-        .word .Lmemmove_npow134217728, 172, .Lmemmove_bwd_ua16_srl_b27_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b26_P
+.Lmemmove_bwd_ua16_e_srl_b27_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b26_N
+.Lmemmove_bwd_ua16_e_srl_b27_N:
+        .word .Lmemmove_npow134217728, 172, .Lmemmove_bwd_ua16_e_srl_b27_N_to_N
         .word .Lmemmove_npow2048, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b26_P
-.Lmemmove_bwd_ua16_srl_b27_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b26_N
-.Lmemmove_bwd_ua16_srl_b26_P:
-        .word .Lmemmove_pow67108864, 172, .Lmemmove_bwd_ua16_srl_b26_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b26_P
+.Lmemmove_bwd_ua16_e_srl_b27_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b26_N
+.Lmemmove_bwd_ua16_e_srl_b26_P:
+        .word .Lmemmove_pow67108864, 172, .Lmemmove_bwd_ua16_e_srl_b26_P_to_N
         .word .Lmemmove_npow1024, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b25_P
-.Lmemmove_bwd_ua16_srl_b26_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b25_N
-.Lmemmove_bwd_ua16_srl_b26_N:
-        .word .Lmemmove_npow67108864, 172, .Lmemmove_bwd_ua16_srl_b26_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b25_P
+.Lmemmove_bwd_ua16_e_srl_b26_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b25_N
+.Lmemmove_bwd_ua16_e_srl_b26_N:
+        .word .Lmemmove_npow67108864, 172, .Lmemmove_bwd_ua16_e_srl_b26_N_to_N
         .word .Lmemmove_npow1024, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b25_P
-.Lmemmove_bwd_ua16_srl_b26_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b25_N
-.Lmemmove_bwd_ua16_srl_b25_P:
-        .word .Lmemmove_pow33554432, 172, .Lmemmove_bwd_ua16_srl_b25_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b25_P
+.Lmemmove_bwd_ua16_e_srl_b26_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b25_N
+.Lmemmove_bwd_ua16_e_srl_b25_P:
+        .word .Lmemmove_pow33554432, 172, .Lmemmove_bwd_ua16_e_srl_b25_P_to_N
         .word .Lmemmove_npow512, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b24_P
-.Lmemmove_bwd_ua16_srl_b25_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b24_N
-.Lmemmove_bwd_ua16_srl_b25_N:
-        .word .Lmemmove_npow33554432, 172, .Lmemmove_bwd_ua16_srl_b25_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b24_P
+.Lmemmove_bwd_ua16_e_srl_b25_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b24_N
+.Lmemmove_bwd_ua16_e_srl_b25_N:
+        .word .Lmemmove_npow33554432, 172, .Lmemmove_bwd_ua16_e_srl_b25_N_to_N
         .word .Lmemmove_npow512, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b24_P
-.Lmemmove_bwd_ua16_srl_b25_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b24_N
-.Lmemmove_bwd_ua16_srl_b24_P:
-        .word .Lmemmove_pow16777216, 172, .Lmemmove_bwd_ua16_srl_b24_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b24_P
+.Lmemmove_bwd_ua16_e_srl_b25_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b24_N
+.Lmemmove_bwd_ua16_e_srl_b24_P:
+        .word .Lmemmove_pow16777216, 172, .Lmemmove_bwd_ua16_e_srl_b24_P_to_N
         .word .Lmemmove_npow256, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b23_P
-.Lmemmove_bwd_ua16_srl_b24_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b23_N
-.Lmemmove_bwd_ua16_srl_b24_N:
-        .word .Lmemmove_npow16777216, 172, .Lmemmove_bwd_ua16_srl_b24_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b23_P
+.Lmemmove_bwd_ua16_e_srl_b24_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b23_N
+.Lmemmove_bwd_ua16_e_srl_b24_N:
+        .word .Lmemmove_npow16777216, 172, .Lmemmove_bwd_ua16_e_srl_b24_N_to_N
         .word .Lmemmove_npow256, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b23_P
-.Lmemmove_bwd_ua16_srl_b24_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b23_N
-.Lmemmove_bwd_ua16_srl_b23_P:
-        .word .Lmemmove_pow8388608, 172, .Lmemmove_bwd_ua16_srl_b23_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b23_P
+.Lmemmove_bwd_ua16_e_srl_b24_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b23_N
+.Lmemmove_bwd_ua16_e_srl_b23_P:
+        .word .Lmemmove_pow8388608, 172, .Lmemmove_bwd_ua16_e_srl_b23_P_to_N
         .word .Lmemmove_npow128, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b22_P
-.Lmemmove_bwd_ua16_srl_b23_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b22_N
-.Lmemmove_bwd_ua16_srl_b23_N:
-        .word .Lmemmove_npow8388608, 172, .Lmemmove_bwd_ua16_srl_b23_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b22_P
+.Lmemmove_bwd_ua16_e_srl_b23_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b22_N
+.Lmemmove_bwd_ua16_e_srl_b23_N:
+        .word .Lmemmove_npow8388608, 172, .Lmemmove_bwd_ua16_e_srl_b23_N_to_N
         .word .Lmemmove_npow128, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b22_P
-.Lmemmove_bwd_ua16_srl_b23_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b22_N
-.Lmemmove_bwd_ua16_srl_b22_P:
-        .word .Lmemmove_pow4194304, 172, .Lmemmove_bwd_ua16_srl_b22_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b22_P
+.Lmemmove_bwd_ua16_e_srl_b23_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b22_N
+.Lmemmove_bwd_ua16_e_srl_b22_P:
+        .word .Lmemmove_pow4194304, 172, .Lmemmove_bwd_ua16_e_srl_b22_P_to_N
         .word .Lmemmove_npow64, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b21_P
-.Lmemmove_bwd_ua16_srl_b22_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b21_N
-.Lmemmove_bwd_ua16_srl_b22_N:
-        .word .Lmemmove_npow4194304, 172, .Lmemmove_bwd_ua16_srl_b22_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b21_P
+.Lmemmove_bwd_ua16_e_srl_b22_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b21_N
+.Lmemmove_bwd_ua16_e_srl_b22_N:
+        .word .Lmemmove_npow4194304, 172, .Lmemmove_bwd_ua16_e_srl_b22_N_to_N
         .word .Lmemmove_npow64, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b21_P
-.Lmemmove_bwd_ua16_srl_b22_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b21_N
-.Lmemmove_bwd_ua16_srl_b21_P:
-        .word .Lmemmove_pow2097152, 172, .Lmemmove_bwd_ua16_srl_b21_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b21_P
+.Lmemmove_bwd_ua16_e_srl_b22_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b21_N
+.Lmemmove_bwd_ua16_e_srl_b21_P:
+        .word .Lmemmove_pow2097152, 172, .Lmemmove_bwd_ua16_e_srl_b21_P_to_N
         .word .Lmemmove_npow32, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b20_P
-.Lmemmove_bwd_ua16_srl_b21_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b20_N
-.Lmemmove_bwd_ua16_srl_b21_N:
-        .word .Lmemmove_npow2097152, 172, .Lmemmove_bwd_ua16_srl_b21_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b20_P
+.Lmemmove_bwd_ua16_e_srl_b21_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b20_N
+.Lmemmove_bwd_ua16_e_srl_b21_N:
+        .word .Lmemmove_npow2097152, 172, .Lmemmove_bwd_ua16_e_srl_b21_N_to_N
         .word .Lmemmove_npow32, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b20_P
-.Lmemmove_bwd_ua16_srl_b21_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b20_N
-.Lmemmove_bwd_ua16_srl_b20_P:
-        .word .Lmemmove_pow1048576, 172, .Lmemmove_bwd_ua16_srl_b20_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b20_P
+.Lmemmove_bwd_ua16_e_srl_b21_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b20_N
+.Lmemmove_bwd_ua16_e_srl_b20_P:
+        .word .Lmemmove_pow1048576, 172, .Lmemmove_bwd_ua16_e_srl_b20_P_to_N
         .word .Lmemmove_npow16, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b19_P
-.Lmemmove_bwd_ua16_srl_b20_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b19_N
-.Lmemmove_bwd_ua16_srl_b20_N:
-        .word .Lmemmove_npow1048576, 172, .Lmemmove_bwd_ua16_srl_b20_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b19_P
+.Lmemmove_bwd_ua16_e_srl_b20_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b19_N
+.Lmemmove_bwd_ua16_e_srl_b20_N:
+        .word .Lmemmove_npow1048576, 172, .Lmemmove_bwd_ua16_e_srl_b20_N_to_N
         .word .Lmemmove_npow16, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b19_P
-.Lmemmove_bwd_ua16_srl_b20_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b19_N
-.Lmemmove_bwd_ua16_srl_b19_P:
-        .word .Lmemmove_pow524288, 172, .Lmemmove_bwd_ua16_srl_b19_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b19_P
+.Lmemmove_bwd_ua16_e_srl_b20_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b19_N
+.Lmemmove_bwd_ua16_e_srl_b19_P:
+        .word .Lmemmove_pow524288, 172, .Lmemmove_bwd_ua16_e_srl_b19_P_to_N
         .word .Lmemmove_npow8, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b18_P
-.Lmemmove_bwd_ua16_srl_b19_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b18_N
-.Lmemmove_bwd_ua16_srl_b19_N:
-        .word .Lmemmove_npow524288, 172, .Lmemmove_bwd_ua16_srl_b19_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b18_P
+.Lmemmove_bwd_ua16_e_srl_b19_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b18_N
+.Lmemmove_bwd_ua16_e_srl_b19_N:
+        .word .Lmemmove_npow524288, 172, .Lmemmove_bwd_ua16_e_srl_b19_N_to_N
         .word .Lmemmove_npow8, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b18_P
-.Lmemmove_bwd_ua16_srl_b19_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b18_N
-.Lmemmove_bwd_ua16_srl_b18_P:
-        .word .Lmemmove_pow262144, 172, .Lmemmove_bwd_ua16_srl_b18_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b18_P
+.Lmemmove_bwd_ua16_e_srl_b19_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b18_N
+.Lmemmove_bwd_ua16_e_srl_b18_P:
+        .word .Lmemmove_pow262144, 172, .Lmemmove_bwd_ua16_e_srl_b18_P_to_N
         .word .Lmemmove_npow4, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b17_P
-.Lmemmove_bwd_ua16_srl_b18_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b17_N
-.Lmemmove_bwd_ua16_srl_b18_N:
-        .word .Lmemmove_npow262144, 172, .Lmemmove_bwd_ua16_srl_b18_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b17_P
+.Lmemmove_bwd_ua16_e_srl_b18_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b17_N
+.Lmemmove_bwd_ua16_e_srl_b18_N:
+        .word .Lmemmove_npow262144, 172, .Lmemmove_bwd_ua16_e_srl_b18_N_to_N
         .word .Lmemmove_npow4, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b17_P
-.Lmemmove_bwd_ua16_srl_b18_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b17_N
-.Lmemmove_bwd_ua16_srl_b17_P:
-        .word .Lmemmove_pow131072, 172, .Lmemmove_bwd_ua16_srl_b17_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b17_P
+.Lmemmove_bwd_ua16_e_srl_b18_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b17_N
+.Lmemmove_bwd_ua16_e_srl_b17_P:
+        .word .Lmemmove_pow131072, 172, .Lmemmove_bwd_ua16_e_srl_b17_P_to_N
         .word .Lmemmove_npow2, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b16_P
-.Lmemmove_bwd_ua16_srl_b17_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b16_N
-.Lmemmove_bwd_ua16_srl_b17_N:
-        .word .Lmemmove_npow131072, 172, .Lmemmove_bwd_ua16_srl_b17_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b16_P
+.Lmemmove_bwd_ua16_e_srl_b17_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b16_N
+.Lmemmove_bwd_ua16_e_srl_b17_N:
+        .word .Lmemmove_npow131072, 172, .Lmemmove_bwd_ua16_e_srl_b17_N_to_N
         .word .Lmemmove_npow2, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b16_P
-.Lmemmove_bwd_ua16_srl_b17_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_b16_N
-.Lmemmove_bwd_ua16_srl_b16_P:
-        .word .Lmemmove_pow65536, 172, .Lmemmove_bwd_ua16_srl_b16_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b16_P
+.Lmemmove_bwd_ua16_e_srl_b17_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_b16_N
+.Lmemmove_bwd_ua16_e_srl_b16_P:
+        .word .Lmemmove_pow65536, 172, .Lmemmove_bwd_ua16_e_srl_b16_P_to_N
         .word .Lmemmove_npow1, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_done
-.Lmemmove_bwd_ua16_srl_b16_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_done
-.Lmemmove_bwd_ua16_srl_b16_N:
-        .word .Lmemmove_npow65536, 172, .Lmemmove_bwd_ua16_srl_b16_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_done
+.Lmemmove_bwd_ua16_e_srl_b16_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_done
+.Lmemmove_bwd_ua16_e_srl_b16_N:
+        .word .Lmemmove_npow65536, 172, .Lmemmove_bwd_ua16_e_srl_b16_N_to_N
         .word .Lmemmove_npow1, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_done
-.Lmemmove_bwd_ua16_srl_b16_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua16_srl_done
-.Lmemmove_bwd_ua16_srl_done:
-        .word 12, 12, .+4
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_done
+.Lmemmove_bwd_ua16_e_srl_b16_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_e_srl_done
+.Lmemmove_bwd_ua16_e_srl_done:
         .word 12, 12, .+4
         .word 188, 12, .+4
         .word 12, 180, .+4
@@ -64805,16 +64336,310 @@ __subleq_memmove:
         .word 168, 168, .+4
         .word 180, 168, .+4
         .word 168, 102, .+4
-        .word 12, 12, .+4
-        .word 160, 160, .+4
-        .word 208, 12, .+4
-        .word 12, 160, .+4
         .word .Lmemmove_c4, 184, .+4
         .word .Lmemmove_c4, 100, .+4
-        .word .Lmemmove_c4, 104, .+4
         .word .Lmemmove_c4, 108, .+4
-        .word 12, 12, .Lmemmove_bwd_ua16_body
-.Lmemmove_bwd_ua24_body:
+        .word 12, 12, .Lmemmove_bwd_ua16_o_body
+.Lmemmove_bwd_ua16_o_body:
+        .word 180, 180, .+4
+        .word 12, 12, .+4
+        .word 108, 12, .+4
+        .word 12, 180, .+4
+        .word .Lmemmove_c3, 180, .Lmemmove_bwd_tail
+        .word 160, 160, .+4
+        .word 186, 160, .+4
+        .word 180, 180, .+4
+        .word 160, 180, .+4
+        .word 160, 160, .+4
+        .word 12, 12, .+4
+        .word 180, 12, .+4
+        .word 12, 160, .+4
+        .word 12, 12, .+4
+        .word 188, 188, .+4
+        .word 164, 12, .+4
+        .word 12, 188, .+4
+.Lmemmove_bwd_ua16_o_shl_dbl0:
+        .word 12, 12, .+4
+        .word 188, 12, .+4
+        .word 12, 188, .+4
+        .word 12, 12, .+4
+.Lmemmove_bwd_ua16_o_shl_dbl1:
+        .word 12, 12, .+4
+        .word 188, 12, .+4
+        .word 12, 188, .+4
+        .word 12, 12, .+4
+.Lmemmove_bwd_ua16_o_shl_dbl2:
+        .word 12, 12, .+4
+        .word 188, 12, .+4
+        .word 12, 188, .+4
+        .word 12, 12, .+4
+.Lmemmove_bwd_ua16_o_shl_dbl3:
+        .word 12, 12, .+4
+        .word 188, 12, .+4
+        .word 12, 188, .+4
+        .word 12, 12, .+4
+.Lmemmove_bwd_ua16_o_shl_dbl4:
+        .word 12, 12, .+4
+        .word 188, 12, .+4
+        .word 12, 188, .+4
+        .word 12, 12, .+4
+.Lmemmove_bwd_ua16_o_shl_dbl5:
+        .word 12, 12, .+4
+        .word 188, 12, .+4
+        .word 12, 188, .+4
+        .word 12, 12, .+4
+.Lmemmove_bwd_ua16_o_shl_dbl6:
+        .word 12, 12, .+4
+        .word 188, 12, .+4
+        .word 12, 188, .+4
+        .word 12, 12, .+4
+.Lmemmove_bwd_ua16_o_shl_dbl7:
+        .word 12, 12, .+4
+        .word 188, 12, .+4
+        .word 12, 188, .+4
+        .word 12, 12, .+4
+.Lmemmove_bwd_ua16_o_shl_dbl8:
+        .word 12, 12, .+4
+        .word 188, 12, .+4
+        .word 12, 188, .+4
+        .word 12, 12, .+4
+.Lmemmove_bwd_ua16_o_shl_dbl9:
+        .word 12, 12, .+4
+        .word 188, 12, .+4
+        .word 12, 188, .+4
+        .word 12, 12, .+4
+.Lmemmove_bwd_ua16_o_shl_dbl10:
+        .word 12, 12, .+4
+        .word 188, 12, .+4
+        .word 12, 188, .+4
+        .word 12, 12, .+4
+.Lmemmove_bwd_ua16_o_shl_dbl11:
+        .word 12, 12, .+4
+        .word 188, 12, .+4
+        .word 12, 188, .+4
+        .word 12, 12, .+4
+.Lmemmove_bwd_ua16_o_shl_dbl12:
+        .word 12, 12, .+4
+        .word 188, 12, .+4
+        .word 12, 188, .+4
+        .word 12, 12, .+4
+.Lmemmove_bwd_ua16_o_shl_dbl13:
+        .word 12, 12, .+4
+        .word 188, 12, .+4
+        .word 12, 188, .+4
+        .word 12, 12, .+4
+.Lmemmove_bwd_ua16_o_shl_dbl14:
+        .word 12, 12, .+4
+        .word 188, 12, .+4
+        .word 12, 188, .+4
+        .word 12, 12, .+4
+.Lmemmove_bwd_ua16_o_shl_dbl15:
+        .word 12, 12, .+4
+        .word 188, 12, .+4
+        .word 12, 188, .+4
+.Lmemmove_bwd_ua16_o_shl_done:
+        .word 12, 12, .+4
+        .word 172, 172, .+4
+        .word 160, 12, .+4
+        .word 12, 172, .+4
+        .word 180, 180, .+4
+.Lmemmove_bwd_ua16_o_srl_b31:
+        .word 176, 176, .+4
+        .word 172, 176, .+4
+        .word 144, 176, .Lmemmove_bwd_ua16_o_srl_b30_check
+        .word .Lmemmove_npow32768, 180, .+4
+        .word .Lmemmove_min, 172, .+4
+.Lmemmove_bwd_ua16_o_srl_b30_check:
+        .word 176, 176, .+4
+        .word 172, 176, .+4
+        .word .Lmemmove_npow1073741824, 176, .Lmemmove_bwd_ua16_o_srl_b30_set
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_lattice_start
+.Lmemmove_bwd_ua16_o_srl_b30_set:
+        .word .Lmemmove_npow16384, 180, .+4
+        .word .Lmemmove_pow1073741824, 172, .+4
+.Lmemmove_bwd_ua16_o_srl_lattice_start:
+        .word .Lmemmove_n1, 172, .+4
+.Lmemmove_bwd_ua16_o_srl_b29_P:
+        .word .Lmemmove_pow536870912, 172, .Lmemmove_bwd_ua16_o_srl_b29_P_to_N
+        .word .Lmemmove_npow8192, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b28_P
+.Lmemmove_bwd_ua16_o_srl_b29_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b28_N
+.Lmemmove_bwd_ua16_o_srl_b29_N:
+        .word .Lmemmove_npow536870912, 172, .Lmemmove_bwd_ua16_o_srl_b29_N_to_N
+        .word .Lmemmove_npow8192, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b28_P
+.Lmemmove_bwd_ua16_o_srl_b29_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b28_N
+.Lmemmove_bwd_ua16_o_srl_b28_P:
+        .word .Lmemmove_pow268435456, 172, .Lmemmove_bwd_ua16_o_srl_b28_P_to_N
+        .word .Lmemmove_npow4096, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b27_P
+.Lmemmove_bwd_ua16_o_srl_b28_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b27_N
+.Lmemmove_bwd_ua16_o_srl_b28_N:
+        .word .Lmemmove_npow268435456, 172, .Lmemmove_bwd_ua16_o_srl_b28_N_to_N
+        .word .Lmemmove_npow4096, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b27_P
+.Lmemmove_bwd_ua16_o_srl_b28_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b27_N
+.Lmemmove_bwd_ua16_o_srl_b27_P:
+        .word .Lmemmove_pow134217728, 172, .Lmemmove_bwd_ua16_o_srl_b27_P_to_N
+        .word .Lmemmove_npow2048, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b26_P
+.Lmemmove_bwd_ua16_o_srl_b27_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b26_N
+.Lmemmove_bwd_ua16_o_srl_b27_N:
+        .word .Lmemmove_npow134217728, 172, .Lmemmove_bwd_ua16_o_srl_b27_N_to_N
+        .word .Lmemmove_npow2048, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b26_P
+.Lmemmove_bwd_ua16_o_srl_b27_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b26_N
+.Lmemmove_bwd_ua16_o_srl_b26_P:
+        .word .Lmemmove_pow67108864, 172, .Lmemmove_bwd_ua16_o_srl_b26_P_to_N
+        .word .Lmemmove_npow1024, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b25_P
+.Lmemmove_bwd_ua16_o_srl_b26_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b25_N
+.Lmemmove_bwd_ua16_o_srl_b26_N:
+        .word .Lmemmove_npow67108864, 172, .Lmemmove_bwd_ua16_o_srl_b26_N_to_N
+        .word .Lmemmove_npow1024, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b25_P
+.Lmemmove_bwd_ua16_o_srl_b26_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b25_N
+.Lmemmove_bwd_ua16_o_srl_b25_P:
+        .word .Lmemmove_pow33554432, 172, .Lmemmove_bwd_ua16_o_srl_b25_P_to_N
+        .word .Lmemmove_npow512, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b24_P
+.Lmemmove_bwd_ua16_o_srl_b25_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b24_N
+.Lmemmove_bwd_ua16_o_srl_b25_N:
+        .word .Lmemmove_npow33554432, 172, .Lmemmove_bwd_ua16_o_srl_b25_N_to_N
+        .word .Lmemmove_npow512, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b24_P
+.Lmemmove_bwd_ua16_o_srl_b25_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b24_N
+.Lmemmove_bwd_ua16_o_srl_b24_P:
+        .word .Lmemmove_pow16777216, 172, .Lmemmove_bwd_ua16_o_srl_b24_P_to_N
+        .word .Lmemmove_npow256, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b23_P
+.Lmemmove_bwd_ua16_o_srl_b24_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b23_N
+.Lmemmove_bwd_ua16_o_srl_b24_N:
+        .word .Lmemmove_npow16777216, 172, .Lmemmove_bwd_ua16_o_srl_b24_N_to_N
+        .word .Lmemmove_npow256, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b23_P
+.Lmemmove_bwd_ua16_o_srl_b24_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b23_N
+.Lmemmove_bwd_ua16_o_srl_b23_P:
+        .word .Lmemmove_pow8388608, 172, .Lmemmove_bwd_ua16_o_srl_b23_P_to_N
+        .word .Lmemmove_npow128, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b22_P
+.Lmemmove_bwd_ua16_o_srl_b23_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b22_N
+.Lmemmove_bwd_ua16_o_srl_b23_N:
+        .word .Lmemmove_npow8388608, 172, .Lmemmove_bwd_ua16_o_srl_b23_N_to_N
+        .word .Lmemmove_npow128, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b22_P
+.Lmemmove_bwd_ua16_o_srl_b23_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b22_N
+.Lmemmove_bwd_ua16_o_srl_b22_P:
+        .word .Lmemmove_pow4194304, 172, .Lmemmove_bwd_ua16_o_srl_b22_P_to_N
+        .word .Lmemmove_npow64, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b21_P
+.Lmemmove_bwd_ua16_o_srl_b22_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b21_N
+.Lmemmove_bwd_ua16_o_srl_b22_N:
+        .word .Lmemmove_npow4194304, 172, .Lmemmove_bwd_ua16_o_srl_b22_N_to_N
+        .word .Lmemmove_npow64, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b21_P
+.Lmemmove_bwd_ua16_o_srl_b22_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b21_N
+.Lmemmove_bwd_ua16_o_srl_b21_P:
+        .word .Lmemmove_pow2097152, 172, .Lmemmove_bwd_ua16_o_srl_b21_P_to_N
+        .word .Lmemmove_npow32, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b20_P
+.Lmemmove_bwd_ua16_o_srl_b21_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b20_N
+.Lmemmove_bwd_ua16_o_srl_b21_N:
+        .word .Lmemmove_npow2097152, 172, .Lmemmove_bwd_ua16_o_srl_b21_N_to_N
+        .word .Lmemmove_npow32, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b20_P
+.Lmemmove_bwd_ua16_o_srl_b21_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b20_N
+.Lmemmove_bwd_ua16_o_srl_b20_P:
+        .word .Lmemmove_pow1048576, 172, .Lmemmove_bwd_ua16_o_srl_b20_P_to_N
+        .word .Lmemmove_npow16, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b19_P
+.Lmemmove_bwd_ua16_o_srl_b20_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b19_N
+.Lmemmove_bwd_ua16_o_srl_b20_N:
+        .word .Lmemmove_npow1048576, 172, .Lmemmove_bwd_ua16_o_srl_b20_N_to_N
+        .word .Lmemmove_npow16, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b19_P
+.Lmemmove_bwd_ua16_o_srl_b20_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b19_N
+.Lmemmove_bwd_ua16_o_srl_b19_P:
+        .word .Lmemmove_pow524288, 172, .Lmemmove_bwd_ua16_o_srl_b19_P_to_N
+        .word .Lmemmove_npow8, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b18_P
+.Lmemmove_bwd_ua16_o_srl_b19_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b18_N
+.Lmemmove_bwd_ua16_o_srl_b19_N:
+        .word .Lmemmove_npow524288, 172, .Lmemmove_bwd_ua16_o_srl_b19_N_to_N
+        .word .Lmemmove_npow8, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b18_P
+.Lmemmove_bwd_ua16_o_srl_b19_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b18_N
+.Lmemmove_bwd_ua16_o_srl_b18_P:
+        .word .Lmemmove_pow262144, 172, .Lmemmove_bwd_ua16_o_srl_b18_P_to_N
+        .word .Lmemmove_npow4, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b17_P
+.Lmemmove_bwd_ua16_o_srl_b18_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b17_N
+.Lmemmove_bwd_ua16_o_srl_b18_N:
+        .word .Lmemmove_npow262144, 172, .Lmemmove_bwd_ua16_o_srl_b18_N_to_N
+        .word .Lmemmove_npow4, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b17_P
+.Lmemmove_bwd_ua16_o_srl_b18_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b17_N
+.Lmemmove_bwd_ua16_o_srl_b17_P:
+        .word .Lmemmove_pow131072, 172, .Lmemmove_bwd_ua16_o_srl_b17_P_to_N
+        .word .Lmemmove_npow2, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b16_P
+.Lmemmove_bwd_ua16_o_srl_b17_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b16_N
+.Lmemmove_bwd_ua16_o_srl_b17_N:
+        .word .Lmemmove_npow131072, 172, .Lmemmove_bwd_ua16_o_srl_b17_N_to_N
+        .word .Lmemmove_npow2, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b16_P
+.Lmemmove_bwd_ua16_o_srl_b17_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_b16_N
+.Lmemmove_bwd_ua16_o_srl_b16_P:
+        .word .Lmemmove_pow65536, 172, .Lmemmove_bwd_ua16_o_srl_b16_P_to_N
+        .word .Lmemmove_npow1, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_done
+.Lmemmove_bwd_ua16_o_srl_b16_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_done
+.Lmemmove_bwd_ua16_o_srl_b16_N:
+        .word .Lmemmove_npow65536, 172, .Lmemmove_bwd_ua16_o_srl_b16_N_to_N
+        .word .Lmemmove_npow1, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_done
+.Lmemmove_bwd_ua16_o_srl_b16_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua16_o_srl_done
+.Lmemmove_bwd_ua16_o_srl_done:
+        .word 12, 12, .+4
+        .word 188, 12, .+4
+        .word 12, 180, .+4
+        .word 102, 102, .+4
+        .word 168, 168, .+4
+        .word 180, 168, .+4
+        .word 168, 102, .+4
+        .word .Lmemmove_c4, 184, .+4
+        .word .Lmemmove_c4, 100, .+4
+        .word .Lmemmove_c4, 108, .+4
+        .word 12, 12, .Lmemmove_bwd_ua16_e_body
+.Lmemmove_bwd_ua24_e_body:
         .word 180, 180, .+4
         .word 12, 12, .+4
         .word 108, 12, .+4
@@ -64829,148 +64654,143 @@ __subleq_memmove:
         .word 180, 12, .+4
         .word 12, 164, .+4
         .word 12, 12, .+4
-        .word 208, 208, .+4
-        .word 164, 12, .+4
-        .word 12, 208, .+4
-        .word 12, 12, .+4
         .word 188, 188, .+4
         .word 160, 12, .+4
         .word 12, 188, .+4
-.Lmemmove_bwd_ua24_shl_dbl0:
+.Lmemmove_bwd_ua24_e_shl_dbl0:
         .word 12, 12, .+4
         .word 188, 12, .+4
         .word 12, 188, .+4
         .word 12, 12, .+4
-.Lmemmove_bwd_ua24_shl_dbl1:
+.Lmemmove_bwd_ua24_e_shl_dbl1:
         .word 12, 12, .+4
         .word 188, 12, .+4
         .word 12, 188, .+4
         .word 12, 12, .+4
-.Lmemmove_bwd_ua24_shl_dbl2:
+.Lmemmove_bwd_ua24_e_shl_dbl2:
         .word 12, 12, .+4
         .word 188, 12, .+4
         .word 12, 188, .+4
         .word 12, 12, .+4
-.Lmemmove_bwd_ua24_shl_dbl3:
+.Lmemmove_bwd_ua24_e_shl_dbl3:
         .word 12, 12, .+4
         .word 188, 12, .+4
         .word 12, 188, .+4
         .word 12, 12, .+4
-.Lmemmove_bwd_ua24_shl_dbl4:
+.Lmemmove_bwd_ua24_e_shl_dbl4:
         .word 12, 12, .+4
         .word 188, 12, .+4
         .word 12, 188, .+4
         .word 12, 12, .+4
-.Lmemmove_bwd_ua24_shl_dbl5:
+.Lmemmove_bwd_ua24_e_shl_dbl5:
         .word 12, 12, .+4
         .word 188, 12, .+4
         .word 12, 188, .+4
         .word 12, 12, .+4
-.Lmemmove_bwd_ua24_shl_dbl6:
+.Lmemmove_bwd_ua24_e_shl_dbl6:
         .word 12, 12, .+4
         .word 188, 12, .+4
         .word 12, 188, .+4
         .word 12, 12, .+4
-.Lmemmove_bwd_ua24_shl_dbl7:
+.Lmemmove_bwd_ua24_e_shl_dbl7:
         .word 12, 12, .+4
         .word 188, 12, .+4
         .word 12, 188, .+4
-.Lmemmove_bwd_ua24_shl_done:
+.Lmemmove_bwd_ua24_e_shl_done:
         .word 12, 12, .+4
         .word 172, 172, .+4
-        .word 208, 12, .+4
+        .word 164, 12, .+4
         .word 12, 172, .+4
         .word 180, 180, .+4
-.Lmemmove_bwd_ua24_srl_b31:
+.Lmemmove_bwd_ua24_e_srl_b31:
         .word 176, 176, .+4
         .word 172, 176, .+4
-        .word 144, 176, .Lmemmove_bwd_ua24_srl_b30_check
+        .word 144, 176, .Lmemmove_bwd_ua24_e_srl_b30_check
         .word .Lmemmove_npow128, 180, .+4
         .word .Lmemmove_min, 172, .+4
-.Lmemmove_bwd_ua24_srl_b30_check:
+.Lmemmove_bwd_ua24_e_srl_b30_check:
         .word 176, 176, .+4
         .word 172, 176, .+4
-        .word .Lmemmove_npow1073741824, 176, .Lmemmove_bwd_ua24_srl_b30_set
-        .word 12, 12, .Lmemmove_bwd_ua24_srl_lattice_start
-.Lmemmove_bwd_ua24_srl_b30_set:
+        .word .Lmemmove_npow1073741824, 176, .Lmemmove_bwd_ua24_e_srl_b30_set
+        .word 12, 12, .Lmemmove_bwd_ua24_e_srl_lattice_start
+.Lmemmove_bwd_ua24_e_srl_b30_set:
         .word .Lmemmove_npow64, 180, .+4
         .word .Lmemmove_pow1073741824, 172, .+4
-.Lmemmove_bwd_ua24_srl_lattice_start:
+.Lmemmove_bwd_ua24_e_srl_lattice_start:
         .word .Lmemmove_n1, 172, .+4
-.Lmemmove_bwd_ua24_srl_b29_P:
-        .word .Lmemmove_pow536870912, 172, .Lmemmove_bwd_ua24_srl_b29_P_to_N
+.Lmemmove_bwd_ua24_e_srl_b29_P:
+        .word .Lmemmove_pow536870912, 172, .Lmemmove_bwd_ua24_e_srl_b29_P_to_N
         .word .Lmemmove_npow32, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua24_srl_b28_P
-.Lmemmove_bwd_ua24_srl_b29_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua24_srl_b28_N
-.Lmemmove_bwd_ua24_srl_b29_N:
-        .word .Lmemmove_npow536870912, 172, .Lmemmove_bwd_ua24_srl_b29_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua24_e_srl_b28_P
+.Lmemmove_bwd_ua24_e_srl_b29_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua24_e_srl_b28_N
+.Lmemmove_bwd_ua24_e_srl_b29_N:
+        .word .Lmemmove_npow536870912, 172, .Lmemmove_bwd_ua24_e_srl_b29_N_to_N
         .word .Lmemmove_npow32, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua24_srl_b28_P
-.Lmemmove_bwd_ua24_srl_b29_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua24_srl_b28_N
-.Lmemmove_bwd_ua24_srl_b28_P:
-        .word .Lmemmove_pow268435456, 172, .Lmemmove_bwd_ua24_srl_b28_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua24_e_srl_b28_P
+.Lmemmove_bwd_ua24_e_srl_b29_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua24_e_srl_b28_N
+.Lmemmove_bwd_ua24_e_srl_b28_P:
+        .word .Lmemmove_pow268435456, 172, .Lmemmove_bwd_ua24_e_srl_b28_P_to_N
         .word .Lmemmove_npow16, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua24_srl_b27_P
-.Lmemmove_bwd_ua24_srl_b28_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua24_srl_b27_N
-.Lmemmove_bwd_ua24_srl_b28_N:
-        .word .Lmemmove_npow268435456, 172, .Lmemmove_bwd_ua24_srl_b28_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua24_e_srl_b27_P
+.Lmemmove_bwd_ua24_e_srl_b28_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua24_e_srl_b27_N
+.Lmemmove_bwd_ua24_e_srl_b28_N:
+        .word .Lmemmove_npow268435456, 172, .Lmemmove_bwd_ua24_e_srl_b28_N_to_N
         .word .Lmemmove_npow16, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua24_srl_b27_P
-.Lmemmove_bwd_ua24_srl_b28_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua24_srl_b27_N
-.Lmemmove_bwd_ua24_srl_b27_P:
-        .word .Lmemmove_pow134217728, 172, .Lmemmove_bwd_ua24_srl_b27_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua24_e_srl_b27_P
+.Lmemmove_bwd_ua24_e_srl_b28_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua24_e_srl_b27_N
+.Lmemmove_bwd_ua24_e_srl_b27_P:
+        .word .Lmemmove_pow134217728, 172, .Lmemmove_bwd_ua24_e_srl_b27_P_to_N
         .word .Lmemmove_npow8, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua24_srl_b26_P
-.Lmemmove_bwd_ua24_srl_b27_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua24_srl_b26_N
-.Lmemmove_bwd_ua24_srl_b27_N:
-        .word .Lmemmove_npow134217728, 172, .Lmemmove_bwd_ua24_srl_b27_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua24_e_srl_b26_P
+.Lmemmove_bwd_ua24_e_srl_b27_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua24_e_srl_b26_N
+.Lmemmove_bwd_ua24_e_srl_b27_N:
+        .word .Lmemmove_npow134217728, 172, .Lmemmove_bwd_ua24_e_srl_b27_N_to_N
         .word .Lmemmove_npow8, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua24_srl_b26_P
-.Lmemmove_bwd_ua24_srl_b27_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua24_srl_b26_N
-.Lmemmove_bwd_ua24_srl_b26_P:
-        .word .Lmemmove_pow67108864, 172, .Lmemmove_bwd_ua24_srl_b26_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua24_e_srl_b26_P
+.Lmemmove_bwd_ua24_e_srl_b27_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua24_e_srl_b26_N
+.Lmemmove_bwd_ua24_e_srl_b26_P:
+        .word .Lmemmove_pow67108864, 172, .Lmemmove_bwd_ua24_e_srl_b26_P_to_N
         .word .Lmemmove_npow4, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua24_srl_b25_P
-.Lmemmove_bwd_ua24_srl_b26_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua24_srl_b25_N
-.Lmemmove_bwd_ua24_srl_b26_N:
-        .word .Lmemmove_npow67108864, 172, .Lmemmove_bwd_ua24_srl_b26_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua24_e_srl_b25_P
+.Lmemmove_bwd_ua24_e_srl_b26_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua24_e_srl_b25_N
+.Lmemmove_bwd_ua24_e_srl_b26_N:
+        .word .Lmemmove_npow67108864, 172, .Lmemmove_bwd_ua24_e_srl_b26_N_to_N
         .word .Lmemmove_npow4, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua24_srl_b25_P
-.Lmemmove_bwd_ua24_srl_b26_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua24_srl_b25_N
-.Lmemmove_bwd_ua24_srl_b25_P:
-        .word .Lmemmove_pow33554432, 172, .Lmemmove_bwd_ua24_srl_b25_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua24_e_srl_b25_P
+.Lmemmove_bwd_ua24_e_srl_b26_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua24_e_srl_b25_N
+.Lmemmove_bwd_ua24_e_srl_b25_P:
+        .word .Lmemmove_pow33554432, 172, .Lmemmove_bwd_ua24_e_srl_b25_P_to_N
         .word .Lmemmove_npow2, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua24_srl_b24_P
-.Lmemmove_bwd_ua24_srl_b25_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua24_srl_b24_N
-.Lmemmove_bwd_ua24_srl_b25_N:
-        .word .Lmemmove_npow33554432, 172, .Lmemmove_bwd_ua24_srl_b25_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua24_e_srl_b24_P
+.Lmemmove_bwd_ua24_e_srl_b25_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua24_e_srl_b24_N
+.Lmemmove_bwd_ua24_e_srl_b25_N:
+        .word .Lmemmove_npow33554432, 172, .Lmemmove_bwd_ua24_e_srl_b25_N_to_N
         .word .Lmemmove_npow2, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua24_srl_b24_P
-.Lmemmove_bwd_ua24_srl_b25_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua24_srl_b24_N
-.Lmemmove_bwd_ua24_srl_b24_P:
-        .word .Lmemmove_pow16777216, 172, .Lmemmove_bwd_ua24_srl_b24_P_to_N
+        .word 12, 12, .Lmemmove_bwd_ua24_e_srl_b24_P
+.Lmemmove_bwd_ua24_e_srl_b25_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua24_e_srl_b24_N
+.Lmemmove_bwd_ua24_e_srl_b24_P:
+        .word .Lmemmove_pow16777216, 172, .Lmemmove_bwd_ua24_e_srl_b24_P_to_N
         .word .Lmemmove_npow1, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua24_srl_done
-.Lmemmove_bwd_ua24_srl_b24_P_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua24_srl_done
-.Lmemmove_bwd_ua24_srl_b24_N:
-        .word .Lmemmove_npow16777216, 172, .Lmemmove_bwd_ua24_srl_b24_N_to_N
+        .word 12, 12, .Lmemmove_bwd_ua24_e_srl_done
+.Lmemmove_bwd_ua24_e_srl_b24_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua24_e_srl_done
+.Lmemmove_bwd_ua24_e_srl_b24_N:
+        .word .Lmemmove_npow16777216, 172, .Lmemmove_bwd_ua24_e_srl_b24_N_to_N
         .word .Lmemmove_npow1, 180, .+4
-        .word 12, 12, .Lmemmove_bwd_ua24_srl_done
-.Lmemmove_bwd_ua24_srl_b24_N_to_N:
-        .word 12, 12, .Lmemmove_bwd_ua24_srl_done
-.Lmemmove_bwd_ua24_srl_done:
-        .word 12, 12, .+4
+        .word 12, 12, .Lmemmove_bwd_ua24_e_srl_done
+.Lmemmove_bwd_ua24_e_srl_b24_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua24_e_srl_done
+.Lmemmove_bwd_ua24_e_srl_done:
         .word 12, 12, .+4
         .word 188, 12, .+4
         .word 12, 180, .+4
@@ -64978,16 +64798,174 @@ __subleq_memmove:
         .word 168, 168, .+4
         .word 180, 168, .+4
         .word 168, 102, .+4
-        .word 12, 12, .+4
-        .word 160, 160, .+4
-        .word 208, 12, .+4
-        .word 12, 160, .+4
         .word .Lmemmove_c4, 184, .+4
         .word .Lmemmove_c4, 100, .+4
-        .word .Lmemmove_c4, 104, .+4
         .word .Lmemmove_c4, 108, .+4
-        .word 12, 12, .Lmemmove_bwd_ua24_body
-.Lmemmove_bwd_ua32_body:
+        .word 12, 12, .Lmemmove_bwd_ua24_o_body
+.Lmemmove_bwd_ua24_o_body:
+        .word 180, 180, .+4
+        .word 12, 12, .+4
+        .word 108, 12, .+4
+        .word 12, 180, .+4
+        .word .Lmemmove_c3, 180, .Lmemmove_bwd_tail
+        .word 160, 160, .+4
+        .word 186, 160, .+4
+        .word 180, 180, .+4
+        .word 160, 180, .+4
+        .word 160, 160, .+4
+        .word 12, 12, .+4
+        .word 180, 12, .+4
+        .word 12, 160, .+4
+        .word 12, 12, .+4
+        .word 188, 188, .+4
+        .word 164, 12, .+4
+        .word 12, 188, .+4
+.Lmemmove_bwd_ua24_o_shl_dbl0:
+        .word 12, 12, .+4
+        .word 188, 12, .+4
+        .word 12, 188, .+4
+        .word 12, 12, .+4
+.Lmemmove_bwd_ua24_o_shl_dbl1:
+        .word 12, 12, .+4
+        .word 188, 12, .+4
+        .word 12, 188, .+4
+        .word 12, 12, .+4
+.Lmemmove_bwd_ua24_o_shl_dbl2:
+        .word 12, 12, .+4
+        .word 188, 12, .+4
+        .word 12, 188, .+4
+        .word 12, 12, .+4
+.Lmemmove_bwd_ua24_o_shl_dbl3:
+        .word 12, 12, .+4
+        .word 188, 12, .+4
+        .word 12, 188, .+4
+        .word 12, 12, .+4
+.Lmemmove_bwd_ua24_o_shl_dbl4:
+        .word 12, 12, .+4
+        .word 188, 12, .+4
+        .word 12, 188, .+4
+        .word 12, 12, .+4
+.Lmemmove_bwd_ua24_o_shl_dbl5:
+        .word 12, 12, .+4
+        .word 188, 12, .+4
+        .word 12, 188, .+4
+        .word 12, 12, .+4
+.Lmemmove_bwd_ua24_o_shl_dbl6:
+        .word 12, 12, .+4
+        .word 188, 12, .+4
+        .word 12, 188, .+4
+        .word 12, 12, .+4
+.Lmemmove_bwd_ua24_o_shl_dbl7:
+        .word 12, 12, .+4
+        .word 188, 12, .+4
+        .word 12, 188, .+4
+.Lmemmove_bwd_ua24_o_shl_done:
+        .word 12, 12, .+4
+        .word 172, 172, .+4
+        .word 160, 12, .+4
+        .word 12, 172, .+4
+        .word 180, 180, .+4
+.Lmemmove_bwd_ua24_o_srl_b31:
+        .word 176, 176, .+4
+        .word 172, 176, .+4
+        .word 144, 176, .Lmemmove_bwd_ua24_o_srl_b30_check
+        .word .Lmemmove_npow128, 180, .+4
+        .word .Lmemmove_min, 172, .+4
+.Lmemmove_bwd_ua24_o_srl_b30_check:
+        .word 176, 176, .+4
+        .word 172, 176, .+4
+        .word .Lmemmove_npow1073741824, 176, .Lmemmove_bwd_ua24_o_srl_b30_set
+        .word 12, 12, .Lmemmove_bwd_ua24_o_srl_lattice_start
+.Lmemmove_bwd_ua24_o_srl_b30_set:
+        .word .Lmemmove_npow64, 180, .+4
+        .word .Lmemmove_pow1073741824, 172, .+4
+.Lmemmove_bwd_ua24_o_srl_lattice_start:
+        .word .Lmemmove_n1, 172, .+4
+.Lmemmove_bwd_ua24_o_srl_b29_P:
+        .word .Lmemmove_pow536870912, 172, .Lmemmove_bwd_ua24_o_srl_b29_P_to_N
+        .word .Lmemmove_npow32, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua24_o_srl_b28_P
+.Lmemmove_bwd_ua24_o_srl_b29_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua24_o_srl_b28_N
+.Lmemmove_bwd_ua24_o_srl_b29_N:
+        .word .Lmemmove_npow536870912, 172, .Lmemmove_bwd_ua24_o_srl_b29_N_to_N
+        .word .Lmemmove_npow32, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua24_o_srl_b28_P
+.Lmemmove_bwd_ua24_o_srl_b29_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua24_o_srl_b28_N
+.Lmemmove_bwd_ua24_o_srl_b28_P:
+        .word .Lmemmove_pow268435456, 172, .Lmemmove_bwd_ua24_o_srl_b28_P_to_N
+        .word .Lmemmove_npow16, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua24_o_srl_b27_P
+.Lmemmove_bwd_ua24_o_srl_b28_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua24_o_srl_b27_N
+.Lmemmove_bwd_ua24_o_srl_b28_N:
+        .word .Lmemmove_npow268435456, 172, .Lmemmove_bwd_ua24_o_srl_b28_N_to_N
+        .word .Lmemmove_npow16, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua24_o_srl_b27_P
+.Lmemmove_bwd_ua24_o_srl_b28_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua24_o_srl_b27_N
+.Lmemmove_bwd_ua24_o_srl_b27_P:
+        .word .Lmemmove_pow134217728, 172, .Lmemmove_bwd_ua24_o_srl_b27_P_to_N
+        .word .Lmemmove_npow8, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua24_o_srl_b26_P
+.Lmemmove_bwd_ua24_o_srl_b27_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua24_o_srl_b26_N
+.Lmemmove_bwd_ua24_o_srl_b27_N:
+        .word .Lmemmove_npow134217728, 172, .Lmemmove_bwd_ua24_o_srl_b27_N_to_N
+        .word .Lmemmove_npow8, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua24_o_srl_b26_P
+.Lmemmove_bwd_ua24_o_srl_b27_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua24_o_srl_b26_N
+.Lmemmove_bwd_ua24_o_srl_b26_P:
+        .word .Lmemmove_pow67108864, 172, .Lmemmove_bwd_ua24_o_srl_b26_P_to_N
+        .word .Lmemmove_npow4, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua24_o_srl_b25_P
+.Lmemmove_bwd_ua24_o_srl_b26_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua24_o_srl_b25_N
+.Lmemmove_bwd_ua24_o_srl_b26_N:
+        .word .Lmemmove_npow67108864, 172, .Lmemmove_bwd_ua24_o_srl_b26_N_to_N
+        .word .Lmemmove_npow4, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua24_o_srl_b25_P
+.Lmemmove_bwd_ua24_o_srl_b26_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua24_o_srl_b25_N
+.Lmemmove_bwd_ua24_o_srl_b25_P:
+        .word .Lmemmove_pow33554432, 172, .Lmemmove_bwd_ua24_o_srl_b25_P_to_N
+        .word .Lmemmove_npow2, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua24_o_srl_b24_P
+.Lmemmove_bwd_ua24_o_srl_b25_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua24_o_srl_b24_N
+.Lmemmove_bwd_ua24_o_srl_b25_N:
+        .word .Lmemmove_npow33554432, 172, .Lmemmove_bwd_ua24_o_srl_b25_N_to_N
+        .word .Lmemmove_npow2, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua24_o_srl_b24_P
+.Lmemmove_bwd_ua24_o_srl_b25_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua24_o_srl_b24_N
+.Lmemmove_bwd_ua24_o_srl_b24_P:
+        .word .Lmemmove_pow16777216, 172, .Lmemmove_bwd_ua24_o_srl_b24_P_to_N
+        .word .Lmemmove_npow1, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua24_o_srl_done
+.Lmemmove_bwd_ua24_o_srl_b24_P_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua24_o_srl_done
+.Lmemmove_bwd_ua24_o_srl_b24_N:
+        .word .Lmemmove_npow16777216, 172, .Lmemmove_bwd_ua24_o_srl_b24_N_to_N
+        .word .Lmemmove_npow1, 180, .+4
+        .word 12, 12, .Lmemmove_bwd_ua24_o_srl_done
+.Lmemmove_bwd_ua24_o_srl_b24_N_to_N:
+        .word 12, 12, .Lmemmove_bwd_ua24_o_srl_done
+.Lmemmove_bwd_ua24_o_srl_done:
+        .word 12, 12, .+4
+        .word 188, 12, .+4
+        .word 12, 180, .+4
+        .word 102, 102, .+4
+        .word 168, 168, .+4
+        .word 180, 168, .+4
+        .word 168, 102, .+4
+        .word .Lmemmove_c4, 184, .+4
+        .word .Lmemmove_c4, 100, .+4
+        .word .Lmemmove_c4, 108, .+4
+        .word 12, 12, .Lmemmove_bwd_ua24_e_body
+.Lmemmove_bwd_ua32_e_body:
         .word 180, 180, .+4
         .word 12, 12, .+4
         .word 108, 12, .+4
@@ -65002,51 +64980,55 @@ __subleq_memmove:
         .word 180, 12, .+4
         .word 12, 164, .+4
         .word 12, 12, .+4
-        .word 208, 208, .+4
-        .word 164, 12, .+4
-        .word 12, 208, .+4
-        .word 12, 12, .+4
-        .word 188, 188, .+4
-        .word 160, 12, .+4
-        .word 12, 188, .+4
-        .word 12, 12, .+4
-        .word 172, 172, .+4
-        .word 208, 12, .+4
-        .word 12, 172, .+4
         .word 180, 180, .+4
-.Lmemmove_bwd_ua32_srl_b31:
-        .word 176, 176, .+4
-        .word 172, 176, .+4
-        .word 144, 176, .Lmemmove_bwd_ua32_srl_b30_check
-        .word .Lmemmove_min, 172, .+4
-.Lmemmove_bwd_ua32_srl_b30_check:
-        .word 176, 176, .+4
-        .word 172, 176, .+4
-        .word .Lmemmove_npow1073741824, 176, .Lmemmove_bwd_ua32_srl_b30_set
-        .word 12, 12, .Lmemmove_bwd_ua32_srl_lattice_start
-.Lmemmove_bwd_ua32_srl_b30_set:
-        .word .Lmemmove_pow1073741824, 172, .+4
-.Lmemmove_bwd_ua32_srl_lattice_start:
-        .word .Lmemmove_n1, 172, .+4
-.Lmemmove_bwd_ua32_srl_done:
-        .word 12, 12, .+4
-        .word 12, 12, .+4
-        .word 188, 12, .+4
+        .word 160, 12, .+4
         .word 12, 180, .+4
         .word 102, 102, .+4
         .word 168, 168, .+4
         .word 180, 168, .+4
         .word 168, 102, .+4
-        .word 12, 12, .+4
-        .word 160, 160, .+4
-        .word 208, 12, .+4
-        .word 12, 160, .+4
         .word .Lmemmove_c4, 184, .+4
         .word .Lmemmove_c4, 100, .+4
-        .word .Lmemmove_c4, 104, .+4
         .word .Lmemmove_c4, 108, .+4
-        .word 12, 12, .Lmemmove_bwd_ua32_body
+        .word 12, 12, .Lmemmove_bwd_ua32_o_body
+.Lmemmove_bwd_ua32_o_body:
+        .word 180, 180, .+4
+        .word 12, 12, .+4
+        .word 108, 12, .+4
+        .word 12, 180, .+4
+        .word .Lmemmove_c3, 180, .Lmemmove_bwd_tail
+        .word 160, 160, .+4
+        .word 186, 160, .+4
+        .word 180, 180, .+4
+        .word 160, 180, .+4
+        .word 160, 160, .+4
+        .word 12, 12, .+4
+        .word 180, 12, .+4
+        .word 12, 160, .+4
+        .word 12, 12, .+4
+        .word 180, 180, .+4
+        .word 164, 12, .+4
+        .word 12, 180, .+4
+        .word 102, 102, .+4
+        .word 168, 168, .+4
+        .word 180, 168, .+4
+        .word 168, 102, .+4
+        .word .Lmemmove_c4, 184, .+4
+        .word .Lmemmove_c4, 100, .+4
+        .word .Lmemmove_c4, 108, .+4
+        .word 12, 12, .Lmemmove_bwd_ua32_e_body
+.Lmemmove_bwd_tail_early:
+        .word .Lmemmove_n3, 100, .+4
+        .word 12, 12, .Lmemmove_bwd_fast_tail
 .Lmemmove_bwd_tail:
+        .word 12, 12, .+4
+        .word 104, 104, .+4
+        .word 184, 12, .+4
+        .word 12, 104, .+4
+        .word .Lmemmove_n4, 104, .+4
+        .word 12, 12, .+4
+        .word 204, 12, .+4
+        .word 12, 104, .+4
         .word .Lmemmove_n3, 100, .+4
         .word 12, 12, .Lmemmove_bwd_fast_tail
 .Lmemmove_bwd_fast_setup:
@@ -65084,302 +65066,71 @@ __subleq_memmove:
         .word 12, 12, .Lmemmove_btail_bias
 .Lmemmove_btail_sign_ambig:
         .word .Lmemmove_n1, 184, .+4
-        .word 144, 184, .Lmemmove_btail_bias
+        .word 144, 184, .Lmemmove_btail_sign_intmin
+        .word 12, 12, .Lmemmove_btail_bias
+.Lmemmove_btail_sign_intmin:
         .word .Lmemmove_min, 180, .+4
 .Lmemmove_btail_bias:
         .word 184, 184, .+4
         .word .Lmemmove_n1, 180, .+4
-        .word 12, 12, .Lmemmove_btail_b30_P
 .Lmemmove_btail_b30_P:
         .word .Lmemmove_pow1073741824, 180, .Lmemmove_btail_b30_P_to_N
-        .word 12, 12, .Lmemmove_btail_b29_P
-.Lmemmove_btail_b30_P_to_N:
-        .word 12, 12, .Lmemmove_btail_b29_N
-.Lmemmove_btail_b30_N:
-        .word .Lmemmove_npow1073741824, 180, .Lmemmove_btail_b30_N_to_N
-        .word 12, 12, .Lmemmove_btail_b29_P
-.Lmemmove_btail_b30_N_to_N:
-        .word 12, 12, .Lmemmove_btail_b29_N
 .Lmemmove_btail_b29_P:
         .word .Lmemmove_pow536870912, 180, .Lmemmove_btail_b29_P_to_N
-        .word 12, 12, .Lmemmove_btail_b28_P
-.Lmemmove_btail_b29_P_to_N:
-        .word 12, 12, .Lmemmove_btail_b28_N
-.Lmemmove_btail_b29_N:
-        .word .Lmemmove_npow536870912, 180, .Lmemmove_btail_b29_N_to_N
-        .word 12, 12, .Lmemmove_btail_b28_P
-.Lmemmove_btail_b29_N_to_N:
-        .word 12, 12, .Lmemmove_btail_b28_N
 .Lmemmove_btail_b28_P:
         .word .Lmemmove_pow268435456, 180, .Lmemmove_btail_b28_P_to_N
-        .word 12, 12, .Lmemmove_btail_b27_P
-.Lmemmove_btail_b28_P_to_N:
-        .word 12, 12, .Lmemmove_btail_b27_N
-.Lmemmove_btail_b28_N:
-        .word .Lmemmove_npow268435456, 180, .Lmemmove_btail_b28_N_to_N
-        .word 12, 12, .Lmemmove_btail_b27_P
-.Lmemmove_btail_b28_N_to_N:
-        .word 12, 12, .Lmemmove_btail_b27_N
 .Lmemmove_btail_b27_P:
         .word .Lmemmove_pow134217728, 180, .Lmemmove_btail_b27_P_to_N
-        .word 12, 12, .Lmemmove_btail_b26_P
-.Lmemmove_btail_b27_P_to_N:
-        .word 12, 12, .Lmemmove_btail_b26_N
-.Lmemmove_btail_b27_N:
-        .word .Lmemmove_npow134217728, 180, .Lmemmove_btail_b27_N_to_N
-        .word 12, 12, .Lmemmove_btail_b26_P
-.Lmemmove_btail_b27_N_to_N:
-        .word 12, 12, .Lmemmove_btail_b26_N
 .Lmemmove_btail_b26_P:
         .word .Lmemmove_pow67108864, 180, .Lmemmove_btail_b26_P_to_N
-        .word 12, 12, .Lmemmove_btail_b25_P
-.Lmemmove_btail_b26_P_to_N:
-        .word 12, 12, .Lmemmove_btail_b25_N
-.Lmemmove_btail_b26_N:
-        .word .Lmemmove_npow67108864, 180, .Lmemmove_btail_b26_N_to_N
-        .word 12, 12, .Lmemmove_btail_b25_P
-.Lmemmove_btail_b26_N_to_N:
-        .word 12, 12, .Lmemmove_btail_b25_N
 .Lmemmove_btail_b25_P:
         .word .Lmemmove_pow33554432, 180, .Lmemmove_btail_b25_P_to_N
-        .word 12, 12, .Lmemmove_btail_b24_P
-.Lmemmove_btail_b25_P_to_N:
-        .word 12, 12, .Lmemmove_btail_b24_N
-.Lmemmove_btail_b25_N:
-        .word .Lmemmove_npow33554432, 180, .Lmemmove_btail_b25_N_to_N
-        .word 12, 12, .Lmemmove_btail_b24_P
-.Lmemmove_btail_b25_N_to_N:
-        .word 12, 12, .Lmemmove_btail_b24_N
 .Lmemmove_btail_b24_P:
         .word .Lmemmove_pow16777216, 180, .Lmemmove_btail_b24_P_to_N
-        .word 12, 12, .Lmemmove_btail_b23_P
-.Lmemmove_btail_b24_P_to_N:
-        .word 12, 12, .Lmemmove_btail_b23_N
-.Lmemmove_btail_b24_N:
-        .word .Lmemmove_npow16777216, 180, .Lmemmove_btail_b24_N_to_N
-        .word 12, 12, .Lmemmove_btail_b23_P
-.Lmemmove_btail_b24_N_to_N:
-        .word 12, 12, .Lmemmove_btail_b23_N
 .Lmemmove_btail_b23_P:
         .word .Lmemmove_pow8388608, 180, .Lmemmove_btail_b23_P_to_N
-        .word 12, 12, .Lmemmove_btail_b22_P
-.Lmemmove_btail_b23_P_to_N:
-        .word 12, 12, .Lmemmove_btail_b22_N
-.Lmemmove_btail_b23_N:
-        .word .Lmemmove_npow8388608, 180, .Lmemmove_btail_b23_N_to_N
-        .word 12, 12, .Lmemmove_btail_b22_P
-.Lmemmove_btail_b23_N_to_N:
-        .word 12, 12, .Lmemmove_btail_b22_N
 .Lmemmove_btail_b22_P:
         .word .Lmemmove_pow4194304, 180, .Lmemmove_btail_b22_P_to_N
-        .word 12, 12, .Lmemmove_btail_b21_P
-.Lmemmove_btail_b22_P_to_N:
-        .word 12, 12, .Lmemmove_btail_b21_N
-.Lmemmove_btail_b22_N:
-        .word .Lmemmove_npow4194304, 180, .Lmemmove_btail_b22_N_to_N
-        .word 12, 12, .Lmemmove_btail_b21_P
-.Lmemmove_btail_b22_N_to_N:
-        .word 12, 12, .Lmemmove_btail_b21_N
 .Lmemmove_btail_b21_P:
         .word .Lmemmove_pow2097152, 180, .Lmemmove_btail_b21_P_to_N
-        .word 12, 12, .Lmemmove_btail_b20_P
-.Lmemmove_btail_b21_P_to_N:
-        .word 12, 12, .Lmemmove_btail_b20_N
-.Lmemmove_btail_b21_N:
-        .word .Lmemmove_npow2097152, 180, .Lmemmove_btail_b21_N_to_N
-        .word 12, 12, .Lmemmove_btail_b20_P
-.Lmemmove_btail_b21_N_to_N:
-        .word 12, 12, .Lmemmove_btail_b20_N
 .Lmemmove_btail_b20_P:
         .word .Lmemmove_pow1048576, 180, .Lmemmove_btail_b20_P_to_N
-        .word 12, 12, .Lmemmove_btail_b19_P
-.Lmemmove_btail_b20_P_to_N:
-        .word 12, 12, .Lmemmove_btail_b19_N
-.Lmemmove_btail_b20_N:
-        .word .Lmemmove_npow1048576, 180, .Lmemmove_btail_b20_N_to_N
-        .word 12, 12, .Lmemmove_btail_b19_P
-.Lmemmove_btail_b20_N_to_N:
-        .word 12, 12, .Lmemmove_btail_b19_N
 .Lmemmove_btail_b19_P:
         .word .Lmemmove_pow524288, 180, .Lmemmove_btail_b19_P_to_N
-        .word 12, 12, .Lmemmove_btail_b18_P
-.Lmemmove_btail_b19_P_to_N:
-        .word 12, 12, .Lmemmove_btail_b18_N
-.Lmemmove_btail_b19_N:
-        .word .Lmemmove_npow524288, 180, .Lmemmove_btail_b19_N_to_N
-        .word 12, 12, .Lmemmove_btail_b18_P
-.Lmemmove_btail_b19_N_to_N:
-        .word 12, 12, .Lmemmove_btail_b18_N
 .Lmemmove_btail_b18_P:
         .word .Lmemmove_pow262144, 180, .Lmemmove_btail_b18_P_to_N
-        .word 12, 12, .Lmemmove_btail_b17_P
-.Lmemmove_btail_b18_P_to_N:
-        .word 12, 12, .Lmemmove_btail_b17_N
-.Lmemmove_btail_b18_N:
-        .word .Lmemmove_npow262144, 180, .Lmemmove_btail_b18_N_to_N
-        .word 12, 12, .Lmemmove_btail_b17_P
-.Lmemmove_btail_b18_N_to_N:
-        .word 12, 12, .Lmemmove_btail_b17_N
 .Lmemmove_btail_b17_P:
         .word .Lmemmove_pow131072, 180, .Lmemmove_btail_b17_P_to_N
-        .word 12, 12, .Lmemmove_btail_b16_P
-.Lmemmove_btail_b17_P_to_N:
-        .word 12, 12, .Lmemmove_btail_b16_N
-.Lmemmove_btail_b17_N:
-        .word .Lmemmove_npow131072, 180, .Lmemmove_btail_b17_N_to_N
-        .word 12, 12, .Lmemmove_btail_b16_P
-.Lmemmove_btail_b17_N_to_N:
-        .word 12, 12, .Lmemmove_btail_b16_N
 .Lmemmove_btail_b16_P:
         .word .Lmemmove_pow65536, 180, .Lmemmove_btail_b16_P_to_N
-        .word 12, 12, .Lmemmove_btail_b15_P
-.Lmemmove_btail_b16_P_to_N:
-        .word 12, 12, .Lmemmove_btail_b15_N
-.Lmemmove_btail_b16_N:
-        .word .Lmemmove_npow65536, 180, .Lmemmove_btail_b16_N_to_N
-        .word 12, 12, .Lmemmove_btail_b15_P
-.Lmemmove_btail_b16_N_to_N:
-        .word 12, 12, .Lmemmove_btail_b15_N
 .Lmemmove_btail_b15_P:
         .word .Lmemmove_pow32768, 180, .Lmemmove_btail_b15_P_to_N
-        .word 12, 12, .Lmemmove_btail_b14_P
-.Lmemmove_btail_b15_P_to_N:
-        .word 12, 12, .Lmemmove_btail_b14_N
-.Lmemmove_btail_b15_N:
-        .word .Lmemmove_npow32768, 180, .Lmemmove_btail_b15_N_to_N
-        .word 12, 12, .Lmemmove_btail_b14_P
-.Lmemmove_btail_b15_N_to_N:
-        .word 12, 12, .Lmemmove_btail_b14_N
 .Lmemmove_btail_b14_P:
         .word .Lmemmove_pow16384, 180, .Lmemmove_btail_b14_P_to_N
-        .word 12, 12, .Lmemmove_btail_b13_P
-.Lmemmove_btail_b14_P_to_N:
-        .word 12, 12, .Lmemmove_btail_b13_N
-.Lmemmove_btail_b14_N:
-        .word .Lmemmove_npow16384, 180, .Lmemmove_btail_b14_N_to_N
-        .word 12, 12, .Lmemmove_btail_b13_P
-.Lmemmove_btail_b14_N_to_N:
-        .word 12, 12, .Lmemmove_btail_b13_N
 .Lmemmove_btail_b13_P:
         .word .Lmemmove_pow8192, 180, .Lmemmove_btail_b13_P_to_N
-        .word 12, 12, .Lmemmove_btail_b12_P
-.Lmemmove_btail_b13_P_to_N:
-        .word 12, 12, .Lmemmove_btail_b12_N
-.Lmemmove_btail_b13_N:
-        .word .Lmemmove_npow8192, 180, .Lmemmove_btail_b13_N_to_N
-        .word 12, 12, .Lmemmove_btail_b12_P
-.Lmemmove_btail_b13_N_to_N:
-        .word 12, 12, .Lmemmove_btail_b12_N
 .Lmemmove_btail_b12_P:
         .word .Lmemmove_pow4096, 180, .Lmemmove_btail_b12_P_to_N
-        .word 12, 12, .Lmemmove_btail_b11_P
-.Lmemmove_btail_b12_P_to_N:
-        .word 12, 12, .Lmemmove_btail_b11_N
-.Lmemmove_btail_b12_N:
-        .word .Lmemmove_npow4096, 180, .Lmemmove_btail_b12_N_to_N
-        .word 12, 12, .Lmemmove_btail_b11_P
-.Lmemmove_btail_b12_N_to_N:
-        .word 12, 12, .Lmemmove_btail_b11_N
 .Lmemmove_btail_b11_P:
         .word .Lmemmove_pow2048, 180, .Lmemmove_btail_b11_P_to_N
-        .word 12, 12, .Lmemmove_btail_b10_P
-.Lmemmove_btail_b11_P_to_N:
-        .word 12, 12, .Lmemmove_btail_b10_N
-.Lmemmove_btail_b11_N:
-        .word .Lmemmove_npow2048, 180, .Lmemmove_btail_b11_N_to_N
-        .word 12, 12, .Lmemmove_btail_b10_P
-.Lmemmove_btail_b11_N_to_N:
-        .word 12, 12, .Lmemmove_btail_b10_N
 .Lmemmove_btail_b10_P:
         .word .Lmemmove_pow1024, 180, .Lmemmove_btail_b10_P_to_N
-        .word 12, 12, .Lmemmove_btail_b9_P
-.Lmemmove_btail_b10_P_to_N:
-        .word 12, 12, .Lmemmove_btail_b9_N
-.Lmemmove_btail_b10_N:
-        .word .Lmemmove_npow1024, 180, .Lmemmove_btail_b10_N_to_N
-        .word 12, 12, .Lmemmove_btail_b9_P
-.Lmemmove_btail_b10_N_to_N:
-        .word 12, 12, .Lmemmove_btail_b9_N
 .Lmemmove_btail_b9_P:
         .word .Lmemmove_pow512, 180, .Lmemmove_btail_b9_P_to_N
-        .word 12, 12, .Lmemmove_btail_b8_P
-.Lmemmove_btail_b9_P_to_N:
-        .word 12, 12, .Lmemmove_btail_b8_N
-.Lmemmove_btail_b9_N:
-        .word .Lmemmove_npow512, 180, .Lmemmove_btail_b9_N_to_N
-        .word 12, 12, .Lmemmove_btail_b8_P
-.Lmemmove_btail_b9_N_to_N:
-        .word 12, 12, .Lmemmove_btail_b8_N
 .Lmemmove_btail_b8_P:
         .word .Lmemmove_pow256, 180, .Lmemmove_btail_b8_P_to_N
-        .word 12, 12, .Lmemmove_btail_b7_P
-.Lmemmove_btail_b8_P_to_N:
-        .word 12, 12, .Lmemmove_btail_b7_N
-.Lmemmove_btail_b8_N:
-        .word .Lmemmove_npow256, 180, .Lmemmove_btail_b8_N_to_N
-        .word 12, 12, .Lmemmove_btail_b7_P
-.Lmemmove_btail_b8_N_to_N:
-        .word 12, 12, .Lmemmove_btail_b7_N
 .Lmemmove_btail_b7_P:
         .word .Lmemmove_pow128, 180, .Lmemmove_btail_b7_P_to_N
-        .word 12, 12, .Lmemmove_btail_b6_P
-.Lmemmove_btail_b7_P_to_N:
-        .word 12, 12, .Lmemmove_btail_b6_N
-.Lmemmove_btail_b7_N:
-        .word .Lmemmove_npow128, 180, .Lmemmove_btail_b7_N_to_N
-        .word 12, 12, .Lmemmove_btail_b6_P
-.Lmemmove_btail_b7_N_to_N:
-        .word 12, 12, .Lmemmove_btail_b6_N
 .Lmemmove_btail_b6_P:
         .word .Lmemmove_pow64, 180, .Lmemmove_btail_b6_P_to_N
-        .word 12, 12, .Lmemmove_btail_b5_P
-.Lmemmove_btail_b6_P_to_N:
-        .word 12, 12, .Lmemmove_btail_b5_N
-.Lmemmove_btail_b6_N:
-        .word .Lmemmove_npow64, 180, .Lmemmove_btail_b6_N_to_N
-        .word 12, 12, .Lmemmove_btail_b5_P
-.Lmemmove_btail_b6_N_to_N:
-        .word 12, 12, .Lmemmove_btail_b5_N
 .Lmemmove_btail_b5_P:
         .word .Lmemmove_pow32, 180, .Lmemmove_btail_b5_P_to_N
-        .word 12, 12, .Lmemmove_btail_b4_P
-.Lmemmove_btail_b5_P_to_N:
-        .word 12, 12, .Lmemmove_btail_b4_N
-.Lmemmove_btail_b5_N:
-        .word .Lmemmove_npow32, 180, .Lmemmove_btail_b5_N_to_N
-        .word 12, 12, .Lmemmove_btail_b4_P
-.Lmemmove_btail_b5_N_to_N:
-        .word 12, 12, .Lmemmove_btail_b4_N
 .Lmemmove_btail_b4_P:
         .word .Lmemmove_pow16, 180, .Lmemmove_btail_b4_P_to_N
-        .word 12, 12, .Lmemmove_btail_b3_P
-.Lmemmove_btail_b4_P_to_N:
-        .word 12, 12, .Lmemmove_btail_b3_N
-.Lmemmove_btail_b4_N:
-        .word .Lmemmove_npow16, 180, .Lmemmove_btail_b4_N_to_N
-        .word 12, 12, .Lmemmove_btail_b3_P
-.Lmemmove_btail_b4_N_to_N:
-        .word 12, 12, .Lmemmove_btail_b3_N
 .Lmemmove_btail_b3_P:
         .word .Lmemmove_pow8, 180, .Lmemmove_btail_b3_P_to_N
-        .word 12, 12, .Lmemmove_btail_b2_P
-.Lmemmove_btail_b3_P_to_N:
-        .word 12, 12, .Lmemmove_btail_b2_N
-.Lmemmove_btail_b3_N:
-        .word .Lmemmove_npow8, 180, .Lmemmove_btail_b3_N_to_N
-        .word 12, 12, .Lmemmove_btail_b2_P
-.Lmemmove_btail_b3_N_to_N:
-        .word 12, 12, .Lmemmove_btail_b2_N
 .Lmemmove_btail_b2_P:
         .word .Lmemmove_pow4, 180, .Lmemmove_btail_b2_P_to_N
-        .word 12, 12, .Lmemmove_btail_b1_P
-.Lmemmove_btail_b2_P_to_N:
-        .word 12, 12, .Lmemmove_btail_b1_N
-.Lmemmove_btail_b2_N:
-        .word .Lmemmove_npow4, 180, .Lmemmove_btail_b2_N_to_N
-        .word 12, 12, .Lmemmove_btail_b1_P
-.Lmemmove_btail_b2_N_to_N:
-        .word 12, 12, .Lmemmove_btail_b1_N
 .Lmemmove_btail_b1_P:
         .word .Lmemmove_pow2, 180, .Lmemmove_btail_b1_P_to_N
         .word .Lmemmove_pow2, 184, .Lmemmove_btail_b0_P
@@ -65400,6 +65151,209 @@ __subleq_memmove:
         .word .Lmemmove_pow1, 184, .Lmemmove_btail_done
 .Lmemmove_btail_b0_N_to_N:
         .word 12, 12, .Lmemmove_btail_done
+.Lmemmove_btail_b30_P_to_N:
+        .word 12, 12, .Lmemmove_btail_b29_N
+.Lmemmove_btail_b30_N:
+        .word .Lmemmove_npow1073741824, 180, .Lmemmove_btail_b30_N_to_N
+        .word 12, 12, .Lmemmove_btail_b29_P
+.Lmemmove_btail_b30_N_to_N:
+        .word 12, 12, .Lmemmove_btail_b29_N
+.Lmemmove_btail_b29_P_to_N:
+        .word 12, 12, .Lmemmove_btail_b28_N
+.Lmemmove_btail_b29_N:
+        .word .Lmemmove_npow536870912, 180, .Lmemmove_btail_b29_N_to_N
+        .word 12, 12, .Lmemmove_btail_b28_P
+.Lmemmove_btail_b29_N_to_N:
+        .word 12, 12, .Lmemmove_btail_b28_N
+.Lmemmove_btail_b28_P_to_N:
+        .word 12, 12, .Lmemmove_btail_b27_N
+.Lmemmove_btail_b28_N:
+        .word .Lmemmove_npow268435456, 180, .Lmemmove_btail_b28_N_to_N
+        .word 12, 12, .Lmemmove_btail_b27_P
+.Lmemmove_btail_b28_N_to_N:
+        .word 12, 12, .Lmemmove_btail_b27_N
+.Lmemmove_btail_b27_P_to_N:
+        .word 12, 12, .Lmemmove_btail_b26_N
+.Lmemmove_btail_b27_N:
+        .word .Lmemmove_npow134217728, 180, .Lmemmove_btail_b27_N_to_N
+        .word 12, 12, .Lmemmove_btail_b26_P
+.Lmemmove_btail_b27_N_to_N:
+        .word 12, 12, .Lmemmove_btail_b26_N
+.Lmemmove_btail_b26_P_to_N:
+        .word 12, 12, .Lmemmove_btail_b25_N
+.Lmemmove_btail_b26_N:
+        .word .Lmemmove_npow67108864, 180, .Lmemmove_btail_b26_N_to_N
+        .word 12, 12, .Lmemmove_btail_b25_P
+.Lmemmove_btail_b26_N_to_N:
+        .word 12, 12, .Lmemmove_btail_b25_N
+.Lmemmove_btail_b25_P_to_N:
+        .word 12, 12, .Lmemmove_btail_b24_N
+.Lmemmove_btail_b25_N:
+        .word .Lmemmove_npow33554432, 180, .Lmemmove_btail_b25_N_to_N
+        .word 12, 12, .Lmemmove_btail_b24_P
+.Lmemmove_btail_b25_N_to_N:
+        .word 12, 12, .Lmemmove_btail_b24_N
+.Lmemmove_btail_b24_P_to_N:
+        .word 12, 12, .Lmemmove_btail_b23_N
+.Lmemmove_btail_b24_N:
+        .word .Lmemmove_npow16777216, 180, .Lmemmove_btail_b24_N_to_N
+        .word 12, 12, .Lmemmove_btail_b23_P
+.Lmemmove_btail_b24_N_to_N:
+        .word 12, 12, .Lmemmove_btail_b23_N
+.Lmemmove_btail_b23_P_to_N:
+        .word 12, 12, .Lmemmove_btail_b22_N
+.Lmemmove_btail_b23_N:
+        .word .Lmemmove_npow8388608, 180, .Lmemmove_btail_b23_N_to_N
+        .word 12, 12, .Lmemmove_btail_b22_P
+.Lmemmove_btail_b23_N_to_N:
+        .word 12, 12, .Lmemmove_btail_b22_N
+.Lmemmove_btail_b22_P_to_N:
+        .word 12, 12, .Lmemmove_btail_b21_N
+.Lmemmove_btail_b22_N:
+        .word .Lmemmove_npow4194304, 180, .Lmemmove_btail_b22_N_to_N
+        .word 12, 12, .Lmemmove_btail_b21_P
+.Lmemmove_btail_b22_N_to_N:
+        .word 12, 12, .Lmemmove_btail_b21_N
+.Lmemmove_btail_b21_P_to_N:
+        .word 12, 12, .Lmemmove_btail_b20_N
+.Lmemmove_btail_b21_N:
+        .word .Lmemmove_npow2097152, 180, .Lmemmove_btail_b21_N_to_N
+        .word 12, 12, .Lmemmove_btail_b20_P
+.Lmemmove_btail_b21_N_to_N:
+        .word 12, 12, .Lmemmove_btail_b20_N
+.Lmemmove_btail_b20_P_to_N:
+        .word 12, 12, .Lmemmove_btail_b19_N
+.Lmemmove_btail_b20_N:
+        .word .Lmemmove_npow1048576, 180, .Lmemmove_btail_b20_N_to_N
+        .word 12, 12, .Lmemmove_btail_b19_P
+.Lmemmove_btail_b20_N_to_N:
+        .word 12, 12, .Lmemmove_btail_b19_N
+.Lmemmove_btail_b19_P_to_N:
+        .word 12, 12, .Lmemmove_btail_b18_N
+.Lmemmove_btail_b19_N:
+        .word .Lmemmove_npow524288, 180, .Lmemmove_btail_b19_N_to_N
+        .word 12, 12, .Lmemmove_btail_b18_P
+.Lmemmove_btail_b19_N_to_N:
+        .word 12, 12, .Lmemmove_btail_b18_N
+.Lmemmove_btail_b18_P_to_N:
+        .word 12, 12, .Lmemmove_btail_b17_N
+.Lmemmove_btail_b18_N:
+        .word .Lmemmove_npow262144, 180, .Lmemmove_btail_b18_N_to_N
+        .word 12, 12, .Lmemmove_btail_b17_P
+.Lmemmove_btail_b18_N_to_N:
+        .word 12, 12, .Lmemmove_btail_b17_N
+.Lmemmove_btail_b17_P_to_N:
+        .word 12, 12, .Lmemmove_btail_b16_N
+.Lmemmove_btail_b17_N:
+        .word .Lmemmove_npow131072, 180, .Lmemmove_btail_b17_N_to_N
+        .word 12, 12, .Lmemmove_btail_b16_P
+.Lmemmove_btail_b17_N_to_N:
+        .word 12, 12, .Lmemmove_btail_b16_N
+.Lmemmove_btail_b16_P_to_N:
+        .word 12, 12, .Lmemmove_btail_b15_N
+.Lmemmove_btail_b16_N:
+        .word .Lmemmove_npow65536, 180, .Lmemmove_btail_b16_N_to_N
+        .word 12, 12, .Lmemmove_btail_b15_P
+.Lmemmove_btail_b16_N_to_N:
+        .word 12, 12, .Lmemmove_btail_b15_N
+.Lmemmove_btail_b15_P_to_N:
+        .word 12, 12, .Lmemmove_btail_b14_N
+.Lmemmove_btail_b15_N:
+        .word .Lmemmove_npow32768, 180, .Lmemmove_btail_b15_N_to_N
+        .word 12, 12, .Lmemmove_btail_b14_P
+.Lmemmove_btail_b15_N_to_N:
+        .word 12, 12, .Lmemmove_btail_b14_N
+.Lmemmove_btail_b14_P_to_N:
+        .word 12, 12, .Lmemmove_btail_b13_N
+.Lmemmove_btail_b14_N:
+        .word .Lmemmove_npow16384, 180, .Lmemmove_btail_b14_N_to_N
+        .word 12, 12, .Lmemmove_btail_b13_P
+.Lmemmove_btail_b14_N_to_N:
+        .word 12, 12, .Lmemmove_btail_b13_N
+.Lmemmove_btail_b13_P_to_N:
+        .word 12, 12, .Lmemmove_btail_b12_N
+.Lmemmove_btail_b13_N:
+        .word .Lmemmove_npow8192, 180, .Lmemmove_btail_b13_N_to_N
+        .word 12, 12, .Lmemmove_btail_b12_P
+.Lmemmove_btail_b13_N_to_N:
+        .word 12, 12, .Lmemmove_btail_b12_N
+.Lmemmove_btail_b12_P_to_N:
+        .word 12, 12, .Lmemmove_btail_b11_N
+.Lmemmove_btail_b12_N:
+        .word .Lmemmove_npow4096, 180, .Lmemmove_btail_b12_N_to_N
+        .word 12, 12, .Lmemmove_btail_b11_P
+.Lmemmove_btail_b12_N_to_N:
+        .word 12, 12, .Lmemmove_btail_b11_N
+.Lmemmove_btail_b11_P_to_N:
+        .word 12, 12, .Lmemmove_btail_b10_N
+.Lmemmove_btail_b11_N:
+        .word .Lmemmove_npow2048, 180, .Lmemmove_btail_b11_N_to_N
+        .word 12, 12, .Lmemmove_btail_b10_P
+.Lmemmove_btail_b11_N_to_N:
+        .word 12, 12, .Lmemmove_btail_b10_N
+.Lmemmove_btail_b10_P_to_N:
+        .word 12, 12, .Lmemmove_btail_b9_N
+.Lmemmove_btail_b10_N:
+        .word .Lmemmove_npow1024, 180, .Lmemmove_btail_b10_N_to_N
+        .word 12, 12, .Lmemmove_btail_b9_P
+.Lmemmove_btail_b10_N_to_N:
+        .word 12, 12, .Lmemmove_btail_b9_N
+.Lmemmove_btail_b9_P_to_N:
+        .word 12, 12, .Lmemmove_btail_b8_N
+.Lmemmove_btail_b9_N:
+        .word .Lmemmove_npow512, 180, .Lmemmove_btail_b9_N_to_N
+        .word 12, 12, .Lmemmove_btail_b8_P
+.Lmemmove_btail_b9_N_to_N:
+        .word 12, 12, .Lmemmove_btail_b8_N
+.Lmemmove_btail_b8_P_to_N:
+        .word 12, 12, .Lmemmove_btail_b7_N
+.Lmemmove_btail_b8_N:
+        .word .Lmemmove_npow256, 180, .Lmemmove_btail_b8_N_to_N
+        .word 12, 12, .Lmemmove_btail_b7_P
+.Lmemmove_btail_b8_N_to_N:
+        .word 12, 12, .Lmemmove_btail_b7_N
+.Lmemmove_btail_b7_P_to_N:
+        .word 12, 12, .Lmemmove_btail_b6_N
+.Lmemmove_btail_b7_N:
+        .word .Lmemmove_npow128, 180, .Lmemmove_btail_b7_N_to_N
+        .word 12, 12, .Lmemmove_btail_b6_P
+.Lmemmove_btail_b7_N_to_N:
+        .word 12, 12, .Lmemmove_btail_b6_N
+.Lmemmove_btail_b6_P_to_N:
+        .word 12, 12, .Lmemmove_btail_b5_N
+.Lmemmove_btail_b6_N:
+        .word .Lmemmove_npow64, 180, .Lmemmove_btail_b6_N_to_N
+        .word 12, 12, .Lmemmove_btail_b5_P
+.Lmemmove_btail_b6_N_to_N:
+        .word 12, 12, .Lmemmove_btail_b5_N
+.Lmemmove_btail_b5_P_to_N:
+        .word 12, 12, .Lmemmove_btail_b4_N
+.Lmemmove_btail_b5_N:
+        .word .Lmemmove_npow32, 180, .Lmemmove_btail_b5_N_to_N
+        .word 12, 12, .Lmemmove_btail_b4_P
+.Lmemmove_btail_b5_N_to_N:
+        .word 12, 12, .Lmemmove_btail_b4_N
+.Lmemmove_btail_b4_P_to_N:
+        .word 12, 12, .Lmemmove_btail_b3_N
+.Lmemmove_btail_b4_N:
+        .word .Lmemmove_npow16, 180, .Lmemmove_btail_b4_N_to_N
+        .word 12, 12, .Lmemmove_btail_b3_P
+.Lmemmove_btail_b4_N_to_N:
+        .word 12, 12, .Lmemmove_btail_b3_N
+.Lmemmove_btail_b3_P_to_N:
+        .word 12, 12, .Lmemmove_btail_b2_N
+.Lmemmove_btail_b3_N:
+        .word .Lmemmove_npow8, 180, .Lmemmove_btail_b3_N_to_N
+        .word 12, 12, .Lmemmove_btail_b2_P
+.Lmemmove_btail_b3_N_to_N:
+        .word 12, 12, .Lmemmove_btail_b2_N
+.Lmemmove_btail_b2_P_to_N:
+        .word 12, 12, .Lmemmove_btail_b1_N
+.Lmemmove_btail_b2_N:
+        .word .Lmemmove_npow4, 180, .Lmemmove_btail_b2_N_to_N
+        .word 12, 12, .Lmemmove_btail_b1_P
+.Lmemmove_btail_b2_N_to_N:
+        .word 12, 12, .Lmemmove_btail_b1_N
 .Lmemmove_btail_done:
         .word 180, 180, .+4
         .word 184, 180, .+4
@@ -65470,27 +65424,15 @@ __subleq_memmove:
         .word .Lmemmove_c3, 104, .+4
         .word .Lmemmove_c3, 100, .+4
         .word 12, 12, .+4
-        .word 192, 192, .+4
-        .word 100, 12, .+4
-        .word 12, 192, .+4
-        .word 12, 12, .+4
-        .word 196, 196, .+4
-        .word 104, 12, .+4
-        .word 12, 196, .+4
-        .word 12, 12, .+4
-        .word 160, 160, .+4
-        .word 108, 12, .+4
-        .word 12, 160, .+4
-        .word 12, 12, .+4
         .word 172, 172, .+4
-        .word 160, 12, .+4
+        .word 108, 12, .+4
         .word 12, 172, .+4
-        .word 180, 180, .+4
+        .word 188, 188, .+4
 .Lmemmove_bwd_fast_srl_b31:
         .word 176, 176, .+4
         .word 172, 176, .+4
         .word 144, 176, .Lmemmove_bwd_fast_srl_b30_check
-        .word .Lmemmove_npow536870912, 180, .+4
+        .word .Lmemmove_npow536870912, 188, .+4
         .word .Lmemmove_min, 172, .+4
 .Lmemmove_bwd_fast_srl_b30_check:
         .word 176, 176, .+4
@@ -65498,370 +65440,350 @@ __subleq_memmove:
         .word .Lmemmove_npow1073741824, 176, .Lmemmove_bwd_fast_srl_b30_set
         .word 12, 12, .Lmemmove_bwd_fast_srl_lattice_start
 .Lmemmove_bwd_fast_srl_b30_set:
-        .word .Lmemmove_npow268435456, 180, .+4
+        .word .Lmemmove_npow268435456, 188, .+4
         .word .Lmemmove_pow1073741824, 172, .+4
 .Lmemmove_bwd_fast_srl_lattice_start:
         .word .Lmemmove_n1, 172, .+4
 .Lmemmove_bwd_fast_srl_b29_P:
         .word .Lmemmove_pow536870912, 172, .Lmemmove_bwd_fast_srl_b29_P_to_N
-        .word .Lmemmove_npow134217728, 180, .+4
+        .word .Lmemmove_npow134217728, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b28_P
 .Lmemmove_bwd_fast_srl_b29_P_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b28_N
 .Lmemmove_bwd_fast_srl_b29_N:
         .word .Lmemmove_npow536870912, 172, .Lmemmove_bwd_fast_srl_b29_N_to_N
-        .word .Lmemmove_npow134217728, 180, .+4
+        .word .Lmemmove_npow134217728, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b28_P
 .Lmemmove_bwd_fast_srl_b29_N_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b28_N
 .Lmemmove_bwd_fast_srl_b28_P:
         .word .Lmemmove_pow268435456, 172, .Lmemmove_bwd_fast_srl_b28_P_to_N
-        .word .Lmemmove_npow67108864, 180, .+4
+        .word .Lmemmove_npow67108864, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b27_P
 .Lmemmove_bwd_fast_srl_b28_P_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b27_N
 .Lmemmove_bwd_fast_srl_b28_N:
         .word .Lmemmove_npow268435456, 172, .Lmemmove_bwd_fast_srl_b28_N_to_N
-        .word .Lmemmove_npow67108864, 180, .+4
+        .word .Lmemmove_npow67108864, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b27_P
 .Lmemmove_bwd_fast_srl_b28_N_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b27_N
 .Lmemmove_bwd_fast_srl_b27_P:
         .word .Lmemmove_pow134217728, 172, .Lmemmove_bwd_fast_srl_b27_P_to_N
-        .word .Lmemmove_npow33554432, 180, .+4
+        .word .Lmemmove_npow33554432, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b26_P
 .Lmemmove_bwd_fast_srl_b27_P_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b26_N
 .Lmemmove_bwd_fast_srl_b27_N:
         .word .Lmemmove_npow134217728, 172, .Lmemmove_bwd_fast_srl_b27_N_to_N
-        .word .Lmemmove_npow33554432, 180, .+4
+        .word .Lmemmove_npow33554432, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b26_P
 .Lmemmove_bwd_fast_srl_b27_N_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b26_N
 .Lmemmove_bwd_fast_srl_b26_P:
         .word .Lmemmove_pow67108864, 172, .Lmemmove_bwd_fast_srl_b26_P_to_N
-        .word .Lmemmove_npow16777216, 180, .+4
+        .word .Lmemmove_npow16777216, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b25_P
 .Lmemmove_bwd_fast_srl_b26_P_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b25_N
 .Lmemmove_bwd_fast_srl_b26_N:
         .word .Lmemmove_npow67108864, 172, .Lmemmove_bwd_fast_srl_b26_N_to_N
-        .word .Lmemmove_npow16777216, 180, .+4
+        .word .Lmemmove_npow16777216, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b25_P
 .Lmemmove_bwd_fast_srl_b26_N_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b25_N
 .Lmemmove_bwd_fast_srl_b25_P:
         .word .Lmemmove_pow33554432, 172, .Lmemmove_bwd_fast_srl_b25_P_to_N
-        .word .Lmemmove_npow8388608, 180, .+4
+        .word .Lmemmove_npow8388608, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b24_P
 .Lmemmove_bwd_fast_srl_b25_P_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b24_N
 .Lmemmove_bwd_fast_srl_b25_N:
         .word .Lmemmove_npow33554432, 172, .Lmemmove_bwd_fast_srl_b25_N_to_N
-        .word .Lmemmove_npow8388608, 180, .+4
+        .word .Lmemmove_npow8388608, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b24_P
 .Lmemmove_bwd_fast_srl_b25_N_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b24_N
 .Lmemmove_bwd_fast_srl_b24_P:
         .word .Lmemmove_pow16777216, 172, .Lmemmove_bwd_fast_srl_b24_P_to_N
-        .word .Lmemmove_npow4194304, 180, .+4
+        .word .Lmemmove_npow4194304, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b23_P
 .Lmemmove_bwd_fast_srl_b24_P_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b23_N
 .Lmemmove_bwd_fast_srl_b24_N:
         .word .Lmemmove_npow16777216, 172, .Lmemmove_bwd_fast_srl_b24_N_to_N
-        .word .Lmemmove_npow4194304, 180, .+4
+        .word .Lmemmove_npow4194304, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b23_P
 .Lmemmove_bwd_fast_srl_b24_N_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b23_N
 .Lmemmove_bwd_fast_srl_b23_P:
         .word .Lmemmove_pow8388608, 172, .Lmemmove_bwd_fast_srl_b23_P_to_N
-        .word .Lmemmove_npow2097152, 180, .+4
+        .word .Lmemmove_npow2097152, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b22_P
 .Lmemmove_bwd_fast_srl_b23_P_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b22_N
 .Lmemmove_bwd_fast_srl_b23_N:
         .word .Lmemmove_npow8388608, 172, .Lmemmove_bwd_fast_srl_b23_N_to_N
-        .word .Lmemmove_npow2097152, 180, .+4
+        .word .Lmemmove_npow2097152, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b22_P
 .Lmemmove_bwd_fast_srl_b23_N_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b22_N
 .Lmemmove_bwd_fast_srl_b22_P:
         .word .Lmemmove_pow4194304, 172, .Lmemmove_bwd_fast_srl_b22_P_to_N
-        .word .Lmemmove_npow1048576, 180, .+4
+        .word .Lmemmove_npow1048576, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b21_P
 .Lmemmove_bwd_fast_srl_b22_P_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b21_N
 .Lmemmove_bwd_fast_srl_b22_N:
         .word .Lmemmove_npow4194304, 172, .Lmemmove_bwd_fast_srl_b22_N_to_N
-        .word .Lmemmove_npow1048576, 180, .+4
+        .word .Lmemmove_npow1048576, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b21_P
 .Lmemmove_bwd_fast_srl_b22_N_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b21_N
 .Lmemmove_bwd_fast_srl_b21_P:
         .word .Lmemmove_pow2097152, 172, .Lmemmove_bwd_fast_srl_b21_P_to_N
-        .word .Lmemmove_npow524288, 180, .+4
+        .word .Lmemmove_npow524288, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b20_P
 .Lmemmove_bwd_fast_srl_b21_P_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b20_N
 .Lmemmove_bwd_fast_srl_b21_N:
         .word .Lmemmove_npow2097152, 172, .Lmemmove_bwd_fast_srl_b21_N_to_N
-        .word .Lmemmove_npow524288, 180, .+4
+        .word .Lmemmove_npow524288, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b20_P
 .Lmemmove_bwd_fast_srl_b21_N_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b20_N
 .Lmemmove_bwd_fast_srl_b20_P:
         .word .Lmemmove_pow1048576, 172, .Lmemmove_bwd_fast_srl_b20_P_to_N
-        .word .Lmemmove_npow262144, 180, .+4
+        .word .Lmemmove_npow262144, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b19_P
 .Lmemmove_bwd_fast_srl_b20_P_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b19_N
 .Lmemmove_bwd_fast_srl_b20_N:
         .word .Lmemmove_npow1048576, 172, .Lmemmove_bwd_fast_srl_b20_N_to_N
-        .word .Lmemmove_npow262144, 180, .+4
+        .word .Lmemmove_npow262144, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b19_P
 .Lmemmove_bwd_fast_srl_b20_N_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b19_N
 .Lmemmove_bwd_fast_srl_b19_P:
         .word .Lmemmove_pow524288, 172, .Lmemmove_bwd_fast_srl_b19_P_to_N
-        .word .Lmemmove_npow131072, 180, .+4
+        .word .Lmemmove_npow131072, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b18_P
 .Lmemmove_bwd_fast_srl_b19_P_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b18_N
 .Lmemmove_bwd_fast_srl_b19_N:
         .word .Lmemmove_npow524288, 172, .Lmemmove_bwd_fast_srl_b19_N_to_N
-        .word .Lmemmove_npow131072, 180, .+4
+        .word .Lmemmove_npow131072, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b18_P
 .Lmemmove_bwd_fast_srl_b19_N_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b18_N
 .Lmemmove_bwd_fast_srl_b18_P:
         .word .Lmemmove_pow262144, 172, .Lmemmove_bwd_fast_srl_b18_P_to_N
-        .word .Lmemmove_npow65536, 180, .+4
+        .word .Lmemmove_npow65536, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b17_P
 .Lmemmove_bwd_fast_srl_b18_P_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b17_N
 .Lmemmove_bwd_fast_srl_b18_N:
         .word .Lmemmove_npow262144, 172, .Lmemmove_bwd_fast_srl_b18_N_to_N
-        .word .Lmemmove_npow65536, 180, .+4
+        .word .Lmemmove_npow65536, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b17_P
 .Lmemmove_bwd_fast_srl_b18_N_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b17_N
 .Lmemmove_bwd_fast_srl_b17_P:
         .word .Lmemmove_pow131072, 172, .Lmemmove_bwd_fast_srl_b17_P_to_N
-        .word .Lmemmove_npow32768, 180, .+4
+        .word .Lmemmove_npow32768, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b16_P
 .Lmemmove_bwd_fast_srl_b17_P_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b16_N
 .Lmemmove_bwd_fast_srl_b17_N:
         .word .Lmemmove_npow131072, 172, .Lmemmove_bwd_fast_srl_b17_N_to_N
-        .word .Lmemmove_npow32768, 180, .+4
+        .word .Lmemmove_npow32768, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b16_P
 .Lmemmove_bwd_fast_srl_b17_N_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b16_N
 .Lmemmove_bwd_fast_srl_b16_P:
         .word .Lmemmove_pow65536, 172, .Lmemmove_bwd_fast_srl_b16_P_to_N
-        .word .Lmemmove_npow16384, 180, .+4
+        .word .Lmemmove_npow16384, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b15_P
 .Lmemmove_bwd_fast_srl_b16_P_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b15_N
 .Lmemmove_bwd_fast_srl_b16_N:
         .word .Lmemmove_npow65536, 172, .Lmemmove_bwd_fast_srl_b16_N_to_N
-        .word .Lmemmove_npow16384, 180, .+4
+        .word .Lmemmove_npow16384, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b15_P
 .Lmemmove_bwd_fast_srl_b16_N_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b15_N
 .Lmemmove_bwd_fast_srl_b15_P:
         .word .Lmemmove_pow32768, 172, .Lmemmove_bwd_fast_srl_b15_P_to_N
-        .word .Lmemmove_npow8192, 180, .+4
+        .word .Lmemmove_npow8192, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b14_P
 .Lmemmove_bwd_fast_srl_b15_P_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b14_N
 .Lmemmove_bwd_fast_srl_b15_N:
         .word .Lmemmove_npow32768, 172, .Lmemmove_bwd_fast_srl_b15_N_to_N
-        .word .Lmemmove_npow8192, 180, .+4
+        .word .Lmemmove_npow8192, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b14_P
 .Lmemmove_bwd_fast_srl_b15_N_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b14_N
 .Lmemmove_bwd_fast_srl_b14_P:
         .word .Lmemmove_pow16384, 172, .Lmemmove_bwd_fast_srl_b14_P_to_N
-        .word .Lmemmove_npow4096, 180, .+4
+        .word .Lmemmove_npow4096, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b13_P
 .Lmemmove_bwd_fast_srl_b14_P_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b13_N
 .Lmemmove_bwd_fast_srl_b14_N:
         .word .Lmemmove_npow16384, 172, .Lmemmove_bwd_fast_srl_b14_N_to_N
-        .word .Lmemmove_npow4096, 180, .+4
+        .word .Lmemmove_npow4096, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b13_P
 .Lmemmove_bwd_fast_srl_b14_N_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b13_N
 .Lmemmove_bwd_fast_srl_b13_P:
         .word .Lmemmove_pow8192, 172, .Lmemmove_bwd_fast_srl_b13_P_to_N
-        .word .Lmemmove_npow2048, 180, .+4
+        .word .Lmemmove_npow2048, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b12_P
 .Lmemmove_bwd_fast_srl_b13_P_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b12_N
 .Lmemmove_bwd_fast_srl_b13_N:
         .word .Lmemmove_npow8192, 172, .Lmemmove_bwd_fast_srl_b13_N_to_N
-        .word .Lmemmove_npow2048, 180, .+4
+        .word .Lmemmove_npow2048, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b12_P
 .Lmemmove_bwd_fast_srl_b13_N_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b12_N
 .Lmemmove_bwd_fast_srl_b12_P:
         .word .Lmemmove_pow4096, 172, .Lmemmove_bwd_fast_srl_b12_P_to_N
-        .word .Lmemmove_npow1024, 180, .+4
+        .word .Lmemmove_npow1024, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b11_P
 .Lmemmove_bwd_fast_srl_b12_P_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b11_N
 .Lmemmove_bwd_fast_srl_b12_N:
         .word .Lmemmove_npow4096, 172, .Lmemmove_bwd_fast_srl_b12_N_to_N
-        .word .Lmemmove_npow1024, 180, .+4
+        .word .Lmemmove_npow1024, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b11_P
 .Lmemmove_bwd_fast_srl_b12_N_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b11_N
 .Lmemmove_bwd_fast_srl_b11_P:
         .word .Lmemmove_pow2048, 172, .Lmemmove_bwd_fast_srl_b11_P_to_N
-        .word .Lmemmove_npow512, 180, .+4
+        .word .Lmemmove_npow512, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b10_P
 .Lmemmove_bwd_fast_srl_b11_P_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b10_N
 .Lmemmove_bwd_fast_srl_b11_N:
         .word .Lmemmove_npow2048, 172, .Lmemmove_bwd_fast_srl_b11_N_to_N
-        .word .Lmemmove_npow512, 180, .+4
+        .word .Lmemmove_npow512, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b10_P
 .Lmemmove_bwd_fast_srl_b11_N_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b10_N
 .Lmemmove_bwd_fast_srl_b10_P:
         .word .Lmemmove_pow1024, 172, .Lmemmove_bwd_fast_srl_b10_P_to_N
-        .word .Lmemmove_npow256, 180, .+4
+        .word .Lmemmove_npow256, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b9_P
 .Lmemmove_bwd_fast_srl_b10_P_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b9_N
 .Lmemmove_bwd_fast_srl_b10_N:
         .word .Lmemmove_npow1024, 172, .Lmemmove_bwd_fast_srl_b10_N_to_N
-        .word .Lmemmove_npow256, 180, .+4
+        .word .Lmemmove_npow256, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b9_P
 .Lmemmove_bwd_fast_srl_b10_N_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b9_N
 .Lmemmove_bwd_fast_srl_b9_P:
         .word .Lmemmove_pow512, 172, .Lmemmove_bwd_fast_srl_b9_P_to_N
-        .word .Lmemmove_npow128, 180, .+4
+        .word .Lmemmove_npow128, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b8_P
 .Lmemmove_bwd_fast_srl_b9_P_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b8_N
 .Lmemmove_bwd_fast_srl_b9_N:
         .word .Lmemmove_npow512, 172, .Lmemmove_bwd_fast_srl_b9_N_to_N
-        .word .Lmemmove_npow128, 180, .+4
+        .word .Lmemmove_npow128, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b8_P
 .Lmemmove_bwd_fast_srl_b9_N_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b8_N
 .Lmemmove_bwd_fast_srl_b8_P:
         .word .Lmemmove_pow256, 172, .Lmemmove_bwd_fast_srl_b8_P_to_N
-        .word .Lmemmove_npow64, 180, .+4
+        .word .Lmemmove_npow64, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b7_P
 .Lmemmove_bwd_fast_srl_b8_P_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b7_N
 .Lmemmove_bwd_fast_srl_b8_N:
         .word .Lmemmove_npow256, 172, .Lmemmove_bwd_fast_srl_b8_N_to_N
-        .word .Lmemmove_npow64, 180, .+4
+        .word .Lmemmove_npow64, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b7_P
 .Lmemmove_bwd_fast_srl_b8_N_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b7_N
 .Lmemmove_bwd_fast_srl_b7_P:
         .word .Lmemmove_pow128, 172, .Lmemmove_bwd_fast_srl_b7_P_to_N
-        .word .Lmemmove_npow32, 180, .+4
+        .word .Lmemmove_npow32, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b6_P
 .Lmemmove_bwd_fast_srl_b7_P_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b6_N
 .Lmemmove_bwd_fast_srl_b7_N:
         .word .Lmemmove_npow128, 172, .Lmemmove_bwd_fast_srl_b7_N_to_N
-        .word .Lmemmove_npow32, 180, .+4
+        .word .Lmemmove_npow32, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b6_P
 .Lmemmove_bwd_fast_srl_b7_N_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b6_N
 .Lmemmove_bwd_fast_srl_b6_P:
         .word .Lmemmove_pow64, 172, .Lmemmove_bwd_fast_srl_b6_P_to_N
-        .word .Lmemmove_npow16, 180, .+4
+        .word .Lmemmove_npow16, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b5_P
 .Lmemmove_bwd_fast_srl_b6_P_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b5_N
 .Lmemmove_bwd_fast_srl_b6_N:
         .word .Lmemmove_npow64, 172, .Lmemmove_bwd_fast_srl_b6_N_to_N
-        .word .Lmemmove_npow16, 180, .+4
+        .word .Lmemmove_npow16, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b5_P
 .Lmemmove_bwd_fast_srl_b6_N_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b5_N
 .Lmemmove_bwd_fast_srl_b5_P:
         .word .Lmemmove_pow32, 172, .Lmemmove_bwd_fast_srl_b5_P_to_N
-        .word .Lmemmove_npow8, 180, .+4
+        .word .Lmemmove_npow8, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b4_P
 .Lmemmove_bwd_fast_srl_b5_P_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b4_N
 .Lmemmove_bwd_fast_srl_b5_N:
         .word .Lmemmove_npow32, 172, .Lmemmove_bwd_fast_srl_b5_N_to_N
-        .word .Lmemmove_npow8, 180, .+4
+        .word .Lmemmove_npow8, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b4_P
 .Lmemmove_bwd_fast_srl_b5_N_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b4_N
 .Lmemmove_bwd_fast_srl_b4_P:
         .word .Lmemmove_pow16, 172, .Lmemmove_bwd_fast_srl_b4_P_to_N
-        .word .Lmemmove_npow4, 180, .+4
+        .word .Lmemmove_npow4, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b3_P
 .Lmemmove_bwd_fast_srl_b4_P_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b3_N
 .Lmemmove_bwd_fast_srl_b4_N:
         .word .Lmemmove_npow16, 172, .Lmemmove_bwd_fast_srl_b4_N_to_N
-        .word .Lmemmove_npow4, 180, .+4
+        .word .Lmemmove_npow4, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b3_P
 .Lmemmove_bwd_fast_srl_b4_N_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b3_N
 .Lmemmove_bwd_fast_srl_b3_P:
         .word .Lmemmove_pow8, 172, .Lmemmove_bwd_fast_srl_b3_P_to_N
-        .word .Lmemmove_npow2, 180, .+4
+        .word .Lmemmove_npow2, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b2_P
 .Lmemmove_bwd_fast_srl_b3_P_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b2_N
 .Lmemmove_bwd_fast_srl_b3_N:
         .word .Lmemmove_npow8, 172, .Lmemmove_bwd_fast_srl_b3_N_to_N
-        .word .Lmemmove_npow2, 180, .+4
+        .word .Lmemmove_npow2, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_b2_P
 .Lmemmove_bwd_fast_srl_b3_N_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_b2_N
 .Lmemmove_bwd_fast_srl_b2_P:
         .word .Lmemmove_pow4, 172, .Lmemmove_bwd_fast_srl_b2_P_to_N
-        .word .Lmemmove_npow1, 180, .+4
+        .word .Lmemmove_npow1, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_done
 .Lmemmove_bwd_fast_srl_b2_P_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_done
 .Lmemmove_bwd_fast_srl_b2_N:
         .word .Lmemmove_npow4, 172, .Lmemmove_bwd_fast_srl_b2_N_to_N
-        .word .Lmemmove_npow1, 180, .+4
+        .word .Lmemmove_npow1, 188, .+4
         .word 12, 12, .Lmemmove_bwd_fast_srl_done
 .Lmemmove_bwd_fast_srl_b2_N_to_N:
         .word 12, 12, .Lmemmove_bwd_fast_srl_done
 .Lmemmove_bwd_fast_srl_done:
-        .word 12, 12, .+4
-        .word 12, 12, .+4
-        .word 188, 188, .+4
-        .word 180, 12, .+4
-        .word 12, 188, .+4
-        .word 12, 12, .+4
-        .word 100, 100, .+4
-        .word 192, 12, .+4
-        .word 12, 100, .+4
-        .word 12, 12, .+4
-        .word 104, 104, .+4
-        .word 196, 12, .+4
-        .word 12, 104, .+4
-        .word 12, 12, .Lmemmove_bwd_body_loop
+        .word 160, 160, .Lmemmove_bwd_body_loop
 .Lmemmove_bwd_body_loop:
-        .word .Lmemmove_zero, 188, .Lmemmove_bwd_head_setup
-        .word 168, 168, .+4
-        .word 188, 12, .+4
-        .word 12, 168, .+4
-        .word 12, 12, .+4
-        .word .Lmemmove_c8, 168, .Lmemmove_bwd_body_single
-.Lmemmove_bwd_body_unrolled:
-        .word 160, 160, .+4
+        .word .Lmemmove_c8, 188, .Lmemmove_bwd_body_fixup
         .word 106, 160, .+4
         .word 102, 102, .+4
         .word 160, 102, .+4
@@ -65910,18 +65832,19 @@ __subleq_memmove:
         .word .Lmemmove_c4, 104, .+4
         .word .Lmemmove_c4, 100, .+4
         .word .Lmemmove_c32, 108, .+4
-        .word .Lmemmove_c8, 188, .Lmemmove_bwd_body_loop
-        .word 12, 12, .Lmemmove_bwd_body_loop
+        .word 160, 160, .Lmemmove_bwd_body_loop
+.Lmemmove_bwd_body_fixup:
+        .word .Lmemmove_n8, 188, .+4
+        .word .Lmemmove_zero, 188, .Lmemmove_bwd_head_setup
 .Lmemmove_bwd_body_single:
-        .word 160, 160, .+4
         .word 106, 160, .+4
         .word 102, 102, .+4
         .word 160, 102, .+4
         .word .Lmemmove_c4, 104, .+4
         .word .Lmemmove_c4, 100, .+4
         .word .Lmemmove_c4, 108, .+4
-        .word .Lmemmove_c1, 188, .+4
-        .word 12, 12, .Lmemmove_bwd_body_loop
+        .word .Lmemmove_c1, 188, .Lmemmove_bwd_head_setup
+        .word 160, 160, .Lmemmove_bwd_body_single
 .Lmemmove_bwd_head_setup:
         .word .Lmemmove_n3, 104, .+4
         .word .Lmemmove_n3, 100, .+4
@@ -65990,11 +65913,309 @@ __subleq_memmove:
         .word .Lmemmove_c1, 108, .+4
         .word 12, 12, .Lmemmove_bwd_head
 .Lmemmove_forward_check:
-        .word .Lmemmove_zero, 164, .Lmemmove_fwd_chk_eq
-        .word 12, 12, .Lmemmove_fwd_slow_start
-.Lmemmove_fwd_chk_eq:
+.Lmemmove_fwd_align_sign:
+        .word 144, 160, .Lmemmove_fwd_align_sign_neg
+        .word 12, 12, .Lmemmove_fwd_align_bias
+.Lmemmove_fwd_align_sign_neg:
         .word 180, 180, .+4
-        .word 164, 180, .Lmemmove_fwd_fast_head
+        .word 160, 180, .+4
+        .word 144, 180, .Lmemmove_fwd_align_sign_ambig
+        .word .Lmemmove_min, 160, .+4
+        .word 12, 12, .Lmemmove_fwd_align_bias
+.Lmemmove_fwd_align_sign_ambig:
+        .word .Lmemmove_n1, 180, .+4
+        .word 144, 180, .Lmemmove_fwd_align_sign_intmin
+        .word 12, 12, .Lmemmove_fwd_align_bias
+.Lmemmove_fwd_align_sign_intmin:
+        .word .Lmemmove_min, 160, .+4
+.Lmemmove_fwd_align_bias:
+        .word 180, 180, .+4
+        .word .Lmemmove_n1, 160, .+4
+.Lmemmove_fwd_align_b30_P:
+        .word .Lmemmove_pow1073741824, 160, .Lmemmove_fwd_align_b30_P_to_N
+.Lmemmove_fwd_align_b29_P:
+        .word .Lmemmove_pow536870912, 160, .Lmemmove_fwd_align_b29_P_to_N
+.Lmemmove_fwd_align_b28_P:
+        .word .Lmemmove_pow268435456, 160, .Lmemmove_fwd_align_b28_P_to_N
+.Lmemmove_fwd_align_b27_P:
+        .word .Lmemmove_pow134217728, 160, .Lmemmove_fwd_align_b27_P_to_N
+.Lmemmove_fwd_align_b26_P:
+        .word .Lmemmove_pow67108864, 160, .Lmemmove_fwd_align_b26_P_to_N
+.Lmemmove_fwd_align_b25_P:
+        .word .Lmemmove_pow33554432, 160, .Lmemmove_fwd_align_b25_P_to_N
+.Lmemmove_fwd_align_b24_P:
+        .word .Lmemmove_pow16777216, 160, .Lmemmove_fwd_align_b24_P_to_N
+.Lmemmove_fwd_align_b23_P:
+        .word .Lmemmove_pow8388608, 160, .Lmemmove_fwd_align_b23_P_to_N
+.Lmemmove_fwd_align_b22_P:
+        .word .Lmemmove_pow4194304, 160, .Lmemmove_fwd_align_b22_P_to_N
+.Lmemmove_fwd_align_b21_P:
+        .word .Lmemmove_pow2097152, 160, .Lmemmove_fwd_align_b21_P_to_N
+.Lmemmove_fwd_align_b20_P:
+        .word .Lmemmove_pow1048576, 160, .Lmemmove_fwd_align_b20_P_to_N
+.Lmemmove_fwd_align_b19_P:
+        .word .Lmemmove_pow524288, 160, .Lmemmove_fwd_align_b19_P_to_N
+.Lmemmove_fwd_align_b18_P:
+        .word .Lmemmove_pow262144, 160, .Lmemmove_fwd_align_b18_P_to_N
+.Lmemmove_fwd_align_b17_P:
+        .word .Lmemmove_pow131072, 160, .Lmemmove_fwd_align_b17_P_to_N
+.Lmemmove_fwd_align_b16_P:
+        .word .Lmemmove_pow65536, 160, .Lmemmove_fwd_align_b16_P_to_N
+.Lmemmove_fwd_align_b15_P:
+        .word .Lmemmove_pow32768, 160, .Lmemmove_fwd_align_b15_P_to_N
+.Lmemmove_fwd_align_b14_P:
+        .word .Lmemmove_pow16384, 160, .Lmemmove_fwd_align_b14_P_to_N
+.Lmemmove_fwd_align_b13_P:
+        .word .Lmemmove_pow8192, 160, .Lmemmove_fwd_align_b13_P_to_N
+.Lmemmove_fwd_align_b12_P:
+        .word .Lmemmove_pow4096, 160, .Lmemmove_fwd_align_b12_P_to_N
+.Lmemmove_fwd_align_b11_P:
+        .word .Lmemmove_pow2048, 160, .Lmemmove_fwd_align_b11_P_to_N
+.Lmemmove_fwd_align_b10_P:
+        .word .Lmemmove_pow1024, 160, .Lmemmove_fwd_align_b10_P_to_N
+.Lmemmove_fwd_align_b9_P:
+        .word .Lmemmove_pow512, 160, .Lmemmove_fwd_align_b9_P_to_N
+.Lmemmove_fwd_align_b8_P:
+        .word .Lmemmove_pow256, 160, .Lmemmove_fwd_align_b8_P_to_N
+.Lmemmove_fwd_align_b7_P:
+        .word .Lmemmove_pow128, 160, .Lmemmove_fwd_align_b7_P_to_N
+.Lmemmove_fwd_align_b6_P:
+        .word .Lmemmove_pow64, 160, .Lmemmove_fwd_align_b6_P_to_N
+.Lmemmove_fwd_align_b5_P:
+        .word .Lmemmove_pow32, 160, .Lmemmove_fwd_align_b5_P_to_N
+.Lmemmove_fwd_align_b4_P:
+        .word .Lmemmove_pow16, 160, .Lmemmove_fwd_align_b4_P_to_N
+.Lmemmove_fwd_align_b3_P:
+        .word .Lmemmove_pow8, 160, .Lmemmove_fwd_align_b3_P_to_N
+.Lmemmove_fwd_align_b2_P:
+        .word .Lmemmove_pow4, 160, .Lmemmove_fwd_align_b2_P_to_N
+.Lmemmove_fwd_align_b1_P:
+        .word .Lmemmove_pow2, 160, .Lmemmove_fwd_align_b1_P_to_N
+        .word .Lmemmove_pow2, 180, .Lmemmove_fwd_align_b0_P
+.Lmemmove_fwd_align_b1_P_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b0_N
+.Lmemmove_fwd_align_b1_N:
+        .word .Lmemmove_npow2, 160, .Lmemmove_fwd_align_b1_N_to_N
+        .word .Lmemmove_pow2, 180, .Lmemmove_fwd_align_b0_P
+.Lmemmove_fwd_align_b1_N_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b0_N
+.Lmemmove_fwd_align_b0_P:
+        .word .Lmemmove_pow1, 160, .Lmemmove_fwd_align_b0_P_to_N
+        .word .Lmemmove_pow1, 180, .Lmemmove_fwd_align_done
+.Lmemmove_fwd_align_b0_P_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_done
+.Lmemmove_fwd_align_b0_N:
+        .word .Lmemmove_npow1, 160, .Lmemmove_fwd_align_b0_N_to_N
+        .word .Lmemmove_pow1, 180, .Lmemmove_fwd_align_done
+.Lmemmove_fwd_align_b0_N_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_done
+.Lmemmove_fwd_align_b30_P_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b29_N
+.Lmemmove_fwd_align_b30_N:
+        .word .Lmemmove_npow1073741824, 160, .Lmemmove_fwd_align_b30_N_to_N
+        .word 12, 12, .Lmemmove_fwd_align_b29_P
+.Lmemmove_fwd_align_b30_N_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b29_N
+.Lmemmove_fwd_align_b29_P_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b28_N
+.Lmemmove_fwd_align_b29_N:
+        .word .Lmemmove_npow536870912, 160, .Lmemmove_fwd_align_b29_N_to_N
+        .word 12, 12, .Lmemmove_fwd_align_b28_P
+.Lmemmove_fwd_align_b29_N_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b28_N
+.Lmemmove_fwd_align_b28_P_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b27_N
+.Lmemmove_fwd_align_b28_N:
+        .word .Lmemmove_npow268435456, 160, .Lmemmove_fwd_align_b28_N_to_N
+        .word 12, 12, .Lmemmove_fwd_align_b27_P
+.Lmemmove_fwd_align_b28_N_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b27_N
+.Lmemmove_fwd_align_b27_P_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b26_N
+.Lmemmove_fwd_align_b27_N:
+        .word .Lmemmove_npow134217728, 160, .Lmemmove_fwd_align_b27_N_to_N
+        .word 12, 12, .Lmemmove_fwd_align_b26_P
+.Lmemmove_fwd_align_b27_N_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b26_N
+.Lmemmove_fwd_align_b26_P_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b25_N
+.Lmemmove_fwd_align_b26_N:
+        .word .Lmemmove_npow67108864, 160, .Lmemmove_fwd_align_b26_N_to_N
+        .word 12, 12, .Lmemmove_fwd_align_b25_P
+.Lmemmove_fwd_align_b26_N_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b25_N
+.Lmemmove_fwd_align_b25_P_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b24_N
+.Lmemmove_fwd_align_b25_N:
+        .word .Lmemmove_npow33554432, 160, .Lmemmove_fwd_align_b25_N_to_N
+        .word 12, 12, .Lmemmove_fwd_align_b24_P
+.Lmemmove_fwd_align_b25_N_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b24_N
+.Lmemmove_fwd_align_b24_P_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b23_N
+.Lmemmove_fwd_align_b24_N:
+        .word .Lmemmove_npow16777216, 160, .Lmemmove_fwd_align_b24_N_to_N
+        .word 12, 12, .Lmemmove_fwd_align_b23_P
+.Lmemmove_fwd_align_b24_N_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b23_N
+.Lmemmove_fwd_align_b23_P_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b22_N
+.Lmemmove_fwd_align_b23_N:
+        .word .Lmemmove_npow8388608, 160, .Lmemmove_fwd_align_b23_N_to_N
+        .word 12, 12, .Lmemmove_fwd_align_b22_P
+.Lmemmove_fwd_align_b23_N_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b22_N
+.Lmemmove_fwd_align_b22_P_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b21_N
+.Lmemmove_fwd_align_b22_N:
+        .word .Lmemmove_npow4194304, 160, .Lmemmove_fwd_align_b22_N_to_N
+        .word 12, 12, .Lmemmove_fwd_align_b21_P
+.Lmemmove_fwd_align_b22_N_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b21_N
+.Lmemmove_fwd_align_b21_P_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b20_N
+.Lmemmove_fwd_align_b21_N:
+        .word .Lmemmove_npow2097152, 160, .Lmemmove_fwd_align_b21_N_to_N
+        .word 12, 12, .Lmemmove_fwd_align_b20_P
+.Lmemmove_fwd_align_b21_N_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b20_N
+.Lmemmove_fwd_align_b20_P_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b19_N
+.Lmemmove_fwd_align_b20_N:
+        .word .Lmemmove_npow1048576, 160, .Lmemmove_fwd_align_b20_N_to_N
+        .word 12, 12, .Lmemmove_fwd_align_b19_P
+.Lmemmove_fwd_align_b20_N_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b19_N
+.Lmemmove_fwd_align_b19_P_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b18_N
+.Lmemmove_fwd_align_b19_N:
+        .word .Lmemmove_npow524288, 160, .Lmemmove_fwd_align_b19_N_to_N
+        .word 12, 12, .Lmemmove_fwd_align_b18_P
+.Lmemmove_fwd_align_b19_N_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b18_N
+.Lmemmove_fwd_align_b18_P_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b17_N
+.Lmemmove_fwd_align_b18_N:
+        .word .Lmemmove_npow262144, 160, .Lmemmove_fwd_align_b18_N_to_N
+        .word 12, 12, .Lmemmove_fwd_align_b17_P
+.Lmemmove_fwd_align_b18_N_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b17_N
+.Lmemmove_fwd_align_b17_P_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b16_N
+.Lmemmove_fwd_align_b17_N:
+        .word .Lmemmove_npow131072, 160, .Lmemmove_fwd_align_b17_N_to_N
+        .word 12, 12, .Lmemmove_fwd_align_b16_P
+.Lmemmove_fwd_align_b17_N_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b16_N
+.Lmemmove_fwd_align_b16_P_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b15_N
+.Lmemmove_fwd_align_b16_N:
+        .word .Lmemmove_npow65536, 160, .Lmemmove_fwd_align_b16_N_to_N
+        .word 12, 12, .Lmemmove_fwd_align_b15_P
+.Lmemmove_fwd_align_b16_N_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b15_N
+.Lmemmove_fwd_align_b15_P_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b14_N
+.Lmemmove_fwd_align_b15_N:
+        .word .Lmemmove_npow32768, 160, .Lmemmove_fwd_align_b15_N_to_N
+        .word 12, 12, .Lmemmove_fwd_align_b14_P
+.Lmemmove_fwd_align_b15_N_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b14_N
+.Lmemmove_fwd_align_b14_P_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b13_N
+.Lmemmove_fwd_align_b14_N:
+        .word .Lmemmove_npow16384, 160, .Lmemmove_fwd_align_b14_N_to_N
+        .word 12, 12, .Lmemmove_fwd_align_b13_P
+.Lmemmove_fwd_align_b14_N_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b13_N
+.Lmemmove_fwd_align_b13_P_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b12_N
+.Lmemmove_fwd_align_b13_N:
+        .word .Lmemmove_npow8192, 160, .Lmemmove_fwd_align_b13_N_to_N
+        .word 12, 12, .Lmemmove_fwd_align_b12_P
+.Lmemmove_fwd_align_b13_N_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b12_N
+.Lmemmove_fwd_align_b12_P_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b11_N
+.Lmemmove_fwd_align_b12_N:
+        .word .Lmemmove_npow4096, 160, .Lmemmove_fwd_align_b12_N_to_N
+        .word 12, 12, .Lmemmove_fwd_align_b11_P
+.Lmemmove_fwd_align_b12_N_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b11_N
+.Lmemmove_fwd_align_b11_P_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b10_N
+.Lmemmove_fwd_align_b11_N:
+        .word .Lmemmove_npow2048, 160, .Lmemmove_fwd_align_b11_N_to_N
+        .word 12, 12, .Lmemmove_fwd_align_b10_P
+.Lmemmove_fwd_align_b11_N_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b10_N
+.Lmemmove_fwd_align_b10_P_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b9_N
+.Lmemmove_fwd_align_b10_N:
+        .word .Lmemmove_npow1024, 160, .Lmemmove_fwd_align_b10_N_to_N
+        .word 12, 12, .Lmemmove_fwd_align_b9_P
+.Lmemmove_fwd_align_b10_N_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b9_N
+.Lmemmove_fwd_align_b9_P_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b8_N
+.Lmemmove_fwd_align_b9_N:
+        .word .Lmemmove_npow512, 160, .Lmemmove_fwd_align_b9_N_to_N
+        .word 12, 12, .Lmemmove_fwd_align_b8_P
+.Lmemmove_fwd_align_b9_N_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b8_N
+.Lmemmove_fwd_align_b8_P_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b7_N
+.Lmemmove_fwd_align_b8_N:
+        .word .Lmemmove_npow256, 160, .Lmemmove_fwd_align_b8_N_to_N
+        .word 12, 12, .Lmemmove_fwd_align_b7_P
+.Lmemmove_fwd_align_b8_N_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b7_N
+.Lmemmove_fwd_align_b7_P_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b6_N
+.Lmemmove_fwd_align_b7_N:
+        .word .Lmemmove_npow128, 160, .Lmemmove_fwd_align_b7_N_to_N
+        .word 12, 12, .Lmemmove_fwd_align_b6_P
+.Lmemmove_fwd_align_b7_N_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b6_N
+.Lmemmove_fwd_align_b6_P_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b5_N
+.Lmemmove_fwd_align_b6_N:
+        .word .Lmemmove_npow64, 160, .Lmemmove_fwd_align_b6_N_to_N
+        .word 12, 12, .Lmemmove_fwd_align_b5_P
+.Lmemmove_fwd_align_b6_N_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b5_N
+.Lmemmove_fwd_align_b5_P_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b4_N
+.Lmemmove_fwd_align_b5_N:
+        .word .Lmemmove_npow32, 160, .Lmemmove_fwd_align_b5_N_to_N
+        .word 12, 12, .Lmemmove_fwd_align_b4_P
+.Lmemmove_fwd_align_b5_N_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b4_N
+.Lmemmove_fwd_align_b4_P_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b3_N
+.Lmemmove_fwd_align_b4_N:
+        .word .Lmemmove_npow16, 160, .Lmemmove_fwd_align_b4_N_to_N
+        .word 12, 12, .Lmemmove_fwd_align_b3_P
+.Lmemmove_fwd_align_b4_N_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b3_N
+.Lmemmove_fwd_align_b3_P_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b2_N
+.Lmemmove_fwd_align_b3_N:
+        .word .Lmemmove_npow8, 160, .Lmemmove_fwd_align_b3_N_to_N
+        .word 12, 12, .Lmemmove_fwd_align_b2_P
+.Lmemmove_fwd_align_b3_N_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b2_N
+.Lmemmove_fwd_align_b2_P_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b1_N
+.Lmemmove_fwd_align_b2_N:
+        .word .Lmemmove_npow4, 160, .Lmemmove_fwd_align_b2_N_to_N
+        .word 12, 12, .Lmemmove_fwd_align_b1_P
+.Lmemmove_fwd_align_b2_N_to_N:
+        .word 12, 12, .Lmemmove_fwd_align_b1_N
+.Lmemmove_fwd_align_done:
+        .word 164, 164, .+4
+        .word 180, 164, .+4
+        .word .Lmemmove_zero, 164, .Lmemmove_fwd_fast_head
         .word 12, 12, .Lmemmove_fwd_slow_start
 .Lmemmove_fwd_fast_head:
         .word .Lmemmove_zero, 108, .Lmemmove_done
@@ -66013,302 +66234,71 @@ __subleq_memmove:
         .word 12, 12, .Lmemmove_fhead_bias
 .Lmemmove_fhead_sign_ambig:
         .word .Lmemmove_n1, 184, .+4
-        .word 144, 184, .Lmemmove_fhead_bias
+        .word 144, 184, .Lmemmove_fhead_sign_intmin
+        .word 12, 12, .Lmemmove_fhead_bias
+.Lmemmove_fhead_sign_intmin:
         .word .Lmemmove_min, 180, .+4
 .Lmemmove_fhead_bias:
         .word 184, 184, .+4
         .word .Lmemmove_n1, 180, .+4
-        .word 12, 12, .Lmemmove_fhead_b30_P
 .Lmemmove_fhead_b30_P:
         .word .Lmemmove_pow1073741824, 180, .Lmemmove_fhead_b30_P_to_N
-        .word 12, 12, .Lmemmove_fhead_b29_P
-.Lmemmove_fhead_b30_P_to_N:
-        .word 12, 12, .Lmemmove_fhead_b29_N
-.Lmemmove_fhead_b30_N:
-        .word .Lmemmove_npow1073741824, 180, .Lmemmove_fhead_b30_N_to_N
-        .word 12, 12, .Lmemmove_fhead_b29_P
-.Lmemmove_fhead_b30_N_to_N:
-        .word 12, 12, .Lmemmove_fhead_b29_N
 .Lmemmove_fhead_b29_P:
         .word .Lmemmove_pow536870912, 180, .Lmemmove_fhead_b29_P_to_N
-        .word 12, 12, .Lmemmove_fhead_b28_P
-.Lmemmove_fhead_b29_P_to_N:
-        .word 12, 12, .Lmemmove_fhead_b28_N
-.Lmemmove_fhead_b29_N:
-        .word .Lmemmove_npow536870912, 180, .Lmemmove_fhead_b29_N_to_N
-        .word 12, 12, .Lmemmove_fhead_b28_P
-.Lmemmove_fhead_b29_N_to_N:
-        .word 12, 12, .Lmemmove_fhead_b28_N
 .Lmemmove_fhead_b28_P:
         .word .Lmemmove_pow268435456, 180, .Lmemmove_fhead_b28_P_to_N
-        .word 12, 12, .Lmemmove_fhead_b27_P
-.Lmemmove_fhead_b28_P_to_N:
-        .word 12, 12, .Lmemmove_fhead_b27_N
-.Lmemmove_fhead_b28_N:
-        .word .Lmemmove_npow268435456, 180, .Lmemmove_fhead_b28_N_to_N
-        .word 12, 12, .Lmemmove_fhead_b27_P
-.Lmemmove_fhead_b28_N_to_N:
-        .word 12, 12, .Lmemmove_fhead_b27_N
 .Lmemmove_fhead_b27_P:
         .word .Lmemmove_pow134217728, 180, .Lmemmove_fhead_b27_P_to_N
-        .word 12, 12, .Lmemmove_fhead_b26_P
-.Lmemmove_fhead_b27_P_to_N:
-        .word 12, 12, .Lmemmove_fhead_b26_N
-.Lmemmove_fhead_b27_N:
-        .word .Lmemmove_npow134217728, 180, .Lmemmove_fhead_b27_N_to_N
-        .word 12, 12, .Lmemmove_fhead_b26_P
-.Lmemmove_fhead_b27_N_to_N:
-        .word 12, 12, .Lmemmove_fhead_b26_N
 .Lmemmove_fhead_b26_P:
         .word .Lmemmove_pow67108864, 180, .Lmemmove_fhead_b26_P_to_N
-        .word 12, 12, .Lmemmove_fhead_b25_P
-.Lmemmove_fhead_b26_P_to_N:
-        .word 12, 12, .Lmemmove_fhead_b25_N
-.Lmemmove_fhead_b26_N:
-        .word .Lmemmove_npow67108864, 180, .Lmemmove_fhead_b26_N_to_N
-        .word 12, 12, .Lmemmove_fhead_b25_P
-.Lmemmove_fhead_b26_N_to_N:
-        .word 12, 12, .Lmemmove_fhead_b25_N
 .Lmemmove_fhead_b25_P:
         .word .Lmemmove_pow33554432, 180, .Lmemmove_fhead_b25_P_to_N
-        .word 12, 12, .Lmemmove_fhead_b24_P
-.Lmemmove_fhead_b25_P_to_N:
-        .word 12, 12, .Lmemmove_fhead_b24_N
-.Lmemmove_fhead_b25_N:
-        .word .Lmemmove_npow33554432, 180, .Lmemmove_fhead_b25_N_to_N
-        .word 12, 12, .Lmemmove_fhead_b24_P
-.Lmemmove_fhead_b25_N_to_N:
-        .word 12, 12, .Lmemmove_fhead_b24_N
 .Lmemmove_fhead_b24_P:
         .word .Lmemmove_pow16777216, 180, .Lmemmove_fhead_b24_P_to_N
-        .word 12, 12, .Lmemmove_fhead_b23_P
-.Lmemmove_fhead_b24_P_to_N:
-        .word 12, 12, .Lmemmove_fhead_b23_N
-.Lmemmove_fhead_b24_N:
-        .word .Lmemmove_npow16777216, 180, .Lmemmove_fhead_b24_N_to_N
-        .word 12, 12, .Lmemmove_fhead_b23_P
-.Lmemmove_fhead_b24_N_to_N:
-        .word 12, 12, .Lmemmove_fhead_b23_N
 .Lmemmove_fhead_b23_P:
         .word .Lmemmove_pow8388608, 180, .Lmemmove_fhead_b23_P_to_N
-        .word 12, 12, .Lmemmove_fhead_b22_P
-.Lmemmove_fhead_b23_P_to_N:
-        .word 12, 12, .Lmemmove_fhead_b22_N
-.Lmemmove_fhead_b23_N:
-        .word .Lmemmove_npow8388608, 180, .Lmemmove_fhead_b23_N_to_N
-        .word 12, 12, .Lmemmove_fhead_b22_P
-.Lmemmove_fhead_b23_N_to_N:
-        .word 12, 12, .Lmemmove_fhead_b22_N
 .Lmemmove_fhead_b22_P:
         .word .Lmemmove_pow4194304, 180, .Lmemmove_fhead_b22_P_to_N
-        .word 12, 12, .Lmemmove_fhead_b21_P
-.Lmemmove_fhead_b22_P_to_N:
-        .word 12, 12, .Lmemmove_fhead_b21_N
-.Lmemmove_fhead_b22_N:
-        .word .Lmemmove_npow4194304, 180, .Lmemmove_fhead_b22_N_to_N
-        .word 12, 12, .Lmemmove_fhead_b21_P
-.Lmemmove_fhead_b22_N_to_N:
-        .word 12, 12, .Lmemmove_fhead_b21_N
 .Lmemmove_fhead_b21_P:
         .word .Lmemmove_pow2097152, 180, .Lmemmove_fhead_b21_P_to_N
-        .word 12, 12, .Lmemmove_fhead_b20_P
-.Lmemmove_fhead_b21_P_to_N:
-        .word 12, 12, .Lmemmove_fhead_b20_N
-.Lmemmove_fhead_b21_N:
-        .word .Lmemmove_npow2097152, 180, .Lmemmove_fhead_b21_N_to_N
-        .word 12, 12, .Lmemmove_fhead_b20_P
-.Lmemmove_fhead_b21_N_to_N:
-        .word 12, 12, .Lmemmove_fhead_b20_N
 .Lmemmove_fhead_b20_P:
         .word .Lmemmove_pow1048576, 180, .Lmemmove_fhead_b20_P_to_N
-        .word 12, 12, .Lmemmove_fhead_b19_P
-.Lmemmove_fhead_b20_P_to_N:
-        .word 12, 12, .Lmemmove_fhead_b19_N
-.Lmemmove_fhead_b20_N:
-        .word .Lmemmove_npow1048576, 180, .Lmemmove_fhead_b20_N_to_N
-        .word 12, 12, .Lmemmove_fhead_b19_P
-.Lmemmove_fhead_b20_N_to_N:
-        .word 12, 12, .Lmemmove_fhead_b19_N
 .Lmemmove_fhead_b19_P:
         .word .Lmemmove_pow524288, 180, .Lmemmove_fhead_b19_P_to_N
-        .word 12, 12, .Lmemmove_fhead_b18_P
-.Lmemmove_fhead_b19_P_to_N:
-        .word 12, 12, .Lmemmove_fhead_b18_N
-.Lmemmove_fhead_b19_N:
-        .word .Lmemmove_npow524288, 180, .Lmemmove_fhead_b19_N_to_N
-        .word 12, 12, .Lmemmove_fhead_b18_P
-.Lmemmove_fhead_b19_N_to_N:
-        .word 12, 12, .Lmemmove_fhead_b18_N
 .Lmemmove_fhead_b18_P:
         .word .Lmemmove_pow262144, 180, .Lmemmove_fhead_b18_P_to_N
-        .word 12, 12, .Lmemmove_fhead_b17_P
-.Lmemmove_fhead_b18_P_to_N:
-        .word 12, 12, .Lmemmove_fhead_b17_N
-.Lmemmove_fhead_b18_N:
-        .word .Lmemmove_npow262144, 180, .Lmemmove_fhead_b18_N_to_N
-        .word 12, 12, .Lmemmove_fhead_b17_P
-.Lmemmove_fhead_b18_N_to_N:
-        .word 12, 12, .Lmemmove_fhead_b17_N
 .Lmemmove_fhead_b17_P:
         .word .Lmemmove_pow131072, 180, .Lmemmove_fhead_b17_P_to_N
-        .word 12, 12, .Lmemmove_fhead_b16_P
-.Lmemmove_fhead_b17_P_to_N:
-        .word 12, 12, .Lmemmove_fhead_b16_N
-.Lmemmove_fhead_b17_N:
-        .word .Lmemmove_npow131072, 180, .Lmemmove_fhead_b17_N_to_N
-        .word 12, 12, .Lmemmove_fhead_b16_P
-.Lmemmove_fhead_b17_N_to_N:
-        .word 12, 12, .Lmemmove_fhead_b16_N
 .Lmemmove_fhead_b16_P:
         .word .Lmemmove_pow65536, 180, .Lmemmove_fhead_b16_P_to_N
-        .word 12, 12, .Lmemmove_fhead_b15_P
-.Lmemmove_fhead_b16_P_to_N:
-        .word 12, 12, .Lmemmove_fhead_b15_N
-.Lmemmove_fhead_b16_N:
-        .word .Lmemmove_npow65536, 180, .Lmemmove_fhead_b16_N_to_N
-        .word 12, 12, .Lmemmove_fhead_b15_P
-.Lmemmove_fhead_b16_N_to_N:
-        .word 12, 12, .Lmemmove_fhead_b15_N
 .Lmemmove_fhead_b15_P:
         .word .Lmemmove_pow32768, 180, .Lmemmove_fhead_b15_P_to_N
-        .word 12, 12, .Lmemmove_fhead_b14_P
-.Lmemmove_fhead_b15_P_to_N:
-        .word 12, 12, .Lmemmove_fhead_b14_N
-.Lmemmove_fhead_b15_N:
-        .word .Lmemmove_npow32768, 180, .Lmemmove_fhead_b15_N_to_N
-        .word 12, 12, .Lmemmove_fhead_b14_P
-.Lmemmove_fhead_b15_N_to_N:
-        .word 12, 12, .Lmemmove_fhead_b14_N
 .Lmemmove_fhead_b14_P:
         .word .Lmemmove_pow16384, 180, .Lmemmove_fhead_b14_P_to_N
-        .word 12, 12, .Lmemmove_fhead_b13_P
-.Lmemmove_fhead_b14_P_to_N:
-        .word 12, 12, .Lmemmove_fhead_b13_N
-.Lmemmove_fhead_b14_N:
-        .word .Lmemmove_npow16384, 180, .Lmemmove_fhead_b14_N_to_N
-        .word 12, 12, .Lmemmove_fhead_b13_P
-.Lmemmove_fhead_b14_N_to_N:
-        .word 12, 12, .Lmemmove_fhead_b13_N
 .Lmemmove_fhead_b13_P:
         .word .Lmemmove_pow8192, 180, .Lmemmove_fhead_b13_P_to_N
-        .word 12, 12, .Lmemmove_fhead_b12_P
-.Lmemmove_fhead_b13_P_to_N:
-        .word 12, 12, .Lmemmove_fhead_b12_N
-.Lmemmove_fhead_b13_N:
-        .word .Lmemmove_npow8192, 180, .Lmemmove_fhead_b13_N_to_N
-        .word 12, 12, .Lmemmove_fhead_b12_P
-.Lmemmove_fhead_b13_N_to_N:
-        .word 12, 12, .Lmemmove_fhead_b12_N
 .Lmemmove_fhead_b12_P:
         .word .Lmemmove_pow4096, 180, .Lmemmove_fhead_b12_P_to_N
-        .word 12, 12, .Lmemmove_fhead_b11_P
-.Lmemmove_fhead_b12_P_to_N:
-        .word 12, 12, .Lmemmove_fhead_b11_N
-.Lmemmove_fhead_b12_N:
-        .word .Lmemmove_npow4096, 180, .Lmemmove_fhead_b12_N_to_N
-        .word 12, 12, .Lmemmove_fhead_b11_P
-.Lmemmove_fhead_b12_N_to_N:
-        .word 12, 12, .Lmemmove_fhead_b11_N
 .Lmemmove_fhead_b11_P:
         .word .Lmemmove_pow2048, 180, .Lmemmove_fhead_b11_P_to_N
-        .word 12, 12, .Lmemmove_fhead_b10_P
-.Lmemmove_fhead_b11_P_to_N:
-        .word 12, 12, .Lmemmove_fhead_b10_N
-.Lmemmove_fhead_b11_N:
-        .word .Lmemmove_npow2048, 180, .Lmemmove_fhead_b11_N_to_N
-        .word 12, 12, .Lmemmove_fhead_b10_P
-.Lmemmove_fhead_b11_N_to_N:
-        .word 12, 12, .Lmemmove_fhead_b10_N
 .Lmemmove_fhead_b10_P:
         .word .Lmemmove_pow1024, 180, .Lmemmove_fhead_b10_P_to_N
-        .word 12, 12, .Lmemmove_fhead_b9_P
-.Lmemmove_fhead_b10_P_to_N:
-        .word 12, 12, .Lmemmove_fhead_b9_N
-.Lmemmove_fhead_b10_N:
-        .word .Lmemmove_npow1024, 180, .Lmemmove_fhead_b10_N_to_N
-        .word 12, 12, .Lmemmove_fhead_b9_P
-.Lmemmove_fhead_b10_N_to_N:
-        .word 12, 12, .Lmemmove_fhead_b9_N
 .Lmemmove_fhead_b9_P:
         .word .Lmemmove_pow512, 180, .Lmemmove_fhead_b9_P_to_N
-        .word 12, 12, .Lmemmove_fhead_b8_P
-.Lmemmove_fhead_b9_P_to_N:
-        .word 12, 12, .Lmemmove_fhead_b8_N
-.Lmemmove_fhead_b9_N:
-        .word .Lmemmove_npow512, 180, .Lmemmove_fhead_b9_N_to_N
-        .word 12, 12, .Lmemmove_fhead_b8_P
-.Lmemmove_fhead_b9_N_to_N:
-        .word 12, 12, .Lmemmove_fhead_b8_N
 .Lmemmove_fhead_b8_P:
         .word .Lmemmove_pow256, 180, .Lmemmove_fhead_b8_P_to_N
-        .word 12, 12, .Lmemmove_fhead_b7_P
-.Lmemmove_fhead_b8_P_to_N:
-        .word 12, 12, .Lmemmove_fhead_b7_N
-.Lmemmove_fhead_b8_N:
-        .word .Lmemmove_npow256, 180, .Lmemmove_fhead_b8_N_to_N
-        .word 12, 12, .Lmemmove_fhead_b7_P
-.Lmemmove_fhead_b8_N_to_N:
-        .word 12, 12, .Lmemmove_fhead_b7_N
 .Lmemmove_fhead_b7_P:
         .word .Lmemmove_pow128, 180, .Lmemmove_fhead_b7_P_to_N
-        .word 12, 12, .Lmemmove_fhead_b6_P
-.Lmemmove_fhead_b7_P_to_N:
-        .word 12, 12, .Lmemmove_fhead_b6_N
-.Lmemmove_fhead_b7_N:
-        .word .Lmemmove_npow128, 180, .Lmemmove_fhead_b7_N_to_N
-        .word 12, 12, .Lmemmove_fhead_b6_P
-.Lmemmove_fhead_b7_N_to_N:
-        .word 12, 12, .Lmemmove_fhead_b6_N
 .Lmemmove_fhead_b6_P:
         .word .Lmemmove_pow64, 180, .Lmemmove_fhead_b6_P_to_N
-        .word 12, 12, .Lmemmove_fhead_b5_P
-.Lmemmove_fhead_b6_P_to_N:
-        .word 12, 12, .Lmemmove_fhead_b5_N
-.Lmemmove_fhead_b6_N:
-        .word .Lmemmove_npow64, 180, .Lmemmove_fhead_b6_N_to_N
-        .word 12, 12, .Lmemmove_fhead_b5_P
-.Lmemmove_fhead_b6_N_to_N:
-        .word 12, 12, .Lmemmove_fhead_b5_N
 .Lmemmove_fhead_b5_P:
         .word .Lmemmove_pow32, 180, .Lmemmove_fhead_b5_P_to_N
-        .word 12, 12, .Lmemmove_fhead_b4_P
-.Lmemmove_fhead_b5_P_to_N:
-        .word 12, 12, .Lmemmove_fhead_b4_N
-.Lmemmove_fhead_b5_N:
-        .word .Lmemmove_npow32, 180, .Lmemmove_fhead_b5_N_to_N
-        .word 12, 12, .Lmemmove_fhead_b4_P
-.Lmemmove_fhead_b5_N_to_N:
-        .word 12, 12, .Lmemmove_fhead_b4_N
 .Lmemmove_fhead_b4_P:
         .word .Lmemmove_pow16, 180, .Lmemmove_fhead_b4_P_to_N
-        .word 12, 12, .Lmemmove_fhead_b3_P
-.Lmemmove_fhead_b4_P_to_N:
-        .word 12, 12, .Lmemmove_fhead_b3_N
-.Lmemmove_fhead_b4_N:
-        .word .Lmemmove_npow16, 180, .Lmemmove_fhead_b4_N_to_N
-        .word 12, 12, .Lmemmove_fhead_b3_P
-.Lmemmove_fhead_b4_N_to_N:
-        .word 12, 12, .Lmemmove_fhead_b3_N
 .Lmemmove_fhead_b3_P:
         .word .Lmemmove_pow8, 180, .Lmemmove_fhead_b3_P_to_N
-        .word 12, 12, .Lmemmove_fhead_b2_P
-.Lmemmove_fhead_b3_P_to_N:
-        .word 12, 12, .Lmemmove_fhead_b2_N
-.Lmemmove_fhead_b3_N:
-        .word .Lmemmove_npow8, 180, .Lmemmove_fhead_b3_N_to_N
-        .word 12, 12, .Lmemmove_fhead_b2_P
-.Lmemmove_fhead_b3_N_to_N:
-        .word 12, 12, .Lmemmove_fhead_b2_N
 .Lmemmove_fhead_b2_P:
         .word .Lmemmove_pow4, 180, .Lmemmove_fhead_b2_P_to_N
-        .word 12, 12, .Lmemmove_fhead_b1_P
-.Lmemmove_fhead_b2_P_to_N:
-        .word 12, 12, .Lmemmove_fhead_b1_N
-.Lmemmove_fhead_b2_N:
-        .word .Lmemmove_npow4, 180, .Lmemmove_fhead_b2_N_to_N
-        .word 12, 12, .Lmemmove_fhead_b1_P
-.Lmemmove_fhead_b2_N_to_N:
-        .word 12, 12, .Lmemmove_fhead_b1_N
 .Lmemmove_fhead_b1_P:
         .word .Lmemmove_pow2, 180, .Lmemmove_fhead_b1_P_to_N
         .word .Lmemmove_pow2, 184, .Lmemmove_fhead_b0_P
@@ -66329,6 +66319,209 @@ __subleq_memmove:
         .word .Lmemmove_pow1, 184, .Lmemmove_fhead_done
 .Lmemmove_fhead_b0_N_to_N:
         .word 12, 12, .Lmemmove_fhead_done
+.Lmemmove_fhead_b30_P_to_N:
+        .word 12, 12, .Lmemmove_fhead_b29_N
+.Lmemmove_fhead_b30_N:
+        .word .Lmemmove_npow1073741824, 180, .Lmemmove_fhead_b30_N_to_N
+        .word 12, 12, .Lmemmove_fhead_b29_P
+.Lmemmove_fhead_b30_N_to_N:
+        .word 12, 12, .Lmemmove_fhead_b29_N
+.Lmemmove_fhead_b29_P_to_N:
+        .word 12, 12, .Lmemmove_fhead_b28_N
+.Lmemmove_fhead_b29_N:
+        .word .Lmemmove_npow536870912, 180, .Lmemmove_fhead_b29_N_to_N
+        .word 12, 12, .Lmemmove_fhead_b28_P
+.Lmemmove_fhead_b29_N_to_N:
+        .word 12, 12, .Lmemmove_fhead_b28_N
+.Lmemmove_fhead_b28_P_to_N:
+        .word 12, 12, .Lmemmove_fhead_b27_N
+.Lmemmove_fhead_b28_N:
+        .word .Lmemmove_npow268435456, 180, .Lmemmove_fhead_b28_N_to_N
+        .word 12, 12, .Lmemmove_fhead_b27_P
+.Lmemmove_fhead_b28_N_to_N:
+        .word 12, 12, .Lmemmove_fhead_b27_N
+.Lmemmove_fhead_b27_P_to_N:
+        .word 12, 12, .Lmemmove_fhead_b26_N
+.Lmemmove_fhead_b27_N:
+        .word .Lmemmove_npow134217728, 180, .Lmemmove_fhead_b27_N_to_N
+        .word 12, 12, .Lmemmove_fhead_b26_P
+.Lmemmove_fhead_b27_N_to_N:
+        .word 12, 12, .Lmemmove_fhead_b26_N
+.Lmemmove_fhead_b26_P_to_N:
+        .word 12, 12, .Lmemmove_fhead_b25_N
+.Lmemmove_fhead_b26_N:
+        .word .Lmemmove_npow67108864, 180, .Lmemmove_fhead_b26_N_to_N
+        .word 12, 12, .Lmemmove_fhead_b25_P
+.Lmemmove_fhead_b26_N_to_N:
+        .word 12, 12, .Lmemmove_fhead_b25_N
+.Lmemmove_fhead_b25_P_to_N:
+        .word 12, 12, .Lmemmove_fhead_b24_N
+.Lmemmove_fhead_b25_N:
+        .word .Lmemmove_npow33554432, 180, .Lmemmove_fhead_b25_N_to_N
+        .word 12, 12, .Lmemmove_fhead_b24_P
+.Lmemmove_fhead_b25_N_to_N:
+        .word 12, 12, .Lmemmove_fhead_b24_N
+.Lmemmove_fhead_b24_P_to_N:
+        .word 12, 12, .Lmemmove_fhead_b23_N
+.Lmemmove_fhead_b24_N:
+        .word .Lmemmove_npow16777216, 180, .Lmemmove_fhead_b24_N_to_N
+        .word 12, 12, .Lmemmove_fhead_b23_P
+.Lmemmove_fhead_b24_N_to_N:
+        .word 12, 12, .Lmemmove_fhead_b23_N
+.Lmemmove_fhead_b23_P_to_N:
+        .word 12, 12, .Lmemmove_fhead_b22_N
+.Lmemmove_fhead_b23_N:
+        .word .Lmemmove_npow8388608, 180, .Lmemmove_fhead_b23_N_to_N
+        .word 12, 12, .Lmemmove_fhead_b22_P
+.Lmemmove_fhead_b23_N_to_N:
+        .word 12, 12, .Lmemmove_fhead_b22_N
+.Lmemmove_fhead_b22_P_to_N:
+        .word 12, 12, .Lmemmove_fhead_b21_N
+.Lmemmove_fhead_b22_N:
+        .word .Lmemmove_npow4194304, 180, .Lmemmove_fhead_b22_N_to_N
+        .word 12, 12, .Lmemmove_fhead_b21_P
+.Lmemmove_fhead_b22_N_to_N:
+        .word 12, 12, .Lmemmove_fhead_b21_N
+.Lmemmove_fhead_b21_P_to_N:
+        .word 12, 12, .Lmemmove_fhead_b20_N
+.Lmemmove_fhead_b21_N:
+        .word .Lmemmove_npow2097152, 180, .Lmemmove_fhead_b21_N_to_N
+        .word 12, 12, .Lmemmove_fhead_b20_P
+.Lmemmove_fhead_b21_N_to_N:
+        .word 12, 12, .Lmemmove_fhead_b20_N
+.Lmemmove_fhead_b20_P_to_N:
+        .word 12, 12, .Lmemmove_fhead_b19_N
+.Lmemmove_fhead_b20_N:
+        .word .Lmemmove_npow1048576, 180, .Lmemmove_fhead_b20_N_to_N
+        .word 12, 12, .Lmemmove_fhead_b19_P
+.Lmemmove_fhead_b20_N_to_N:
+        .word 12, 12, .Lmemmove_fhead_b19_N
+.Lmemmove_fhead_b19_P_to_N:
+        .word 12, 12, .Lmemmove_fhead_b18_N
+.Lmemmove_fhead_b19_N:
+        .word .Lmemmove_npow524288, 180, .Lmemmove_fhead_b19_N_to_N
+        .word 12, 12, .Lmemmove_fhead_b18_P
+.Lmemmove_fhead_b19_N_to_N:
+        .word 12, 12, .Lmemmove_fhead_b18_N
+.Lmemmove_fhead_b18_P_to_N:
+        .word 12, 12, .Lmemmove_fhead_b17_N
+.Lmemmove_fhead_b18_N:
+        .word .Lmemmove_npow262144, 180, .Lmemmove_fhead_b18_N_to_N
+        .word 12, 12, .Lmemmove_fhead_b17_P
+.Lmemmove_fhead_b18_N_to_N:
+        .word 12, 12, .Lmemmove_fhead_b17_N
+.Lmemmove_fhead_b17_P_to_N:
+        .word 12, 12, .Lmemmove_fhead_b16_N
+.Lmemmove_fhead_b17_N:
+        .word .Lmemmove_npow131072, 180, .Lmemmove_fhead_b17_N_to_N
+        .word 12, 12, .Lmemmove_fhead_b16_P
+.Lmemmove_fhead_b17_N_to_N:
+        .word 12, 12, .Lmemmove_fhead_b16_N
+.Lmemmove_fhead_b16_P_to_N:
+        .word 12, 12, .Lmemmove_fhead_b15_N
+.Lmemmove_fhead_b16_N:
+        .word .Lmemmove_npow65536, 180, .Lmemmove_fhead_b16_N_to_N
+        .word 12, 12, .Lmemmove_fhead_b15_P
+.Lmemmove_fhead_b16_N_to_N:
+        .word 12, 12, .Lmemmove_fhead_b15_N
+.Lmemmove_fhead_b15_P_to_N:
+        .word 12, 12, .Lmemmove_fhead_b14_N
+.Lmemmove_fhead_b15_N:
+        .word .Lmemmove_npow32768, 180, .Lmemmove_fhead_b15_N_to_N
+        .word 12, 12, .Lmemmove_fhead_b14_P
+.Lmemmove_fhead_b15_N_to_N:
+        .word 12, 12, .Lmemmove_fhead_b14_N
+.Lmemmove_fhead_b14_P_to_N:
+        .word 12, 12, .Lmemmove_fhead_b13_N
+.Lmemmove_fhead_b14_N:
+        .word .Lmemmove_npow16384, 180, .Lmemmove_fhead_b14_N_to_N
+        .word 12, 12, .Lmemmove_fhead_b13_P
+.Lmemmove_fhead_b14_N_to_N:
+        .word 12, 12, .Lmemmove_fhead_b13_N
+.Lmemmove_fhead_b13_P_to_N:
+        .word 12, 12, .Lmemmove_fhead_b12_N
+.Lmemmove_fhead_b13_N:
+        .word .Lmemmove_npow8192, 180, .Lmemmove_fhead_b13_N_to_N
+        .word 12, 12, .Lmemmove_fhead_b12_P
+.Lmemmove_fhead_b13_N_to_N:
+        .word 12, 12, .Lmemmove_fhead_b12_N
+.Lmemmove_fhead_b12_P_to_N:
+        .word 12, 12, .Lmemmove_fhead_b11_N
+.Lmemmove_fhead_b12_N:
+        .word .Lmemmove_npow4096, 180, .Lmemmove_fhead_b12_N_to_N
+        .word 12, 12, .Lmemmove_fhead_b11_P
+.Lmemmove_fhead_b12_N_to_N:
+        .word 12, 12, .Lmemmove_fhead_b11_N
+.Lmemmove_fhead_b11_P_to_N:
+        .word 12, 12, .Lmemmove_fhead_b10_N
+.Lmemmove_fhead_b11_N:
+        .word .Lmemmove_npow2048, 180, .Lmemmove_fhead_b11_N_to_N
+        .word 12, 12, .Lmemmove_fhead_b10_P
+.Lmemmove_fhead_b11_N_to_N:
+        .word 12, 12, .Lmemmove_fhead_b10_N
+.Lmemmove_fhead_b10_P_to_N:
+        .word 12, 12, .Lmemmove_fhead_b9_N
+.Lmemmove_fhead_b10_N:
+        .word .Lmemmove_npow1024, 180, .Lmemmove_fhead_b10_N_to_N
+        .word 12, 12, .Lmemmove_fhead_b9_P
+.Lmemmove_fhead_b10_N_to_N:
+        .word 12, 12, .Lmemmove_fhead_b9_N
+.Lmemmove_fhead_b9_P_to_N:
+        .word 12, 12, .Lmemmove_fhead_b8_N
+.Lmemmove_fhead_b9_N:
+        .word .Lmemmove_npow512, 180, .Lmemmove_fhead_b9_N_to_N
+        .word 12, 12, .Lmemmove_fhead_b8_P
+.Lmemmove_fhead_b9_N_to_N:
+        .word 12, 12, .Lmemmove_fhead_b8_N
+.Lmemmove_fhead_b8_P_to_N:
+        .word 12, 12, .Lmemmove_fhead_b7_N
+.Lmemmove_fhead_b8_N:
+        .word .Lmemmove_npow256, 180, .Lmemmove_fhead_b8_N_to_N
+        .word 12, 12, .Lmemmove_fhead_b7_P
+.Lmemmove_fhead_b8_N_to_N:
+        .word 12, 12, .Lmemmove_fhead_b7_N
+.Lmemmove_fhead_b7_P_to_N:
+        .word 12, 12, .Lmemmove_fhead_b6_N
+.Lmemmove_fhead_b7_N:
+        .word .Lmemmove_npow128, 180, .Lmemmove_fhead_b7_N_to_N
+        .word 12, 12, .Lmemmove_fhead_b6_P
+.Lmemmove_fhead_b7_N_to_N:
+        .word 12, 12, .Lmemmove_fhead_b6_N
+.Lmemmove_fhead_b6_P_to_N:
+        .word 12, 12, .Lmemmove_fhead_b5_N
+.Lmemmove_fhead_b6_N:
+        .word .Lmemmove_npow64, 180, .Lmemmove_fhead_b6_N_to_N
+        .word 12, 12, .Lmemmove_fhead_b5_P
+.Lmemmove_fhead_b6_N_to_N:
+        .word 12, 12, .Lmemmove_fhead_b5_N
+.Lmemmove_fhead_b5_P_to_N:
+        .word 12, 12, .Lmemmove_fhead_b4_N
+.Lmemmove_fhead_b5_N:
+        .word .Lmemmove_npow32, 180, .Lmemmove_fhead_b5_N_to_N
+        .word 12, 12, .Lmemmove_fhead_b4_P
+.Lmemmove_fhead_b5_N_to_N:
+        .word 12, 12, .Lmemmove_fhead_b4_N
+.Lmemmove_fhead_b4_P_to_N:
+        .word 12, 12, .Lmemmove_fhead_b3_N
+.Lmemmove_fhead_b4_N:
+        .word .Lmemmove_npow16, 180, .Lmemmove_fhead_b4_N_to_N
+        .word 12, 12, .Lmemmove_fhead_b3_P
+.Lmemmove_fhead_b4_N_to_N:
+        .word 12, 12, .Lmemmove_fhead_b3_N
+.Lmemmove_fhead_b3_P_to_N:
+        .word 12, 12, .Lmemmove_fhead_b2_N
+.Lmemmove_fhead_b3_N:
+        .word .Lmemmove_npow8, 180, .Lmemmove_fhead_b3_N_to_N
+        .word 12, 12, .Lmemmove_fhead_b2_P
+.Lmemmove_fhead_b3_N_to_N:
+        .word 12, 12, .Lmemmove_fhead_b2_N
+.Lmemmove_fhead_b2_P_to_N:
+        .word 12, 12, .Lmemmove_fhead_b1_N
+.Lmemmove_fhead_b2_N:
+        .word .Lmemmove_npow4, 180, .Lmemmove_fhead_b2_N_to_N
+        .word 12, 12, .Lmemmove_fhead_b1_P
+.Lmemmove_fhead_b2_N_to_N:
+        .word 12, 12, .Lmemmove_fhead_b1_N
 .Lmemmove_fhead_done:
         .word 180, 180, .+4
         .word 184, 180, .+4
@@ -66397,27 +66590,15 @@ __subleq_memmove:
         .word 12, 12, .Lmemmove_fwd_fast_head
 .Lmemmove_fwd_body_setup:
         .word 12, 12, .+4
-        .word 192, 192, .+4
-        .word 100, 12, .+4
-        .word 12, 192, .+4
-        .word 12, 12, .+4
-        .word 196, 196, .+4
-        .word 104, 12, .+4
-        .word 12, 196, .+4
-        .word 12, 12, .+4
-        .word 160, 160, .+4
-        .word 108, 12, .+4
-        .word 12, 160, .+4
-        .word 12, 12, .+4
         .word 172, 172, .+4
-        .word 160, 12, .+4
+        .word 108, 12, .+4
         .word 12, 172, .+4
-        .word 180, 180, .+4
+        .word 188, 188, .+4
 .Lmemmove_fwd_srl_b31:
         .word 176, 176, .+4
         .word 172, 176, .+4
         .word 144, 176, .Lmemmove_fwd_srl_b30_check
-        .word .Lmemmove_npow536870912, 180, .+4
+        .word .Lmemmove_npow536870912, 188, .+4
         .word .Lmemmove_min, 172, .+4
 .Lmemmove_fwd_srl_b30_check:
         .word 176, 176, .+4
@@ -66425,370 +66606,350 @@ __subleq_memmove:
         .word .Lmemmove_npow1073741824, 176, .Lmemmove_fwd_srl_b30_set
         .word 12, 12, .Lmemmove_fwd_srl_lattice_start
 .Lmemmove_fwd_srl_b30_set:
-        .word .Lmemmove_npow268435456, 180, .+4
+        .word .Lmemmove_npow268435456, 188, .+4
         .word .Lmemmove_pow1073741824, 172, .+4
 .Lmemmove_fwd_srl_lattice_start:
         .word .Lmemmove_n1, 172, .+4
 .Lmemmove_fwd_srl_b29_P:
         .word .Lmemmove_pow536870912, 172, .Lmemmove_fwd_srl_b29_P_to_N
-        .word .Lmemmove_npow134217728, 180, .+4
+        .word .Lmemmove_npow134217728, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b28_P
 .Lmemmove_fwd_srl_b29_P_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b28_N
 .Lmemmove_fwd_srl_b29_N:
         .word .Lmemmove_npow536870912, 172, .Lmemmove_fwd_srl_b29_N_to_N
-        .word .Lmemmove_npow134217728, 180, .+4
+        .word .Lmemmove_npow134217728, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b28_P
 .Lmemmove_fwd_srl_b29_N_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b28_N
 .Lmemmove_fwd_srl_b28_P:
         .word .Lmemmove_pow268435456, 172, .Lmemmove_fwd_srl_b28_P_to_N
-        .word .Lmemmove_npow67108864, 180, .+4
+        .word .Lmemmove_npow67108864, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b27_P
 .Lmemmove_fwd_srl_b28_P_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b27_N
 .Lmemmove_fwd_srl_b28_N:
         .word .Lmemmove_npow268435456, 172, .Lmemmove_fwd_srl_b28_N_to_N
-        .word .Lmemmove_npow67108864, 180, .+4
+        .word .Lmemmove_npow67108864, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b27_P
 .Lmemmove_fwd_srl_b28_N_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b27_N
 .Lmemmove_fwd_srl_b27_P:
         .word .Lmemmove_pow134217728, 172, .Lmemmove_fwd_srl_b27_P_to_N
-        .word .Lmemmove_npow33554432, 180, .+4
+        .word .Lmemmove_npow33554432, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b26_P
 .Lmemmove_fwd_srl_b27_P_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b26_N
 .Lmemmove_fwd_srl_b27_N:
         .word .Lmemmove_npow134217728, 172, .Lmemmove_fwd_srl_b27_N_to_N
-        .word .Lmemmove_npow33554432, 180, .+4
+        .word .Lmemmove_npow33554432, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b26_P
 .Lmemmove_fwd_srl_b27_N_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b26_N
 .Lmemmove_fwd_srl_b26_P:
         .word .Lmemmove_pow67108864, 172, .Lmemmove_fwd_srl_b26_P_to_N
-        .word .Lmemmove_npow16777216, 180, .+4
+        .word .Lmemmove_npow16777216, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b25_P
 .Lmemmove_fwd_srl_b26_P_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b25_N
 .Lmemmove_fwd_srl_b26_N:
         .word .Lmemmove_npow67108864, 172, .Lmemmove_fwd_srl_b26_N_to_N
-        .word .Lmemmove_npow16777216, 180, .+4
+        .word .Lmemmove_npow16777216, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b25_P
 .Lmemmove_fwd_srl_b26_N_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b25_N
 .Lmemmove_fwd_srl_b25_P:
         .word .Lmemmove_pow33554432, 172, .Lmemmove_fwd_srl_b25_P_to_N
-        .word .Lmemmove_npow8388608, 180, .+4
+        .word .Lmemmove_npow8388608, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b24_P
 .Lmemmove_fwd_srl_b25_P_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b24_N
 .Lmemmove_fwd_srl_b25_N:
         .word .Lmemmove_npow33554432, 172, .Lmemmove_fwd_srl_b25_N_to_N
-        .word .Lmemmove_npow8388608, 180, .+4
+        .word .Lmemmove_npow8388608, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b24_P
 .Lmemmove_fwd_srl_b25_N_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b24_N
 .Lmemmove_fwd_srl_b24_P:
         .word .Lmemmove_pow16777216, 172, .Lmemmove_fwd_srl_b24_P_to_N
-        .word .Lmemmove_npow4194304, 180, .+4
+        .word .Lmemmove_npow4194304, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b23_P
 .Lmemmove_fwd_srl_b24_P_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b23_N
 .Lmemmove_fwd_srl_b24_N:
         .word .Lmemmove_npow16777216, 172, .Lmemmove_fwd_srl_b24_N_to_N
-        .word .Lmemmove_npow4194304, 180, .+4
+        .word .Lmemmove_npow4194304, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b23_P
 .Lmemmove_fwd_srl_b24_N_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b23_N
 .Lmemmove_fwd_srl_b23_P:
         .word .Lmemmove_pow8388608, 172, .Lmemmove_fwd_srl_b23_P_to_N
-        .word .Lmemmove_npow2097152, 180, .+4
+        .word .Lmemmove_npow2097152, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b22_P
 .Lmemmove_fwd_srl_b23_P_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b22_N
 .Lmemmove_fwd_srl_b23_N:
         .word .Lmemmove_npow8388608, 172, .Lmemmove_fwd_srl_b23_N_to_N
-        .word .Lmemmove_npow2097152, 180, .+4
+        .word .Lmemmove_npow2097152, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b22_P
 .Lmemmove_fwd_srl_b23_N_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b22_N
 .Lmemmove_fwd_srl_b22_P:
         .word .Lmemmove_pow4194304, 172, .Lmemmove_fwd_srl_b22_P_to_N
-        .word .Lmemmove_npow1048576, 180, .+4
+        .word .Lmemmove_npow1048576, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b21_P
 .Lmemmove_fwd_srl_b22_P_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b21_N
 .Lmemmove_fwd_srl_b22_N:
         .word .Lmemmove_npow4194304, 172, .Lmemmove_fwd_srl_b22_N_to_N
-        .word .Lmemmove_npow1048576, 180, .+4
+        .word .Lmemmove_npow1048576, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b21_P
 .Lmemmove_fwd_srl_b22_N_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b21_N
 .Lmemmove_fwd_srl_b21_P:
         .word .Lmemmove_pow2097152, 172, .Lmemmove_fwd_srl_b21_P_to_N
-        .word .Lmemmove_npow524288, 180, .+4
+        .word .Lmemmove_npow524288, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b20_P
 .Lmemmove_fwd_srl_b21_P_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b20_N
 .Lmemmove_fwd_srl_b21_N:
         .word .Lmemmove_npow2097152, 172, .Lmemmove_fwd_srl_b21_N_to_N
-        .word .Lmemmove_npow524288, 180, .+4
+        .word .Lmemmove_npow524288, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b20_P
 .Lmemmove_fwd_srl_b21_N_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b20_N
 .Lmemmove_fwd_srl_b20_P:
         .word .Lmemmove_pow1048576, 172, .Lmemmove_fwd_srl_b20_P_to_N
-        .word .Lmemmove_npow262144, 180, .+4
+        .word .Lmemmove_npow262144, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b19_P
 .Lmemmove_fwd_srl_b20_P_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b19_N
 .Lmemmove_fwd_srl_b20_N:
         .word .Lmemmove_npow1048576, 172, .Lmemmove_fwd_srl_b20_N_to_N
-        .word .Lmemmove_npow262144, 180, .+4
+        .word .Lmemmove_npow262144, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b19_P
 .Lmemmove_fwd_srl_b20_N_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b19_N
 .Lmemmove_fwd_srl_b19_P:
         .word .Lmemmove_pow524288, 172, .Lmemmove_fwd_srl_b19_P_to_N
-        .word .Lmemmove_npow131072, 180, .+4
+        .word .Lmemmove_npow131072, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b18_P
 .Lmemmove_fwd_srl_b19_P_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b18_N
 .Lmemmove_fwd_srl_b19_N:
         .word .Lmemmove_npow524288, 172, .Lmemmove_fwd_srl_b19_N_to_N
-        .word .Lmemmove_npow131072, 180, .+4
+        .word .Lmemmove_npow131072, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b18_P
 .Lmemmove_fwd_srl_b19_N_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b18_N
 .Lmemmove_fwd_srl_b18_P:
         .word .Lmemmove_pow262144, 172, .Lmemmove_fwd_srl_b18_P_to_N
-        .word .Lmemmove_npow65536, 180, .+4
+        .word .Lmemmove_npow65536, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b17_P
 .Lmemmove_fwd_srl_b18_P_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b17_N
 .Lmemmove_fwd_srl_b18_N:
         .word .Lmemmove_npow262144, 172, .Lmemmove_fwd_srl_b18_N_to_N
-        .word .Lmemmove_npow65536, 180, .+4
+        .word .Lmemmove_npow65536, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b17_P
 .Lmemmove_fwd_srl_b18_N_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b17_N
 .Lmemmove_fwd_srl_b17_P:
         .word .Lmemmove_pow131072, 172, .Lmemmove_fwd_srl_b17_P_to_N
-        .word .Lmemmove_npow32768, 180, .+4
+        .word .Lmemmove_npow32768, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b16_P
 .Lmemmove_fwd_srl_b17_P_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b16_N
 .Lmemmove_fwd_srl_b17_N:
         .word .Lmemmove_npow131072, 172, .Lmemmove_fwd_srl_b17_N_to_N
-        .word .Lmemmove_npow32768, 180, .+4
+        .word .Lmemmove_npow32768, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b16_P
 .Lmemmove_fwd_srl_b17_N_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b16_N
 .Lmemmove_fwd_srl_b16_P:
         .word .Lmemmove_pow65536, 172, .Lmemmove_fwd_srl_b16_P_to_N
-        .word .Lmemmove_npow16384, 180, .+4
+        .word .Lmemmove_npow16384, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b15_P
 .Lmemmove_fwd_srl_b16_P_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b15_N
 .Lmemmove_fwd_srl_b16_N:
         .word .Lmemmove_npow65536, 172, .Lmemmove_fwd_srl_b16_N_to_N
-        .word .Lmemmove_npow16384, 180, .+4
+        .word .Lmemmove_npow16384, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b15_P
 .Lmemmove_fwd_srl_b16_N_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b15_N
 .Lmemmove_fwd_srl_b15_P:
         .word .Lmemmove_pow32768, 172, .Lmemmove_fwd_srl_b15_P_to_N
-        .word .Lmemmove_npow8192, 180, .+4
+        .word .Lmemmove_npow8192, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b14_P
 .Lmemmove_fwd_srl_b15_P_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b14_N
 .Lmemmove_fwd_srl_b15_N:
         .word .Lmemmove_npow32768, 172, .Lmemmove_fwd_srl_b15_N_to_N
-        .word .Lmemmove_npow8192, 180, .+4
+        .word .Lmemmove_npow8192, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b14_P
 .Lmemmove_fwd_srl_b15_N_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b14_N
 .Lmemmove_fwd_srl_b14_P:
         .word .Lmemmove_pow16384, 172, .Lmemmove_fwd_srl_b14_P_to_N
-        .word .Lmemmove_npow4096, 180, .+4
+        .word .Lmemmove_npow4096, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b13_P
 .Lmemmove_fwd_srl_b14_P_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b13_N
 .Lmemmove_fwd_srl_b14_N:
         .word .Lmemmove_npow16384, 172, .Lmemmove_fwd_srl_b14_N_to_N
-        .word .Lmemmove_npow4096, 180, .+4
+        .word .Lmemmove_npow4096, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b13_P
 .Lmemmove_fwd_srl_b14_N_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b13_N
 .Lmemmove_fwd_srl_b13_P:
         .word .Lmemmove_pow8192, 172, .Lmemmove_fwd_srl_b13_P_to_N
-        .word .Lmemmove_npow2048, 180, .+4
+        .word .Lmemmove_npow2048, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b12_P
 .Lmemmove_fwd_srl_b13_P_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b12_N
 .Lmemmove_fwd_srl_b13_N:
         .word .Lmemmove_npow8192, 172, .Lmemmove_fwd_srl_b13_N_to_N
-        .word .Lmemmove_npow2048, 180, .+4
+        .word .Lmemmove_npow2048, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b12_P
 .Lmemmove_fwd_srl_b13_N_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b12_N
 .Lmemmove_fwd_srl_b12_P:
         .word .Lmemmove_pow4096, 172, .Lmemmove_fwd_srl_b12_P_to_N
-        .word .Lmemmove_npow1024, 180, .+4
+        .word .Lmemmove_npow1024, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b11_P
 .Lmemmove_fwd_srl_b12_P_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b11_N
 .Lmemmove_fwd_srl_b12_N:
         .word .Lmemmove_npow4096, 172, .Lmemmove_fwd_srl_b12_N_to_N
-        .word .Lmemmove_npow1024, 180, .+4
+        .word .Lmemmove_npow1024, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b11_P
 .Lmemmove_fwd_srl_b12_N_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b11_N
 .Lmemmove_fwd_srl_b11_P:
         .word .Lmemmove_pow2048, 172, .Lmemmove_fwd_srl_b11_P_to_N
-        .word .Lmemmove_npow512, 180, .+4
+        .word .Lmemmove_npow512, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b10_P
 .Lmemmove_fwd_srl_b11_P_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b10_N
 .Lmemmove_fwd_srl_b11_N:
         .word .Lmemmove_npow2048, 172, .Lmemmove_fwd_srl_b11_N_to_N
-        .word .Lmemmove_npow512, 180, .+4
+        .word .Lmemmove_npow512, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b10_P
 .Lmemmove_fwd_srl_b11_N_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b10_N
 .Lmemmove_fwd_srl_b10_P:
         .word .Lmemmove_pow1024, 172, .Lmemmove_fwd_srl_b10_P_to_N
-        .word .Lmemmove_npow256, 180, .+4
+        .word .Lmemmove_npow256, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b9_P
 .Lmemmove_fwd_srl_b10_P_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b9_N
 .Lmemmove_fwd_srl_b10_N:
         .word .Lmemmove_npow1024, 172, .Lmemmove_fwd_srl_b10_N_to_N
-        .word .Lmemmove_npow256, 180, .+4
+        .word .Lmemmove_npow256, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b9_P
 .Lmemmove_fwd_srl_b10_N_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b9_N
 .Lmemmove_fwd_srl_b9_P:
         .word .Lmemmove_pow512, 172, .Lmemmove_fwd_srl_b9_P_to_N
-        .word .Lmemmove_npow128, 180, .+4
+        .word .Lmemmove_npow128, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b8_P
 .Lmemmove_fwd_srl_b9_P_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b8_N
 .Lmemmove_fwd_srl_b9_N:
         .word .Lmemmove_npow512, 172, .Lmemmove_fwd_srl_b9_N_to_N
-        .word .Lmemmove_npow128, 180, .+4
+        .word .Lmemmove_npow128, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b8_P
 .Lmemmove_fwd_srl_b9_N_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b8_N
 .Lmemmove_fwd_srl_b8_P:
         .word .Lmemmove_pow256, 172, .Lmemmove_fwd_srl_b8_P_to_N
-        .word .Lmemmove_npow64, 180, .+4
+        .word .Lmemmove_npow64, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b7_P
 .Lmemmove_fwd_srl_b8_P_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b7_N
 .Lmemmove_fwd_srl_b8_N:
         .word .Lmemmove_npow256, 172, .Lmemmove_fwd_srl_b8_N_to_N
-        .word .Lmemmove_npow64, 180, .+4
+        .word .Lmemmove_npow64, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b7_P
 .Lmemmove_fwd_srl_b8_N_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b7_N
 .Lmemmove_fwd_srl_b7_P:
         .word .Lmemmove_pow128, 172, .Lmemmove_fwd_srl_b7_P_to_N
-        .word .Lmemmove_npow32, 180, .+4
+        .word .Lmemmove_npow32, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b6_P
 .Lmemmove_fwd_srl_b7_P_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b6_N
 .Lmemmove_fwd_srl_b7_N:
         .word .Lmemmove_npow128, 172, .Lmemmove_fwd_srl_b7_N_to_N
-        .word .Lmemmove_npow32, 180, .+4
+        .word .Lmemmove_npow32, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b6_P
 .Lmemmove_fwd_srl_b7_N_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b6_N
 .Lmemmove_fwd_srl_b6_P:
         .word .Lmemmove_pow64, 172, .Lmemmove_fwd_srl_b6_P_to_N
-        .word .Lmemmove_npow16, 180, .+4
+        .word .Lmemmove_npow16, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b5_P
 .Lmemmove_fwd_srl_b6_P_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b5_N
 .Lmemmove_fwd_srl_b6_N:
         .word .Lmemmove_npow64, 172, .Lmemmove_fwd_srl_b6_N_to_N
-        .word .Lmemmove_npow16, 180, .+4
+        .word .Lmemmove_npow16, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b5_P
 .Lmemmove_fwd_srl_b6_N_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b5_N
 .Lmemmove_fwd_srl_b5_P:
         .word .Lmemmove_pow32, 172, .Lmemmove_fwd_srl_b5_P_to_N
-        .word .Lmemmove_npow8, 180, .+4
+        .word .Lmemmove_npow8, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b4_P
 .Lmemmove_fwd_srl_b5_P_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b4_N
 .Lmemmove_fwd_srl_b5_N:
         .word .Lmemmove_npow32, 172, .Lmemmove_fwd_srl_b5_N_to_N
-        .word .Lmemmove_npow8, 180, .+4
+        .word .Lmemmove_npow8, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b4_P
 .Lmemmove_fwd_srl_b5_N_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b4_N
 .Lmemmove_fwd_srl_b4_P:
         .word .Lmemmove_pow16, 172, .Lmemmove_fwd_srl_b4_P_to_N
-        .word .Lmemmove_npow4, 180, .+4
+        .word .Lmemmove_npow4, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b3_P
 .Lmemmove_fwd_srl_b4_P_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b3_N
 .Lmemmove_fwd_srl_b4_N:
         .word .Lmemmove_npow16, 172, .Lmemmove_fwd_srl_b4_N_to_N
-        .word .Lmemmove_npow4, 180, .+4
+        .word .Lmemmove_npow4, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b3_P
 .Lmemmove_fwd_srl_b4_N_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b3_N
 .Lmemmove_fwd_srl_b3_P:
         .word .Lmemmove_pow8, 172, .Lmemmove_fwd_srl_b3_P_to_N
-        .word .Lmemmove_npow2, 180, .+4
+        .word .Lmemmove_npow2, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b2_P
 .Lmemmove_fwd_srl_b3_P_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b2_N
 .Lmemmove_fwd_srl_b3_N:
         .word .Lmemmove_npow8, 172, .Lmemmove_fwd_srl_b3_N_to_N
-        .word .Lmemmove_npow2, 180, .+4
+        .word .Lmemmove_npow2, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_b2_P
 .Lmemmove_fwd_srl_b3_N_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_b2_N
 .Lmemmove_fwd_srl_b2_P:
         .word .Lmemmove_pow4, 172, .Lmemmove_fwd_srl_b2_P_to_N
-        .word .Lmemmove_npow1, 180, .+4
+        .word .Lmemmove_npow1, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_done
 .Lmemmove_fwd_srl_b2_P_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_done
 .Lmemmove_fwd_srl_b2_N:
         .word .Lmemmove_npow4, 172, .Lmemmove_fwd_srl_b2_N_to_N
-        .word .Lmemmove_npow1, 180, .+4
+        .word .Lmemmove_npow1, 188, .+4
         .word 12, 12, .Lmemmove_fwd_srl_done
 .Lmemmove_fwd_srl_b2_N_to_N:
         .word 12, 12, .Lmemmove_fwd_srl_done
 .Lmemmove_fwd_srl_done:
-        .word 12, 12, .+4
-        .word 12, 12, .+4
-        .word 188, 188, .+4
-        .word 180, 12, .+4
-        .word 12, 188, .+4
-        .word 12, 12, .+4
-        .word 100, 100, .+4
-        .word 192, 12, .+4
-        .word 12, 100, .+4
-        .word 12, 12, .+4
-        .word 104, 104, .+4
-        .word 196, 12, .+4
-        .word 12, 104, .+4
-        .word 12, 12, .Lmemmove_fwd_body_loop
+        .word 160, 160, .Lmemmove_fwd_body_loop
 .Lmemmove_fwd_body_loop:
-        .word .Lmemmove_zero, 188, .Lmemmove_fwd_tail
-        .word 168, 168, .+4
-        .word 188, 12, .+4
-        .word 12, 168, .+4
-        .word 12, 12, .+4
-        .word .Lmemmove_c8, 168, .Lmemmove_fwd_body_single
-.Lmemmove_fwd_body_unrolled:
-        .word 160, 160, .+4
+        .word .Lmemmove_c8, 188, .Lmemmove_fwd_body_fixup
         .word 106, 160, .+4
         .word 102, 102, .+4
         .word 160, 102, .+4
@@ -66837,18 +66998,19 @@ __subleq_memmove:
         .word .Lmemmove_n4, 104, .+4
         .word .Lmemmove_n4, 100, .+4
         .word .Lmemmove_c32, 108, .+4
-        .word .Lmemmove_c8, 188, .Lmemmove_fwd_body_loop
-        .word 12, 12, .Lmemmove_fwd_body_loop
+        .word 160, 160, .Lmemmove_fwd_body_loop
+.Lmemmove_fwd_body_fixup:
+        .word .Lmemmove_n8, 188, .+4
+        .word .Lmemmove_zero, 188, .Lmemmove_fwd_tail
 .Lmemmove_fwd_body_single:
-        .word 160, 160, .+4
         .word 106, 160, .+4
         .word 102, 102, .+4
         .word 160, 102, .+4
         .word .Lmemmove_n4, 104, .+4
         .word .Lmemmove_n4, 100, .+4
         .word .Lmemmove_c4, 108, .+4
-        .word .Lmemmove_c1, 188, .+4
-        .word 12, 12, .Lmemmove_fwd_body_loop
+        .word .Lmemmove_c1, 188, .Lmemmove_fwd_tail
+        .word 160, 160, .Lmemmove_fwd_body_single
 .Lmemmove_fwd_tail:
         .word .Lmemmove_zero, 108, .Lmemmove_done
         .word 12, 12, .+4
@@ -66931,302 +67093,71 @@ __subleq_memmove:
         .word 12, 12, .Lmemmove_uhead_bias
 .Lmemmove_uhead_sign_ambig:
         .word .Lmemmove_n1, 184, .+4
-        .word 144, 184, .Lmemmove_uhead_bias
+        .word 144, 184, .Lmemmove_uhead_sign_intmin
+        .word 12, 12, .Lmemmove_uhead_bias
+.Lmemmove_uhead_sign_intmin:
         .word .Lmemmove_min, 180, .+4
 .Lmemmove_uhead_bias:
         .word 184, 184, .+4
         .word .Lmemmove_n1, 180, .+4
-        .word 12, 12, .Lmemmove_uhead_b30_P
 .Lmemmove_uhead_b30_P:
         .word .Lmemmove_pow1073741824, 180, .Lmemmove_uhead_b30_P_to_N
-        .word 12, 12, .Lmemmove_uhead_b29_P
-.Lmemmove_uhead_b30_P_to_N:
-        .word 12, 12, .Lmemmove_uhead_b29_N
-.Lmemmove_uhead_b30_N:
-        .word .Lmemmove_npow1073741824, 180, .Lmemmove_uhead_b30_N_to_N
-        .word 12, 12, .Lmemmove_uhead_b29_P
-.Lmemmove_uhead_b30_N_to_N:
-        .word 12, 12, .Lmemmove_uhead_b29_N
 .Lmemmove_uhead_b29_P:
         .word .Lmemmove_pow536870912, 180, .Lmemmove_uhead_b29_P_to_N
-        .word 12, 12, .Lmemmove_uhead_b28_P
-.Lmemmove_uhead_b29_P_to_N:
-        .word 12, 12, .Lmemmove_uhead_b28_N
-.Lmemmove_uhead_b29_N:
-        .word .Lmemmove_npow536870912, 180, .Lmemmove_uhead_b29_N_to_N
-        .word 12, 12, .Lmemmove_uhead_b28_P
-.Lmemmove_uhead_b29_N_to_N:
-        .word 12, 12, .Lmemmove_uhead_b28_N
 .Lmemmove_uhead_b28_P:
         .word .Lmemmove_pow268435456, 180, .Lmemmove_uhead_b28_P_to_N
-        .word 12, 12, .Lmemmove_uhead_b27_P
-.Lmemmove_uhead_b28_P_to_N:
-        .word 12, 12, .Lmemmove_uhead_b27_N
-.Lmemmove_uhead_b28_N:
-        .word .Lmemmove_npow268435456, 180, .Lmemmove_uhead_b28_N_to_N
-        .word 12, 12, .Lmemmove_uhead_b27_P
-.Lmemmove_uhead_b28_N_to_N:
-        .word 12, 12, .Lmemmove_uhead_b27_N
 .Lmemmove_uhead_b27_P:
         .word .Lmemmove_pow134217728, 180, .Lmemmove_uhead_b27_P_to_N
-        .word 12, 12, .Lmemmove_uhead_b26_P
-.Lmemmove_uhead_b27_P_to_N:
-        .word 12, 12, .Lmemmove_uhead_b26_N
-.Lmemmove_uhead_b27_N:
-        .word .Lmemmove_npow134217728, 180, .Lmemmove_uhead_b27_N_to_N
-        .word 12, 12, .Lmemmove_uhead_b26_P
-.Lmemmove_uhead_b27_N_to_N:
-        .word 12, 12, .Lmemmove_uhead_b26_N
 .Lmemmove_uhead_b26_P:
         .word .Lmemmove_pow67108864, 180, .Lmemmove_uhead_b26_P_to_N
-        .word 12, 12, .Lmemmove_uhead_b25_P
-.Lmemmove_uhead_b26_P_to_N:
-        .word 12, 12, .Lmemmove_uhead_b25_N
-.Lmemmove_uhead_b26_N:
-        .word .Lmemmove_npow67108864, 180, .Lmemmove_uhead_b26_N_to_N
-        .word 12, 12, .Lmemmove_uhead_b25_P
-.Lmemmove_uhead_b26_N_to_N:
-        .word 12, 12, .Lmemmove_uhead_b25_N
 .Lmemmove_uhead_b25_P:
         .word .Lmemmove_pow33554432, 180, .Lmemmove_uhead_b25_P_to_N
-        .word 12, 12, .Lmemmove_uhead_b24_P
-.Lmemmove_uhead_b25_P_to_N:
-        .word 12, 12, .Lmemmove_uhead_b24_N
-.Lmemmove_uhead_b25_N:
-        .word .Lmemmove_npow33554432, 180, .Lmemmove_uhead_b25_N_to_N
-        .word 12, 12, .Lmemmove_uhead_b24_P
-.Lmemmove_uhead_b25_N_to_N:
-        .word 12, 12, .Lmemmove_uhead_b24_N
 .Lmemmove_uhead_b24_P:
         .word .Lmemmove_pow16777216, 180, .Lmemmove_uhead_b24_P_to_N
-        .word 12, 12, .Lmemmove_uhead_b23_P
-.Lmemmove_uhead_b24_P_to_N:
-        .word 12, 12, .Lmemmove_uhead_b23_N
-.Lmemmove_uhead_b24_N:
-        .word .Lmemmove_npow16777216, 180, .Lmemmove_uhead_b24_N_to_N
-        .word 12, 12, .Lmemmove_uhead_b23_P
-.Lmemmove_uhead_b24_N_to_N:
-        .word 12, 12, .Lmemmove_uhead_b23_N
 .Lmemmove_uhead_b23_P:
         .word .Lmemmove_pow8388608, 180, .Lmemmove_uhead_b23_P_to_N
-        .word 12, 12, .Lmemmove_uhead_b22_P
-.Lmemmove_uhead_b23_P_to_N:
-        .word 12, 12, .Lmemmove_uhead_b22_N
-.Lmemmove_uhead_b23_N:
-        .word .Lmemmove_npow8388608, 180, .Lmemmove_uhead_b23_N_to_N
-        .word 12, 12, .Lmemmove_uhead_b22_P
-.Lmemmove_uhead_b23_N_to_N:
-        .word 12, 12, .Lmemmove_uhead_b22_N
 .Lmemmove_uhead_b22_P:
         .word .Lmemmove_pow4194304, 180, .Lmemmove_uhead_b22_P_to_N
-        .word 12, 12, .Lmemmove_uhead_b21_P
-.Lmemmove_uhead_b22_P_to_N:
-        .word 12, 12, .Lmemmove_uhead_b21_N
-.Lmemmove_uhead_b22_N:
-        .word .Lmemmove_npow4194304, 180, .Lmemmove_uhead_b22_N_to_N
-        .word 12, 12, .Lmemmove_uhead_b21_P
-.Lmemmove_uhead_b22_N_to_N:
-        .word 12, 12, .Lmemmove_uhead_b21_N
 .Lmemmove_uhead_b21_P:
         .word .Lmemmove_pow2097152, 180, .Lmemmove_uhead_b21_P_to_N
-        .word 12, 12, .Lmemmove_uhead_b20_P
-.Lmemmove_uhead_b21_P_to_N:
-        .word 12, 12, .Lmemmove_uhead_b20_N
-.Lmemmove_uhead_b21_N:
-        .word .Lmemmove_npow2097152, 180, .Lmemmove_uhead_b21_N_to_N
-        .word 12, 12, .Lmemmove_uhead_b20_P
-.Lmemmove_uhead_b21_N_to_N:
-        .word 12, 12, .Lmemmove_uhead_b20_N
 .Lmemmove_uhead_b20_P:
         .word .Lmemmove_pow1048576, 180, .Lmemmove_uhead_b20_P_to_N
-        .word 12, 12, .Lmemmove_uhead_b19_P
-.Lmemmove_uhead_b20_P_to_N:
-        .word 12, 12, .Lmemmove_uhead_b19_N
-.Lmemmove_uhead_b20_N:
-        .word .Lmemmove_npow1048576, 180, .Lmemmove_uhead_b20_N_to_N
-        .word 12, 12, .Lmemmove_uhead_b19_P
-.Lmemmove_uhead_b20_N_to_N:
-        .word 12, 12, .Lmemmove_uhead_b19_N
 .Lmemmove_uhead_b19_P:
         .word .Lmemmove_pow524288, 180, .Lmemmove_uhead_b19_P_to_N
-        .word 12, 12, .Lmemmove_uhead_b18_P
-.Lmemmove_uhead_b19_P_to_N:
-        .word 12, 12, .Lmemmove_uhead_b18_N
-.Lmemmove_uhead_b19_N:
-        .word .Lmemmove_npow524288, 180, .Lmemmove_uhead_b19_N_to_N
-        .word 12, 12, .Lmemmove_uhead_b18_P
-.Lmemmove_uhead_b19_N_to_N:
-        .word 12, 12, .Lmemmove_uhead_b18_N
 .Lmemmove_uhead_b18_P:
         .word .Lmemmove_pow262144, 180, .Lmemmove_uhead_b18_P_to_N
-        .word 12, 12, .Lmemmove_uhead_b17_P
-.Lmemmove_uhead_b18_P_to_N:
-        .word 12, 12, .Lmemmove_uhead_b17_N
-.Lmemmove_uhead_b18_N:
-        .word .Lmemmove_npow262144, 180, .Lmemmove_uhead_b18_N_to_N
-        .word 12, 12, .Lmemmove_uhead_b17_P
-.Lmemmove_uhead_b18_N_to_N:
-        .word 12, 12, .Lmemmove_uhead_b17_N
 .Lmemmove_uhead_b17_P:
         .word .Lmemmove_pow131072, 180, .Lmemmove_uhead_b17_P_to_N
-        .word 12, 12, .Lmemmove_uhead_b16_P
-.Lmemmove_uhead_b17_P_to_N:
-        .word 12, 12, .Lmemmove_uhead_b16_N
-.Lmemmove_uhead_b17_N:
-        .word .Lmemmove_npow131072, 180, .Lmemmove_uhead_b17_N_to_N
-        .word 12, 12, .Lmemmove_uhead_b16_P
-.Lmemmove_uhead_b17_N_to_N:
-        .word 12, 12, .Lmemmove_uhead_b16_N
 .Lmemmove_uhead_b16_P:
         .word .Lmemmove_pow65536, 180, .Lmemmove_uhead_b16_P_to_N
-        .word 12, 12, .Lmemmove_uhead_b15_P
-.Lmemmove_uhead_b16_P_to_N:
-        .word 12, 12, .Lmemmove_uhead_b15_N
-.Lmemmove_uhead_b16_N:
-        .word .Lmemmove_npow65536, 180, .Lmemmove_uhead_b16_N_to_N
-        .word 12, 12, .Lmemmove_uhead_b15_P
-.Lmemmove_uhead_b16_N_to_N:
-        .word 12, 12, .Lmemmove_uhead_b15_N
 .Lmemmove_uhead_b15_P:
         .word .Lmemmove_pow32768, 180, .Lmemmove_uhead_b15_P_to_N
-        .word 12, 12, .Lmemmove_uhead_b14_P
-.Lmemmove_uhead_b15_P_to_N:
-        .word 12, 12, .Lmemmove_uhead_b14_N
-.Lmemmove_uhead_b15_N:
-        .word .Lmemmove_npow32768, 180, .Lmemmove_uhead_b15_N_to_N
-        .word 12, 12, .Lmemmove_uhead_b14_P
-.Lmemmove_uhead_b15_N_to_N:
-        .word 12, 12, .Lmemmove_uhead_b14_N
 .Lmemmove_uhead_b14_P:
         .word .Lmemmove_pow16384, 180, .Lmemmove_uhead_b14_P_to_N
-        .word 12, 12, .Lmemmove_uhead_b13_P
-.Lmemmove_uhead_b14_P_to_N:
-        .word 12, 12, .Lmemmove_uhead_b13_N
-.Lmemmove_uhead_b14_N:
-        .word .Lmemmove_npow16384, 180, .Lmemmove_uhead_b14_N_to_N
-        .word 12, 12, .Lmemmove_uhead_b13_P
-.Lmemmove_uhead_b14_N_to_N:
-        .word 12, 12, .Lmemmove_uhead_b13_N
 .Lmemmove_uhead_b13_P:
         .word .Lmemmove_pow8192, 180, .Lmemmove_uhead_b13_P_to_N
-        .word 12, 12, .Lmemmove_uhead_b12_P
-.Lmemmove_uhead_b13_P_to_N:
-        .word 12, 12, .Lmemmove_uhead_b12_N
-.Lmemmove_uhead_b13_N:
-        .word .Lmemmove_npow8192, 180, .Lmemmove_uhead_b13_N_to_N
-        .word 12, 12, .Lmemmove_uhead_b12_P
-.Lmemmove_uhead_b13_N_to_N:
-        .word 12, 12, .Lmemmove_uhead_b12_N
 .Lmemmove_uhead_b12_P:
         .word .Lmemmove_pow4096, 180, .Lmemmove_uhead_b12_P_to_N
-        .word 12, 12, .Lmemmove_uhead_b11_P
-.Lmemmove_uhead_b12_P_to_N:
-        .word 12, 12, .Lmemmove_uhead_b11_N
-.Lmemmove_uhead_b12_N:
-        .word .Lmemmove_npow4096, 180, .Lmemmove_uhead_b12_N_to_N
-        .word 12, 12, .Lmemmove_uhead_b11_P
-.Lmemmove_uhead_b12_N_to_N:
-        .word 12, 12, .Lmemmove_uhead_b11_N
 .Lmemmove_uhead_b11_P:
         .word .Lmemmove_pow2048, 180, .Lmemmove_uhead_b11_P_to_N
-        .word 12, 12, .Lmemmove_uhead_b10_P
-.Lmemmove_uhead_b11_P_to_N:
-        .word 12, 12, .Lmemmove_uhead_b10_N
-.Lmemmove_uhead_b11_N:
-        .word .Lmemmove_npow2048, 180, .Lmemmove_uhead_b11_N_to_N
-        .word 12, 12, .Lmemmove_uhead_b10_P
-.Lmemmove_uhead_b11_N_to_N:
-        .word 12, 12, .Lmemmove_uhead_b10_N
 .Lmemmove_uhead_b10_P:
         .word .Lmemmove_pow1024, 180, .Lmemmove_uhead_b10_P_to_N
-        .word 12, 12, .Lmemmove_uhead_b9_P
-.Lmemmove_uhead_b10_P_to_N:
-        .word 12, 12, .Lmemmove_uhead_b9_N
-.Lmemmove_uhead_b10_N:
-        .word .Lmemmove_npow1024, 180, .Lmemmove_uhead_b10_N_to_N
-        .word 12, 12, .Lmemmove_uhead_b9_P
-.Lmemmove_uhead_b10_N_to_N:
-        .word 12, 12, .Lmemmove_uhead_b9_N
 .Lmemmove_uhead_b9_P:
         .word .Lmemmove_pow512, 180, .Lmemmove_uhead_b9_P_to_N
-        .word 12, 12, .Lmemmove_uhead_b8_P
-.Lmemmove_uhead_b9_P_to_N:
-        .word 12, 12, .Lmemmove_uhead_b8_N
-.Lmemmove_uhead_b9_N:
-        .word .Lmemmove_npow512, 180, .Lmemmove_uhead_b9_N_to_N
-        .word 12, 12, .Lmemmove_uhead_b8_P
-.Lmemmove_uhead_b9_N_to_N:
-        .word 12, 12, .Lmemmove_uhead_b8_N
 .Lmemmove_uhead_b8_P:
         .word .Lmemmove_pow256, 180, .Lmemmove_uhead_b8_P_to_N
-        .word 12, 12, .Lmemmove_uhead_b7_P
-.Lmemmove_uhead_b8_P_to_N:
-        .word 12, 12, .Lmemmove_uhead_b7_N
-.Lmemmove_uhead_b8_N:
-        .word .Lmemmove_npow256, 180, .Lmemmove_uhead_b8_N_to_N
-        .word 12, 12, .Lmemmove_uhead_b7_P
-.Lmemmove_uhead_b8_N_to_N:
-        .word 12, 12, .Lmemmove_uhead_b7_N
 .Lmemmove_uhead_b7_P:
         .word .Lmemmove_pow128, 180, .Lmemmove_uhead_b7_P_to_N
-        .word 12, 12, .Lmemmove_uhead_b6_P
-.Lmemmove_uhead_b7_P_to_N:
-        .word 12, 12, .Lmemmove_uhead_b6_N
-.Lmemmove_uhead_b7_N:
-        .word .Lmemmove_npow128, 180, .Lmemmove_uhead_b7_N_to_N
-        .word 12, 12, .Lmemmove_uhead_b6_P
-.Lmemmove_uhead_b7_N_to_N:
-        .word 12, 12, .Lmemmove_uhead_b6_N
 .Lmemmove_uhead_b6_P:
         .word .Lmemmove_pow64, 180, .Lmemmove_uhead_b6_P_to_N
-        .word 12, 12, .Lmemmove_uhead_b5_P
-.Lmemmove_uhead_b6_P_to_N:
-        .word 12, 12, .Lmemmove_uhead_b5_N
-.Lmemmove_uhead_b6_N:
-        .word .Lmemmove_npow64, 180, .Lmemmove_uhead_b6_N_to_N
-        .word 12, 12, .Lmemmove_uhead_b5_P
-.Lmemmove_uhead_b6_N_to_N:
-        .word 12, 12, .Lmemmove_uhead_b5_N
 .Lmemmove_uhead_b5_P:
         .word .Lmemmove_pow32, 180, .Lmemmove_uhead_b5_P_to_N
-        .word 12, 12, .Lmemmove_uhead_b4_P
-.Lmemmove_uhead_b5_P_to_N:
-        .word 12, 12, .Lmemmove_uhead_b4_N
-.Lmemmove_uhead_b5_N:
-        .word .Lmemmove_npow32, 180, .Lmemmove_uhead_b5_N_to_N
-        .word 12, 12, .Lmemmove_uhead_b4_P
-.Lmemmove_uhead_b5_N_to_N:
-        .word 12, 12, .Lmemmove_uhead_b4_N
 .Lmemmove_uhead_b4_P:
         .word .Lmemmove_pow16, 180, .Lmemmove_uhead_b4_P_to_N
-        .word 12, 12, .Lmemmove_uhead_b3_P
-.Lmemmove_uhead_b4_P_to_N:
-        .word 12, 12, .Lmemmove_uhead_b3_N
-.Lmemmove_uhead_b4_N:
-        .word .Lmemmove_npow16, 180, .Lmemmove_uhead_b4_N_to_N
-        .word 12, 12, .Lmemmove_uhead_b3_P
-.Lmemmove_uhead_b4_N_to_N:
-        .word 12, 12, .Lmemmove_uhead_b3_N
 .Lmemmove_uhead_b3_P:
         .word .Lmemmove_pow8, 180, .Lmemmove_uhead_b3_P_to_N
-        .word 12, 12, .Lmemmove_uhead_b2_P
-.Lmemmove_uhead_b3_P_to_N:
-        .word 12, 12, .Lmemmove_uhead_b2_N
-.Lmemmove_uhead_b3_N:
-        .word .Lmemmove_npow8, 180, .Lmemmove_uhead_b3_N_to_N
-        .word 12, 12, .Lmemmove_uhead_b2_P
-.Lmemmove_uhead_b3_N_to_N:
-        .word 12, 12, .Lmemmove_uhead_b2_N
 .Lmemmove_uhead_b2_P:
         .word .Lmemmove_pow4, 180, .Lmemmove_uhead_b2_P_to_N
-        .word 12, 12, .Lmemmove_uhead_b1_P
-.Lmemmove_uhead_b2_P_to_N:
-        .word 12, 12, .Lmemmove_uhead_b1_N
-.Lmemmove_uhead_b2_N:
-        .word .Lmemmove_npow4, 180, .Lmemmove_uhead_b2_N_to_N
-        .word 12, 12, .Lmemmove_uhead_b1_P
-.Lmemmove_uhead_b2_N_to_N:
-        .word 12, 12, .Lmemmove_uhead_b1_N
 .Lmemmove_uhead_b1_P:
         .word .Lmemmove_pow2, 180, .Lmemmove_uhead_b1_P_to_N
         .word .Lmemmove_pow2, 184, .Lmemmove_uhead_b0_P
@@ -67247,6 +67178,209 @@ __subleq_memmove:
         .word .Lmemmove_pow1, 184, .Lmemmove_uhead_done
 .Lmemmove_uhead_b0_N_to_N:
         .word 12, 12, .Lmemmove_uhead_done
+.Lmemmove_uhead_b30_P_to_N:
+        .word 12, 12, .Lmemmove_uhead_b29_N
+.Lmemmove_uhead_b30_N:
+        .word .Lmemmove_npow1073741824, 180, .Lmemmove_uhead_b30_N_to_N
+        .word 12, 12, .Lmemmove_uhead_b29_P
+.Lmemmove_uhead_b30_N_to_N:
+        .word 12, 12, .Lmemmove_uhead_b29_N
+.Lmemmove_uhead_b29_P_to_N:
+        .word 12, 12, .Lmemmove_uhead_b28_N
+.Lmemmove_uhead_b29_N:
+        .word .Lmemmove_npow536870912, 180, .Lmemmove_uhead_b29_N_to_N
+        .word 12, 12, .Lmemmove_uhead_b28_P
+.Lmemmove_uhead_b29_N_to_N:
+        .word 12, 12, .Lmemmove_uhead_b28_N
+.Lmemmove_uhead_b28_P_to_N:
+        .word 12, 12, .Lmemmove_uhead_b27_N
+.Lmemmove_uhead_b28_N:
+        .word .Lmemmove_npow268435456, 180, .Lmemmove_uhead_b28_N_to_N
+        .word 12, 12, .Lmemmove_uhead_b27_P
+.Lmemmove_uhead_b28_N_to_N:
+        .word 12, 12, .Lmemmove_uhead_b27_N
+.Lmemmove_uhead_b27_P_to_N:
+        .word 12, 12, .Lmemmove_uhead_b26_N
+.Lmemmove_uhead_b27_N:
+        .word .Lmemmove_npow134217728, 180, .Lmemmove_uhead_b27_N_to_N
+        .word 12, 12, .Lmemmove_uhead_b26_P
+.Lmemmove_uhead_b27_N_to_N:
+        .word 12, 12, .Lmemmove_uhead_b26_N
+.Lmemmove_uhead_b26_P_to_N:
+        .word 12, 12, .Lmemmove_uhead_b25_N
+.Lmemmove_uhead_b26_N:
+        .word .Lmemmove_npow67108864, 180, .Lmemmove_uhead_b26_N_to_N
+        .word 12, 12, .Lmemmove_uhead_b25_P
+.Lmemmove_uhead_b26_N_to_N:
+        .word 12, 12, .Lmemmove_uhead_b25_N
+.Lmemmove_uhead_b25_P_to_N:
+        .word 12, 12, .Lmemmove_uhead_b24_N
+.Lmemmove_uhead_b25_N:
+        .word .Lmemmove_npow33554432, 180, .Lmemmove_uhead_b25_N_to_N
+        .word 12, 12, .Lmemmove_uhead_b24_P
+.Lmemmove_uhead_b25_N_to_N:
+        .word 12, 12, .Lmemmove_uhead_b24_N
+.Lmemmove_uhead_b24_P_to_N:
+        .word 12, 12, .Lmemmove_uhead_b23_N
+.Lmemmove_uhead_b24_N:
+        .word .Lmemmove_npow16777216, 180, .Lmemmove_uhead_b24_N_to_N
+        .word 12, 12, .Lmemmove_uhead_b23_P
+.Lmemmove_uhead_b24_N_to_N:
+        .word 12, 12, .Lmemmove_uhead_b23_N
+.Lmemmove_uhead_b23_P_to_N:
+        .word 12, 12, .Lmemmove_uhead_b22_N
+.Lmemmove_uhead_b23_N:
+        .word .Lmemmove_npow8388608, 180, .Lmemmove_uhead_b23_N_to_N
+        .word 12, 12, .Lmemmove_uhead_b22_P
+.Lmemmove_uhead_b23_N_to_N:
+        .word 12, 12, .Lmemmove_uhead_b22_N
+.Lmemmove_uhead_b22_P_to_N:
+        .word 12, 12, .Lmemmove_uhead_b21_N
+.Lmemmove_uhead_b22_N:
+        .word .Lmemmove_npow4194304, 180, .Lmemmove_uhead_b22_N_to_N
+        .word 12, 12, .Lmemmove_uhead_b21_P
+.Lmemmove_uhead_b22_N_to_N:
+        .word 12, 12, .Lmemmove_uhead_b21_N
+.Lmemmove_uhead_b21_P_to_N:
+        .word 12, 12, .Lmemmove_uhead_b20_N
+.Lmemmove_uhead_b21_N:
+        .word .Lmemmove_npow2097152, 180, .Lmemmove_uhead_b21_N_to_N
+        .word 12, 12, .Lmemmove_uhead_b20_P
+.Lmemmove_uhead_b21_N_to_N:
+        .word 12, 12, .Lmemmove_uhead_b20_N
+.Lmemmove_uhead_b20_P_to_N:
+        .word 12, 12, .Lmemmove_uhead_b19_N
+.Lmemmove_uhead_b20_N:
+        .word .Lmemmove_npow1048576, 180, .Lmemmove_uhead_b20_N_to_N
+        .word 12, 12, .Lmemmove_uhead_b19_P
+.Lmemmove_uhead_b20_N_to_N:
+        .word 12, 12, .Lmemmove_uhead_b19_N
+.Lmemmove_uhead_b19_P_to_N:
+        .word 12, 12, .Lmemmove_uhead_b18_N
+.Lmemmove_uhead_b19_N:
+        .word .Lmemmove_npow524288, 180, .Lmemmove_uhead_b19_N_to_N
+        .word 12, 12, .Lmemmove_uhead_b18_P
+.Lmemmove_uhead_b19_N_to_N:
+        .word 12, 12, .Lmemmove_uhead_b18_N
+.Lmemmove_uhead_b18_P_to_N:
+        .word 12, 12, .Lmemmove_uhead_b17_N
+.Lmemmove_uhead_b18_N:
+        .word .Lmemmove_npow262144, 180, .Lmemmove_uhead_b18_N_to_N
+        .word 12, 12, .Lmemmove_uhead_b17_P
+.Lmemmove_uhead_b18_N_to_N:
+        .word 12, 12, .Lmemmove_uhead_b17_N
+.Lmemmove_uhead_b17_P_to_N:
+        .word 12, 12, .Lmemmove_uhead_b16_N
+.Lmemmove_uhead_b17_N:
+        .word .Lmemmove_npow131072, 180, .Lmemmove_uhead_b17_N_to_N
+        .word 12, 12, .Lmemmove_uhead_b16_P
+.Lmemmove_uhead_b17_N_to_N:
+        .word 12, 12, .Lmemmove_uhead_b16_N
+.Lmemmove_uhead_b16_P_to_N:
+        .word 12, 12, .Lmemmove_uhead_b15_N
+.Lmemmove_uhead_b16_N:
+        .word .Lmemmove_npow65536, 180, .Lmemmove_uhead_b16_N_to_N
+        .word 12, 12, .Lmemmove_uhead_b15_P
+.Lmemmove_uhead_b16_N_to_N:
+        .word 12, 12, .Lmemmove_uhead_b15_N
+.Lmemmove_uhead_b15_P_to_N:
+        .word 12, 12, .Lmemmove_uhead_b14_N
+.Lmemmove_uhead_b15_N:
+        .word .Lmemmove_npow32768, 180, .Lmemmove_uhead_b15_N_to_N
+        .word 12, 12, .Lmemmove_uhead_b14_P
+.Lmemmove_uhead_b15_N_to_N:
+        .word 12, 12, .Lmemmove_uhead_b14_N
+.Lmemmove_uhead_b14_P_to_N:
+        .word 12, 12, .Lmemmove_uhead_b13_N
+.Lmemmove_uhead_b14_N:
+        .word .Lmemmove_npow16384, 180, .Lmemmove_uhead_b14_N_to_N
+        .word 12, 12, .Lmemmove_uhead_b13_P
+.Lmemmove_uhead_b14_N_to_N:
+        .word 12, 12, .Lmemmove_uhead_b13_N
+.Lmemmove_uhead_b13_P_to_N:
+        .word 12, 12, .Lmemmove_uhead_b12_N
+.Lmemmove_uhead_b13_N:
+        .word .Lmemmove_npow8192, 180, .Lmemmove_uhead_b13_N_to_N
+        .word 12, 12, .Lmemmove_uhead_b12_P
+.Lmemmove_uhead_b13_N_to_N:
+        .word 12, 12, .Lmemmove_uhead_b12_N
+.Lmemmove_uhead_b12_P_to_N:
+        .word 12, 12, .Lmemmove_uhead_b11_N
+.Lmemmove_uhead_b12_N:
+        .word .Lmemmove_npow4096, 180, .Lmemmove_uhead_b12_N_to_N
+        .word 12, 12, .Lmemmove_uhead_b11_P
+.Lmemmove_uhead_b12_N_to_N:
+        .word 12, 12, .Lmemmove_uhead_b11_N
+.Lmemmove_uhead_b11_P_to_N:
+        .word 12, 12, .Lmemmove_uhead_b10_N
+.Lmemmove_uhead_b11_N:
+        .word .Lmemmove_npow2048, 180, .Lmemmove_uhead_b11_N_to_N
+        .word 12, 12, .Lmemmove_uhead_b10_P
+.Lmemmove_uhead_b11_N_to_N:
+        .word 12, 12, .Lmemmove_uhead_b10_N
+.Lmemmove_uhead_b10_P_to_N:
+        .word 12, 12, .Lmemmove_uhead_b9_N
+.Lmemmove_uhead_b10_N:
+        .word .Lmemmove_npow1024, 180, .Lmemmove_uhead_b10_N_to_N
+        .word 12, 12, .Lmemmove_uhead_b9_P
+.Lmemmove_uhead_b10_N_to_N:
+        .word 12, 12, .Lmemmove_uhead_b9_N
+.Lmemmove_uhead_b9_P_to_N:
+        .word 12, 12, .Lmemmove_uhead_b8_N
+.Lmemmove_uhead_b9_N:
+        .word .Lmemmove_npow512, 180, .Lmemmove_uhead_b9_N_to_N
+        .word 12, 12, .Lmemmove_uhead_b8_P
+.Lmemmove_uhead_b9_N_to_N:
+        .word 12, 12, .Lmemmove_uhead_b8_N
+.Lmemmove_uhead_b8_P_to_N:
+        .word 12, 12, .Lmemmove_uhead_b7_N
+.Lmemmove_uhead_b8_N:
+        .word .Lmemmove_npow256, 180, .Lmemmove_uhead_b8_N_to_N
+        .word 12, 12, .Lmemmove_uhead_b7_P
+.Lmemmove_uhead_b8_N_to_N:
+        .word 12, 12, .Lmemmove_uhead_b7_N
+.Lmemmove_uhead_b7_P_to_N:
+        .word 12, 12, .Lmemmove_uhead_b6_N
+.Lmemmove_uhead_b7_N:
+        .word .Lmemmove_npow128, 180, .Lmemmove_uhead_b7_N_to_N
+        .word 12, 12, .Lmemmove_uhead_b6_P
+.Lmemmove_uhead_b7_N_to_N:
+        .word 12, 12, .Lmemmove_uhead_b6_N
+.Lmemmove_uhead_b6_P_to_N:
+        .word 12, 12, .Lmemmove_uhead_b5_N
+.Lmemmove_uhead_b6_N:
+        .word .Lmemmove_npow64, 180, .Lmemmove_uhead_b6_N_to_N
+        .word 12, 12, .Lmemmove_uhead_b5_P
+.Lmemmove_uhead_b6_N_to_N:
+        .word 12, 12, .Lmemmove_uhead_b5_N
+.Lmemmove_uhead_b5_P_to_N:
+        .word 12, 12, .Lmemmove_uhead_b4_N
+.Lmemmove_uhead_b5_N:
+        .word .Lmemmove_npow32, 180, .Lmemmove_uhead_b5_N_to_N
+        .word 12, 12, .Lmemmove_uhead_b4_P
+.Lmemmove_uhead_b5_N_to_N:
+        .word 12, 12, .Lmemmove_uhead_b4_N
+.Lmemmove_uhead_b4_P_to_N:
+        .word 12, 12, .Lmemmove_uhead_b3_N
+.Lmemmove_uhead_b4_N:
+        .word .Lmemmove_npow16, 180, .Lmemmove_uhead_b4_N_to_N
+        .word 12, 12, .Lmemmove_uhead_b3_P
+.Lmemmove_uhead_b4_N_to_N:
+        .word 12, 12, .Lmemmove_uhead_b3_N
+.Lmemmove_uhead_b3_P_to_N:
+        .word 12, 12, .Lmemmove_uhead_b2_N
+.Lmemmove_uhead_b3_N:
+        .word .Lmemmove_npow8, 180, .Lmemmove_uhead_b3_N_to_N
+        .word 12, 12, .Lmemmove_uhead_b2_P
+.Lmemmove_uhead_b3_N_to_N:
+        .word 12, 12, .Lmemmove_uhead_b2_N
+.Lmemmove_uhead_b2_P_to_N:
+        .word 12, 12, .Lmemmove_uhead_b1_N
+.Lmemmove_uhead_b2_N:
+        .word .Lmemmove_npow4, 180, .Lmemmove_uhead_b2_N_to_N
+        .word 12, 12, .Lmemmove_uhead_b1_P
+.Lmemmove_uhead_b2_N_to_N:
+        .word 12, 12, .Lmemmove_uhead_b1_N
 .Lmemmove_uhead_done:
         .word 180, 180, .+4
         .word 184, 180, .+4
@@ -67318,7 +67452,7 @@ __subleq_memmove:
         .word 12, 12, .+4
         .word 108, 12, .+4
         .word 12, 180, .+4
-        .word .Lmemmove_c3, 180, .Lmemmove_fwd_slow_loop
+        .word .Lmemmove_c3, 180, .Lmemmove_fwd_slow_loop_early
         .word 180, 180, .+4
         .word 12, 12, .+4
         .word 104, 12, .+4
@@ -67334,302 +67468,71 @@ __subleq_memmove:
         .word 12, 12, .Lmemmove_setup_bias
 .Lmemmove_setup_sign_ambig:
         .word .Lmemmove_n1, 184, .+4
-        .word 144, 184, .Lmemmove_setup_bias
+        .word 144, 184, .Lmemmove_setup_sign_intmin
+        .word 12, 12, .Lmemmove_setup_bias
+.Lmemmove_setup_sign_intmin:
         .word .Lmemmove_min, 180, .+4
 .Lmemmove_setup_bias:
         .word 184, 184, .+4
         .word .Lmemmove_n1, 180, .+4
-        .word 12, 12, .Lmemmove_setup_b30_P
 .Lmemmove_setup_b30_P:
         .word .Lmemmove_pow1073741824, 180, .Lmemmove_setup_b30_P_to_N
-        .word 12, 12, .Lmemmove_setup_b29_P
-.Lmemmove_setup_b30_P_to_N:
-        .word 12, 12, .Lmemmove_setup_b29_N
-.Lmemmove_setup_b30_N:
-        .word .Lmemmove_npow1073741824, 180, .Lmemmove_setup_b30_N_to_N
-        .word 12, 12, .Lmemmove_setup_b29_P
-.Lmemmove_setup_b30_N_to_N:
-        .word 12, 12, .Lmemmove_setup_b29_N
 .Lmemmove_setup_b29_P:
         .word .Lmemmove_pow536870912, 180, .Lmemmove_setup_b29_P_to_N
-        .word 12, 12, .Lmemmove_setup_b28_P
-.Lmemmove_setup_b29_P_to_N:
-        .word 12, 12, .Lmemmove_setup_b28_N
-.Lmemmove_setup_b29_N:
-        .word .Lmemmove_npow536870912, 180, .Lmemmove_setup_b29_N_to_N
-        .word 12, 12, .Lmemmove_setup_b28_P
-.Lmemmove_setup_b29_N_to_N:
-        .word 12, 12, .Lmemmove_setup_b28_N
 .Lmemmove_setup_b28_P:
         .word .Lmemmove_pow268435456, 180, .Lmemmove_setup_b28_P_to_N
-        .word 12, 12, .Lmemmove_setup_b27_P
-.Lmemmove_setup_b28_P_to_N:
-        .word 12, 12, .Lmemmove_setup_b27_N
-.Lmemmove_setup_b28_N:
-        .word .Lmemmove_npow268435456, 180, .Lmemmove_setup_b28_N_to_N
-        .word 12, 12, .Lmemmove_setup_b27_P
-.Lmemmove_setup_b28_N_to_N:
-        .word 12, 12, .Lmemmove_setup_b27_N
 .Lmemmove_setup_b27_P:
         .word .Lmemmove_pow134217728, 180, .Lmemmove_setup_b27_P_to_N
-        .word 12, 12, .Lmemmove_setup_b26_P
-.Lmemmove_setup_b27_P_to_N:
-        .word 12, 12, .Lmemmove_setup_b26_N
-.Lmemmove_setup_b27_N:
-        .word .Lmemmove_npow134217728, 180, .Lmemmove_setup_b27_N_to_N
-        .word 12, 12, .Lmemmove_setup_b26_P
-.Lmemmove_setup_b27_N_to_N:
-        .word 12, 12, .Lmemmove_setup_b26_N
 .Lmemmove_setup_b26_P:
         .word .Lmemmove_pow67108864, 180, .Lmemmove_setup_b26_P_to_N
-        .word 12, 12, .Lmemmove_setup_b25_P
-.Lmemmove_setup_b26_P_to_N:
-        .word 12, 12, .Lmemmove_setup_b25_N
-.Lmemmove_setup_b26_N:
-        .word .Lmemmove_npow67108864, 180, .Lmemmove_setup_b26_N_to_N
-        .word 12, 12, .Lmemmove_setup_b25_P
-.Lmemmove_setup_b26_N_to_N:
-        .word 12, 12, .Lmemmove_setup_b25_N
 .Lmemmove_setup_b25_P:
         .word .Lmemmove_pow33554432, 180, .Lmemmove_setup_b25_P_to_N
-        .word 12, 12, .Lmemmove_setup_b24_P
-.Lmemmove_setup_b25_P_to_N:
-        .word 12, 12, .Lmemmove_setup_b24_N
-.Lmemmove_setup_b25_N:
-        .word .Lmemmove_npow33554432, 180, .Lmemmove_setup_b25_N_to_N
-        .word 12, 12, .Lmemmove_setup_b24_P
-.Lmemmove_setup_b25_N_to_N:
-        .word 12, 12, .Lmemmove_setup_b24_N
 .Lmemmove_setup_b24_P:
         .word .Lmemmove_pow16777216, 180, .Lmemmove_setup_b24_P_to_N
-        .word 12, 12, .Lmemmove_setup_b23_P
-.Lmemmove_setup_b24_P_to_N:
-        .word 12, 12, .Lmemmove_setup_b23_N
-.Lmemmove_setup_b24_N:
-        .word .Lmemmove_npow16777216, 180, .Lmemmove_setup_b24_N_to_N
-        .word 12, 12, .Lmemmove_setup_b23_P
-.Lmemmove_setup_b24_N_to_N:
-        .word 12, 12, .Lmemmove_setup_b23_N
 .Lmemmove_setup_b23_P:
         .word .Lmemmove_pow8388608, 180, .Lmemmove_setup_b23_P_to_N
-        .word 12, 12, .Lmemmove_setup_b22_P
-.Lmemmove_setup_b23_P_to_N:
-        .word 12, 12, .Lmemmove_setup_b22_N
-.Lmemmove_setup_b23_N:
-        .word .Lmemmove_npow8388608, 180, .Lmemmove_setup_b23_N_to_N
-        .word 12, 12, .Lmemmove_setup_b22_P
-.Lmemmove_setup_b23_N_to_N:
-        .word 12, 12, .Lmemmove_setup_b22_N
 .Lmemmove_setup_b22_P:
         .word .Lmemmove_pow4194304, 180, .Lmemmove_setup_b22_P_to_N
-        .word 12, 12, .Lmemmove_setup_b21_P
-.Lmemmove_setup_b22_P_to_N:
-        .word 12, 12, .Lmemmove_setup_b21_N
-.Lmemmove_setup_b22_N:
-        .word .Lmemmove_npow4194304, 180, .Lmemmove_setup_b22_N_to_N
-        .word 12, 12, .Lmemmove_setup_b21_P
-.Lmemmove_setup_b22_N_to_N:
-        .word 12, 12, .Lmemmove_setup_b21_N
 .Lmemmove_setup_b21_P:
         .word .Lmemmove_pow2097152, 180, .Lmemmove_setup_b21_P_to_N
-        .word 12, 12, .Lmemmove_setup_b20_P
-.Lmemmove_setup_b21_P_to_N:
-        .word 12, 12, .Lmemmove_setup_b20_N
-.Lmemmove_setup_b21_N:
-        .word .Lmemmove_npow2097152, 180, .Lmemmove_setup_b21_N_to_N
-        .word 12, 12, .Lmemmove_setup_b20_P
-.Lmemmove_setup_b21_N_to_N:
-        .word 12, 12, .Lmemmove_setup_b20_N
 .Lmemmove_setup_b20_P:
         .word .Lmemmove_pow1048576, 180, .Lmemmove_setup_b20_P_to_N
-        .word 12, 12, .Lmemmove_setup_b19_P
-.Lmemmove_setup_b20_P_to_N:
-        .word 12, 12, .Lmemmove_setup_b19_N
-.Lmemmove_setup_b20_N:
-        .word .Lmemmove_npow1048576, 180, .Lmemmove_setup_b20_N_to_N
-        .word 12, 12, .Lmemmove_setup_b19_P
-.Lmemmove_setup_b20_N_to_N:
-        .word 12, 12, .Lmemmove_setup_b19_N
 .Lmemmove_setup_b19_P:
         .word .Lmemmove_pow524288, 180, .Lmemmove_setup_b19_P_to_N
-        .word 12, 12, .Lmemmove_setup_b18_P
-.Lmemmove_setup_b19_P_to_N:
-        .word 12, 12, .Lmemmove_setup_b18_N
-.Lmemmove_setup_b19_N:
-        .word .Lmemmove_npow524288, 180, .Lmemmove_setup_b19_N_to_N
-        .word 12, 12, .Lmemmove_setup_b18_P
-.Lmemmove_setup_b19_N_to_N:
-        .word 12, 12, .Lmemmove_setup_b18_N
 .Lmemmove_setup_b18_P:
         .word .Lmemmove_pow262144, 180, .Lmemmove_setup_b18_P_to_N
-        .word 12, 12, .Lmemmove_setup_b17_P
-.Lmemmove_setup_b18_P_to_N:
-        .word 12, 12, .Lmemmove_setup_b17_N
-.Lmemmove_setup_b18_N:
-        .word .Lmemmove_npow262144, 180, .Lmemmove_setup_b18_N_to_N
-        .word 12, 12, .Lmemmove_setup_b17_P
-.Lmemmove_setup_b18_N_to_N:
-        .word 12, 12, .Lmemmove_setup_b17_N
 .Lmemmove_setup_b17_P:
         .word .Lmemmove_pow131072, 180, .Lmemmove_setup_b17_P_to_N
-        .word 12, 12, .Lmemmove_setup_b16_P
-.Lmemmove_setup_b17_P_to_N:
-        .word 12, 12, .Lmemmove_setup_b16_N
-.Lmemmove_setup_b17_N:
-        .word .Lmemmove_npow131072, 180, .Lmemmove_setup_b17_N_to_N
-        .word 12, 12, .Lmemmove_setup_b16_P
-.Lmemmove_setup_b17_N_to_N:
-        .word 12, 12, .Lmemmove_setup_b16_N
 .Lmemmove_setup_b16_P:
         .word .Lmemmove_pow65536, 180, .Lmemmove_setup_b16_P_to_N
-        .word 12, 12, .Lmemmove_setup_b15_P
-.Lmemmove_setup_b16_P_to_N:
-        .word 12, 12, .Lmemmove_setup_b15_N
-.Lmemmove_setup_b16_N:
-        .word .Lmemmove_npow65536, 180, .Lmemmove_setup_b16_N_to_N
-        .word 12, 12, .Lmemmove_setup_b15_P
-.Lmemmove_setup_b16_N_to_N:
-        .word 12, 12, .Lmemmove_setup_b15_N
 .Lmemmove_setup_b15_P:
         .word .Lmemmove_pow32768, 180, .Lmemmove_setup_b15_P_to_N
-        .word 12, 12, .Lmemmove_setup_b14_P
-.Lmemmove_setup_b15_P_to_N:
-        .word 12, 12, .Lmemmove_setup_b14_N
-.Lmemmove_setup_b15_N:
-        .word .Lmemmove_npow32768, 180, .Lmemmove_setup_b15_N_to_N
-        .word 12, 12, .Lmemmove_setup_b14_P
-.Lmemmove_setup_b15_N_to_N:
-        .word 12, 12, .Lmemmove_setup_b14_N
 .Lmemmove_setup_b14_P:
         .word .Lmemmove_pow16384, 180, .Lmemmove_setup_b14_P_to_N
-        .word 12, 12, .Lmemmove_setup_b13_P
-.Lmemmove_setup_b14_P_to_N:
-        .word 12, 12, .Lmemmove_setup_b13_N
-.Lmemmove_setup_b14_N:
-        .word .Lmemmove_npow16384, 180, .Lmemmove_setup_b14_N_to_N
-        .word 12, 12, .Lmemmove_setup_b13_P
-.Lmemmove_setup_b14_N_to_N:
-        .word 12, 12, .Lmemmove_setup_b13_N
 .Lmemmove_setup_b13_P:
         .word .Lmemmove_pow8192, 180, .Lmemmove_setup_b13_P_to_N
-        .word 12, 12, .Lmemmove_setup_b12_P
-.Lmemmove_setup_b13_P_to_N:
-        .word 12, 12, .Lmemmove_setup_b12_N
-.Lmemmove_setup_b13_N:
-        .word .Lmemmove_npow8192, 180, .Lmemmove_setup_b13_N_to_N
-        .word 12, 12, .Lmemmove_setup_b12_P
-.Lmemmove_setup_b13_N_to_N:
-        .word 12, 12, .Lmemmove_setup_b12_N
 .Lmemmove_setup_b12_P:
         .word .Lmemmove_pow4096, 180, .Lmemmove_setup_b12_P_to_N
-        .word 12, 12, .Lmemmove_setup_b11_P
-.Lmemmove_setup_b12_P_to_N:
-        .word 12, 12, .Lmemmove_setup_b11_N
-.Lmemmove_setup_b12_N:
-        .word .Lmemmove_npow4096, 180, .Lmemmove_setup_b12_N_to_N
-        .word 12, 12, .Lmemmove_setup_b11_P
-.Lmemmove_setup_b12_N_to_N:
-        .word 12, 12, .Lmemmove_setup_b11_N
 .Lmemmove_setup_b11_P:
         .word .Lmemmove_pow2048, 180, .Lmemmove_setup_b11_P_to_N
-        .word 12, 12, .Lmemmove_setup_b10_P
-.Lmemmove_setup_b11_P_to_N:
-        .word 12, 12, .Lmemmove_setup_b10_N
-.Lmemmove_setup_b11_N:
-        .word .Lmemmove_npow2048, 180, .Lmemmove_setup_b11_N_to_N
-        .word 12, 12, .Lmemmove_setup_b10_P
-.Lmemmove_setup_b11_N_to_N:
-        .word 12, 12, .Lmemmove_setup_b10_N
 .Lmemmove_setup_b10_P:
         .word .Lmemmove_pow1024, 180, .Lmemmove_setup_b10_P_to_N
-        .word 12, 12, .Lmemmove_setup_b9_P
-.Lmemmove_setup_b10_P_to_N:
-        .word 12, 12, .Lmemmove_setup_b9_N
-.Lmemmove_setup_b10_N:
-        .word .Lmemmove_npow1024, 180, .Lmemmove_setup_b10_N_to_N
-        .word 12, 12, .Lmemmove_setup_b9_P
-.Lmemmove_setup_b10_N_to_N:
-        .word 12, 12, .Lmemmove_setup_b9_N
 .Lmemmove_setup_b9_P:
         .word .Lmemmove_pow512, 180, .Lmemmove_setup_b9_P_to_N
-        .word 12, 12, .Lmemmove_setup_b8_P
-.Lmemmove_setup_b9_P_to_N:
-        .word 12, 12, .Lmemmove_setup_b8_N
-.Lmemmove_setup_b9_N:
-        .word .Lmemmove_npow512, 180, .Lmemmove_setup_b9_N_to_N
-        .word 12, 12, .Lmemmove_setup_b8_P
-.Lmemmove_setup_b9_N_to_N:
-        .word 12, 12, .Lmemmove_setup_b8_N
 .Lmemmove_setup_b8_P:
         .word .Lmemmove_pow256, 180, .Lmemmove_setup_b8_P_to_N
-        .word 12, 12, .Lmemmove_setup_b7_P
-.Lmemmove_setup_b8_P_to_N:
-        .word 12, 12, .Lmemmove_setup_b7_N
-.Lmemmove_setup_b8_N:
-        .word .Lmemmove_npow256, 180, .Lmemmove_setup_b8_N_to_N
-        .word 12, 12, .Lmemmove_setup_b7_P
-.Lmemmove_setup_b8_N_to_N:
-        .word 12, 12, .Lmemmove_setup_b7_N
 .Lmemmove_setup_b7_P:
         .word .Lmemmove_pow128, 180, .Lmemmove_setup_b7_P_to_N
-        .word 12, 12, .Lmemmove_setup_b6_P
-.Lmemmove_setup_b7_P_to_N:
-        .word 12, 12, .Lmemmove_setup_b6_N
-.Lmemmove_setup_b7_N:
-        .word .Lmemmove_npow128, 180, .Lmemmove_setup_b7_N_to_N
-        .word 12, 12, .Lmemmove_setup_b6_P
-.Lmemmove_setup_b7_N_to_N:
-        .word 12, 12, .Lmemmove_setup_b6_N
 .Lmemmove_setup_b6_P:
         .word .Lmemmove_pow64, 180, .Lmemmove_setup_b6_P_to_N
-        .word 12, 12, .Lmemmove_setup_b5_P
-.Lmemmove_setup_b6_P_to_N:
-        .word 12, 12, .Lmemmove_setup_b5_N
-.Lmemmove_setup_b6_N:
-        .word .Lmemmove_npow64, 180, .Lmemmove_setup_b6_N_to_N
-        .word 12, 12, .Lmemmove_setup_b5_P
-.Lmemmove_setup_b6_N_to_N:
-        .word 12, 12, .Lmemmove_setup_b5_N
 .Lmemmove_setup_b5_P:
         .word .Lmemmove_pow32, 180, .Lmemmove_setup_b5_P_to_N
-        .word 12, 12, .Lmemmove_setup_b4_P
-.Lmemmove_setup_b5_P_to_N:
-        .word 12, 12, .Lmemmove_setup_b4_N
-.Lmemmove_setup_b5_N:
-        .word .Lmemmove_npow32, 180, .Lmemmove_setup_b5_N_to_N
-        .word 12, 12, .Lmemmove_setup_b4_P
-.Lmemmove_setup_b5_N_to_N:
-        .word 12, 12, .Lmemmove_setup_b4_N
 .Lmemmove_setup_b4_P:
         .word .Lmemmove_pow16, 180, .Lmemmove_setup_b4_P_to_N
-        .word 12, 12, .Lmemmove_setup_b3_P
-.Lmemmove_setup_b4_P_to_N:
-        .word 12, 12, .Lmemmove_setup_b3_N
-.Lmemmove_setup_b4_N:
-        .word .Lmemmove_npow16, 180, .Lmemmove_setup_b4_N_to_N
-        .word 12, 12, .Lmemmove_setup_b3_P
-.Lmemmove_setup_b4_N_to_N:
-        .word 12, 12, .Lmemmove_setup_b3_N
 .Lmemmove_setup_b3_P:
         .word .Lmemmove_pow8, 180, .Lmemmove_setup_b3_P_to_N
-        .word 12, 12, .Lmemmove_setup_b2_P
-.Lmemmove_setup_b3_P_to_N:
-        .word 12, 12, .Lmemmove_setup_b2_N
-.Lmemmove_setup_b3_N:
-        .word .Lmemmove_npow8, 180, .Lmemmove_setup_b3_N_to_N
-        .word 12, 12, .Lmemmove_setup_b2_P
-.Lmemmove_setup_b3_N_to_N:
-        .word 12, 12, .Lmemmove_setup_b2_N
 .Lmemmove_setup_b2_P:
         .word .Lmemmove_pow4, 180, .Lmemmove_setup_b2_P_to_N
-        .word 12, 12, .Lmemmove_setup_b1_P
-.Lmemmove_setup_b2_P_to_N:
-        .word 12, 12, .Lmemmove_setup_b1_N
-.Lmemmove_setup_b2_N:
-        .word .Lmemmove_npow4, 180, .Lmemmove_setup_b2_N_to_N
-        .word 12, 12, .Lmemmove_setup_b1_P
-.Lmemmove_setup_b2_N_to_N:
-        .word 12, 12, .Lmemmove_setup_b1_N
 .Lmemmove_setup_b1_P:
         .word .Lmemmove_pow2, 180, .Lmemmove_setup_b1_P_to_N
         .word .Lmemmove_pow2, 184, .Lmemmove_setup_b0_P
@@ -67650,6 +67553,209 @@ __subleq_memmove:
         .word .Lmemmove_pow1, 184, .Lmemmove_setup_done
 .Lmemmove_setup_b0_N_to_N:
         .word 12, 12, .Lmemmove_setup_done
+.Lmemmove_setup_b30_P_to_N:
+        .word 12, 12, .Lmemmove_setup_b29_N
+.Lmemmove_setup_b30_N:
+        .word .Lmemmove_npow1073741824, 180, .Lmemmove_setup_b30_N_to_N
+        .word 12, 12, .Lmemmove_setup_b29_P
+.Lmemmove_setup_b30_N_to_N:
+        .word 12, 12, .Lmemmove_setup_b29_N
+.Lmemmove_setup_b29_P_to_N:
+        .word 12, 12, .Lmemmove_setup_b28_N
+.Lmemmove_setup_b29_N:
+        .word .Lmemmove_npow536870912, 180, .Lmemmove_setup_b29_N_to_N
+        .word 12, 12, .Lmemmove_setup_b28_P
+.Lmemmove_setup_b29_N_to_N:
+        .word 12, 12, .Lmemmove_setup_b28_N
+.Lmemmove_setup_b28_P_to_N:
+        .word 12, 12, .Lmemmove_setup_b27_N
+.Lmemmove_setup_b28_N:
+        .word .Lmemmove_npow268435456, 180, .Lmemmove_setup_b28_N_to_N
+        .word 12, 12, .Lmemmove_setup_b27_P
+.Lmemmove_setup_b28_N_to_N:
+        .word 12, 12, .Lmemmove_setup_b27_N
+.Lmemmove_setup_b27_P_to_N:
+        .word 12, 12, .Lmemmove_setup_b26_N
+.Lmemmove_setup_b27_N:
+        .word .Lmemmove_npow134217728, 180, .Lmemmove_setup_b27_N_to_N
+        .word 12, 12, .Lmemmove_setup_b26_P
+.Lmemmove_setup_b27_N_to_N:
+        .word 12, 12, .Lmemmove_setup_b26_N
+.Lmemmove_setup_b26_P_to_N:
+        .word 12, 12, .Lmemmove_setup_b25_N
+.Lmemmove_setup_b26_N:
+        .word .Lmemmove_npow67108864, 180, .Lmemmove_setup_b26_N_to_N
+        .word 12, 12, .Lmemmove_setup_b25_P
+.Lmemmove_setup_b26_N_to_N:
+        .word 12, 12, .Lmemmove_setup_b25_N
+.Lmemmove_setup_b25_P_to_N:
+        .word 12, 12, .Lmemmove_setup_b24_N
+.Lmemmove_setup_b25_N:
+        .word .Lmemmove_npow33554432, 180, .Lmemmove_setup_b25_N_to_N
+        .word 12, 12, .Lmemmove_setup_b24_P
+.Lmemmove_setup_b25_N_to_N:
+        .word 12, 12, .Lmemmove_setup_b24_N
+.Lmemmove_setup_b24_P_to_N:
+        .word 12, 12, .Lmemmove_setup_b23_N
+.Lmemmove_setup_b24_N:
+        .word .Lmemmove_npow16777216, 180, .Lmemmove_setup_b24_N_to_N
+        .word 12, 12, .Lmemmove_setup_b23_P
+.Lmemmove_setup_b24_N_to_N:
+        .word 12, 12, .Lmemmove_setup_b23_N
+.Lmemmove_setup_b23_P_to_N:
+        .word 12, 12, .Lmemmove_setup_b22_N
+.Lmemmove_setup_b23_N:
+        .word .Lmemmove_npow8388608, 180, .Lmemmove_setup_b23_N_to_N
+        .word 12, 12, .Lmemmove_setup_b22_P
+.Lmemmove_setup_b23_N_to_N:
+        .word 12, 12, .Lmemmove_setup_b22_N
+.Lmemmove_setup_b22_P_to_N:
+        .word 12, 12, .Lmemmove_setup_b21_N
+.Lmemmove_setup_b22_N:
+        .word .Lmemmove_npow4194304, 180, .Lmemmove_setup_b22_N_to_N
+        .word 12, 12, .Lmemmove_setup_b21_P
+.Lmemmove_setup_b22_N_to_N:
+        .word 12, 12, .Lmemmove_setup_b21_N
+.Lmemmove_setup_b21_P_to_N:
+        .word 12, 12, .Lmemmove_setup_b20_N
+.Lmemmove_setup_b21_N:
+        .word .Lmemmove_npow2097152, 180, .Lmemmove_setup_b21_N_to_N
+        .word 12, 12, .Lmemmove_setup_b20_P
+.Lmemmove_setup_b21_N_to_N:
+        .word 12, 12, .Lmemmove_setup_b20_N
+.Lmemmove_setup_b20_P_to_N:
+        .word 12, 12, .Lmemmove_setup_b19_N
+.Lmemmove_setup_b20_N:
+        .word .Lmemmove_npow1048576, 180, .Lmemmove_setup_b20_N_to_N
+        .word 12, 12, .Lmemmove_setup_b19_P
+.Lmemmove_setup_b20_N_to_N:
+        .word 12, 12, .Lmemmove_setup_b19_N
+.Lmemmove_setup_b19_P_to_N:
+        .word 12, 12, .Lmemmove_setup_b18_N
+.Lmemmove_setup_b19_N:
+        .word .Lmemmove_npow524288, 180, .Lmemmove_setup_b19_N_to_N
+        .word 12, 12, .Lmemmove_setup_b18_P
+.Lmemmove_setup_b19_N_to_N:
+        .word 12, 12, .Lmemmove_setup_b18_N
+.Lmemmove_setup_b18_P_to_N:
+        .word 12, 12, .Lmemmove_setup_b17_N
+.Lmemmove_setup_b18_N:
+        .word .Lmemmove_npow262144, 180, .Lmemmove_setup_b18_N_to_N
+        .word 12, 12, .Lmemmove_setup_b17_P
+.Lmemmove_setup_b18_N_to_N:
+        .word 12, 12, .Lmemmove_setup_b17_N
+.Lmemmove_setup_b17_P_to_N:
+        .word 12, 12, .Lmemmove_setup_b16_N
+.Lmemmove_setup_b17_N:
+        .word .Lmemmove_npow131072, 180, .Lmemmove_setup_b17_N_to_N
+        .word 12, 12, .Lmemmove_setup_b16_P
+.Lmemmove_setup_b17_N_to_N:
+        .word 12, 12, .Lmemmove_setup_b16_N
+.Lmemmove_setup_b16_P_to_N:
+        .word 12, 12, .Lmemmove_setup_b15_N
+.Lmemmove_setup_b16_N:
+        .word .Lmemmove_npow65536, 180, .Lmemmove_setup_b16_N_to_N
+        .word 12, 12, .Lmemmove_setup_b15_P
+.Lmemmove_setup_b16_N_to_N:
+        .word 12, 12, .Lmemmove_setup_b15_N
+.Lmemmove_setup_b15_P_to_N:
+        .word 12, 12, .Lmemmove_setup_b14_N
+.Lmemmove_setup_b15_N:
+        .word .Lmemmove_npow32768, 180, .Lmemmove_setup_b15_N_to_N
+        .word 12, 12, .Lmemmove_setup_b14_P
+.Lmemmove_setup_b15_N_to_N:
+        .word 12, 12, .Lmemmove_setup_b14_N
+.Lmemmove_setup_b14_P_to_N:
+        .word 12, 12, .Lmemmove_setup_b13_N
+.Lmemmove_setup_b14_N:
+        .word .Lmemmove_npow16384, 180, .Lmemmove_setup_b14_N_to_N
+        .word 12, 12, .Lmemmove_setup_b13_P
+.Lmemmove_setup_b14_N_to_N:
+        .word 12, 12, .Lmemmove_setup_b13_N
+.Lmemmove_setup_b13_P_to_N:
+        .word 12, 12, .Lmemmove_setup_b12_N
+.Lmemmove_setup_b13_N:
+        .word .Lmemmove_npow8192, 180, .Lmemmove_setup_b13_N_to_N
+        .word 12, 12, .Lmemmove_setup_b12_P
+.Lmemmove_setup_b13_N_to_N:
+        .word 12, 12, .Lmemmove_setup_b12_N
+.Lmemmove_setup_b12_P_to_N:
+        .word 12, 12, .Lmemmove_setup_b11_N
+.Lmemmove_setup_b12_N:
+        .word .Lmemmove_npow4096, 180, .Lmemmove_setup_b12_N_to_N
+        .word 12, 12, .Lmemmove_setup_b11_P
+.Lmemmove_setup_b12_N_to_N:
+        .word 12, 12, .Lmemmove_setup_b11_N
+.Lmemmove_setup_b11_P_to_N:
+        .word 12, 12, .Lmemmove_setup_b10_N
+.Lmemmove_setup_b11_N:
+        .word .Lmemmove_npow2048, 180, .Lmemmove_setup_b11_N_to_N
+        .word 12, 12, .Lmemmove_setup_b10_P
+.Lmemmove_setup_b11_N_to_N:
+        .word 12, 12, .Lmemmove_setup_b10_N
+.Lmemmove_setup_b10_P_to_N:
+        .word 12, 12, .Lmemmove_setup_b9_N
+.Lmemmove_setup_b10_N:
+        .word .Lmemmove_npow1024, 180, .Lmemmove_setup_b10_N_to_N
+        .word 12, 12, .Lmemmove_setup_b9_P
+.Lmemmove_setup_b10_N_to_N:
+        .word 12, 12, .Lmemmove_setup_b9_N
+.Lmemmove_setup_b9_P_to_N:
+        .word 12, 12, .Lmemmove_setup_b8_N
+.Lmemmove_setup_b9_N:
+        .word .Lmemmove_npow512, 180, .Lmemmove_setup_b9_N_to_N
+        .word 12, 12, .Lmemmove_setup_b8_P
+.Lmemmove_setup_b9_N_to_N:
+        .word 12, 12, .Lmemmove_setup_b8_N
+.Lmemmove_setup_b8_P_to_N:
+        .word 12, 12, .Lmemmove_setup_b7_N
+.Lmemmove_setup_b8_N:
+        .word .Lmemmove_npow256, 180, .Lmemmove_setup_b8_N_to_N
+        .word 12, 12, .Lmemmove_setup_b7_P
+.Lmemmove_setup_b8_N_to_N:
+        .word 12, 12, .Lmemmove_setup_b7_N
+.Lmemmove_setup_b7_P_to_N:
+        .word 12, 12, .Lmemmove_setup_b6_N
+.Lmemmove_setup_b7_N:
+        .word .Lmemmove_npow128, 180, .Lmemmove_setup_b7_N_to_N
+        .word 12, 12, .Lmemmove_setup_b6_P
+.Lmemmove_setup_b7_N_to_N:
+        .word 12, 12, .Lmemmove_setup_b6_N
+.Lmemmove_setup_b6_P_to_N:
+        .word 12, 12, .Lmemmove_setup_b5_N
+.Lmemmove_setup_b6_N:
+        .word .Lmemmove_npow64, 180, .Lmemmove_setup_b6_N_to_N
+        .word 12, 12, .Lmemmove_setup_b5_P
+.Lmemmove_setup_b6_N_to_N:
+        .word 12, 12, .Lmemmove_setup_b5_N
+.Lmemmove_setup_b5_P_to_N:
+        .word 12, 12, .Lmemmove_setup_b4_N
+.Lmemmove_setup_b5_N:
+        .word .Lmemmove_npow32, 180, .Lmemmove_setup_b5_N_to_N
+        .word 12, 12, .Lmemmove_setup_b4_P
+.Lmemmove_setup_b5_N_to_N:
+        .word 12, 12, .Lmemmove_setup_b4_N
+.Lmemmove_setup_b4_P_to_N:
+        .word 12, 12, .Lmemmove_setup_b3_N
+.Lmemmove_setup_b4_N:
+        .word .Lmemmove_npow16, 180, .Lmemmove_setup_b4_N_to_N
+        .word 12, 12, .Lmemmove_setup_b3_P
+.Lmemmove_setup_b4_N_to_N:
+        .word 12, 12, .Lmemmove_setup_b3_N
+.Lmemmove_setup_b3_P_to_N:
+        .word 12, 12, .Lmemmove_setup_b2_N
+.Lmemmove_setup_b3_N:
+        .word .Lmemmove_npow8, 180, .Lmemmove_setup_b3_N_to_N
+        .word 12, 12, .Lmemmove_setup_b2_P
+.Lmemmove_setup_b3_N_to_N:
+        .word 12, 12, .Lmemmove_setup_b2_N
+.Lmemmove_setup_b2_P_to_N:
+        .word 12, 12, .Lmemmove_setup_b1_N
+.Lmemmove_setup_b2_N:
+        .word .Lmemmove_npow4, 180, .Lmemmove_setup_b2_N_to_N
+        .word 12, 12, .Lmemmove_setup_b1_P
+.Lmemmove_setup_b2_N_to_N:
+        .word 12, 12, .Lmemmove_setup_b1_N
 .Lmemmove_setup_done:
         .word 180, 180, .+4
         .word 184, 180, .+4
@@ -67657,6 +67763,10 @@ __subleq_memmove:
         .word 168, 168, .+4
         .word 180, 12, .+4
         .word 12, 168, .+4
+        .word 12, 12, .+4
+        .word 204, 204, .+4
+        .word 180, 12, .+4
+        .word 12, 204, .+4
         .word 184, 184, .+4
         .word 12, 12, .+4
         .word 104, 12, .+4
@@ -67678,16 +67788,16 @@ __subleq_memmove:
         .word 168, 12, .+4
         .word 12, 180, .+4
         .word .Lmemmove_c2, 180, .Lmemmove_ua_chk12
-        .word 12, 12, .Lmemmove_ua24_body
+        .word 12, 12, .Lmemmove_ua24_e_body
 .Lmemmove_ua_chk12:
         .word 180, 180, .+4
         .word 12, 12, .+4
         .word 168, 12, .+4
         .word 12, 180, .+4
-        .word .Lmemmove_zero, 180, .Lmemmove_fwd_slow_loop
-        .word .Lmemmove_c1, 180, .Lmemmove_ua8_body
-        .word 12, 12, .Lmemmove_ua16_body
-.Lmemmove_ua8_body:
+        .word .Lmemmove_zero, 180, .Lmemmove_fwd_slow_loop_early
+        .word .Lmemmove_c1, 180, .Lmemmove_ua8_e_body
+        .word 12, 12, .Lmemmove_ua16_e_body
+.Lmemmove_ua8_e_body:
         .word 180, 180, .+4
         .word 12, 12, .+4
         .word 108, 12, .+4
@@ -67701,647 +67811,1237 @@ __subleq_memmove:
         .word 12, 12, .+4
         .word 180, 12, .+4
         .word 12, 164, .+4
-        .word 12, 12, .+4
-        .word 12, 12, .+4
-        .word 188, 188, .+4
-        .word 164, 12, .+4
-        .word 12, 188, .+4
         .word 168, 168, .+4
         .word 12, 12, .+4
         .word 172, 172, .+4
         .word 160, 12, .+4
         .word 12, 172, .+4
-.Lmemmove_ua8_fuse_w0_b31:
+.Lmemmove_ua8_e_fuse_w0_b31:
         .word 176, 176, .+4
         .word 172, 176, .+4
-        .word 144, 176, .Lmemmove_ua8_fuse_w0_b30_check
+        .word 144, 176, .Lmemmove_ua8_e_fuse_w0_b30_check
         .word .Lmemmove_npow8388608, 168, .+4
         .word .Lmemmove_min, 172, .+4
-.Lmemmove_ua8_fuse_w0_b30_check:
+.Lmemmove_ua8_e_fuse_w0_b30_check:
         .word 176, 176, .+4
         .word 172, 176, .+4
-        .word .Lmemmove_npow1073741824, 176, .Lmemmove_ua8_fuse_w0_b30_set
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_lattice_start
-.Lmemmove_ua8_fuse_w0_b30_set:
+        .word .Lmemmove_npow1073741824, 176, .Lmemmove_ua8_e_fuse_w0_b30_set
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_lattice_start
+.Lmemmove_ua8_e_fuse_w0_b30_set:
         .word .Lmemmove_npow4194304, 168, .+4
         .word .Lmemmove_pow1073741824, 172, .+4
-.Lmemmove_ua8_fuse_w0_lattice_start:
+.Lmemmove_ua8_e_fuse_w0_lattice_start:
         .word .Lmemmove_n1, 172, .+4
-.Lmemmove_ua8_fuse_w0_b29_P:
-        .word .Lmemmove_pow536870912, 172, .Lmemmove_ua8_fuse_w0_b29_P_to_N
+.Lmemmove_ua8_e_fuse_w0_b29_P:
+        .word .Lmemmove_pow536870912, 172, .Lmemmove_ua8_e_fuse_w0_b29_P_to_N
         .word .Lmemmove_npow2097152, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b28_P
-.Lmemmove_ua8_fuse_w0_b29_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b28_N
-.Lmemmove_ua8_fuse_w0_b29_N:
-        .word .Lmemmove_npow536870912, 172, .Lmemmove_ua8_fuse_w0_b29_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b28_P
+.Lmemmove_ua8_e_fuse_w0_b29_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b28_N
+.Lmemmove_ua8_e_fuse_w0_b29_N:
+        .word .Lmemmove_npow536870912, 172, .Lmemmove_ua8_e_fuse_w0_b29_N_to_N
         .word .Lmemmove_npow2097152, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b28_P
-.Lmemmove_ua8_fuse_w0_b29_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b28_N
-.Lmemmove_ua8_fuse_w0_b28_P:
-        .word .Lmemmove_pow268435456, 172, .Lmemmove_ua8_fuse_w0_b28_P_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b28_P
+.Lmemmove_ua8_e_fuse_w0_b29_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b28_N
+.Lmemmove_ua8_e_fuse_w0_b28_P:
+        .word .Lmemmove_pow268435456, 172, .Lmemmove_ua8_e_fuse_w0_b28_P_to_N
         .word .Lmemmove_npow1048576, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b27_P
-.Lmemmove_ua8_fuse_w0_b28_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b27_N
-.Lmemmove_ua8_fuse_w0_b28_N:
-        .word .Lmemmove_npow268435456, 172, .Lmemmove_ua8_fuse_w0_b28_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b27_P
+.Lmemmove_ua8_e_fuse_w0_b28_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b27_N
+.Lmemmove_ua8_e_fuse_w0_b28_N:
+        .word .Lmemmove_npow268435456, 172, .Lmemmove_ua8_e_fuse_w0_b28_N_to_N
         .word .Lmemmove_npow1048576, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b27_P
-.Lmemmove_ua8_fuse_w0_b28_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b27_N
-.Lmemmove_ua8_fuse_w0_b27_P:
-        .word .Lmemmove_pow134217728, 172, .Lmemmove_ua8_fuse_w0_b27_P_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b27_P
+.Lmemmove_ua8_e_fuse_w0_b28_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b27_N
+.Lmemmove_ua8_e_fuse_w0_b27_P:
+        .word .Lmemmove_pow134217728, 172, .Lmemmove_ua8_e_fuse_w0_b27_P_to_N
         .word .Lmemmove_npow524288, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b26_P
-.Lmemmove_ua8_fuse_w0_b27_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b26_N
-.Lmemmove_ua8_fuse_w0_b27_N:
-        .word .Lmemmove_npow134217728, 172, .Lmemmove_ua8_fuse_w0_b27_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b26_P
+.Lmemmove_ua8_e_fuse_w0_b27_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b26_N
+.Lmemmove_ua8_e_fuse_w0_b27_N:
+        .word .Lmemmove_npow134217728, 172, .Lmemmove_ua8_e_fuse_w0_b27_N_to_N
         .word .Lmemmove_npow524288, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b26_P
-.Lmemmove_ua8_fuse_w0_b27_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b26_N
-.Lmemmove_ua8_fuse_w0_b26_P:
-        .word .Lmemmove_pow67108864, 172, .Lmemmove_ua8_fuse_w0_b26_P_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b26_P
+.Lmemmove_ua8_e_fuse_w0_b27_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b26_N
+.Lmemmove_ua8_e_fuse_w0_b26_P:
+        .word .Lmemmove_pow67108864, 172, .Lmemmove_ua8_e_fuse_w0_b26_P_to_N
         .word .Lmemmove_npow262144, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b25_P
-.Lmemmove_ua8_fuse_w0_b26_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b25_N
-.Lmemmove_ua8_fuse_w0_b26_N:
-        .word .Lmemmove_npow67108864, 172, .Lmemmove_ua8_fuse_w0_b26_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b25_P
+.Lmemmove_ua8_e_fuse_w0_b26_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b25_N
+.Lmemmove_ua8_e_fuse_w0_b26_N:
+        .word .Lmemmove_npow67108864, 172, .Lmemmove_ua8_e_fuse_w0_b26_N_to_N
         .word .Lmemmove_npow262144, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b25_P
-.Lmemmove_ua8_fuse_w0_b26_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b25_N
-.Lmemmove_ua8_fuse_w0_b25_P:
-        .word .Lmemmove_pow33554432, 172, .Lmemmove_ua8_fuse_w0_b25_P_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b25_P
+.Lmemmove_ua8_e_fuse_w0_b26_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b25_N
+.Lmemmove_ua8_e_fuse_w0_b25_P:
+        .word .Lmemmove_pow33554432, 172, .Lmemmove_ua8_e_fuse_w0_b25_P_to_N
         .word .Lmemmove_npow131072, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b24_P
-.Lmemmove_ua8_fuse_w0_b25_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b24_N
-.Lmemmove_ua8_fuse_w0_b25_N:
-        .word .Lmemmove_npow33554432, 172, .Lmemmove_ua8_fuse_w0_b25_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b24_P
+.Lmemmove_ua8_e_fuse_w0_b25_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b24_N
+.Lmemmove_ua8_e_fuse_w0_b25_N:
+        .word .Lmemmove_npow33554432, 172, .Lmemmove_ua8_e_fuse_w0_b25_N_to_N
         .word .Lmemmove_npow131072, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b24_P
-.Lmemmove_ua8_fuse_w0_b25_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b24_N
-.Lmemmove_ua8_fuse_w0_b24_P:
-        .word .Lmemmove_pow16777216, 172, .Lmemmove_ua8_fuse_w0_b24_P_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b24_P
+.Lmemmove_ua8_e_fuse_w0_b25_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b24_N
+.Lmemmove_ua8_e_fuse_w0_b24_P:
+        .word .Lmemmove_pow16777216, 172, .Lmemmove_ua8_e_fuse_w0_b24_P_to_N
         .word .Lmemmove_npow65536, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b23_P
-.Lmemmove_ua8_fuse_w0_b24_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b23_N
-.Lmemmove_ua8_fuse_w0_b24_N:
-        .word .Lmemmove_npow16777216, 172, .Lmemmove_ua8_fuse_w0_b24_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b23_P
+.Lmemmove_ua8_e_fuse_w0_b24_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b23_N
+.Lmemmove_ua8_e_fuse_w0_b24_N:
+        .word .Lmemmove_npow16777216, 172, .Lmemmove_ua8_e_fuse_w0_b24_N_to_N
         .word .Lmemmove_npow65536, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b23_P
-.Lmemmove_ua8_fuse_w0_b24_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b23_N
-.Lmemmove_ua8_fuse_w0_b23_P:
-        .word .Lmemmove_pow8388608, 172, .Lmemmove_ua8_fuse_w0_b23_P_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b23_P
+.Lmemmove_ua8_e_fuse_w0_b24_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b23_N
+.Lmemmove_ua8_e_fuse_w0_b23_P:
+        .word .Lmemmove_pow8388608, 172, .Lmemmove_ua8_e_fuse_w0_b23_P_to_N
         .word .Lmemmove_npow32768, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b22_P
-.Lmemmove_ua8_fuse_w0_b23_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b22_N
-.Lmemmove_ua8_fuse_w0_b23_N:
-        .word .Lmemmove_npow8388608, 172, .Lmemmove_ua8_fuse_w0_b23_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b22_P
+.Lmemmove_ua8_e_fuse_w0_b23_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b22_N
+.Lmemmove_ua8_e_fuse_w0_b23_N:
+        .word .Lmemmove_npow8388608, 172, .Lmemmove_ua8_e_fuse_w0_b23_N_to_N
         .word .Lmemmove_npow32768, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b22_P
-.Lmemmove_ua8_fuse_w0_b23_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b22_N
-.Lmemmove_ua8_fuse_w0_b22_P:
-        .word .Lmemmove_pow4194304, 172, .Lmemmove_ua8_fuse_w0_b22_P_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b22_P
+.Lmemmove_ua8_e_fuse_w0_b23_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b22_N
+.Lmemmove_ua8_e_fuse_w0_b22_P:
+        .word .Lmemmove_pow4194304, 172, .Lmemmove_ua8_e_fuse_w0_b22_P_to_N
         .word .Lmemmove_npow16384, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b21_P
-.Lmemmove_ua8_fuse_w0_b22_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b21_N
-.Lmemmove_ua8_fuse_w0_b22_N:
-        .word .Lmemmove_npow4194304, 172, .Lmemmove_ua8_fuse_w0_b22_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b21_P
+.Lmemmove_ua8_e_fuse_w0_b22_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b21_N
+.Lmemmove_ua8_e_fuse_w0_b22_N:
+        .word .Lmemmove_npow4194304, 172, .Lmemmove_ua8_e_fuse_w0_b22_N_to_N
         .word .Lmemmove_npow16384, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b21_P
-.Lmemmove_ua8_fuse_w0_b22_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b21_N
-.Lmemmove_ua8_fuse_w0_b21_P:
-        .word .Lmemmove_pow2097152, 172, .Lmemmove_ua8_fuse_w0_b21_P_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b21_P
+.Lmemmove_ua8_e_fuse_w0_b22_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b21_N
+.Lmemmove_ua8_e_fuse_w0_b21_P:
+        .word .Lmemmove_pow2097152, 172, .Lmemmove_ua8_e_fuse_w0_b21_P_to_N
         .word .Lmemmove_npow8192, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b20_P
-.Lmemmove_ua8_fuse_w0_b21_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b20_N
-.Lmemmove_ua8_fuse_w0_b21_N:
-        .word .Lmemmove_npow2097152, 172, .Lmemmove_ua8_fuse_w0_b21_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b20_P
+.Lmemmove_ua8_e_fuse_w0_b21_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b20_N
+.Lmemmove_ua8_e_fuse_w0_b21_N:
+        .word .Lmemmove_npow2097152, 172, .Lmemmove_ua8_e_fuse_w0_b21_N_to_N
         .word .Lmemmove_npow8192, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b20_P
-.Lmemmove_ua8_fuse_w0_b21_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b20_N
-.Lmemmove_ua8_fuse_w0_b20_P:
-        .word .Lmemmove_pow1048576, 172, .Lmemmove_ua8_fuse_w0_b20_P_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b20_P
+.Lmemmove_ua8_e_fuse_w0_b21_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b20_N
+.Lmemmove_ua8_e_fuse_w0_b20_P:
+        .word .Lmemmove_pow1048576, 172, .Lmemmove_ua8_e_fuse_w0_b20_P_to_N
         .word .Lmemmove_npow4096, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b19_P
-.Lmemmove_ua8_fuse_w0_b20_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b19_N
-.Lmemmove_ua8_fuse_w0_b20_N:
-        .word .Lmemmove_npow1048576, 172, .Lmemmove_ua8_fuse_w0_b20_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b19_P
+.Lmemmove_ua8_e_fuse_w0_b20_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b19_N
+.Lmemmove_ua8_e_fuse_w0_b20_N:
+        .word .Lmemmove_npow1048576, 172, .Lmemmove_ua8_e_fuse_w0_b20_N_to_N
         .word .Lmemmove_npow4096, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b19_P
-.Lmemmove_ua8_fuse_w0_b20_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b19_N
-.Lmemmove_ua8_fuse_w0_b19_P:
-        .word .Lmemmove_pow524288, 172, .Lmemmove_ua8_fuse_w0_b19_P_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b19_P
+.Lmemmove_ua8_e_fuse_w0_b20_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b19_N
+.Lmemmove_ua8_e_fuse_w0_b19_P:
+        .word .Lmemmove_pow524288, 172, .Lmemmove_ua8_e_fuse_w0_b19_P_to_N
         .word .Lmemmove_npow2048, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b18_P
-.Lmemmove_ua8_fuse_w0_b19_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b18_N
-.Lmemmove_ua8_fuse_w0_b19_N:
-        .word .Lmemmove_npow524288, 172, .Lmemmove_ua8_fuse_w0_b19_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b18_P
+.Lmemmove_ua8_e_fuse_w0_b19_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b18_N
+.Lmemmove_ua8_e_fuse_w0_b19_N:
+        .word .Lmemmove_npow524288, 172, .Lmemmove_ua8_e_fuse_w0_b19_N_to_N
         .word .Lmemmove_npow2048, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b18_P
-.Lmemmove_ua8_fuse_w0_b19_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b18_N
-.Lmemmove_ua8_fuse_w0_b18_P:
-        .word .Lmemmove_pow262144, 172, .Lmemmove_ua8_fuse_w0_b18_P_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b18_P
+.Lmemmove_ua8_e_fuse_w0_b19_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b18_N
+.Lmemmove_ua8_e_fuse_w0_b18_P:
+        .word .Lmemmove_pow262144, 172, .Lmemmove_ua8_e_fuse_w0_b18_P_to_N
         .word .Lmemmove_npow1024, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b17_P
-.Lmemmove_ua8_fuse_w0_b18_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b17_N
-.Lmemmove_ua8_fuse_w0_b18_N:
-        .word .Lmemmove_npow262144, 172, .Lmemmove_ua8_fuse_w0_b18_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b17_P
+.Lmemmove_ua8_e_fuse_w0_b18_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b17_N
+.Lmemmove_ua8_e_fuse_w0_b18_N:
+        .word .Lmemmove_npow262144, 172, .Lmemmove_ua8_e_fuse_w0_b18_N_to_N
         .word .Lmemmove_npow1024, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b17_P
-.Lmemmove_ua8_fuse_w0_b18_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b17_N
-.Lmemmove_ua8_fuse_w0_b17_P:
-        .word .Lmemmove_pow131072, 172, .Lmemmove_ua8_fuse_w0_b17_P_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b17_P
+.Lmemmove_ua8_e_fuse_w0_b18_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b17_N
+.Lmemmove_ua8_e_fuse_w0_b17_P:
+        .word .Lmemmove_pow131072, 172, .Lmemmove_ua8_e_fuse_w0_b17_P_to_N
         .word .Lmemmove_npow512, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b16_P
-.Lmemmove_ua8_fuse_w0_b17_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b16_N
-.Lmemmove_ua8_fuse_w0_b17_N:
-        .word .Lmemmove_npow131072, 172, .Lmemmove_ua8_fuse_w0_b17_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b16_P
+.Lmemmove_ua8_e_fuse_w0_b17_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b16_N
+.Lmemmove_ua8_e_fuse_w0_b17_N:
+        .word .Lmemmove_npow131072, 172, .Lmemmove_ua8_e_fuse_w0_b17_N_to_N
         .word .Lmemmove_npow512, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b16_P
-.Lmemmove_ua8_fuse_w0_b17_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b16_N
-.Lmemmove_ua8_fuse_w0_b16_P:
-        .word .Lmemmove_pow65536, 172, .Lmemmove_ua8_fuse_w0_b16_P_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b16_P
+.Lmemmove_ua8_e_fuse_w0_b17_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b16_N
+.Lmemmove_ua8_e_fuse_w0_b16_P:
+        .word .Lmemmove_pow65536, 172, .Lmemmove_ua8_e_fuse_w0_b16_P_to_N
         .word .Lmemmove_npow256, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b15_P
-.Lmemmove_ua8_fuse_w0_b16_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b15_N
-.Lmemmove_ua8_fuse_w0_b16_N:
-        .word .Lmemmove_npow65536, 172, .Lmemmove_ua8_fuse_w0_b16_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b15_P
+.Lmemmove_ua8_e_fuse_w0_b16_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b15_N
+.Lmemmove_ua8_e_fuse_w0_b16_N:
+        .word .Lmemmove_npow65536, 172, .Lmemmove_ua8_e_fuse_w0_b16_N_to_N
         .word .Lmemmove_npow256, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b15_P
-.Lmemmove_ua8_fuse_w0_b16_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b15_N
-.Lmemmove_ua8_fuse_w0_b15_P:
-        .word .Lmemmove_pow32768, 172, .Lmemmove_ua8_fuse_w0_b15_P_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b15_P
+.Lmemmove_ua8_e_fuse_w0_b16_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b15_N
+.Lmemmove_ua8_e_fuse_w0_b15_P:
+        .word .Lmemmove_pow32768, 172, .Lmemmove_ua8_e_fuse_w0_b15_P_to_N
         .word .Lmemmove_npow128, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b14_P
-.Lmemmove_ua8_fuse_w0_b15_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b14_N
-.Lmemmove_ua8_fuse_w0_b15_N:
-        .word .Lmemmove_npow32768, 172, .Lmemmove_ua8_fuse_w0_b15_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b14_P
+.Lmemmove_ua8_e_fuse_w0_b15_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b14_N
+.Lmemmove_ua8_e_fuse_w0_b15_N:
+        .word .Lmemmove_npow32768, 172, .Lmemmove_ua8_e_fuse_w0_b15_N_to_N
         .word .Lmemmove_npow128, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b14_P
-.Lmemmove_ua8_fuse_w0_b15_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b14_N
-.Lmemmove_ua8_fuse_w0_b14_P:
-        .word .Lmemmove_pow16384, 172, .Lmemmove_ua8_fuse_w0_b14_P_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b14_P
+.Lmemmove_ua8_e_fuse_w0_b15_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b14_N
+.Lmemmove_ua8_e_fuse_w0_b14_P:
+        .word .Lmemmove_pow16384, 172, .Lmemmove_ua8_e_fuse_w0_b14_P_to_N
         .word .Lmemmove_npow64, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b13_P
-.Lmemmove_ua8_fuse_w0_b14_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b13_N
-.Lmemmove_ua8_fuse_w0_b14_N:
-        .word .Lmemmove_npow16384, 172, .Lmemmove_ua8_fuse_w0_b14_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b13_P
+.Lmemmove_ua8_e_fuse_w0_b14_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b13_N
+.Lmemmove_ua8_e_fuse_w0_b14_N:
+        .word .Lmemmove_npow16384, 172, .Lmemmove_ua8_e_fuse_w0_b14_N_to_N
         .word .Lmemmove_npow64, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b13_P
-.Lmemmove_ua8_fuse_w0_b14_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b13_N
-.Lmemmove_ua8_fuse_w0_b13_P:
-        .word .Lmemmove_pow8192, 172, .Lmemmove_ua8_fuse_w0_b13_P_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b13_P
+.Lmemmove_ua8_e_fuse_w0_b14_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b13_N
+.Lmemmove_ua8_e_fuse_w0_b13_P:
+        .word .Lmemmove_pow8192, 172, .Lmemmove_ua8_e_fuse_w0_b13_P_to_N
         .word .Lmemmove_npow32, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b12_P
-.Lmemmove_ua8_fuse_w0_b13_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b12_N
-.Lmemmove_ua8_fuse_w0_b13_N:
-        .word .Lmemmove_npow8192, 172, .Lmemmove_ua8_fuse_w0_b13_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b12_P
+.Lmemmove_ua8_e_fuse_w0_b13_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b12_N
+.Lmemmove_ua8_e_fuse_w0_b13_N:
+        .word .Lmemmove_npow8192, 172, .Lmemmove_ua8_e_fuse_w0_b13_N_to_N
         .word .Lmemmove_npow32, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b12_P
-.Lmemmove_ua8_fuse_w0_b13_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b12_N
-.Lmemmove_ua8_fuse_w0_b12_P:
-        .word .Lmemmove_pow4096, 172, .Lmemmove_ua8_fuse_w0_b12_P_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b12_P
+.Lmemmove_ua8_e_fuse_w0_b13_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b12_N
+.Lmemmove_ua8_e_fuse_w0_b12_P:
+        .word .Lmemmove_pow4096, 172, .Lmemmove_ua8_e_fuse_w0_b12_P_to_N
         .word .Lmemmove_npow16, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b11_P
-.Lmemmove_ua8_fuse_w0_b12_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b11_N
-.Lmemmove_ua8_fuse_w0_b12_N:
-        .word .Lmemmove_npow4096, 172, .Lmemmove_ua8_fuse_w0_b12_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b11_P
+.Lmemmove_ua8_e_fuse_w0_b12_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b11_N
+.Lmemmove_ua8_e_fuse_w0_b12_N:
+        .word .Lmemmove_npow4096, 172, .Lmemmove_ua8_e_fuse_w0_b12_N_to_N
         .word .Lmemmove_npow16, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b11_P
-.Lmemmove_ua8_fuse_w0_b12_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b11_N
-.Lmemmove_ua8_fuse_w0_b11_P:
-        .word .Lmemmove_pow2048, 172, .Lmemmove_ua8_fuse_w0_b11_P_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b11_P
+.Lmemmove_ua8_e_fuse_w0_b12_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b11_N
+.Lmemmove_ua8_e_fuse_w0_b11_P:
+        .word .Lmemmove_pow2048, 172, .Lmemmove_ua8_e_fuse_w0_b11_P_to_N
         .word .Lmemmove_npow8, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b10_P
-.Lmemmove_ua8_fuse_w0_b11_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b10_N
-.Lmemmove_ua8_fuse_w0_b11_N:
-        .word .Lmemmove_npow2048, 172, .Lmemmove_ua8_fuse_w0_b11_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b10_P
+.Lmemmove_ua8_e_fuse_w0_b11_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b10_N
+.Lmemmove_ua8_e_fuse_w0_b11_N:
+        .word .Lmemmove_npow2048, 172, .Lmemmove_ua8_e_fuse_w0_b11_N_to_N
         .word .Lmemmove_npow8, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b10_P
-.Lmemmove_ua8_fuse_w0_b11_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b10_N
-.Lmemmove_ua8_fuse_w0_b10_P:
-        .word .Lmemmove_pow1024, 172, .Lmemmove_ua8_fuse_w0_b10_P_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b10_P
+.Lmemmove_ua8_e_fuse_w0_b11_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b10_N
+.Lmemmove_ua8_e_fuse_w0_b10_P:
+        .word .Lmemmove_pow1024, 172, .Lmemmove_ua8_e_fuse_w0_b10_P_to_N
         .word .Lmemmove_npow4, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b9_P
-.Lmemmove_ua8_fuse_w0_b10_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b9_N
-.Lmemmove_ua8_fuse_w0_b10_N:
-        .word .Lmemmove_npow1024, 172, .Lmemmove_ua8_fuse_w0_b10_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b9_P
+.Lmemmove_ua8_e_fuse_w0_b10_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b9_N
+.Lmemmove_ua8_e_fuse_w0_b10_N:
+        .word .Lmemmove_npow1024, 172, .Lmemmove_ua8_e_fuse_w0_b10_N_to_N
         .word .Lmemmove_npow4, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b9_P
-.Lmemmove_ua8_fuse_w0_b10_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b9_N
-.Lmemmove_ua8_fuse_w0_b9_P:
-        .word .Lmemmove_pow512, 172, .Lmemmove_ua8_fuse_w0_b9_P_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b9_P
+.Lmemmove_ua8_e_fuse_w0_b10_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b9_N
+.Lmemmove_ua8_e_fuse_w0_b9_P:
+        .word .Lmemmove_pow512, 172, .Lmemmove_ua8_e_fuse_w0_b9_P_to_N
         .word .Lmemmove_npow2, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b8_P
-.Lmemmove_ua8_fuse_w0_b9_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b8_N
-.Lmemmove_ua8_fuse_w0_b9_N:
-        .word .Lmemmove_npow512, 172, .Lmemmove_ua8_fuse_w0_b9_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b8_P
+.Lmemmove_ua8_e_fuse_w0_b9_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b8_N
+.Lmemmove_ua8_e_fuse_w0_b9_N:
+        .word .Lmemmove_npow512, 172, .Lmemmove_ua8_e_fuse_w0_b9_N_to_N
         .word .Lmemmove_npow2, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b8_P
-.Lmemmove_ua8_fuse_w0_b9_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w0_b8_N
-.Lmemmove_ua8_fuse_w0_b8_P:
-        .word .Lmemmove_pow256, 172, .Lmemmove_ua8_fuse_w0_b8_P_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b8_P
+.Lmemmove_ua8_e_fuse_w0_b9_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w0_b8_N
+.Lmemmove_ua8_e_fuse_w0_b8_P:
+        .word .Lmemmove_pow256, 172, .Lmemmove_ua8_e_fuse_w0_b8_P_to_N
         .word .Lmemmove_npow1, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_word1_start
-.Lmemmove_ua8_fuse_w0_b8_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_word1_start
-.Lmemmove_ua8_fuse_w0_b8_N:
-        .word .Lmemmove_npow256, 172, .Lmemmove_ua8_fuse_w0_b8_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_word1_start
+.Lmemmove_ua8_e_fuse_w0_b8_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_word1_start
+.Lmemmove_ua8_e_fuse_w0_b8_N:
+        .word .Lmemmove_npow256, 172, .Lmemmove_ua8_e_fuse_w0_b8_N_to_N
         .word .Lmemmove_npow1, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_word1_start
-.Lmemmove_ua8_fuse_w0_b8_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_word1_start
-.Lmemmove_ua8_fuse_word1_start:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_word1_start
+.Lmemmove_ua8_e_fuse_w0_b8_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_word1_start
+.Lmemmove_ua8_e_fuse_word1_start:
         .word 12, 12, .+4
         .word 172, 172, .+4
-        .word 188, 12, .+4
+        .word 164, 12, .+4
         .word 12, 172, .+4
-.Lmemmove_ua8_fuse_w1_b31:
+.Lmemmove_ua8_e_fuse_w1_b31:
         .word 176, 176, .+4
         .word 172, 176, .+4
-        .word 144, 176, .Lmemmove_ua8_fuse_w1_b30_check
+        .word 144, 176, .Lmemmove_ua8_e_fuse_w1_b30_check
         .word .Lmemmove_min, 172, .+4
-.Lmemmove_ua8_fuse_w1_b30_check:
+.Lmemmove_ua8_e_fuse_w1_b30_check:
         .word 176, 176, .+4
         .word 172, 176, .+4
-        .word .Lmemmove_npow1073741824, 176, .Lmemmove_ua8_fuse_w1_b30_clear
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_lattice_start
-.Lmemmove_ua8_fuse_w1_b30_clear:
+        .word .Lmemmove_npow1073741824, 176, .Lmemmove_ua8_e_fuse_w1_b30_clear
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_lattice_start
+.Lmemmove_ua8_e_fuse_w1_b30_clear:
         .word .Lmemmove_pow1073741824, 172, .+4
-.Lmemmove_ua8_fuse_w1_lattice_start:
+.Lmemmove_ua8_e_fuse_w1_lattice_start:
         .word .Lmemmove_n1, 172, .+4
-.Lmemmove_ua8_fuse_w1_b29_P:
-        .word .Lmemmove_pow536870912, 172, .Lmemmove_ua8_fuse_w1_b29_P_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b28_P
-.Lmemmove_ua8_fuse_w1_b29_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b28_N
-.Lmemmove_ua8_fuse_w1_b29_N:
-        .word .Lmemmove_npow536870912, 172, .Lmemmove_ua8_fuse_w1_b29_N_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b28_P
-.Lmemmove_ua8_fuse_w1_b29_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b28_N
-.Lmemmove_ua8_fuse_w1_b28_P:
-        .word .Lmemmove_pow268435456, 172, .Lmemmove_ua8_fuse_w1_b28_P_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b27_P
-.Lmemmove_ua8_fuse_w1_b28_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b27_N
-.Lmemmove_ua8_fuse_w1_b28_N:
-        .word .Lmemmove_npow268435456, 172, .Lmemmove_ua8_fuse_w1_b28_N_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b27_P
-.Lmemmove_ua8_fuse_w1_b28_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b27_N
-.Lmemmove_ua8_fuse_w1_b27_P:
-        .word .Lmemmove_pow134217728, 172, .Lmemmove_ua8_fuse_w1_b27_P_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b26_P
-.Lmemmove_ua8_fuse_w1_b27_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b26_N
-.Lmemmove_ua8_fuse_w1_b27_N:
-        .word .Lmemmove_npow134217728, 172, .Lmemmove_ua8_fuse_w1_b27_N_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b26_P
-.Lmemmove_ua8_fuse_w1_b27_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b26_N
-.Lmemmove_ua8_fuse_w1_b26_P:
-        .word .Lmemmove_pow67108864, 172, .Lmemmove_ua8_fuse_w1_b26_P_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b25_P
-.Lmemmove_ua8_fuse_w1_b26_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b25_N
-.Lmemmove_ua8_fuse_w1_b26_N:
-        .word .Lmemmove_npow67108864, 172, .Lmemmove_ua8_fuse_w1_b26_N_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b25_P
-.Lmemmove_ua8_fuse_w1_b26_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b25_N
-.Lmemmove_ua8_fuse_w1_b25_P:
-        .word .Lmemmove_pow33554432, 172, .Lmemmove_ua8_fuse_w1_b25_P_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b24_P
-.Lmemmove_ua8_fuse_w1_b25_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b24_N
-.Lmemmove_ua8_fuse_w1_b25_N:
-        .word .Lmemmove_npow33554432, 172, .Lmemmove_ua8_fuse_w1_b25_N_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b24_P
-.Lmemmove_ua8_fuse_w1_b25_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b24_N
-.Lmemmove_ua8_fuse_w1_b24_P:
-        .word .Lmemmove_pow16777216, 172, .Lmemmove_ua8_fuse_w1_b24_P_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b23_P
-.Lmemmove_ua8_fuse_w1_b24_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b23_N
-.Lmemmove_ua8_fuse_w1_b24_N:
-        .word .Lmemmove_npow16777216, 172, .Lmemmove_ua8_fuse_w1_b24_N_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b23_P
-.Lmemmove_ua8_fuse_w1_b24_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b23_N
-.Lmemmove_ua8_fuse_w1_b23_P:
-        .word .Lmemmove_pow8388608, 172, .Lmemmove_ua8_fuse_w1_b23_P_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b22_P
-.Lmemmove_ua8_fuse_w1_b23_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b22_N
-.Lmemmove_ua8_fuse_w1_b23_N:
-        .word .Lmemmove_npow8388608, 172, .Lmemmove_ua8_fuse_w1_b23_N_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b22_P
-.Lmemmove_ua8_fuse_w1_b23_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b22_N
-.Lmemmove_ua8_fuse_w1_b22_P:
-        .word .Lmemmove_pow4194304, 172, .Lmemmove_ua8_fuse_w1_b22_P_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b21_P
-.Lmemmove_ua8_fuse_w1_b22_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b21_N
-.Lmemmove_ua8_fuse_w1_b22_N:
-        .word .Lmemmove_npow4194304, 172, .Lmemmove_ua8_fuse_w1_b22_N_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b21_P
-.Lmemmove_ua8_fuse_w1_b22_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b21_N
-.Lmemmove_ua8_fuse_w1_b21_P:
-        .word .Lmemmove_pow2097152, 172, .Lmemmove_ua8_fuse_w1_b21_P_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b20_P
-.Lmemmove_ua8_fuse_w1_b21_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b20_N
-.Lmemmove_ua8_fuse_w1_b21_N:
-        .word .Lmemmove_npow2097152, 172, .Lmemmove_ua8_fuse_w1_b21_N_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b20_P
-.Lmemmove_ua8_fuse_w1_b21_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b20_N
-.Lmemmove_ua8_fuse_w1_b20_P:
-        .word .Lmemmove_pow1048576, 172, .Lmemmove_ua8_fuse_w1_b20_P_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b19_P
-.Lmemmove_ua8_fuse_w1_b20_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b19_N
-.Lmemmove_ua8_fuse_w1_b20_N:
-        .word .Lmemmove_npow1048576, 172, .Lmemmove_ua8_fuse_w1_b20_N_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b19_P
-.Lmemmove_ua8_fuse_w1_b20_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b19_N
-.Lmemmove_ua8_fuse_w1_b19_P:
-        .word .Lmemmove_pow524288, 172, .Lmemmove_ua8_fuse_w1_b19_P_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b18_P
-.Lmemmove_ua8_fuse_w1_b19_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b18_N
-.Lmemmove_ua8_fuse_w1_b19_N:
-        .word .Lmemmove_npow524288, 172, .Lmemmove_ua8_fuse_w1_b19_N_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b18_P
-.Lmemmove_ua8_fuse_w1_b19_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b18_N
-.Lmemmove_ua8_fuse_w1_b18_P:
-        .word .Lmemmove_pow262144, 172, .Lmemmove_ua8_fuse_w1_b18_P_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b17_P
-.Lmemmove_ua8_fuse_w1_b18_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b17_N
-.Lmemmove_ua8_fuse_w1_b18_N:
-        .word .Lmemmove_npow262144, 172, .Lmemmove_ua8_fuse_w1_b18_N_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b17_P
-.Lmemmove_ua8_fuse_w1_b18_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b17_N
-.Lmemmove_ua8_fuse_w1_b17_P:
-        .word .Lmemmove_pow131072, 172, .Lmemmove_ua8_fuse_w1_b17_P_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b16_P
-.Lmemmove_ua8_fuse_w1_b17_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b16_N
-.Lmemmove_ua8_fuse_w1_b17_N:
-        .word .Lmemmove_npow131072, 172, .Lmemmove_ua8_fuse_w1_b17_N_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b16_P
-.Lmemmove_ua8_fuse_w1_b17_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b16_N
-.Lmemmove_ua8_fuse_w1_b16_P:
-        .word .Lmemmove_pow65536, 172, .Lmemmove_ua8_fuse_w1_b16_P_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b15_P
-.Lmemmove_ua8_fuse_w1_b16_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b15_N
-.Lmemmove_ua8_fuse_w1_b16_N:
-        .word .Lmemmove_npow65536, 172, .Lmemmove_ua8_fuse_w1_b16_N_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b15_P
-.Lmemmove_ua8_fuse_w1_b16_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b15_N
-.Lmemmove_ua8_fuse_w1_b15_P:
-        .word .Lmemmove_pow32768, 172, .Lmemmove_ua8_fuse_w1_b15_P_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b14_P
-.Lmemmove_ua8_fuse_w1_b15_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b14_N
-.Lmemmove_ua8_fuse_w1_b15_N:
-        .word .Lmemmove_npow32768, 172, .Lmemmove_ua8_fuse_w1_b15_N_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b14_P
-.Lmemmove_ua8_fuse_w1_b15_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b14_N
-.Lmemmove_ua8_fuse_w1_b14_P:
-        .word .Lmemmove_pow16384, 172, .Lmemmove_ua8_fuse_w1_b14_P_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b13_P
-.Lmemmove_ua8_fuse_w1_b14_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b13_N
-.Lmemmove_ua8_fuse_w1_b14_N:
-        .word .Lmemmove_npow16384, 172, .Lmemmove_ua8_fuse_w1_b14_N_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b13_P
-.Lmemmove_ua8_fuse_w1_b14_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b13_N
-.Lmemmove_ua8_fuse_w1_b13_P:
-        .word .Lmemmove_pow8192, 172, .Lmemmove_ua8_fuse_w1_b13_P_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b12_P
-.Lmemmove_ua8_fuse_w1_b13_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b12_N
-.Lmemmove_ua8_fuse_w1_b13_N:
-        .word .Lmemmove_npow8192, 172, .Lmemmove_ua8_fuse_w1_b13_N_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b12_P
-.Lmemmove_ua8_fuse_w1_b13_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b12_N
-.Lmemmove_ua8_fuse_w1_b12_P:
-        .word .Lmemmove_pow4096, 172, .Lmemmove_ua8_fuse_w1_b12_P_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b11_P
-.Lmemmove_ua8_fuse_w1_b12_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b11_N
-.Lmemmove_ua8_fuse_w1_b12_N:
-        .word .Lmemmove_npow4096, 172, .Lmemmove_ua8_fuse_w1_b12_N_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b11_P
-.Lmemmove_ua8_fuse_w1_b12_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b11_N
-.Lmemmove_ua8_fuse_w1_b11_P:
-        .word .Lmemmove_pow2048, 172, .Lmemmove_ua8_fuse_w1_b11_P_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b10_P
-.Lmemmove_ua8_fuse_w1_b11_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b10_N
-.Lmemmove_ua8_fuse_w1_b11_N:
-        .word .Lmemmove_npow2048, 172, .Lmemmove_ua8_fuse_w1_b11_N_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b10_P
-.Lmemmove_ua8_fuse_w1_b11_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b10_N
-.Lmemmove_ua8_fuse_w1_b10_P:
-        .word .Lmemmove_pow1024, 172, .Lmemmove_ua8_fuse_w1_b10_P_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b9_P
-.Lmemmove_ua8_fuse_w1_b10_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b9_N
-.Lmemmove_ua8_fuse_w1_b10_N:
-        .word .Lmemmove_npow1024, 172, .Lmemmove_ua8_fuse_w1_b10_N_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b9_P
-.Lmemmove_ua8_fuse_w1_b10_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b9_N
-.Lmemmove_ua8_fuse_w1_b9_P:
-        .word .Lmemmove_pow512, 172, .Lmemmove_ua8_fuse_w1_b9_P_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b8_P
-.Lmemmove_ua8_fuse_w1_b9_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b8_N
-.Lmemmove_ua8_fuse_w1_b9_N:
-        .word .Lmemmove_npow512, 172, .Lmemmove_ua8_fuse_w1_b9_N_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b8_P
-.Lmemmove_ua8_fuse_w1_b9_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b8_N
-.Lmemmove_ua8_fuse_w1_b8_P:
-        .word .Lmemmove_pow256, 172, .Lmemmove_ua8_fuse_w1_b8_P_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b7_P
-.Lmemmove_ua8_fuse_w1_b8_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b7_N
-.Lmemmove_ua8_fuse_w1_b8_N:
-        .word .Lmemmove_npow256, 172, .Lmemmove_ua8_fuse_w1_b8_N_to_N
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b7_P
-.Lmemmove_ua8_fuse_w1_b8_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b7_N
-.Lmemmove_ua8_fuse_w1_b7_P:
-        .word .Lmemmove_pow128, 172, .Lmemmove_ua8_fuse_w1_b7_P_to_N
+.Lmemmove_ua8_e_fuse_w1_b29_P:
+        .word .Lmemmove_pow536870912, 172, .Lmemmove_ua8_e_fuse_w1_b29_P_to_N
+.Lmemmove_ua8_e_fuse_w1_b28_P:
+        .word .Lmemmove_pow268435456, 172, .Lmemmove_ua8_e_fuse_w1_b28_P_to_N
+.Lmemmove_ua8_e_fuse_w1_b27_P:
+        .word .Lmemmove_pow134217728, 172, .Lmemmove_ua8_e_fuse_w1_b27_P_to_N
+.Lmemmove_ua8_e_fuse_w1_b26_P:
+        .word .Lmemmove_pow67108864, 172, .Lmemmove_ua8_e_fuse_w1_b26_P_to_N
+.Lmemmove_ua8_e_fuse_w1_b25_P:
+        .word .Lmemmove_pow33554432, 172, .Lmemmove_ua8_e_fuse_w1_b25_P_to_N
+.Lmemmove_ua8_e_fuse_w1_b24_P:
+        .word .Lmemmove_pow16777216, 172, .Lmemmove_ua8_e_fuse_w1_b24_P_to_N
+.Lmemmove_ua8_e_fuse_w1_b23_P:
+        .word .Lmemmove_pow8388608, 172, .Lmemmove_ua8_e_fuse_w1_b23_P_to_N
+.Lmemmove_ua8_e_fuse_w1_b22_P:
+        .word .Lmemmove_pow4194304, 172, .Lmemmove_ua8_e_fuse_w1_b22_P_to_N
+.Lmemmove_ua8_e_fuse_w1_b21_P:
+        .word .Lmemmove_pow2097152, 172, .Lmemmove_ua8_e_fuse_w1_b21_P_to_N
+.Lmemmove_ua8_e_fuse_w1_b20_P:
+        .word .Lmemmove_pow1048576, 172, .Lmemmove_ua8_e_fuse_w1_b20_P_to_N
+.Lmemmove_ua8_e_fuse_w1_b19_P:
+        .word .Lmemmove_pow524288, 172, .Lmemmove_ua8_e_fuse_w1_b19_P_to_N
+.Lmemmove_ua8_e_fuse_w1_b18_P:
+        .word .Lmemmove_pow262144, 172, .Lmemmove_ua8_e_fuse_w1_b18_P_to_N
+.Lmemmove_ua8_e_fuse_w1_b17_P:
+        .word .Lmemmove_pow131072, 172, .Lmemmove_ua8_e_fuse_w1_b17_P_to_N
+.Lmemmove_ua8_e_fuse_w1_b16_P:
+        .word .Lmemmove_pow65536, 172, .Lmemmove_ua8_e_fuse_w1_b16_P_to_N
+.Lmemmove_ua8_e_fuse_w1_b15_P:
+        .word .Lmemmove_pow32768, 172, .Lmemmove_ua8_e_fuse_w1_b15_P_to_N
+.Lmemmove_ua8_e_fuse_w1_b14_P:
+        .word .Lmemmove_pow16384, 172, .Lmemmove_ua8_e_fuse_w1_b14_P_to_N
+.Lmemmove_ua8_e_fuse_w1_b13_P:
+        .word .Lmemmove_pow8192, 172, .Lmemmove_ua8_e_fuse_w1_b13_P_to_N
+.Lmemmove_ua8_e_fuse_w1_b12_P:
+        .word .Lmemmove_pow4096, 172, .Lmemmove_ua8_e_fuse_w1_b12_P_to_N
+.Lmemmove_ua8_e_fuse_w1_b11_P:
+        .word .Lmemmove_pow2048, 172, .Lmemmove_ua8_e_fuse_w1_b11_P_to_N
+.Lmemmove_ua8_e_fuse_w1_b10_P:
+        .word .Lmemmove_pow1024, 172, .Lmemmove_ua8_e_fuse_w1_b10_P_to_N
+.Lmemmove_ua8_e_fuse_w1_b9_P:
+        .word .Lmemmove_pow512, 172, .Lmemmove_ua8_e_fuse_w1_b9_P_to_N
+.Lmemmove_ua8_e_fuse_w1_b8_P:
+        .word .Lmemmove_pow256, 172, .Lmemmove_ua8_e_fuse_w1_b8_P_to_N
+.Lmemmove_ua8_e_fuse_w1_b7_P:
+        .word .Lmemmove_pow128, 172, .Lmemmove_ua8_e_fuse_w1_b7_P_to_N
         .word .Lmemmove_min, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b6_P
-.Lmemmove_ua8_fuse_w1_b7_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b6_N
-.Lmemmove_ua8_fuse_w1_b7_N:
-        .word .Lmemmove_npow128, 172, .Lmemmove_ua8_fuse_w1_b7_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b6_P
+.Lmemmove_ua8_e_fuse_w1_b7_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b6_N
+.Lmemmove_ua8_e_fuse_w1_b7_N:
+        .word .Lmemmove_npow128, 172, .Lmemmove_ua8_e_fuse_w1_b7_N_to_N
         .word .Lmemmove_min, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b6_P
-.Lmemmove_ua8_fuse_w1_b7_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b6_N
-.Lmemmove_ua8_fuse_w1_b6_P:
-        .word .Lmemmove_pow64, 172, .Lmemmove_ua8_fuse_w1_b6_P_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b6_P
+.Lmemmove_ua8_e_fuse_w1_b7_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b6_N
+.Lmemmove_ua8_e_fuse_w1_b6_P:
+        .word .Lmemmove_pow64, 172, .Lmemmove_ua8_e_fuse_w1_b6_P_to_N
         .word .Lmemmove_npow1073741824, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b5_P
-.Lmemmove_ua8_fuse_w1_b6_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b5_N
-.Lmemmove_ua8_fuse_w1_b6_N:
-        .word .Lmemmove_npow64, 172, .Lmemmove_ua8_fuse_w1_b6_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b5_P
+.Lmemmove_ua8_e_fuse_w1_b6_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b5_N
+.Lmemmove_ua8_e_fuse_w1_b6_N:
+        .word .Lmemmove_npow64, 172, .Lmemmove_ua8_e_fuse_w1_b6_N_to_N
         .word .Lmemmove_npow1073741824, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b5_P
-.Lmemmove_ua8_fuse_w1_b6_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b5_N
-.Lmemmove_ua8_fuse_w1_b5_P:
-        .word .Lmemmove_pow32, 172, .Lmemmove_ua8_fuse_w1_b5_P_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b5_P
+.Lmemmove_ua8_e_fuse_w1_b6_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b5_N
+.Lmemmove_ua8_e_fuse_w1_b5_P:
+        .word .Lmemmove_pow32, 172, .Lmemmove_ua8_e_fuse_w1_b5_P_to_N
         .word .Lmemmove_npow536870912, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b4_P
-.Lmemmove_ua8_fuse_w1_b5_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b4_N
-.Lmemmove_ua8_fuse_w1_b5_N:
-        .word .Lmemmove_npow32, 172, .Lmemmove_ua8_fuse_w1_b5_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b4_P
+.Lmemmove_ua8_e_fuse_w1_b5_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b4_N
+.Lmemmove_ua8_e_fuse_w1_b5_N:
+        .word .Lmemmove_npow32, 172, .Lmemmove_ua8_e_fuse_w1_b5_N_to_N
         .word .Lmemmove_npow536870912, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b4_P
-.Lmemmove_ua8_fuse_w1_b5_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b4_N
-.Lmemmove_ua8_fuse_w1_b4_P:
-        .word .Lmemmove_pow16, 172, .Lmemmove_ua8_fuse_w1_b4_P_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b4_P
+.Lmemmove_ua8_e_fuse_w1_b5_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b4_N
+.Lmemmove_ua8_e_fuse_w1_b4_P:
+        .word .Lmemmove_pow16, 172, .Lmemmove_ua8_e_fuse_w1_b4_P_to_N
         .word .Lmemmove_npow268435456, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b3_P
-.Lmemmove_ua8_fuse_w1_b4_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b3_N
-.Lmemmove_ua8_fuse_w1_b4_N:
-        .word .Lmemmove_npow16, 172, .Lmemmove_ua8_fuse_w1_b4_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b3_P
+.Lmemmove_ua8_e_fuse_w1_b4_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b3_N
+.Lmemmove_ua8_e_fuse_w1_b4_N:
+        .word .Lmemmove_npow16, 172, .Lmemmove_ua8_e_fuse_w1_b4_N_to_N
         .word .Lmemmove_npow268435456, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b3_P
-.Lmemmove_ua8_fuse_w1_b4_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b3_N
-.Lmemmove_ua8_fuse_w1_b3_P:
-        .word .Lmemmove_pow8, 172, .Lmemmove_ua8_fuse_w1_b3_P_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b3_P
+.Lmemmove_ua8_e_fuse_w1_b4_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b3_N
+.Lmemmove_ua8_e_fuse_w1_b3_P:
+        .word .Lmemmove_pow8, 172, .Lmemmove_ua8_e_fuse_w1_b3_P_to_N
         .word .Lmemmove_npow134217728, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b2_P
-.Lmemmove_ua8_fuse_w1_b3_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b2_N
-.Lmemmove_ua8_fuse_w1_b3_N:
-        .word .Lmemmove_npow8, 172, .Lmemmove_ua8_fuse_w1_b3_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b2_P
+.Lmemmove_ua8_e_fuse_w1_b3_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b2_N
+.Lmemmove_ua8_e_fuse_w1_b3_N:
+        .word .Lmemmove_npow8, 172, .Lmemmove_ua8_e_fuse_w1_b3_N_to_N
         .word .Lmemmove_npow134217728, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b2_P
-.Lmemmove_ua8_fuse_w1_b3_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b2_N
-.Lmemmove_ua8_fuse_w1_b2_P:
-        .word .Lmemmove_pow4, 172, .Lmemmove_ua8_fuse_w1_b2_P_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b2_P
+.Lmemmove_ua8_e_fuse_w1_b3_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b2_N
+.Lmemmove_ua8_e_fuse_w1_b2_P:
+        .word .Lmemmove_pow4, 172, .Lmemmove_ua8_e_fuse_w1_b2_P_to_N
         .word .Lmemmove_npow67108864, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b1_P
-.Lmemmove_ua8_fuse_w1_b2_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b1_N
-.Lmemmove_ua8_fuse_w1_b2_N:
-        .word .Lmemmove_npow4, 172, .Lmemmove_ua8_fuse_w1_b2_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b1_P
+.Lmemmove_ua8_e_fuse_w1_b2_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b1_N
+.Lmemmove_ua8_e_fuse_w1_b2_N:
+        .word .Lmemmove_npow4, 172, .Lmemmove_ua8_e_fuse_w1_b2_N_to_N
         .word .Lmemmove_npow67108864, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b1_P
-.Lmemmove_ua8_fuse_w1_b2_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b1_N
-.Lmemmove_ua8_fuse_w1_b1_P:
-        .word .Lmemmove_pow2, 172, .Lmemmove_ua8_fuse_w1_b1_P_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b1_P
+.Lmemmove_ua8_e_fuse_w1_b2_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b1_N
+.Lmemmove_ua8_e_fuse_w1_b1_P:
+        .word .Lmemmove_pow2, 172, .Lmemmove_ua8_e_fuse_w1_b1_P_to_N
         .word .Lmemmove_npow33554432, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b0_P
-.Lmemmove_ua8_fuse_w1_b1_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b0_N
-.Lmemmove_ua8_fuse_w1_b1_N:
-        .word .Lmemmove_npow2, 172, .Lmemmove_ua8_fuse_w1_b1_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b0_P
+.Lmemmove_ua8_e_fuse_w1_b1_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b0_N
+.Lmemmove_ua8_e_fuse_w1_b1_N:
+        .word .Lmemmove_npow2, 172, .Lmemmove_ua8_e_fuse_w1_b1_N_to_N
         .word .Lmemmove_npow33554432, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b0_P
-.Lmemmove_ua8_fuse_w1_b1_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_w1_b0_N
-.Lmemmove_ua8_fuse_w1_b0_P:
-        .word .Lmemmove_pow1, 172, .Lmemmove_ua8_fuse_w1_b0_P_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b0_P
+.Lmemmove_ua8_e_fuse_w1_b1_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b0_N
+.Lmemmove_ua8_e_fuse_w1_b0_P:
+        .word .Lmemmove_pow1, 172, .Lmemmove_ua8_e_fuse_w1_b0_P_to_N
         .word .Lmemmove_npow16777216, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_done
-.Lmemmove_ua8_fuse_w1_b0_P_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_done
-.Lmemmove_ua8_fuse_w1_b0_N:
-        .word .Lmemmove_npow1, 172, .Lmemmove_ua8_fuse_w1_b0_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_done
+.Lmemmove_ua8_e_fuse_w1_b0_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_done
+.Lmemmove_ua8_e_fuse_w1_b0_N:
+        .word .Lmemmove_npow1, 172, .Lmemmove_ua8_e_fuse_w1_b0_N_to_N
         .word .Lmemmove_npow16777216, 168, .+4
-        .word 12, 12, .Lmemmove_ua8_fuse_done
-.Lmemmove_ua8_fuse_w1_b0_N_to_N:
-        .word 12, 12, .Lmemmove_ua8_fuse_done
-.Lmemmove_ua8_fuse_done:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_done
+.Lmemmove_ua8_e_fuse_w1_b0_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_done
+.Lmemmove_ua8_e_fuse_w1_b29_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b28_N
+.Lmemmove_ua8_e_fuse_w1_b29_N:
+        .word .Lmemmove_npow536870912, 172, .Lmemmove_ua8_e_fuse_w1_b29_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b28_P
+.Lmemmove_ua8_e_fuse_w1_b29_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b28_N
+.Lmemmove_ua8_e_fuse_w1_b28_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b27_N
+.Lmemmove_ua8_e_fuse_w1_b28_N:
+        .word .Lmemmove_npow268435456, 172, .Lmemmove_ua8_e_fuse_w1_b28_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b27_P
+.Lmemmove_ua8_e_fuse_w1_b28_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b27_N
+.Lmemmove_ua8_e_fuse_w1_b27_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b26_N
+.Lmemmove_ua8_e_fuse_w1_b27_N:
+        .word .Lmemmove_npow134217728, 172, .Lmemmove_ua8_e_fuse_w1_b27_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b26_P
+.Lmemmove_ua8_e_fuse_w1_b27_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b26_N
+.Lmemmove_ua8_e_fuse_w1_b26_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b25_N
+.Lmemmove_ua8_e_fuse_w1_b26_N:
+        .word .Lmemmove_npow67108864, 172, .Lmemmove_ua8_e_fuse_w1_b26_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b25_P
+.Lmemmove_ua8_e_fuse_w1_b26_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b25_N
+.Lmemmove_ua8_e_fuse_w1_b25_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b24_N
+.Lmemmove_ua8_e_fuse_w1_b25_N:
+        .word .Lmemmove_npow33554432, 172, .Lmemmove_ua8_e_fuse_w1_b25_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b24_P
+.Lmemmove_ua8_e_fuse_w1_b25_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b24_N
+.Lmemmove_ua8_e_fuse_w1_b24_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b23_N
+.Lmemmove_ua8_e_fuse_w1_b24_N:
+        .word .Lmemmove_npow16777216, 172, .Lmemmove_ua8_e_fuse_w1_b24_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b23_P
+.Lmemmove_ua8_e_fuse_w1_b24_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b23_N
+.Lmemmove_ua8_e_fuse_w1_b23_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b22_N
+.Lmemmove_ua8_e_fuse_w1_b23_N:
+        .word .Lmemmove_npow8388608, 172, .Lmemmove_ua8_e_fuse_w1_b23_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b22_P
+.Lmemmove_ua8_e_fuse_w1_b23_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b22_N
+.Lmemmove_ua8_e_fuse_w1_b22_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b21_N
+.Lmemmove_ua8_e_fuse_w1_b22_N:
+        .word .Lmemmove_npow4194304, 172, .Lmemmove_ua8_e_fuse_w1_b22_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b21_P
+.Lmemmove_ua8_e_fuse_w1_b22_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b21_N
+.Lmemmove_ua8_e_fuse_w1_b21_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b20_N
+.Lmemmove_ua8_e_fuse_w1_b21_N:
+        .word .Lmemmove_npow2097152, 172, .Lmemmove_ua8_e_fuse_w1_b21_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b20_P
+.Lmemmove_ua8_e_fuse_w1_b21_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b20_N
+.Lmemmove_ua8_e_fuse_w1_b20_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b19_N
+.Lmemmove_ua8_e_fuse_w1_b20_N:
+        .word .Lmemmove_npow1048576, 172, .Lmemmove_ua8_e_fuse_w1_b20_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b19_P
+.Lmemmove_ua8_e_fuse_w1_b20_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b19_N
+.Lmemmove_ua8_e_fuse_w1_b19_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b18_N
+.Lmemmove_ua8_e_fuse_w1_b19_N:
+        .word .Lmemmove_npow524288, 172, .Lmemmove_ua8_e_fuse_w1_b19_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b18_P
+.Lmemmove_ua8_e_fuse_w1_b19_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b18_N
+.Lmemmove_ua8_e_fuse_w1_b18_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b17_N
+.Lmemmove_ua8_e_fuse_w1_b18_N:
+        .word .Lmemmove_npow262144, 172, .Lmemmove_ua8_e_fuse_w1_b18_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b17_P
+.Lmemmove_ua8_e_fuse_w1_b18_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b17_N
+.Lmemmove_ua8_e_fuse_w1_b17_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b16_N
+.Lmemmove_ua8_e_fuse_w1_b17_N:
+        .word .Lmemmove_npow131072, 172, .Lmemmove_ua8_e_fuse_w1_b17_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b16_P
+.Lmemmove_ua8_e_fuse_w1_b17_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b16_N
+.Lmemmove_ua8_e_fuse_w1_b16_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b15_N
+.Lmemmove_ua8_e_fuse_w1_b16_N:
+        .word .Lmemmove_npow65536, 172, .Lmemmove_ua8_e_fuse_w1_b16_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b15_P
+.Lmemmove_ua8_e_fuse_w1_b16_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b15_N
+.Lmemmove_ua8_e_fuse_w1_b15_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b14_N
+.Lmemmove_ua8_e_fuse_w1_b15_N:
+        .word .Lmemmove_npow32768, 172, .Lmemmove_ua8_e_fuse_w1_b15_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b14_P
+.Lmemmove_ua8_e_fuse_w1_b15_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b14_N
+.Lmemmove_ua8_e_fuse_w1_b14_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b13_N
+.Lmemmove_ua8_e_fuse_w1_b14_N:
+        .word .Lmemmove_npow16384, 172, .Lmemmove_ua8_e_fuse_w1_b14_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b13_P
+.Lmemmove_ua8_e_fuse_w1_b14_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b13_N
+.Lmemmove_ua8_e_fuse_w1_b13_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b12_N
+.Lmemmove_ua8_e_fuse_w1_b13_N:
+        .word .Lmemmove_npow8192, 172, .Lmemmove_ua8_e_fuse_w1_b13_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b12_P
+.Lmemmove_ua8_e_fuse_w1_b13_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b12_N
+.Lmemmove_ua8_e_fuse_w1_b12_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b11_N
+.Lmemmove_ua8_e_fuse_w1_b12_N:
+        .word .Lmemmove_npow4096, 172, .Lmemmove_ua8_e_fuse_w1_b12_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b11_P
+.Lmemmove_ua8_e_fuse_w1_b12_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b11_N
+.Lmemmove_ua8_e_fuse_w1_b11_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b10_N
+.Lmemmove_ua8_e_fuse_w1_b11_N:
+        .word .Lmemmove_npow2048, 172, .Lmemmove_ua8_e_fuse_w1_b11_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b10_P
+.Lmemmove_ua8_e_fuse_w1_b11_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b10_N
+.Lmemmove_ua8_e_fuse_w1_b10_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b9_N
+.Lmemmove_ua8_e_fuse_w1_b10_N:
+        .word .Lmemmove_npow1024, 172, .Lmemmove_ua8_e_fuse_w1_b10_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b9_P
+.Lmemmove_ua8_e_fuse_w1_b10_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b9_N
+.Lmemmove_ua8_e_fuse_w1_b9_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b8_N
+.Lmemmove_ua8_e_fuse_w1_b9_N:
+        .word .Lmemmove_npow512, 172, .Lmemmove_ua8_e_fuse_w1_b9_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b8_P
+.Lmemmove_ua8_e_fuse_w1_b9_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b8_N
+.Lmemmove_ua8_e_fuse_w1_b8_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b7_N
+.Lmemmove_ua8_e_fuse_w1_b8_N:
+        .word .Lmemmove_npow256, 172, .Lmemmove_ua8_e_fuse_w1_b8_N_to_N
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b7_P
+.Lmemmove_ua8_e_fuse_w1_b8_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b7_N
+.Lmemmove_ua8_e_fuse_done:
         .word 12, 12, .+4
         .word 102, 102, .+4
         .word 180, 180, .+4
         .word 168, 180, .+4
         .word 180, 102, .+4
-        .word 12, 12, .+4
-        .word 160, 160, .+4
-        .word 188, 12, .+4
-        .word 12, 160, .+4
         .word .Lmemmove_n4, 184, .+4
         .word .Lmemmove_n4, 100, .+4
-        .word .Lmemmove_n4, 104, .+4
         .word .Lmemmove_c4, 108, .+4
-        .word 12, 12, .Lmemmove_ua8_body
-.Lmemmove_ua16_body:
+        .word 12, 12, .Lmemmove_ua8_o_body
+.Lmemmove_ua8_o_body:
+        .word 180, 180, .+4
+        .word 12, 12, .+4
+        .word 108, 12, .+4
+        .word 12, 180, .+4
+        .word .Lmemmove_c3, 180, .Lmemmove_fwd_slow_loop
+        .word 160, 160, .+4
+        .word 186, 160, .+4
+        .word 180, 180, .+4
+        .word 160, 180, .+4
+        .word 160, 160, .+4
+        .word 12, 12, .+4
+        .word 180, 12, .+4
+        .word 12, 160, .+4
+        .word 168, 168, .+4
+        .word 12, 12, .+4
+        .word 172, 172, .+4
+        .word 164, 12, .+4
+        .word 12, 172, .+4
+.Lmemmove_ua8_o_fuse_w0_b31:
+        .word 176, 176, .+4
+        .word 172, 176, .+4
+        .word 144, 176, .Lmemmove_ua8_o_fuse_w0_b30_check
+        .word .Lmemmove_npow8388608, 168, .+4
+        .word .Lmemmove_min, 172, .+4
+.Lmemmove_ua8_o_fuse_w0_b30_check:
+        .word 176, 176, .+4
+        .word 172, 176, .+4
+        .word .Lmemmove_npow1073741824, 176, .Lmemmove_ua8_o_fuse_w0_b30_set
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_lattice_start
+.Lmemmove_ua8_o_fuse_w0_b30_set:
+        .word .Lmemmove_npow4194304, 168, .+4
+        .word .Lmemmove_pow1073741824, 172, .+4
+.Lmemmove_ua8_o_fuse_w0_lattice_start:
+        .word .Lmemmove_n1, 172, .+4
+.Lmemmove_ua8_o_fuse_w0_b29_P:
+        .word .Lmemmove_pow536870912, 172, .Lmemmove_ua8_o_fuse_w0_b29_P_to_N
+        .word .Lmemmove_npow2097152, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b28_P
+.Lmemmove_ua8_o_fuse_w0_b29_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b28_N
+.Lmemmove_ua8_o_fuse_w0_b29_N:
+        .word .Lmemmove_npow536870912, 172, .Lmemmove_ua8_o_fuse_w0_b29_N_to_N
+        .word .Lmemmove_npow2097152, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b28_P
+.Lmemmove_ua8_o_fuse_w0_b29_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b28_N
+.Lmemmove_ua8_o_fuse_w0_b28_P:
+        .word .Lmemmove_pow268435456, 172, .Lmemmove_ua8_o_fuse_w0_b28_P_to_N
+        .word .Lmemmove_npow1048576, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b27_P
+.Lmemmove_ua8_o_fuse_w0_b28_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b27_N
+.Lmemmove_ua8_o_fuse_w0_b28_N:
+        .word .Lmemmove_npow268435456, 172, .Lmemmove_ua8_o_fuse_w0_b28_N_to_N
+        .word .Lmemmove_npow1048576, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b27_P
+.Lmemmove_ua8_o_fuse_w0_b28_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b27_N
+.Lmemmove_ua8_o_fuse_w0_b27_P:
+        .word .Lmemmove_pow134217728, 172, .Lmemmove_ua8_o_fuse_w0_b27_P_to_N
+        .word .Lmemmove_npow524288, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b26_P
+.Lmemmove_ua8_o_fuse_w0_b27_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b26_N
+.Lmemmove_ua8_o_fuse_w0_b27_N:
+        .word .Lmemmove_npow134217728, 172, .Lmemmove_ua8_o_fuse_w0_b27_N_to_N
+        .word .Lmemmove_npow524288, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b26_P
+.Lmemmove_ua8_o_fuse_w0_b27_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b26_N
+.Lmemmove_ua8_o_fuse_w0_b26_P:
+        .word .Lmemmove_pow67108864, 172, .Lmemmove_ua8_o_fuse_w0_b26_P_to_N
+        .word .Lmemmove_npow262144, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b25_P
+.Lmemmove_ua8_o_fuse_w0_b26_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b25_N
+.Lmemmove_ua8_o_fuse_w0_b26_N:
+        .word .Lmemmove_npow67108864, 172, .Lmemmove_ua8_o_fuse_w0_b26_N_to_N
+        .word .Lmemmove_npow262144, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b25_P
+.Lmemmove_ua8_o_fuse_w0_b26_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b25_N
+.Lmemmove_ua8_o_fuse_w0_b25_P:
+        .word .Lmemmove_pow33554432, 172, .Lmemmove_ua8_o_fuse_w0_b25_P_to_N
+        .word .Lmemmove_npow131072, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b24_P
+.Lmemmove_ua8_o_fuse_w0_b25_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b24_N
+.Lmemmove_ua8_o_fuse_w0_b25_N:
+        .word .Lmemmove_npow33554432, 172, .Lmemmove_ua8_o_fuse_w0_b25_N_to_N
+        .word .Lmemmove_npow131072, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b24_P
+.Lmemmove_ua8_o_fuse_w0_b25_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b24_N
+.Lmemmove_ua8_o_fuse_w0_b24_P:
+        .word .Lmemmove_pow16777216, 172, .Lmemmove_ua8_o_fuse_w0_b24_P_to_N
+        .word .Lmemmove_npow65536, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b23_P
+.Lmemmove_ua8_o_fuse_w0_b24_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b23_N
+.Lmemmove_ua8_o_fuse_w0_b24_N:
+        .word .Lmemmove_npow16777216, 172, .Lmemmove_ua8_o_fuse_w0_b24_N_to_N
+        .word .Lmemmove_npow65536, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b23_P
+.Lmemmove_ua8_o_fuse_w0_b24_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b23_N
+.Lmemmove_ua8_o_fuse_w0_b23_P:
+        .word .Lmemmove_pow8388608, 172, .Lmemmove_ua8_o_fuse_w0_b23_P_to_N
+        .word .Lmemmove_npow32768, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b22_P
+.Lmemmove_ua8_o_fuse_w0_b23_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b22_N
+.Lmemmove_ua8_o_fuse_w0_b23_N:
+        .word .Lmemmove_npow8388608, 172, .Lmemmove_ua8_o_fuse_w0_b23_N_to_N
+        .word .Lmemmove_npow32768, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b22_P
+.Lmemmove_ua8_o_fuse_w0_b23_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b22_N
+.Lmemmove_ua8_o_fuse_w0_b22_P:
+        .word .Lmemmove_pow4194304, 172, .Lmemmove_ua8_o_fuse_w0_b22_P_to_N
+        .word .Lmemmove_npow16384, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b21_P
+.Lmemmove_ua8_o_fuse_w0_b22_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b21_N
+.Lmemmove_ua8_o_fuse_w0_b22_N:
+        .word .Lmemmove_npow4194304, 172, .Lmemmove_ua8_o_fuse_w0_b22_N_to_N
+        .word .Lmemmove_npow16384, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b21_P
+.Lmemmove_ua8_o_fuse_w0_b22_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b21_N
+.Lmemmove_ua8_o_fuse_w0_b21_P:
+        .word .Lmemmove_pow2097152, 172, .Lmemmove_ua8_o_fuse_w0_b21_P_to_N
+        .word .Lmemmove_npow8192, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b20_P
+.Lmemmove_ua8_o_fuse_w0_b21_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b20_N
+.Lmemmove_ua8_o_fuse_w0_b21_N:
+        .word .Lmemmove_npow2097152, 172, .Lmemmove_ua8_o_fuse_w0_b21_N_to_N
+        .word .Lmemmove_npow8192, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b20_P
+.Lmemmove_ua8_o_fuse_w0_b21_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b20_N
+.Lmemmove_ua8_o_fuse_w0_b20_P:
+        .word .Lmemmove_pow1048576, 172, .Lmemmove_ua8_o_fuse_w0_b20_P_to_N
+        .word .Lmemmove_npow4096, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b19_P
+.Lmemmove_ua8_o_fuse_w0_b20_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b19_N
+.Lmemmove_ua8_o_fuse_w0_b20_N:
+        .word .Lmemmove_npow1048576, 172, .Lmemmove_ua8_o_fuse_w0_b20_N_to_N
+        .word .Lmemmove_npow4096, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b19_P
+.Lmemmove_ua8_o_fuse_w0_b20_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b19_N
+.Lmemmove_ua8_o_fuse_w0_b19_P:
+        .word .Lmemmove_pow524288, 172, .Lmemmove_ua8_o_fuse_w0_b19_P_to_N
+        .word .Lmemmove_npow2048, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b18_P
+.Lmemmove_ua8_o_fuse_w0_b19_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b18_N
+.Lmemmove_ua8_o_fuse_w0_b19_N:
+        .word .Lmemmove_npow524288, 172, .Lmemmove_ua8_o_fuse_w0_b19_N_to_N
+        .word .Lmemmove_npow2048, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b18_P
+.Lmemmove_ua8_o_fuse_w0_b19_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b18_N
+.Lmemmove_ua8_o_fuse_w0_b18_P:
+        .word .Lmemmove_pow262144, 172, .Lmemmove_ua8_o_fuse_w0_b18_P_to_N
+        .word .Lmemmove_npow1024, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b17_P
+.Lmemmove_ua8_o_fuse_w0_b18_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b17_N
+.Lmemmove_ua8_o_fuse_w0_b18_N:
+        .word .Lmemmove_npow262144, 172, .Lmemmove_ua8_o_fuse_w0_b18_N_to_N
+        .word .Lmemmove_npow1024, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b17_P
+.Lmemmove_ua8_o_fuse_w0_b18_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b17_N
+.Lmemmove_ua8_o_fuse_w0_b17_P:
+        .word .Lmemmove_pow131072, 172, .Lmemmove_ua8_o_fuse_w0_b17_P_to_N
+        .word .Lmemmove_npow512, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b16_P
+.Lmemmove_ua8_o_fuse_w0_b17_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b16_N
+.Lmemmove_ua8_o_fuse_w0_b17_N:
+        .word .Lmemmove_npow131072, 172, .Lmemmove_ua8_o_fuse_w0_b17_N_to_N
+        .word .Lmemmove_npow512, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b16_P
+.Lmemmove_ua8_o_fuse_w0_b17_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b16_N
+.Lmemmove_ua8_o_fuse_w0_b16_P:
+        .word .Lmemmove_pow65536, 172, .Lmemmove_ua8_o_fuse_w0_b16_P_to_N
+        .word .Lmemmove_npow256, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b15_P
+.Lmemmove_ua8_o_fuse_w0_b16_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b15_N
+.Lmemmove_ua8_o_fuse_w0_b16_N:
+        .word .Lmemmove_npow65536, 172, .Lmemmove_ua8_o_fuse_w0_b16_N_to_N
+        .word .Lmemmove_npow256, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b15_P
+.Lmemmove_ua8_o_fuse_w0_b16_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b15_N
+.Lmemmove_ua8_o_fuse_w0_b15_P:
+        .word .Lmemmove_pow32768, 172, .Lmemmove_ua8_o_fuse_w0_b15_P_to_N
+        .word .Lmemmove_npow128, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b14_P
+.Lmemmove_ua8_o_fuse_w0_b15_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b14_N
+.Lmemmove_ua8_o_fuse_w0_b15_N:
+        .word .Lmemmove_npow32768, 172, .Lmemmove_ua8_o_fuse_w0_b15_N_to_N
+        .word .Lmemmove_npow128, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b14_P
+.Lmemmove_ua8_o_fuse_w0_b15_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b14_N
+.Lmemmove_ua8_o_fuse_w0_b14_P:
+        .word .Lmemmove_pow16384, 172, .Lmemmove_ua8_o_fuse_w0_b14_P_to_N
+        .word .Lmemmove_npow64, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b13_P
+.Lmemmove_ua8_o_fuse_w0_b14_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b13_N
+.Lmemmove_ua8_o_fuse_w0_b14_N:
+        .word .Lmemmove_npow16384, 172, .Lmemmove_ua8_o_fuse_w0_b14_N_to_N
+        .word .Lmemmove_npow64, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b13_P
+.Lmemmove_ua8_o_fuse_w0_b14_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b13_N
+.Lmemmove_ua8_o_fuse_w0_b13_P:
+        .word .Lmemmove_pow8192, 172, .Lmemmove_ua8_o_fuse_w0_b13_P_to_N
+        .word .Lmemmove_npow32, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b12_P
+.Lmemmove_ua8_o_fuse_w0_b13_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b12_N
+.Lmemmove_ua8_o_fuse_w0_b13_N:
+        .word .Lmemmove_npow8192, 172, .Lmemmove_ua8_o_fuse_w0_b13_N_to_N
+        .word .Lmemmove_npow32, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b12_P
+.Lmemmove_ua8_o_fuse_w0_b13_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b12_N
+.Lmemmove_ua8_o_fuse_w0_b12_P:
+        .word .Lmemmove_pow4096, 172, .Lmemmove_ua8_o_fuse_w0_b12_P_to_N
+        .word .Lmemmove_npow16, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b11_P
+.Lmemmove_ua8_o_fuse_w0_b12_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b11_N
+.Lmemmove_ua8_o_fuse_w0_b12_N:
+        .word .Lmemmove_npow4096, 172, .Lmemmove_ua8_o_fuse_w0_b12_N_to_N
+        .word .Lmemmove_npow16, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b11_P
+.Lmemmove_ua8_o_fuse_w0_b12_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b11_N
+.Lmemmove_ua8_o_fuse_w0_b11_P:
+        .word .Lmemmove_pow2048, 172, .Lmemmove_ua8_o_fuse_w0_b11_P_to_N
+        .word .Lmemmove_npow8, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b10_P
+.Lmemmove_ua8_o_fuse_w0_b11_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b10_N
+.Lmemmove_ua8_o_fuse_w0_b11_N:
+        .word .Lmemmove_npow2048, 172, .Lmemmove_ua8_o_fuse_w0_b11_N_to_N
+        .word .Lmemmove_npow8, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b10_P
+.Lmemmove_ua8_o_fuse_w0_b11_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b10_N
+.Lmemmove_ua8_o_fuse_w0_b10_P:
+        .word .Lmemmove_pow1024, 172, .Lmemmove_ua8_o_fuse_w0_b10_P_to_N
+        .word .Lmemmove_npow4, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b9_P
+.Lmemmove_ua8_o_fuse_w0_b10_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b9_N
+.Lmemmove_ua8_o_fuse_w0_b10_N:
+        .word .Lmemmove_npow1024, 172, .Lmemmove_ua8_o_fuse_w0_b10_N_to_N
+        .word .Lmemmove_npow4, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b9_P
+.Lmemmove_ua8_o_fuse_w0_b10_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b9_N
+.Lmemmove_ua8_o_fuse_w0_b9_P:
+        .word .Lmemmove_pow512, 172, .Lmemmove_ua8_o_fuse_w0_b9_P_to_N
+        .word .Lmemmove_npow2, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b8_P
+.Lmemmove_ua8_o_fuse_w0_b9_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b8_N
+.Lmemmove_ua8_o_fuse_w0_b9_N:
+        .word .Lmemmove_npow512, 172, .Lmemmove_ua8_o_fuse_w0_b9_N_to_N
+        .word .Lmemmove_npow2, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b8_P
+.Lmemmove_ua8_o_fuse_w0_b9_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w0_b8_N
+.Lmemmove_ua8_o_fuse_w0_b8_P:
+        .word .Lmemmove_pow256, 172, .Lmemmove_ua8_o_fuse_w0_b8_P_to_N
+        .word .Lmemmove_npow1, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_word1_start
+.Lmemmove_ua8_o_fuse_w0_b8_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_word1_start
+.Lmemmove_ua8_o_fuse_w0_b8_N:
+        .word .Lmemmove_npow256, 172, .Lmemmove_ua8_o_fuse_w0_b8_N_to_N
+        .word .Lmemmove_npow1, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_word1_start
+.Lmemmove_ua8_o_fuse_w0_b8_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_word1_start
+.Lmemmove_ua8_o_fuse_word1_start:
+        .word 12, 12, .+4
+        .word 172, 172, .+4
+        .word 160, 12, .+4
+        .word 12, 172, .+4
+.Lmemmove_ua8_o_fuse_w1_b31:
+        .word 176, 176, .+4
+        .word 172, 176, .+4
+        .word 144, 176, .Lmemmove_ua8_o_fuse_w1_b30_check
+        .word .Lmemmove_min, 172, .+4
+.Lmemmove_ua8_o_fuse_w1_b30_check:
+        .word 176, 176, .+4
+        .word 172, 176, .+4
+        .word .Lmemmove_npow1073741824, 176, .Lmemmove_ua8_o_fuse_w1_b30_clear
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_lattice_start
+.Lmemmove_ua8_o_fuse_w1_b30_clear:
+        .word .Lmemmove_pow1073741824, 172, .+4
+.Lmemmove_ua8_o_fuse_w1_lattice_start:
+        .word .Lmemmove_n1, 172, .+4
+.Lmemmove_ua8_o_fuse_w1_b29_P:
+        .word .Lmemmove_pow536870912, 172, .Lmemmove_ua8_o_fuse_w1_b29_P_to_N
+.Lmemmove_ua8_o_fuse_w1_b28_P:
+        .word .Lmemmove_pow268435456, 172, .Lmemmove_ua8_o_fuse_w1_b28_P_to_N
+.Lmemmove_ua8_o_fuse_w1_b27_P:
+        .word .Lmemmove_pow134217728, 172, .Lmemmove_ua8_o_fuse_w1_b27_P_to_N
+.Lmemmove_ua8_o_fuse_w1_b26_P:
+        .word .Lmemmove_pow67108864, 172, .Lmemmove_ua8_o_fuse_w1_b26_P_to_N
+.Lmemmove_ua8_o_fuse_w1_b25_P:
+        .word .Lmemmove_pow33554432, 172, .Lmemmove_ua8_o_fuse_w1_b25_P_to_N
+.Lmemmove_ua8_o_fuse_w1_b24_P:
+        .word .Lmemmove_pow16777216, 172, .Lmemmove_ua8_o_fuse_w1_b24_P_to_N
+.Lmemmove_ua8_o_fuse_w1_b23_P:
+        .word .Lmemmove_pow8388608, 172, .Lmemmove_ua8_o_fuse_w1_b23_P_to_N
+.Lmemmove_ua8_o_fuse_w1_b22_P:
+        .word .Lmemmove_pow4194304, 172, .Lmemmove_ua8_o_fuse_w1_b22_P_to_N
+.Lmemmove_ua8_o_fuse_w1_b21_P:
+        .word .Lmemmove_pow2097152, 172, .Lmemmove_ua8_o_fuse_w1_b21_P_to_N
+.Lmemmove_ua8_o_fuse_w1_b20_P:
+        .word .Lmemmove_pow1048576, 172, .Lmemmove_ua8_o_fuse_w1_b20_P_to_N
+.Lmemmove_ua8_o_fuse_w1_b19_P:
+        .word .Lmemmove_pow524288, 172, .Lmemmove_ua8_o_fuse_w1_b19_P_to_N
+.Lmemmove_ua8_o_fuse_w1_b18_P:
+        .word .Lmemmove_pow262144, 172, .Lmemmove_ua8_o_fuse_w1_b18_P_to_N
+.Lmemmove_ua8_o_fuse_w1_b17_P:
+        .word .Lmemmove_pow131072, 172, .Lmemmove_ua8_o_fuse_w1_b17_P_to_N
+.Lmemmove_ua8_o_fuse_w1_b16_P:
+        .word .Lmemmove_pow65536, 172, .Lmemmove_ua8_o_fuse_w1_b16_P_to_N
+.Lmemmove_ua8_o_fuse_w1_b15_P:
+        .word .Lmemmove_pow32768, 172, .Lmemmove_ua8_o_fuse_w1_b15_P_to_N
+.Lmemmove_ua8_o_fuse_w1_b14_P:
+        .word .Lmemmove_pow16384, 172, .Lmemmove_ua8_o_fuse_w1_b14_P_to_N
+.Lmemmove_ua8_o_fuse_w1_b13_P:
+        .word .Lmemmove_pow8192, 172, .Lmemmove_ua8_o_fuse_w1_b13_P_to_N
+.Lmemmove_ua8_o_fuse_w1_b12_P:
+        .word .Lmemmove_pow4096, 172, .Lmemmove_ua8_o_fuse_w1_b12_P_to_N
+.Lmemmove_ua8_o_fuse_w1_b11_P:
+        .word .Lmemmove_pow2048, 172, .Lmemmove_ua8_o_fuse_w1_b11_P_to_N
+.Lmemmove_ua8_o_fuse_w1_b10_P:
+        .word .Lmemmove_pow1024, 172, .Lmemmove_ua8_o_fuse_w1_b10_P_to_N
+.Lmemmove_ua8_o_fuse_w1_b9_P:
+        .word .Lmemmove_pow512, 172, .Lmemmove_ua8_o_fuse_w1_b9_P_to_N
+.Lmemmove_ua8_o_fuse_w1_b8_P:
+        .word .Lmemmove_pow256, 172, .Lmemmove_ua8_o_fuse_w1_b8_P_to_N
+.Lmemmove_ua8_o_fuse_w1_b7_P:
+        .word .Lmemmove_pow128, 172, .Lmemmove_ua8_o_fuse_w1_b7_P_to_N
+        .word .Lmemmove_min, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b6_P
+.Lmemmove_ua8_o_fuse_w1_b7_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b6_N
+.Lmemmove_ua8_o_fuse_w1_b7_N:
+        .word .Lmemmove_npow128, 172, .Lmemmove_ua8_o_fuse_w1_b7_N_to_N
+        .word .Lmemmove_min, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b6_P
+.Lmemmove_ua8_o_fuse_w1_b7_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b6_N
+.Lmemmove_ua8_o_fuse_w1_b6_P:
+        .word .Lmemmove_pow64, 172, .Lmemmove_ua8_o_fuse_w1_b6_P_to_N
+        .word .Lmemmove_npow1073741824, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b5_P
+.Lmemmove_ua8_o_fuse_w1_b6_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b5_N
+.Lmemmove_ua8_o_fuse_w1_b6_N:
+        .word .Lmemmove_npow64, 172, .Lmemmove_ua8_o_fuse_w1_b6_N_to_N
+        .word .Lmemmove_npow1073741824, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b5_P
+.Lmemmove_ua8_o_fuse_w1_b6_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b5_N
+.Lmemmove_ua8_o_fuse_w1_b5_P:
+        .word .Lmemmove_pow32, 172, .Lmemmove_ua8_o_fuse_w1_b5_P_to_N
+        .word .Lmemmove_npow536870912, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b4_P
+.Lmemmove_ua8_o_fuse_w1_b5_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b4_N
+.Lmemmove_ua8_o_fuse_w1_b5_N:
+        .word .Lmemmove_npow32, 172, .Lmemmove_ua8_o_fuse_w1_b5_N_to_N
+        .word .Lmemmove_npow536870912, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b4_P
+.Lmemmove_ua8_o_fuse_w1_b5_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b4_N
+.Lmemmove_ua8_o_fuse_w1_b4_P:
+        .word .Lmemmove_pow16, 172, .Lmemmove_ua8_o_fuse_w1_b4_P_to_N
+        .word .Lmemmove_npow268435456, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b3_P
+.Lmemmove_ua8_o_fuse_w1_b4_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b3_N
+.Lmemmove_ua8_o_fuse_w1_b4_N:
+        .word .Lmemmove_npow16, 172, .Lmemmove_ua8_o_fuse_w1_b4_N_to_N
+        .word .Lmemmove_npow268435456, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b3_P
+.Lmemmove_ua8_o_fuse_w1_b4_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b3_N
+.Lmemmove_ua8_o_fuse_w1_b3_P:
+        .word .Lmemmove_pow8, 172, .Lmemmove_ua8_o_fuse_w1_b3_P_to_N
+        .word .Lmemmove_npow134217728, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b2_P
+.Lmemmove_ua8_o_fuse_w1_b3_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b2_N
+.Lmemmove_ua8_o_fuse_w1_b3_N:
+        .word .Lmemmove_npow8, 172, .Lmemmove_ua8_o_fuse_w1_b3_N_to_N
+        .word .Lmemmove_npow134217728, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b2_P
+.Lmemmove_ua8_o_fuse_w1_b3_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b2_N
+.Lmemmove_ua8_o_fuse_w1_b2_P:
+        .word .Lmemmove_pow4, 172, .Lmemmove_ua8_o_fuse_w1_b2_P_to_N
+        .word .Lmemmove_npow67108864, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b1_P
+.Lmemmove_ua8_o_fuse_w1_b2_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b1_N
+.Lmemmove_ua8_o_fuse_w1_b2_N:
+        .word .Lmemmove_npow4, 172, .Lmemmove_ua8_o_fuse_w1_b2_N_to_N
+        .word .Lmemmove_npow67108864, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b1_P
+.Lmemmove_ua8_o_fuse_w1_b2_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b1_N
+.Lmemmove_ua8_o_fuse_w1_b1_P:
+        .word .Lmemmove_pow2, 172, .Lmemmove_ua8_o_fuse_w1_b1_P_to_N
+        .word .Lmemmove_npow33554432, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b0_P
+.Lmemmove_ua8_o_fuse_w1_b1_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b0_N
+.Lmemmove_ua8_o_fuse_w1_b1_N:
+        .word .Lmemmove_npow2, 172, .Lmemmove_ua8_o_fuse_w1_b1_N_to_N
+        .word .Lmemmove_npow33554432, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b0_P
+.Lmemmove_ua8_o_fuse_w1_b1_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b0_N
+.Lmemmove_ua8_o_fuse_w1_b0_P:
+        .word .Lmemmove_pow1, 172, .Lmemmove_ua8_o_fuse_w1_b0_P_to_N
+        .word .Lmemmove_npow16777216, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_done
+.Lmemmove_ua8_o_fuse_w1_b0_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_done
+.Lmemmove_ua8_o_fuse_w1_b0_N:
+        .word .Lmemmove_npow1, 172, .Lmemmove_ua8_o_fuse_w1_b0_N_to_N
+        .word .Lmemmove_npow16777216, 168, .+4
+        .word 12, 12, .Lmemmove_ua8_o_fuse_done
+.Lmemmove_ua8_o_fuse_w1_b0_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_done
+.Lmemmove_ua8_o_fuse_w1_b29_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b28_N
+.Lmemmove_ua8_o_fuse_w1_b29_N:
+        .word .Lmemmove_npow536870912, 172, .Lmemmove_ua8_o_fuse_w1_b29_N_to_N
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b28_P
+.Lmemmove_ua8_o_fuse_w1_b29_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b28_N
+.Lmemmove_ua8_o_fuse_w1_b28_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b27_N
+.Lmemmove_ua8_o_fuse_w1_b28_N:
+        .word .Lmemmove_npow268435456, 172, .Lmemmove_ua8_o_fuse_w1_b28_N_to_N
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b27_P
+.Lmemmove_ua8_o_fuse_w1_b28_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b27_N
+.Lmemmove_ua8_o_fuse_w1_b27_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b26_N
+.Lmemmove_ua8_o_fuse_w1_b27_N:
+        .word .Lmemmove_npow134217728, 172, .Lmemmove_ua8_o_fuse_w1_b27_N_to_N
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b26_P
+.Lmemmove_ua8_o_fuse_w1_b27_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b26_N
+.Lmemmove_ua8_o_fuse_w1_b26_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b25_N
+.Lmemmove_ua8_o_fuse_w1_b26_N:
+        .word .Lmemmove_npow67108864, 172, .Lmemmove_ua8_o_fuse_w1_b26_N_to_N
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b25_P
+.Lmemmove_ua8_o_fuse_w1_b26_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b25_N
+.Lmemmove_ua8_o_fuse_w1_b25_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b24_N
+.Lmemmove_ua8_o_fuse_w1_b25_N:
+        .word .Lmemmove_npow33554432, 172, .Lmemmove_ua8_o_fuse_w1_b25_N_to_N
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b24_P
+.Lmemmove_ua8_o_fuse_w1_b25_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b24_N
+.Lmemmove_ua8_o_fuse_w1_b24_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b23_N
+.Lmemmove_ua8_o_fuse_w1_b24_N:
+        .word .Lmemmove_npow16777216, 172, .Lmemmove_ua8_o_fuse_w1_b24_N_to_N
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b23_P
+.Lmemmove_ua8_o_fuse_w1_b24_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b23_N
+.Lmemmove_ua8_o_fuse_w1_b23_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b22_N
+.Lmemmove_ua8_o_fuse_w1_b23_N:
+        .word .Lmemmove_npow8388608, 172, .Lmemmove_ua8_o_fuse_w1_b23_N_to_N
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b22_P
+.Lmemmove_ua8_o_fuse_w1_b23_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b22_N
+.Lmemmove_ua8_o_fuse_w1_b22_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b21_N
+.Lmemmove_ua8_o_fuse_w1_b22_N:
+        .word .Lmemmove_npow4194304, 172, .Lmemmove_ua8_o_fuse_w1_b22_N_to_N
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b21_P
+.Lmemmove_ua8_o_fuse_w1_b22_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b21_N
+.Lmemmove_ua8_o_fuse_w1_b21_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b20_N
+.Lmemmove_ua8_o_fuse_w1_b21_N:
+        .word .Lmemmove_npow2097152, 172, .Lmemmove_ua8_o_fuse_w1_b21_N_to_N
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b20_P
+.Lmemmove_ua8_o_fuse_w1_b21_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b20_N
+.Lmemmove_ua8_o_fuse_w1_b20_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b19_N
+.Lmemmove_ua8_o_fuse_w1_b20_N:
+        .word .Lmemmove_npow1048576, 172, .Lmemmove_ua8_o_fuse_w1_b20_N_to_N
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b19_P
+.Lmemmove_ua8_o_fuse_w1_b20_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b19_N
+.Lmemmove_ua8_o_fuse_w1_b19_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b18_N
+.Lmemmove_ua8_o_fuse_w1_b19_N:
+        .word .Lmemmove_npow524288, 172, .Lmemmove_ua8_o_fuse_w1_b19_N_to_N
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b18_P
+.Lmemmove_ua8_o_fuse_w1_b19_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b18_N
+.Lmemmove_ua8_o_fuse_w1_b18_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b17_N
+.Lmemmove_ua8_o_fuse_w1_b18_N:
+        .word .Lmemmove_npow262144, 172, .Lmemmove_ua8_o_fuse_w1_b18_N_to_N
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b17_P
+.Lmemmove_ua8_o_fuse_w1_b18_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b17_N
+.Lmemmove_ua8_o_fuse_w1_b17_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b16_N
+.Lmemmove_ua8_o_fuse_w1_b17_N:
+        .word .Lmemmove_npow131072, 172, .Lmemmove_ua8_o_fuse_w1_b17_N_to_N
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b16_P
+.Lmemmove_ua8_o_fuse_w1_b17_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b16_N
+.Lmemmove_ua8_o_fuse_w1_b16_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b15_N
+.Lmemmove_ua8_o_fuse_w1_b16_N:
+        .word .Lmemmove_npow65536, 172, .Lmemmove_ua8_o_fuse_w1_b16_N_to_N
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b15_P
+.Lmemmove_ua8_o_fuse_w1_b16_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b15_N
+.Lmemmove_ua8_o_fuse_w1_b15_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b14_N
+.Lmemmove_ua8_o_fuse_w1_b15_N:
+        .word .Lmemmove_npow32768, 172, .Lmemmove_ua8_o_fuse_w1_b15_N_to_N
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b14_P
+.Lmemmove_ua8_o_fuse_w1_b15_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b14_N
+.Lmemmove_ua8_o_fuse_w1_b14_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b13_N
+.Lmemmove_ua8_o_fuse_w1_b14_N:
+        .word .Lmemmove_npow16384, 172, .Lmemmove_ua8_o_fuse_w1_b14_N_to_N
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b13_P
+.Lmemmove_ua8_o_fuse_w1_b14_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b13_N
+.Lmemmove_ua8_o_fuse_w1_b13_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b12_N
+.Lmemmove_ua8_o_fuse_w1_b13_N:
+        .word .Lmemmove_npow8192, 172, .Lmemmove_ua8_o_fuse_w1_b13_N_to_N
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b12_P
+.Lmemmove_ua8_o_fuse_w1_b13_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b12_N
+.Lmemmove_ua8_o_fuse_w1_b12_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b11_N
+.Lmemmove_ua8_o_fuse_w1_b12_N:
+        .word .Lmemmove_npow4096, 172, .Lmemmove_ua8_o_fuse_w1_b12_N_to_N
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b11_P
+.Lmemmove_ua8_o_fuse_w1_b12_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b11_N
+.Lmemmove_ua8_o_fuse_w1_b11_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b10_N
+.Lmemmove_ua8_o_fuse_w1_b11_N:
+        .word .Lmemmove_npow2048, 172, .Lmemmove_ua8_o_fuse_w1_b11_N_to_N
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b10_P
+.Lmemmove_ua8_o_fuse_w1_b11_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b10_N
+.Lmemmove_ua8_o_fuse_w1_b10_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b9_N
+.Lmemmove_ua8_o_fuse_w1_b10_N:
+        .word .Lmemmove_npow1024, 172, .Lmemmove_ua8_o_fuse_w1_b10_N_to_N
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b9_P
+.Lmemmove_ua8_o_fuse_w1_b10_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b9_N
+.Lmemmove_ua8_o_fuse_w1_b9_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b8_N
+.Lmemmove_ua8_o_fuse_w1_b9_N:
+        .word .Lmemmove_npow512, 172, .Lmemmove_ua8_o_fuse_w1_b9_N_to_N
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b8_P
+.Lmemmove_ua8_o_fuse_w1_b9_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b8_N
+.Lmemmove_ua8_o_fuse_w1_b8_P_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b7_N
+.Lmemmove_ua8_o_fuse_w1_b8_N:
+        .word .Lmemmove_npow256, 172, .Lmemmove_ua8_o_fuse_w1_b8_N_to_N
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b7_P
+.Lmemmove_ua8_o_fuse_w1_b8_N_to_N:
+        .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b7_N
+.Lmemmove_ua8_o_fuse_done:
+        .word 12, 12, .+4
+        .word 102, 102, .+4
+        .word 180, 180, .+4
+        .word 168, 180, .+4
+        .word 180, 102, .+4
+        .word .Lmemmove_n4, 184, .+4
+        .word .Lmemmove_n4, 100, .+4
+        .word .Lmemmove_c4, 108, .+4
+        .word 12, 12, .Lmemmove_ua8_e_body
+.Lmemmove_ua16_e_body:
         .word 180, 180, .+4
         .word 12, 12, .+4
         .word 108, 12, .+4
@@ -68356,285 +69056,279 @@ __subleq_memmove:
         .word 180, 12, .+4
         .word 12, 164, .+4
         .word 12, 12, .+4
-        .word 12, 12, .+4
-        .word 188, 188, .+4
-        .word 164, 12, .+4
-        .word 12, 188, .+4
-        .word 12, 12, .+4
         .word 172, 172, .+4
         .word 160, 12, .+4
         .word 12, 172, .+4
         .word 180, 180, .+4
-.Lmemmove_ua16_srl_b31:
+.Lmemmove_ua16_e_srl_b31:
         .word 176, 176, .+4
         .word 172, 176, .+4
-        .word 144, 176, .Lmemmove_ua16_srl_b30_check
+        .word 144, 176, .Lmemmove_ua16_e_srl_b30_check
         .word .Lmemmove_npow32768, 180, .+4
         .word .Lmemmove_min, 172, .+4
-.Lmemmove_ua16_srl_b30_check:
+.Lmemmove_ua16_e_srl_b30_check:
         .word 176, 176, .+4
         .word 172, 176, .+4
-        .word .Lmemmove_npow1073741824, 176, .Lmemmove_ua16_srl_b30_set
-        .word 12, 12, .Lmemmove_ua16_srl_lattice_start
-.Lmemmove_ua16_srl_b30_set:
+        .word .Lmemmove_npow1073741824, 176, .Lmemmove_ua16_e_srl_b30_set
+        .word 12, 12, .Lmemmove_ua16_e_srl_lattice_start
+.Lmemmove_ua16_e_srl_b30_set:
         .word .Lmemmove_npow16384, 180, .+4
         .word .Lmemmove_pow1073741824, 172, .+4
-.Lmemmove_ua16_srl_lattice_start:
+.Lmemmove_ua16_e_srl_lattice_start:
         .word .Lmemmove_n1, 172, .+4
-.Lmemmove_ua16_srl_b29_P:
-        .word .Lmemmove_pow536870912, 172, .Lmemmove_ua16_srl_b29_P_to_N
+.Lmemmove_ua16_e_srl_b29_P:
+        .word .Lmemmove_pow536870912, 172, .Lmemmove_ua16_e_srl_b29_P_to_N
         .word .Lmemmove_npow8192, 180, .+4
-        .word 12, 12, .Lmemmove_ua16_srl_b28_P
-.Lmemmove_ua16_srl_b29_P_to_N:
-        .word 12, 12, .Lmemmove_ua16_srl_b28_N
-.Lmemmove_ua16_srl_b29_N:
-        .word .Lmemmove_npow536870912, 172, .Lmemmove_ua16_srl_b29_N_to_N
+        .word 12, 12, .Lmemmove_ua16_e_srl_b28_P
+.Lmemmove_ua16_e_srl_b29_P_to_N:
+        .word 12, 12, .Lmemmove_ua16_e_srl_b28_N
+.Lmemmove_ua16_e_srl_b29_N:
+        .word .Lmemmove_npow536870912, 172, .Lmemmove_ua16_e_srl_b29_N_to_N
         .word .Lmemmove_npow8192, 180, .+4
-        .word 12, 12, .Lmemmove_ua16_srl_b28_P
-.Lmemmove_ua16_srl_b29_N_to_N:
-        .word 12, 12, .Lmemmove_ua16_srl_b28_N
-.Lmemmove_ua16_srl_b28_P:
-        .word .Lmemmove_pow268435456, 172, .Lmemmove_ua16_srl_b28_P_to_N
+        .word 12, 12, .Lmemmove_ua16_e_srl_b28_P
+.Lmemmove_ua16_e_srl_b29_N_to_N:
+        .word 12, 12, .Lmemmove_ua16_e_srl_b28_N
+.Lmemmove_ua16_e_srl_b28_P:
+        .word .Lmemmove_pow268435456, 172, .Lmemmove_ua16_e_srl_b28_P_to_N
         .word .Lmemmove_npow4096, 180, .+4
-        .word 12, 12, .Lmemmove_ua16_srl_b27_P
-.Lmemmove_ua16_srl_b28_P_to_N:
-        .word 12, 12, .Lmemmove_ua16_srl_b27_N
-.Lmemmove_ua16_srl_b28_N:
-        .word .Lmemmove_npow268435456, 172, .Lmemmove_ua16_srl_b28_N_to_N
+        .word 12, 12, .Lmemmove_ua16_e_srl_b27_P
+.Lmemmove_ua16_e_srl_b28_P_to_N:
+        .word 12, 12, .Lmemmove_ua16_e_srl_b27_N
+.Lmemmove_ua16_e_srl_b28_N:
+        .word .Lmemmove_npow268435456, 172, .Lmemmove_ua16_e_srl_b28_N_to_N
         .word .Lmemmove_npow4096, 180, .+4
-        .word 12, 12, .Lmemmove_ua16_srl_b27_P
-.Lmemmove_ua16_srl_b28_N_to_N:
-        .word 12, 12, .Lmemmove_ua16_srl_b27_N
-.Lmemmove_ua16_srl_b27_P:
-        .word .Lmemmove_pow134217728, 172, .Lmemmove_ua16_srl_b27_P_to_N
+        .word 12, 12, .Lmemmove_ua16_e_srl_b27_P
+.Lmemmove_ua16_e_srl_b28_N_to_N:
+        .word 12, 12, .Lmemmove_ua16_e_srl_b27_N
+.Lmemmove_ua16_e_srl_b27_P:
+        .word .Lmemmove_pow134217728, 172, .Lmemmove_ua16_e_srl_b27_P_to_N
         .word .Lmemmove_npow2048, 180, .+4
-        .word 12, 12, .Lmemmove_ua16_srl_b26_P
-.Lmemmove_ua16_srl_b27_P_to_N:
-        .word 12, 12, .Lmemmove_ua16_srl_b26_N
-.Lmemmove_ua16_srl_b27_N:
-        .word .Lmemmove_npow134217728, 172, .Lmemmove_ua16_srl_b27_N_to_N
+        .word 12, 12, .Lmemmove_ua16_e_srl_b26_P
+.Lmemmove_ua16_e_srl_b27_P_to_N:
+        .word 12, 12, .Lmemmove_ua16_e_srl_b26_N
+.Lmemmove_ua16_e_srl_b27_N:
+        .word .Lmemmove_npow134217728, 172, .Lmemmove_ua16_e_srl_b27_N_to_N
         .word .Lmemmove_npow2048, 180, .+4
-        .word 12, 12, .Lmemmove_ua16_srl_b26_P
-.Lmemmove_ua16_srl_b27_N_to_N:
-        .word 12, 12, .Lmemmove_ua16_srl_b26_N
-.Lmemmove_ua16_srl_b26_P:
-        .word .Lmemmove_pow67108864, 172, .Lmemmove_ua16_srl_b26_P_to_N
+        .word 12, 12, .Lmemmove_ua16_e_srl_b26_P
+.Lmemmove_ua16_e_srl_b27_N_to_N:
+        .word 12, 12, .Lmemmove_ua16_e_srl_b26_N
+.Lmemmove_ua16_e_srl_b26_P:
+        .word .Lmemmove_pow67108864, 172, .Lmemmove_ua16_e_srl_b26_P_to_N
         .word .Lmemmove_npow1024, 180, .+4
-        .word 12, 12, .Lmemmove_ua16_srl_b25_P
-.Lmemmove_ua16_srl_b26_P_to_N:
-        .word 12, 12, .Lmemmove_ua16_srl_b25_N
-.Lmemmove_ua16_srl_b26_N:
-        .word .Lmemmove_npow67108864, 172, .Lmemmove_ua16_srl_b26_N_to_N
+        .word 12, 12, .Lmemmove_ua16_e_srl_b25_P
+.Lmemmove_ua16_e_srl_b26_P_to_N:
+        .word 12, 12, .Lmemmove_ua16_e_srl_b25_N
+.Lmemmove_ua16_e_srl_b26_N:
+        .word .Lmemmove_npow67108864, 172, .Lmemmove_ua16_e_srl_b26_N_to_N
         .word .Lmemmove_npow1024, 180, .+4
-        .word 12, 12, .Lmemmove_ua16_srl_b25_P
-.Lmemmove_ua16_srl_b26_N_to_N:
-        .word 12, 12, .Lmemmove_ua16_srl_b25_N
-.Lmemmove_ua16_srl_b25_P:
-        .word .Lmemmove_pow33554432, 172, .Lmemmove_ua16_srl_b25_P_to_N
+        .word 12, 12, .Lmemmove_ua16_e_srl_b25_P
+.Lmemmove_ua16_e_srl_b26_N_to_N:
+        .word 12, 12, .Lmemmove_ua16_e_srl_b25_N
+.Lmemmove_ua16_e_srl_b25_P:
+        .word .Lmemmove_pow33554432, 172, .Lmemmove_ua16_e_srl_b25_P_to_N
         .word .Lmemmove_npow512, 180, .+4
-        .word 12, 12, .Lmemmove_ua16_srl_b24_P
-.Lmemmove_ua16_srl_b25_P_to_N:
-        .word 12, 12, .Lmemmove_ua16_srl_b24_N
-.Lmemmove_ua16_srl_b25_N:
-        .word .Lmemmove_npow33554432, 172, .Lmemmove_ua16_srl_b25_N_to_N
+        .word 12, 12, .Lmemmove_ua16_e_srl_b24_P
+.Lmemmove_ua16_e_srl_b25_P_to_N:
+        .word 12, 12, .Lmemmove_ua16_e_srl_b24_N
+.Lmemmove_ua16_e_srl_b25_N:
+        .word .Lmemmove_npow33554432, 172, .Lmemmove_ua16_e_srl_b25_N_to_N
         .word .Lmemmove_npow512, 180, .+4
-        .word 12, 12, .Lmemmove_ua16_srl_b24_P
-.Lmemmove_ua16_srl_b25_N_to_N:
-        .word 12, 12, .Lmemmove_ua16_srl_b24_N
-.Lmemmove_ua16_srl_b24_P:
-        .word .Lmemmove_pow16777216, 172, .Lmemmove_ua16_srl_b24_P_to_N
+        .word 12, 12, .Lmemmove_ua16_e_srl_b24_P
+.Lmemmove_ua16_e_srl_b25_N_to_N:
+        .word 12, 12, .Lmemmove_ua16_e_srl_b24_N
+.Lmemmove_ua16_e_srl_b24_P:
+        .word .Lmemmove_pow16777216, 172, .Lmemmove_ua16_e_srl_b24_P_to_N
         .word .Lmemmove_npow256, 180, .+4
-        .word 12, 12, .Lmemmove_ua16_srl_b23_P
-.Lmemmove_ua16_srl_b24_P_to_N:
-        .word 12, 12, .Lmemmove_ua16_srl_b23_N
-.Lmemmove_ua16_srl_b24_N:
-        .word .Lmemmove_npow16777216, 172, .Lmemmove_ua16_srl_b24_N_to_N
+        .word 12, 12, .Lmemmove_ua16_e_srl_b23_P
+.Lmemmove_ua16_e_srl_b24_P_to_N:
+        .word 12, 12, .Lmemmove_ua16_e_srl_b23_N
+.Lmemmove_ua16_e_srl_b24_N:
+        .word .Lmemmove_npow16777216, 172, .Lmemmove_ua16_e_srl_b24_N_to_N
         .word .Lmemmove_npow256, 180, .+4
-        .word 12, 12, .Lmemmove_ua16_srl_b23_P
-.Lmemmove_ua16_srl_b24_N_to_N:
-        .word 12, 12, .Lmemmove_ua16_srl_b23_N
-.Lmemmove_ua16_srl_b23_P:
-        .word .Lmemmove_pow8388608, 172, .Lmemmove_ua16_srl_b23_P_to_N
+        .word 12, 12, .Lmemmove_ua16_e_srl_b23_P
+.Lmemmove_ua16_e_srl_b24_N_to_N:
+        .word 12, 12, .Lmemmove_ua16_e_srl_b23_N
+.Lmemmove_ua16_e_srl_b23_P:
+        .word .Lmemmove_pow8388608, 172, .Lmemmove_ua16_e_srl_b23_P_to_N
         .word .Lmemmove_npow128, 180, .+4
-        .word 12, 12, .Lmemmove_ua16_srl_b22_P
-.Lmemmove_ua16_srl_b23_P_to_N:
-        .word 12, 12, .Lmemmove_ua16_srl_b22_N
-.Lmemmove_ua16_srl_b23_N:
-        .word .Lmemmove_npow8388608, 172, .Lmemmove_ua16_srl_b23_N_to_N
+        .word 12, 12, .Lmemmove_ua16_e_srl_b22_P
+.Lmemmove_ua16_e_srl_b23_P_to_N:
+        .word 12, 12, .Lmemmove_ua16_e_srl_b22_N
+.Lmemmove_ua16_e_srl_b23_N:
+        .word .Lmemmove_npow8388608, 172, .Lmemmove_ua16_e_srl_b23_N_to_N
         .word .Lmemmove_npow128, 180, .+4
-        .word 12, 12, .Lmemmove_ua16_srl_b22_P
-.Lmemmove_ua16_srl_b23_N_to_N:
-        .word 12, 12, .Lmemmove_ua16_srl_b22_N
-.Lmemmove_ua16_srl_b22_P:
-        .word .Lmemmove_pow4194304, 172, .Lmemmove_ua16_srl_b22_P_to_N
+        .word 12, 12, .Lmemmove_ua16_e_srl_b22_P
+.Lmemmove_ua16_e_srl_b23_N_to_N:
+        .word 12, 12, .Lmemmove_ua16_e_srl_b22_N
+.Lmemmove_ua16_e_srl_b22_P:
+        .word .Lmemmove_pow4194304, 172, .Lmemmove_ua16_e_srl_b22_P_to_N
         .word .Lmemmove_npow64, 180, .+4
-        .word 12, 12, .Lmemmove_ua16_srl_b21_P
-.Lmemmove_ua16_srl_b22_P_to_N:
-        .word 12, 12, .Lmemmove_ua16_srl_b21_N
-.Lmemmove_ua16_srl_b22_N:
-        .word .Lmemmove_npow4194304, 172, .Lmemmove_ua16_srl_b22_N_to_N
+        .word 12, 12, .Lmemmove_ua16_e_srl_b21_P
+.Lmemmove_ua16_e_srl_b22_P_to_N:
+        .word 12, 12, .Lmemmove_ua16_e_srl_b21_N
+.Lmemmove_ua16_e_srl_b22_N:
+        .word .Lmemmove_npow4194304, 172, .Lmemmove_ua16_e_srl_b22_N_to_N
         .word .Lmemmove_npow64, 180, .+4
-        .word 12, 12, .Lmemmove_ua16_srl_b21_P
-.Lmemmove_ua16_srl_b22_N_to_N:
-        .word 12, 12, .Lmemmove_ua16_srl_b21_N
-.Lmemmove_ua16_srl_b21_P:
-        .word .Lmemmove_pow2097152, 172, .Lmemmove_ua16_srl_b21_P_to_N
+        .word 12, 12, .Lmemmove_ua16_e_srl_b21_P
+.Lmemmove_ua16_e_srl_b22_N_to_N:
+        .word 12, 12, .Lmemmove_ua16_e_srl_b21_N
+.Lmemmove_ua16_e_srl_b21_P:
+        .word .Lmemmove_pow2097152, 172, .Lmemmove_ua16_e_srl_b21_P_to_N
         .word .Lmemmove_npow32, 180, .+4
-        .word 12, 12, .Lmemmove_ua16_srl_b20_P
-.Lmemmove_ua16_srl_b21_P_to_N:
-        .word 12, 12, .Lmemmove_ua16_srl_b20_N
-.Lmemmove_ua16_srl_b21_N:
-        .word .Lmemmove_npow2097152, 172, .Lmemmove_ua16_srl_b21_N_to_N
+        .word 12, 12, .Lmemmove_ua16_e_srl_b20_P
+.Lmemmove_ua16_e_srl_b21_P_to_N:
+        .word 12, 12, .Lmemmove_ua16_e_srl_b20_N
+.Lmemmove_ua16_e_srl_b21_N:
+        .word .Lmemmove_npow2097152, 172, .Lmemmove_ua16_e_srl_b21_N_to_N
         .word .Lmemmove_npow32, 180, .+4
-        .word 12, 12, .Lmemmove_ua16_srl_b20_P
-.Lmemmove_ua16_srl_b21_N_to_N:
-        .word 12, 12, .Lmemmove_ua16_srl_b20_N
-.Lmemmove_ua16_srl_b20_P:
-        .word .Lmemmove_pow1048576, 172, .Lmemmove_ua16_srl_b20_P_to_N
+        .word 12, 12, .Lmemmove_ua16_e_srl_b20_P
+.Lmemmove_ua16_e_srl_b21_N_to_N:
+        .word 12, 12, .Lmemmove_ua16_e_srl_b20_N
+.Lmemmove_ua16_e_srl_b20_P:
+        .word .Lmemmove_pow1048576, 172, .Lmemmove_ua16_e_srl_b20_P_to_N
         .word .Lmemmove_npow16, 180, .+4
-        .word 12, 12, .Lmemmove_ua16_srl_b19_P
-.Lmemmove_ua16_srl_b20_P_to_N:
-        .word 12, 12, .Lmemmove_ua16_srl_b19_N
-.Lmemmove_ua16_srl_b20_N:
-        .word .Lmemmove_npow1048576, 172, .Lmemmove_ua16_srl_b20_N_to_N
+        .word 12, 12, .Lmemmove_ua16_e_srl_b19_P
+.Lmemmove_ua16_e_srl_b20_P_to_N:
+        .word 12, 12, .Lmemmove_ua16_e_srl_b19_N
+.Lmemmove_ua16_e_srl_b20_N:
+        .word .Lmemmove_npow1048576, 172, .Lmemmove_ua16_e_srl_b20_N_to_N
         .word .Lmemmove_npow16, 180, .+4
-        .word 12, 12, .Lmemmove_ua16_srl_b19_P
-.Lmemmove_ua16_srl_b20_N_to_N:
-        .word 12, 12, .Lmemmove_ua16_srl_b19_N
-.Lmemmove_ua16_srl_b19_P:
-        .word .Lmemmove_pow524288, 172, .Lmemmove_ua16_srl_b19_P_to_N
+        .word 12, 12, .Lmemmove_ua16_e_srl_b19_P
+.Lmemmove_ua16_e_srl_b20_N_to_N:
+        .word 12, 12, .Lmemmove_ua16_e_srl_b19_N
+.Lmemmove_ua16_e_srl_b19_P:
+        .word .Lmemmove_pow524288, 172, .Lmemmove_ua16_e_srl_b19_P_to_N
         .word .Lmemmove_npow8, 180, .+4
-        .word 12, 12, .Lmemmove_ua16_srl_b18_P
-.Lmemmove_ua16_srl_b19_P_to_N:
-        .word 12, 12, .Lmemmove_ua16_srl_b18_N
-.Lmemmove_ua16_srl_b19_N:
-        .word .Lmemmove_npow524288, 172, .Lmemmove_ua16_srl_b19_N_to_N
+        .word 12, 12, .Lmemmove_ua16_e_srl_b18_P
+.Lmemmove_ua16_e_srl_b19_P_to_N:
+        .word 12, 12, .Lmemmove_ua16_e_srl_b18_N
+.Lmemmove_ua16_e_srl_b19_N:
+        .word .Lmemmove_npow524288, 172, .Lmemmove_ua16_e_srl_b19_N_to_N
         .word .Lmemmove_npow8, 180, .+4
-        .word 12, 12, .Lmemmove_ua16_srl_b18_P
-.Lmemmove_ua16_srl_b19_N_to_N:
-        .word 12, 12, .Lmemmove_ua16_srl_b18_N
-.Lmemmove_ua16_srl_b18_P:
-        .word .Lmemmove_pow262144, 172, .Lmemmove_ua16_srl_b18_P_to_N
+        .word 12, 12, .Lmemmove_ua16_e_srl_b18_P
+.Lmemmove_ua16_e_srl_b19_N_to_N:
+        .word 12, 12, .Lmemmove_ua16_e_srl_b18_N
+.Lmemmove_ua16_e_srl_b18_P:
+        .word .Lmemmove_pow262144, 172, .Lmemmove_ua16_e_srl_b18_P_to_N
         .word .Lmemmove_npow4, 180, .+4
-        .word 12, 12, .Lmemmove_ua16_srl_b17_P
-.Lmemmove_ua16_srl_b18_P_to_N:
-        .word 12, 12, .Lmemmove_ua16_srl_b17_N
-.Lmemmove_ua16_srl_b18_N:
-        .word .Lmemmove_npow262144, 172, .Lmemmove_ua16_srl_b18_N_to_N
+        .word 12, 12, .Lmemmove_ua16_e_srl_b17_P
+.Lmemmove_ua16_e_srl_b18_P_to_N:
+        .word 12, 12, .Lmemmove_ua16_e_srl_b17_N
+.Lmemmove_ua16_e_srl_b18_N:
+        .word .Lmemmove_npow262144, 172, .Lmemmove_ua16_e_srl_b18_N_to_N
         .word .Lmemmove_npow4, 180, .+4
-        .word 12, 12, .Lmemmove_ua16_srl_b17_P
-.Lmemmove_ua16_srl_b18_N_to_N:
-        .word 12, 12, .Lmemmove_ua16_srl_b17_N
-.Lmemmove_ua16_srl_b17_P:
-        .word .Lmemmove_pow131072, 172, .Lmemmove_ua16_srl_b17_P_to_N
+        .word 12, 12, .Lmemmove_ua16_e_srl_b17_P
+.Lmemmove_ua16_e_srl_b18_N_to_N:
+        .word 12, 12, .Lmemmove_ua16_e_srl_b17_N
+.Lmemmove_ua16_e_srl_b17_P:
+        .word .Lmemmove_pow131072, 172, .Lmemmove_ua16_e_srl_b17_P_to_N
         .word .Lmemmove_npow2, 180, .+4
-        .word 12, 12, .Lmemmove_ua16_srl_b16_P
-.Lmemmove_ua16_srl_b17_P_to_N:
-        .word 12, 12, .Lmemmove_ua16_srl_b16_N
-.Lmemmove_ua16_srl_b17_N:
-        .word .Lmemmove_npow131072, 172, .Lmemmove_ua16_srl_b17_N_to_N
+        .word 12, 12, .Lmemmove_ua16_e_srl_b16_P
+.Lmemmove_ua16_e_srl_b17_P_to_N:
+        .word 12, 12, .Lmemmove_ua16_e_srl_b16_N
+.Lmemmove_ua16_e_srl_b17_N:
+        .word .Lmemmove_npow131072, 172, .Lmemmove_ua16_e_srl_b17_N_to_N
         .word .Lmemmove_npow2, 180, .+4
-        .word 12, 12, .Lmemmove_ua16_srl_b16_P
-.Lmemmove_ua16_srl_b17_N_to_N:
-        .word 12, 12, .Lmemmove_ua16_srl_b16_N
-.Lmemmove_ua16_srl_b16_P:
-        .word .Lmemmove_pow65536, 172, .Lmemmove_ua16_srl_b16_P_to_N
+        .word 12, 12, .Lmemmove_ua16_e_srl_b16_P
+.Lmemmove_ua16_e_srl_b17_N_to_N:
+        .word 12, 12, .Lmemmove_ua16_e_srl_b16_N
+.Lmemmove_ua16_e_srl_b16_P:
+        .word .Lmemmove_pow65536, 172, .Lmemmove_ua16_e_srl_b16_P_to_N
         .word .Lmemmove_npow1, 180, .+4
-        .word 12, 12, .Lmemmove_ua16_srl_done
-.Lmemmove_ua16_srl_b16_P_to_N:
-        .word 12, 12, .Lmemmove_ua16_srl_done
-.Lmemmove_ua16_srl_b16_N:
-        .word .Lmemmove_npow65536, 172, .Lmemmove_ua16_srl_b16_N_to_N
+        .word 12, 12, .Lmemmove_ua16_e_srl_done
+.Lmemmove_ua16_e_srl_b16_P_to_N:
+        .word 12, 12, .Lmemmove_ua16_e_srl_done
+.Lmemmove_ua16_e_srl_b16_N:
+        .word .Lmemmove_npow65536, 172, .Lmemmove_ua16_e_srl_b16_N_to_N
         .word .Lmemmove_npow1, 180, .+4
-        .word 12, 12, .Lmemmove_ua16_srl_done
-.Lmemmove_ua16_srl_b16_N_to_N:
-        .word 12, 12, .Lmemmove_ua16_srl_done
-.Lmemmove_ua16_srl_done:
-        .word 12, 12, .+4
+        .word 12, 12, .Lmemmove_ua16_e_srl_done
+.Lmemmove_ua16_e_srl_b16_N_to_N:
+        .word 12, 12, .Lmemmove_ua16_e_srl_done
+.Lmemmove_ua16_e_srl_done:
         .word 12, 12, .+4
         .word 168, 168, .+4
-        .word 188, 12, .+4
+        .word 164, 12, .+4
         .word 12, 168, .+4
-.Lmemmove_ua16_shl_dbl0:
+.Lmemmove_ua16_e_shl_dbl0:
         .word 12, 12, .+4
         .word 168, 12, .+4
         .word 12, 168, .+4
         .word 12, 12, .+4
-.Lmemmove_ua16_shl_dbl1:
+.Lmemmove_ua16_e_shl_dbl1:
         .word 12, 12, .+4
         .word 168, 12, .+4
         .word 12, 168, .+4
         .word 12, 12, .+4
-.Lmemmove_ua16_shl_dbl2:
+.Lmemmove_ua16_e_shl_dbl2:
         .word 12, 12, .+4
         .word 168, 12, .+4
         .word 12, 168, .+4
         .word 12, 12, .+4
-.Lmemmove_ua16_shl_dbl3:
+.Lmemmove_ua16_e_shl_dbl3:
         .word 12, 12, .+4
         .word 168, 12, .+4
         .word 12, 168, .+4
         .word 12, 12, .+4
-.Lmemmove_ua16_shl_dbl4:
+.Lmemmove_ua16_e_shl_dbl4:
         .word 12, 12, .+4
         .word 168, 12, .+4
         .word 12, 168, .+4
         .word 12, 12, .+4
-.Lmemmove_ua16_shl_dbl5:
+.Lmemmove_ua16_e_shl_dbl5:
         .word 12, 12, .+4
         .word 168, 12, .+4
         .word 12, 168, .+4
         .word 12, 12, .+4
-.Lmemmove_ua16_shl_dbl6:
+.Lmemmove_ua16_e_shl_dbl6:
         .word 12, 12, .+4
         .word 168, 12, .+4
         .word 12, 168, .+4
         .word 12, 12, .+4
-.Lmemmove_ua16_shl_dbl7:
+.Lmemmove_ua16_e_shl_dbl7:
         .word 12, 12, .+4
         .word 168, 12, .+4
         .word 12, 168, .+4
         .word 12, 12, .+4
-.Lmemmove_ua16_shl_dbl8:
+.Lmemmove_ua16_e_shl_dbl8:
         .word 12, 12, .+4
         .word 168, 12, .+4
         .word 12, 168, .+4
         .word 12, 12, .+4
-.Lmemmove_ua16_shl_dbl9:
+.Lmemmove_ua16_e_shl_dbl9:
         .word 12, 12, .+4
         .word 168, 12, .+4
         .word 12, 168, .+4
         .word 12, 12, .+4
-.Lmemmove_ua16_shl_dbl10:
+.Lmemmove_ua16_e_shl_dbl10:
         .word 12, 12, .+4
         .word 168, 12, .+4
         .word 12, 168, .+4
         .word 12, 12, .+4
-.Lmemmove_ua16_shl_dbl11:
+.Lmemmove_ua16_e_shl_dbl11:
         .word 12, 12, .+4
         .word 168, 12, .+4
         .word 12, 168, .+4
         .word 12, 12, .+4
-.Lmemmove_ua16_shl_dbl12:
+.Lmemmove_ua16_e_shl_dbl12:
         .word 12, 12, .+4
         .word 168, 12, .+4
         .word 12, 168, .+4
         .word 12, 12, .+4
-.Lmemmove_ua16_shl_dbl13:
+.Lmemmove_ua16_e_shl_dbl13:
         .word 12, 12, .+4
         .word 168, 12, .+4
         .word 12, 168, .+4
         .word 12, 12, .+4
-.Lmemmove_ua16_shl_dbl14:
+.Lmemmove_ua16_e_shl_dbl14:
         .word 12, 12, .+4
         .word 168, 12, .+4
         .word 12, 168, .+4
         .word 12, 12, .+4
-.Lmemmove_ua16_shl_dbl15:
+.Lmemmove_ua16_e_shl_dbl15:
         .word 12, 12, .+4
         .word 168, 12, .+4
         .word 12, 168, .+4
-.Lmemmove_ua16_shl_done:
+.Lmemmove_ua16_e_shl_done:
         .word 12, 12, .+4
         .word 180, 12, .+4
         .word 12, 168, .+4
@@ -68642,16 +69336,310 @@ __subleq_memmove:
         .word 180, 180, .+4
         .word 168, 180, .+4
         .word 180, 102, .+4
-        .word 12, 12, .+4
-        .word 160, 160, .+4
-        .word 188, 12, .+4
-        .word 12, 160, .+4
         .word .Lmemmove_n4, 184, .+4
         .word .Lmemmove_n4, 100, .+4
-        .word .Lmemmove_n4, 104, .+4
         .word .Lmemmove_c4, 108, .+4
-        .word 12, 12, .Lmemmove_ua16_body
-.Lmemmove_ua24_body:
+        .word 12, 12, .Lmemmove_ua16_o_body
+.Lmemmove_ua16_o_body:
+        .word 180, 180, .+4
+        .word 12, 12, .+4
+        .word 108, 12, .+4
+        .word 12, 180, .+4
+        .word .Lmemmove_c3, 180, .Lmemmove_fwd_slow_loop
+        .word 160, 160, .+4
+        .word 186, 160, .+4
+        .word 180, 180, .+4
+        .word 160, 180, .+4
+        .word 160, 160, .+4
+        .word 12, 12, .+4
+        .word 180, 12, .+4
+        .word 12, 160, .+4
+        .word 12, 12, .+4
+        .word 172, 172, .+4
+        .word 164, 12, .+4
+        .word 12, 172, .+4
+        .word 180, 180, .+4
+.Lmemmove_ua16_o_srl_b31:
+        .word 176, 176, .+4
+        .word 172, 176, .+4
+        .word 144, 176, .Lmemmove_ua16_o_srl_b30_check
+        .word .Lmemmove_npow32768, 180, .+4
+        .word .Lmemmove_min, 172, .+4
+.Lmemmove_ua16_o_srl_b30_check:
+        .word 176, 176, .+4
+        .word 172, 176, .+4
+        .word .Lmemmove_npow1073741824, 176, .Lmemmove_ua16_o_srl_b30_set
+        .word 12, 12, .Lmemmove_ua16_o_srl_lattice_start
+.Lmemmove_ua16_o_srl_b30_set:
+        .word .Lmemmove_npow16384, 180, .+4
+        .word .Lmemmove_pow1073741824, 172, .+4
+.Lmemmove_ua16_o_srl_lattice_start:
+        .word .Lmemmove_n1, 172, .+4
+.Lmemmove_ua16_o_srl_b29_P:
+        .word .Lmemmove_pow536870912, 172, .Lmemmove_ua16_o_srl_b29_P_to_N
+        .word .Lmemmove_npow8192, 180, .+4
+        .word 12, 12, .Lmemmove_ua16_o_srl_b28_P
+.Lmemmove_ua16_o_srl_b29_P_to_N:
+        .word 12, 12, .Lmemmove_ua16_o_srl_b28_N
+.Lmemmove_ua16_o_srl_b29_N:
+        .word .Lmemmove_npow536870912, 172, .Lmemmove_ua16_o_srl_b29_N_to_N
+        .word .Lmemmove_npow8192, 180, .+4
+        .word 12, 12, .Lmemmove_ua16_o_srl_b28_P
+.Lmemmove_ua16_o_srl_b29_N_to_N:
+        .word 12, 12, .Lmemmove_ua16_o_srl_b28_N
+.Lmemmove_ua16_o_srl_b28_P:
+        .word .Lmemmove_pow268435456, 172, .Lmemmove_ua16_o_srl_b28_P_to_N
+        .word .Lmemmove_npow4096, 180, .+4
+        .word 12, 12, .Lmemmove_ua16_o_srl_b27_P
+.Lmemmove_ua16_o_srl_b28_P_to_N:
+        .word 12, 12, .Lmemmove_ua16_o_srl_b27_N
+.Lmemmove_ua16_o_srl_b28_N:
+        .word .Lmemmove_npow268435456, 172, .Lmemmove_ua16_o_srl_b28_N_to_N
+        .word .Lmemmove_npow4096, 180, .+4
+        .word 12, 12, .Lmemmove_ua16_o_srl_b27_P
+.Lmemmove_ua16_o_srl_b28_N_to_N:
+        .word 12, 12, .Lmemmove_ua16_o_srl_b27_N
+.Lmemmove_ua16_o_srl_b27_P:
+        .word .Lmemmove_pow134217728, 172, .Lmemmove_ua16_o_srl_b27_P_to_N
+        .word .Lmemmove_npow2048, 180, .+4
+        .word 12, 12, .Lmemmove_ua16_o_srl_b26_P
+.Lmemmove_ua16_o_srl_b27_P_to_N:
+        .word 12, 12, .Lmemmove_ua16_o_srl_b26_N
+.Lmemmove_ua16_o_srl_b27_N:
+        .word .Lmemmove_npow134217728, 172, .Lmemmove_ua16_o_srl_b27_N_to_N
+        .word .Lmemmove_npow2048, 180, .+4
+        .word 12, 12, .Lmemmove_ua16_o_srl_b26_P
+.Lmemmove_ua16_o_srl_b27_N_to_N:
+        .word 12, 12, .Lmemmove_ua16_o_srl_b26_N
+.Lmemmove_ua16_o_srl_b26_P:
+        .word .Lmemmove_pow67108864, 172, .Lmemmove_ua16_o_srl_b26_P_to_N
+        .word .Lmemmove_npow1024, 180, .+4
+        .word 12, 12, .Lmemmove_ua16_o_srl_b25_P
+.Lmemmove_ua16_o_srl_b26_P_to_N:
+        .word 12, 12, .Lmemmove_ua16_o_srl_b25_N
+.Lmemmove_ua16_o_srl_b26_N:
+        .word .Lmemmove_npow67108864, 172, .Lmemmove_ua16_o_srl_b26_N_to_N
+        .word .Lmemmove_npow1024, 180, .+4
+        .word 12, 12, .Lmemmove_ua16_o_srl_b25_P
+.Lmemmove_ua16_o_srl_b26_N_to_N:
+        .word 12, 12, .Lmemmove_ua16_o_srl_b25_N
+.Lmemmove_ua16_o_srl_b25_P:
+        .word .Lmemmove_pow33554432, 172, .Lmemmove_ua16_o_srl_b25_P_to_N
+        .word .Lmemmove_npow512, 180, .+4
+        .word 12, 12, .Lmemmove_ua16_o_srl_b24_P
+.Lmemmove_ua16_o_srl_b25_P_to_N:
+        .word 12, 12, .Lmemmove_ua16_o_srl_b24_N
+.Lmemmove_ua16_o_srl_b25_N:
+        .word .Lmemmove_npow33554432, 172, .Lmemmove_ua16_o_srl_b25_N_to_N
+        .word .Lmemmove_npow512, 180, .+4
+        .word 12, 12, .Lmemmove_ua16_o_srl_b24_P
+.Lmemmove_ua16_o_srl_b25_N_to_N:
+        .word 12, 12, .Lmemmove_ua16_o_srl_b24_N
+.Lmemmove_ua16_o_srl_b24_P:
+        .word .Lmemmove_pow16777216, 172, .Lmemmove_ua16_o_srl_b24_P_to_N
+        .word .Lmemmove_npow256, 180, .+4
+        .word 12, 12, .Lmemmove_ua16_o_srl_b23_P
+.Lmemmove_ua16_o_srl_b24_P_to_N:
+        .word 12, 12, .Lmemmove_ua16_o_srl_b23_N
+.Lmemmove_ua16_o_srl_b24_N:
+        .word .Lmemmove_npow16777216, 172, .Lmemmove_ua16_o_srl_b24_N_to_N
+        .word .Lmemmove_npow256, 180, .+4
+        .word 12, 12, .Lmemmove_ua16_o_srl_b23_P
+.Lmemmove_ua16_o_srl_b24_N_to_N:
+        .word 12, 12, .Lmemmove_ua16_o_srl_b23_N
+.Lmemmove_ua16_o_srl_b23_P:
+        .word .Lmemmove_pow8388608, 172, .Lmemmove_ua16_o_srl_b23_P_to_N
+        .word .Lmemmove_npow128, 180, .+4
+        .word 12, 12, .Lmemmove_ua16_o_srl_b22_P
+.Lmemmove_ua16_o_srl_b23_P_to_N:
+        .word 12, 12, .Lmemmove_ua16_o_srl_b22_N
+.Lmemmove_ua16_o_srl_b23_N:
+        .word .Lmemmove_npow8388608, 172, .Lmemmove_ua16_o_srl_b23_N_to_N
+        .word .Lmemmove_npow128, 180, .+4
+        .word 12, 12, .Lmemmove_ua16_o_srl_b22_P
+.Lmemmove_ua16_o_srl_b23_N_to_N:
+        .word 12, 12, .Lmemmove_ua16_o_srl_b22_N
+.Lmemmove_ua16_o_srl_b22_P:
+        .word .Lmemmove_pow4194304, 172, .Lmemmove_ua16_o_srl_b22_P_to_N
+        .word .Lmemmove_npow64, 180, .+4
+        .word 12, 12, .Lmemmove_ua16_o_srl_b21_P
+.Lmemmove_ua16_o_srl_b22_P_to_N:
+        .word 12, 12, .Lmemmove_ua16_o_srl_b21_N
+.Lmemmove_ua16_o_srl_b22_N:
+        .word .Lmemmove_npow4194304, 172, .Lmemmove_ua16_o_srl_b22_N_to_N
+        .word .Lmemmove_npow64, 180, .+4
+        .word 12, 12, .Lmemmove_ua16_o_srl_b21_P
+.Lmemmove_ua16_o_srl_b22_N_to_N:
+        .word 12, 12, .Lmemmove_ua16_o_srl_b21_N
+.Lmemmove_ua16_o_srl_b21_P:
+        .word .Lmemmove_pow2097152, 172, .Lmemmove_ua16_o_srl_b21_P_to_N
+        .word .Lmemmove_npow32, 180, .+4
+        .word 12, 12, .Lmemmove_ua16_o_srl_b20_P
+.Lmemmove_ua16_o_srl_b21_P_to_N:
+        .word 12, 12, .Lmemmove_ua16_o_srl_b20_N
+.Lmemmove_ua16_o_srl_b21_N:
+        .word .Lmemmove_npow2097152, 172, .Lmemmove_ua16_o_srl_b21_N_to_N
+        .word .Lmemmove_npow32, 180, .+4
+        .word 12, 12, .Lmemmove_ua16_o_srl_b20_P
+.Lmemmove_ua16_o_srl_b21_N_to_N:
+        .word 12, 12, .Lmemmove_ua16_o_srl_b20_N
+.Lmemmove_ua16_o_srl_b20_P:
+        .word .Lmemmove_pow1048576, 172, .Lmemmove_ua16_o_srl_b20_P_to_N
+        .word .Lmemmove_npow16, 180, .+4
+        .word 12, 12, .Lmemmove_ua16_o_srl_b19_P
+.Lmemmove_ua16_o_srl_b20_P_to_N:
+        .word 12, 12, .Lmemmove_ua16_o_srl_b19_N
+.Lmemmove_ua16_o_srl_b20_N:
+        .word .Lmemmove_npow1048576, 172, .Lmemmove_ua16_o_srl_b20_N_to_N
+        .word .Lmemmove_npow16, 180, .+4
+        .word 12, 12, .Lmemmove_ua16_o_srl_b19_P
+.Lmemmove_ua16_o_srl_b20_N_to_N:
+        .word 12, 12, .Lmemmove_ua16_o_srl_b19_N
+.Lmemmove_ua16_o_srl_b19_P:
+        .word .Lmemmove_pow524288, 172, .Lmemmove_ua16_o_srl_b19_P_to_N
+        .word .Lmemmove_npow8, 180, .+4
+        .word 12, 12, .Lmemmove_ua16_o_srl_b18_P
+.Lmemmove_ua16_o_srl_b19_P_to_N:
+        .word 12, 12, .Lmemmove_ua16_o_srl_b18_N
+.Lmemmove_ua16_o_srl_b19_N:
+        .word .Lmemmove_npow524288, 172, .Lmemmove_ua16_o_srl_b19_N_to_N
+        .word .Lmemmove_npow8, 180, .+4
+        .word 12, 12, .Lmemmove_ua16_o_srl_b18_P
+.Lmemmove_ua16_o_srl_b19_N_to_N:
+        .word 12, 12, .Lmemmove_ua16_o_srl_b18_N
+.Lmemmove_ua16_o_srl_b18_P:
+        .word .Lmemmove_pow262144, 172, .Lmemmove_ua16_o_srl_b18_P_to_N
+        .word .Lmemmove_npow4, 180, .+4
+        .word 12, 12, .Lmemmove_ua16_o_srl_b17_P
+.Lmemmove_ua16_o_srl_b18_P_to_N:
+        .word 12, 12, .Lmemmove_ua16_o_srl_b17_N
+.Lmemmove_ua16_o_srl_b18_N:
+        .word .Lmemmove_npow262144, 172, .Lmemmove_ua16_o_srl_b18_N_to_N
+        .word .Lmemmove_npow4, 180, .+4
+        .word 12, 12, .Lmemmove_ua16_o_srl_b17_P
+.Lmemmove_ua16_o_srl_b18_N_to_N:
+        .word 12, 12, .Lmemmove_ua16_o_srl_b17_N
+.Lmemmove_ua16_o_srl_b17_P:
+        .word .Lmemmove_pow131072, 172, .Lmemmove_ua16_o_srl_b17_P_to_N
+        .word .Lmemmove_npow2, 180, .+4
+        .word 12, 12, .Lmemmove_ua16_o_srl_b16_P
+.Lmemmove_ua16_o_srl_b17_P_to_N:
+        .word 12, 12, .Lmemmove_ua16_o_srl_b16_N
+.Lmemmove_ua16_o_srl_b17_N:
+        .word .Lmemmove_npow131072, 172, .Lmemmove_ua16_o_srl_b17_N_to_N
+        .word .Lmemmove_npow2, 180, .+4
+        .word 12, 12, .Lmemmove_ua16_o_srl_b16_P
+.Lmemmove_ua16_o_srl_b17_N_to_N:
+        .word 12, 12, .Lmemmove_ua16_o_srl_b16_N
+.Lmemmove_ua16_o_srl_b16_P:
+        .word .Lmemmove_pow65536, 172, .Lmemmove_ua16_o_srl_b16_P_to_N
+        .word .Lmemmove_npow1, 180, .+4
+        .word 12, 12, .Lmemmove_ua16_o_srl_done
+.Lmemmove_ua16_o_srl_b16_P_to_N:
+        .word 12, 12, .Lmemmove_ua16_o_srl_done
+.Lmemmove_ua16_o_srl_b16_N:
+        .word .Lmemmove_npow65536, 172, .Lmemmove_ua16_o_srl_b16_N_to_N
+        .word .Lmemmove_npow1, 180, .+4
+        .word 12, 12, .Lmemmove_ua16_o_srl_done
+.Lmemmove_ua16_o_srl_b16_N_to_N:
+        .word 12, 12, .Lmemmove_ua16_o_srl_done
+.Lmemmove_ua16_o_srl_done:
+        .word 12, 12, .+4
+        .word 168, 168, .+4
+        .word 160, 12, .+4
+        .word 12, 168, .+4
+.Lmemmove_ua16_o_shl_dbl0:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemmove_ua16_o_shl_dbl1:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemmove_ua16_o_shl_dbl2:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemmove_ua16_o_shl_dbl3:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemmove_ua16_o_shl_dbl4:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemmove_ua16_o_shl_dbl5:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemmove_ua16_o_shl_dbl6:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemmove_ua16_o_shl_dbl7:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemmove_ua16_o_shl_dbl8:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemmove_ua16_o_shl_dbl9:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemmove_ua16_o_shl_dbl10:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemmove_ua16_o_shl_dbl11:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemmove_ua16_o_shl_dbl12:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemmove_ua16_o_shl_dbl13:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemmove_ua16_o_shl_dbl14:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemmove_ua16_o_shl_dbl15:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+.Lmemmove_ua16_o_shl_done:
+        .word 12, 12, .+4
+        .word 180, 12, .+4
+        .word 12, 168, .+4
+        .word 102, 102, .+4
+        .word 180, 180, .+4
+        .word 168, 180, .+4
+        .word 180, 102, .+4
+        .word .Lmemmove_n4, 184, .+4
+        .word .Lmemmove_n4, 100, .+4
+        .word .Lmemmove_c4, 108, .+4
+        .word 12, 12, .Lmemmove_ua16_e_body
+.Lmemmove_ua24_e_body:
         .word 180, 180, .+4
         .word 12, 12, .+4
         .word 108, 12, .+4
@@ -68666,149 +69654,143 @@ __subleq_memmove:
         .word 180, 12, .+4
         .word 12, 164, .+4
         .word 12, 12, .+4
-        .word 12, 12, .+4
-        .word 188, 188, .+4
-        .word 164, 12, .+4
-        .word 12, 188, .+4
-        .word 12, 12, .+4
         .word 172, 172, .+4
         .word 160, 12, .+4
         .word 12, 172, .+4
         .word 180, 180, .+4
-.Lmemmove_ua24_srl_b31:
+.Lmemmove_ua24_e_srl_b31:
         .word 176, 176, .+4
         .word 172, 176, .+4
-        .word 144, 176, .Lmemmove_ua24_srl_b30_check
+        .word 144, 176, .Lmemmove_ua24_e_srl_b30_check
         .word .Lmemmove_npow128, 180, .+4
         .word .Lmemmove_min, 172, .+4
-.Lmemmove_ua24_srl_b30_check:
+.Lmemmove_ua24_e_srl_b30_check:
         .word 176, 176, .+4
         .word 172, 176, .+4
-        .word .Lmemmove_npow1073741824, 176, .Lmemmove_ua24_srl_b30_set
-        .word 12, 12, .Lmemmove_ua24_srl_lattice_start
-.Lmemmove_ua24_srl_b30_set:
+        .word .Lmemmove_npow1073741824, 176, .Lmemmove_ua24_e_srl_b30_set
+        .word 12, 12, .Lmemmove_ua24_e_srl_lattice_start
+.Lmemmove_ua24_e_srl_b30_set:
         .word .Lmemmove_npow64, 180, .+4
         .word .Lmemmove_pow1073741824, 172, .+4
-.Lmemmove_ua24_srl_lattice_start:
+.Lmemmove_ua24_e_srl_lattice_start:
         .word .Lmemmove_n1, 172, .+4
-.Lmemmove_ua24_srl_b29_P:
-        .word .Lmemmove_pow536870912, 172, .Lmemmove_ua24_srl_b29_P_to_N
+.Lmemmove_ua24_e_srl_b29_P:
+        .word .Lmemmove_pow536870912, 172, .Lmemmove_ua24_e_srl_b29_P_to_N
         .word .Lmemmove_npow32, 180, .+4
-        .word 12, 12, .Lmemmove_ua24_srl_b28_P
-.Lmemmove_ua24_srl_b29_P_to_N:
-        .word 12, 12, .Lmemmove_ua24_srl_b28_N
-.Lmemmove_ua24_srl_b29_N:
-        .word .Lmemmove_npow536870912, 172, .Lmemmove_ua24_srl_b29_N_to_N
+        .word 12, 12, .Lmemmove_ua24_e_srl_b28_P
+.Lmemmove_ua24_e_srl_b29_P_to_N:
+        .word 12, 12, .Lmemmove_ua24_e_srl_b28_N
+.Lmemmove_ua24_e_srl_b29_N:
+        .word .Lmemmove_npow536870912, 172, .Lmemmove_ua24_e_srl_b29_N_to_N
         .word .Lmemmove_npow32, 180, .+4
-        .word 12, 12, .Lmemmove_ua24_srl_b28_P
-.Lmemmove_ua24_srl_b29_N_to_N:
-        .word 12, 12, .Lmemmove_ua24_srl_b28_N
-.Lmemmove_ua24_srl_b28_P:
-        .word .Lmemmove_pow268435456, 172, .Lmemmove_ua24_srl_b28_P_to_N
+        .word 12, 12, .Lmemmove_ua24_e_srl_b28_P
+.Lmemmove_ua24_e_srl_b29_N_to_N:
+        .word 12, 12, .Lmemmove_ua24_e_srl_b28_N
+.Lmemmove_ua24_e_srl_b28_P:
+        .word .Lmemmove_pow268435456, 172, .Lmemmove_ua24_e_srl_b28_P_to_N
         .word .Lmemmove_npow16, 180, .+4
-        .word 12, 12, .Lmemmove_ua24_srl_b27_P
-.Lmemmove_ua24_srl_b28_P_to_N:
-        .word 12, 12, .Lmemmove_ua24_srl_b27_N
-.Lmemmove_ua24_srl_b28_N:
-        .word .Lmemmove_npow268435456, 172, .Lmemmove_ua24_srl_b28_N_to_N
+        .word 12, 12, .Lmemmove_ua24_e_srl_b27_P
+.Lmemmove_ua24_e_srl_b28_P_to_N:
+        .word 12, 12, .Lmemmove_ua24_e_srl_b27_N
+.Lmemmove_ua24_e_srl_b28_N:
+        .word .Lmemmove_npow268435456, 172, .Lmemmove_ua24_e_srl_b28_N_to_N
         .word .Lmemmove_npow16, 180, .+4
-        .word 12, 12, .Lmemmove_ua24_srl_b27_P
-.Lmemmove_ua24_srl_b28_N_to_N:
-        .word 12, 12, .Lmemmove_ua24_srl_b27_N
-.Lmemmove_ua24_srl_b27_P:
-        .word .Lmemmove_pow134217728, 172, .Lmemmove_ua24_srl_b27_P_to_N
+        .word 12, 12, .Lmemmove_ua24_e_srl_b27_P
+.Lmemmove_ua24_e_srl_b28_N_to_N:
+        .word 12, 12, .Lmemmove_ua24_e_srl_b27_N
+.Lmemmove_ua24_e_srl_b27_P:
+        .word .Lmemmove_pow134217728, 172, .Lmemmove_ua24_e_srl_b27_P_to_N
         .word .Lmemmove_npow8, 180, .+4
-        .word 12, 12, .Lmemmove_ua24_srl_b26_P
-.Lmemmove_ua24_srl_b27_P_to_N:
-        .word 12, 12, .Lmemmove_ua24_srl_b26_N
-.Lmemmove_ua24_srl_b27_N:
-        .word .Lmemmove_npow134217728, 172, .Lmemmove_ua24_srl_b27_N_to_N
+        .word 12, 12, .Lmemmove_ua24_e_srl_b26_P
+.Lmemmove_ua24_e_srl_b27_P_to_N:
+        .word 12, 12, .Lmemmove_ua24_e_srl_b26_N
+.Lmemmove_ua24_e_srl_b27_N:
+        .word .Lmemmove_npow134217728, 172, .Lmemmove_ua24_e_srl_b27_N_to_N
         .word .Lmemmove_npow8, 180, .+4
-        .word 12, 12, .Lmemmove_ua24_srl_b26_P
-.Lmemmove_ua24_srl_b27_N_to_N:
-        .word 12, 12, .Lmemmove_ua24_srl_b26_N
-.Lmemmove_ua24_srl_b26_P:
-        .word .Lmemmove_pow67108864, 172, .Lmemmove_ua24_srl_b26_P_to_N
+        .word 12, 12, .Lmemmove_ua24_e_srl_b26_P
+.Lmemmove_ua24_e_srl_b27_N_to_N:
+        .word 12, 12, .Lmemmove_ua24_e_srl_b26_N
+.Lmemmove_ua24_e_srl_b26_P:
+        .word .Lmemmove_pow67108864, 172, .Lmemmove_ua24_e_srl_b26_P_to_N
         .word .Lmemmove_npow4, 180, .+4
-        .word 12, 12, .Lmemmove_ua24_srl_b25_P
-.Lmemmove_ua24_srl_b26_P_to_N:
-        .word 12, 12, .Lmemmove_ua24_srl_b25_N
-.Lmemmove_ua24_srl_b26_N:
-        .word .Lmemmove_npow67108864, 172, .Lmemmove_ua24_srl_b26_N_to_N
+        .word 12, 12, .Lmemmove_ua24_e_srl_b25_P
+.Lmemmove_ua24_e_srl_b26_P_to_N:
+        .word 12, 12, .Lmemmove_ua24_e_srl_b25_N
+.Lmemmove_ua24_e_srl_b26_N:
+        .word .Lmemmove_npow67108864, 172, .Lmemmove_ua24_e_srl_b26_N_to_N
         .word .Lmemmove_npow4, 180, .+4
-        .word 12, 12, .Lmemmove_ua24_srl_b25_P
-.Lmemmove_ua24_srl_b26_N_to_N:
-        .word 12, 12, .Lmemmove_ua24_srl_b25_N
-.Lmemmove_ua24_srl_b25_P:
-        .word .Lmemmove_pow33554432, 172, .Lmemmove_ua24_srl_b25_P_to_N
+        .word 12, 12, .Lmemmove_ua24_e_srl_b25_P
+.Lmemmove_ua24_e_srl_b26_N_to_N:
+        .word 12, 12, .Lmemmove_ua24_e_srl_b25_N
+.Lmemmove_ua24_e_srl_b25_P:
+        .word .Lmemmove_pow33554432, 172, .Lmemmove_ua24_e_srl_b25_P_to_N
         .word .Lmemmove_npow2, 180, .+4
-        .word 12, 12, .Lmemmove_ua24_srl_b24_P
-.Lmemmove_ua24_srl_b25_P_to_N:
-        .word 12, 12, .Lmemmove_ua24_srl_b24_N
-.Lmemmove_ua24_srl_b25_N:
-        .word .Lmemmove_npow33554432, 172, .Lmemmove_ua24_srl_b25_N_to_N
+        .word 12, 12, .Lmemmove_ua24_e_srl_b24_P
+.Lmemmove_ua24_e_srl_b25_P_to_N:
+        .word 12, 12, .Lmemmove_ua24_e_srl_b24_N
+.Lmemmove_ua24_e_srl_b25_N:
+        .word .Lmemmove_npow33554432, 172, .Lmemmove_ua24_e_srl_b25_N_to_N
         .word .Lmemmove_npow2, 180, .+4
-        .word 12, 12, .Lmemmove_ua24_srl_b24_P
-.Lmemmove_ua24_srl_b25_N_to_N:
-        .word 12, 12, .Lmemmove_ua24_srl_b24_N
-.Lmemmove_ua24_srl_b24_P:
-        .word .Lmemmove_pow16777216, 172, .Lmemmove_ua24_srl_b24_P_to_N
+        .word 12, 12, .Lmemmove_ua24_e_srl_b24_P
+.Lmemmove_ua24_e_srl_b25_N_to_N:
+        .word 12, 12, .Lmemmove_ua24_e_srl_b24_N
+.Lmemmove_ua24_e_srl_b24_P:
+        .word .Lmemmove_pow16777216, 172, .Lmemmove_ua24_e_srl_b24_P_to_N
         .word .Lmemmove_npow1, 180, .+4
-        .word 12, 12, .Lmemmove_ua24_srl_done
-.Lmemmove_ua24_srl_b24_P_to_N:
-        .word 12, 12, .Lmemmove_ua24_srl_done
-.Lmemmove_ua24_srl_b24_N:
-        .word .Lmemmove_npow16777216, 172, .Lmemmove_ua24_srl_b24_N_to_N
+        .word 12, 12, .Lmemmove_ua24_e_srl_done
+.Lmemmove_ua24_e_srl_b24_P_to_N:
+        .word 12, 12, .Lmemmove_ua24_e_srl_done
+.Lmemmove_ua24_e_srl_b24_N:
+        .word .Lmemmove_npow16777216, 172, .Lmemmove_ua24_e_srl_b24_N_to_N
         .word .Lmemmove_npow1, 180, .+4
-        .word 12, 12, .Lmemmove_ua24_srl_done
-.Lmemmove_ua24_srl_b24_N_to_N:
-        .word 12, 12, .Lmemmove_ua24_srl_done
-.Lmemmove_ua24_srl_done:
-        .word 12, 12, .+4
+        .word 12, 12, .Lmemmove_ua24_e_srl_done
+.Lmemmove_ua24_e_srl_b24_N_to_N:
+        .word 12, 12, .Lmemmove_ua24_e_srl_done
+.Lmemmove_ua24_e_srl_done:
         .word 12, 12, .+4
         .word 168, 168, .+4
-        .word 188, 12, .+4
+        .word 164, 12, .+4
         .word 12, 168, .+4
-.Lmemmove_ua24_shl_dbl0:
+.Lmemmove_ua24_e_shl_dbl0:
         .word 12, 12, .+4
         .word 168, 12, .+4
         .word 12, 168, .+4
         .word 12, 12, .+4
-.Lmemmove_ua24_shl_dbl1:
+.Lmemmove_ua24_e_shl_dbl1:
         .word 12, 12, .+4
         .word 168, 12, .+4
         .word 12, 168, .+4
         .word 12, 12, .+4
-.Lmemmove_ua24_shl_dbl2:
+.Lmemmove_ua24_e_shl_dbl2:
         .word 12, 12, .+4
         .word 168, 12, .+4
         .word 12, 168, .+4
         .word 12, 12, .+4
-.Lmemmove_ua24_shl_dbl3:
+.Lmemmove_ua24_e_shl_dbl3:
         .word 12, 12, .+4
         .word 168, 12, .+4
         .word 12, 168, .+4
         .word 12, 12, .+4
-.Lmemmove_ua24_shl_dbl4:
+.Lmemmove_ua24_e_shl_dbl4:
         .word 12, 12, .+4
         .word 168, 12, .+4
         .word 12, 168, .+4
         .word 12, 12, .+4
-.Lmemmove_ua24_shl_dbl5:
+.Lmemmove_ua24_e_shl_dbl5:
         .word 12, 12, .+4
         .word 168, 12, .+4
         .word 12, 168, .+4
         .word 12, 12, .+4
-.Lmemmove_ua24_shl_dbl6:
+.Lmemmove_ua24_e_shl_dbl6:
         .word 12, 12, .+4
         .word 168, 12, .+4
         .word 12, 168, .+4
         .word 12, 12, .+4
-.Lmemmove_ua24_shl_dbl7:
+.Lmemmove_ua24_e_shl_dbl7:
         .word 12, 12, .+4
         .word 168, 12, .+4
         .word 12, 168, .+4
-.Lmemmove_ua24_shl_done:
+.Lmemmove_ua24_e_shl_done:
         .word 12, 12, .+4
         .word 180, 12, .+4
         .word 12, 168, .+4
@@ -68816,17 +69798,187 @@ __subleq_memmove:
         .word 180, 180, .+4
         .word 168, 180, .+4
         .word 180, 102, .+4
-        .word 12, 12, .+4
-        .word 160, 160, .+4
-        .word 188, 12, .+4
-        .word 12, 160, .+4
         .word .Lmemmove_n4, 184, .+4
         .word .Lmemmove_n4, 100, .+4
-        .word .Lmemmove_n4, 104, .+4
         .word .Lmemmove_c4, 108, .+4
-        .word 12, 12, .Lmemmove_ua24_body
+        .word 12, 12, .Lmemmove_ua24_o_body
+.Lmemmove_ua24_o_body:
+        .word 180, 180, .+4
+        .word 12, 12, .+4
+        .word 108, 12, .+4
+        .word 12, 180, .+4
+        .word .Lmemmove_c3, 180, .Lmemmove_fwd_slow_loop
+        .word 160, 160, .+4
+        .word 186, 160, .+4
+        .word 180, 180, .+4
+        .word 160, 180, .+4
+        .word 160, 160, .+4
+        .word 12, 12, .+4
+        .word 180, 12, .+4
+        .word 12, 160, .+4
+        .word 12, 12, .+4
+        .word 172, 172, .+4
+        .word 164, 12, .+4
+        .word 12, 172, .+4
+        .word 180, 180, .+4
+.Lmemmove_ua24_o_srl_b31:
+        .word 176, 176, .+4
+        .word 172, 176, .+4
+        .word 144, 176, .Lmemmove_ua24_o_srl_b30_check
+        .word .Lmemmove_npow128, 180, .+4
+        .word .Lmemmove_min, 172, .+4
+.Lmemmove_ua24_o_srl_b30_check:
+        .word 176, 176, .+4
+        .word 172, 176, .+4
+        .word .Lmemmove_npow1073741824, 176, .Lmemmove_ua24_o_srl_b30_set
+        .word 12, 12, .Lmemmove_ua24_o_srl_lattice_start
+.Lmemmove_ua24_o_srl_b30_set:
+        .word .Lmemmove_npow64, 180, .+4
+        .word .Lmemmove_pow1073741824, 172, .+4
+.Lmemmove_ua24_o_srl_lattice_start:
+        .word .Lmemmove_n1, 172, .+4
+.Lmemmove_ua24_o_srl_b29_P:
+        .word .Lmemmove_pow536870912, 172, .Lmemmove_ua24_o_srl_b29_P_to_N
+        .word .Lmemmove_npow32, 180, .+4
+        .word 12, 12, .Lmemmove_ua24_o_srl_b28_P
+.Lmemmove_ua24_o_srl_b29_P_to_N:
+        .word 12, 12, .Lmemmove_ua24_o_srl_b28_N
+.Lmemmove_ua24_o_srl_b29_N:
+        .word .Lmemmove_npow536870912, 172, .Lmemmove_ua24_o_srl_b29_N_to_N
+        .word .Lmemmove_npow32, 180, .+4
+        .word 12, 12, .Lmemmove_ua24_o_srl_b28_P
+.Lmemmove_ua24_o_srl_b29_N_to_N:
+        .word 12, 12, .Lmemmove_ua24_o_srl_b28_N
+.Lmemmove_ua24_o_srl_b28_P:
+        .word .Lmemmove_pow268435456, 172, .Lmemmove_ua24_o_srl_b28_P_to_N
+        .word .Lmemmove_npow16, 180, .+4
+        .word 12, 12, .Lmemmove_ua24_o_srl_b27_P
+.Lmemmove_ua24_o_srl_b28_P_to_N:
+        .word 12, 12, .Lmemmove_ua24_o_srl_b27_N
+.Lmemmove_ua24_o_srl_b28_N:
+        .word .Lmemmove_npow268435456, 172, .Lmemmove_ua24_o_srl_b28_N_to_N
+        .word .Lmemmove_npow16, 180, .+4
+        .word 12, 12, .Lmemmove_ua24_o_srl_b27_P
+.Lmemmove_ua24_o_srl_b28_N_to_N:
+        .word 12, 12, .Lmemmove_ua24_o_srl_b27_N
+.Lmemmove_ua24_o_srl_b27_P:
+        .word .Lmemmove_pow134217728, 172, .Lmemmove_ua24_o_srl_b27_P_to_N
+        .word .Lmemmove_npow8, 180, .+4
+        .word 12, 12, .Lmemmove_ua24_o_srl_b26_P
+.Lmemmove_ua24_o_srl_b27_P_to_N:
+        .word 12, 12, .Lmemmove_ua24_o_srl_b26_N
+.Lmemmove_ua24_o_srl_b27_N:
+        .word .Lmemmove_npow134217728, 172, .Lmemmove_ua24_o_srl_b27_N_to_N
+        .word .Lmemmove_npow8, 180, .+4
+        .word 12, 12, .Lmemmove_ua24_o_srl_b26_P
+.Lmemmove_ua24_o_srl_b27_N_to_N:
+        .word 12, 12, .Lmemmove_ua24_o_srl_b26_N
+.Lmemmove_ua24_o_srl_b26_P:
+        .word .Lmemmove_pow67108864, 172, .Lmemmove_ua24_o_srl_b26_P_to_N
+        .word .Lmemmove_npow4, 180, .+4
+        .word 12, 12, .Lmemmove_ua24_o_srl_b25_P
+.Lmemmove_ua24_o_srl_b26_P_to_N:
+        .word 12, 12, .Lmemmove_ua24_o_srl_b25_N
+.Lmemmove_ua24_o_srl_b26_N:
+        .word .Lmemmove_npow67108864, 172, .Lmemmove_ua24_o_srl_b26_N_to_N
+        .word .Lmemmove_npow4, 180, .+4
+        .word 12, 12, .Lmemmove_ua24_o_srl_b25_P
+.Lmemmove_ua24_o_srl_b26_N_to_N:
+        .word 12, 12, .Lmemmove_ua24_o_srl_b25_N
+.Lmemmove_ua24_o_srl_b25_P:
+        .word .Lmemmove_pow33554432, 172, .Lmemmove_ua24_o_srl_b25_P_to_N
+        .word .Lmemmove_npow2, 180, .+4
+        .word 12, 12, .Lmemmove_ua24_o_srl_b24_P
+.Lmemmove_ua24_o_srl_b25_P_to_N:
+        .word 12, 12, .Lmemmove_ua24_o_srl_b24_N
+.Lmemmove_ua24_o_srl_b25_N:
+        .word .Lmemmove_npow33554432, 172, .Lmemmove_ua24_o_srl_b25_N_to_N
+        .word .Lmemmove_npow2, 180, .+4
+        .word 12, 12, .Lmemmove_ua24_o_srl_b24_P
+.Lmemmove_ua24_o_srl_b25_N_to_N:
+        .word 12, 12, .Lmemmove_ua24_o_srl_b24_N
+.Lmemmove_ua24_o_srl_b24_P:
+        .word .Lmemmove_pow16777216, 172, .Lmemmove_ua24_o_srl_b24_P_to_N
+        .word .Lmemmove_npow1, 180, .+4
+        .word 12, 12, .Lmemmove_ua24_o_srl_done
+.Lmemmove_ua24_o_srl_b24_P_to_N:
+        .word 12, 12, .Lmemmove_ua24_o_srl_done
+.Lmemmove_ua24_o_srl_b24_N:
+        .word .Lmemmove_npow16777216, 172, .Lmemmove_ua24_o_srl_b24_N_to_N
+        .word .Lmemmove_npow1, 180, .+4
+        .word 12, 12, .Lmemmove_ua24_o_srl_done
+.Lmemmove_ua24_o_srl_b24_N_to_N:
+        .word 12, 12, .Lmemmove_ua24_o_srl_done
+.Lmemmove_ua24_o_srl_done:
+        .word 12, 12, .+4
+        .word 168, 168, .+4
+        .word 160, 12, .+4
+        .word 12, 168, .+4
+.Lmemmove_ua24_o_shl_dbl0:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemmove_ua24_o_shl_dbl1:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemmove_ua24_o_shl_dbl2:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemmove_ua24_o_shl_dbl3:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemmove_ua24_o_shl_dbl4:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemmove_ua24_o_shl_dbl5:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemmove_ua24_o_shl_dbl6:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lmemmove_ua24_o_shl_dbl7:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+.Lmemmove_ua24_o_shl_done:
+        .word 12, 12, .+4
+        .word 180, 12, .+4
+        .word 12, 168, .+4
+        .word 102, 102, .+4
+        .word 180, 180, .+4
+        .word 168, 180, .+4
+        .word 180, 102, .+4
+        .word .Lmemmove_n4, 184, .+4
+        .word .Lmemmove_n4, 100, .+4
+        .word .Lmemmove_c4, 108, .+4
+        .word 12, 12, .Lmemmove_ua24_e_body
+.Lmemmove_fwd_slow_loop_early:
+        .word .Lmemmove_zero, 108, .Lmemmove_done
+        .word 12, 12, .Lmemmove_fwd_slow_loop_body
 .Lmemmove_fwd_slow_loop:
         .word .Lmemmove_zero, 108, .Lmemmove_done
+        .word 12, 12, .+4
+        .word 104, 104, .+4
+        .word 184, 12, .+4
+        .word 12, 104, .+4
+        .word .Lmemmove_c4, 104, .+4
+        .word 12, 12, .+4
+        .word 204, 12, .+4
+        .word 12, 104, .+4
+.Lmemmove_fwd_slow_loop_body:
         .word 12, 12, .+4
         .word 192, 192, .+4
         .word 100, 12, .+4
@@ -68888,7 +70040,7 @@ __subleq_memmove:
         .word .Lmemmove_n1, 104, .+4
         .word .Lmemmove_n1, 100, .+4
         .word .Lmemmove_c1, 108, .+4
-        .word 12, 12, .Lmemmove_fwd_slow_loop
+        .word 12, 12, .Lmemmove_fwd_slow_loop_early
 .Lmemmove_done:
         .word 96, 96, .+4
         .word 12, 12, .+4
@@ -68900,7 +70052,6 @@ __subleq_memmove:
         .word   18, 12, .+4
         .word   12, 160, .+4
         .word   .Lmemmove_neg4, 16, .+4
-        .word   12, 12, .+4
         .word   12
         .word   12
         .word   162
@@ -68926,12 +70077,18 @@ __subleq_memmove:
         .word 24
 .Lmemmove_c32:
         .word 32
+.Lmemmove_c64:
+        .word 64
 .Lmemmove_n1:
         .word -1
 .Lmemmove_n3:
         .word -3
 .Lmemmove_n4:
         .word -4
+.Lmemmove_n8:
+        .word -8
+.Lmemmove_n16:
+        .word -16
 .Lmemmove_min:
         .word -2147483648
         .word 37

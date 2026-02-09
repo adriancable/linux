@@ -40040,43 +40040,40 @@ __subleq_xor:
 
 # __subleq_shl: R3 = R3 << R4 (Unrolled Linear Dispatch)
 __subleq_shl:
-        .word   104, 12, .+4
-        .word   160, 160, .+4
-        .word   12, 160, .Lshl_chk_le0
 .Lshl_chk_le0:
         .word   164, 164, .+4
-        .word   144, 160, .Lshl_done
-        .word   .Lshl_one, 160, .Lshl_do_1
-        .word   .Lshl_one, 160, .Lshl_do_2
-        .word   .Lshl_one, 160, .Lshl_do_3
-        .word   .Lshl_one, 160, .Lshl_do_4
-        .word   .Lshl_one, 160, .Lshl_do_5
-        .word   .Lshl_one, 160, .Lshl_do_6
-        .word   .Lshl_one, 160, .Lshl_do_7
-        .word   .Lshl_one, 160, .Lshl_do_8
-        .word   .Lshl_one, 160, .Lshl_do_9
-        .word   .Lshl_one, 160, .Lshl_do_10
-        .word   .Lshl_one, 160, .Lshl_do_11
-        .word   .Lshl_one, 160, .Lshl_do_12
-        .word   .Lshl_one, 160, .Lshl_do_13
-        .word   .Lshl_one, 160, .Lshl_do_14
-        .word   .Lshl_one, 160, .Lshl_do_15
-        .word   .Lshl_one, 160, .Lshl_do_16
-        .word   .Lshl_one, 160, .Lshl_do_17
-        .word   .Lshl_one, 160, .Lshl_do_18
-        .word   .Lshl_one, 160, .Lshl_do_19
-        .word   .Lshl_one, 160, .Lshl_do_20
-        .word   .Lshl_one, 160, .Lshl_do_21
-        .word   .Lshl_one, 160, .Lshl_do_22
-        .word   .Lshl_one, 160, .Lshl_do_23
-        .word   .Lshl_one, 160, .Lshl_do_24
-        .word   .Lshl_one, 160, .Lshl_do_25
-        .word   .Lshl_one, 160, .Lshl_do_26
-        .word   .Lshl_one, 160, .Lshl_do_27
-        .word   .Lshl_one, 160, .Lshl_do_28
-        .word   .Lshl_one, 160, .Lshl_do_29
-        .word   .Lshl_one, 160, .Lshl_do_30
-        .word   .Lshl_one, 160, .Lshl_do_31
+        .word   144, 104, .Lshl_done
+        .word   .Lshl_one, 104, .Lshl_do_1
+        .word   .Lshl_one, 104, .Lshl_do_2
+        .word   .Lshl_one, 104, .Lshl_do_3
+        .word   .Lshl_one, 104, .Lshl_do_4
+        .word   .Lshl_one, 104, .Lshl_do_5
+        .word   .Lshl_one, 104, .Lshl_do_6
+        .word   .Lshl_one, 104, .Lshl_do_7
+        .word   .Lshl_one, 104, .Lshl_do_8
+        .word   .Lshl_one, 104, .Lshl_do_9
+        .word   .Lshl_one, 104, .Lshl_do_10
+        .word   .Lshl_one, 104, .Lshl_do_11
+        .word   .Lshl_one, 104, .Lshl_do_12
+        .word   .Lshl_one, 104, .Lshl_do_13
+        .word   .Lshl_one, 104, .Lshl_do_14
+        .word   .Lshl_one, 104, .Lshl_do_15
+        .word   .Lshl_one, 104, .Lshl_do_16
+        .word   .Lshl_one, 104, .Lshl_do_17
+        .word   .Lshl_one, 104, .Lshl_do_18
+        .word   .Lshl_one, 104, .Lshl_do_19
+        .word   .Lshl_one, 104, .Lshl_do_20
+        .word   .Lshl_one, 104, .Lshl_do_21
+        .word   .Lshl_one, 104, .Lshl_do_22
+        .word   .Lshl_one, 104, .Lshl_do_23
+        .word   .Lshl_one, 104, .Lshl_do_24
+        .word   .Lshl_one, 104, .Lshl_do_25
+        .word   .Lshl_one, 104, .Lshl_do_26
+        .word   .Lshl_one, 104, .Lshl_do_27
+        .word   .Lshl_one, 104, .Lshl_do_28
+        .word   .Lshl_one, 104, .Lshl_do_29
+        .word   .Lshl_one, 104, .Lshl_do_30
+        .word   .Lshl_one, 104, .Lshl_do_31
         .word   100, 100, .Lshl_done
         .word   12, 12, .Lshl_done
 .Lshl_do_31:
@@ -40230,336 +40227,329 @@ __subleq_shl:
         .type   __subleq_srl,@function
 
 __subleq_srl:
-        .word   100, 12, .+4
-        .word   164, 164, .+4
-        .word   12, 164, .Lsrl_dispatch
 .Lsrl_dispatch:
-        .word   160, 160, .+4
-        .word   12, 12, .+4
-        .word   104, 12, .+4
-        .word   12, 160, .+4
-        .word   144, 160, .Lsrl_copy_input
+        .word   144, 104, .Lsrl_copy_input
         .word   172, 172, .+4
         .word   .Lsrl_n32, 172, .+4
-        .word   160, 172, .Lsrl_zero
+        .word   104, 172, .Lsrl_zero
         .word   12, 12, .Lsrl_chk1
 .Lsrl_chk1:
-        .word   .Lsrl_one, 160, .Lsrl_shift_1
+        .word   .Lsrl_one, 104, .Lsrl_shift_1
 .Lsrl_chk2:
-        .word   .Lsrl_one, 160, .Lsrl_shift_2
+        .word   .Lsrl_one, 104, .Lsrl_shift_2
 .Lsrl_chk3:
-        .word   .Lsrl_one, 160, .Lsrl_shift_3
+        .word   .Lsrl_one, 104, .Lsrl_shift_3
 .Lsrl_chk4:
-        .word   .Lsrl_one, 160, .Lsrl_shift_4
+        .word   .Lsrl_one, 104, .Lsrl_shift_4
 .Lsrl_chk5:
-        .word   .Lsrl_one, 160, .Lsrl_shift_5
+        .word   .Lsrl_one, 104, .Lsrl_shift_5
 .Lsrl_chk6:
-        .word   .Lsrl_one, 160, .Lsrl_shift_6
+        .word   .Lsrl_one, 104, .Lsrl_shift_6
 .Lsrl_chk7:
-        .word   .Lsrl_one, 160, .Lsrl_shift_7
+        .word   .Lsrl_one, 104, .Lsrl_shift_7
 .Lsrl_chk8:
-        .word   .Lsrl_one, 160, .Lsrl_shift_8
+        .word   .Lsrl_one, 104, .Lsrl_shift_8
 .Lsrl_chk9:
-        .word   .Lsrl_one, 160, .Lsrl_shift_9
+        .word   .Lsrl_one, 104, .Lsrl_shift_9
 .Lsrl_chk10:
-        .word   .Lsrl_one, 160, .Lsrl_shift_10
+        .word   .Lsrl_one, 104, .Lsrl_shift_10
 .Lsrl_chk11:
-        .word   .Lsrl_one, 160, .Lsrl_shift_11
+        .word   .Lsrl_one, 104, .Lsrl_shift_11
 .Lsrl_chk12:
-        .word   .Lsrl_one, 160, .Lsrl_shift_12
+        .word   .Lsrl_one, 104, .Lsrl_shift_12
 .Lsrl_chk13:
-        .word   .Lsrl_one, 160, .Lsrl_shift_13
+        .word   .Lsrl_one, 104, .Lsrl_shift_13
 .Lsrl_chk14:
-        .word   .Lsrl_one, 160, .Lsrl_shift_14
+        .word   .Lsrl_one, 104, .Lsrl_shift_14
 .Lsrl_chk15:
-        .word   .Lsrl_one, 160, .Lsrl_shift_15
+        .word   .Lsrl_one, 104, .Lsrl_shift_15
 .Lsrl_chk16:
-        .word   .Lsrl_one, 160, .Lsrl_shift_16
+        .word   .Lsrl_one, 104, .Lsrl_shift_16
 .Lsrl_chk17:
-        .word   .Lsrl_one, 160, .Lsrl_shift_17
+        .word   .Lsrl_one, 104, .Lsrl_shift_17
 .Lsrl_chk18:
-        .word   .Lsrl_one, 160, .Lsrl_shift_18
+        .word   .Lsrl_one, 104, .Lsrl_shift_18
 .Lsrl_chk19:
-        .word   .Lsrl_one, 160, .Lsrl_shift_19
+        .word   .Lsrl_one, 104, .Lsrl_shift_19
 .Lsrl_chk20:
-        .word   .Lsrl_one, 160, .Lsrl_shift_20
+        .word   .Lsrl_one, 104, .Lsrl_shift_20
 .Lsrl_chk21:
-        .word   .Lsrl_one, 160, .Lsrl_shift_21
+        .word   .Lsrl_one, 104, .Lsrl_shift_21
 .Lsrl_chk22:
-        .word   .Lsrl_one, 160, .Lsrl_shift_22
+        .word   .Lsrl_one, 104, .Lsrl_shift_22
 .Lsrl_chk23:
-        .word   .Lsrl_one, 160, .Lsrl_shift_23
+        .word   .Lsrl_one, 104, .Lsrl_shift_23
 .Lsrl_chk24:
-        .word   .Lsrl_one, 160, .Lsrl_shift_24
+        .word   .Lsrl_one, 104, .Lsrl_shift_24
 .Lsrl_chk25:
-        .word   .Lsrl_one, 160, .Lsrl_shift_25
+        .word   .Lsrl_one, 104, .Lsrl_shift_25
 .Lsrl_chk26:
-        .word   .Lsrl_one, 160, .Lsrl_shift_26
+        .word   .Lsrl_one, 104, .Lsrl_shift_26
 .Lsrl_chk27:
-        .word   .Lsrl_one, 160, .Lsrl_shift_27
+        .word   .Lsrl_one, 104, .Lsrl_shift_27
 .Lsrl_chk28:
-        .word   .Lsrl_one, 160, .Lsrl_shift_28
+        .word   .Lsrl_one, 104, .Lsrl_shift_28
 .Lsrl_chk29:
-        .word   .Lsrl_one, 160, .Lsrl_shift_29
+        .word   .Lsrl_one, 104, .Lsrl_shift_29
 .Lsrl_chk30:
-        .word   .Lsrl_one, 160, .Lsrl_shift_30
+        .word   .Lsrl_one, 104, .Lsrl_shift_30
 .Lsrl_chk31:
-        .word   .Lsrl_one, 160, .Lsrl_shift_31
+        .word   .Lsrl_one, 104, .Lsrl_shift_31
         .word   12, 12, .Lsrl_zero
 .Lsrl_zero:
         .word   96, 96, .Lsrl_done
 
 .Lsrl_shift_1:
         .word   168, 168, .+4
-        .word   144, 164, .Lsrl1_b31_chk
+        .word   144, 100, .Lsrl1_b31_chk
         .word   12, 12, .Lsrl1_b31_setup
 .Lsrl1_b31_chk:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsrl1_b31_ambig
         .word   12, 12, .Lsrl1_b31_set
 .Lsrl1_b31_ambig:
         .word   .Lsrl_one, 172, .+4
         .word   144, 172, .Lsrl1_b31_setup
 .Lsrl1_b31_set:
-        .word   .Lsrl_c2147483648, 164, .+4
+        .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n1073741824, 168, .+4
 .Lsrl1_b31_setup:
-        .word   .Lsrl_negone, 164, .+4
+        .word   .Lsrl_negone, 100, .+4
 .Lsrl1_b30_Pos:
-        .word   .Lsrl_c1073741824, 164, .Lsrl1_b29_Neg
+        .word   .Lsrl_c1073741824, 100, .Lsrl1_b29_Neg
         .word   .Lsrl_n536870912, 168, .+4
         .word   12, 12, .Lsrl1_b29_Pos
 .Lsrl1_b29_Pos:
-        .word   .Lsrl_c536870912, 164, .Lsrl1_b28_Neg
+        .word   .Lsrl_c536870912, 100, .Lsrl1_b28_Neg
         .word   .Lsrl_n268435456, 168, .+4
         .word   12, 12, .Lsrl1_b28_Pos
 .Lsrl1_b29_Neg:
-        .word   .Lsrl_n536870912, 164, .Lsrl1_b28_Neg
+        .word   .Lsrl_n536870912, 100, .Lsrl1_b28_Neg
         .word   .Lsrl_n268435456, 168, .+4
         .word   12, 12, .Lsrl1_b28_Pos
 .Lsrl1_b28_Pos:
-        .word   .Lsrl_c268435456, 164, .Lsrl1_b27_Neg
+        .word   .Lsrl_c268435456, 100, .Lsrl1_b27_Neg
         .word   .Lsrl_n134217728, 168, .+4
         .word   12, 12, .Lsrl1_b27_Pos
 .Lsrl1_b28_Neg:
-        .word   .Lsrl_n268435456, 164, .Lsrl1_b27_Neg
+        .word   .Lsrl_n268435456, 100, .Lsrl1_b27_Neg
         .word   .Lsrl_n134217728, 168, .+4
         .word   12, 12, .Lsrl1_b27_Pos
 .Lsrl1_b27_Pos:
-        .word   .Lsrl_c134217728, 164, .Lsrl1_b26_Neg
+        .word   .Lsrl_c134217728, 100, .Lsrl1_b26_Neg
         .word   .Lsrl_n67108864, 168, .+4
         .word   12, 12, .Lsrl1_b26_Pos
 .Lsrl1_b27_Neg:
-        .word   .Lsrl_n134217728, 164, .Lsrl1_b26_Neg
+        .word   .Lsrl_n134217728, 100, .Lsrl1_b26_Neg
         .word   .Lsrl_n67108864, 168, .+4
         .word   12, 12, .Lsrl1_b26_Pos
 .Lsrl1_b26_Pos:
-        .word   .Lsrl_c67108864, 164, .Lsrl1_b25_Neg
+        .word   .Lsrl_c67108864, 100, .Lsrl1_b25_Neg
         .word   .Lsrl_n33554432, 168, .+4
         .word   12, 12, .Lsrl1_b25_Pos
 .Lsrl1_b26_Neg:
-        .word   .Lsrl_n67108864, 164, .Lsrl1_b25_Neg
+        .word   .Lsrl_n67108864, 100, .Lsrl1_b25_Neg
         .word   .Lsrl_n33554432, 168, .+4
         .word   12, 12, .Lsrl1_b25_Pos
 .Lsrl1_b25_Pos:
-        .word   .Lsrl_c33554432, 164, .Lsrl1_b24_Neg
+        .word   .Lsrl_c33554432, 100, .Lsrl1_b24_Neg
         .word   .Lsrl_n16777216, 168, .+4
         .word   12, 12, .Lsrl1_b24_Pos
 .Lsrl1_b25_Neg:
-        .word   .Lsrl_n33554432, 164, .Lsrl1_b24_Neg
+        .word   .Lsrl_n33554432, 100, .Lsrl1_b24_Neg
         .word   .Lsrl_n16777216, 168, .+4
         .word   12, 12, .Lsrl1_b24_Pos
 .Lsrl1_b24_Pos:
-        .word   .Lsrl_c16777216, 164, .Lsrl1_b23_Neg
+        .word   .Lsrl_c16777216, 100, .Lsrl1_b23_Neg
         .word   .Lsrl_n8388608, 168, .+4
         .word   12, 12, .Lsrl1_b23_Pos
 .Lsrl1_b24_Neg:
-        .word   .Lsrl_n16777216, 164, .Lsrl1_b23_Neg
+        .word   .Lsrl_n16777216, 100, .Lsrl1_b23_Neg
         .word   .Lsrl_n8388608, 168, .+4
         .word   12, 12, .Lsrl1_b23_Pos
 .Lsrl1_b23_Pos:
-        .word   .Lsrl_c8388608, 164, .Lsrl1_b22_Neg
+        .word   .Lsrl_c8388608, 100, .Lsrl1_b22_Neg
         .word   .Lsrl_n4194304, 168, .+4
         .word   12, 12, .Lsrl1_b22_Pos
 .Lsrl1_b23_Neg:
-        .word   .Lsrl_n8388608, 164, .Lsrl1_b22_Neg
+        .word   .Lsrl_n8388608, 100, .Lsrl1_b22_Neg
         .word   .Lsrl_n4194304, 168, .+4
         .word   12, 12, .Lsrl1_b22_Pos
 .Lsrl1_b22_Pos:
-        .word   .Lsrl_c4194304, 164, .Lsrl1_b21_Neg
+        .word   .Lsrl_c4194304, 100, .Lsrl1_b21_Neg
         .word   .Lsrl_n2097152, 168, .+4
         .word   12, 12, .Lsrl1_b21_Pos
 .Lsrl1_b22_Neg:
-        .word   .Lsrl_n4194304, 164, .Lsrl1_b21_Neg
+        .word   .Lsrl_n4194304, 100, .Lsrl1_b21_Neg
         .word   .Lsrl_n2097152, 168, .+4
         .word   12, 12, .Lsrl1_b21_Pos
 .Lsrl1_b21_Pos:
-        .word   .Lsrl_c2097152, 164, .Lsrl1_b20_Neg
+        .word   .Lsrl_c2097152, 100, .Lsrl1_b20_Neg
         .word   .Lsrl_n1048576, 168, .+4
         .word   12, 12, .Lsrl1_b20_Pos
 .Lsrl1_b21_Neg:
-        .word   .Lsrl_n2097152, 164, .Lsrl1_b20_Neg
+        .word   .Lsrl_n2097152, 100, .Lsrl1_b20_Neg
         .word   .Lsrl_n1048576, 168, .+4
         .word   12, 12, .Lsrl1_b20_Pos
 .Lsrl1_b20_Pos:
-        .word   .Lsrl_c1048576, 164, .Lsrl1_b19_Neg
+        .word   .Lsrl_c1048576, 100, .Lsrl1_b19_Neg
         .word   .Lsrl_n524288, 168, .+4
         .word   12, 12, .Lsrl1_b19_Pos
 .Lsrl1_b20_Neg:
-        .word   .Lsrl_n1048576, 164, .Lsrl1_b19_Neg
+        .word   .Lsrl_n1048576, 100, .Lsrl1_b19_Neg
         .word   .Lsrl_n524288, 168, .+4
         .word   12, 12, .Lsrl1_b19_Pos
 .Lsrl1_b19_Pos:
-        .word   .Lsrl_c524288, 164, .Lsrl1_b18_Neg
+        .word   .Lsrl_c524288, 100, .Lsrl1_b18_Neg
         .word   .Lsrl_n262144, 168, .+4
         .word   12, 12, .Lsrl1_b18_Pos
 .Lsrl1_b19_Neg:
-        .word   .Lsrl_n524288, 164, .Lsrl1_b18_Neg
+        .word   .Lsrl_n524288, 100, .Lsrl1_b18_Neg
         .word   .Lsrl_n262144, 168, .+4
         .word   12, 12, .Lsrl1_b18_Pos
 .Lsrl1_b18_Pos:
-        .word   .Lsrl_c262144, 164, .Lsrl1_b17_Neg
+        .word   .Lsrl_c262144, 100, .Lsrl1_b17_Neg
         .word   .Lsrl_n131072, 168, .+4
         .word   12, 12, .Lsrl1_b17_Pos
 .Lsrl1_b18_Neg:
-        .word   .Lsrl_n262144, 164, .Lsrl1_b17_Neg
+        .word   .Lsrl_n262144, 100, .Lsrl1_b17_Neg
         .word   .Lsrl_n131072, 168, .+4
         .word   12, 12, .Lsrl1_b17_Pos
 .Lsrl1_b17_Pos:
-        .word   .Lsrl_c131072, 164, .Lsrl1_b16_Neg
+        .word   .Lsrl_c131072, 100, .Lsrl1_b16_Neg
         .word   .Lsrl_n65536, 168, .+4
         .word   12, 12, .Lsrl1_b16_Pos
 .Lsrl1_b17_Neg:
-        .word   .Lsrl_n131072, 164, .Lsrl1_b16_Neg
+        .word   .Lsrl_n131072, 100, .Lsrl1_b16_Neg
         .word   .Lsrl_n65536, 168, .+4
         .word   12, 12, .Lsrl1_b16_Pos
 .Lsrl1_b16_Pos:
-        .word   .Lsrl_c65536, 164, .Lsrl1_b15_Neg
+        .word   .Lsrl_c65536, 100, .Lsrl1_b15_Neg
         .word   .Lsrl_n32768, 168, .+4
         .word   12, 12, .Lsrl1_b15_Pos
 .Lsrl1_b16_Neg:
-        .word   .Lsrl_n65536, 164, .Lsrl1_b15_Neg
+        .word   .Lsrl_n65536, 100, .Lsrl1_b15_Neg
         .word   .Lsrl_n32768, 168, .+4
         .word   12, 12, .Lsrl1_b15_Pos
 .Lsrl1_b15_Pos:
-        .word   .Lsrl_c32768, 164, .Lsrl1_b14_Neg
+        .word   .Lsrl_c32768, 100, .Lsrl1_b14_Neg
         .word   .Lsrl_n16384, 168, .+4
         .word   12, 12, .Lsrl1_b14_Pos
 .Lsrl1_b15_Neg:
-        .word   .Lsrl_n32768, 164, .Lsrl1_b14_Neg
+        .word   .Lsrl_n32768, 100, .Lsrl1_b14_Neg
         .word   .Lsrl_n16384, 168, .+4
         .word   12, 12, .Lsrl1_b14_Pos
 .Lsrl1_b14_Pos:
-        .word   .Lsrl_c16384, 164, .Lsrl1_b13_Neg
+        .word   .Lsrl_c16384, 100, .Lsrl1_b13_Neg
         .word   .Lsrl_n8192, 168, .+4
         .word   12, 12, .Lsrl1_b13_Pos
 .Lsrl1_b14_Neg:
-        .word   .Lsrl_n16384, 164, .Lsrl1_b13_Neg
+        .word   .Lsrl_n16384, 100, .Lsrl1_b13_Neg
         .word   .Lsrl_n8192, 168, .+4
         .word   12, 12, .Lsrl1_b13_Pos
 .Lsrl1_b13_Pos:
-        .word   .Lsrl_c8192, 164, .Lsrl1_b12_Neg
+        .word   .Lsrl_c8192, 100, .Lsrl1_b12_Neg
         .word   .Lsrl_n4096, 168, .+4
         .word   12, 12, .Lsrl1_b12_Pos
 .Lsrl1_b13_Neg:
-        .word   .Lsrl_n8192, 164, .Lsrl1_b12_Neg
+        .word   .Lsrl_n8192, 100, .Lsrl1_b12_Neg
         .word   .Lsrl_n4096, 168, .+4
         .word   12, 12, .Lsrl1_b12_Pos
 .Lsrl1_b12_Pos:
-        .word   .Lsrl_c4096, 164, .Lsrl1_b11_Neg
+        .word   .Lsrl_c4096, 100, .Lsrl1_b11_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl1_b11_Pos
 .Lsrl1_b12_Neg:
-        .word   .Lsrl_n4096, 164, .Lsrl1_b11_Neg
+        .word   .Lsrl_n4096, 100, .Lsrl1_b11_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl1_b11_Pos
 .Lsrl1_b11_Pos:
-        .word   .Lsrl_c2048, 164, .Lsrl1_b10_Neg
+        .word   .Lsrl_c2048, 100, .Lsrl1_b10_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl1_b10_Pos
 .Lsrl1_b11_Neg:
-        .word   .Lsrl_n2048, 164, .Lsrl1_b10_Neg
+        .word   .Lsrl_n2048, 100, .Lsrl1_b10_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl1_b10_Pos
 .Lsrl1_b10_Pos:
-        .word   .Lsrl_c1024, 164, .Lsrl1_b9_Neg
+        .word   .Lsrl_c1024, 100, .Lsrl1_b9_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl1_b9_Pos
 .Lsrl1_b10_Neg:
-        .word   .Lsrl_n1024, 164, .Lsrl1_b9_Neg
+        .word   .Lsrl_n1024, 100, .Lsrl1_b9_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl1_b9_Pos
 .Lsrl1_b9_Pos:
-        .word   .Lsrl_c512, 164, .Lsrl1_b8_Neg
+        .word   .Lsrl_c512, 100, .Lsrl1_b8_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl1_b8_Pos
 .Lsrl1_b9_Neg:
-        .word   .Lsrl_n512, 164, .Lsrl1_b8_Neg
+        .word   .Lsrl_n512, 100, .Lsrl1_b8_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl1_b8_Pos
 .Lsrl1_b8_Pos:
-        .word   .Lsrl_c256, 164, .Lsrl1_b7_Neg
+        .word   .Lsrl_c256, 100, .Lsrl1_b7_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl1_b7_Pos
 .Lsrl1_b8_Neg:
-        .word   .Lsrl_n256, 164, .Lsrl1_b7_Neg
+        .word   .Lsrl_n256, 100, .Lsrl1_b7_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl1_b7_Pos
 .Lsrl1_b7_Pos:
-        .word   .Lsrl_c128, 164, .Lsrl1_b6_Neg
+        .word   .Lsrl_c128, 100, .Lsrl1_b6_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl1_b6_Pos
 .Lsrl1_b7_Neg:
-        .word   .Lsrl_n128, 164, .Lsrl1_b6_Neg
+        .word   .Lsrl_n128, 100, .Lsrl1_b6_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl1_b6_Pos
 .Lsrl1_b6_Pos:
-        .word   .Lsrl_c64, 164, .Lsrl1_b5_Neg
+        .word   .Lsrl_c64, 100, .Lsrl1_b5_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl1_b5_Pos
 .Lsrl1_b6_Neg:
-        .word   .Lsrl_n64, 164, .Lsrl1_b5_Neg
+        .word   .Lsrl_n64, 100, .Lsrl1_b5_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl1_b5_Pos
 .Lsrl1_b5_Pos:
-        .word   .Lsrl_c32, 164, .Lsrl1_b4_Neg
+        .word   .Lsrl_c32, 100, .Lsrl1_b4_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl1_b4_Pos
 .Lsrl1_b5_Neg:
-        .word   .Lsrl_n32, 164, .Lsrl1_b4_Neg
+        .word   .Lsrl_n32, 100, .Lsrl1_b4_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl1_b4_Pos
 .Lsrl1_b4_Pos:
-        .word   .Lsrl_c16, 164, .Lsrl1_b3_Neg
+        .word   .Lsrl_c16, 100, .Lsrl1_b3_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl1_b3_Pos
 .Lsrl1_b4_Neg:
-        .word   .Lsrl_n16, 164, .Lsrl1_b3_Neg
+        .word   .Lsrl_n16, 100, .Lsrl1_b3_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl1_b3_Pos
 .Lsrl1_b3_Pos:
-        .word   .Lsrl_c8, 164, .Lsrl1_b2_Neg
+        .word   .Lsrl_c8, 100, .Lsrl1_b2_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl1_b2_Pos
 .Lsrl1_b3_Neg:
-        .word   .Lsrl_n8, 164, .Lsrl1_b2_Neg
+        .word   .Lsrl_n8, 100, .Lsrl1_b2_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl1_b2_Pos
 .Lsrl1_b2_Pos:
-        .word   .Lsrl_c4, 164, .Lsrl1_b1_Neg
+        .word   .Lsrl_c4, 100, .Lsrl1_b1_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl1_b1_Pos
 .Lsrl1_b2_Neg:
-        .word   .Lsrl_n4, 164, .Lsrl1_b1_Neg
+        .word   .Lsrl_n4, 100, .Lsrl1_b1_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl1_b1_Pos
 .Lsrl1_b1_Pos:
-        .word   .Lsrl_c2, 164, .Lsrl1_store
+        .word   .Lsrl_c2, 100, .Lsrl1_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl1_store
 .Lsrl1_b1_Neg:
-        .word   .Lsrl_n2, 164, .Lsrl1_store
+        .word   .Lsrl_n2, 100, .Lsrl1_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl1_store
 .Lsrl1_store:
@@ -40571,247 +40561,247 @@ __subleq_srl:
 
 .Lsrl_shift_2:
         .word   168, 168, .+4
-        .word   144, 164, .Lsrl2_b31_chk
+        .word   144, 100, .Lsrl2_b31_chk
         .word   12, 12, .Lsrl2_b31_setup
 .Lsrl2_b31_chk:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsrl2_b31_ambig
         .word   12, 12, .Lsrl2_b31_set
 .Lsrl2_b31_ambig:
         .word   .Lsrl_one, 172, .+4
         .word   144, 172, .Lsrl2_b31_setup
 .Lsrl2_b31_set:
-        .word   .Lsrl_c2147483648, 164, .+4
+        .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n536870912, 168, .+4
 .Lsrl2_b31_setup:
-        .word   .Lsrl_negone, 164, .+4
+        .word   .Lsrl_negone, 100, .+4
 .Lsrl2_b30_Pos:
-        .word   .Lsrl_c1073741824, 164, .Lsrl2_b29_Neg
+        .word   .Lsrl_c1073741824, 100, .Lsrl2_b29_Neg
         .word   .Lsrl_n268435456, 168, .+4
         .word   12, 12, .Lsrl2_b29_Pos
 .Lsrl2_b29_Pos:
-        .word   .Lsrl_c536870912, 164, .Lsrl2_b28_Neg
+        .word   .Lsrl_c536870912, 100, .Lsrl2_b28_Neg
         .word   .Lsrl_n134217728, 168, .+4
         .word   12, 12, .Lsrl2_b28_Pos
 .Lsrl2_b29_Neg:
-        .word   .Lsrl_n536870912, 164, .Lsrl2_b28_Neg
+        .word   .Lsrl_n536870912, 100, .Lsrl2_b28_Neg
         .word   .Lsrl_n134217728, 168, .+4
         .word   12, 12, .Lsrl2_b28_Pos
 .Lsrl2_b28_Pos:
-        .word   .Lsrl_c268435456, 164, .Lsrl2_b27_Neg
+        .word   .Lsrl_c268435456, 100, .Lsrl2_b27_Neg
         .word   .Lsrl_n67108864, 168, .+4
         .word   12, 12, .Lsrl2_b27_Pos
 .Lsrl2_b28_Neg:
-        .word   .Lsrl_n268435456, 164, .Lsrl2_b27_Neg
+        .word   .Lsrl_n268435456, 100, .Lsrl2_b27_Neg
         .word   .Lsrl_n67108864, 168, .+4
         .word   12, 12, .Lsrl2_b27_Pos
 .Lsrl2_b27_Pos:
-        .word   .Lsrl_c134217728, 164, .Lsrl2_b26_Neg
+        .word   .Lsrl_c134217728, 100, .Lsrl2_b26_Neg
         .word   .Lsrl_n33554432, 168, .+4
         .word   12, 12, .Lsrl2_b26_Pos
 .Lsrl2_b27_Neg:
-        .word   .Lsrl_n134217728, 164, .Lsrl2_b26_Neg
+        .word   .Lsrl_n134217728, 100, .Lsrl2_b26_Neg
         .word   .Lsrl_n33554432, 168, .+4
         .word   12, 12, .Lsrl2_b26_Pos
 .Lsrl2_b26_Pos:
-        .word   .Lsrl_c67108864, 164, .Lsrl2_b25_Neg
+        .word   .Lsrl_c67108864, 100, .Lsrl2_b25_Neg
         .word   .Lsrl_n16777216, 168, .+4
         .word   12, 12, .Lsrl2_b25_Pos
 .Lsrl2_b26_Neg:
-        .word   .Lsrl_n67108864, 164, .Lsrl2_b25_Neg
+        .word   .Lsrl_n67108864, 100, .Lsrl2_b25_Neg
         .word   .Lsrl_n16777216, 168, .+4
         .word   12, 12, .Lsrl2_b25_Pos
 .Lsrl2_b25_Pos:
-        .word   .Lsrl_c33554432, 164, .Lsrl2_b24_Neg
+        .word   .Lsrl_c33554432, 100, .Lsrl2_b24_Neg
         .word   .Lsrl_n8388608, 168, .+4
         .word   12, 12, .Lsrl2_b24_Pos
 .Lsrl2_b25_Neg:
-        .word   .Lsrl_n33554432, 164, .Lsrl2_b24_Neg
+        .word   .Lsrl_n33554432, 100, .Lsrl2_b24_Neg
         .word   .Lsrl_n8388608, 168, .+4
         .word   12, 12, .Lsrl2_b24_Pos
 .Lsrl2_b24_Pos:
-        .word   .Lsrl_c16777216, 164, .Lsrl2_b23_Neg
+        .word   .Lsrl_c16777216, 100, .Lsrl2_b23_Neg
         .word   .Lsrl_n4194304, 168, .+4
         .word   12, 12, .Lsrl2_b23_Pos
 .Lsrl2_b24_Neg:
-        .word   .Lsrl_n16777216, 164, .Lsrl2_b23_Neg
+        .word   .Lsrl_n16777216, 100, .Lsrl2_b23_Neg
         .word   .Lsrl_n4194304, 168, .+4
         .word   12, 12, .Lsrl2_b23_Pos
 .Lsrl2_b23_Pos:
-        .word   .Lsrl_c8388608, 164, .Lsrl2_b22_Neg
+        .word   .Lsrl_c8388608, 100, .Lsrl2_b22_Neg
         .word   .Lsrl_n2097152, 168, .+4
         .word   12, 12, .Lsrl2_b22_Pos
 .Lsrl2_b23_Neg:
-        .word   .Lsrl_n8388608, 164, .Lsrl2_b22_Neg
+        .word   .Lsrl_n8388608, 100, .Lsrl2_b22_Neg
         .word   .Lsrl_n2097152, 168, .+4
         .word   12, 12, .Lsrl2_b22_Pos
 .Lsrl2_b22_Pos:
-        .word   .Lsrl_c4194304, 164, .Lsrl2_b21_Neg
+        .word   .Lsrl_c4194304, 100, .Lsrl2_b21_Neg
         .word   .Lsrl_n1048576, 168, .+4
         .word   12, 12, .Lsrl2_b21_Pos
 .Lsrl2_b22_Neg:
-        .word   .Lsrl_n4194304, 164, .Lsrl2_b21_Neg
+        .word   .Lsrl_n4194304, 100, .Lsrl2_b21_Neg
         .word   .Lsrl_n1048576, 168, .+4
         .word   12, 12, .Lsrl2_b21_Pos
 .Lsrl2_b21_Pos:
-        .word   .Lsrl_c2097152, 164, .Lsrl2_b20_Neg
+        .word   .Lsrl_c2097152, 100, .Lsrl2_b20_Neg
         .word   .Lsrl_n524288, 168, .+4
         .word   12, 12, .Lsrl2_b20_Pos
 .Lsrl2_b21_Neg:
-        .word   .Lsrl_n2097152, 164, .Lsrl2_b20_Neg
+        .word   .Lsrl_n2097152, 100, .Lsrl2_b20_Neg
         .word   .Lsrl_n524288, 168, .+4
         .word   12, 12, .Lsrl2_b20_Pos
 .Lsrl2_b20_Pos:
-        .word   .Lsrl_c1048576, 164, .Lsrl2_b19_Neg
+        .word   .Lsrl_c1048576, 100, .Lsrl2_b19_Neg
         .word   .Lsrl_n262144, 168, .+4
         .word   12, 12, .Lsrl2_b19_Pos
 .Lsrl2_b20_Neg:
-        .word   .Lsrl_n1048576, 164, .Lsrl2_b19_Neg
+        .word   .Lsrl_n1048576, 100, .Lsrl2_b19_Neg
         .word   .Lsrl_n262144, 168, .+4
         .word   12, 12, .Lsrl2_b19_Pos
 .Lsrl2_b19_Pos:
-        .word   .Lsrl_c524288, 164, .Lsrl2_b18_Neg
+        .word   .Lsrl_c524288, 100, .Lsrl2_b18_Neg
         .word   .Lsrl_n131072, 168, .+4
         .word   12, 12, .Lsrl2_b18_Pos
 .Lsrl2_b19_Neg:
-        .word   .Lsrl_n524288, 164, .Lsrl2_b18_Neg
+        .word   .Lsrl_n524288, 100, .Lsrl2_b18_Neg
         .word   .Lsrl_n131072, 168, .+4
         .word   12, 12, .Lsrl2_b18_Pos
 .Lsrl2_b18_Pos:
-        .word   .Lsrl_c262144, 164, .Lsrl2_b17_Neg
+        .word   .Lsrl_c262144, 100, .Lsrl2_b17_Neg
         .word   .Lsrl_n65536, 168, .+4
         .word   12, 12, .Lsrl2_b17_Pos
 .Lsrl2_b18_Neg:
-        .word   .Lsrl_n262144, 164, .Lsrl2_b17_Neg
+        .word   .Lsrl_n262144, 100, .Lsrl2_b17_Neg
         .word   .Lsrl_n65536, 168, .+4
         .word   12, 12, .Lsrl2_b17_Pos
 .Lsrl2_b17_Pos:
-        .word   .Lsrl_c131072, 164, .Lsrl2_b16_Neg
+        .word   .Lsrl_c131072, 100, .Lsrl2_b16_Neg
         .word   .Lsrl_n32768, 168, .+4
         .word   12, 12, .Lsrl2_b16_Pos
 .Lsrl2_b17_Neg:
-        .word   .Lsrl_n131072, 164, .Lsrl2_b16_Neg
+        .word   .Lsrl_n131072, 100, .Lsrl2_b16_Neg
         .word   .Lsrl_n32768, 168, .+4
         .word   12, 12, .Lsrl2_b16_Pos
 .Lsrl2_b16_Pos:
-        .word   .Lsrl_c65536, 164, .Lsrl2_b15_Neg
+        .word   .Lsrl_c65536, 100, .Lsrl2_b15_Neg
         .word   .Lsrl_n16384, 168, .+4
         .word   12, 12, .Lsrl2_b15_Pos
 .Lsrl2_b16_Neg:
-        .word   .Lsrl_n65536, 164, .Lsrl2_b15_Neg
+        .word   .Lsrl_n65536, 100, .Lsrl2_b15_Neg
         .word   .Lsrl_n16384, 168, .+4
         .word   12, 12, .Lsrl2_b15_Pos
 .Lsrl2_b15_Pos:
-        .word   .Lsrl_c32768, 164, .Lsrl2_b14_Neg
+        .word   .Lsrl_c32768, 100, .Lsrl2_b14_Neg
         .word   .Lsrl_n8192, 168, .+4
         .word   12, 12, .Lsrl2_b14_Pos
 .Lsrl2_b15_Neg:
-        .word   .Lsrl_n32768, 164, .Lsrl2_b14_Neg
+        .word   .Lsrl_n32768, 100, .Lsrl2_b14_Neg
         .word   .Lsrl_n8192, 168, .+4
         .word   12, 12, .Lsrl2_b14_Pos
 .Lsrl2_b14_Pos:
-        .word   .Lsrl_c16384, 164, .Lsrl2_b13_Neg
+        .word   .Lsrl_c16384, 100, .Lsrl2_b13_Neg
         .word   .Lsrl_n4096, 168, .+4
         .word   12, 12, .Lsrl2_b13_Pos
 .Lsrl2_b14_Neg:
-        .word   .Lsrl_n16384, 164, .Lsrl2_b13_Neg
+        .word   .Lsrl_n16384, 100, .Lsrl2_b13_Neg
         .word   .Lsrl_n4096, 168, .+4
         .word   12, 12, .Lsrl2_b13_Pos
 .Lsrl2_b13_Pos:
-        .word   .Lsrl_c8192, 164, .Lsrl2_b12_Neg
+        .word   .Lsrl_c8192, 100, .Lsrl2_b12_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl2_b12_Pos
 .Lsrl2_b13_Neg:
-        .word   .Lsrl_n8192, 164, .Lsrl2_b12_Neg
+        .word   .Lsrl_n8192, 100, .Lsrl2_b12_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl2_b12_Pos
 .Lsrl2_b12_Pos:
-        .word   .Lsrl_c4096, 164, .Lsrl2_b11_Neg
+        .word   .Lsrl_c4096, 100, .Lsrl2_b11_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl2_b11_Pos
 .Lsrl2_b12_Neg:
-        .word   .Lsrl_n4096, 164, .Lsrl2_b11_Neg
+        .word   .Lsrl_n4096, 100, .Lsrl2_b11_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl2_b11_Pos
 .Lsrl2_b11_Pos:
-        .word   .Lsrl_c2048, 164, .Lsrl2_b10_Neg
+        .word   .Lsrl_c2048, 100, .Lsrl2_b10_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl2_b10_Pos
 .Lsrl2_b11_Neg:
-        .word   .Lsrl_n2048, 164, .Lsrl2_b10_Neg
+        .word   .Lsrl_n2048, 100, .Lsrl2_b10_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl2_b10_Pos
 .Lsrl2_b10_Pos:
-        .word   .Lsrl_c1024, 164, .Lsrl2_b9_Neg
+        .word   .Lsrl_c1024, 100, .Lsrl2_b9_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl2_b9_Pos
 .Lsrl2_b10_Neg:
-        .word   .Lsrl_n1024, 164, .Lsrl2_b9_Neg
+        .word   .Lsrl_n1024, 100, .Lsrl2_b9_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl2_b9_Pos
 .Lsrl2_b9_Pos:
-        .word   .Lsrl_c512, 164, .Lsrl2_b8_Neg
+        .word   .Lsrl_c512, 100, .Lsrl2_b8_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl2_b8_Pos
 .Lsrl2_b9_Neg:
-        .word   .Lsrl_n512, 164, .Lsrl2_b8_Neg
+        .word   .Lsrl_n512, 100, .Lsrl2_b8_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl2_b8_Pos
 .Lsrl2_b8_Pos:
-        .word   .Lsrl_c256, 164, .Lsrl2_b7_Neg
+        .word   .Lsrl_c256, 100, .Lsrl2_b7_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl2_b7_Pos
 .Lsrl2_b8_Neg:
-        .word   .Lsrl_n256, 164, .Lsrl2_b7_Neg
+        .word   .Lsrl_n256, 100, .Lsrl2_b7_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl2_b7_Pos
 .Lsrl2_b7_Pos:
-        .word   .Lsrl_c128, 164, .Lsrl2_b6_Neg
+        .word   .Lsrl_c128, 100, .Lsrl2_b6_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl2_b6_Pos
 .Lsrl2_b7_Neg:
-        .word   .Lsrl_n128, 164, .Lsrl2_b6_Neg
+        .word   .Lsrl_n128, 100, .Lsrl2_b6_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl2_b6_Pos
 .Lsrl2_b6_Pos:
-        .word   .Lsrl_c64, 164, .Lsrl2_b5_Neg
+        .word   .Lsrl_c64, 100, .Lsrl2_b5_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl2_b5_Pos
 .Lsrl2_b6_Neg:
-        .word   .Lsrl_n64, 164, .Lsrl2_b5_Neg
+        .word   .Lsrl_n64, 100, .Lsrl2_b5_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl2_b5_Pos
 .Lsrl2_b5_Pos:
-        .word   .Lsrl_c32, 164, .Lsrl2_b4_Neg
+        .word   .Lsrl_c32, 100, .Lsrl2_b4_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl2_b4_Pos
 .Lsrl2_b5_Neg:
-        .word   .Lsrl_n32, 164, .Lsrl2_b4_Neg
+        .word   .Lsrl_n32, 100, .Lsrl2_b4_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl2_b4_Pos
 .Lsrl2_b4_Pos:
-        .word   .Lsrl_c16, 164, .Lsrl2_b3_Neg
+        .word   .Lsrl_c16, 100, .Lsrl2_b3_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl2_b3_Pos
 .Lsrl2_b4_Neg:
-        .word   .Lsrl_n16, 164, .Lsrl2_b3_Neg
+        .word   .Lsrl_n16, 100, .Lsrl2_b3_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl2_b3_Pos
 .Lsrl2_b3_Pos:
-        .word   .Lsrl_c8, 164, .Lsrl2_b2_Neg
+        .word   .Lsrl_c8, 100, .Lsrl2_b2_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl2_b2_Pos
 .Lsrl2_b3_Neg:
-        .word   .Lsrl_n8, 164, .Lsrl2_b2_Neg
+        .word   .Lsrl_n8, 100, .Lsrl2_b2_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl2_b2_Pos
 .Lsrl2_b2_Pos:
-        .word   .Lsrl_c4, 164, .Lsrl2_store
+        .word   .Lsrl_c4, 100, .Lsrl2_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl2_store
 .Lsrl2_b2_Neg:
-        .word   .Lsrl_n4, 164, .Lsrl2_store
+        .word   .Lsrl_n4, 100, .Lsrl2_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl2_store
 .Lsrl2_store:
@@ -40823,239 +40813,239 @@ __subleq_srl:
 
 .Lsrl_shift_3:
         .word   168, 168, .+4
-        .word   144, 164, .Lsrl3_b31_chk
+        .word   144, 100, .Lsrl3_b31_chk
         .word   12, 12, .Lsrl3_b31_setup
 .Lsrl3_b31_chk:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsrl3_b31_ambig
         .word   12, 12, .Lsrl3_b31_set
 .Lsrl3_b31_ambig:
         .word   .Lsrl_one, 172, .+4
         .word   144, 172, .Lsrl3_b31_setup
 .Lsrl3_b31_set:
-        .word   .Lsrl_c2147483648, 164, .+4
+        .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n268435456, 168, .+4
 .Lsrl3_b31_setup:
-        .word   .Lsrl_negone, 164, .+4
+        .word   .Lsrl_negone, 100, .+4
 .Lsrl3_b30_Pos:
-        .word   .Lsrl_c1073741824, 164, .Lsrl3_b29_Neg
+        .word   .Lsrl_c1073741824, 100, .Lsrl3_b29_Neg
         .word   .Lsrl_n134217728, 168, .+4
         .word   12, 12, .Lsrl3_b29_Pos
 .Lsrl3_b29_Pos:
-        .word   .Lsrl_c536870912, 164, .Lsrl3_b28_Neg
+        .word   .Lsrl_c536870912, 100, .Lsrl3_b28_Neg
         .word   .Lsrl_n67108864, 168, .+4
         .word   12, 12, .Lsrl3_b28_Pos
 .Lsrl3_b29_Neg:
-        .word   .Lsrl_n536870912, 164, .Lsrl3_b28_Neg
+        .word   .Lsrl_n536870912, 100, .Lsrl3_b28_Neg
         .word   .Lsrl_n67108864, 168, .+4
         .word   12, 12, .Lsrl3_b28_Pos
 .Lsrl3_b28_Pos:
-        .word   .Lsrl_c268435456, 164, .Lsrl3_b27_Neg
+        .word   .Lsrl_c268435456, 100, .Lsrl3_b27_Neg
         .word   .Lsrl_n33554432, 168, .+4
         .word   12, 12, .Lsrl3_b27_Pos
 .Lsrl3_b28_Neg:
-        .word   .Lsrl_n268435456, 164, .Lsrl3_b27_Neg
+        .word   .Lsrl_n268435456, 100, .Lsrl3_b27_Neg
         .word   .Lsrl_n33554432, 168, .+4
         .word   12, 12, .Lsrl3_b27_Pos
 .Lsrl3_b27_Pos:
-        .word   .Lsrl_c134217728, 164, .Lsrl3_b26_Neg
+        .word   .Lsrl_c134217728, 100, .Lsrl3_b26_Neg
         .word   .Lsrl_n16777216, 168, .+4
         .word   12, 12, .Lsrl3_b26_Pos
 .Lsrl3_b27_Neg:
-        .word   .Lsrl_n134217728, 164, .Lsrl3_b26_Neg
+        .word   .Lsrl_n134217728, 100, .Lsrl3_b26_Neg
         .word   .Lsrl_n16777216, 168, .+4
         .word   12, 12, .Lsrl3_b26_Pos
 .Lsrl3_b26_Pos:
-        .word   .Lsrl_c67108864, 164, .Lsrl3_b25_Neg
+        .word   .Lsrl_c67108864, 100, .Lsrl3_b25_Neg
         .word   .Lsrl_n8388608, 168, .+4
         .word   12, 12, .Lsrl3_b25_Pos
 .Lsrl3_b26_Neg:
-        .word   .Lsrl_n67108864, 164, .Lsrl3_b25_Neg
+        .word   .Lsrl_n67108864, 100, .Lsrl3_b25_Neg
         .word   .Lsrl_n8388608, 168, .+4
         .word   12, 12, .Lsrl3_b25_Pos
 .Lsrl3_b25_Pos:
-        .word   .Lsrl_c33554432, 164, .Lsrl3_b24_Neg
+        .word   .Lsrl_c33554432, 100, .Lsrl3_b24_Neg
         .word   .Lsrl_n4194304, 168, .+4
         .word   12, 12, .Lsrl3_b24_Pos
 .Lsrl3_b25_Neg:
-        .word   .Lsrl_n33554432, 164, .Lsrl3_b24_Neg
+        .word   .Lsrl_n33554432, 100, .Lsrl3_b24_Neg
         .word   .Lsrl_n4194304, 168, .+4
         .word   12, 12, .Lsrl3_b24_Pos
 .Lsrl3_b24_Pos:
-        .word   .Lsrl_c16777216, 164, .Lsrl3_b23_Neg
+        .word   .Lsrl_c16777216, 100, .Lsrl3_b23_Neg
         .word   .Lsrl_n2097152, 168, .+4
         .word   12, 12, .Lsrl3_b23_Pos
 .Lsrl3_b24_Neg:
-        .word   .Lsrl_n16777216, 164, .Lsrl3_b23_Neg
+        .word   .Lsrl_n16777216, 100, .Lsrl3_b23_Neg
         .word   .Lsrl_n2097152, 168, .+4
         .word   12, 12, .Lsrl3_b23_Pos
 .Lsrl3_b23_Pos:
-        .word   .Lsrl_c8388608, 164, .Lsrl3_b22_Neg
+        .word   .Lsrl_c8388608, 100, .Lsrl3_b22_Neg
         .word   .Lsrl_n1048576, 168, .+4
         .word   12, 12, .Lsrl3_b22_Pos
 .Lsrl3_b23_Neg:
-        .word   .Lsrl_n8388608, 164, .Lsrl3_b22_Neg
+        .word   .Lsrl_n8388608, 100, .Lsrl3_b22_Neg
         .word   .Lsrl_n1048576, 168, .+4
         .word   12, 12, .Lsrl3_b22_Pos
 .Lsrl3_b22_Pos:
-        .word   .Lsrl_c4194304, 164, .Lsrl3_b21_Neg
+        .word   .Lsrl_c4194304, 100, .Lsrl3_b21_Neg
         .word   .Lsrl_n524288, 168, .+4
         .word   12, 12, .Lsrl3_b21_Pos
 .Lsrl3_b22_Neg:
-        .word   .Lsrl_n4194304, 164, .Lsrl3_b21_Neg
+        .word   .Lsrl_n4194304, 100, .Lsrl3_b21_Neg
         .word   .Lsrl_n524288, 168, .+4
         .word   12, 12, .Lsrl3_b21_Pos
 .Lsrl3_b21_Pos:
-        .word   .Lsrl_c2097152, 164, .Lsrl3_b20_Neg
+        .word   .Lsrl_c2097152, 100, .Lsrl3_b20_Neg
         .word   .Lsrl_n262144, 168, .+4
         .word   12, 12, .Lsrl3_b20_Pos
 .Lsrl3_b21_Neg:
-        .word   .Lsrl_n2097152, 164, .Lsrl3_b20_Neg
+        .word   .Lsrl_n2097152, 100, .Lsrl3_b20_Neg
         .word   .Lsrl_n262144, 168, .+4
         .word   12, 12, .Lsrl3_b20_Pos
 .Lsrl3_b20_Pos:
-        .word   .Lsrl_c1048576, 164, .Lsrl3_b19_Neg
+        .word   .Lsrl_c1048576, 100, .Lsrl3_b19_Neg
         .word   .Lsrl_n131072, 168, .+4
         .word   12, 12, .Lsrl3_b19_Pos
 .Lsrl3_b20_Neg:
-        .word   .Lsrl_n1048576, 164, .Lsrl3_b19_Neg
+        .word   .Lsrl_n1048576, 100, .Lsrl3_b19_Neg
         .word   .Lsrl_n131072, 168, .+4
         .word   12, 12, .Lsrl3_b19_Pos
 .Lsrl3_b19_Pos:
-        .word   .Lsrl_c524288, 164, .Lsrl3_b18_Neg
+        .word   .Lsrl_c524288, 100, .Lsrl3_b18_Neg
         .word   .Lsrl_n65536, 168, .+4
         .word   12, 12, .Lsrl3_b18_Pos
 .Lsrl3_b19_Neg:
-        .word   .Lsrl_n524288, 164, .Lsrl3_b18_Neg
+        .word   .Lsrl_n524288, 100, .Lsrl3_b18_Neg
         .word   .Lsrl_n65536, 168, .+4
         .word   12, 12, .Lsrl3_b18_Pos
 .Lsrl3_b18_Pos:
-        .word   .Lsrl_c262144, 164, .Lsrl3_b17_Neg
+        .word   .Lsrl_c262144, 100, .Lsrl3_b17_Neg
         .word   .Lsrl_n32768, 168, .+4
         .word   12, 12, .Lsrl3_b17_Pos
 .Lsrl3_b18_Neg:
-        .word   .Lsrl_n262144, 164, .Lsrl3_b17_Neg
+        .word   .Lsrl_n262144, 100, .Lsrl3_b17_Neg
         .word   .Lsrl_n32768, 168, .+4
         .word   12, 12, .Lsrl3_b17_Pos
 .Lsrl3_b17_Pos:
-        .word   .Lsrl_c131072, 164, .Lsrl3_b16_Neg
+        .word   .Lsrl_c131072, 100, .Lsrl3_b16_Neg
         .word   .Lsrl_n16384, 168, .+4
         .word   12, 12, .Lsrl3_b16_Pos
 .Lsrl3_b17_Neg:
-        .word   .Lsrl_n131072, 164, .Lsrl3_b16_Neg
+        .word   .Lsrl_n131072, 100, .Lsrl3_b16_Neg
         .word   .Lsrl_n16384, 168, .+4
         .word   12, 12, .Lsrl3_b16_Pos
 .Lsrl3_b16_Pos:
-        .word   .Lsrl_c65536, 164, .Lsrl3_b15_Neg
+        .word   .Lsrl_c65536, 100, .Lsrl3_b15_Neg
         .word   .Lsrl_n8192, 168, .+4
         .word   12, 12, .Lsrl3_b15_Pos
 .Lsrl3_b16_Neg:
-        .word   .Lsrl_n65536, 164, .Lsrl3_b15_Neg
+        .word   .Lsrl_n65536, 100, .Lsrl3_b15_Neg
         .word   .Lsrl_n8192, 168, .+4
         .word   12, 12, .Lsrl3_b15_Pos
 .Lsrl3_b15_Pos:
-        .word   .Lsrl_c32768, 164, .Lsrl3_b14_Neg
+        .word   .Lsrl_c32768, 100, .Lsrl3_b14_Neg
         .word   .Lsrl_n4096, 168, .+4
         .word   12, 12, .Lsrl3_b14_Pos
 .Lsrl3_b15_Neg:
-        .word   .Lsrl_n32768, 164, .Lsrl3_b14_Neg
+        .word   .Lsrl_n32768, 100, .Lsrl3_b14_Neg
         .word   .Lsrl_n4096, 168, .+4
         .word   12, 12, .Lsrl3_b14_Pos
 .Lsrl3_b14_Pos:
-        .word   .Lsrl_c16384, 164, .Lsrl3_b13_Neg
+        .word   .Lsrl_c16384, 100, .Lsrl3_b13_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl3_b13_Pos
 .Lsrl3_b14_Neg:
-        .word   .Lsrl_n16384, 164, .Lsrl3_b13_Neg
+        .word   .Lsrl_n16384, 100, .Lsrl3_b13_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl3_b13_Pos
 .Lsrl3_b13_Pos:
-        .word   .Lsrl_c8192, 164, .Lsrl3_b12_Neg
+        .word   .Lsrl_c8192, 100, .Lsrl3_b12_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl3_b12_Pos
 .Lsrl3_b13_Neg:
-        .word   .Lsrl_n8192, 164, .Lsrl3_b12_Neg
+        .word   .Lsrl_n8192, 100, .Lsrl3_b12_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl3_b12_Pos
 .Lsrl3_b12_Pos:
-        .word   .Lsrl_c4096, 164, .Lsrl3_b11_Neg
+        .word   .Lsrl_c4096, 100, .Lsrl3_b11_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl3_b11_Pos
 .Lsrl3_b12_Neg:
-        .word   .Lsrl_n4096, 164, .Lsrl3_b11_Neg
+        .word   .Lsrl_n4096, 100, .Lsrl3_b11_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl3_b11_Pos
 .Lsrl3_b11_Pos:
-        .word   .Lsrl_c2048, 164, .Lsrl3_b10_Neg
+        .word   .Lsrl_c2048, 100, .Lsrl3_b10_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl3_b10_Pos
 .Lsrl3_b11_Neg:
-        .word   .Lsrl_n2048, 164, .Lsrl3_b10_Neg
+        .word   .Lsrl_n2048, 100, .Lsrl3_b10_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl3_b10_Pos
 .Lsrl3_b10_Pos:
-        .word   .Lsrl_c1024, 164, .Lsrl3_b9_Neg
+        .word   .Lsrl_c1024, 100, .Lsrl3_b9_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl3_b9_Pos
 .Lsrl3_b10_Neg:
-        .word   .Lsrl_n1024, 164, .Lsrl3_b9_Neg
+        .word   .Lsrl_n1024, 100, .Lsrl3_b9_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl3_b9_Pos
 .Lsrl3_b9_Pos:
-        .word   .Lsrl_c512, 164, .Lsrl3_b8_Neg
+        .word   .Lsrl_c512, 100, .Lsrl3_b8_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl3_b8_Pos
 .Lsrl3_b9_Neg:
-        .word   .Lsrl_n512, 164, .Lsrl3_b8_Neg
+        .word   .Lsrl_n512, 100, .Lsrl3_b8_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl3_b8_Pos
 .Lsrl3_b8_Pos:
-        .word   .Lsrl_c256, 164, .Lsrl3_b7_Neg
+        .word   .Lsrl_c256, 100, .Lsrl3_b7_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl3_b7_Pos
 .Lsrl3_b8_Neg:
-        .word   .Lsrl_n256, 164, .Lsrl3_b7_Neg
+        .word   .Lsrl_n256, 100, .Lsrl3_b7_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl3_b7_Pos
 .Lsrl3_b7_Pos:
-        .word   .Lsrl_c128, 164, .Lsrl3_b6_Neg
+        .word   .Lsrl_c128, 100, .Lsrl3_b6_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl3_b6_Pos
 .Lsrl3_b7_Neg:
-        .word   .Lsrl_n128, 164, .Lsrl3_b6_Neg
+        .word   .Lsrl_n128, 100, .Lsrl3_b6_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl3_b6_Pos
 .Lsrl3_b6_Pos:
-        .word   .Lsrl_c64, 164, .Lsrl3_b5_Neg
+        .word   .Lsrl_c64, 100, .Lsrl3_b5_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl3_b5_Pos
 .Lsrl3_b6_Neg:
-        .word   .Lsrl_n64, 164, .Lsrl3_b5_Neg
+        .word   .Lsrl_n64, 100, .Lsrl3_b5_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl3_b5_Pos
 .Lsrl3_b5_Pos:
-        .word   .Lsrl_c32, 164, .Lsrl3_b4_Neg
+        .word   .Lsrl_c32, 100, .Lsrl3_b4_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl3_b4_Pos
 .Lsrl3_b5_Neg:
-        .word   .Lsrl_n32, 164, .Lsrl3_b4_Neg
+        .word   .Lsrl_n32, 100, .Lsrl3_b4_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl3_b4_Pos
 .Lsrl3_b4_Pos:
-        .word   .Lsrl_c16, 164, .Lsrl3_b3_Neg
+        .word   .Lsrl_c16, 100, .Lsrl3_b3_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl3_b3_Pos
 .Lsrl3_b4_Neg:
-        .word   .Lsrl_n16, 164, .Lsrl3_b3_Neg
+        .word   .Lsrl_n16, 100, .Lsrl3_b3_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl3_b3_Pos
 .Lsrl3_b3_Pos:
-        .word   .Lsrl_c8, 164, .Lsrl3_store
+        .word   .Lsrl_c8, 100, .Lsrl3_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl3_store
 .Lsrl3_b3_Neg:
-        .word   .Lsrl_n8, 164, .Lsrl3_store
+        .word   .Lsrl_n8, 100, .Lsrl3_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl3_store
 .Lsrl3_store:
@@ -41067,231 +41057,231 @@ __subleq_srl:
 
 .Lsrl_shift_4:
         .word   168, 168, .+4
-        .word   144, 164, .Lsrl4_b31_chk
+        .word   144, 100, .Lsrl4_b31_chk
         .word   12, 12, .Lsrl4_b31_setup
 .Lsrl4_b31_chk:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsrl4_b31_ambig
         .word   12, 12, .Lsrl4_b31_set
 .Lsrl4_b31_ambig:
         .word   .Lsrl_one, 172, .+4
         .word   144, 172, .Lsrl4_b31_setup
 .Lsrl4_b31_set:
-        .word   .Lsrl_c2147483648, 164, .+4
+        .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n134217728, 168, .+4
 .Lsrl4_b31_setup:
-        .word   .Lsrl_negone, 164, .+4
+        .word   .Lsrl_negone, 100, .+4
 .Lsrl4_b30_Pos:
-        .word   .Lsrl_c1073741824, 164, .Lsrl4_b29_Neg
+        .word   .Lsrl_c1073741824, 100, .Lsrl4_b29_Neg
         .word   .Lsrl_n67108864, 168, .+4
         .word   12, 12, .Lsrl4_b29_Pos
 .Lsrl4_b29_Pos:
-        .word   .Lsrl_c536870912, 164, .Lsrl4_b28_Neg
+        .word   .Lsrl_c536870912, 100, .Lsrl4_b28_Neg
         .word   .Lsrl_n33554432, 168, .+4
         .word   12, 12, .Lsrl4_b28_Pos
 .Lsrl4_b29_Neg:
-        .word   .Lsrl_n536870912, 164, .Lsrl4_b28_Neg
+        .word   .Lsrl_n536870912, 100, .Lsrl4_b28_Neg
         .word   .Lsrl_n33554432, 168, .+4
         .word   12, 12, .Lsrl4_b28_Pos
 .Lsrl4_b28_Pos:
-        .word   .Lsrl_c268435456, 164, .Lsrl4_b27_Neg
+        .word   .Lsrl_c268435456, 100, .Lsrl4_b27_Neg
         .word   .Lsrl_n16777216, 168, .+4
         .word   12, 12, .Lsrl4_b27_Pos
 .Lsrl4_b28_Neg:
-        .word   .Lsrl_n268435456, 164, .Lsrl4_b27_Neg
+        .word   .Lsrl_n268435456, 100, .Lsrl4_b27_Neg
         .word   .Lsrl_n16777216, 168, .+4
         .word   12, 12, .Lsrl4_b27_Pos
 .Lsrl4_b27_Pos:
-        .word   .Lsrl_c134217728, 164, .Lsrl4_b26_Neg
+        .word   .Lsrl_c134217728, 100, .Lsrl4_b26_Neg
         .word   .Lsrl_n8388608, 168, .+4
         .word   12, 12, .Lsrl4_b26_Pos
 .Lsrl4_b27_Neg:
-        .word   .Lsrl_n134217728, 164, .Lsrl4_b26_Neg
+        .word   .Lsrl_n134217728, 100, .Lsrl4_b26_Neg
         .word   .Lsrl_n8388608, 168, .+4
         .word   12, 12, .Lsrl4_b26_Pos
 .Lsrl4_b26_Pos:
-        .word   .Lsrl_c67108864, 164, .Lsrl4_b25_Neg
+        .word   .Lsrl_c67108864, 100, .Lsrl4_b25_Neg
         .word   .Lsrl_n4194304, 168, .+4
         .word   12, 12, .Lsrl4_b25_Pos
 .Lsrl4_b26_Neg:
-        .word   .Lsrl_n67108864, 164, .Lsrl4_b25_Neg
+        .word   .Lsrl_n67108864, 100, .Lsrl4_b25_Neg
         .word   .Lsrl_n4194304, 168, .+4
         .word   12, 12, .Lsrl4_b25_Pos
 .Lsrl4_b25_Pos:
-        .word   .Lsrl_c33554432, 164, .Lsrl4_b24_Neg
+        .word   .Lsrl_c33554432, 100, .Lsrl4_b24_Neg
         .word   .Lsrl_n2097152, 168, .+4
         .word   12, 12, .Lsrl4_b24_Pos
 .Lsrl4_b25_Neg:
-        .word   .Lsrl_n33554432, 164, .Lsrl4_b24_Neg
+        .word   .Lsrl_n33554432, 100, .Lsrl4_b24_Neg
         .word   .Lsrl_n2097152, 168, .+4
         .word   12, 12, .Lsrl4_b24_Pos
 .Lsrl4_b24_Pos:
-        .word   .Lsrl_c16777216, 164, .Lsrl4_b23_Neg
+        .word   .Lsrl_c16777216, 100, .Lsrl4_b23_Neg
         .word   .Lsrl_n1048576, 168, .+4
         .word   12, 12, .Lsrl4_b23_Pos
 .Lsrl4_b24_Neg:
-        .word   .Lsrl_n16777216, 164, .Lsrl4_b23_Neg
+        .word   .Lsrl_n16777216, 100, .Lsrl4_b23_Neg
         .word   .Lsrl_n1048576, 168, .+4
         .word   12, 12, .Lsrl4_b23_Pos
 .Lsrl4_b23_Pos:
-        .word   .Lsrl_c8388608, 164, .Lsrl4_b22_Neg
+        .word   .Lsrl_c8388608, 100, .Lsrl4_b22_Neg
         .word   .Lsrl_n524288, 168, .+4
         .word   12, 12, .Lsrl4_b22_Pos
 .Lsrl4_b23_Neg:
-        .word   .Lsrl_n8388608, 164, .Lsrl4_b22_Neg
+        .word   .Lsrl_n8388608, 100, .Lsrl4_b22_Neg
         .word   .Lsrl_n524288, 168, .+4
         .word   12, 12, .Lsrl4_b22_Pos
 .Lsrl4_b22_Pos:
-        .word   .Lsrl_c4194304, 164, .Lsrl4_b21_Neg
+        .word   .Lsrl_c4194304, 100, .Lsrl4_b21_Neg
         .word   .Lsrl_n262144, 168, .+4
         .word   12, 12, .Lsrl4_b21_Pos
 .Lsrl4_b22_Neg:
-        .word   .Lsrl_n4194304, 164, .Lsrl4_b21_Neg
+        .word   .Lsrl_n4194304, 100, .Lsrl4_b21_Neg
         .word   .Lsrl_n262144, 168, .+4
         .word   12, 12, .Lsrl4_b21_Pos
 .Lsrl4_b21_Pos:
-        .word   .Lsrl_c2097152, 164, .Lsrl4_b20_Neg
+        .word   .Lsrl_c2097152, 100, .Lsrl4_b20_Neg
         .word   .Lsrl_n131072, 168, .+4
         .word   12, 12, .Lsrl4_b20_Pos
 .Lsrl4_b21_Neg:
-        .word   .Lsrl_n2097152, 164, .Lsrl4_b20_Neg
+        .word   .Lsrl_n2097152, 100, .Lsrl4_b20_Neg
         .word   .Lsrl_n131072, 168, .+4
         .word   12, 12, .Lsrl4_b20_Pos
 .Lsrl4_b20_Pos:
-        .word   .Lsrl_c1048576, 164, .Lsrl4_b19_Neg
+        .word   .Lsrl_c1048576, 100, .Lsrl4_b19_Neg
         .word   .Lsrl_n65536, 168, .+4
         .word   12, 12, .Lsrl4_b19_Pos
 .Lsrl4_b20_Neg:
-        .word   .Lsrl_n1048576, 164, .Lsrl4_b19_Neg
+        .word   .Lsrl_n1048576, 100, .Lsrl4_b19_Neg
         .word   .Lsrl_n65536, 168, .+4
         .word   12, 12, .Lsrl4_b19_Pos
 .Lsrl4_b19_Pos:
-        .word   .Lsrl_c524288, 164, .Lsrl4_b18_Neg
+        .word   .Lsrl_c524288, 100, .Lsrl4_b18_Neg
         .word   .Lsrl_n32768, 168, .+4
         .word   12, 12, .Lsrl4_b18_Pos
 .Lsrl4_b19_Neg:
-        .word   .Lsrl_n524288, 164, .Lsrl4_b18_Neg
+        .word   .Lsrl_n524288, 100, .Lsrl4_b18_Neg
         .word   .Lsrl_n32768, 168, .+4
         .word   12, 12, .Lsrl4_b18_Pos
 .Lsrl4_b18_Pos:
-        .word   .Lsrl_c262144, 164, .Lsrl4_b17_Neg
+        .word   .Lsrl_c262144, 100, .Lsrl4_b17_Neg
         .word   .Lsrl_n16384, 168, .+4
         .word   12, 12, .Lsrl4_b17_Pos
 .Lsrl4_b18_Neg:
-        .word   .Lsrl_n262144, 164, .Lsrl4_b17_Neg
+        .word   .Lsrl_n262144, 100, .Lsrl4_b17_Neg
         .word   .Lsrl_n16384, 168, .+4
         .word   12, 12, .Lsrl4_b17_Pos
 .Lsrl4_b17_Pos:
-        .word   .Lsrl_c131072, 164, .Lsrl4_b16_Neg
+        .word   .Lsrl_c131072, 100, .Lsrl4_b16_Neg
         .word   .Lsrl_n8192, 168, .+4
         .word   12, 12, .Lsrl4_b16_Pos
 .Lsrl4_b17_Neg:
-        .word   .Lsrl_n131072, 164, .Lsrl4_b16_Neg
+        .word   .Lsrl_n131072, 100, .Lsrl4_b16_Neg
         .word   .Lsrl_n8192, 168, .+4
         .word   12, 12, .Lsrl4_b16_Pos
 .Lsrl4_b16_Pos:
-        .word   .Lsrl_c65536, 164, .Lsrl4_b15_Neg
+        .word   .Lsrl_c65536, 100, .Lsrl4_b15_Neg
         .word   .Lsrl_n4096, 168, .+4
         .word   12, 12, .Lsrl4_b15_Pos
 .Lsrl4_b16_Neg:
-        .word   .Lsrl_n65536, 164, .Lsrl4_b15_Neg
+        .word   .Lsrl_n65536, 100, .Lsrl4_b15_Neg
         .word   .Lsrl_n4096, 168, .+4
         .word   12, 12, .Lsrl4_b15_Pos
 .Lsrl4_b15_Pos:
-        .word   .Lsrl_c32768, 164, .Lsrl4_b14_Neg
+        .word   .Lsrl_c32768, 100, .Lsrl4_b14_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl4_b14_Pos
 .Lsrl4_b15_Neg:
-        .word   .Lsrl_n32768, 164, .Lsrl4_b14_Neg
+        .word   .Lsrl_n32768, 100, .Lsrl4_b14_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl4_b14_Pos
 .Lsrl4_b14_Pos:
-        .word   .Lsrl_c16384, 164, .Lsrl4_b13_Neg
+        .word   .Lsrl_c16384, 100, .Lsrl4_b13_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl4_b13_Pos
 .Lsrl4_b14_Neg:
-        .word   .Lsrl_n16384, 164, .Lsrl4_b13_Neg
+        .word   .Lsrl_n16384, 100, .Lsrl4_b13_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl4_b13_Pos
 .Lsrl4_b13_Pos:
-        .word   .Lsrl_c8192, 164, .Lsrl4_b12_Neg
+        .word   .Lsrl_c8192, 100, .Lsrl4_b12_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl4_b12_Pos
 .Lsrl4_b13_Neg:
-        .word   .Lsrl_n8192, 164, .Lsrl4_b12_Neg
+        .word   .Lsrl_n8192, 100, .Lsrl4_b12_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl4_b12_Pos
 .Lsrl4_b12_Pos:
-        .word   .Lsrl_c4096, 164, .Lsrl4_b11_Neg
+        .word   .Lsrl_c4096, 100, .Lsrl4_b11_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl4_b11_Pos
 .Lsrl4_b12_Neg:
-        .word   .Lsrl_n4096, 164, .Lsrl4_b11_Neg
+        .word   .Lsrl_n4096, 100, .Lsrl4_b11_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl4_b11_Pos
 .Lsrl4_b11_Pos:
-        .word   .Lsrl_c2048, 164, .Lsrl4_b10_Neg
+        .word   .Lsrl_c2048, 100, .Lsrl4_b10_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl4_b10_Pos
 .Lsrl4_b11_Neg:
-        .word   .Lsrl_n2048, 164, .Lsrl4_b10_Neg
+        .word   .Lsrl_n2048, 100, .Lsrl4_b10_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl4_b10_Pos
 .Lsrl4_b10_Pos:
-        .word   .Lsrl_c1024, 164, .Lsrl4_b9_Neg
+        .word   .Lsrl_c1024, 100, .Lsrl4_b9_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl4_b9_Pos
 .Lsrl4_b10_Neg:
-        .word   .Lsrl_n1024, 164, .Lsrl4_b9_Neg
+        .word   .Lsrl_n1024, 100, .Lsrl4_b9_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl4_b9_Pos
 .Lsrl4_b9_Pos:
-        .word   .Lsrl_c512, 164, .Lsrl4_b8_Neg
+        .word   .Lsrl_c512, 100, .Lsrl4_b8_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl4_b8_Pos
 .Lsrl4_b9_Neg:
-        .word   .Lsrl_n512, 164, .Lsrl4_b8_Neg
+        .word   .Lsrl_n512, 100, .Lsrl4_b8_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl4_b8_Pos
 .Lsrl4_b8_Pos:
-        .word   .Lsrl_c256, 164, .Lsrl4_b7_Neg
+        .word   .Lsrl_c256, 100, .Lsrl4_b7_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl4_b7_Pos
 .Lsrl4_b8_Neg:
-        .word   .Lsrl_n256, 164, .Lsrl4_b7_Neg
+        .word   .Lsrl_n256, 100, .Lsrl4_b7_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl4_b7_Pos
 .Lsrl4_b7_Pos:
-        .word   .Lsrl_c128, 164, .Lsrl4_b6_Neg
+        .word   .Lsrl_c128, 100, .Lsrl4_b6_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl4_b6_Pos
 .Lsrl4_b7_Neg:
-        .word   .Lsrl_n128, 164, .Lsrl4_b6_Neg
+        .word   .Lsrl_n128, 100, .Lsrl4_b6_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl4_b6_Pos
 .Lsrl4_b6_Pos:
-        .word   .Lsrl_c64, 164, .Lsrl4_b5_Neg
+        .word   .Lsrl_c64, 100, .Lsrl4_b5_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl4_b5_Pos
 .Lsrl4_b6_Neg:
-        .word   .Lsrl_n64, 164, .Lsrl4_b5_Neg
+        .word   .Lsrl_n64, 100, .Lsrl4_b5_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl4_b5_Pos
 .Lsrl4_b5_Pos:
-        .word   .Lsrl_c32, 164, .Lsrl4_b4_Neg
+        .word   .Lsrl_c32, 100, .Lsrl4_b4_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl4_b4_Pos
 .Lsrl4_b5_Neg:
-        .word   .Lsrl_n32, 164, .Lsrl4_b4_Neg
+        .word   .Lsrl_n32, 100, .Lsrl4_b4_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl4_b4_Pos
 .Lsrl4_b4_Pos:
-        .word   .Lsrl_c16, 164, .Lsrl4_store
+        .word   .Lsrl_c16, 100, .Lsrl4_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl4_store
 .Lsrl4_b4_Neg:
-        .word   .Lsrl_n16, 164, .Lsrl4_store
+        .word   .Lsrl_n16, 100, .Lsrl4_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl4_store
 .Lsrl4_store:
@@ -41303,223 +41293,223 @@ __subleq_srl:
 
 .Lsrl_shift_5:
         .word   168, 168, .+4
-        .word   144, 164, .Lsrl5_b31_chk
+        .word   144, 100, .Lsrl5_b31_chk
         .word   12, 12, .Lsrl5_b31_setup
 .Lsrl5_b31_chk:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsrl5_b31_ambig
         .word   12, 12, .Lsrl5_b31_set
 .Lsrl5_b31_ambig:
         .word   .Lsrl_one, 172, .+4
         .word   144, 172, .Lsrl5_b31_setup
 .Lsrl5_b31_set:
-        .word   .Lsrl_c2147483648, 164, .+4
+        .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n67108864, 168, .+4
 .Lsrl5_b31_setup:
-        .word   .Lsrl_negone, 164, .+4
+        .word   .Lsrl_negone, 100, .+4
 .Lsrl5_b30_Pos:
-        .word   .Lsrl_c1073741824, 164, .Lsrl5_b29_Neg
+        .word   .Lsrl_c1073741824, 100, .Lsrl5_b29_Neg
         .word   .Lsrl_n33554432, 168, .+4
         .word   12, 12, .Lsrl5_b29_Pos
 .Lsrl5_b29_Pos:
-        .word   .Lsrl_c536870912, 164, .Lsrl5_b28_Neg
+        .word   .Lsrl_c536870912, 100, .Lsrl5_b28_Neg
         .word   .Lsrl_n16777216, 168, .+4
         .word   12, 12, .Lsrl5_b28_Pos
 .Lsrl5_b29_Neg:
-        .word   .Lsrl_n536870912, 164, .Lsrl5_b28_Neg
+        .word   .Lsrl_n536870912, 100, .Lsrl5_b28_Neg
         .word   .Lsrl_n16777216, 168, .+4
         .word   12, 12, .Lsrl5_b28_Pos
 .Lsrl5_b28_Pos:
-        .word   .Lsrl_c268435456, 164, .Lsrl5_b27_Neg
+        .word   .Lsrl_c268435456, 100, .Lsrl5_b27_Neg
         .word   .Lsrl_n8388608, 168, .+4
         .word   12, 12, .Lsrl5_b27_Pos
 .Lsrl5_b28_Neg:
-        .word   .Lsrl_n268435456, 164, .Lsrl5_b27_Neg
+        .word   .Lsrl_n268435456, 100, .Lsrl5_b27_Neg
         .word   .Lsrl_n8388608, 168, .+4
         .word   12, 12, .Lsrl5_b27_Pos
 .Lsrl5_b27_Pos:
-        .word   .Lsrl_c134217728, 164, .Lsrl5_b26_Neg
+        .word   .Lsrl_c134217728, 100, .Lsrl5_b26_Neg
         .word   .Lsrl_n4194304, 168, .+4
         .word   12, 12, .Lsrl5_b26_Pos
 .Lsrl5_b27_Neg:
-        .word   .Lsrl_n134217728, 164, .Lsrl5_b26_Neg
+        .word   .Lsrl_n134217728, 100, .Lsrl5_b26_Neg
         .word   .Lsrl_n4194304, 168, .+4
         .word   12, 12, .Lsrl5_b26_Pos
 .Lsrl5_b26_Pos:
-        .word   .Lsrl_c67108864, 164, .Lsrl5_b25_Neg
+        .word   .Lsrl_c67108864, 100, .Lsrl5_b25_Neg
         .word   .Lsrl_n2097152, 168, .+4
         .word   12, 12, .Lsrl5_b25_Pos
 .Lsrl5_b26_Neg:
-        .word   .Lsrl_n67108864, 164, .Lsrl5_b25_Neg
+        .word   .Lsrl_n67108864, 100, .Lsrl5_b25_Neg
         .word   .Lsrl_n2097152, 168, .+4
         .word   12, 12, .Lsrl5_b25_Pos
 .Lsrl5_b25_Pos:
-        .word   .Lsrl_c33554432, 164, .Lsrl5_b24_Neg
+        .word   .Lsrl_c33554432, 100, .Lsrl5_b24_Neg
         .word   .Lsrl_n1048576, 168, .+4
         .word   12, 12, .Lsrl5_b24_Pos
 .Lsrl5_b25_Neg:
-        .word   .Lsrl_n33554432, 164, .Lsrl5_b24_Neg
+        .word   .Lsrl_n33554432, 100, .Lsrl5_b24_Neg
         .word   .Lsrl_n1048576, 168, .+4
         .word   12, 12, .Lsrl5_b24_Pos
 .Lsrl5_b24_Pos:
-        .word   .Lsrl_c16777216, 164, .Lsrl5_b23_Neg
+        .word   .Lsrl_c16777216, 100, .Lsrl5_b23_Neg
         .word   .Lsrl_n524288, 168, .+4
         .word   12, 12, .Lsrl5_b23_Pos
 .Lsrl5_b24_Neg:
-        .word   .Lsrl_n16777216, 164, .Lsrl5_b23_Neg
+        .word   .Lsrl_n16777216, 100, .Lsrl5_b23_Neg
         .word   .Lsrl_n524288, 168, .+4
         .word   12, 12, .Lsrl5_b23_Pos
 .Lsrl5_b23_Pos:
-        .word   .Lsrl_c8388608, 164, .Lsrl5_b22_Neg
+        .word   .Lsrl_c8388608, 100, .Lsrl5_b22_Neg
         .word   .Lsrl_n262144, 168, .+4
         .word   12, 12, .Lsrl5_b22_Pos
 .Lsrl5_b23_Neg:
-        .word   .Lsrl_n8388608, 164, .Lsrl5_b22_Neg
+        .word   .Lsrl_n8388608, 100, .Lsrl5_b22_Neg
         .word   .Lsrl_n262144, 168, .+4
         .word   12, 12, .Lsrl5_b22_Pos
 .Lsrl5_b22_Pos:
-        .word   .Lsrl_c4194304, 164, .Lsrl5_b21_Neg
+        .word   .Lsrl_c4194304, 100, .Lsrl5_b21_Neg
         .word   .Lsrl_n131072, 168, .+4
         .word   12, 12, .Lsrl5_b21_Pos
 .Lsrl5_b22_Neg:
-        .word   .Lsrl_n4194304, 164, .Lsrl5_b21_Neg
+        .word   .Lsrl_n4194304, 100, .Lsrl5_b21_Neg
         .word   .Lsrl_n131072, 168, .+4
         .word   12, 12, .Lsrl5_b21_Pos
 .Lsrl5_b21_Pos:
-        .word   .Lsrl_c2097152, 164, .Lsrl5_b20_Neg
+        .word   .Lsrl_c2097152, 100, .Lsrl5_b20_Neg
         .word   .Lsrl_n65536, 168, .+4
         .word   12, 12, .Lsrl5_b20_Pos
 .Lsrl5_b21_Neg:
-        .word   .Lsrl_n2097152, 164, .Lsrl5_b20_Neg
+        .word   .Lsrl_n2097152, 100, .Lsrl5_b20_Neg
         .word   .Lsrl_n65536, 168, .+4
         .word   12, 12, .Lsrl5_b20_Pos
 .Lsrl5_b20_Pos:
-        .word   .Lsrl_c1048576, 164, .Lsrl5_b19_Neg
+        .word   .Lsrl_c1048576, 100, .Lsrl5_b19_Neg
         .word   .Lsrl_n32768, 168, .+4
         .word   12, 12, .Lsrl5_b19_Pos
 .Lsrl5_b20_Neg:
-        .word   .Lsrl_n1048576, 164, .Lsrl5_b19_Neg
+        .word   .Lsrl_n1048576, 100, .Lsrl5_b19_Neg
         .word   .Lsrl_n32768, 168, .+4
         .word   12, 12, .Lsrl5_b19_Pos
 .Lsrl5_b19_Pos:
-        .word   .Lsrl_c524288, 164, .Lsrl5_b18_Neg
+        .word   .Lsrl_c524288, 100, .Lsrl5_b18_Neg
         .word   .Lsrl_n16384, 168, .+4
         .word   12, 12, .Lsrl5_b18_Pos
 .Lsrl5_b19_Neg:
-        .word   .Lsrl_n524288, 164, .Lsrl5_b18_Neg
+        .word   .Lsrl_n524288, 100, .Lsrl5_b18_Neg
         .word   .Lsrl_n16384, 168, .+4
         .word   12, 12, .Lsrl5_b18_Pos
 .Lsrl5_b18_Pos:
-        .word   .Lsrl_c262144, 164, .Lsrl5_b17_Neg
+        .word   .Lsrl_c262144, 100, .Lsrl5_b17_Neg
         .word   .Lsrl_n8192, 168, .+4
         .word   12, 12, .Lsrl5_b17_Pos
 .Lsrl5_b18_Neg:
-        .word   .Lsrl_n262144, 164, .Lsrl5_b17_Neg
+        .word   .Lsrl_n262144, 100, .Lsrl5_b17_Neg
         .word   .Lsrl_n8192, 168, .+4
         .word   12, 12, .Lsrl5_b17_Pos
 .Lsrl5_b17_Pos:
-        .word   .Lsrl_c131072, 164, .Lsrl5_b16_Neg
+        .word   .Lsrl_c131072, 100, .Lsrl5_b16_Neg
         .word   .Lsrl_n4096, 168, .+4
         .word   12, 12, .Lsrl5_b16_Pos
 .Lsrl5_b17_Neg:
-        .word   .Lsrl_n131072, 164, .Lsrl5_b16_Neg
+        .word   .Lsrl_n131072, 100, .Lsrl5_b16_Neg
         .word   .Lsrl_n4096, 168, .+4
         .word   12, 12, .Lsrl5_b16_Pos
 .Lsrl5_b16_Pos:
-        .word   .Lsrl_c65536, 164, .Lsrl5_b15_Neg
+        .word   .Lsrl_c65536, 100, .Lsrl5_b15_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl5_b15_Pos
 .Lsrl5_b16_Neg:
-        .word   .Lsrl_n65536, 164, .Lsrl5_b15_Neg
+        .word   .Lsrl_n65536, 100, .Lsrl5_b15_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl5_b15_Pos
 .Lsrl5_b15_Pos:
-        .word   .Lsrl_c32768, 164, .Lsrl5_b14_Neg
+        .word   .Lsrl_c32768, 100, .Lsrl5_b14_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl5_b14_Pos
 .Lsrl5_b15_Neg:
-        .word   .Lsrl_n32768, 164, .Lsrl5_b14_Neg
+        .word   .Lsrl_n32768, 100, .Lsrl5_b14_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl5_b14_Pos
 .Lsrl5_b14_Pos:
-        .word   .Lsrl_c16384, 164, .Lsrl5_b13_Neg
+        .word   .Lsrl_c16384, 100, .Lsrl5_b13_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl5_b13_Pos
 .Lsrl5_b14_Neg:
-        .word   .Lsrl_n16384, 164, .Lsrl5_b13_Neg
+        .word   .Lsrl_n16384, 100, .Lsrl5_b13_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl5_b13_Pos
 .Lsrl5_b13_Pos:
-        .word   .Lsrl_c8192, 164, .Lsrl5_b12_Neg
+        .word   .Lsrl_c8192, 100, .Lsrl5_b12_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl5_b12_Pos
 .Lsrl5_b13_Neg:
-        .word   .Lsrl_n8192, 164, .Lsrl5_b12_Neg
+        .word   .Lsrl_n8192, 100, .Lsrl5_b12_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl5_b12_Pos
 .Lsrl5_b12_Pos:
-        .word   .Lsrl_c4096, 164, .Lsrl5_b11_Neg
+        .word   .Lsrl_c4096, 100, .Lsrl5_b11_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl5_b11_Pos
 .Lsrl5_b12_Neg:
-        .word   .Lsrl_n4096, 164, .Lsrl5_b11_Neg
+        .word   .Lsrl_n4096, 100, .Lsrl5_b11_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl5_b11_Pos
 .Lsrl5_b11_Pos:
-        .word   .Lsrl_c2048, 164, .Lsrl5_b10_Neg
+        .word   .Lsrl_c2048, 100, .Lsrl5_b10_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl5_b10_Pos
 .Lsrl5_b11_Neg:
-        .word   .Lsrl_n2048, 164, .Lsrl5_b10_Neg
+        .word   .Lsrl_n2048, 100, .Lsrl5_b10_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl5_b10_Pos
 .Lsrl5_b10_Pos:
-        .word   .Lsrl_c1024, 164, .Lsrl5_b9_Neg
+        .word   .Lsrl_c1024, 100, .Lsrl5_b9_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl5_b9_Pos
 .Lsrl5_b10_Neg:
-        .word   .Lsrl_n1024, 164, .Lsrl5_b9_Neg
+        .word   .Lsrl_n1024, 100, .Lsrl5_b9_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl5_b9_Pos
 .Lsrl5_b9_Pos:
-        .word   .Lsrl_c512, 164, .Lsrl5_b8_Neg
+        .word   .Lsrl_c512, 100, .Lsrl5_b8_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl5_b8_Pos
 .Lsrl5_b9_Neg:
-        .word   .Lsrl_n512, 164, .Lsrl5_b8_Neg
+        .word   .Lsrl_n512, 100, .Lsrl5_b8_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl5_b8_Pos
 .Lsrl5_b8_Pos:
-        .word   .Lsrl_c256, 164, .Lsrl5_b7_Neg
+        .word   .Lsrl_c256, 100, .Lsrl5_b7_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl5_b7_Pos
 .Lsrl5_b8_Neg:
-        .word   .Lsrl_n256, 164, .Lsrl5_b7_Neg
+        .word   .Lsrl_n256, 100, .Lsrl5_b7_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl5_b7_Pos
 .Lsrl5_b7_Pos:
-        .word   .Lsrl_c128, 164, .Lsrl5_b6_Neg
+        .word   .Lsrl_c128, 100, .Lsrl5_b6_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl5_b6_Pos
 .Lsrl5_b7_Neg:
-        .word   .Lsrl_n128, 164, .Lsrl5_b6_Neg
+        .word   .Lsrl_n128, 100, .Lsrl5_b6_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl5_b6_Pos
 .Lsrl5_b6_Pos:
-        .word   .Lsrl_c64, 164, .Lsrl5_b5_Neg
+        .word   .Lsrl_c64, 100, .Lsrl5_b5_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl5_b5_Pos
 .Lsrl5_b6_Neg:
-        .word   .Lsrl_n64, 164, .Lsrl5_b5_Neg
+        .word   .Lsrl_n64, 100, .Lsrl5_b5_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl5_b5_Pos
 .Lsrl5_b5_Pos:
-        .word   .Lsrl_c32, 164, .Lsrl5_store
+        .word   .Lsrl_c32, 100, .Lsrl5_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl5_store
 .Lsrl5_b5_Neg:
-        .word   .Lsrl_n32, 164, .Lsrl5_store
+        .word   .Lsrl_n32, 100, .Lsrl5_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl5_store
 .Lsrl5_store:
@@ -41531,215 +41521,215 @@ __subleq_srl:
 
 .Lsrl_shift_6:
         .word   168, 168, .+4
-        .word   144, 164, .Lsrl6_b31_chk
+        .word   144, 100, .Lsrl6_b31_chk
         .word   12, 12, .Lsrl6_b31_setup
 .Lsrl6_b31_chk:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsrl6_b31_ambig
         .word   12, 12, .Lsrl6_b31_set
 .Lsrl6_b31_ambig:
         .word   .Lsrl_one, 172, .+4
         .word   144, 172, .Lsrl6_b31_setup
 .Lsrl6_b31_set:
-        .word   .Lsrl_c2147483648, 164, .+4
+        .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n33554432, 168, .+4
 .Lsrl6_b31_setup:
-        .word   .Lsrl_negone, 164, .+4
+        .word   .Lsrl_negone, 100, .+4
 .Lsrl6_b30_Pos:
-        .word   .Lsrl_c1073741824, 164, .Lsrl6_b29_Neg
+        .word   .Lsrl_c1073741824, 100, .Lsrl6_b29_Neg
         .word   .Lsrl_n16777216, 168, .+4
         .word   12, 12, .Lsrl6_b29_Pos
 .Lsrl6_b29_Pos:
-        .word   .Lsrl_c536870912, 164, .Lsrl6_b28_Neg
+        .word   .Lsrl_c536870912, 100, .Lsrl6_b28_Neg
         .word   .Lsrl_n8388608, 168, .+4
         .word   12, 12, .Lsrl6_b28_Pos
 .Lsrl6_b29_Neg:
-        .word   .Lsrl_n536870912, 164, .Lsrl6_b28_Neg
+        .word   .Lsrl_n536870912, 100, .Lsrl6_b28_Neg
         .word   .Lsrl_n8388608, 168, .+4
         .word   12, 12, .Lsrl6_b28_Pos
 .Lsrl6_b28_Pos:
-        .word   .Lsrl_c268435456, 164, .Lsrl6_b27_Neg
+        .word   .Lsrl_c268435456, 100, .Lsrl6_b27_Neg
         .word   .Lsrl_n4194304, 168, .+4
         .word   12, 12, .Lsrl6_b27_Pos
 .Lsrl6_b28_Neg:
-        .word   .Lsrl_n268435456, 164, .Lsrl6_b27_Neg
+        .word   .Lsrl_n268435456, 100, .Lsrl6_b27_Neg
         .word   .Lsrl_n4194304, 168, .+4
         .word   12, 12, .Lsrl6_b27_Pos
 .Lsrl6_b27_Pos:
-        .word   .Lsrl_c134217728, 164, .Lsrl6_b26_Neg
+        .word   .Lsrl_c134217728, 100, .Lsrl6_b26_Neg
         .word   .Lsrl_n2097152, 168, .+4
         .word   12, 12, .Lsrl6_b26_Pos
 .Lsrl6_b27_Neg:
-        .word   .Lsrl_n134217728, 164, .Lsrl6_b26_Neg
+        .word   .Lsrl_n134217728, 100, .Lsrl6_b26_Neg
         .word   .Lsrl_n2097152, 168, .+4
         .word   12, 12, .Lsrl6_b26_Pos
 .Lsrl6_b26_Pos:
-        .word   .Lsrl_c67108864, 164, .Lsrl6_b25_Neg
+        .word   .Lsrl_c67108864, 100, .Lsrl6_b25_Neg
         .word   .Lsrl_n1048576, 168, .+4
         .word   12, 12, .Lsrl6_b25_Pos
 .Lsrl6_b26_Neg:
-        .word   .Lsrl_n67108864, 164, .Lsrl6_b25_Neg
+        .word   .Lsrl_n67108864, 100, .Lsrl6_b25_Neg
         .word   .Lsrl_n1048576, 168, .+4
         .word   12, 12, .Lsrl6_b25_Pos
 .Lsrl6_b25_Pos:
-        .word   .Lsrl_c33554432, 164, .Lsrl6_b24_Neg
+        .word   .Lsrl_c33554432, 100, .Lsrl6_b24_Neg
         .word   .Lsrl_n524288, 168, .+4
         .word   12, 12, .Lsrl6_b24_Pos
 .Lsrl6_b25_Neg:
-        .word   .Lsrl_n33554432, 164, .Lsrl6_b24_Neg
+        .word   .Lsrl_n33554432, 100, .Lsrl6_b24_Neg
         .word   .Lsrl_n524288, 168, .+4
         .word   12, 12, .Lsrl6_b24_Pos
 .Lsrl6_b24_Pos:
-        .word   .Lsrl_c16777216, 164, .Lsrl6_b23_Neg
+        .word   .Lsrl_c16777216, 100, .Lsrl6_b23_Neg
         .word   .Lsrl_n262144, 168, .+4
         .word   12, 12, .Lsrl6_b23_Pos
 .Lsrl6_b24_Neg:
-        .word   .Lsrl_n16777216, 164, .Lsrl6_b23_Neg
+        .word   .Lsrl_n16777216, 100, .Lsrl6_b23_Neg
         .word   .Lsrl_n262144, 168, .+4
         .word   12, 12, .Lsrl6_b23_Pos
 .Lsrl6_b23_Pos:
-        .word   .Lsrl_c8388608, 164, .Lsrl6_b22_Neg
+        .word   .Lsrl_c8388608, 100, .Lsrl6_b22_Neg
         .word   .Lsrl_n131072, 168, .+4
         .word   12, 12, .Lsrl6_b22_Pos
 .Lsrl6_b23_Neg:
-        .word   .Lsrl_n8388608, 164, .Lsrl6_b22_Neg
+        .word   .Lsrl_n8388608, 100, .Lsrl6_b22_Neg
         .word   .Lsrl_n131072, 168, .+4
         .word   12, 12, .Lsrl6_b22_Pos
 .Lsrl6_b22_Pos:
-        .word   .Lsrl_c4194304, 164, .Lsrl6_b21_Neg
+        .word   .Lsrl_c4194304, 100, .Lsrl6_b21_Neg
         .word   .Lsrl_n65536, 168, .+4
         .word   12, 12, .Lsrl6_b21_Pos
 .Lsrl6_b22_Neg:
-        .word   .Lsrl_n4194304, 164, .Lsrl6_b21_Neg
+        .word   .Lsrl_n4194304, 100, .Lsrl6_b21_Neg
         .word   .Lsrl_n65536, 168, .+4
         .word   12, 12, .Lsrl6_b21_Pos
 .Lsrl6_b21_Pos:
-        .word   .Lsrl_c2097152, 164, .Lsrl6_b20_Neg
+        .word   .Lsrl_c2097152, 100, .Lsrl6_b20_Neg
         .word   .Lsrl_n32768, 168, .+4
         .word   12, 12, .Lsrl6_b20_Pos
 .Lsrl6_b21_Neg:
-        .word   .Lsrl_n2097152, 164, .Lsrl6_b20_Neg
+        .word   .Lsrl_n2097152, 100, .Lsrl6_b20_Neg
         .word   .Lsrl_n32768, 168, .+4
         .word   12, 12, .Lsrl6_b20_Pos
 .Lsrl6_b20_Pos:
-        .word   .Lsrl_c1048576, 164, .Lsrl6_b19_Neg
+        .word   .Lsrl_c1048576, 100, .Lsrl6_b19_Neg
         .word   .Lsrl_n16384, 168, .+4
         .word   12, 12, .Lsrl6_b19_Pos
 .Lsrl6_b20_Neg:
-        .word   .Lsrl_n1048576, 164, .Lsrl6_b19_Neg
+        .word   .Lsrl_n1048576, 100, .Lsrl6_b19_Neg
         .word   .Lsrl_n16384, 168, .+4
         .word   12, 12, .Lsrl6_b19_Pos
 .Lsrl6_b19_Pos:
-        .word   .Lsrl_c524288, 164, .Lsrl6_b18_Neg
+        .word   .Lsrl_c524288, 100, .Lsrl6_b18_Neg
         .word   .Lsrl_n8192, 168, .+4
         .word   12, 12, .Lsrl6_b18_Pos
 .Lsrl6_b19_Neg:
-        .word   .Lsrl_n524288, 164, .Lsrl6_b18_Neg
+        .word   .Lsrl_n524288, 100, .Lsrl6_b18_Neg
         .word   .Lsrl_n8192, 168, .+4
         .word   12, 12, .Lsrl6_b18_Pos
 .Lsrl6_b18_Pos:
-        .word   .Lsrl_c262144, 164, .Lsrl6_b17_Neg
+        .word   .Lsrl_c262144, 100, .Lsrl6_b17_Neg
         .word   .Lsrl_n4096, 168, .+4
         .word   12, 12, .Lsrl6_b17_Pos
 .Lsrl6_b18_Neg:
-        .word   .Lsrl_n262144, 164, .Lsrl6_b17_Neg
+        .word   .Lsrl_n262144, 100, .Lsrl6_b17_Neg
         .word   .Lsrl_n4096, 168, .+4
         .word   12, 12, .Lsrl6_b17_Pos
 .Lsrl6_b17_Pos:
-        .word   .Lsrl_c131072, 164, .Lsrl6_b16_Neg
+        .word   .Lsrl_c131072, 100, .Lsrl6_b16_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl6_b16_Pos
 .Lsrl6_b17_Neg:
-        .word   .Lsrl_n131072, 164, .Lsrl6_b16_Neg
+        .word   .Lsrl_n131072, 100, .Lsrl6_b16_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl6_b16_Pos
 .Lsrl6_b16_Pos:
-        .word   .Lsrl_c65536, 164, .Lsrl6_b15_Neg
+        .word   .Lsrl_c65536, 100, .Lsrl6_b15_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl6_b15_Pos
 .Lsrl6_b16_Neg:
-        .word   .Lsrl_n65536, 164, .Lsrl6_b15_Neg
+        .word   .Lsrl_n65536, 100, .Lsrl6_b15_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl6_b15_Pos
 .Lsrl6_b15_Pos:
-        .word   .Lsrl_c32768, 164, .Lsrl6_b14_Neg
+        .word   .Lsrl_c32768, 100, .Lsrl6_b14_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl6_b14_Pos
 .Lsrl6_b15_Neg:
-        .word   .Lsrl_n32768, 164, .Lsrl6_b14_Neg
+        .word   .Lsrl_n32768, 100, .Lsrl6_b14_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl6_b14_Pos
 .Lsrl6_b14_Pos:
-        .word   .Lsrl_c16384, 164, .Lsrl6_b13_Neg
+        .word   .Lsrl_c16384, 100, .Lsrl6_b13_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl6_b13_Pos
 .Lsrl6_b14_Neg:
-        .word   .Lsrl_n16384, 164, .Lsrl6_b13_Neg
+        .word   .Lsrl_n16384, 100, .Lsrl6_b13_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl6_b13_Pos
 .Lsrl6_b13_Pos:
-        .word   .Lsrl_c8192, 164, .Lsrl6_b12_Neg
+        .word   .Lsrl_c8192, 100, .Lsrl6_b12_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl6_b12_Pos
 .Lsrl6_b13_Neg:
-        .word   .Lsrl_n8192, 164, .Lsrl6_b12_Neg
+        .word   .Lsrl_n8192, 100, .Lsrl6_b12_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl6_b12_Pos
 .Lsrl6_b12_Pos:
-        .word   .Lsrl_c4096, 164, .Lsrl6_b11_Neg
+        .word   .Lsrl_c4096, 100, .Lsrl6_b11_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl6_b11_Pos
 .Lsrl6_b12_Neg:
-        .word   .Lsrl_n4096, 164, .Lsrl6_b11_Neg
+        .word   .Lsrl_n4096, 100, .Lsrl6_b11_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl6_b11_Pos
 .Lsrl6_b11_Pos:
-        .word   .Lsrl_c2048, 164, .Lsrl6_b10_Neg
+        .word   .Lsrl_c2048, 100, .Lsrl6_b10_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl6_b10_Pos
 .Lsrl6_b11_Neg:
-        .word   .Lsrl_n2048, 164, .Lsrl6_b10_Neg
+        .word   .Lsrl_n2048, 100, .Lsrl6_b10_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl6_b10_Pos
 .Lsrl6_b10_Pos:
-        .word   .Lsrl_c1024, 164, .Lsrl6_b9_Neg
+        .word   .Lsrl_c1024, 100, .Lsrl6_b9_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl6_b9_Pos
 .Lsrl6_b10_Neg:
-        .word   .Lsrl_n1024, 164, .Lsrl6_b9_Neg
+        .word   .Lsrl_n1024, 100, .Lsrl6_b9_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl6_b9_Pos
 .Lsrl6_b9_Pos:
-        .word   .Lsrl_c512, 164, .Lsrl6_b8_Neg
+        .word   .Lsrl_c512, 100, .Lsrl6_b8_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl6_b8_Pos
 .Lsrl6_b9_Neg:
-        .word   .Lsrl_n512, 164, .Lsrl6_b8_Neg
+        .word   .Lsrl_n512, 100, .Lsrl6_b8_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl6_b8_Pos
 .Lsrl6_b8_Pos:
-        .word   .Lsrl_c256, 164, .Lsrl6_b7_Neg
+        .word   .Lsrl_c256, 100, .Lsrl6_b7_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl6_b7_Pos
 .Lsrl6_b8_Neg:
-        .word   .Lsrl_n256, 164, .Lsrl6_b7_Neg
+        .word   .Lsrl_n256, 100, .Lsrl6_b7_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl6_b7_Pos
 .Lsrl6_b7_Pos:
-        .word   .Lsrl_c128, 164, .Lsrl6_b6_Neg
+        .word   .Lsrl_c128, 100, .Lsrl6_b6_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl6_b6_Pos
 .Lsrl6_b7_Neg:
-        .word   .Lsrl_n128, 164, .Lsrl6_b6_Neg
+        .word   .Lsrl_n128, 100, .Lsrl6_b6_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl6_b6_Pos
 .Lsrl6_b6_Pos:
-        .word   .Lsrl_c64, 164, .Lsrl6_store
+        .word   .Lsrl_c64, 100, .Lsrl6_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl6_store
 .Lsrl6_b6_Neg:
-        .word   .Lsrl_n64, 164, .Lsrl6_store
+        .word   .Lsrl_n64, 100, .Lsrl6_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl6_store
 .Lsrl6_store:
@@ -41751,207 +41741,207 @@ __subleq_srl:
 
 .Lsrl_shift_7:
         .word   168, 168, .+4
-        .word   144, 164, .Lsrl7_b31_chk
+        .word   144, 100, .Lsrl7_b31_chk
         .word   12, 12, .Lsrl7_b31_setup
 .Lsrl7_b31_chk:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsrl7_b31_ambig
         .word   12, 12, .Lsrl7_b31_set
 .Lsrl7_b31_ambig:
         .word   .Lsrl_one, 172, .+4
         .word   144, 172, .Lsrl7_b31_setup
 .Lsrl7_b31_set:
-        .word   .Lsrl_c2147483648, 164, .+4
+        .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n16777216, 168, .+4
 .Lsrl7_b31_setup:
-        .word   .Lsrl_negone, 164, .+4
+        .word   .Lsrl_negone, 100, .+4
 .Lsrl7_b30_Pos:
-        .word   .Lsrl_c1073741824, 164, .Lsrl7_b29_Neg
+        .word   .Lsrl_c1073741824, 100, .Lsrl7_b29_Neg
         .word   .Lsrl_n8388608, 168, .+4
         .word   12, 12, .Lsrl7_b29_Pos
 .Lsrl7_b29_Pos:
-        .word   .Lsrl_c536870912, 164, .Lsrl7_b28_Neg
+        .word   .Lsrl_c536870912, 100, .Lsrl7_b28_Neg
         .word   .Lsrl_n4194304, 168, .+4
         .word   12, 12, .Lsrl7_b28_Pos
 .Lsrl7_b29_Neg:
-        .word   .Lsrl_n536870912, 164, .Lsrl7_b28_Neg
+        .word   .Lsrl_n536870912, 100, .Lsrl7_b28_Neg
         .word   .Lsrl_n4194304, 168, .+4
         .word   12, 12, .Lsrl7_b28_Pos
 .Lsrl7_b28_Pos:
-        .word   .Lsrl_c268435456, 164, .Lsrl7_b27_Neg
+        .word   .Lsrl_c268435456, 100, .Lsrl7_b27_Neg
         .word   .Lsrl_n2097152, 168, .+4
         .word   12, 12, .Lsrl7_b27_Pos
 .Lsrl7_b28_Neg:
-        .word   .Lsrl_n268435456, 164, .Lsrl7_b27_Neg
+        .word   .Lsrl_n268435456, 100, .Lsrl7_b27_Neg
         .word   .Lsrl_n2097152, 168, .+4
         .word   12, 12, .Lsrl7_b27_Pos
 .Lsrl7_b27_Pos:
-        .word   .Lsrl_c134217728, 164, .Lsrl7_b26_Neg
+        .word   .Lsrl_c134217728, 100, .Lsrl7_b26_Neg
         .word   .Lsrl_n1048576, 168, .+4
         .word   12, 12, .Lsrl7_b26_Pos
 .Lsrl7_b27_Neg:
-        .word   .Lsrl_n134217728, 164, .Lsrl7_b26_Neg
+        .word   .Lsrl_n134217728, 100, .Lsrl7_b26_Neg
         .word   .Lsrl_n1048576, 168, .+4
         .word   12, 12, .Lsrl7_b26_Pos
 .Lsrl7_b26_Pos:
-        .word   .Lsrl_c67108864, 164, .Lsrl7_b25_Neg
+        .word   .Lsrl_c67108864, 100, .Lsrl7_b25_Neg
         .word   .Lsrl_n524288, 168, .+4
         .word   12, 12, .Lsrl7_b25_Pos
 .Lsrl7_b26_Neg:
-        .word   .Lsrl_n67108864, 164, .Lsrl7_b25_Neg
+        .word   .Lsrl_n67108864, 100, .Lsrl7_b25_Neg
         .word   .Lsrl_n524288, 168, .+4
         .word   12, 12, .Lsrl7_b25_Pos
 .Lsrl7_b25_Pos:
-        .word   .Lsrl_c33554432, 164, .Lsrl7_b24_Neg
+        .word   .Lsrl_c33554432, 100, .Lsrl7_b24_Neg
         .word   .Lsrl_n262144, 168, .+4
         .word   12, 12, .Lsrl7_b24_Pos
 .Lsrl7_b25_Neg:
-        .word   .Lsrl_n33554432, 164, .Lsrl7_b24_Neg
+        .word   .Lsrl_n33554432, 100, .Lsrl7_b24_Neg
         .word   .Lsrl_n262144, 168, .+4
         .word   12, 12, .Lsrl7_b24_Pos
 .Lsrl7_b24_Pos:
-        .word   .Lsrl_c16777216, 164, .Lsrl7_b23_Neg
+        .word   .Lsrl_c16777216, 100, .Lsrl7_b23_Neg
         .word   .Lsrl_n131072, 168, .+4
         .word   12, 12, .Lsrl7_b23_Pos
 .Lsrl7_b24_Neg:
-        .word   .Lsrl_n16777216, 164, .Lsrl7_b23_Neg
+        .word   .Lsrl_n16777216, 100, .Lsrl7_b23_Neg
         .word   .Lsrl_n131072, 168, .+4
         .word   12, 12, .Lsrl7_b23_Pos
 .Lsrl7_b23_Pos:
-        .word   .Lsrl_c8388608, 164, .Lsrl7_b22_Neg
+        .word   .Lsrl_c8388608, 100, .Lsrl7_b22_Neg
         .word   .Lsrl_n65536, 168, .+4
         .word   12, 12, .Lsrl7_b22_Pos
 .Lsrl7_b23_Neg:
-        .word   .Lsrl_n8388608, 164, .Lsrl7_b22_Neg
+        .word   .Lsrl_n8388608, 100, .Lsrl7_b22_Neg
         .word   .Lsrl_n65536, 168, .+4
         .word   12, 12, .Lsrl7_b22_Pos
 .Lsrl7_b22_Pos:
-        .word   .Lsrl_c4194304, 164, .Lsrl7_b21_Neg
+        .word   .Lsrl_c4194304, 100, .Lsrl7_b21_Neg
         .word   .Lsrl_n32768, 168, .+4
         .word   12, 12, .Lsrl7_b21_Pos
 .Lsrl7_b22_Neg:
-        .word   .Lsrl_n4194304, 164, .Lsrl7_b21_Neg
+        .word   .Lsrl_n4194304, 100, .Lsrl7_b21_Neg
         .word   .Lsrl_n32768, 168, .+4
         .word   12, 12, .Lsrl7_b21_Pos
 .Lsrl7_b21_Pos:
-        .word   .Lsrl_c2097152, 164, .Lsrl7_b20_Neg
+        .word   .Lsrl_c2097152, 100, .Lsrl7_b20_Neg
         .word   .Lsrl_n16384, 168, .+4
         .word   12, 12, .Lsrl7_b20_Pos
 .Lsrl7_b21_Neg:
-        .word   .Lsrl_n2097152, 164, .Lsrl7_b20_Neg
+        .word   .Lsrl_n2097152, 100, .Lsrl7_b20_Neg
         .word   .Lsrl_n16384, 168, .+4
         .word   12, 12, .Lsrl7_b20_Pos
 .Lsrl7_b20_Pos:
-        .word   .Lsrl_c1048576, 164, .Lsrl7_b19_Neg
+        .word   .Lsrl_c1048576, 100, .Lsrl7_b19_Neg
         .word   .Lsrl_n8192, 168, .+4
         .word   12, 12, .Lsrl7_b19_Pos
 .Lsrl7_b20_Neg:
-        .word   .Lsrl_n1048576, 164, .Lsrl7_b19_Neg
+        .word   .Lsrl_n1048576, 100, .Lsrl7_b19_Neg
         .word   .Lsrl_n8192, 168, .+4
         .word   12, 12, .Lsrl7_b19_Pos
 .Lsrl7_b19_Pos:
-        .word   .Lsrl_c524288, 164, .Lsrl7_b18_Neg
+        .word   .Lsrl_c524288, 100, .Lsrl7_b18_Neg
         .word   .Lsrl_n4096, 168, .+4
         .word   12, 12, .Lsrl7_b18_Pos
 .Lsrl7_b19_Neg:
-        .word   .Lsrl_n524288, 164, .Lsrl7_b18_Neg
+        .word   .Lsrl_n524288, 100, .Lsrl7_b18_Neg
         .word   .Lsrl_n4096, 168, .+4
         .word   12, 12, .Lsrl7_b18_Pos
 .Lsrl7_b18_Pos:
-        .word   .Lsrl_c262144, 164, .Lsrl7_b17_Neg
+        .word   .Lsrl_c262144, 100, .Lsrl7_b17_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl7_b17_Pos
 .Lsrl7_b18_Neg:
-        .word   .Lsrl_n262144, 164, .Lsrl7_b17_Neg
+        .word   .Lsrl_n262144, 100, .Lsrl7_b17_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl7_b17_Pos
 .Lsrl7_b17_Pos:
-        .word   .Lsrl_c131072, 164, .Lsrl7_b16_Neg
+        .word   .Lsrl_c131072, 100, .Lsrl7_b16_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl7_b16_Pos
 .Lsrl7_b17_Neg:
-        .word   .Lsrl_n131072, 164, .Lsrl7_b16_Neg
+        .word   .Lsrl_n131072, 100, .Lsrl7_b16_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl7_b16_Pos
 .Lsrl7_b16_Pos:
-        .word   .Lsrl_c65536, 164, .Lsrl7_b15_Neg
+        .word   .Lsrl_c65536, 100, .Lsrl7_b15_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl7_b15_Pos
 .Lsrl7_b16_Neg:
-        .word   .Lsrl_n65536, 164, .Lsrl7_b15_Neg
+        .word   .Lsrl_n65536, 100, .Lsrl7_b15_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl7_b15_Pos
 .Lsrl7_b15_Pos:
-        .word   .Lsrl_c32768, 164, .Lsrl7_b14_Neg
+        .word   .Lsrl_c32768, 100, .Lsrl7_b14_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl7_b14_Pos
 .Lsrl7_b15_Neg:
-        .word   .Lsrl_n32768, 164, .Lsrl7_b14_Neg
+        .word   .Lsrl_n32768, 100, .Lsrl7_b14_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl7_b14_Pos
 .Lsrl7_b14_Pos:
-        .word   .Lsrl_c16384, 164, .Lsrl7_b13_Neg
+        .word   .Lsrl_c16384, 100, .Lsrl7_b13_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl7_b13_Pos
 .Lsrl7_b14_Neg:
-        .word   .Lsrl_n16384, 164, .Lsrl7_b13_Neg
+        .word   .Lsrl_n16384, 100, .Lsrl7_b13_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl7_b13_Pos
 .Lsrl7_b13_Pos:
-        .word   .Lsrl_c8192, 164, .Lsrl7_b12_Neg
+        .word   .Lsrl_c8192, 100, .Lsrl7_b12_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl7_b12_Pos
 .Lsrl7_b13_Neg:
-        .word   .Lsrl_n8192, 164, .Lsrl7_b12_Neg
+        .word   .Lsrl_n8192, 100, .Lsrl7_b12_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl7_b12_Pos
 .Lsrl7_b12_Pos:
-        .word   .Lsrl_c4096, 164, .Lsrl7_b11_Neg
+        .word   .Lsrl_c4096, 100, .Lsrl7_b11_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl7_b11_Pos
 .Lsrl7_b12_Neg:
-        .word   .Lsrl_n4096, 164, .Lsrl7_b11_Neg
+        .word   .Lsrl_n4096, 100, .Lsrl7_b11_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl7_b11_Pos
 .Lsrl7_b11_Pos:
-        .word   .Lsrl_c2048, 164, .Lsrl7_b10_Neg
+        .word   .Lsrl_c2048, 100, .Lsrl7_b10_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl7_b10_Pos
 .Lsrl7_b11_Neg:
-        .word   .Lsrl_n2048, 164, .Lsrl7_b10_Neg
+        .word   .Lsrl_n2048, 100, .Lsrl7_b10_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl7_b10_Pos
 .Lsrl7_b10_Pos:
-        .word   .Lsrl_c1024, 164, .Lsrl7_b9_Neg
+        .word   .Lsrl_c1024, 100, .Lsrl7_b9_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl7_b9_Pos
 .Lsrl7_b10_Neg:
-        .word   .Lsrl_n1024, 164, .Lsrl7_b9_Neg
+        .word   .Lsrl_n1024, 100, .Lsrl7_b9_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl7_b9_Pos
 .Lsrl7_b9_Pos:
-        .word   .Lsrl_c512, 164, .Lsrl7_b8_Neg
+        .word   .Lsrl_c512, 100, .Lsrl7_b8_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl7_b8_Pos
 .Lsrl7_b9_Neg:
-        .word   .Lsrl_n512, 164, .Lsrl7_b8_Neg
+        .word   .Lsrl_n512, 100, .Lsrl7_b8_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl7_b8_Pos
 .Lsrl7_b8_Pos:
-        .word   .Lsrl_c256, 164, .Lsrl7_b7_Neg
+        .word   .Lsrl_c256, 100, .Lsrl7_b7_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl7_b7_Pos
 .Lsrl7_b8_Neg:
-        .word   .Lsrl_n256, 164, .Lsrl7_b7_Neg
+        .word   .Lsrl_n256, 100, .Lsrl7_b7_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl7_b7_Pos
 .Lsrl7_b7_Pos:
-        .word   .Lsrl_c128, 164, .Lsrl7_store
+        .word   .Lsrl_c128, 100, .Lsrl7_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl7_store
 .Lsrl7_b7_Neg:
-        .word   .Lsrl_n128, 164, .Lsrl7_store
+        .word   .Lsrl_n128, 100, .Lsrl7_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl7_store
 .Lsrl7_store:
@@ -41963,199 +41953,199 @@ __subleq_srl:
 
 .Lsrl_shift_8:
         .word   168, 168, .+4
-        .word   144, 164, .Lsrl8_b31_chk
+        .word   144, 100, .Lsrl8_b31_chk
         .word   12, 12, .Lsrl8_b31_setup
 .Lsrl8_b31_chk:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsrl8_b31_ambig
         .word   12, 12, .Lsrl8_b31_set
 .Lsrl8_b31_ambig:
         .word   .Lsrl_one, 172, .+4
         .word   144, 172, .Lsrl8_b31_setup
 .Lsrl8_b31_set:
-        .word   .Lsrl_c2147483648, 164, .+4
+        .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n8388608, 168, .+4
 .Lsrl8_b31_setup:
-        .word   .Lsrl_negone, 164, .+4
+        .word   .Lsrl_negone, 100, .+4
 .Lsrl8_b30_Pos:
-        .word   .Lsrl_c1073741824, 164, .Lsrl8_b29_Neg
+        .word   .Lsrl_c1073741824, 100, .Lsrl8_b29_Neg
         .word   .Lsrl_n4194304, 168, .+4
         .word   12, 12, .Lsrl8_b29_Pos
 .Lsrl8_b29_Pos:
-        .word   .Lsrl_c536870912, 164, .Lsrl8_b28_Neg
+        .word   .Lsrl_c536870912, 100, .Lsrl8_b28_Neg
         .word   .Lsrl_n2097152, 168, .+4
         .word   12, 12, .Lsrl8_b28_Pos
 .Lsrl8_b29_Neg:
-        .word   .Lsrl_n536870912, 164, .Lsrl8_b28_Neg
+        .word   .Lsrl_n536870912, 100, .Lsrl8_b28_Neg
         .word   .Lsrl_n2097152, 168, .+4
         .word   12, 12, .Lsrl8_b28_Pos
 .Lsrl8_b28_Pos:
-        .word   .Lsrl_c268435456, 164, .Lsrl8_b27_Neg
+        .word   .Lsrl_c268435456, 100, .Lsrl8_b27_Neg
         .word   .Lsrl_n1048576, 168, .+4
         .word   12, 12, .Lsrl8_b27_Pos
 .Lsrl8_b28_Neg:
-        .word   .Lsrl_n268435456, 164, .Lsrl8_b27_Neg
+        .word   .Lsrl_n268435456, 100, .Lsrl8_b27_Neg
         .word   .Lsrl_n1048576, 168, .+4
         .word   12, 12, .Lsrl8_b27_Pos
 .Lsrl8_b27_Pos:
-        .word   .Lsrl_c134217728, 164, .Lsrl8_b26_Neg
+        .word   .Lsrl_c134217728, 100, .Lsrl8_b26_Neg
         .word   .Lsrl_n524288, 168, .+4
         .word   12, 12, .Lsrl8_b26_Pos
 .Lsrl8_b27_Neg:
-        .word   .Lsrl_n134217728, 164, .Lsrl8_b26_Neg
+        .word   .Lsrl_n134217728, 100, .Lsrl8_b26_Neg
         .word   .Lsrl_n524288, 168, .+4
         .word   12, 12, .Lsrl8_b26_Pos
 .Lsrl8_b26_Pos:
-        .word   .Lsrl_c67108864, 164, .Lsrl8_b25_Neg
+        .word   .Lsrl_c67108864, 100, .Lsrl8_b25_Neg
         .word   .Lsrl_n262144, 168, .+4
         .word   12, 12, .Lsrl8_b25_Pos
 .Lsrl8_b26_Neg:
-        .word   .Lsrl_n67108864, 164, .Lsrl8_b25_Neg
+        .word   .Lsrl_n67108864, 100, .Lsrl8_b25_Neg
         .word   .Lsrl_n262144, 168, .+4
         .word   12, 12, .Lsrl8_b25_Pos
 .Lsrl8_b25_Pos:
-        .word   .Lsrl_c33554432, 164, .Lsrl8_b24_Neg
+        .word   .Lsrl_c33554432, 100, .Lsrl8_b24_Neg
         .word   .Lsrl_n131072, 168, .+4
         .word   12, 12, .Lsrl8_b24_Pos
 .Lsrl8_b25_Neg:
-        .word   .Lsrl_n33554432, 164, .Lsrl8_b24_Neg
+        .word   .Lsrl_n33554432, 100, .Lsrl8_b24_Neg
         .word   .Lsrl_n131072, 168, .+4
         .word   12, 12, .Lsrl8_b24_Pos
 .Lsrl8_b24_Pos:
-        .word   .Lsrl_c16777216, 164, .Lsrl8_b23_Neg
+        .word   .Lsrl_c16777216, 100, .Lsrl8_b23_Neg
         .word   .Lsrl_n65536, 168, .+4
         .word   12, 12, .Lsrl8_b23_Pos
 .Lsrl8_b24_Neg:
-        .word   .Lsrl_n16777216, 164, .Lsrl8_b23_Neg
+        .word   .Lsrl_n16777216, 100, .Lsrl8_b23_Neg
         .word   .Lsrl_n65536, 168, .+4
         .word   12, 12, .Lsrl8_b23_Pos
 .Lsrl8_b23_Pos:
-        .word   .Lsrl_c8388608, 164, .Lsrl8_b22_Neg
+        .word   .Lsrl_c8388608, 100, .Lsrl8_b22_Neg
         .word   .Lsrl_n32768, 168, .+4
         .word   12, 12, .Lsrl8_b22_Pos
 .Lsrl8_b23_Neg:
-        .word   .Lsrl_n8388608, 164, .Lsrl8_b22_Neg
+        .word   .Lsrl_n8388608, 100, .Lsrl8_b22_Neg
         .word   .Lsrl_n32768, 168, .+4
         .word   12, 12, .Lsrl8_b22_Pos
 .Lsrl8_b22_Pos:
-        .word   .Lsrl_c4194304, 164, .Lsrl8_b21_Neg
+        .word   .Lsrl_c4194304, 100, .Lsrl8_b21_Neg
         .word   .Lsrl_n16384, 168, .+4
         .word   12, 12, .Lsrl8_b21_Pos
 .Lsrl8_b22_Neg:
-        .word   .Lsrl_n4194304, 164, .Lsrl8_b21_Neg
+        .word   .Lsrl_n4194304, 100, .Lsrl8_b21_Neg
         .word   .Lsrl_n16384, 168, .+4
         .word   12, 12, .Lsrl8_b21_Pos
 .Lsrl8_b21_Pos:
-        .word   .Lsrl_c2097152, 164, .Lsrl8_b20_Neg
+        .word   .Lsrl_c2097152, 100, .Lsrl8_b20_Neg
         .word   .Lsrl_n8192, 168, .+4
         .word   12, 12, .Lsrl8_b20_Pos
 .Lsrl8_b21_Neg:
-        .word   .Lsrl_n2097152, 164, .Lsrl8_b20_Neg
+        .word   .Lsrl_n2097152, 100, .Lsrl8_b20_Neg
         .word   .Lsrl_n8192, 168, .+4
         .word   12, 12, .Lsrl8_b20_Pos
 .Lsrl8_b20_Pos:
-        .word   .Lsrl_c1048576, 164, .Lsrl8_b19_Neg
+        .word   .Lsrl_c1048576, 100, .Lsrl8_b19_Neg
         .word   .Lsrl_n4096, 168, .+4
         .word   12, 12, .Lsrl8_b19_Pos
 .Lsrl8_b20_Neg:
-        .word   .Lsrl_n1048576, 164, .Lsrl8_b19_Neg
+        .word   .Lsrl_n1048576, 100, .Lsrl8_b19_Neg
         .word   .Lsrl_n4096, 168, .+4
         .word   12, 12, .Lsrl8_b19_Pos
 .Lsrl8_b19_Pos:
-        .word   .Lsrl_c524288, 164, .Lsrl8_b18_Neg
+        .word   .Lsrl_c524288, 100, .Lsrl8_b18_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl8_b18_Pos
 .Lsrl8_b19_Neg:
-        .word   .Lsrl_n524288, 164, .Lsrl8_b18_Neg
+        .word   .Lsrl_n524288, 100, .Lsrl8_b18_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl8_b18_Pos
 .Lsrl8_b18_Pos:
-        .word   .Lsrl_c262144, 164, .Lsrl8_b17_Neg
+        .word   .Lsrl_c262144, 100, .Lsrl8_b17_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl8_b17_Pos
 .Lsrl8_b18_Neg:
-        .word   .Lsrl_n262144, 164, .Lsrl8_b17_Neg
+        .word   .Lsrl_n262144, 100, .Lsrl8_b17_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl8_b17_Pos
 .Lsrl8_b17_Pos:
-        .word   .Lsrl_c131072, 164, .Lsrl8_b16_Neg
+        .word   .Lsrl_c131072, 100, .Lsrl8_b16_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl8_b16_Pos
 .Lsrl8_b17_Neg:
-        .word   .Lsrl_n131072, 164, .Lsrl8_b16_Neg
+        .word   .Lsrl_n131072, 100, .Lsrl8_b16_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl8_b16_Pos
 .Lsrl8_b16_Pos:
-        .word   .Lsrl_c65536, 164, .Lsrl8_b15_Neg
+        .word   .Lsrl_c65536, 100, .Lsrl8_b15_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl8_b15_Pos
 .Lsrl8_b16_Neg:
-        .word   .Lsrl_n65536, 164, .Lsrl8_b15_Neg
+        .word   .Lsrl_n65536, 100, .Lsrl8_b15_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl8_b15_Pos
 .Lsrl8_b15_Pos:
-        .word   .Lsrl_c32768, 164, .Lsrl8_b14_Neg
+        .word   .Lsrl_c32768, 100, .Lsrl8_b14_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl8_b14_Pos
 .Lsrl8_b15_Neg:
-        .word   .Lsrl_n32768, 164, .Lsrl8_b14_Neg
+        .word   .Lsrl_n32768, 100, .Lsrl8_b14_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl8_b14_Pos
 .Lsrl8_b14_Pos:
-        .word   .Lsrl_c16384, 164, .Lsrl8_b13_Neg
+        .word   .Lsrl_c16384, 100, .Lsrl8_b13_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl8_b13_Pos
 .Lsrl8_b14_Neg:
-        .word   .Lsrl_n16384, 164, .Lsrl8_b13_Neg
+        .word   .Lsrl_n16384, 100, .Lsrl8_b13_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl8_b13_Pos
 .Lsrl8_b13_Pos:
-        .word   .Lsrl_c8192, 164, .Lsrl8_b12_Neg
+        .word   .Lsrl_c8192, 100, .Lsrl8_b12_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl8_b12_Pos
 .Lsrl8_b13_Neg:
-        .word   .Lsrl_n8192, 164, .Lsrl8_b12_Neg
+        .word   .Lsrl_n8192, 100, .Lsrl8_b12_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl8_b12_Pos
 .Lsrl8_b12_Pos:
-        .word   .Lsrl_c4096, 164, .Lsrl8_b11_Neg
+        .word   .Lsrl_c4096, 100, .Lsrl8_b11_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl8_b11_Pos
 .Lsrl8_b12_Neg:
-        .word   .Lsrl_n4096, 164, .Lsrl8_b11_Neg
+        .word   .Lsrl_n4096, 100, .Lsrl8_b11_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl8_b11_Pos
 .Lsrl8_b11_Pos:
-        .word   .Lsrl_c2048, 164, .Lsrl8_b10_Neg
+        .word   .Lsrl_c2048, 100, .Lsrl8_b10_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl8_b10_Pos
 .Lsrl8_b11_Neg:
-        .word   .Lsrl_n2048, 164, .Lsrl8_b10_Neg
+        .word   .Lsrl_n2048, 100, .Lsrl8_b10_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl8_b10_Pos
 .Lsrl8_b10_Pos:
-        .word   .Lsrl_c1024, 164, .Lsrl8_b9_Neg
+        .word   .Lsrl_c1024, 100, .Lsrl8_b9_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl8_b9_Pos
 .Lsrl8_b10_Neg:
-        .word   .Lsrl_n1024, 164, .Lsrl8_b9_Neg
+        .word   .Lsrl_n1024, 100, .Lsrl8_b9_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl8_b9_Pos
 .Lsrl8_b9_Pos:
-        .word   .Lsrl_c512, 164, .Lsrl8_b8_Neg
+        .word   .Lsrl_c512, 100, .Lsrl8_b8_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl8_b8_Pos
 .Lsrl8_b9_Neg:
-        .word   .Lsrl_n512, 164, .Lsrl8_b8_Neg
+        .word   .Lsrl_n512, 100, .Lsrl8_b8_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl8_b8_Pos
 .Lsrl8_b8_Pos:
-        .word   .Lsrl_c256, 164, .Lsrl8_store
+        .word   .Lsrl_c256, 100, .Lsrl8_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl8_store
 .Lsrl8_b8_Neg:
-        .word   .Lsrl_n256, 164, .Lsrl8_store
+        .word   .Lsrl_n256, 100, .Lsrl8_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl8_store
 .Lsrl8_store:
@@ -42167,191 +42157,191 @@ __subleq_srl:
 
 .Lsrl_shift_9:
         .word   168, 168, .+4
-        .word   144, 164, .Lsrl9_b31_chk
+        .word   144, 100, .Lsrl9_b31_chk
         .word   12, 12, .Lsrl9_b31_setup
 .Lsrl9_b31_chk:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsrl9_b31_ambig
         .word   12, 12, .Lsrl9_b31_set
 .Lsrl9_b31_ambig:
         .word   .Lsrl_one, 172, .+4
         .word   144, 172, .Lsrl9_b31_setup
 .Lsrl9_b31_set:
-        .word   .Lsrl_c2147483648, 164, .+4
+        .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n4194304, 168, .+4
 .Lsrl9_b31_setup:
-        .word   .Lsrl_negone, 164, .+4
+        .word   .Lsrl_negone, 100, .+4
 .Lsrl9_b30_Pos:
-        .word   .Lsrl_c1073741824, 164, .Lsrl9_b29_Neg
+        .word   .Lsrl_c1073741824, 100, .Lsrl9_b29_Neg
         .word   .Lsrl_n2097152, 168, .+4
         .word   12, 12, .Lsrl9_b29_Pos
 .Lsrl9_b29_Pos:
-        .word   .Lsrl_c536870912, 164, .Lsrl9_b28_Neg
+        .word   .Lsrl_c536870912, 100, .Lsrl9_b28_Neg
         .word   .Lsrl_n1048576, 168, .+4
         .word   12, 12, .Lsrl9_b28_Pos
 .Lsrl9_b29_Neg:
-        .word   .Lsrl_n536870912, 164, .Lsrl9_b28_Neg
+        .word   .Lsrl_n536870912, 100, .Lsrl9_b28_Neg
         .word   .Lsrl_n1048576, 168, .+4
         .word   12, 12, .Lsrl9_b28_Pos
 .Lsrl9_b28_Pos:
-        .word   .Lsrl_c268435456, 164, .Lsrl9_b27_Neg
+        .word   .Lsrl_c268435456, 100, .Lsrl9_b27_Neg
         .word   .Lsrl_n524288, 168, .+4
         .word   12, 12, .Lsrl9_b27_Pos
 .Lsrl9_b28_Neg:
-        .word   .Lsrl_n268435456, 164, .Lsrl9_b27_Neg
+        .word   .Lsrl_n268435456, 100, .Lsrl9_b27_Neg
         .word   .Lsrl_n524288, 168, .+4
         .word   12, 12, .Lsrl9_b27_Pos
 .Lsrl9_b27_Pos:
-        .word   .Lsrl_c134217728, 164, .Lsrl9_b26_Neg
+        .word   .Lsrl_c134217728, 100, .Lsrl9_b26_Neg
         .word   .Lsrl_n262144, 168, .+4
         .word   12, 12, .Lsrl9_b26_Pos
 .Lsrl9_b27_Neg:
-        .word   .Lsrl_n134217728, 164, .Lsrl9_b26_Neg
+        .word   .Lsrl_n134217728, 100, .Lsrl9_b26_Neg
         .word   .Lsrl_n262144, 168, .+4
         .word   12, 12, .Lsrl9_b26_Pos
 .Lsrl9_b26_Pos:
-        .word   .Lsrl_c67108864, 164, .Lsrl9_b25_Neg
+        .word   .Lsrl_c67108864, 100, .Lsrl9_b25_Neg
         .word   .Lsrl_n131072, 168, .+4
         .word   12, 12, .Lsrl9_b25_Pos
 .Lsrl9_b26_Neg:
-        .word   .Lsrl_n67108864, 164, .Lsrl9_b25_Neg
+        .word   .Lsrl_n67108864, 100, .Lsrl9_b25_Neg
         .word   .Lsrl_n131072, 168, .+4
         .word   12, 12, .Lsrl9_b25_Pos
 .Lsrl9_b25_Pos:
-        .word   .Lsrl_c33554432, 164, .Lsrl9_b24_Neg
+        .word   .Lsrl_c33554432, 100, .Lsrl9_b24_Neg
         .word   .Lsrl_n65536, 168, .+4
         .word   12, 12, .Lsrl9_b24_Pos
 .Lsrl9_b25_Neg:
-        .word   .Lsrl_n33554432, 164, .Lsrl9_b24_Neg
+        .word   .Lsrl_n33554432, 100, .Lsrl9_b24_Neg
         .word   .Lsrl_n65536, 168, .+4
         .word   12, 12, .Lsrl9_b24_Pos
 .Lsrl9_b24_Pos:
-        .word   .Lsrl_c16777216, 164, .Lsrl9_b23_Neg
+        .word   .Lsrl_c16777216, 100, .Lsrl9_b23_Neg
         .word   .Lsrl_n32768, 168, .+4
         .word   12, 12, .Lsrl9_b23_Pos
 .Lsrl9_b24_Neg:
-        .word   .Lsrl_n16777216, 164, .Lsrl9_b23_Neg
+        .word   .Lsrl_n16777216, 100, .Lsrl9_b23_Neg
         .word   .Lsrl_n32768, 168, .+4
         .word   12, 12, .Lsrl9_b23_Pos
 .Lsrl9_b23_Pos:
-        .word   .Lsrl_c8388608, 164, .Lsrl9_b22_Neg
+        .word   .Lsrl_c8388608, 100, .Lsrl9_b22_Neg
         .word   .Lsrl_n16384, 168, .+4
         .word   12, 12, .Lsrl9_b22_Pos
 .Lsrl9_b23_Neg:
-        .word   .Lsrl_n8388608, 164, .Lsrl9_b22_Neg
+        .word   .Lsrl_n8388608, 100, .Lsrl9_b22_Neg
         .word   .Lsrl_n16384, 168, .+4
         .word   12, 12, .Lsrl9_b22_Pos
 .Lsrl9_b22_Pos:
-        .word   .Lsrl_c4194304, 164, .Lsrl9_b21_Neg
+        .word   .Lsrl_c4194304, 100, .Lsrl9_b21_Neg
         .word   .Lsrl_n8192, 168, .+4
         .word   12, 12, .Lsrl9_b21_Pos
 .Lsrl9_b22_Neg:
-        .word   .Lsrl_n4194304, 164, .Lsrl9_b21_Neg
+        .word   .Lsrl_n4194304, 100, .Lsrl9_b21_Neg
         .word   .Lsrl_n8192, 168, .+4
         .word   12, 12, .Lsrl9_b21_Pos
 .Lsrl9_b21_Pos:
-        .word   .Lsrl_c2097152, 164, .Lsrl9_b20_Neg
+        .word   .Lsrl_c2097152, 100, .Lsrl9_b20_Neg
         .word   .Lsrl_n4096, 168, .+4
         .word   12, 12, .Lsrl9_b20_Pos
 .Lsrl9_b21_Neg:
-        .word   .Lsrl_n2097152, 164, .Lsrl9_b20_Neg
+        .word   .Lsrl_n2097152, 100, .Lsrl9_b20_Neg
         .word   .Lsrl_n4096, 168, .+4
         .word   12, 12, .Lsrl9_b20_Pos
 .Lsrl9_b20_Pos:
-        .word   .Lsrl_c1048576, 164, .Lsrl9_b19_Neg
+        .word   .Lsrl_c1048576, 100, .Lsrl9_b19_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl9_b19_Pos
 .Lsrl9_b20_Neg:
-        .word   .Lsrl_n1048576, 164, .Lsrl9_b19_Neg
+        .word   .Lsrl_n1048576, 100, .Lsrl9_b19_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl9_b19_Pos
 .Lsrl9_b19_Pos:
-        .word   .Lsrl_c524288, 164, .Lsrl9_b18_Neg
+        .word   .Lsrl_c524288, 100, .Lsrl9_b18_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl9_b18_Pos
 .Lsrl9_b19_Neg:
-        .word   .Lsrl_n524288, 164, .Lsrl9_b18_Neg
+        .word   .Lsrl_n524288, 100, .Lsrl9_b18_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl9_b18_Pos
 .Lsrl9_b18_Pos:
-        .word   .Lsrl_c262144, 164, .Lsrl9_b17_Neg
+        .word   .Lsrl_c262144, 100, .Lsrl9_b17_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl9_b17_Pos
 .Lsrl9_b18_Neg:
-        .word   .Lsrl_n262144, 164, .Lsrl9_b17_Neg
+        .word   .Lsrl_n262144, 100, .Lsrl9_b17_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl9_b17_Pos
 .Lsrl9_b17_Pos:
-        .word   .Lsrl_c131072, 164, .Lsrl9_b16_Neg
+        .word   .Lsrl_c131072, 100, .Lsrl9_b16_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl9_b16_Pos
 .Lsrl9_b17_Neg:
-        .word   .Lsrl_n131072, 164, .Lsrl9_b16_Neg
+        .word   .Lsrl_n131072, 100, .Lsrl9_b16_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl9_b16_Pos
 .Lsrl9_b16_Pos:
-        .word   .Lsrl_c65536, 164, .Lsrl9_b15_Neg
+        .word   .Lsrl_c65536, 100, .Lsrl9_b15_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl9_b15_Pos
 .Lsrl9_b16_Neg:
-        .word   .Lsrl_n65536, 164, .Lsrl9_b15_Neg
+        .word   .Lsrl_n65536, 100, .Lsrl9_b15_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl9_b15_Pos
 .Lsrl9_b15_Pos:
-        .word   .Lsrl_c32768, 164, .Lsrl9_b14_Neg
+        .word   .Lsrl_c32768, 100, .Lsrl9_b14_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl9_b14_Pos
 .Lsrl9_b15_Neg:
-        .word   .Lsrl_n32768, 164, .Lsrl9_b14_Neg
+        .word   .Lsrl_n32768, 100, .Lsrl9_b14_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl9_b14_Pos
 .Lsrl9_b14_Pos:
-        .word   .Lsrl_c16384, 164, .Lsrl9_b13_Neg
+        .word   .Lsrl_c16384, 100, .Lsrl9_b13_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl9_b13_Pos
 .Lsrl9_b14_Neg:
-        .word   .Lsrl_n16384, 164, .Lsrl9_b13_Neg
+        .word   .Lsrl_n16384, 100, .Lsrl9_b13_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl9_b13_Pos
 .Lsrl9_b13_Pos:
-        .word   .Lsrl_c8192, 164, .Lsrl9_b12_Neg
+        .word   .Lsrl_c8192, 100, .Lsrl9_b12_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl9_b12_Pos
 .Lsrl9_b13_Neg:
-        .word   .Lsrl_n8192, 164, .Lsrl9_b12_Neg
+        .word   .Lsrl_n8192, 100, .Lsrl9_b12_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl9_b12_Pos
 .Lsrl9_b12_Pos:
-        .word   .Lsrl_c4096, 164, .Lsrl9_b11_Neg
+        .word   .Lsrl_c4096, 100, .Lsrl9_b11_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl9_b11_Pos
 .Lsrl9_b12_Neg:
-        .word   .Lsrl_n4096, 164, .Lsrl9_b11_Neg
+        .word   .Lsrl_n4096, 100, .Lsrl9_b11_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl9_b11_Pos
 .Lsrl9_b11_Pos:
-        .word   .Lsrl_c2048, 164, .Lsrl9_b10_Neg
+        .word   .Lsrl_c2048, 100, .Lsrl9_b10_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl9_b10_Pos
 .Lsrl9_b11_Neg:
-        .word   .Lsrl_n2048, 164, .Lsrl9_b10_Neg
+        .word   .Lsrl_n2048, 100, .Lsrl9_b10_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl9_b10_Pos
 .Lsrl9_b10_Pos:
-        .word   .Lsrl_c1024, 164, .Lsrl9_b9_Neg
+        .word   .Lsrl_c1024, 100, .Lsrl9_b9_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl9_b9_Pos
 .Lsrl9_b10_Neg:
-        .word   .Lsrl_n1024, 164, .Lsrl9_b9_Neg
+        .word   .Lsrl_n1024, 100, .Lsrl9_b9_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl9_b9_Pos
 .Lsrl9_b9_Pos:
-        .word   .Lsrl_c512, 164, .Lsrl9_store
+        .word   .Lsrl_c512, 100, .Lsrl9_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl9_store
 .Lsrl9_b9_Neg:
-        .word   .Lsrl_n512, 164, .Lsrl9_store
+        .word   .Lsrl_n512, 100, .Lsrl9_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl9_store
 .Lsrl9_store:
@@ -42363,183 +42353,183 @@ __subleq_srl:
 
 .Lsrl_shift_10:
         .word   168, 168, .+4
-        .word   144, 164, .Lsrl10_b31_chk
+        .word   144, 100, .Lsrl10_b31_chk
         .word   12, 12, .Lsrl10_b31_setup
 .Lsrl10_b31_chk:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsrl10_b31_ambig
         .word   12, 12, .Lsrl10_b31_set
 .Lsrl10_b31_ambig:
         .word   .Lsrl_one, 172, .+4
         .word   144, 172, .Lsrl10_b31_setup
 .Lsrl10_b31_set:
-        .word   .Lsrl_c2147483648, 164, .+4
+        .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n2097152, 168, .+4
 .Lsrl10_b31_setup:
-        .word   .Lsrl_negone, 164, .+4
+        .word   .Lsrl_negone, 100, .+4
 .Lsrl10_b30_Pos:
-        .word   .Lsrl_c1073741824, 164, .Lsrl10_b29_Neg
+        .word   .Lsrl_c1073741824, 100, .Lsrl10_b29_Neg
         .word   .Lsrl_n1048576, 168, .+4
         .word   12, 12, .Lsrl10_b29_Pos
 .Lsrl10_b29_Pos:
-        .word   .Lsrl_c536870912, 164, .Lsrl10_b28_Neg
+        .word   .Lsrl_c536870912, 100, .Lsrl10_b28_Neg
         .word   .Lsrl_n524288, 168, .+4
         .word   12, 12, .Lsrl10_b28_Pos
 .Lsrl10_b29_Neg:
-        .word   .Lsrl_n536870912, 164, .Lsrl10_b28_Neg
+        .word   .Lsrl_n536870912, 100, .Lsrl10_b28_Neg
         .word   .Lsrl_n524288, 168, .+4
         .word   12, 12, .Lsrl10_b28_Pos
 .Lsrl10_b28_Pos:
-        .word   .Lsrl_c268435456, 164, .Lsrl10_b27_Neg
+        .word   .Lsrl_c268435456, 100, .Lsrl10_b27_Neg
         .word   .Lsrl_n262144, 168, .+4
         .word   12, 12, .Lsrl10_b27_Pos
 .Lsrl10_b28_Neg:
-        .word   .Lsrl_n268435456, 164, .Lsrl10_b27_Neg
+        .word   .Lsrl_n268435456, 100, .Lsrl10_b27_Neg
         .word   .Lsrl_n262144, 168, .+4
         .word   12, 12, .Lsrl10_b27_Pos
 .Lsrl10_b27_Pos:
-        .word   .Lsrl_c134217728, 164, .Lsrl10_b26_Neg
+        .word   .Lsrl_c134217728, 100, .Lsrl10_b26_Neg
         .word   .Lsrl_n131072, 168, .+4
         .word   12, 12, .Lsrl10_b26_Pos
 .Lsrl10_b27_Neg:
-        .word   .Lsrl_n134217728, 164, .Lsrl10_b26_Neg
+        .word   .Lsrl_n134217728, 100, .Lsrl10_b26_Neg
         .word   .Lsrl_n131072, 168, .+4
         .word   12, 12, .Lsrl10_b26_Pos
 .Lsrl10_b26_Pos:
-        .word   .Lsrl_c67108864, 164, .Lsrl10_b25_Neg
+        .word   .Lsrl_c67108864, 100, .Lsrl10_b25_Neg
         .word   .Lsrl_n65536, 168, .+4
         .word   12, 12, .Lsrl10_b25_Pos
 .Lsrl10_b26_Neg:
-        .word   .Lsrl_n67108864, 164, .Lsrl10_b25_Neg
+        .word   .Lsrl_n67108864, 100, .Lsrl10_b25_Neg
         .word   .Lsrl_n65536, 168, .+4
         .word   12, 12, .Lsrl10_b25_Pos
 .Lsrl10_b25_Pos:
-        .word   .Lsrl_c33554432, 164, .Lsrl10_b24_Neg
+        .word   .Lsrl_c33554432, 100, .Lsrl10_b24_Neg
         .word   .Lsrl_n32768, 168, .+4
         .word   12, 12, .Lsrl10_b24_Pos
 .Lsrl10_b25_Neg:
-        .word   .Lsrl_n33554432, 164, .Lsrl10_b24_Neg
+        .word   .Lsrl_n33554432, 100, .Lsrl10_b24_Neg
         .word   .Lsrl_n32768, 168, .+4
         .word   12, 12, .Lsrl10_b24_Pos
 .Lsrl10_b24_Pos:
-        .word   .Lsrl_c16777216, 164, .Lsrl10_b23_Neg
+        .word   .Lsrl_c16777216, 100, .Lsrl10_b23_Neg
         .word   .Lsrl_n16384, 168, .+4
         .word   12, 12, .Lsrl10_b23_Pos
 .Lsrl10_b24_Neg:
-        .word   .Lsrl_n16777216, 164, .Lsrl10_b23_Neg
+        .word   .Lsrl_n16777216, 100, .Lsrl10_b23_Neg
         .word   .Lsrl_n16384, 168, .+4
         .word   12, 12, .Lsrl10_b23_Pos
 .Lsrl10_b23_Pos:
-        .word   .Lsrl_c8388608, 164, .Lsrl10_b22_Neg
+        .word   .Lsrl_c8388608, 100, .Lsrl10_b22_Neg
         .word   .Lsrl_n8192, 168, .+4
         .word   12, 12, .Lsrl10_b22_Pos
 .Lsrl10_b23_Neg:
-        .word   .Lsrl_n8388608, 164, .Lsrl10_b22_Neg
+        .word   .Lsrl_n8388608, 100, .Lsrl10_b22_Neg
         .word   .Lsrl_n8192, 168, .+4
         .word   12, 12, .Lsrl10_b22_Pos
 .Lsrl10_b22_Pos:
-        .word   .Lsrl_c4194304, 164, .Lsrl10_b21_Neg
+        .word   .Lsrl_c4194304, 100, .Lsrl10_b21_Neg
         .word   .Lsrl_n4096, 168, .+4
         .word   12, 12, .Lsrl10_b21_Pos
 .Lsrl10_b22_Neg:
-        .word   .Lsrl_n4194304, 164, .Lsrl10_b21_Neg
+        .word   .Lsrl_n4194304, 100, .Lsrl10_b21_Neg
         .word   .Lsrl_n4096, 168, .+4
         .word   12, 12, .Lsrl10_b21_Pos
 .Lsrl10_b21_Pos:
-        .word   .Lsrl_c2097152, 164, .Lsrl10_b20_Neg
+        .word   .Lsrl_c2097152, 100, .Lsrl10_b20_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl10_b20_Pos
 .Lsrl10_b21_Neg:
-        .word   .Lsrl_n2097152, 164, .Lsrl10_b20_Neg
+        .word   .Lsrl_n2097152, 100, .Lsrl10_b20_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl10_b20_Pos
 .Lsrl10_b20_Pos:
-        .word   .Lsrl_c1048576, 164, .Lsrl10_b19_Neg
+        .word   .Lsrl_c1048576, 100, .Lsrl10_b19_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl10_b19_Pos
 .Lsrl10_b20_Neg:
-        .word   .Lsrl_n1048576, 164, .Lsrl10_b19_Neg
+        .word   .Lsrl_n1048576, 100, .Lsrl10_b19_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl10_b19_Pos
 .Lsrl10_b19_Pos:
-        .word   .Lsrl_c524288, 164, .Lsrl10_b18_Neg
+        .word   .Lsrl_c524288, 100, .Lsrl10_b18_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl10_b18_Pos
 .Lsrl10_b19_Neg:
-        .word   .Lsrl_n524288, 164, .Lsrl10_b18_Neg
+        .word   .Lsrl_n524288, 100, .Lsrl10_b18_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl10_b18_Pos
 .Lsrl10_b18_Pos:
-        .word   .Lsrl_c262144, 164, .Lsrl10_b17_Neg
+        .word   .Lsrl_c262144, 100, .Lsrl10_b17_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl10_b17_Pos
 .Lsrl10_b18_Neg:
-        .word   .Lsrl_n262144, 164, .Lsrl10_b17_Neg
+        .word   .Lsrl_n262144, 100, .Lsrl10_b17_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl10_b17_Pos
 .Lsrl10_b17_Pos:
-        .word   .Lsrl_c131072, 164, .Lsrl10_b16_Neg
+        .word   .Lsrl_c131072, 100, .Lsrl10_b16_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl10_b16_Pos
 .Lsrl10_b17_Neg:
-        .word   .Lsrl_n131072, 164, .Lsrl10_b16_Neg
+        .word   .Lsrl_n131072, 100, .Lsrl10_b16_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl10_b16_Pos
 .Lsrl10_b16_Pos:
-        .word   .Lsrl_c65536, 164, .Lsrl10_b15_Neg
+        .word   .Lsrl_c65536, 100, .Lsrl10_b15_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl10_b15_Pos
 .Lsrl10_b16_Neg:
-        .word   .Lsrl_n65536, 164, .Lsrl10_b15_Neg
+        .word   .Lsrl_n65536, 100, .Lsrl10_b15_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl10_b15_Pos
 .Lsrl10_b15_Pos:
-        .word   .Lsrl_c32768, 164, .Lsrl10_b14_Neg
+        .word   .Lsrl_c32768, 100, .Lsrl10_b14_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl10_b14_Pos
 .Lsrl10_b15_Neg:
-        .word   .Lsrl_n32768, 164, .Lsrl10_b14_Neg
+        .word   .Lsrl_n32768, 100, .Lsrl10_b14_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl10_b14_Pos
 .Lsrl10_b14_Pos:
-        .word   .Lsrl_c16384, 164, .Lsrl10_b13_Neg
+        .word   .Lsrl_c16384, 100, .Lsrl10_b13_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl10_b13_Pos
 .Lsrl10_b14_Neg:
-        .word   .Lsrl_n16384, 164, .Lsrl10_b13_Neg
+        .word   .Lsrl_n16384, 100, .Lsrl10_b13_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl10_b13_Pos
 .Lsrl10_b13_Pos:
-        .word   .Lsrl_c8192, 164, .Lsrl10_b12_Neg
+        .word   .Lsrl_c8192, 100, .Lsrl10_b12_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl10_b12_Pos
 .Lsrl10_b13_Neg:
-        .word   .Lsrl_n8192, 164, .Lsrl10_b12_Neg
+        .word   .Lsrl_n8192, 100, .Lsrl10_b12_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl10_b12_Pos
 .Lsrl10_b12_Pos:
-        .word   .Lsrl_c4096, 164, .Lsrl10_b11_Neg
+        .word   .Lsrl_c4096, 100, .Lsrl10_b11_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl10_b11_Pos
 .Lsrl10_b12_Neg:
-        .word   .Lsrl_n4096, 164, .Lsrl10_b11_Neg
+        .word   .Lsrl_n4096, 100, .Lsrl10_b11_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl10_b11_Pos
 .Lsrl10_b11_Pos:
-        .word   .Lsrl_c2048, 164, .Lsrl10_b10_Neg
+        .word   .Lsrl_c2048, 100, .Lsrl10_b10_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl10_b10_Pos
 .Lsrl10_b11_Neg:
-        .word   .Lsrl_n2048, 164, .Lsrl10_b10_Neg
+        .word   .Lsrl_n2048, 100, .Lsrl10_b10_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl10_b10_Pos
 .Lsrl10_b10_Pos:
-        .word   .Lsrl_c1024, 164, .Lsrl10_store
+        .word   .Lsrl_c1024, 100, .Lsrl10_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl10_store
 .Lsrl10_b10_Neg:
-        .word   .Lsrl_n1024, 164, .Lsrl10_store
+        .word   .Lsrl_n1024, 100, .Lsrl10_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl10_store
 .Lsrl10_store:
@@ -42551,175 +42541,175 @@ __subleq_srl:
 
 .Lsrl_shift_11:
         .word   168, 168, .+4
-        .word   144, 164, .Lsrl11_b31_chk
+        .word   144, 100, .Lsrl11_b31_chk
         .word   12, 12, .Lsrl11_b31_setup
 .Lsrl11_b31_chk:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsrl11_b31_ambig
         .word   12, 12, .Lsrl11_b31_set
 .Lsrl11_b31_ambig:
         .word   .Lsrl_one, 172, .+4
         .word   144, 172, .Lsrl11_b31_setup
 .Lsrl11_b31_set:
-        .word   .Lsrl_c2147483648, 164, .+4
+        .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n1048576, 168, .+4
 .Lsrl11_b31_setup:
-        .word   .Lsrl_negone, 164, .+4
+        .word   .Lsrl_negone, 100, .+4
 .Lsrl11_b30_Pos:
-        .word   .Lsrl_c1073741824, 164, .Lsrl11_b29_Neg
+        .word   .Lsrl_c1073741824, 100, .Lsrl11_b29_Neg
         .word   .Lsrl_n524288, 168, .+4
         .word   12, 12, .Lsrl11_b29_Pos
 .Lsrl11_b29_Pos:
-        .word   .Lsrl_c536870912, 164, .Lsrl11_b28_Neg
+        .word   .Lsrl_c536870912, 100, .Lsrl11_b28_Neg
         .word   .Lsrl_n262144, 168, .+4
         .word   12, 12, .Lsrl11_b28_Pos
 .Lsrl11_b29_Neg:
-        .word   .Lsrl_n536870912, 164, .Lsrl11_b28_Neg
+        .word   .Lsrl_n536870912, 100, .Lsrl11_b28_Neg
         .word   .Lsrl_n262144, 168, .+4
         .word   12, 12, .Lsrl11_b28_Pos
 .Lsrl11_b28_Pos:
-        .word   .Lsrl_c268435456, 164, .Lsrl11_b27_Neg
+        .word   .Lsrl_c268435456, 100, .Lsrl11_b27_Neg
         .word   .Lsrl_n131072, 168, .+4
         .word   12, 12, .Lsrl11_b27_Pos
 .Lsrl11_b28_Neg:
-        .word   .Lsrl_n268435456, 164, .Lsrl11_b27_Neg
+        .word   .Lsrl_n268435456, 100, .Lsrl11_b27_Neg
         .word   .Lsrl_n131072, 168, .+4
         .word   12, 12, .Lsrl11_b27_Pos
 .Lsrl11_b27_Pos:
-        .word   .Lsrl_c134217728, 164, .Lsrl11_b26_Neg
+        .word   .Lsrl_c134217728, 100, .Lsrl11_b26_Neg
         .word   .Lsrl_n65536, 168, .+4
         .word   12, 12, .Lsrl11_b26_Pos
 .Lsrl11_b27_Neg:
-        .word   .Lsrl_n134217728, 164, .Lsrl11_b26_Neg
+        .word   .Lsrl_n134217728, 100, .Lsrl11_b26_Neg
         .word   .Lsrl_n65536, 168, .+4
         .word   12, 12, .Lsrl11_b26_Pos
 .Lsrl11_b26_Pos:
-        .word   .Lsrl_c67108864, 164, .Lsrl11_b25_Neg
+        .word   .Lsrl_c67108864, 100, .Lsrl11_b25_Neg
         .word   .Lsrl_n32768, 168, .+4
         .word   12, 12, .Lsrl11_b25_Pos
 .Lsrl11_b26_Neg:
-        .word   .Lsrl_n67108864, 164, .Lsrl11_b25_Neg
+        .word   .Lsrl_n67108864, 100, .Lsrl11_b25_Neg
         .word   .Lsrl_n32768, 168, .+4
         .word   12, 12, .Lsrl11_b25_Pos
 .Lsrl11_b25_Pos:
-        .word   .Lsrl_c33554432, 164, .Lsrl11_b24_Neg
+        .word   .Lsrl_c33554432, 100, .Lsrl11_b24_Neg
         .word   .Lsrl_n16384, 168, .+4
         .word   12, 12, .Lsrl11_b24_Pos
 .Lsrl11_b25_Neg:
-        .word   .Lsrl_n33554432, 164, .Lsrl11_b24_Neg
+        .word   .Lsrl_n33554432, 100, .Lsrl11_b24_Neg
         .word   .Lsrl_n16384, 168, .+4
         .word   12, 12, .Lsrl11_b24_Pos
 .Lsrl11_b24_Pos:
-        .word   .Lsrl_c16777216, 164, .Lsrl11_b23_Neg
+        .word   .Lsrl_c16777216, 100, .Lsrl11_b23_Neg
         .word   .Lsrl_n8192, 168, .+4
         .word   12, 12, .Lsrl11_b23_Pos
 .Lsrl11_b24_Neg:
-        .word   .Lsrl_n16777216, 164, .Lsrl11_b23_Neg
+        .word   .Lsrl_n16777216, 100, .Lsrl11_b23_Neg
         .word   .Lsrl_n8192, 168, .+4
         .word   12, 12, .Lsrl11_b23_Pos
 .Lsrl11_b23_Pos:
-        .word   .Lsrl_c8388608, 164, .Lsrl11_b22_Neg
+        .word   .Lsrl_c8388608, 100, .Lsrl11_b22_Neg
         .word   .Lsrl_n4096, 168, .+4
         .word   12, 12, .Lsrl11_b22_Pos
 .Lsrl11_b23_Neg:
-        .word   .Lsrl_n8388608, 164, .Lsrl11_b22_Neg
+        .word   .Lsrl_n8388608, 100, .Lsrl11_b22_Neg
         .word   .Lsrl_n4096, 168, .+4
         .word   12, 12, .Lsrl11_b22_Pos
 .Lsrl11_b22_Pos:
-        .word   .Lsrl_c4194304, 164, .Lsrl11_b21_Neg
+        .word   .Lsrl_c4194304, 100, .Lsrl11_b21_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl11_b21_Pos
 .Lsrl11_b22_Neg:
-        .word   .Lsrl_n4194304, 164, .Lsrl11_b21_Neg
+        .word   .Lsrl_n4194304, 100, .Lsrl11_b21_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl11_b21_Pos
 .Lsrl11_b21_Pos:
-        .word   .Lsrl_c2097152, 164, .Lsrl11_b20_Neg
+        .word   .Lsrl_c2097152, 100, .Lsrl11_b20_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl11_b20_Pos
 .Lsrl11_b21_Neg:
-        .word   .Lsrl_n2097152, 164, .Lsrl11_b20_Neg
+        .word   .Lsrl_n2097152, 100, .Lsrl11_b20_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl11_b20_Pos
 .Lsrl11_b20_Pos:
-        .word   .Lsrl_c1048576, 164, .Lsrl11_b19_Neg
+        .word   .Lsrl_c1048576, 100, .Lsrl11_b19_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl11_b19_Pos
 .Lsrl11_b20_Neg:
-        .word   .Lsrl_n1048576, 164, .Lsrl11_b19_Neg
+        .word   .Lsrl_n1048576, 100, .Lsrl11_b19_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl11_b19_Pos
 .Lsrl11_b19_Pos:
-        .word   .Lsrl_c524288, 164, .Lsrl11_b18_Neg
+        .word   .Lsrl_c524288, 100, .Lsrl11_b18_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl11_b18_Pos
 .Lsrl11_b19_Neg:
-        .word   .Lsrl_n524288, 164, .Lsrl11_b18_Neg
+        .word   .Lsrl_n524288, 100, .Lsrl11_b18_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl11_b18_Pos
 .Lsrl11_b18_Pos:
-        .word   .Lsrl_c262144, 164, .Lsrl11_b17_Neg
+        .word   .Lsrl_c262144, 100, .Lsrl11_b17_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl11_b17_Pos
 .Lsrl11_b18_Neg:
-        .word   .Lsrl_n262144, 164, .Lsrl11_b17_Neg
+        .word   .Lsrl_n262144, 100, .Lsrl11_b17_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl11_b17_Pos
 .Lsrl11_b17_Pos:
-        .word   .Lsrl_c131072, 164, .Lsrl11_b16_Neg
+        .word   .Lsrl_c131072, 100, .Lsrl11_b16_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl11_b16_Pos
 .Lsrl11_b17_Neg:
-        .word   .Lsrl_n131072, 164, .Lsrl11_b16_Neg
+        .word   .Lsrl_n131072, 100, .Lsrl11_b16_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl11_b16_Pos
 .Lsrl11_b16_Pos:
-        .word   .Lsrl_c65536, 164, .Lsrl11_b15_Neg
+        .word   .Lsrl_c65536, 100, .Lsrl11_b15_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl11_b15_Pos
 .Lsrl11_b16_Neg:
-        .word   .Lsrl_n65536, 164, .Lsrl11_b15_Neg
+        .word   .Lsrl_n65536, 100, .Lsrl11_b15_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl11_b15_Pos
 .Lsrl11_b15_Pos:
-        .word   .Lsrl_c32768, 164, .Lsrl11_b14_Neg
+        .word   .Lsrl_c32768, 100, .Lsrl11_b14_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl11_b14_Pos
 .Lsrl11_b15_Neg:
-        .word   .Lsrl_n32768, 164, .Lsrl11_b14_Neg
+        .word   .Lsrl_n32768, 100, .Lsrl11_b14_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl11_b14_Pos
 .Lsrl11_b14_Pos:
-        .word   .Lsrl_c16384, 164, .Lsrl11_b13_Neg
+        .word   .Lsrl_c16384, 100, .Lsrl11_b13_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl11_b13_Pos
 .Lsrl11_b14_Neg:
-        .word   .Lsrl_n16384, 164, .Lsrl11_b13_Neg
+        .word   .Lsrl_n16384, 100, .Lsrl11_b13_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl11_b13_Pos
 .Lsrl11_b13_Pos:
-        .word   .Lsrl_c8192, 164, .Lsrl11_b12_Neg
+        .word   .Lsrl_c8192, 100, .Lsrl11_b12_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl11_b12_Pos
 .Lsrl11_b13_Neg:
-        .word   .Lsrl_n8192, 164, .Lsrl11_b12_Neg
+        .word   .Lsrl_n8192, 100, .Lsrl11_b12_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl11_b12_Pos
 .Lsrl11_b12_Pos:
-        .word   .Lsrl_c4096, 164, .Lsrl11_b11_Neg
+        .word   .Lsrl_c4096, 100, .Lsrl11_b11_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl11_b11_Pos
 .Lsrl11_b12_Neg:
-        .word   .Lsrl_n4096, 164, .Lsrl11_b11_Neg
+        .word   .Lsrl_n4096, 100, .Lsrl11_b11_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl11_b11_Pos
 .Lsrl11_b11_Pos:
-        .word   .Lsrl_c2048, 164, .Lsrl11_store
+        .word   .Lsrl_c2048, 100, .Lsrl11_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl11_store
 .Lsrl11_b11_Neg:
-        .word   .Lsrl_n2048, 164, .Lsrl11_store
+        .word   .Lsrl_n2048, 100, .Lsrl11_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl11_store
 .Lsrl11_store:
@@ -42731,167 +42721,167 @@ __subleq_srl:
 
 .Lsrl_shift_12:
         .word   168, 168, .+4
-        .word   144, 164, .Lsrl12_b31_chk
+        .word   144, 100, .Lsrl12_b31_chk
         .word   12, 12, .Lsrl12_b31_setup
 .Lsrl12_b31_chk:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsrl12_b31_ambig
         .word   12, 12, .Lsrl12_b31_set
 .Lsrl12_b31_ambig:
         .word   .Lsrl_one, 172, .+4
         .word   144, 172, .Lsrl12_b31_setup
 .Lsrl12_b31_set:
-        .word   .Lsrl_c2147483648, 164, .+4
+        .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n524288, 168, .+4
 .Lsrl12_b31_setup:
-        .word   .Lsrl_negone, 164, .+4
+        .word   .Lsrl_negone, 100, .+4
 .Lsrl12_b30_Pos:
-        .word   .Lsrl_c1073741824, 164, .Lsrl12_b29_Neg
+        .word   .Lsrl_c1073741824, 100, .Lsrl12_b29_Neg
         .word   .Lsrl_n262144, 168, .+4
         .word   12, 12, .Lsrl12_b29_Pos
 .Lsrl12_b29_Pos:
-        .word   .Lsrl_c536870912, 164, .Lsrl12_b28_Neg
+        .word   .Lsrl_c536870912, 100, .Lsrl12_b28_Neg
         .word   .Lsrl_n131072, 168, .+4
         .word   12, 12, .Lsrl12_b28_Pos
 .Lsrl12_b29_Neg:
-        .word   .Lsrl_n536870912, 164, .Lsrl12_b28_Neg
+        .word   .Lsrl_n536870912, 100, .Lsrl12_b28_Neg
         .word   .Lsrl_n131072, 168, .+4
         .word   12, 12, .Lsrl12_b28_Pos
 .Lsrl12_b28_Pos:
-        .word   .Lsrl_c268435456, 164, .Lsrl12_b27_Neg
+        .word   .Lsrl_c268435456, 100, .Lsrl12_b27_Neg
         .word   .Lsrl_n65536, 168, .+4
         .word   12, 12, .Lsrl12_b27_Pos
 .Lsrl12_b28_Neg:
-        .word   .Lsrl_n268435456, 164, .Lsrl12_b27_Neg
+        .word   .Lsrl_n268435456, 100, .Lsrl12_b27_Neg
         .word   .Lsrl_n65536, 168, .+4
         .word   12, 12, .Lsrl12_b27_Pos
 .Lsrl12_b27_Pos:
-        .word   .Lsrl_c134217728, 164, .Lsrl12_b26_Neg
+        .word   .Lsrl_c134217728, 100, .Lsrl12_b26_Neg
         .word   .Lsrl_n32768, 168, .+4
         .word   12, 12, .Lsrl12_b26_Pos
 .Lsrl12_b27_Neg:
-        .word   .Lsrl_n134217728, 164, .Lsrl12_b26_Neg
+        .word   .Lsrl_n134217728, 100, .Lsrl12_b26_Neg
         .word   .Lsrl_n32768, 168, .+4
         .word   12, 12, .Lsrl12_b26_Pos
 .Lsrl12_b26_Pos:
-        .word   .Lsrl_c67108864, 164, .Lsrl12_b25_Neg
+        .word   .Lsrl_c67108864, 100, .Lsrl12_b25_Neg
         .word   .Lsrl_n16384, 168, .+4
         .word   12, 12, .Lsrl12_b25_Pos
 .Lsrl12_b26_Neg:
-        .word   .Lsrl_n67108864, 164, .Lsrl12_b25_Neg
+        .word   .Lsrl_n67108864, 100, .Lsrl12_b25_Neg
         .word   .Lsrl_n16384, 168, .+4
         .word   12, 12, .Lsrl12_b25_Pos
 .Lsrl12_b25_Pos:
-        .word   .Lsrl_c33554432, 164, .Lsrl12_b24_Neg
+        .word   .Lsrl_c33554432, 100, .Lsrl12_b24_Neg
         .word   .Lsrl_n8192, 168, .+4
         .word   12, 12, .Lsrl12_b24_Pos
 .Lsrl12_b25_Neg:
-        .word   .Lsrl_n33554432, 164, .Lsrl12_b24_Neg
+        .word   .Lsrl_n33554432, 100, .Lsrl12_b24_Neg
         .word   .Lsrl_n8192, 168, .+4
         .word   12, 12, .Lsrl12_b24_Pos
 .Lsrl12_b24_Pos:
-        .word   .Lsrl_c16777216, 164, .Lsrl12_b23_Neg
+        .word   .Lsrl_c16777216, 100, .Lsrl12_b23_Neg
         .word   .Lsrl_n4096, 168, .+4
         .word   12, 12, .Lsrl12_b23_Pos
 .Lsrl12_b24_Neg:
-        .word   .Lsrl_n16777216, 164, .Lsrl12_b23_Neg
+        .word   .Lsrl_n16777216, 100, .Lsrl12_b23_Neg
         .word   .Lsrl_n4096, 168, .+4
         .word   12, 12, .Lsrl12_b23_Pos
 .Lsrl12_b23_Pos:
-        .word   .Lsrl_c8388608, 164, .Lsrl12_b22_Neg
+        .word   .Lsrl_c8388608, 100, .Lsrl12_b22_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl12_b22_Pos
 .Lsrl12_b23_Neg:
-        .word   .Lsrl_n8388608, 164, .Lsrl12_b22_Neg
+        .word   .Lsrl_n8388608, 100, .Lsrl12_b22_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl12_b22_Pos
 .Lsrl12_b22_Pos:
-        .word   .Lsrl_c4194304, 164, .Lsrl12_b21_Neg
+        .word   .Lsrl_c4194304, 100, .Lsrl12_b21_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl12_b21_Pos
 .Lsrl12_b22_Neg:
-        .word   .Lsrl_n4194304, 164, .Lsrl12_b21_Neg
+        .word   .Lsrl_n4194304, 100, .Lsrl12_b21_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl12_b21_Pos
 .Lsrl12_b21_Pos:
-        .word   .Lsrl_c2097152, 164, .Lsrl12_b20_Neg
+        .word   .Lsrl_c2097152, 100, .Lsrl12_b20_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl12_b20_Pos
 .Lsrl12_b21_Neg:
-        .word   .Lsrl_n2097152, 164, .Lsrl12_b20_Neg
+        .word   .Lsrl_n2097152, 100, .Lsrl12_b20_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl12_b20_Pos
 .Lsrl12_b20_Pos:
-        .word   .Lsrl_c1048576, 164, .Lsrl12_b19_Neg
+        .word   .Lsrl_c1048576, 100, .Lsrl12_b19_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl12_b19_Pos
 .Lsrl12_b20_Neg:
-        .word   .Lsrl_n1048576, 164, .Lsrl12_b19_Neg
+        .word   .Lsrl_n1048576, 100, .Lsrl12_b19_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl12_b19_Pos
 .Lsrl12_b19_Pos:
-        .word   .Lsrl_c524288, 164, .Lsrl12_b18_Neg
+        .word   .Lsrl_c524288, 100, .Lsrl12_b18_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl12_b18_Pos
 .Lsrl12_b19_Neg:
-        .word   .Lsrl_n524288, 164, .Lsrl12_b18_Neg
+        .word   .Lsrl_n524288, 100, .Lsrl12_b18_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl12_b18_Pos
 .Lsrl12_b18_Pos:
-        .word   .Lsrl_c262144, 164, .Lsrl12_b17_Neg
+        .word   .Lsrl_c262144, 100, .Lsrl12_b17_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl12_b17_Pos
 .Lsrl12_b18_Neg:
-        .word   .Lsrl_n262144, 164, .Lsrl12_b17_Neg
+        .word   .Lsrl_n262144, 100, .Lsrl12_b17_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl12_b17_Pos
 .Lsrl12_b17_Pos:
-        .word   .Lsrl_c131072, 164, .Lsrl12_b16_Neg
+        .word   .Lsrl_c131072, 100, .Lsrl12_b16_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl12_b16_Pos
 .Lsrl12_b17_Neg:
-        .word   .Lsrl_n131072, 164, .Lsrl12_b16_Neg
+        .word   .Lsrl_n131072, 100, .Lsrl12_b16_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl12_b16_Pos
 .Lsrl12_b16_Pos:
-        .word   .Lsrl_c65536, 164, .Lsrl12_b15_Neg
+        .word   .Lsrl_c65536, 100, .Lsrl12_b15_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl12_b15_Pos
 .Lsrl12_b16_Neg:
-        .word   .Lsrl_n65536, 164, .Lsrl12_b15_Neg
+        .word   .Lsrl_n65536, 100, .Lsrl12_b15_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl12_b15_Pos
 .Lsrl12_b15_Pos:
-        .word   .Lsrl_c32768, 164, .Lsrl12_b14_Neg
+        .word   .Lsrl_c32768, 100, .Lsrl12_b14_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl12_b14_Pos
 .Lsrl12_b15_Neg:
-        .word   .Lsrl_n32768, 164, .Lsrl12_b14_Neg
+        .word   .Lsrl_n32768, 100, .Lsrl12_b14_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl12_b14_Pos
 .Lsrl12_b14_Pos:
-        .word   .Lsrl_c16384, 164, .Lsrl12_b13_Neg
+        .word   .Lsrl_c16384, 100, .Lsrl12_b13_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl12_b13_Pos
 .Lsrl12_b14_Neg:
-        .word   .Lsrl_n16384, 164, .Lsrl12_b13_Neg
+        .word   .Lsrl_n16384, 100, .Lsrl12_b13_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl12_b13_Pos
 .Lsrl12_b13_Pos:
-        .word   .Lsrl_c8192, 164, .Lsrl12_b12_Neg
+        .word   .Lsrl_c8192, 100, .Lsrl12_b12_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl12_b12_Pos
 .Lsrl12_b13_Neg:
-        .word   .Lsrl_n8192, 164, .Lsrl12_b12_Neg
+        .word   .Lsrl_n8192, 100, .Lsrl12_b12_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl12_b12_Pos
 .Lsrl12_b12_Pos:
-        .word   .Lsrl_c4096, 164, .Lsrl12_store
+        .word   .Lsrl_c4096, 100, .Lsrl12_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl12_store
 .Lsrl12_b12_Neg:
-        .word   .Lsrl_n4096, 164, .Lsrl12_store
+        .word   .Lsrl_n4096, 100, .Lsrl12_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl12_store
 .Lsrl12_store:
@@ -42903,159 +42893,159 @@ __subleq_srl:
 
 .Lsrl_shift_13:
         .word   168, 168, .+4
-        .word   144, 164, .Lsrl13_b31_chk
+        .word   144, 100, .Lsrl13_b31_chk
         .word   12, 12, .Lsrl13_b31_setup
 .Lsrl13_b31_chk:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsrl13_b31_ambig
         .word   12, 12, .Lsrl13_b31_set
 .Lsrl13_b31_ambig:
         .word   .Lsrl_one, 172, .+4
         .word   144, 172, .Lsrl13_b31_setup
 .Lsrl13_b31_set:
-        .word   .Lsrl_c2147483648, 164, .+4
+        .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n262144, 168, .+4
 .Lsrl13_b31_setup:
-        .word   .Lsrl_negone, 164, .+4
+        .word   .Lsrl_negone, 100, .+4
 .Lsrl13_b30_Pos:
-        .word   .Lsrl_c1073741824, 164, .Lsrl13_b29_Neg
+        .word   .Lsrl_c1073741824, 100, .Lsrl13_b29_Neg
         .word   .Lsrl_n131072, 168, .+4
         .word   12, 12, .Lsrl13_b29_Pos
 .Lsrl13_b29_Pos:
-        .word   .Lsrl_c536870912, 164, .Lsrl13_b28_Neg
+        .word   .Lsrl_c536870912, 100, .Lsrl13_b28_Neg
         .word   .Lsrl_n65536, 168, .+4
         .word   12, 12, .Lsrl13_b28_Pos
 .Lsrl13_b29_Neg:
-        .word   .Lsrl_n536870912, 164, .Lsrl13_b28_Neg
+        .word   .Lsrl_n536870912, 100, .Lsrl13_b28_Neg
         .word   .Lsrl_n65536, 168, .+4
         .word   12, 12, .Lsrl13_b28_Pos
 .Lsrl13_b28_Pos:
-        .word   .Lsrl_c268435456, 164, .Lsrl13_b27_Neg
+        .word   .Lsrl_c268435456, 100, .Lsrl13_b27_Neg
         .word   .Lsrl_n32768, 168, .+4
         .word   12, 12, .Lsrl13_b27_Pos
 .Lsrl13_b28_Neg:
-        .word   .Lsrl_n268435456, 164, .Lsrl13_b27_Neg
+        .word   .Lsrl_n268435456, 100, .Lsrl13_b27_Neg
         .word   .Lsrl_n32768, 168, .+4
         .word   12, 12, .Lsrl13_b27_Pos
 .Lsrl13_b27_Pos:
-        .word   .Lsrl_c134217728, 164, .Lsrl13_b26_Neg
+        .word   .Lsrl_c134217728, 100, .Lsrl13_b26_Neg
         .word   .Lsrl_n16384, 168, .+4
         .word   12, 12, .Lsrl13_b26_Pos
 .Lsrl13_b27_Neg:
-        .word   .Lsrl_n134217728, 164, .Lsrl13_b26_Neg
+        .word   .Lsrl_n134217728, 100, .Lsrl13_b26_Neg
         .word   .Lsrl_n16384, 168, .+4
         .word   12, 12, .Lsrl13_b26_Pos
 .Lsrl13_b26_Pos:
-        .word   .Lsrl_c67108864, 164, .Lsrl13_b25_Neg
+        .word   .Lsrl_c67108864, 100, .Lsrl13_b25_Neg
         .word   .Lsrl_n8192, 168, .+4
         .word   12, 12, .Lsrl13_b25_Pos
 .Lsrl13_b26_Neg:
-        .word   .Lsrl_n67108864, 164, .Lsrl13_b25_Neg
+        .word   .Lsrl_n67108864, 100, .Lsrl13_b25_Neg
         .word   .Lsrl_n8192, 168, .+4
         .word   12, 12, .Lsrl13_b25_Pos
 .Lsrl13_b25_Pos:
-        .word   .Lsrl_c33554432, 164, .Lsrl13_b24_Neg
+        .word   .Lsrl_c33554432, 100, .Lsrl13_b24_Neg
         .word   .Lsrl_n4096, 168, .+4
         .word   12, 12, .Lsrl13_b24_Pos
 .Lsrl13_b25_Neg:
-        .word   .Lsrl_n33554432, 164, .Lsrl13_b24_Neg
+        .word   .Lsrl_n33554432, 100, .Lsrl13_b24_Neg
         .word   .Lsrl_n4096, 168, .+4
         .word   12, 12, .Lsrl13_b24_Pos
 .Lsrl13_b24_Pos:
-        .word   .Lsrl_c16777216, 164, .Lsrl13_b23_Neg
+        .word   .Lsrl_c16777216, 100, .Lsrl13_b23_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl13_b23_Pos
 .Lsrl13_b24_Neg:
-        .word   .Lsrl_n16777216, 164, .Lsrl13_b23_Neg
+        .word   .Lsrl_n16777216, 100, .Lsrl13_b23_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl13_b23_Pos
 .Lsrl13_b23_Pos:
-        .word   .Lsrl_c8388608, 164, .Lsrl13_b22_Neg
+        .word   .Lsrl_c8388608, 100, .Lsrl13_b22_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl13_b22_Pos
 .Lsrl13_b23_Neg:
-        .word   .Lsrl_n8388608, 164, .Lsrl13_b22_Neg
+        .word   .Lsrl_n8388608, 100, .Lsrl13_b22_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl13_b22_Pos
 .Lsrl13_b22_Pos:
-        .word   .Lsrl_c4194304, 164, .Lsrl13_b21_Neg
+        .word   .Lsrl_c4194304, 100, .Lsrl13_b21_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl13_b21_Pos
 .Lsrl13_b22_Neg:
-        .word   .Lsrl_n4194304, 164, .Lsrl13_b21_Neg
+        .word   .Lsrl_n4194304, 100, .Lsrl13_b21_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl13_b21_Pos
 .Lsrl13_b21_Pos:
-        .word   .Lsrl_c2097152, 164, .Lsrl13_b20_Neg
+        .word   .Lsrl_c2097152, 100, .Lsrl13_b20_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl13_b20_Pos
 .Lsrl13_b21_Neg:
-        .word   .Lsrl_n2097152, 164, .Lsrl13_b20_Neg
+        .word   .Lsrl_n2097152, 100, .Lsrl13_b20_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl13_b20_Pos
 .Lsrl13_b20_Pos:
-        .word   .Lsrl_c1048576, 164, .Lsrl13_b19_Neg
+        .word   .Lsrl_c1048576, 100, .Lsrl13_b19_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl13_b19_Pos
 .Lsrl13_b20_Neg:
-        .word   .Lsrl_n1048576, 164, .Lsrl13_b19_Neg
+        .word   .Lsrl_n1048576, 100, .Lsrl13_b19_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl13_b19_Pos
 .Lsrl13_b19_Pos:
-        .word   .Lsrl_c524288, 164, .Lsrl13_b18_Neg
+        .word   .Lsrl_c524288, 100, .Lsrl13_b18_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl13_b18_Pos
 .Lsrl13_b19_Neg:
-        .word   .Lsrl_n524288, 164, .Lsrl13_b18_Neg
+        .word   .Lsrl_n524288, 100, .Lsrl13_b18_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl13_b18_Pos
 .Lsrl13_b18_Pos:
-        .word   .Lsrl_c262144, 164, .Lsrl13_b17_Neg
+        .word   .Lsrl_c262144, 100, .Lsrl13_b17_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl13_b17_Pos
 .Lsrl13_b18_Neg:
-        .word   .Lsrl_n262144, 164, .Lsrl13_b17_Neg
+        .word   .Lsrl_n262144, 100, .Lsrl13_b17_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl13_b17_Pos
 .Lsrl13_b17_Pos:
-        .word   .Lsrl_c131072, 164, .Lsrl13_b16_Neg
+        .word   .Lsrl_c131072, 100, .Lsrl13_b16_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl13_b16_Pos
 .Lsrl13_b17_Neg:
-        .word   .Lsrl_n131072, 164, .Lsrl13_b16_Neg
+        .word   .Lsrl_n131072, 100, .Lsrl13_b16_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl13_b16_Pos
 .Lsrl13_b16_Pos:
-        .word   .Lsrl_c65536, 164, .Lsrl13_b15_Neg
+        .word   .Lsrl_c65536, 100, .Lsrl13_b15_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl13_b15_Pos
 .Lsrl13_b16_Neg:
-        .word   .Lsrl_n65536, 164, .Lsrl13_b15_Neg
+        .word   .Lsrl_n65536, 100, .Lsrl13_b15_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl13_b15_Pos
 .Lsrl13_b15_Pos:
-        .word   .Lsrl_c32768, 164, .Lsrl13_b14_Neg
+        .word   .Lsrl_c32768, 100, .Lsrl13_b14_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl13_b14_Pos
 .Lsrl13_b15_Neg:
-        .word   .Lsrl_n32768, 164, .Lsrl13_b14_Neg
+        .word   .Lsrl_n32768, 100, .Lsrl13_b14_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl13_b14_Pos
 .Lsrl13_b14_Pos:
-        .word   .Lsrl_c16384, 164, .Lsrl13_b13_Neg
+        .word   .Lsrl_c16384, 100, .Lsrl13_b13_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl13_b13_Pos
 .Lsrl13_b14_Neg:
-        .word   .Lsrl_n16384, 164, .Lsrl13_b13_Neg
+        .word   .Lsrl_n16384, 100, .Lsrl13_b13_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl13_b13_Pos
 .Lsrl13_b13_Pos:
-        .word   .Lsrl_c8192, 164, .Lsrl13_store
+        .word   .Lsrl_c8192, 100, .Lsrl13_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl13_store
 .Lsrl13_b13_Neg:
-        .word   .Lsrl_n8192, 164, .Lsrl13_store
+        .word   .Lsrl_n8192, 100, .Lsrl13_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl13_store
 .Lsrl13_store:
@@ -43067,151 +43057,151 @@ __subleq_srl:
 
 .Lsrl_shift_14:
         .word   168, 168, .+4
-        .word   144, 164, .Lsrl14_b31_chk
+        .word   144, 100, .Lsrl14_b31_chk
         .word   12, 12, .Lsrl14_b31_setup
 .Lsrl14_b31_chk:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsrl14_b31_ambig
         .word   12, 12, .Lsrl14_b31_set
 .Lsrl14_b31_ambig:
         .word   .Lsrl_one, 172, .+4
         .word   144, 172, .Lsrl14_b31_setup
 .Lsrl14_b31_set:
-        .word   .Lsrl_c2147483648, 164, .+4
+        .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n131072, 168, .+4
 .Lsrl14_b31_setup:
-        .word   .Lsrl_negone, 164, .+4
+        .word   .Lsrl_negone, 100, .+4
 .Lsrl14_b30_Pos:
-        .word   .Lsrl_c1073741824, 164, .Lsrl14_b29_Neg
+        .word   .Lsrl_c1073741824, 100, .Lsrl14_b29_Neg
         .word   .Lsrl_n65536, 168, .+4
         .word   12, 12, .Lsrl14_b29_Pos
 .Lsrl14_b29_Pos:
-        .word   .Lsrl_c536870912, 164, .Lsrl14_b28_Neg
+        .word   .Lsrl_c536870912, 100, .Lsrl14_b28_Neg
         .word   .Lsrl_n32768, 168, .+4
         .word   12, 12, .Lsrl14_b28_Pos
 .Lsrl14_b29_Neg:
-        .word   .Lsrl_n536870912, 164, .Lsrl14_b28_Neg
+        .word   .Lsrl_n536870912, 100, .Lsrl14_b28_Neg
         .word   .Lsrl_n32768, 168, .+4
         .word   12, 12, .Lsrl14_b28_Pos
 .Lsrl14_b28_Pos:
-        .word   .Lsrl_c268435456, 164, .Lsrl14_b27_Neg
+        .word   .Lsrl_c268435456, 100, .Lsrl14_b27_Neg
         .word   .Lsrl_n16384, 168, .+4
         .word   12, 12, .Lsrl14_b27_Pos
 .Lsrl14_b28_Neg:
-        .word   .Lsrl_n268435456, 164, .Lsrl14_b27_Neg
+        .word   .Lsrl_n268435456, 100, .Lsrl14_b27_Neg
         .word   .Lsrl_n16384, 168, .+4
         .word   12, 12, .Lsrl14_b27_Pos
 .Lsrl14_b27_Pos:
-        .word   .Lsrl_c134217728, 164, .Lsrl14_b26_Neg
+        .word   .Lsrl_c134217728, 100, .Lsrl14_b26_Neg
         .word   .Lsrl_n8192, 168, .+4
         .word   12, 12, .Lsrl14_b26_Pos
 .Lsrl14_b27_Neg:
-        .word   .Lsrl_n134217728, 164, .Lsrl14_b26_Neg
+        .word   .Lsrl_n134217728, 100, .Lsrl14_b26_Neg
         .word   .Lsrl_n8192, 168, .+4
         .word   12, 12, .Lsrl14_b26_Pos
 .Lsrl14_b26_Pos:
-        .word   .Lsrl_c67108864, 164, .Lsrl14_b25_Neg
+        .word   .Lsrl_c67108864, 100, .Lsrl14_b25_Neg
         .word   .Lsrl_n4096, 168, .+4
         .word   12, 12, .Lsrl14_b25_Pos
 .Lsrl14_b26_Neg:
-        .word   .Lsrl_n67108864, 164, .Lsrl14_b25_Neg
+        .word   .Lsrl_n67108864, 100, .Lsrl14_b25_Neg
         .word   .Lsrl_n4096, 168, .+4
         .word   12, 12, .Lsrl14_b25_Pos
 .Lsrl14_b25_Pos:
-        .word   .Lsrl_c33554432, 164, .Lsrl14_b24_Neg
+        .word   .Lsrl_c33554432, 100, .Lsrl14_b24_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl14_b24_Pos
 .Lsrl14_b25_Neg:
-        .word   .Lsrl_n33554432, 164, .Lsrl14_b24_Neg
+        .word   .Lsrl_n33554432, 100, .Lsrl14_b24_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl14_b24_Pos
 .Lsrl14_b24_Pos:
-        .word   .Lsrl_c16777216, 164, .Lsrl14_b23_Neg
+        .word   .Lsrl_c16777216, 100, .Lsrl14_b23_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl14_b23_Pos
 .Lsrl14_b24_Neg:
-        .word   .Lsrl_n16777216, 164, .Lsrl14_b23_Neg
+        .word   .Lsrl_n16777216, 100, .Lsrl14_b23_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl14_b23_Pos
 .Lsrl14_b23_Pos:
-        .word   .Lsrl_c8388608, 164, .Lsrl14_b22_Neg
+        .word   .Lsrl_c8388608, 100, .Lsrl14_b22_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl14_b22_Pos
 .Lsrl14_b23_Neg:
-        .word   .Lsrl_n8388608, 164, .Lsrl14_b22_Neg
+        .word   .Lsrl_n8388608, 100, .Lsrl14_b22_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl14_b22_Pos
 .Lsrl14_b22_Pos:
-        .word   .Lsrl_c4194304, 164, .Lsrl14_b21_Neg
+        .word   .Lsrl_c4194304, 100, .Lsrl14_b21_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl14_b21_Pos
 .Lsrl14_b22_Neg:
-        .word   .Lsrl_n4194304, 164, .Lsrl14_b21_Neg
+        .word   .Lsrl_n4194304, 100, .Lsrl14_b21_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl14_b21_Pos
 .Lsrl14_b21_Pos:
-        .word   .Lsrl_c2097152, 164, .Lsrl14_b20_Neg
+        .word   .Lsrl_c2097152, 100, .Lsrl14_b20_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl14_b20_Pos
 .Lsrl14_b21_Neg:
-        .word   .Lsrl_n2097152, 164, .Lsrl14_b20_Neg
+        .word   .Lsrl_n2097152, 100, .Lsrl14_b20_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl14_b20_Pos
 .Lsrl14_b20_Pos:
-        .word   .Lsrl_c1048576, 164, .Lsrl14_b19_Neg
+        .word   .Lsrl_c1048576, 100, .Lsrl14_b19_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl14_b19_Pos
 .Lsrl14_b20_Neg:
-        .word   .Lsrl_n1048576, 164, .Lsrl14_b19_Neg
+        .word   .Lsrl_n1048576, 100, .Lsrl14_b19_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl14_b19_Pos
 .Lsrl14_b19_Pos:
-        .word   .Lsrl_c524288, 164, .Lsrl14_b18_Neg
+        .word   .Lsrl_c524288, 100, .Lsrl14_b18_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl14_b18_Pos
 .Lsrl14_b19_Neg:
-        .word   .Lsrl_n524288, 164, .Lsrl14_b18_Neg
+        .word   .Lsrl_n524288, 100, .Lsrl14_b18_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl14_b18_Pos
 .Lsrl14_b18_Pos:
-        .word   .Lsrl_c262144, 164, .Lsrl14_b17_Neg
+        .word   .Lsrl_c262144, 100, .Lsrl14_b17_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl14_b17_Pos
 .Lsrl14_b18_Neg:
-        .word   .Lsrl_n262144, 164, .Lsrl14_b17_Neg
+        .word   .Lsrl_n262144, 100, .Lsrl14_b17_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl14_b17_Pos
 .Lsrl14_b17_Pos:
-        .word   .Lsrl_c131072, 164, .Lsrl14_b16_Neg
+        .word   .Lsrl_c131072, 100, .Lsrl14_b16_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl14_b16_Pos
 .Lsrl14_b17_Neg:
-        .word   .Lsrl_n131072, 164, .Lsrl14_b16_Neg
+        .word   .Lsrl_n131072, 100, .Lsrl14_b16_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl14_b16_Pos
 .Lsrl14_b16_Pos:
-        .word   .Lsrl_c65536, 164, .Lsrl14_b15_Neg
+        .word   .Lsrl_c65536, 100, .Lsrl14_b15_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl14_b15_Pos
 .Lsrl14_b16_Neg:
-        .word   .Lsrl_n65536, 164, .Lsrl14_b15_Neg
+        .word   .Lsrl_n65536, 100, .Lsrl14_b15_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl14_b15_Pos
 .Lsrl14_b15_Pos:
-        .word   .Lsrl_c32768, 164, .Lsrl14_b14_Neg
+        .word   .Lsrl_c32768, 100, .Lsrl14_b14_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl14_b14_Pos
 .Lsrl14_b15_Neg:
-        .word   .Lsrl_n32768, 164, .Lsrl14_b14_Neg
+        .word   .Lsrl_n32768, 100, .Lsrl14_b14_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl14_b14_Pos
 .Lsrl14_b14_Pos:
-        .word   .Lsrl_c16384, 164, .Lsrl14_store
+        .word   .Lsrl_c16384, 100, .Lsrl14_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl14_store
 .Lsrl14_b14_Neg:
-        .word   .Lsrl_n16384, 164, .Lsrl14_store
+        .word   .Lsrl_n16384, 100, .Lsrl14_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl14_store
 .Lsrl14_store:
@@ -43223,143 +43213,143 @@ __subleq_srl:
 
 .Lsrl_shift_15:
         .word   168, 168, .+4
-        .word   144, 164, .Lsrl15_b31_chk
+        .word   144, 100, .Lsrl15_b31_chk
         .word   12, 12, .Lsrl15_b31_setup
 .Lsrl15_b31_chk:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsrl15_b31_ambig
         .word   12, 12, .Lsrl15_b31_set
 .Lsrl15_b31_ambig:
         .word   .Lsrl_one, 172, .+4
         .word   144, 172, .Lsrl15_b31_setup
 .Lsrl15_b31_set:
-        .word   .Lsrl_c2147483648, 164, .+4
+        .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n65536, 168, .+4
 .Lsrl15_b31_setup:
-        .word   .Lsrl_negone, 164, .+4
+        .word   .Lsrl_negone, 100, .+4
 .Lsrl15_b30_Pos:
-        .word   .Lsrl_c1073741824, 164, .Lsrl15_b29_Neg
+        .word   .Lsrl_c1073741824, 100, .Lsrl15_b29_Neg
         .word   .Lsrl_n32768, 168, .+4
         .word   12, 12, .Lsrl15_b29_Pos
 .Lsrl15_b29_Pos:
-        .word   .Lsrl_c536870912, 164, .Lsrl15_b28_Neg
+        .word   .Lsrl_c536870912, 100, .Lsrl15_b28_Neg
         .word   .Lsrl_n16384, 168, .+4
         .word   12, 12, .Lsrl15_b28_Pos
 .Lsrl15_b29_Neg:
-        .word   .Lsrl_n536870912, 164, .Lsrl15_b28_Neg
+        .word   .Lsrl_n536870912, 100, .Lsrl15_b28_Neg
         .word   .Lsrl_n16384, 168, .+4
         .word   12, 12, .Lsrl15_b28_Pos
 .Lsrl15_b28_Pos:
-        .word   .Lsrl_c268435456, 164, .Lsrl15_b27_Neg
+        .word   .Lsrl_c268435456, 100, .Lsrl15_b27_Neg
         .word   .Lsrl_n8192, 168, .+4
         .word   12, 12, .Lsrl15_b27_Pos
 .Lsrl15_b28_Neg:
-        .word   .Lsrl_n268435456, 164, .Lsrl15_b27_Neg
+        .word   .Lsrl_n268435456, 100, .Lsrl15_b27_Neg
         .word   .Lsrl_n8192, 168, .+4
         .word   12, 12, .Lsrl15_b27_Pos
 .Lsrl15_b27_Pos:
-        .word   .Lsrl_c134217728, 164, .Lsrl15_b26_Neg
+        .word   .Lsrl_c134217728, 100, .Lsrl15_b26_Neg
         .word   .Lsrl_n4096, 168, .+4
         .word   12, 12, .Lsrl15_b26_Pos
 .Lsrl15_b27_Neg:
-        .word   .Lsrl_n134217728, 164, .Lsrl15_b26_Neg
+        .word   .Lsrl_n134217728, 100, .Lsrl15_b26_Neg
         .word   .Lsrl_n4096, 168, .+4
         .word   12, 12, .Lsrl15_b26_Pos
 .Lsrl15_b26_Pos:
-        .word   .Lsrl_c67108864, 164, .Lsrl15_b25_Neg
+        .word   .Lsrl_c67108864, 100, .Lsrl15_b25_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl15_b25_Pos
 .Lsrl15_b26_Neg:
-        .word   .Lsrl_n67108864, 164, .Lsrl15_b25_Neg
+        .word   .Lsrl_n67108864, 100, .Lsrl15_b25_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl15_b25_Pos
 .Lsrl15_b25_Pos:
-        .word   .Lsrl_c33554432, 164, .Lsrl15_b24_Neg
+        .word   .Lsrl_c33554432, 100, .Lsrl15_b24_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl15_b24_Pos
 .Lsrl15_b25_Neg:
-        .word   .Lsrl_n33554432, 164, .Lsrl15_b24_Neg
+        .word   .Lsrl_n33554432, 100, .Lsrl15_b24_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl15_b24_Pos
 .Lsrl15_b24_Pos:
-        .word   .Lsrl_c16777216, 164, .Lsrl15_b23_Neg
+        .word   .Lsrl_c16777216, 100, .Lsrl15_b23_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl15_b23_Pos
 .Lsrl15_b24_Neg:
-        .word   .Lsrl_n16777216, 164, .Lsrl15_b23_Neg
+        .word   .Lsrl_n16777216, 100, .Lsrl15_b23_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl15_b23_Pos
 .Lsrl15_b23_Pos:
-        .word   .Lsrl_c8388608, 164, .Lsrl15_b22_Neg
+        .word   .Lsrl_c8388608, 100, .Lsrl15_b22_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl15_b22_Pos
 .Lsrl15_b23_Neg:
-        .word   .Lsrl_n8388608, 164, .Lsrl15_b22_Neg
+        .word   .Lsrl_n8388608, 100, .Lsrl15_b22_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl15_b22_Pos
 .Lsrl15_b22_Pos:
-        .word   .Lsrl_c4194304, 164, .Lsrl15_b21_Neg
+        .word   .Lsrl_c4194304, 100, .Lsrl15_b21_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl15_b21_Pos
 .Lsrl15_b22_Neg:
-        .word   .Lsrl_n4194304, 164, .Lsrl15_b21_Neg
+        .word   .Lsrl_n4194304, 100, .Lsrl15_b21_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl15_b21_Pos
 .Lsrl15_b21_Pos:
-        .word   .Lsrl_c2097152, 164, .Lsrl15_b20_Neg
+        .word   .Lsrl_c2097152, 100, .Lsrl15_b20_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl15_b20_Pos
 .Lsrl15_b21_Neg:
-        .word   .Lsrl_n2097152, 164, .Lsrl15_b20_Neg
+        .word   .Lsrl_n2097152, 100, .Lsrl15_b20_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl15_b20_Pos
 .Lsrl15_b20_Pos:
-        .word   .Lsrl_c1048576, 164, .Lsrl15_b19_Neg
+        .word   .Lsrl_c1048576, 100, .Lsrl15_b19_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl15_b19_Pos
 .Lsrl15_b20_Neg:
-        .word   .Lsrl_n1048576, 164, .Lsrl15_b19_Neg
+        .word   .Lsrl_n1048576, 100, .Lsrl15_b19_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl15_b19_Pos
 .Lsrl15_b19_Pos:
-        .word   .Lsrl_c524288, 164, .Lsrl15_b18_Neg
+        .word   .Lsrl_c524288, 100, .Lsrl15_b18_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl15_b18_Pos
 .Lsrl15_b19_Neg:
-        .word   .Lsrl_n524288, 164, .Lsrl15_b18_Neg
+        .word   .Lsrl_n524288, 100, .Lsrl15_b18_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl15_b18_Pos
 .Lsrl15_b18_Pos:
-        .word   .Lsrl_c262144, 164, .Lsrl15_b17_Neg
+        .word   .Lsrl_c262144, 100, .Lsrl15_b17_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl15_b17_Pos
 .Lsrl15_b18_Neg:
-        .word   .Lsrl_n262144, 164, .Lsrl15_b17_Neg
+        .word   .Lsrl_n262144, 100, .Lsrl15_b17_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl15_b17_Pos
 .Lsrl15_b17_Pos:
-        .word   .Lsrl_c131072, 164, .Lsrl15_b16_Neg
+        .word   .Lsrl_c131072, 100, .Lsrl15_b16_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl15_b16_Pos
 .Lsrl15_b17_Neg:
-        .word   .Lsrl_n131072, 164, .Lsrl15_b16_Neg
+        .word   .Lsrl_n131072, 100, .Lsrl15_b16_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl15_b16_Pos
 .Lsrl15_b16_Pos:
-        .word   .Lsrl_c65536, 164, .Lsrl15_b15_Neg
+        .word   .Lsrl_c65536, 100, .Lsrl15_b15_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl15_b15_Pos
 .Lsrl15_b16_Neg:
-        .word   .Lsrl_n65536, 164, .Lsrl15_b15_Neg
+        .word   .Lsrl_n65536, 100, .Lsrl15_b15_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl15_b15_Pos
 .Lsrl15_b15_Pos:
-        .word   .Lsrl_c32768, 164, .Lsrl15_store
+        .word   .Lsrl_c32768, 100, .Lsrl15_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl15_store
 .Lsrl15_b15_Neg:
-        .word   .Lsrl_n32768, 164, .Lsrl15_store
+        .word   .Lsrl_n32768, 100, .Lsrl15_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl15_store
 .Lsrl15_store:
@@ -43371,135 +43361,135 @@ __subleq_srl:
 
 .Lsrl_shift_16:
         .word   168, 168, .+4
-        .word   144, 164, .Lsrl16_b31_chk
+        .word   144, 100, .Lsrl16_b31_chk
         .word   12, 12, .Lsrl16_b31_setup
 .Lsrl16_b31_chk:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsrl16_b31_ambig
         .word   12, 12, .Lsrl16_b31_set
 .Lsrl16_b31_ambig:
         .word   .Lsrl_one, 172, .+4
         .word   144, 172, .Lsrl16_b31_setup
 .Lsrl16_b31_set:
-        .word   .Lsrl_c2147483648, 164, .+4
+        .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n32768, 168, .+4
 .Lsrl16_b31_setup:
-        .word   .Lsrl_negone, 164, .+4
+        .word   .Lsrl_negone, 100, .+4
 .Lsrl16_b30_Pos:
-        .word   .Lsrl_c1073741824, 164, .Lsrl16_b29_Neg
+        .word   .Lsrl_c1073741824, 100, .Lsrl16_b29_Neg
         .word   .Lsrl_n16384, 168, .+4
         .word   12, 12, .Lsrl16_b29_Pos
 .Lsrl16_b29_Pos:
-        .word   .Lsrl_c536870912, 164, .Lsrl16_b28_Neg
+        .word   .Lsrl_c536870912, 100, .Lsrl16_b28_Neg
         .word   .Lsrl_n8192, 168, .+4
         .word   12, 12, .Lsrl16_b28_Pos
 .Lsrl16_b29_Neg:
-        .word   .Lsrl_n536870912, 164, .Lsrl16_b28_Neg
+        .word   .Lsrl_n536870912, 100, .Lsrl16_b28_Neg
         .word   .Lsrl_n8192, 168, .+4
         .word   12, 12, .Lsrl16_b28_Pos
 .Lsrl16_b28_Pos:
-        .word   .Lsrl_c268435456, 164, .Lsrl16_b27_Neg
+        .word   .Lsrl_c268435456, 100, .Lsrl16_b27_Neg
         .word   .Lsrl_n4096, 168, .+4
         .word   12, 12, .Lsrl16_b27_Pos
 .Lsrl16_b28_Neg:
-        .word   .Lsrl_n268435456, 164, .Lsrl16_b27_Neg
+        .word   .Lsrl_n268435456, 100, .Lsrl16_b27_Neg
         .word   .Lsrl_n4096, 168, .+4
         .word   12, 12, .Lsrl16_b27_Pos
 .Lsrl16_b27_Pos:
-        .word   .Lsrl_c134217728, 164, .Lsrl16_b26_Neg
+        .word   .Lsrl_c134217728, 100, .Lsrl16_b26_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl16_b26_Pos
 .Lsrl16_b27_Neg:
-        .word   .Lsrl_n134217728, 164, .Lsrl16_b26_Neg
+        .word   .Lsrl_n134217728, 100, .Lsrl16_b26_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl16_b26_Pos
 .Lsrl16_b26_Pos:
-        .word   .Lsrl_c67108864, 164, .Lsrl16_b25_Neg
+        .word   .Lsrl_c67108864, 100, .Lsrl16_b25_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl16_b25_Pos
 .Lsrl16_b26_Neg:
-        .word   .Lsrl_n67108864, 164, .Lsrl16_b25_Neg
+        .word   .Lsrl_n67108864, 100, .Lsrl16_b25_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl16_b25_Pos
 .Lsrl16_b25_Pos:
-        .word   .Lsrl_c33554432, 164, .Lsrl16_b24_Neg
+        .word   .Lsrl_c33554432, 100, .Lsrl16_b24_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl16_b24_Pos
 .Lsrl16_b25_Neg:
-        .word   .Lsrl_n33554432, 164, .Lsrl16_b24_Neg
+        .word   .Lsrl_n33554432, 100, .Lsrl16_b24_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl16_b24_Pos
 .Lsrl16_b24_Pos:
-        .word   .Lsrl_c16777216, 164, .Lsrl16_b23_Neg
+        .word   .Lsrl_c16777216, 100, .Lsrl16_b23_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl16_b23_Pos
 .Lsrl16_b24_Neg:
-        .word   .Lsrl_n16777216, 164, .Lsrl16_b23_Neg
+        .word   .Lsrl_n16777216, 100, .Lsrl16_b23_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl16_b23_Pos
 .Lsrl16_b23_Pos:
-        .word   .Lsrl_c8388608, 164, .Lsrl16_b22_Neg
+        .word   .Lsrl_c8388608, 100, .Lsrl16_b22_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl16_b22_Pos
 .Lsrl16_b23_Neg:
-        .word   .Lsrl_n8388608, 164, .Lsrl16_b22_Neg
+        .word   .Lsrl_n8388608, 100, .Lsrl16_b22_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl16_b22_Pos
 .Lsrl16_b22_Pos:
-        .word   .Lsrl_c4194304, 164, .Lsrl16_b21_Neg
+        .word   .Lsrl_c4194304, 100, .Lsrl16_b21_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl16_b21_Pos
 .Lsrl16_b22_Neg:
-        .word   .Lsrl_n4194304, 164, .Lsrl16_b21_Neg
+        .word   .Lsrl_n4194304, 100, .Lsrl16_b21_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl16_b21_Pos
 .Lsrl16_b21_Pos:
-        .word   .Lsrl_c2097152, 164, .Lsrl16_b20_Neg
+        .word   .Lsrl_c2097152, 100, .Lsrl16_b20_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl16_b20_Pos
 .Lsrl16_b21_Neg:
-        .word   .Lsrl_n2097152, 164, .Lsrl16_b20_Neg
+        .word   .Lsrl_n2097152, 100, .Lsrl16_b20_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl16_b20_Pos
 .Lsrl16_b20_Pos:
-        .word   .Lsrl_c1048576, 164, .Lsrl16_b19_Neg
+        .word   .Lsrl_c1048576, 100, .Lsrl16_b19_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl16_b19_Pos
 .Lsrl16_b20_Neg:
-        .word   .Lsrl_n1048576, 164, .Lsrl16_b19_Neg
+        .word   .Lsrl_n1048576, 100, .Lsrl16_b19_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl16_b19_Pos
 .Lsrl16_b19_Pos:
-        .word   .Lsrl_c524288, 164, .Lsrl16_b18_Neg
+        .word   .Lsrl_c524288, 100, .Lsrl16_b18_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl16_b18_Pos
 .Lsrl16_b19_Neg:
-        .word   .Lsrl_n524288, 164, .Lsrl16_b18_Neg
+        .word   .Lsrl_n524288, 100, .Lsrl16_b18_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl16_b18_Pos
 .Lsrl16_b18_Pos:
-        .word   .Lsrl_c262144, 164, .Lsrl16_b17_Neg
+        .word   .Lsrl_c262144, 100, .Lsrl16_b17_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl16_b17_Pos
 .Lsrl16_b18_Neg:
-        .word   .Lsrl_n262144, 164, .Lsrl16_b17_Neg
+        .word   .Lsrl_n262144, 100, .Lsrl16_b17_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl16_b17_Pos
 .Lsrl16_b17_Pos:
-        .word   .Lsrl_c131072, 164, .Lsrl16_b16_Neg
+        .word   .Lsrl_c131072, 100, .Lsrl16_b16_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl16_b16_Pos
 .Lsrl16_b17_Neg:
-        .word   .Lsrl_n131072, 164, .Lsrl16_b16_Neg
+        .word   .Lsrl_n131072, 100, .Lsrl16_b16_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl16_b16_Pos
 .Lsrl16_b16_Pos:
-        .word   .Lsrl_c65536, 164, .Lsrl16_store
+        .word   .Lsrl_c65536, 100, .Lsrl16_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl16_store
 .Lsrl16_b16_Neg:
-        .word   .Lsrl_n65536, 164, .Lsrl16_store
+        .word   .Lsrl_n65536, 100, .Lsrl16_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl16_store
 .Lsrl16_store:
@@ -43511,127 +43501,127 @@ __subleq_srl:
 
 .Lsrl_shift_17:
         .word   168, 168, .+4
-        .word   144, 164, .Lsrl17_b31_chk
+        .word   144, 100, .Lsrl17_b31_chk
         .word   12, 12, .Lsrl17_b31_setup
 .Lsrl17_b31_chk:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsrl17_b31_ambig
         .word   12, 12, .Lsrl17_b31_set
 .Lsrl17_b31_ambig:
         .word   .Lsrl_one, 172, .+4
         .word   144, 172, .Lsrl17_b31_setup
 .Lsrl17_b31_set:
-        .word   .Lsrl_c2147483648, 164, .+4
+        .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n16384, 168, .+4
 .Lsrl17_b31_setup:
-        .word   .Lsrl_negone, 164, .+4
+        .word   .Lsrl_negone, 100, .+4
 .Lsrl17_b30_Pos:
-        .word   .Lsrl_c1073741824, 164, .Lsrl17_b29_Neg
+        .word   .Lsrl_c1073741824, 100, .Lsrl17_b29_Neg
         .word   .Lsrl_n8192, 168, .+4
         .word   12, 12, .Lsrl17_b29_Pos
 .Lsrl17_b29_Pos:
-        .word   .Lsrl_c536870912, 164, .Lsrl17_b28_Neg
+        .word   .Lsrl_c536870912, 100, .Lsrl17_b28_Neg
         .word   .Lsrl_n4096, 168, .+4
         .word   12, 12, .Lsrl17_b28_Pos
 .Lsrl17_b29_Neg:
-        .word   .Lsrl_n536870912, 164, .Lsrl17_b28_Neg
+        .word   .Lsrl_n536870912, 100, .Lsrl17_b28_Neg
         .word   .Lsrl_n4096, 168, .+4
         .word   12, 12, .Lsrl17_b28_Pos
 .Lsrl17_b28_Pos:
-        .word   .Lsrl_c268435456, 164, .Lsrl17_b27_Neg
+        .word   .Lsrl_c268435456, 100, .Lsrl17_b27_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl17_b27_Pos
 .Lsrl17_b28_Neg:
-        .word   .Lsrl_n268435456, 164, .Lsrl17_b27_Neg
+        .word   .Lsrl_n268435456, 100, .Lsrl17_b27_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl17_b27_Pos
 .Lsrl17_b27_Pos:
-        .word   .Lsrl_c134217728, 164, .Lsrl17_b26_Neg
+        .word   .Lsrl_c134217728, 100, .Lsrl17_b26_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl17_b26_Pos
 .Lsrl17_b27_Neg:
-        .word   .Lsrl_n134217728, 164, .Lsrl17_b26_Neg
+        .word   .Lsrl_n134217728, 100, .Lsrl17_b26_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl17_b26_Pos
 .Lsrl17_b26_Pos:
-        .word   .Lsrl_c67108864, 164, .Lsrl17_b25_Neg
+        .word   .Lsrl_c67108864, 100, .Lsrl17_b25_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl17_b25_Pos
 .Lsrl17_b26_Neg:
-        .word   .Lsrl_n67108864, 164, .Lsrl17_b25_Neg
+        .word   .Lsrl_n67108864, 100, .Lsrl17_b25_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl17_b25_Pos
 .Lsrl17_b25_Pos:
-        .word   .Lsrl_c33554432, 164, .Lsrl17_b24_Neg
+        .word   .Lsrl_c33554432, 100, .Lsrl17_b24_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl17_b24_Pos
 .Lsrl17_b25_Neg:
-        .word   .Lsrl_n33554432, 164, .Lsrl17_b24_Neg
+        .word   .Lsrl_n33554432, 100, .Lsrl17_b24_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl17_b24_Pos
 .Lsrl17_b24_Pos:
-        .word   .Lsrl_c16777216, 164, .Lsrl17_b23_Neg
+        .word   .Lsrl_c16777216, 100, .Lsrl17_b23_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl17_b23_Pos
 .Lsrl17_b24_Neg:
-        .word   .Lsrl_n16777216, 164, .Lsrl17_b23_Neg
+        .word   .Lsrl_n16777216, 100, .Lsrl17_b23_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl17_b23_Pos
 .Lsrl17_b23_Pos:
-        .word   .Lsrl_c8388608, 164, .Lsrl17_b22_Neg
+        .word   .Lsrl_c8388608, 100, .Lsrl17_b22_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl17_b22_Pos
 .Lsrl17_b23_Neg:
-        .word   .Lsrl_n8388608, 164, .Lsrl17_b22_Neg
+        .word   .Lsrl_n8388608, 100, .Lsrl17_b22_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl17_b22_Pos
 .Lsrl17_b22_Pos:
-        .word   .Lsrl_c4194304, 164, .Lsrl17_b21_Neg
+        .word   .Lsrl_c4194304, 100, .Lsrl17_b21_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl17_b21_Pos
 .Lsrl17_b22_Neg:
-        .word   .Lsrl_n4194304, 164, .Lsrl17_b21_Neg
+        .word   .Lsrl_n4194304, 100, .Lsrl17_b21_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl17_b21_Pos
 .Lsrl17_b21_Pos:
-        .word   .Lsrl_c2097152, 164, .Lsrl17_b20_Neg
+        .word   .Lsrl_c2097152, 100, .Lsrl17_b20_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl17_b20_Pos
 .Lsrl17_b21_Neg:
-        .word   .Lsrl_n2097152, 164, .Lsrl17_b20_Neg
+        .word   .Lsrl_n2097152, 100, .Lsrl17_b20_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl17_b20_Pos
 .Lsrl17_b20_Pos:
-        .word   .Lsrl_c1048576, 164, .Lsrl17_b19_Neg
+        .word   .Lsrl_c1048576, 100, .Lsrl17_b19_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl17_b19_Pos
 .Lsrl17_b20_Neg:
-        .word   .Lsrl_n1048576, 164, .Lsrl17_b19_Neg
+        .word   .Lsrl_n1048576, 100, .Lsrl17_b19_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl17_b19_Pos
 .Lsrl17_b19_Pos:
-        .word   .Lsrl_c524288, 164, .Lsrl17_b18_Neg
+        .word   .Lsrl_c524288, 100, .Lsrl17_b18_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl17_b18_Pos
 .Lsrl17_b19_Neg:
-        .word   .Lsrl_n524288, 164, .Lsrl17_b18_Neg
+        .word   .Lsrl_n524288, 100, .Lsrl17_b18_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl17_b18_Pos
 .Lsrl17_b18_Pos:
-        .word   .Lsrl_c262144, 164, .Lsrl17_b17_Neg
+        .word   .Lsrl_c262144, 100, .Lsrl17_b17_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl17_b17_Pos
 .Lsrl17_b18_Neg:
-        .word   .Lsrl_n262144, 164, .Lsrl17_b17_Neg
+        .word   .Lsrl_n262144, 100, .Lsrl17_b17_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl17_b17_Pos
 .Lsrl17_b17_Pos:
-        .word   .Lsrl_c131072, 164, .Lsrl17_store
+        .word   .Lsrl_c131072, 100, .Lsrl17_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl17_store
 .Lsrl17_b17_Neg:
-        .word   .Lsrl_n131072, 164, .Lsrl17_store
+        .word   .Lsrl_n131072, 100, .Lsrl17_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl17_store
 .Lsrl17_store:
@@ -43643,119 +43633,119 @@ __subleq_srl:
 
 .Lsrl_shift_18:
         .word   168, 168, .+4
-        .word   144, 164, .Lsrl18_b31_chk
+        .word   144, 100, .Lsrl18_b31_chk
         .word   12, 12, .Lsrl18_b31_setup
 .Lsrl18_b31_chk:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsrl18_b31_ambig
         .word   12, 12, .Lsrl18_b31_set
 .Lsrl18_b31_ambig:
         .word   .Lsrl_one, 172, .+4
         .word   144, 172, .Lsrl18_b31_setup
 .Lsrl18_b31_set:
-        .word   .Lsrl_c2147483648, 164, .+4
+        .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n8192, 168, .+4
 .Lsrl18_b31_setup:
-        .word   .Lsrl_negone, 164, .+4
+        .word   .Lsrl_negone, 100, .+4
 .Lsrl18_b30_Pos:
-        .word   .Lsrl_c1073741824, 164, .Lsrl18_b29_Neg
+        .word   .Lsrl_c1073741824, 100, .Lsrl18_b29_Neg
         .word   .Lsrl_n4096, 168, .+4
         .word   12, 12, .Lsrl18_b29_Pos
 .Lsrl18_b29_Pos:
-        .word   .Lsrl_c536870912, 164, .Lsrl18_b28_Neg
+        .word   .Lsrl_c536870912, 100, .Lsrl18_b28_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl18_b28_Pos
 .Lsrl18_b29_Neg:
-        .word   .Lsrl_n536870912, 164, .Lsrl18_b28_Neg
+        .word   .Lsrl_n536870912, 100, .Lsrl18_b28_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl18_b28_Pos
 .Lsrl18_b28_Pos:
-        .word   .Lsrl_c268435456, 164, .Lsrl18_b27_Neg
+        .word   .Lsrl_c268435456, 100, .Lsrl18_b27_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl18_b27_Pos
 .Lsrl18_b28_Neg:
-        .word   .Lsrl_n268435456, 164, .Lsrl18_b27_Neg
+        .word   .Lsrl_n268435456, 100, .Lsrl18_b27_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl18_b27_Pos
 .Lsrl18_b27_Pos:
-        .word   .Lsrl_c134217728, 164, .Lsrl18_b26_Neg
+        .word   .Lsrl_c134217728, 100, .Lsrl18_b26_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl18_b26_Pos
 .Lsrl18_b27_Neg:
-        .word   .Lsrl_n134217728, 164, .Lsrl18_b26_Neg
+        .word   .Lsrl_n134217728, 100, .Lsrl18_b26_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl18_b26_Pos
 .Lsrl18_b26_Pos:
-        .word   .Lsrl_c67108864, 164, .Lsrl18_b25_Neg
+        .word   .Lsrl_c67108864, 100, .Lsrl18_b25_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl18_b25_Pos
 .Lsrl18_b26_Neg:
-        .word   .Lsrl_n67108864, 164, .Lsrl18_b25_Neg
+        .word   .Lsrl_n67108864, 100, .Lsrl18_b25_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl18_b25_Pos
 .Lsrl18_b25_Pos:
-        .word   .Lsrl_c33554432, 164, .Lsrl18_b24_Neg
+        .word   .Lsrl_c33554432, 100, .Lsrl18_b24_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl18_b24_Pos
 .Lsrl18_b25_Neg:
-        .word   .Lsrl_n33554432, 164, .Lsrl18_b24_Neg
+        .word   .Lsrl_n33554432, 100, .Lsrl18_b24_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl18_b24_Pos
 .Lsrl18_b24_Pos:
-        .word   .Lsrl_c16777216, 164, .Lsrl18_b23_Neg
+        .word   .Lsrl_c16777216, 100, .Lsrl18_b23_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl18_b23_Pos
 .Lsrl18_b24_Neg:
-        .word   .Lsrl_n16777216, 164, .Lsrl18_b23_Neg
+        .word   .Lsrl_n16777216, 100, .Lsrl18_b23_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl18_b23_Pos
 .Lsrl18_b23_Pos:
-        .word   .Lsrl_c8388608, 164, .Lsrl18_b22_Neg
+        .word   .Lsrl_c8388608, 100, .Lsrl18_b22_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl18_b22_Pos
 .Lsrl18_b23_Neg:
-        .word   .Lsrl_n8388608, 164, .Lsrl18_b22_Neg
+        .word   .Lsrl_n8388608, 100, .Lsrl18_b22_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl18_b22_Pos
 .Lsrl18_b22_Pos:
-        .word   .Lsrl_c4194304, 164, .Lsrl18_b21_Neg
+        .word   .Lsrl_c4194304, 100, .Lsrl18_b21_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl18_b21_Pos
 .Lsrl18_b22_Neg:
-        .word   .Lsrl_n4194304, 164, .Lsrl18_b21_Neg
+        .word   .Lsrl_n4194304, 100, .Lsrl18_b21_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl18_b21_Pos
 .Lsrl18_b21_Pos:
-        .word   .Lsrl_c2097152, 164, .Lsrl18_b20_Neg
+        .word   .Lsrl_c2097152, 100, .Lsrl18_b20_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl18_b20_Pos
 .Lsrl18_b21_Neg:
-        .word   .Lsrl_n2097152, 164, .Lsrl18_b20_Neg
+        .word   .Lsrl_n2097152, 100, .Lsrl18_b20_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl18_b20_Pos
 .Lsrl18_b20_Pos:
-        .word   .Lsrl_c1048576, 164, .Lsrl18_b19_Neg
+        .word   .Lsrl_c1048576, 100, .Lsrl18_b19_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl18_b19_Pos
 .Lsrl18_b20_Neg:
-        .word   .Lsrl_n1048576, 164, .Lsrl18_b19_Neg
+        .word   .Lsrl_n1048576, 100, .Lsrl18_b19_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl18_b19_Pos
 .Lsrl18_b19_Pos:
-        .word   .Lsrl_c524288, 164, .Lsrl18_b18_Neg
+        .word   .Lsrl_c524288, 100, .Lsrl18_b18_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl18_b18_Pos
 .Lsrl18_b19_Neg:
-        .word   .Lsrl_n524288, 164, .Lsrl18_b18_Neg
+        .word   .Lsrl_n524288, 100, .Lsrl18_b18_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl18_b18_Pos
 .Lsrl18_b18_Pos:
-        .word   .Lsrl_c262144, 164, .Lsrl18_store
+        .word   .Lsrl_c262144, 100, .Lsrl18_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl18_store
 .Lsrl18_b18_Neg:
-        .word   .Lsrl_n262144, 164, .Lsrl18_store
+        .word   .Lsrl_n262144, 100, .Lsrl18_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl18_store
 .Lsrl18_store:
@@ -43767,111 +43757,111 @@ __subleq_srl:
 
 .Lsrl_shift_19:
         .word   168, 168, .+4
-        .word   144, 164, .Lsrl19_b31_chk
+        .word   144, 100, .Lsrl19_b31_chk
         .word   12, 12, .Lsrl19_b31_setup
 .Lsrl19_b31_chk:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsrl19_b31_ambig
         .word   12, 12, .Lsrl19_b31_set
 .Lsrl19_b31_ambig:
         .word   .Lsrl_one, 172, .+4
         .word   144, 172, .Lsrl19_b31_setup
 .Lsrl19_b31_set:
-        .word   .Lsrl_c2147483648, 164, .+4
+        .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n4096, 168, .+4
 .Lsrl19_b31_setup:
-        .word   .Lsrl_negone, 164, .+4
+        .word   .Lsrl_negone, 100, .+4
 .Lsrl19_b30_Pos:
-        .word   .Lsrl_c1073741824, 164, .Lsrl19_b29_Neg
+        .word   .Lsrl_c1073741824, 100, .Lsrl19_b29_Neg
         .word   .Lsrl_n2048, 168, .+4
         .word   12, 12, .Lsrl19_b29_Pos
 .Lsrl19_b29_Pos:
-        .word   .Lsrl_c536870912, 164, .Lsrl19_b28_Neg
+        .word   .Lsrl_c536870912, 100, .Lsrl19_b28_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl19_b28_Pos
 .Lsrl19_b29_Neg:
-        .word   .Lsrl_n536870912, 164, .Lsrl19_b28_Neg
+        .word   .Lsrl_n536870912, 100, .Lsrl19_b28_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl19_b28_Pos
 .Lsrl19_b28_Pos:
-        .word   .Lsrl_c268435456, 164, .Lsrl19_b27_Neg
+        .word   .Lsrl_c268435456, 100, .Lsrl19_b27_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl19_b27_Pos
 .Lsrl19_b28_Neg:
-        .word   .Lsrl_n268435456, 164, .Lsrl19_b27_Neg
+        .word   .Lsrl_n268435456, 100, .Lsrl19_b27_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl19_b27_Pos
 .Lsrl19_b27_Pos:
-        .word   .Lsrl_c134217728, 164, .Lsrl19_b26_Neg
+        .word   .Lsrl_c134217728, 100, .Lsrl19_b26_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl19_b26_Pos
 .Lsrl19_b27_Neg:
-        .word   .Lsrl_n134217728, 164, .Lsrl19_b26_Neg
+        .word   .Lsrl_n134217728, 100, .Lsrl19_b26_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl19_b26_Pos
 .Lsrl19_b26_Pos:
-        .word   .Lsrl_c67108864, 164, .Lsrl19_b25_Neg
+        .word   .Lsrl_c67108864, 100, .Lsrl19_b25_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl19_b25_Pos
 .Lsrl19_b26_Neg:
-        .word   .Lsrl_n67108864, 164, .Lsrl19_b25_Neg
+        .word   .Lsrl_n67108864, 100, .Lsrl19_b25_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl19_b25_Pos
 .Lsrl19_b25_Pos:
-        .word   .Lsrl_c33554432, 164, .Lsrl19_b24_Neg
+        .word   .Lsrl_c33554432, 100, .Lsrl19_b24_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl19_b24_Pos
 .Lsrl19_b25_Neg:
-        .word   .Lsrl_n33554432, 164, .Lsrl19_b24_Neg
+        .word   .Lsrl_n33554432, 100, .Lsrl19_b24_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl19_b24_Pos
 .Lsrl19_b24_Pos:
-        .word   .Lsrl_c16777216, 164, .Lsrl19_b23_Neg
+        .word   .Lsrl_c16777216, 100, .Lsrl19_b23_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl19_b23_Pos
 .Lsrl19_b24_Neg:
-        .word   .Lsrl_n16777216, 164, .Lsrl19_b23_Neg
+        .word   .Lsrl_n16777216, 100, .Lsrl19_b23_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl19_b23_Pos
 .Lsrl19_b23_Pos:
-        .word   .Lsrl_c8388608, 164, .Lsrl19_b22_Neg
+        .word   .Lsrl_c8388608, 100, .Lsrl19_b22_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl19_b22_Pos
 .Lsrl19_b23_Neg:
-        .word   .Lsrl_n8388608, 164, .Lsrl19_b22_Neg
+        .word   .Lsrl_n8388608, 100, .Lsrl19_b22_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl19_b22_Pos
 .Lsrl19_b22_Pos:
-        .word   .Lsrl_c4194304, 164, .Lsrl19_b21_Neg
+        .word   .Lsrl_c4194304, 100, .Lsrl19_b21_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl19_b21_Pos
 .Lsrl19_b22_Neg:
-        .word   .Lsrl_n4194304, 164, .Lsrl19_b21_Neg
+        .word   .Lsrl_n4194304, 100, .Lsrl19_b21_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl19_b21_Pos
 .Lsrl19_b21_Pos:
-        .word   .Lsrl_c2097152, 164, .Lsrl19_b20_Neg
+        .word   .Lsrl_c2097152, 100, .Lsrl19_b20_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl19_b20_Pos
 .Lsrl19_b21_Neg:
-        .word   .Lsrl_n2097152, 164, .Lsrl19_b20_Neg
+        .word   .Lsrl_n2097152, 100, .Lsrl19_b20_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl19_b20_Pos
 .Lsrl19_b20_Pos:
-        .word   .Lsrl_c1048576, 164, .Lsrl19_b19_Neg
+        .word   .Lsrl_c1048576, 100, .Lsrl19_b19_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl19_b19_Pos
 .Lsrl19_b20_Neg:
-        .word   .Lsrl_n1048576, 164, .Lsrl19_b19_Neg
+        .word   .Lsrl_n1048576, 100, .Lsrl19_b19_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl19_b19_Pos
 .Lsrl19_b19_Pos:
-        .word   .Lsrl_c524288, 164, .Lsrl19_store
+        .word   .Lsrl_c524288, 100, .Lsrl19_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl19_store
 .Lsrl19_b19_Neg:
-        .word   .Lsrl_n524288, 164, .Lsrl19_store
+        .word   .Lsrl_n524288, 100, .Lsrl19_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl19_store
 .Lsrl19_store:
@@ -43883,103 +43873,103 @@ __subleq_srl:
 
 .Lsrl_shift_20:
         .word   168, 168, .+4
-        .word   144, 164, .Lsrl20_b31_chk
+        .word   144, 100, .Lsrl20_b31_chk
         .word   12, 12, .Lsrl20_b31_setup
 .Lsrl20_b31_chk:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsrl20_b31_ambig
         .word   12, 12, .Lsrl20_b31_set
 .Lsrl20_b31_ambig:
         .word   .Lsrl_one, 172, .+4
         .word   144, 172, .Lsrl20_b31_setup
 .Lsrl20_b31_set:
-        .word   .Lsrl_c2147483648, 164, .+4
+        .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n2048, 168, .+4
 .Lsrl20_b31_setup:
-        .word   .Lsrl_negone, 164, .+4
+        .word   .Lsrl_negone, 100, .+4
 .Lsrl20_b30_Pos:
-        .word   .Lsrl_c1073741824, 164, .Lsrl20_b29_Neg
+        .word   .Lsrl_c1073741824, 100, .Lsrl20_b29_Neg
         .word   .Lsrl_n1024, 168, .+4
         .word   12, 12, .Lsrl20_b29_Pos
 .Lsrl20_b29_Pos:
-        .word   .Lsrl_c536870912, 164, .Lsrl20_b28_Neg
+        .word   .Lsrl_c536870912, 100, .Lsrl20_b28_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl20_b28_Pos
 .Lsrl20_b29_Neg:
-        .word   .Lsrl_n536870912, 164, .Lsrl20_b28_Neg
+        .word   .Lsrl_n536870912, 100, .Lsrl20_b28_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl20_b28_Pos
 .Lsrl20_b28_Pos:
-        .word   .Lsrl_c268435456, 164, .Lsrl20_b27_Neg
+        .word   .Lsrl_c268435456, 100, .Lsrl20_b27_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl20_b27_Pos
 .Lsrl20_b28_Neg:
-        .word   .Lsrl_n268435456, 164, .Lsrl20_b27_Neg
+        .word   .Lsrl_n268435456, 100, .Lsrl20_b27_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl20_b27_Pos
 .Lsrl20_b27_Pos:
-        .word   .Lsrl_c134217728, 164, .Lsrl20_b26_Neg
+        .word   .Lsrl_c134217728, 100, .Lsrl20_b26_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl20_b26_Pos
 .Lsrl20_b27_Neg:
-        .word   .Lsrl_n134217728, 164, .Lsrl20_b26_Neg
+        .word   .Lsrl_n134217728, 100, .Lsrl20_b26_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl20_b26_Pos
 .Lsrl20_b26_Pos:
-        .word   .Lsrl_c67108864, 164, .Lsrl20_b25_Neg
+        .word   .Lsrl_c67108864, 100, .Lsrl20_b25_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl20_b25_Pos
 .Lsrl20_b26_Neg:
-        .word   .Lsrl_n67108864, 164, .Lsrl20_b25_Neg
+        .word   .Lsrl_n67108864, 100, .Lsrl20_b25_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl20_b25_Pos
 .Lsrl20_b25_Pos:
-        .word   .Lsrl_c33554432, 164, .Lsrl20_b24_Neg
+        .word   .Lsrl_c33554432, 100, .Lsrl20_b24_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl20_b24_Pos
 .Lsrl20_b25_Neg:
-        .word   .Lsrl_n33554432, 164, .Lsrl20_b24_Neg
+        .word   .Lsrl_n33554432, 100, .Lsrl20_b24_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl20_b24_Pos
 .Lsrl20_b24_Pos:
-        .word   .Lsrl_c16777216, 164, .Lsrl20_b23_Neg
+        .word   .Lsrl_c16777216, 100, .Lsrl20_b23_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl20_b23_Pos
 .Lsrl20_b24_Neg:
-        .word   .Lsrl_n16777216, 164, .Lsrl20_b23_Neg
+        .word   .Lsrl_n16777216, 100, .Lsrl20_b23_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl20_b23_Pos
 .Lsrl20_b23_Pos:
-        .word   .Lsrl_c8388608, 164, .Lsrl20_b22_Neg
+        .word   .Lsrl_c8388608, 100, .Lsrl20_b22_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl20_b22_Pos
 .Lsrl20_b23_Neg:
-        .word   .Lsrl_n8388608, 164, .Lsrl20_b22_Neg
+        .word   .Lsrl_n8388608, 100, .Lsrl20_b22_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl20_b22_Pos
 .Lsrl20_b22_Pos:
-        .word   .Lsrl_c4194304, 164, .Lsrl20_b21_Neg
+        .word   .Lsrl_c4194304, 100, .Lsrl20_b21_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl20_b21_Pos
 .Lsrl20_b22_Neg:
-        .word   .Lsrl_n4194304, 164, .Lsrl20_b21_Neg
+        .word   .Lsrl_n4194304, 100, .Lsrl20_b21_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl20_b21_Pos
 .Lsrl20_b21_Pos:
-        .word   .Lsrl_c2097152, 164, .Lsrl20_b20_Neg
+        .word   .Lsrl_c2097152, 100, .Lsrl20_b20_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl20_b20_Pos
 .Lsrl20_b21_Neg:
-        .word   .Lsrl_n2097152, 164, .Lsrl20_b20_Neg
+        .word   .Lsrl_n2097152, 100, .Lsrl20_b20_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl20_b20_Pos
 .Lsrl20_b20_Pos:
-        .word   .Lsrl_c1048576, 164, .Lsrl20_store
+        .word   .Lsrl_c1048576, 100, .Lsrl20_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl20_store
 .Lsrl20_b20_Neg:
-        .word   .Lsrl_n1048576, 164, .Lsrl20_store
+        .word   .Lsrl_n1048576, 100, .Lsrl20_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl20_store
 .Lsrl20_store:
@@ -43991,95 +43981,95 @@ __subleq_srl:
 
 .Lsrl_shift_21:
         .word   168, 168, .+4
-        .word   144, 164, .Lsrl21_b31_chk
+        .word   144, 100, .Lsrl21_b31_chk
         .word   12, 12, .Lsrl21_b31_setup
 .Lsrl21_b31_chk:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsrl21_b31_ambig
         .word   12, 12, .Lsrl21_b31_set
 .Lsrl21_b31_ambig:
         .word   .Lsrl_one, 172, .+4
         .word   144, 172, .Lsrl21_b31_setup
 .Lsrl21_b31_set:
-        .word   .Lsrl_c2147483648, 164, .+4
+        .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n1024, 168, .+4
 .Lsrl21_b31_setup:
-        .word   .Lsrl_negone, 164, .+4
+        .word   .Lsrl_negone, 100, .+4
 .Lsrl21_b30_Pos:
-        .word   .Lsrl_c1073741824, 164, .Lsrl21_b29_Neg
+        .word   .Lsrl_c1073741824, 100, .Lsrl21_b29_Neg
         .word   .Lsrl_n512, 168, .+4
         .word   12, 12, .Lsrl21_b29_Pos
 .Lsrl21_b29_Pos:
-        .word   .Lsrl_c536870912, 164, .Lsrl21_b28_Neg
+        .word   .Lsrl_c536870912, 100, .Lsrl21_b28_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl21_b28_Pos
 .Lsrl21_b29_Neg:
-        .word   .Lsrl_n536870912, 164, .Lsrl21_b28_Neg
+        .word   .Lsrl_n536870912, 100, .Lsrl21_b28_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl21_b28_Pos
 .Lsrl21_b28_Pos:
-        .word   .Lsrl_c268435456, 164, .Lsrl21_b27_Neg
+        .word   .Lsrl_c268435456, 100, .Lsrl21_b27_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl21_b27_Pos
 .Lsrl21_b28_Neg:
-        .word   .Lsrl_n268435456, 164, .Lsrl21_b27_Neg
+        .word   .Lsrl_n268435456, 100, .Lsrl21_b27_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl21_b27_Pos
 .Lsrl21_b27_Pos:
-        .word   .Lsrl_c134217728, 164, .Lsrl21_b26_Neg
+        .word   .Lsrl_c134217728, 100, .Lsrl21_b26_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl21_b26_Pos
 .Lsrl21_b27_Neg:
-        .word   .Lsrl_n134217728, 164, .Lsrl21_b26_Neg
+        .word   .Lsrl_n134217728, 100, .Lsrl21_b26_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl21_b26_Pos
 .Lsrl21_b26_Pos:
-        .word   .Lsrl_c67108864, 164, .Lsrl21_b25_Neg
+        .word   .Lsrl_c67108864, 100, .Lsrl21_b25_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl21_b25_Pos
 .Lsrl21_b26_Neg:
-        .word   .Lsrl_n67108864, 164, .Lsrl21_b25_Neg
+        .word   .Lsrl_n67108864, 100, .Lsrl21_b25_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl21_b25_Pos
 .Lsrl21_b25_Pos:
-        .word   .Lsrl_c33554432, 164, .Lsrl21_b24_Neg
+        .word   .Lsrl_c33554432, 100, .Lsrl21_b24_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl21_b24_Pos
 .Lsrl21_b25_Neg:
-        .word   .Lsrl_n33554432, 164, .Lsrl21_b24_Neg
+        .word   .Lsrl_n33554432, 100, .Lsrl21_b24_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl21_b24_Pos
 .Lsrl21_b24_Pos:
-        .word   .Lsrl_c16777216, 164, .Lsrl21_b23_Neg
+        .word   .Lsrl_c16777216, 100, .Lsrl21_b23_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl21_b23_Pos
 .Lsrl21_b24_Neg:
-        .word   .Lsrl_n16777216, 164, .Lsrl21_b23_Neg
+        .word   .Lsrl_n16777216, 100, .Lsrl21_b23_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl21_b23_Pos
 .Lsrl21_b23_Pos:
-        .word   .Lsrl_c8388608, 164, .Lsrl21_b22_Neg
+        .word   .Lsrl_c8388608, 100, .Lsrl21_b22_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl21_b22_Pos
 .Lsrl21_b23_Neg:
-        .word   .Lsrl_n8388608, 164, .Lsrl21_b22_Neg
+        .word   .Lsrl_n8388608, 100, .Lsrl21_b22_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl21_b22_Pos
 .Lsrl21_b22_Pos:
-        .word   .Lsrl_c4194304, 164, .Lsrl21_b21_Neg
+        .word   .Lsrl_c4194304, 100, .Lsrl21_b21_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl21_b21_Pos
 .Lsrl21_b22_Neg:
-        .word   .Lsrl_n4194304, 164, .Lsrl21_b21_Neg
+        .word   .Lsrl_n4194304, 100, .Lsrl21_b21_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl21_b21_Pos
 .Lsrl21_b21_Pos:
-        .word   .Lsrl_c2097152, 164, .Lsrl21_store
+        .word   .Lsrl_c2097152, 100, .Lsrl21_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl21_store
 .Lsrl21_b21_Neg:
-        .word   .Lsrl_n2097152, 164, .Lsrl21_store
+        .word   .Lsrl_n2097152, 100, .Lsrl21_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl21_store
 .Lsrl21_store:
@@ -44091,87 +44081,87 @@ __subleq_srl:
 
 .Lsrl_shift_22:
         .word   168, 168, .+4
-        .word   144, 164, .Lsrl22_b31_chk
+        .word   144, 100, .Lsrl22_b31_chk
         .word   12, 12, .Lsrl22_b31_setup
 .Lsrl22_b31_chk:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsrl22_b31_ambig
         .word   12, 12, .Lsrl22_b31_set
 .Lsrl22_b31_ambig:
         .word   .Lsrl_one, 172, .+4
         .word   144, 172, .Lsrl22_b31_setup
 .Lsrl22_b31_set:
-        .word   .Lsrl_c2147483648, 164, .+4
+        .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n512, 168, .+4
 .Lsrl22_b31_setup:
-        .word   .Lsrl_negone, 164, .+4
+        .word   .Lsrl_negone, 100, .+4
 .Lsrl22_b30_Pos:
-        .word   .Lsrl_c1073741824, 164, .Lsrl22_b29_Neg
+        .word   .Lsrl_c1073741824, 100, .Lsrl22_b29_Neg
         .word   .Lsrl_n256, 168, .+4
         .word   12, 12, .Lsrl22_b29_Pos
 .Lsrl22_b29_Pos:
-        .word   .Lsrl_c536870912, 164, .Lsrl22_b28_Neg
+        .word   .Lsrl_c536870912, 100, .Lsrl22_b28_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl22_b28_Pos
 .Lsrl22_b29_Neg:
-        .word   .Lsrl_n536870912, 164, .Lsrl22_b28_Neg
+        .word   .Lsrl_n536870912, 100, .Lsrl22_b28_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl22_b28_Pos
 .Lsrl22_b28_Pos:
-        .word   .Lsrl_c268435456, 164, .Lsrl22_b27_Neg
+        .word   .Lsrl_c268435456, 100, .Lsrl22_b27_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl22_b27_Pos
 .Lsrl22_b28_Neg:
-        .word   .Lsrl_n268435456, 164, .Lsrl22_b27_Neg
+        .word   .Lsrl_n268435456, 100, .Lsrl22_b27_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl22_b27_Pos
 .Lsrl22_b27_Pos:
-        .word   .Lsrl_c134217728, 164, .Lsrl22_b26_Neg
+        .word   .Lsrl_c134217728, 100, .Lsrl22_b26_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl22_b26_Pos
 .Lsrl22_b27_Neg:
-        .word   .Lsrl_n134217728, 164, .Lsrl22_b26_Neg
+        .word   .Lsrl_n134217728, 100, .Lsrl22_b26_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl22_b26_Pos
 .Lsrl22_b26_Pos:
-        .word   .Lsrl_c67108864, 164, .Lsrl22_b25_Neg
+        .word   .Lsrl_c67108864, 100, .Lsrl22_b25_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl22_b25_Pos
 .Lsrl22_b26_Neg:
-        .word   .Lsrl_n67108864, 164, .Lsrl22_b25_Neg
+        .word   .Lsrl_n67108864, 100, .Lsrl22_b25_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl22_b25_Pos
 .Lsrl22_b25_Pos:
-        .word   .Lsrl_c33554432, 164, .Lsrl22_b24_Neg
+        .word   .Lsrl_c33554432, 100, .Lsrl22_b24_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl22_b24_Pos
 .Lsrl22_b25_Neg:
-        .word   .Lsrl_n33554432, 164, .Lsrl22_b24_Neg
+        .word   .Lsrl_n33554432, 100, .Lsrl22_b24_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl22_b24_Pos
 .Lsrl22_b24_Pos:
-        .word   .Lsrl_c16777216, 164, .Lsrl22_b23_Neg
+        .word   .Lsrl_c16777216, 100, .Lsrl22_b23_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl22_b23_Pos
 .Lsrl22_b24_Neg:
-        .word   .Lsrl_n16777216, 164, .Lsrl22_b23_Neg
+        .word   .Lsrl_n16777216, 100, .Lsrl22_b23_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl22_b23_Pos
 .Lsrl22_b23_Pos:
-        .word   .Lsrl_c8388608, 164, .Lsrl22_b22_Neg
+        .word   .Lsrl_c8388608, 100, .Lsrl22_b22_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl22_b22_Pos
 .Lsrl22_b23_Neg:
-        .word   .Lsrl_n8388608, 164, .Lsrl22_b22_Neg
+        .word   .Lsrl_n8388608, 100, .Lsrl22_b22_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl22_b22_Pos
 .Lsrl22_b22_Pos:
-        .word   .Lsrl_c4194304, 164, .Lsrl22_store
+        .word   .Lsrl_c4194304, 100, .Lsrl22_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl22_store
 .Lsrl22_b22_Neg:
-        .word   .Lsrl_n4194304, 164, .Lsrl22_store
+        .word   .Lsrl_n4194304, 100, .Lsrl22_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl22_store
 .Lsrl22_store:
@@ -44183,79 +44173,79 @@ __subleq_srl:
 
 .Lsrl_shift_23:
         .word   168, 168, .+4
-        .word   144, 164, .Lsrl23_b31_chk
+        .word   144, 100, .Lsrl23_b31_chk
         .word   12, 12, .Lsrl23_b31_setup
 .Lsrl23_b31_chk:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsrl23_b31_ambig
         .word   12, 12, .Lsrl23_b31_set
 .Lsrl23_b31_ambig:
         .word   .Lsrl_one, 172, .+4
         .word   144, 172, .Lsrl23_b31_setup
 .Lsrl23_b31_set:
-        .word   .Lsrl_c2147483648, 164, .+4
+        .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n256, 168, .+4
 .Lsrl23_b31_setup:
-        .word   .Lsrl_negone, 164, .+4
+        .word   .Lsrl_negone, 100, .+4
 .Lsrl23_b30_Pos:
-        .word   .Lsrl_c1073741824, 164, .Lsrl23_b29_Neg
+        .word   .Lsrl_c1073741824, 100, .Lsrl23_b29_Neg
         .word   .Lsrl_n128, 168, .+4
         .word   12, 12, .Lsrl23_b29_Pos
 .Lsrl23_b29_Pos:
-        .word   .Lsrl_c536870912, 164, .Lsrl23_b28_Neg
+        .word   .Lsrl_c536870912, 100, .Lsrl23_b28_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl23_b28_Pos
 .Lsrl23_b29_Neg:
-        .word   .Lsrl_n536870912, 164, .Lsrl23_b28_Neg
+        .word   .Lsrl_n536870912, 100, .Lsrl23_b28_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl23_b28_Pos
 .Lsrl23_b28_Pos:
-        .word   .Lsrl_c268435456, 164, .Lsrl23_b27_Neg
+        .word   .Lsrl_c268435456, 100, .Lsrl23_b27_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl23_b27_Pos
 .Lsrl23_b28_Neg:
-        .word   .Lsrl_n268435456, 164, .Lsrl23_b27_Neg
+        .word   .Lsrl_n268435456, 100, .Lsrl23_b27_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl23_b27_Pos
 .Lsrl23_b27_Pos:
-        .word   .Lsrl_c134217728, 164, .Lsrl23_b26_Neg
+        .word   .Lsrl_c134217728, 100, .Lsrl23_b26_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl23_b26_Pos
 .Lsrl23_b27_Neg:
-        .word   .Lsrl_n134217728, 164, .Lsrl23_b26_Neg
+        .word   .Lsrl_n134217728, 100, .Lsrl23_b26_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl23_b26_Pos
 .Lsrl23_b26_Pos:
-        .word   .Lsrl_c67108864, 164, .Lsrl23_b25_Neg
+        .word   .Lsrl_c67108864, 100, .Lsrl23_b25_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl23_b25_Pos
 .Lsrl23_b26_Neg:
-        .word   .Lsrl_n67108864, 164, .Lsrl23_b25_Neg
+        .word   .Lsrl_n67108864, 100, .Lsrl23_b25_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl23_b25_Pos
 .Lsrl23_b25_Pos:
-        .word   .Lsrl_c33554432, 164, .Lsrl23_b24_Neg
+        .word   .Lsrl_c33554432, 100, .Lsrl23_b24_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl23_b24_Pos
 .Lsrl23_b25_Neg:
-        .word   .Lsrl_n33554432, 164, .Lsrl23_b24_Neg
+        .word   .Lsrl_n33554432, 100, .Lsrl23_b24_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl23_b24_Pos
 .Lsrl23_b24_Pos:
-        .word   .Lsrl_c16777216, 164, .Lsrl23_b23_Neg
+        .word   .Lsrl_c16777216, 100, .Lsrl23_b23_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl23_b23_Pos
 .Lsrl23_b24_Neg:
-        .word   .Lsrl_n16777216, 164, .Lsrl23_b23_Neg
+        .word   .Lsrl_n16777216, 100, .Lsrl23_b23_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl23_b23_Pos
 .Lsrl23_b23_Pos:
-        .word   .Lsrl_c8388608, 164, .Lsrl23_store
+        .word   .Lsrl_c8388608, 100, .Lsrl23_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl23_store
 .Lsrl23_b23_Neg:
-        .word   .Lsrl_n8388608, 164, .Lsrl23_store
+        .word   .Lsrl_n8388608, 100, .Lsrl23_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl23_store
 .Lsrl23_store:
@@ -44267,71 +44257,71 @@ __subleq_srl:
 
 .Lsrl_shift_24:
         .word   168, 168, .+4
-        .word   144, 164, .Lsrl24_b31_chk
+        .word   144, 100, .Lsrl24_b31_chk
         .word   12, 12, .Lsrl24_b31_setup
 .Lsrl24_b31_chk:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsrl24_b31_ambig
         .word   12, 12, .Lsrl24_b31_set
 .Lsrl24_b31_ambig:
         .word   .Lsrl_one, 172, .+4
         .word   144, 172, .Lsrl24_b31_setup
 .Lsrl24_b31_set:
-        .word   .Lsrl_c2147483648, 164, .+4
+        .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n128, 168, .+4
 .Lsrl24_b31_setup:
-        .word   .Lsrl_negone, 164, .+4
+        .word   .Lsrl_negone, 100, .+4
 .Lsrl24_b30_Pos:
-        .word   .Lsrl_c1073741824, 164, .Lsrl24_b29_Neg
+        .word   .Lsrl_c1073741824, 100, .Lsrl24_b29_Neg
         .word   .Lsrl_n64, 168, .+4
         .word   12, 12, .Lsrl24_b29_Pos
 .Lsrl24_b29_Pos:
-        .word   .Lsrl_c536870912, 164, .Lsrl24_b28_Neg
+        .word   .Lsrl_c536870912, 100, .Lsrl24_b28_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl24_b28_Pos
 .Lsrl24_b29_Neg:
-        .word   .Lsrl_n536870912, 164, .Lsrl24_b28_Neg
+        .word   .Lsrl_n536870912, 100, .Lsrl24_b28_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl24_b28_Pos
 .Lsrl24_b28_Pos:
-        .word   .Lsrl_c268435456, 164, .Lsrl24_b27_Neg
+        .word   .Lsrl_c268435456, 100, .Lsrl24_b27_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl24_b27_Pos
 .Lsrl24_b28_Neg:
-        .word   .Lsrl_n268435456, 164, .Lsrl24_b27_Neg
+        .word   .Lsrl_n268435456, 100, .Lsrl24_b27_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl24_b27_Pos
 .Lsrl24_b27_Pos:
-        .word   .Lsrl_c134217728, 164, .Lsrl24_b26_Neg
+        .word   .Lsrl_c134217728, 100, .Lsrl24_b26_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl24_b26_Pos
 .Lsrl24_b27_Neg:
-        .word   .Lsrl_n134217728, 164, .Lsrl24_b26_Neg
+        .word   .Lsrl_n134217728, 100, .Lsrl24_b26_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl24_b26_Pos
 .Lsrl24_b26_Pos:
-        .word   .Lsrl_c67108864, 164, .Lsrl24_b25_Neg
+        .word   .Lsrl_c67108864, 100, .Lsrl24_b25_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl24_b25_Pos
 .Lsrl24_b26_Neg:
-        .word   .Lsrl_n67108864, 164, .Lsrl24_b25_Neg
+        .word   .Lsrl_n67108864, 100, .Lsrl24_b25_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl24_b25_Pos
 .Lsrl24_b25_Pos:
-        .word   .Lsrl_c33554432, 164, .Lsrl24_b24_Neg
+        .word   .Lsrl_c33554432, 100, .Lsrl24_b24_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl24_b24_Pos
 .Lsrl24_b25_Neg:
-        .word   .Lsrl_n33554432, 164, .Lsrl24_b24_Neg
+        .word   .Lsrl_n33554432, 100, .Lsrl24_b24_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl24_b24_Pos
 .Lsrl24_b24_Pos:
-        .word   .Lsrl_c16777216, 164, .Lsrl24_store
+        .word   .Lsrl_c16777216, 100, .Lsrl24_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl24_store
 .Lsrl24_b24_Neg:
-        .word   .Lsrl_n16777216, 164, .Lsrl24_store
+        .word   .Lsrl_n16777216, 100, .Lsrl24_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl24_store
 .Lsrl24_store:
@@ -44343,63 +44333,63 @@ __subleq_srl:
 
 .Lsrl_shift_25:
         .word   168, 168, .+4
-        .word   144, 164, .Lsrl25_b31_chk
+        .word   144, 100, .Lsrl25_b31_chk
         .word   12, 12, .Lsrl25_b31_setup
 .Lsrl25_b31_chk:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsrl25_b31_ambig
         .word   12, 12, .Lsrl25_b31_set
 .Lsrl25_b31_ambig:
         .word   .Lsrl_one, 172, .+4
         .word   144, 172, .Lsrl25_b31_setup
 .Lsrl25_b31_set:
-        .word   .Lsrl_c2147483648, 164, .+4
+        .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n64, 168, .+4
 .Lsrl25_b31_setup:
-        .word   .Lsrl_negone, 164, .+4
+        .word   .Lsrl_negone, 100, .+4
 .Lsrl25_b30_Pos:
-        .word   .Lsrl_c1073741824, 164, .Lsrl25_b29_Neg
+        .word   .Lsrl_c1073741824, 100, .Lsrl25_b29_Neg
         .word   .Lsrl_n32, 168, .+4
         .word   12, 12, .Lsrl25_b29_Pos
 .Lsrl25_b29_Pos:
-        .word   .Lsrl_c536870912, 164, .Lsrl25_b28_Neg
+        .word   .Lsrl_c536870912, 100, .Lsrl25_b28_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl25_b28_Pos
 .Lsrl25_b29_Neg:
-        .word   .Lsrl_n536870912, 164, .Lsrl25_b28_Neg
+        .word   .Lsrl_n536870912, 100, .Lsrl25_b28_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl25_b28_Pos
 .Lsrl25_b28_Pos:
-        .word   .Lsrl_c268435456, 164, .Lsrl25_b27_Neg
+        .word   .Lsrl_c268435456, 100, .Lsrl25_b27_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl25_b27_Pos
 .Lsrl25_b28_Neg:
-        .word   .Lsrl_n268435456, 164, .Lsrl25_b27_Neg
+        .word   .Lsrl_n268435456, 100, .Lsrl25_b27_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl25_b27_Pos
 .Lsrl25_b27_Pos:
-        .word   .Lsrl_c134217728, 164, .Lsrl25_b26_Neg
+        .word   .Lsrl_c134217728, 100, .Lsrl25_b26_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl25_b26_Pos
 .Lsrl25_b27_Neg:
-        .word   .Lsrl_n134217728, 164, .Lsrl25_b26_Neg
+        .word   .Lsrl_n134217728, 100, .Lsrl25_b26_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl25_b26_Pos
 .Lsrl25_b26_Pos:
-        .word   .Lsrl_c67108864, 164, .Lsrl25_b25_Neg
+        .word   .Lsrl_c67108864, 100, .Lsrl25_b25_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl25_b25_Pos
 .Lsrl25_b26_Neg:
-        .word   .Lsrl_n67108864, 164, .Lsrl25_b25_Neg
+        .word   .Lsrl_n67108864, 100, .Lsrl25_b25_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl25_b25_Pos
 .Lsrl25_b25_Pos:
-        .word   .Lsrl_c33554432, 164, .Lsrl25_store
+        .word   .Lsrl_c33554432, 100, .Lsrl25_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl25_store
 .Lsrl25_b25_Neg:
-        .word   .Lsrl_n33554432, 164, .Lsrl25_store
+        .word   .Lsrl_n33554432, 100, .Lsrl25_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl25_store
 .Lsrl25_store:
@@ -44411,55 +44401,55 @@ __subleq_srl:
 
 .Lsrl_shift_26:
         .word   168, 168, .+4
-        .word   144, 164, .Lsrl26_b31_chk
+        .word   144, 100, .Lsrl26_b31_chk
         .word   12, 12, .Lsrl26_b31_setup
 .Lsrl26_b31_chk:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsrl26_b31_ambig
         .word   12, 12, .Lsrl26_b31_set
 .Lsrl26_b31_ambig:
         .word   .Lsrl_one, 172, .+4
         .word   144, 172, .Lsrl26_b31_setup
 .Lsrl26_b31_set:
-        .word   .Lsrl_c2147483648, 164, .+4
+        .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n32, 168, .+4
 .Lsrl26_b31_setup:
-        .word   .Lsrl_negone, 164, .+4
+        .word   .Lsrl_negone, 100, .+4
 .Lsrl26_b30_Pos:
-        .word   .Lsrl_c1073741824, 164, .Lsrl26_b29_Neg
+        .word   .Lsrl_c1073741824, 100, .Lsrl26_b29_Neg
         .word   .Lsrl_n16, 168, .+4
         .word   12, 12, .Lsrl26_b29_Pos
 .Lsrl26_b29_Pos:
-        .word   .Lsrl_c536870912, 164, .Lsrl26_b28_Neg
+        .word   .Lsrl_c536870912, 100, .Lsrl26_b28_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl26_b28_Pos
 .Lsrl26_b29_Neg:
-        .word   .Lsrl_n536870912, 164, .Lsrl26_b28_Neg
+        .word   .Lsrl_n536870912, 100, .Lsrl26_b28_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl26_b28_Pos
 .Lsrl26_b28_Pos:
-        .word   .Lsrl_c268435456, 164, .Lsrl26_b27_Neg
+        .word   .Lsrl_c268435456, 100, .Lsrl26_b27_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl26_b27_Pos
 .Lsrl26_b28_Neg:
-        .word   .Lsrl_n268435456, 164, .Lsrl26_b27_Neg
+        .word   .Lsrl_n268435456, 100, .Lsrl26_b27_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl26_b27_Pos
 .Lsrl26_b27_Pos:
-        .word   .Lsrl_c134217728, 164, .Lsrl26_b26_Neg
+        .word   .Lsrl_c134217728, 100, .Lsrl26_b26_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl26_b26_Pos
 .Lsrl26_b27_Neg:
-        .word   .Lsrl_n134217728, 164, .Lsrl26_b26_Neg
+        .word   .Lsrl_n134217728, 100, .Lsrl26_b26_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl26_b26_Pos
 .Lsrl26_b26_Pos:
-        .word   .Lsrl_c67108864, 164, .Lsrl26_store
+        .word   .Lsrl_c67108864, 100, .Lsrl26_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl26_store
 .Lsrl26_b26_Neg:
-        .word   .Lsrl_n67108864, 164, .Lsrl26_store
+        .word   .Lsrl_n67108864, 100, .Lsrl26_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl26_store
 .Lsrl26_store:
@@ -44471,47 +44461,47 @@ __subleq_srl:
 
 .Lsrl_shift_27:
         .word   168, 168, .+4
-        .word   144, 164, .Lsrl27_b31_chk
+        .word   144, 100, .Lsrl27_b31_chk
         .word   12, 12, .Lsrl27_b31_setup
 .Lsrl27_b31_chk:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsrl27_b31_ambig
         .word   12, 12, .Lsrl27_b31_set
 .Lsrl27_b31_ambig:
         .word   .Lsrl_one, 172, .+4
         .word   144, 172, .Lsrl27_b31_setup
 .Lsrl27_b31_set:
-        .word   .Lsrl_c2147483648, 164, .+4
+        .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n16, 168, .+4
 .Lsrl27_b31_setup:
-        .word   .Lsrl_negone, 164, .+4
+        .word   .Lsrl_negone, 100, .+4
 .Lsrl27_b30_Pos:
-        .word   .Lsrl_c1073741824, 164, .Lsrl27_b29_Neg
+        .word   .Lsrl_c1073741824, 100, .Lsrl27_b29_Neg
         .word   .Lsrl_n8, 168, .+4
         .word   12, 12, .Lsrl27_b29_Pos
 .Lsrl27_b29_Pos:
-        .word   .Lsrl_c536870912, 164, .Lsrl27_b28_Neg
+        .word   .Lsrl_c536870912, 100, .Lsrl27_b28_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl27_b28_Pos
 .Lsrl27_b29_Neg:
-        .word   .Lsrl_n536870912, 164, .Lsrl27_b28_Neg
+        .word   .Lsrl_n536870912, 100, .Lsrl27_b28_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl27_b28_Pos
 .Lsrl27_b28_Pos:
-        .word   .Lsrl_c268435456, 164, .Lsrl27_b27_Neg
+        .word   .Lsrl_c268435456, 100, .Lsrl27_b27_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl27_b27_Pos
 .Lsrl27_b28_Neg:
-        .word   .Lsrl_n268435456, 164, .Lsrl27_b27_Neg
+        .word   .Lsrl_n268435456, 100, .Lsrl27_b27_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl27_b27_Pos
 .Lsrl27_b27_Pos:
-        .word   .Lsrl_c134217728, 164, .Lsrl27_store
+        .word   .Lsrl_c134217728, 100, .Lsrl27_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl27_store
 .Lsrl27_b27_Neg:
-        .word   .Lsrl_n134217728, 164, .Lsrl27_store
+        .word   .Lsrl_n134217728, 100, .Lsrl27_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl27_store
 .Lsrl27_store:
@@ -44523,39 +44513,39 @@ __subleq_srl:
 
 .Lsrl_shift_28:
         .word   168, 168, .+4
-        .word   144, 164, .Lsrl28_b31_chk
+        .word   144, 100, .Lsrl28_b31_chk
         .word   12, 12, .Lsrl28_b31_setup
 .Lsrl28_b31_chk:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsrl28_b31_ambig
         .word   12, 12, .Lsrl28_b31_set
 .Lsrl28_b31_ambig:
         .word   .Lsrl_one, 172, .+4
         .word   144, 172, .Lsrl28_b31_setup
 .Lsrl28_b31_set:
-        .word   .Lsrl_c2147483648, 164, .+4
+        .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n8, 168, .+4
 .Lsrl28_b31_setup:
-        .word   .Lsrl_negone, 164, .+4
+        .word   .Lsrl_negone, 100, .+4
 .Lsrl28_b30_Pos:
-        .word   .Lsrl_c1073741824, 164, .Lsrl28_b29_Neg
+        .word   .Lsrl_c1073741824, 100, .Lsrl28_b29_Neg
         .word   .Lsrl_n4, 168, .+4
         .word   12, 12, .Lsrl28_b29_Pos
 .Lsrl28_b29_Pos:
-        .word   .Lsrl_c536870912, 164, .Lsrl28_b28_Neg
+        .word   .Lsrl_c536870912, 100, .Lsrl28_b28_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl28_b28_Pos
 .Lsrl28_b29_Neg:
-        .word   .Lsrl_n536870912, 164, .Lsrl28_b28_Neg
+        .word   .Lsrl_n536870912, 100, .Lsrl28_b28_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl28_b28_Pos
 .Lsrl28_b28_Pos:
-        .word   .Lsrl_c268435456, 164, .Lsrl28_store
+        .word   .Lsrl_c268435456, 100, .Lsrl28_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl28_store
 .Lsrl28_b28_Neg:
-        .word   .Lsrl_n268435456, 164, .Lsrl28_store
+        .word   .Lsrl_n268435456, 100, .Lsrl28_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl28_store
 .Lsrl28_store:
@@ -44567,31 +44557,31 @@ __subleq_srl:
 
 .Lsrl_shift_29:
         .word   168, 168, .+4
-        .word   144, 164, .Lsrl29_b31_chk
+        .word   144, 100, .Lsrl29_b31_chk
         .word   12, 12, .Lsrl29_b31_setup
 .Lsrl29_b31_chk:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsrl29_b31_ambig
         .word   12, 12, .Lsrl29_b31_set
 .Lsrl29_b31_ambig:
         .word   .Lsrl_one, 172, .+4
         .word   144, 172, .Lsrl29_b31_setup
 .Lsrl29_b31_set:
-        .word   .Lsrl_c2147483648, 164, .+4
+        .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n4, 168, .+4
 .Lsrl29_b31_setup:
-        .word   .Lsrl_negone, 164, .+4
+        .word   .Lsrl_negone, 100, .+4
 .Lsrl29_b30_Pos:
-        .word   .Lsrl_c1073741824, 164, .Lsrl29_b29_Neg
+        .word   .Lsrl_c1073741824, 100, .Lsrl29_b29_Neg
         .word   .Lsrl_n2, 168, .+4
         .word   12, 12, .Lsrl29_b29_Pos
 .Lsrl29_b29_Pos:
-        .word   .Lsrl_c536870912, 164, .Lsrl29_store
+        .word   .Lsrl_c536870912, 100, .Lsrl29_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl29_store
 .Lsrl29_b29_Neg:
-        .word   .Lsrl_n536870912, 164, .Lsrl29_store
+        .word   .Lsrl_n536870912, 100, .Lsrl29_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl29_store
 .Lsrl29_store:
@@ -44603,23 +44593,23 @@ __subleq_srl:
 
 .Lsrl_shift_30:
         .word   168, 168, .+4
-        .word   144, 164, .Lsrl30_b31_chk
+        .word   144, 100, .Lsrl30_b31_chk
         .word   12, 12, .Lsrl30_b31_setup
 .Lsrl30_b31_chk:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsrl30_b31_ambig
         .word   12, 12, .Lsrl30_b31_set
 .Lsrl30_b31_ambig:
         .word   .Lsrl_one, 172, .+4
         .word   144, 172, .Lsrl30_b31_setup
 .Lsrl30_b31_set:
-        .word   .Lsrl_c2147483648, 164, .+4
+        .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n2, 168, .+4
 .Lsrl30_b31_setup:
-        .word   .Lsrl_negone, 164, .+4
+        .word   .Lsrl_negone, 100, .+4
 .Lsrl30_b30_Pos:
-        .word   .Lsrl_c1073741824, 164, .Lsrl30_store
+        .word   .Lsrl_c1073741824, 100, .Lsrl30_store
         .word   .Lsrl_n1, 168, .+4
         .word   12, 12, .Lsrl30_store
 .Lsrl30_store:
@@ -44631,21 +44621,21 @@ __subleq_srl:
 
 .Lsrl_shift_31:
         .word   168, 168, .+4
-        .word   144, 164, .Lsrl31_b31_chk
+        .word   144, 100, .Lsrl31_b31_chk
         .word   12, 12, .Lsrl31_b31_setup
 .Lsrl31_b31_chk:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsrl31_b31_ambig
         .word   12, 12, .Lsrl31_b31_set
 .Lsrl31_b31_ambig:
         .word   .Lsrl_one, 172, .+4
         .word   144, 172, .Lsrl31_b31_setup
 .Lsrl31_b31_set:
-        .word   .Lsrl_c2147483648, 164, .+4
+        .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n1, 168, .+4
 .Lsrl31_b31_setup:
-        .word   .Lsrl_negone, 164, .+4
+        .word   .Lsrl_negone, 100, .+4
 .Lsrl31_store:
         .word   96, 96, .+4
         .word   12, 12, .+4
@@ -44744,92 +44734,85 @@ __subleq_srl:
         .type   __subleq_sra,@function
 
 __subleq_sra:
-        .word   100, 12, .+4
-        .word   164, 164, .+4
-        .word   12, 164, .Lsra_dispatch
 .Lsra_dispatch:
-        .word   160, 160, .+4
-        .word   12, 12, .+4
-        .word   104, 12, .+4
-        .word   12, 160, .+4
-        .word   144, 160, .Lsra_copy_input
+        .word   144, 104, .Lsra_copy_input
         .word   172, 172, .+4
         .word   .Lsra_n32, 172, .+4
-        .word   160, 172, .Lsra_allbits
+        .word   104, 172, .Lsra_allbits
         .word   12, 12, .Lsra_chk1
 .Lsra_chk1:
-        .word   .Lsra_one, 160, .Lsra_shift_1
+        .word   .Lsra_one, 104, .Lsra_shift_1
 .Lsra_chk2:
-        .word   .Lsra_one, 160, .Lsra_shift_2
+        .word   .Lsra_one, 104, .Lsra_shift_2
 .Lsra_chk3:
-        .word   .Lsra_one, 160, .Lsra_shift_3
+        .word   .Lsra_one, 104, .Lsra_shift_3
 .Lsra_chk4:
-        .word   .Lsra_one, 160, .Lsra_shift_4
+        .word   .Lsra_one, 104, .Lsra_shift_4
 .Lsra_chk5:
-        .word   .Lsra_one, 160, .Lsra_shift_5
+        .word   .Lsra_one, 104, .Lsra_shift_5
 .Lsra_chk6:
-        .word   .Lsra_one, 160, .Lsra_shift_6
+        .word   .Lsra_one, 104, .Lsra_shift_6
 .Lsra_chk7:
-        .word   .Lsra_one, 160, .Lsra_shift_7
+        .word   .Lsra_one, 104, .Lsra_shift_7
 .Lsra_chk8:
-        .word   .Lsra_one, 160, .Lsra_shift_8
+        .word   .Lsra_one, 104, .Lsra_shift_8
 .Lsra_chk9:
-        .word   .Lsra_one, 160, .Lsra_shift_9
+        .word   .Lsra_one, 104, .Lsra_shift_9
 .Lsra_chk10:
-        .word   .Lsra_one, 160, .Lsra_shift_10
+        .word   .Lsra_one, 104, .Lsra_shift_10
 .Lsra_chk11:
-        .word   .Lsra_one, 160, .Lsra_shift_11
+        .word   .Lsra_one, 104, .Lsra_shift_11
 .Lsra_chk12:
-        .word   .Lsra_one, 160, .Lsra_shift_12
+        .word   .Lsra_one, 104, .Lsra_shift_12
 .Lsra_chk13:
-        .word   .Lsra_one, 160, .Lsra_shift_13
+        .word   .Lsra_one, 104, .Lsra_shift_13
 .Lsra_chk14:
-        .word   .Lsra_one, 160, .Lsra_shift_14
+        .word   .Lsra_one, 104, .Lsra_shift_14
 .Lsra_chk15:
-        .word   .Lsra_one, 160, .Lsra_shift_15
+        .word   .Lsra_one, 104, .Lsra_shift_15
 .Lsra_chk16:
-        .word   .Lsra_one, 160, .Lsra_shift_16
+        .word   .Lsra_one, 104, .Lsra_shift_16
 .Lsra_chk17:
-        .word   .Lsra_one, 160, .Lsra_shift_17
+        .word   .Lsra_one, 104, .Lsra_shift_17
 .Lsra_chk18:
-        .word   .Lsra_one, 160, .Lsra_shift_18
+        .word   .Lsra_one, 104, .Lsra_shift_18
 .Lsra_chk19:
-        .word   .Lsra_one, 160, .Lsra_shift_19
+        .word   .Lsra_one, 104, .Lsra_shift_19
 .Lsra_chk20:
-        .word   .Lsra_one, 160, .Lsra_shift_20
+        .word   .Lsra_one, 104, .Lsra_shift_20
 .Lsra_chk21:
-        .word   .Lsra_one, 160, .Lsra_shift_21
+        .word   .Lsra_one, 104, .Lsra_shift_21
 .Lsra_chk22:
-        .word   .Lsra_one, 160, .Lsra_shift_22
+        .word   .Lsra_one, 104, .Lsra_shift_22
 .Lsra_chk23:
-        .word   .Lsra_one, 160, .Lsra_shift_23
+        .word   .Lsra_one, 104, .Lsra_shift_23
 .Lsra_chk24:
-        .word   .Lsra_one, 160, .Lsra_shift_24
+        .word   .Lsra_one, 104, .Lsra_shift_24
 .Lsra_chk25:
-        .word   .Lsra_one, 160, .Lsra_shift_25
+        .word   .Lsra_one, 104, .Lsra_shift_25
 .Lsra_chk26:
-        .word   .Lsra_one, 160, .Lsra_shift_26
+        .word   .Lsra_one, 104, .Lsra_shift_26
 .Lsra_chk27:
-        .word   .Lsra_one, 160, .Lsra_shift_27
+        .word   .Lsra_one, 104, .Lsra_shift_27
 .Lsra_chk28:
-        .word   .Lsra_one, 160, .Lsra_shift_28
+        .word   .Lsra_one, 104, .Lsra_shift_28
 .Lsra_chk29:
-        .word   .Lsra_one, 160, .Lsra_shift_29
+        .word   .Lsra_one, 104, .Lsra_shift_29
 .Lsra_chk30:
-        .word   .Lsra_one, 160, .Lsra_shift_30
+        .word   .Lsra_one, 104, .Lsra_shift_30
 .Lsra_chk31:
-        .word   .Lsra_one, 160, .Lsra_shift_31
+        .word   .Lsra_one, 104, .Lsra_shift_31
         .word   12, 12, .Lsra_allbits
 .Lsra_allbits:
         .word   172, 172, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   100, 12, .+4
         .word   12, 172, .+4
         .word   144, 172, .Lsra_ab_maybe_neg
         .word   12, 12, .Lsra_zero
 .Lsra_ab_maybe_neg:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsra_ab_ambig
         .word   12, 12, .Lsra_minus1
 .Lsra_ab_ambig:
@@ -44847,13 +44830,13 @@ __subleq_sra:
 .Lsra1_chksign:
         .word   172, 172, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   100, 12, .+4
         .word   12, 172, .+4
         .word   144, 172, .Lsra1_maybe_neg
         .word   12, 12, .Lsra1_pos
 .Lsra1_maybe_neg:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsra1_ambig
         .word   12, 12, .Lsra1_neg
 .Lsra1_ambig:
@@ -44863,250 +44846,250 @@ __subleq_sra:
 .Lsra1_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
-        .word   164, 172, .+4
-        .word   164, 164, .+4
+        .word   100, 172, .+4
+        .word   100, 100, .+4
         .word   12, 12, .+4
         .word   172, 12, .+4
-        .word   12, 164, .+4
-        .word   .Lsra_one, 164, .Lsra1_pos
+        .word   12, 100, .+4
+        .word   .Lsra_one, 100, .Lsra1_pos
 .Lsra1_pos:
         .word   168, 168, .+4
-        .word   .Lsra_negone, 164, .+4
+        .word   .Lsra_negone, 100, .+4
         .word   12, 12, .Lsra1_b30_Pos
 .Lsra1_b30_Pos:
-        .word   .Lsra_c1073741824, 164, .Lsra1_b29_Neg
+        .word   .Lsra_c1073741824, 100, .Lsra1_b29_Neg
         .word   .Lsra_n536870912, 168, .+4
         .word   12, 12, .Lsra1_b29_Pos
 .Lsra1_b29_Pos:
-        .word   .Lsra_c536870912, 164, .Lsra1_b28_Neg
+        .word   .Lsra_c536870912, 100, .Lsra1_b28_Neg
         .word   .Lsra_n268435456, 168, .+4
         .word   12, 12, .Lsra1_b28_Pos
 .Lsra1_b29_Neg:
-        .word   .Lsra_n536870912, 164, .Lsra1_b28_Neg
+        .word   .Lsra_n536870912, 100, .Lsra1_b28_Neg
         .word   .Lsra_n268435456, 168, .+4
         .word   12, 12, .Lsra1_b28_Pos
 .Lsra1_b28_Pos:
-        .word   .Lsra_c268435456, 164, .Lsra1_b27_Neg
+        .word   .Lsra_c268435456, 100, .Lsra1_b27_Neg
         .word   .Lsra_n134217728, 168, .+4
         .word   12, 12, .Lsra1_b27_Pos
 .Lsra1_b28_Neg:
-        .word   .Lsra_n268435456, 164, .Lsra1_b27_Neg
+        .word   .Lsra_n268435456, 100, .Lsra1_b27_Neg
         .word   .Lsra_n134217728, 168, .+4
         .word   12, 12, .Lsra1_b27_Pos
 .Lsra1_b27_Pos:
-        .word   .Lsra_c134217728, 164, .Lsra1_b26_Neg
+        .word   .Lsra_c134217728, 100, .Lsra1_b26_Neg
         .word   .Lsra_n67108864, 168, .+4
         .word   12, 12, .Lsra1_b26_Pos
 .Lsra1_b27_Neg:
-        .word   .Lsra_n134217728, 164, .Lsra1_b26_Neg
+        .word   .Lsra_n134217728, 100, .Lsra1_b26_Neg
         .word   .Lsra_n67108864, 168, .+4
         .word   12, 12, .Lsra1_b26_Pos
 .Lsra1_b26_Pos:
-        .word   .Lsra_c67108864, 164, .Lsra1_b25_Neg
+        .word   .Lsra_c67108864, 100, .Lsra1_b25_Neg
         .word   .Lsra_n33554432, 168, .+4
         .word   12, 12, .Lsra1_b25_Pos
 .Lsra1_b26_Neg:
-        .word   .Lsra_n67108864, 164, .Lsra1_b25_Neg
+        .word   .Lsra_n67108864, 100, .Lsra1_b25_Neg
         .word   .Lsra_n33554432, 168, .+4
         .word   12, 12, .Lsra1_b25_Pos
 .Lsra1_b25_Pos:
-        .word   .Lsra_c33554432, 164, .Lsra1_b24_Neg
+        .word   .Lsra_c33554432, 100, .Lsra1_b24_Neg
         .word   .Lsra_n16777216, 168, .+4
         .word   12, 12, .Lsra1_b24_Pos
 .Lsra1_b25_Neg:
-        .word   .Lsra_n33554432, 164, .Lsra1_b24_Neg
+        .word   .Lsra_n33554432, 100, .Lsra1_b24_Neg
         .word   .Lsra_n16777216, 168, .+4
         .word   12, 12, .Lsra1_b24_Pos
 .Lsra1_b24_Pos:
-        .word   .Lsra_c16777216, 164, .Lsra1_b23_Neg
+        .word   .Lsra_c16777216, 100, .Lsra1_b23_Neg
         .word   .Lsra_n8388608, 168, .+4
         .word   12, 12, .Lsra1_b23_Pos
 .Lsra1_b24_Neg:
-        .word   .Lsra_n16777216, 164, .Lsra1_b23_Neg
+        .word   .Lsra_n16777216, 100, .Lsra1_b23_Neg
         .word   .Lsra_n8388608, 168, .+4
         .word   12, 12, .Lsra1_b23_Pos
 .Lsra1_b23_Pos:
-        .word   .Lsra_c8388608, 164, .Lsra1_b22_Neg
+        .word   .Lsra_c8388608, 100, .Lsra1_b22_Neg
         .word   .Lsra_n4194304, 168, .+4
         .word   12, 12, .Lsra1_b22_Pos
 .Lsra1_b23_Neg:
-        .word   .Lsra_n8388608, 164, .Lsra1_b22_Neg
+        .word   .Lsra_n8388608, 100, .Lsra1_b22_Neg
         .word   .Lsra_n4194304, 168, .+4
         .word   12, 12, .Lsra1_b22_Pos
 .Lsra1_b22_Pos:
-        .word   .Lsra_c4194304, 164, .Lsra1_b21_Neg
+        .word   .Lsra_c4194304, 100, .Lsra1_b21_Neg
         .word   .Lsra_n2097152, 168, .+4
         .word   12, 12, .Lsra1_b21_Pos
 .Lsra1_b22_Neg:
-        .word   .Lsra_n4194304, 164, .Lsra1_b21_Neg
+        .word   .Lsra_n4194304, 100, .Lsra1_b21_Neg
         .word   .Lsra_n2097152, 168, .+4
         .word   12, 12, .Lsra1_b21_Pos
 .Lsra1_b21_Pos:
-        .word   .Lsra_c2097152, 164, .Lsra1_b20_Neg
+        .word   .Lsra_c2097152, 100, .Lsra1_b20_Neg
         .word   .Lsra_n1048576, 168, .+4
         .word   12, 12, .Lsra1_b20_Pos
 .Lsra1_b21_Neg:
-        .word   .Lsra_n2097152, 164, .Lsra1_b20_Neg
+        .word   .Lsra_n2097152, 100, .Lsra1_b20_Neg
         .word   .Lsra_n1048576, 168, .+4
         .word   12, 12, .Lsra1_b20_Pos
 .Lsra1_b20_Pos:
-        .word   .Lsra_c1048576, 164, .Lsra1_b19_Neg
+        .word   .Lsra_c1048576, 100, .Lsra1_b19_Neg
         .word   .Lsra_n524288, 168, .+4
         .word   12, 12, .Lsra1_b19_Pos
 .Lsra1_b20_Neg:
-        .word   .Lsra_n1048576, 164, .Lsra1_b19_Neg
+        .word   .Lsra_n1048576, 100, .Lsra1_b19_Neg
         .word   .Lsra_n524288, 168, .+4
         .word   12, 12, .Lsra1_b19_Pos
 .Lsra1_b19_Pos:
-        .word   .Lsra_c524288, 164, .Lsra1_b18_Neg
+        .word   .Lsra_c524288, 100, .Lsra1_b18_Neg
         .word   .Lsra_n262144, 168, .+4
         .word   12, 12, .Lsra1_b18_Pos
 .Lsra1_b19_Neg:
-        .word   .Lsra_n524288, 164, .Lsra1_b18_Neg
+        .word   .Lsra_n524288, 100, .Lsra1_b18_Neg
         .word   .Lsra_n262144, 168, .+4
         .word   12, 12, .Lsra1_b18_Pos
 .Lsra1_b18_Pos:
-        .word   .Lsra_c262144, 164, .Lsra1_b17_Neg
+        .word   .Lsra_c262144, 100, .Lsra1_b17_Neg
         .word   .Lsra_n131072, 168, .+4
         .word   12, 12, .Lsra1_b17_Pos
 .Lsra1_b18_Neg:
-        .word   .Lsra_n262144, 164, .Lsra1_b17_Neg
+        .word   .Lsra_n262144, 100, .Lsra1_b17_Neg
         .word   .Lsra_n131072, 168, .+4
         .word   12, 12, .Lsra1_b17_Pos
 .Lsra1_b17_Pos:
-        .word   .Lsra_c131072, 164, .Lsra1_b16_Neg
+        .word   .Lsra_c131072, 100, .Lsra1_b16_Neg
         .word   .Lsra_n65536, 168, .+4
         .word   12, 12, .Lsra1_b16_Pos
 .Lsra1_b17_Neg:
-        .word   .Lsra_n131072, 164, .Lsra1_b16_Neg
+        .word   .Lsra_n131072, 100, .Lsra1_b16_Neg
         .word   .Lsra_n65536, 168, .+4
         .word   12, 12, .Lsra1_b16_Pos
 .Lsra1_b16_Pos:
-        .word   .Lsra_c65536, 164, .Lsra1_b15_Neg
+        .word   .Lsra_c65536, 100, .Lsra1_b15_Neg
         .word   .Lsra_n32768, 168, .+4
         .word   12, 12, .Lsra1_b15_Pos
 .Lsra1_b16_Neg:
-        .word   .Lsra_n65536, 164, .Lsra1_b15_Neg
+        .word   .Lsra_n65536, 100, .Lsra1_b15_Neg
         .word   .Lsra_n32768, 168, .+4
         .word   12, 12, .Lsra1_b15_Pos
 .Lsra1_b15_Pos:
-        .word   .Lsra_c32768, 164, .Lsra1_b14_Neg
+        .word   .Lsra_c32768, 100, .Lsra1_b14_Neg
         .word   .Lsra_n16384, 168, .+4
         .word   12, 12, .Lsra1_b14_Pos
 .Lsra1_b15_Neg:
-        .word   .Lsra_n32768, 164, .Lsra1_b14_Neg
+        .word   .Lsra_n32768, 100, .Lsra1_b14_Neg
         .word   .Lsra_n16384, 168, .+4
         .word   12, 12, .Lsra1_b14_Pos
 .Lsra1_b14_Pos:
-        .word   .Lsra_c16384, 164, .Lsra1_b13_Neg
+        .word   .Lsra_c16384, 100, .Lsra1_b13_Neg
         .word   .Lsra_n8192, 168, .+4
         .word   12, 12, .Lsra1_b13_Pos
 .Lsra1_b14_Neg:
-        .word   .Lsra_n16384, 164, .Lsra1_b13_Neg
+        .word   .Lsra_n16384, 100, .Lsra1_b13_Neg
         .word   .Lsra_n8192, 168, .+4
         .word   12, 12, .Lsra1_b13_Pos
 .Lsra1_b13_Pos:
-        .word   .Lsra_c8192, 164, .Lsra1_b12_Neg
+        .word   .Lsra_c8192, 100, .Lsra1_b12_Neg
         .word   .Lsra_n4096, 168, .+4
         .word   12, 12, .Lsra1_b12_Pos
 .Lsra1_b13_Neg:
-        .word   .Lsra_n8192, 164, .Lsra1_b12_Neg
+        .word   .Lsra_n8192, 100, .Lsra1_b12_Neg
         .word   .Lsra_n4096, 168, .+4
         .word   12, 12, .Lsra1_b12_Pos
 .Lsra1_b12_Pos:
-        .word   .Lsra_c4096, 164, .Lsra1_b11_Neg
+        .word   .Lsra_c4096, 100, .Lsra1_b11_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra1_b11_Pos
 .Lsra1_b12_Neg:
-        .word   .Lsra_n4096, 164, .Lsra1_b11_Neg
+        .word   .Lsra_n4096, 100, .Lsra1_b11_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra1_b11_Pos
 .Lsra1_b11_Pos:
-        .word   .Lsra_c2048, 164, .Lsra1_b10_Neg
+        .word   .Lsra_c2048, 100, .Lsra1_b10_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra1_b10_Pos
 .Lsra1_b11_Neg:
-        .word   .Lsra_n2048, 164, .Lsra1_b10_Neg
+        .word   .Lsra_n2048, 100, .Lsra1_b10_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra1_b10_Pos
 .Lsra1_b10_Pos:
-        .word   .Lsra_c1024, 164, .Lsra1_b9_Neg
+        .word   .Lsra_c1024, 100, .Lsra1_b9_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra1_b9_Pos
 .Lsra1_b10_Neg:
-        .word   .Lsra_n1024, 164, .Lsra1_b9_Neg
+        .word   .Lsra_n1024, 100, .Lsra1_b9_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra1_b9_Pos
 .Lsra1_b9_Pos:
-        .word   .Lsra_c512, 164, .Lsra1_b8_Neg
+        .word   .Lsra_c512, 100, .Lsra1_b8_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra1_b8_Pos
 .Lsra1_b9_Neg:
-        .word   .Lsra_n512, 164, .Lsra1_b8_Neg
+        .word   .Lsra_n512, 100, .Lsra1_b8_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra1_b8_Pos
 .Lsra1_b8_Pos:
-        .word   .Lsra_c256, 164, .Lsra1_b7_Neg
+        .word   .Lsra_c256, 100, .Lsra1_b7_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra1_b7_Pos
 .Lsra1_b8_Neg:
-        .word   .Lsra_n256, 164, .Lsra1_b7_Neg
+        .word   .Lsra_n256, 100, .Lsra1_b7_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra1_b7_Pos
 .Lsra1_b7_Pos:
-        .word   .Lsra_c128, 164, .Lsra1_b6_Neg
+        .word   .Lsra_c128, 100, .Lsra1_b6_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra1_b6_Pos
 .Lsra1_b7_Neg:
-        .word   .Lsra_n128, 164, .Lsra1_b6_Neg
+        .word   .Lsra_n128, 100, .Lsra1_b6_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra1_b6_Pos
 .Lsra1_b6_Pos:
-        .word   .Lsra_c64, 164, .Lsra1_b5_Neg
+        .word   .Lsra_c64, 100, .Lsra1_b5_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra1_b5_Pos
 .Lsra1_b6_Neg:
-        .word   .Lsra_n64, 164, .Lsra1_b5_Neg
+        .word   .Lsra_n64, 100, .Lsra1_b5_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra1_b5_Pos
 .Lsra1_b5_Pos:
-        .word   .Lsra_c32, 164, .Lsra1_b4_Neg
+        .word   .Lsra_c32, 100, .Lsra1_b4_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra1_b4_Pos
 .Lsra1_b5_Neg:
-        .word   .Lsra_n32, 164, .Lsra1_b4_Neg
+        .word   .Lsra_n32, 100, .Lsra1_b4_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra1_b4_Pos
 .Lsra1_b4_Pos:
-        .word   .Lsra_c16, 164, .Lsra1_b3_Neg
+        .word   .Lsra_c16, 100, .Lsra1_b3_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra1_b3_Pos
 .Lsra1_b4_Neg:
-        .word   .Lsra_n16, 164, .Lsra1_b3_Neg
+        .word   .Lsra_n16, 100, .Lsra1_b3_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra1_b3_Pos
 .Lsra1_b3_Pos:
-        .word   .Lsra_c8, 164, .Lsra1_b2_Neg
+        .word   .Lsra_c8, 100, .Lsra1_b2_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra1_b2_Pos
 .Lsra1_b3_Neg:
-        .word   .Lsra_n8, 164, .Lsra1_b2_Neg
+        .word   .Lsra_n8, 100, .Lsra1_b2_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra1_b2_Pos
 .Lsra1_b2_Pos:
-        .word   .Lsra_c4, 164, .Lsra1_b1_Neg
+        .word   .Lsra_c4, 100, .Lsra1_b1_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra1_b1_Pos
 .Lsra1_b2_Neg:
-        .word   .Lsra_n4, 164, .Lsra1_b1_Neg
+        .word   .Lsra_n4, 100, .Lsra1_b1_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra1_b1_Pos
 .Lsra1_b1_Pos:
-        .word   .Lsra_c2, 164, .Lsra1_store_internal
+        .word   .Lsra_c2, 100, .Lsra1_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra1_store_internal
 .Lsra1_b1_Neg:
-        .word   .Lsra_n2, 164, .Lsra1_store_internal
+        .word   .Lsra_n2, 100, .Lsra1_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra1_store_internal
 .Lsra1_store_internal:
@@ -45130,13 +45113,13 @@ __subleq_sra:
 .Lsra2_chksign:
         .word   172, 172, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   100, 12, .+4
         .word   12, 172, .+4
         .word   144, 172, .Lsra2_maybe_neg
         .word   12, 12, .Lsra2_pos
 .Lsra2_maybe_neg:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsra2_ambig
         .word   12, 12, .Lsra2_neg
 .Lsra2_ambig:
@@ -45146,242 +45129,242 @@ __subleq_sra:
 .Lsra2_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
-        .word   164, 172, .+4
-        .word   164, 164, .+4
+        .word   100, 172, .+4
+        .word   100, 100, .+4
         .word   12, 12, .+4
         .word   172, 12, .+4
-        .word   12, 164, .+4
-        .word   .Lsra_one, 164, .Lsra2_pos
+        .word   12, 100, .+4
+        .word   .Lsra_one, 100, .Lsra2_pos
 .Lsra2_pos:
         .word   168, 168, .+4
-        .word   .Lsra_negone, 164, .+4
+        .word   .Lsra_negone, 100, .+4
         .word   12, 12, .Lsra2_b30_Pos
 .Lsra2_b30_Pos:
-        .word   .Lsra_c1073741824, 164, .Lsra2_b29_Neg
+        .word   .Lsra_c1073741824, 100, .Lsra2_b29_Neg
         .word   .Lsra_n268435456, 168, .+4
         .word   12, 12, .Lsra2_b29_Pos
 .Lsra2_b29_Pos:
-        .word   .Lsra_c536870912, 164, .Lsra2_b28_Neg
+        .word   .Lsra_c536870912, 100, .Lsra2_b28_Neg
         .word   .Lsra_n134217728, 168, .+4
         .word   12, 12, .Lsra2_b28_Pos
 .Lsra2_b29_Neg:
-        .word   .Lsra_n536870912, 164, .Lsra2_b28_Neg
+        .word   .Lsra_n536870912, 100, .Lsra2_b28_Neg
         .word   .Lsra_n134217728, 168, .+4
         .word   12, 12, .Lsra2_b28_Pos
 .Lsra2_b28_Pos:
-        .word   .Lsra_c268435456, 164, .Lsra2_b27_Neg
+        .word   .Lsra_c268435456, 100, .Lsra2_b27_Neg
         .word   .Lsra_n67108864, 168, .+4
         .word   12, 12, .Lsra2_b27_Pos
 .Lsra2_b28_Neg:
-        .word   .Lsra_n268435456, 164, .Lsra2_b27_Neg
+        .word   .Lsra_n268435456, 100, .Lsra2_b27_Neg
         .word   .Lsra_n67108864, 168, .+4
         .word   12, 12, .Lsra2_b27_Pos
 .Lsra2_b27_Pos:
-        .word   .Lsra_c134217728, 164, .Lsra2_b26_Neg
+        .word   .Lsra_c134217728, 100, .Lsra2_b26_Neg
         .word   .Lsra_n33554432, 168, .+4
         .word   12, 12, .Lsra2_b26_Pos
 .Lsra2_b27_Neg:
-        .word   .Lsra_n134217728, 164, .Lsra2_b26_Neg
+        .word   .Lsra_n134217728, 100, .Lsra2_b26_Neg
         .word   .Lsra_n33554432, 168, .+4
         .word   12, 12, .Lsra2_b26_Pos
 .Lsra2_b26_Pos:
-        .word   .Lsra_c67108864, 164, .Lsra2_b25_Neg
+        .word   .Lsra_c67108864, 100, .Lsra2_b25_Neg
         .word   .Lsra_n16777216, 168, .+4
         .word   12, 12, .Lsra2_b25_Pos
 .Lsra2_b26_Neg:
-        .word   .Lsra_n67108864, 164, .Lsra2_b25_Neg
+        .word   .Lsra_n67108864, 100, .Lsra2_b25_Neg
         .word   .Lsra_n16777216, 168, .+4
         .word   12, 12, .Lsra2_b25_Pos
 .Lsra2_b25_Pos:
-        .word   .Lsra_c33554432, 164, .Lsra2_b24_Neg
+        .word   .Lsra_c33554432, 100, .Lsra2_b24_Neg
         .word   .Lsra_n8388608, 168, .+4
         .word   12, 12, .Lsra2_b24_Pos
 .Lsra2_b25_Neg:
-        .word   .Lsra_n33554432, 164, .Lsra2_b24_Neg
+        .word   .Lsra_n33554432, 100, .Lsra2_b24_Neg
         .word   .Lsra_n8388608, 168, .+4
         .word   12, 12, .Lsra2_b24_Pos
 .Lsra2_b24_Pos:
-        .word   .Lsra_c16777216, 164, .Lsra2_b23_Neg
+        .word   .Lsra_c16777216, 100, .Lsra2_b23_Neg
         .word   .Lsra_n4194304, 168, .+4
         .word   12, 12, .Lsra2_b23_Pos
 .Lsra2_b24_Neg:
-        .word   .Lsra_n16777216, 164, .Lsra2_b23_Neg
+        .word   .Lsra_n16777216, 100, .Lsra2_b23_Neg
         .word   .Lsra_n4194304, 168, .+4
         .word   12, 12, .Lsra2_b23_Pos
 .Lsra2_b23_Pos:
-        .word   .Lsra_c8388608, 164, .Lsra2_b22_Neg
+        .word   .Lsra_c8388608, 100, .Lsra2_b22_Neg
         .word   .Lsra_n2097152, 168, .+4
         .word   12, 12, .Lsra2_b22_Pos
 .Lsra2_b23_Neg:
-        .word   .Lsra_n8388608, 164, .Lsra2_b22_Neg
+        .word   .Lsra_n8388608, 100, .Lsra2_b22_Neg
         .word   .Lsra_n2097152, 168, .+4
         .word   12, 12, .Lsra2_b22_Pos
 .Lsra2_b22_Pos:
-        .word   .Lsra_c4194304, 164, .Lsra2_b21_Neg
+        .word   .Lsra_c4194304, 100, .Lsra2_b21_Neg
         .word   .Lsra_n1048576, 168, .+4
         .word   12, 12, .Lsra2_b21_Pos
 .Lsra2_b22_Neg:
-        .word   .Lsra_n4194304, 164, .Lsra2_b21_Neg
+        .word   .Lsra_n4194304, 100, .Lsra2_b21_Neg
         .word   .Lsra_n1048576, 168, .+4
         .word   12, 12, .Lsra2_b21_Pos
 .Lsra2_b21_Pos:
-        .word   .Lsra_c2097152, 164, .Lsra2_b20_Neg
+        .word   .Lsra_c2097152, 100, .Lsra2_b20_Neg
         .word   .Lsra_n524288, 168, .+4
         .word   12, 12, .Lsra2_b20_Pos
 .Lsra2_b21_Neg:
-        .word   .Lsra_n2097152, 164, .Lsra2_b20_Neg
+        .word   .Lsra_n2097152, 100, .Lsra2_b20_Neg
         .word   .Lsra_n524288, 168, .+4
         .word   12, 12, .Lsra2_b20_Pos
 .Lsra2_b20_Pos:
-        .word   .Lsra_c1048576, 164, .Lsra2_b19_Neg
+        .word   .Lsra_c1048576, 100, .Lsra2_b19_Neg
         .word   .Lsra_n262144, 168, .+4
         .word   12, 12, .Lsra2_b19_Pos
 .Lsra2_b20_Neg:
-        .word   .Lsra_n1048576, 164, .Lsra2_b19_Neg
+        .word   .Lsra_n1048576, 100, .Lsra2_b19_Neg
         .word   .Lsra_n262144, 168, .+4
         .word   12, 12, .Lsra2_b19_Pos
 .Lsra2_b19_Pos:
-        .word   .Lsra_c524288, 164, .Lsra2_b18_Neg
+        .word   .Lsra_c524288, 100, .Lsra2_b18_Neg
         .word   .Lsra_n131072, 168, .+4
         .word   12, 12, .Lsra2_b18_Pos
 .Lsra2_b19_Neg:
-        .word   .Lsra_n524288, 164, .Lsra2_b18_Neg
+        .word   .Lsra_n524288, 100, .Lsra2_b18_Neg
         .word   .Lsra_n131072, 168, .+4
         .word   12, 12, .Lsra2_b18_Pos
 .Lsra2_b18_Pos:
-        .word   .Lsra_c262144, 164, .Lsra2_b17_Neg
+        .word   .Lsra_c262144, 100, .Lsra2_b17_Neg
         .word   .Lsra_n65536, 168, .+4
         .word   12, 12, .Lsra2_b17_Pos
 .Lsra2_b18_Neg:
-        .word   .Lsra_n262144, 164, .Lsra2_b17_Neg
+        .word   .Lsra_n262144, 100, .Lsra2_b17_Neg
         .word   .Lsra_n65536, 168, .+4
         .word   12, 12, .Lsra2_b17_Pos
 .Lsra2_b17_Pos:
-        .word   .Lsra_c131072, 164, .Lsra2_b16_Neg
+        .word   .Lsra_c131072, 100, .Lsra2_b16_Neg
         .word   .Lsra_n32768, 168, .+4
         .word   12, 12, .Lsra2_b16_Pos
 .Lsra2_b17_Neg:
-        .word   .Lsra_n131072, 164, .Lsra2_b16_Neg
+        .word   .Lsra_n131072, 100, .Lsra2_b16_Neg
         .word   .Lsra_n32768, 168, .+4
         .word   12, 12, .Lsra2_b16_Pos
 .Lsra2_b16_Pos:
-        .word   .Lsra_c65536, 164, .Lsra2_b15_Neg
+        .word   .Lsra_c65536, 100, .Lsra2_b15_Neg
         .word   .Lsra_n16384, 168, .+4
         .word   12, 12, .Lsra2_b15_Pos
 .Lsra2_b16_Neg:
-        .word   .Lsra_n65536, 164, .Lsra2_b15_Neg
+        .word   .Lsra_n65536, 100, .Lsra2_b15_Neg
         .word   .Lsra_n16384, 168, .+4
         .word   12, 12, .Lsra2_b15_Pos
 .Lsra2_b15_Pos:
-        .word   .Lsra_c32768, 164, .Lsra2_b14_Neg
+        .word   .Lsra_c32768, 100, .Lsra2_b14_Neg
         .word   .Lsra_n8192, 168, .+4
         .word   12, 12, .Lsra2_b14_Pos
 .Lsra2_b15_Neg:
-        .word   .Lsra_n32768, 164, .Lsra2_b14_Neg
+        .word   .Lsra_n32768, 100, .Lsra2_b14_Neg
         .word   .Lsra_n8192, 168, .+4
         .word   12, 12, .Lsra2_b14_Pos
 .Lsra2_b14_Pos:
-        .word   .Lsra_c16384, 164, .Lsra2_b13_Neg
+        .word   .Lsra_c16384, 100, .Lsra2_b13_Neg
         .word   .Lsra_n4096, 168, .+4
         .word   12, 12, .Lsra2_b13_Pos
 .Lsra2_b14_Neg:
-        .word   .Lsra_n16384, 164, .Lsra2_b13_Neg
+        .word   .Lsra_n16384, 100, .Lsra2_b13_Neg
         .word   .Lsra_n4096, 168, .+4
         .word   12, 12, .Lsra2_b13_Pos
 .Lsra2_b13_Pos:
-        .word   .Lsra_c8192, 164, .Lsra2_b12_Neg
+        .word   .Lsra_c8192, 100, .Lsra2_b12_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra2_b12_Pos
 .Lsra2_b13_Neg:
-        .word   .Lsra_n8192, 164, .Lsra2_b12_Neg
+        .word   .Lsra_n8192, 100, .Lsra2_b12_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra2_b12_Pos
 .Lsra2_b12_Pos:
-        .word   .Lsra_c4096, 164, .Lsra2_b11_Neg
+        .word   .Lsra_c4096, 100, .Lsra2_b11_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra2_b11_Pos
 .Lsra2_b12_Neg:
-        .word   .Lsra_n4096, 164, .Lsra2_b11_Neg
+        .word   .Lsra_n4096, 100, .Lsra2_b11_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra2_b11_Pos
 .Lsra2_b11_Pos:
-        .word   .Lsra_c2048, 164, .Lsra2_b10_Neg
+        .word   .Lsra_c2048, 100, .Lsra2_b10_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra2_b10_Pos
 .Lsra2_b11_Neg:
-        .word   .Lsra_n2048, 164, .Lsra2_b10_Neg
+        .word   .Lsra_n2048, 100, .Lsra2_b10_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra2_b10_Pos
 .Lsra2_b10_Pos:
-        .word   .Lsra_c1024, 164, .Lsra2_b9_Neg
+        .word   .Lsra_c1024, 100, .Lsra2_b9_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra2_b9_Pos
 .Lsra2_b10_Neg:
-        .word   .Lsra_n1024, 164, .Lsra2_b9_Neg
+        .word   .Lsra_n1024, 100, .Lsra2_b9_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra2_b9_Pos
 .Lsra2_b9_Pos:
-        .word   .Lsra_c512, 164, .Lsra2_b8_Neg
+        .word   .Lsra_c512, 100, .Lsra2_b8_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra2_b8_Pos
 .Lsra2_b9_Neg:
-        .word   .Lsra_n512, 164, .Lsra2_b8_Neg
+        .word   .Lsra_n512, 100, .Lsra2_b8_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra2_b8_Pos
 .Lsra2_b8_Pos:
-        .word   .Lsra_c256, 164, .Lsra2_b7_Neg
+        .word   .Lsra_c256, 100, .Lsra2_b7_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra2_b7_Pos
 .Lsra2_b8_Neg:
-        .word   .Lsra_n256, 164, .Lsra2_b7_Neg
+        .word   .Lsra_n256, 100, .Lsra2_b7_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra2_b7_Pos
 .Lsra2_b7_Pos:
-        .word   .Lsra_c128, 164, .Lsra2_b6_Neg
+        .word   .Lsra_c128, 100, .Lsra2_b6_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra2_b6_Pos
 .Lsra2_b7_Neg:
-        .word   .Lsra_n128, 164, .Lsra2_b6_Neg
+        .word   .Lsra_n128, 100, .Lsra2_b6_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra2_b6_Pos
 .Lsra2_b6_Pos:
-        .word   .Lsra_c64, 164, .Lsra2_b5_Neg
+        .word   .Lsra_c64, 100, .Lsra2_b5_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra2_b5_Pos
 .Lsra2_b6_Neg:
-        .word   .Lsra_n64, 164, .Lsra2_b5_Neg
+        .word   .Lsra_n64, 100, .Lsra2_b5_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra2_b5_Pos
 .Lsra2_b5_Pos:
-        .word   .Lsra_c32, 164, .Lsra2_b4_Neg
+        .word   .Lsra_c32, 100, .Lsra2_b4_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra2_b4_Pos
 .Lsra2_b5_Neg:
-        .word   .Lsra_n32, 164, .Lsra2_b4_Neg
+        .word   .Lsra_n32, 100, .Lsra2_b4_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra2_b4_Pos
 .Lsra2_b4_Pos:
-        .word   .Lsra_c16, 164, .Lsra2_b3_Neg
+        .word   .Lsra_c16, 100, .Lsra2_b3_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra2_b3_Pos
 .Lsra2_b4_Neg:
-        .word   .Lsra_n16, 164, .Lsra2_b3_Neg
+        .word   .Lsra_n16, 100, .Lsra2_b3_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra2_b3_Pos
 .Lsra2_b3_Pos:
-        .word   .Lsra_c8, 164, .Lsra2_b2_Neg
+        .word   .Lsra_c8, 100, .Lsra2_b2_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra2_b2_Pos
 .Lsra2_b3_Neg:
-        .word   .Lsra_n8, 164, .Lsra2_b2_Neg
+        .word   .Lsra_n8, 100, .Lsra2_b2_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra2_b2_Pos
 .Lsra2_b2_Pos:
-        .word   .Lsra_c4, 164, .Lsra2_store_internal
+        .word   .Lsra_c4, 100, .Lsra2_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra2_store_internal
 .Lsra2_b2_Neg:
-        .word   .Lsra_n4, 164, .Lsra2_store_internal
+        .word   .Lsra_n4, 100, .Lsra2_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra2_store_internal
 .Lsra2_store_internal:
@@ -45405,13 +45388,13 @@ __subleq_sra:
 .Lsra3_chksign:
         .word   172, 172, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   100, 12, .+4
         .word   12, 172, .+4
         .word   144, 172, .Lsra3_maybe_neg
         .word   12, 12, .Lsra3_pos
 .Lsra3_maybe_neg:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsra3_ambig
         .word   12, 12, .Lsra3_neg
 .Lsra3_ambig:
@@ -45421,234 +45404,234 @@ __subleq_sra:
 .Lsra3_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
-        .word   164, 172, .+4
-        .word   164, 164, .+4
+        .word   100, 172, .+4
+        .word   100, 100, .+4
         .word   12, 12, .+4
         .word   172, 12, .+4
-        .word   12, 164, .+4
-        .word   .Lsra_one, 164, .Lsra3_pos
+        .word   12, 100, .+4
+        .word   .Lsra_one, 100, .Lsra3_pos
 .Lsra3_pos:
         .word   168, 168, .+4
-        .word   .Lsra_negone, 164, .+4
+        .word   .Lsra_negone, 100, .+4
         .word   12, 12, .Lsra3_b30_Pos
 .Lsra3_b30_Pos:
-        .word   .Lsra_c1073741824, 164, .Lsra3_b29_Neg
+        .word   .Lsra_c1073741824, 100, .Lsra3_b29_Neg
         .word   .Lsra_n134217728, 168, .+4
         .word   12, 12, .Lsra3_b29_Pos
 .Lsra3_b29_Pos:
-        .word   .Lsra_c536870912, 164, .Lsra3_b28_Neg
+        .word   .Lsra_c536870912, 100, .Lsra3_b28_Neg
         .word   .Lsra_n67108864, 168, .+4
         .word   12, 12, .Lsra3_b28_Pos
 .Lsra3_b29_Neg:
-        .word   .Lsra_n536870912, 164, .Lsra3_b28_Neg
+        .word   .Lsra_n536870912, 100, .Lsra3_b28_Neg
         .word   .Lsra_n67108864, 168, .+4
         .word   12, 12, .Lsra3_b28_Pos
 .Lsra3_b28_Pos:
-        .word   .Lsra_c268435456, 164, .Lsra3_b27_Neg
+        .word   .Lsra_c268435456, 100, .Lsra3_b27_Neg
         .word   .Lsra_n33554432, 168, .+4
         .word   12, 12, .Lsra3_b27_Pos
 .Lsra3_b28_Neg:
-        .word   .Lsra_n268435456, 164, .Lsra3_b27_Neg
+        .word   .Lsra_n268435456, 100, .Lsra3_b27_Neg
         .word   .Lsra_n33554432, 168, .+4
         .word   12, 12, .Lsra3_b27_Pos
 .Lsra3_b27_Pos:
-        .word   .Lsra_c134217728, 164, .Lsra3_b26_Neg
+        .word   .Lsra_c134217728, 100, .Lsra3_b26_Neg
         .word   .Lsra_n16777216, 168, .+4
         .word   12, 12, .Lsra3_b26_Pos
 .Lsra3_b27_Neg:
-        .word   .Lsra_n134217728, 164, .Lsra3_b26_Neg
+        .word   .Lsra_n134217728, 100, .Lsra3_b26_Neg
         .word   .Lsra_n16777216, 168, .+4
         .word   12, 12, .Lsra3_b26_Pos
 .Lsra3_b26_Pos:
-        .word   .Lsra_c67108864, 164, .Lsra3_b25_Neg
+        .word   .Lsra_c67108864, 100, .Lsra3_b25_Neg
         .word   .Lsra_n8388608, 168, .+4
         .word   12, 12, .Lsra3_b25_Pos
 .Lsra3_b26_Neg:
-        .word   .Lsra_n67108864, 164, .Lsra3_b25_Neg
+        .word   .Lsra_n67108864, 100, .Lsra3_b25_Neg
         .word   .Lsra_n8388608, 168, .+4
         .word   12, 12, .Lsra3_b25_Pos
 .Lsra3_b25_Pos:
-        .word   .Lsra_c33554432, 164, .Lsra3_b24_Neg
+        .word   .Lsra_c33554432, 100, .Lsra3_b24_Neg
         .word   .Lsra_n4194304, 168, .+4
         .word   12, 12, .Lsra3_b24_Pos
 .Lsra3_b25_Neg:
-        .word   .Lsra_n33554432, 164, .Lsra3_b24_Neg
+        .word   .Lsra_n33554432, 100, .Lsra3_b24_Neg
         .word   .Lsra_n4194304, 168, .+4
         .word   12, 12, .Lsra3_b24_Pos
 .Lsra3_b24_Pos:
-        .word   .Lsra_c16777216, 164, .Lsra3_b23_Neg
+        .word   .Lsra_c16777216, 100, .Lsra3_b23_Neg
         .word   .Lsra_n2097152, 168, .+4
         .word   12, 12, .Lsra3_b23_Pos
 .Lsra3_b24_Neg:
-        .word   .Lsra_n16777216, 164, .Lsra3_b23_Neg
+        .word   .Lsra_n16777216, 100, .Lsra3_b23_Neg
         .word   .Lsra_n2097152, 168, .+4
         .word   12, 12, .Lsra3_b23_Pos
 .Lsra3_b23_Pos:
-        .word   .Lsra_c8388608, 164, .Lsra3_b22_Neg
+        .word   .Lsra_c8388608, 100, .Lsra3_b22_Neg
         .word   .Lsra_n1048576, 168, .+4
         .word   12, 12, .Lsra3_b22_Pos
 .Lsra3_b23_Neg:
-        .word   .Lsra_n8388608, 164, .Lsra3_b22_Neg
+        .word   .Lsra_n8388608, 100, .Lsra3_b22_Neg
         .word   .Lsra_n1048576, 168, .+4
         .word   12, 12, .Lsra3_b22_Pos
 .Lsra3_b22_Pos:
-        .word   .Lsra_c4194304, 164, .Lsra3_b21_Neg
+        .word   .Lsra_c4194304, 100, .Lsra3_b21_Neg
         .word   .Lsra_n524288, 168, .+4
         .word   12, 12, .Lsra3_b21_Pos
 .Lsra3_b22_Neg:
-        .word   .Lsra_n4194304, 164, .Lsra3_b21_Neg
+        .word   .Lsra_n4194304, 100, .Lsra3_b21_Neg
         .word   .Lsra_n524288, 168, .+4
         .word   12, 12, .Lsra3_b21_Pos
 .Lsra3_b21_Pos:
-        .word   .Lsra_c2097152, 164, .Lsra3_b20_Neg
+        .word   .Lsra_c2097152, 100, .Lsra3_b20_Neg
         .word   .Lsra_n262144, 168, .+4
         .word   12, 12, .Lsra3_b20_Pos
 .Lsra3_b21_Neg:
-        .word   .Lsra_n2097152, 164, .Lsra3_b20_Neg
+        .word   .Lsra_n2097152, 100, .Lsra3_b20_Neg
         .word   .Lsra_n262144, 168, .+4
         .word   12, 12, .Lsra3_b20_Pos
 .Lsra3_b20_Pos:
-        .word   .Lsra_c1048576, 164, .Lsra3_b19_Neg
+        .word   .Lsra_c1048576, 100, .Lsra3_b19_Neg
         .word   .Lsra_n131072, 168, .+4
         .word   12, 12, .Lsra3_b19_Pos
 .Lsra3_b20_Neg:
-        .word   .Lsra_n1048576, 164, .Lsra3_b19_Neg
+        .word   .Lsra_n1048576, 100, .Lsra3_b19_Neg
         .word   .Lsra_n131072, 168, .+4
         .word   12, 12, .Lsra3_b19_Pos
 .Lsra3_b19_Pos:
-        .word   .Lsra_c524288, 164, .Lsra3_b18_Neg
+        .word   .Lsra_c524288, 100, .Lsra3_b18_Neg
         .word   .Lsra_n65536, 168, .+4
         .word   12, 12, .Lsra3_b18_Pos
 .Lsra3_b19_Neg:
-        .word   .Lsra_n524288, 164, .Lsra3_b18_Neg
+        .word   .Lsra_n524288, 100, .Lsra3_b18_Neg
         .word   .Lsra_n65536, 168, .+4
         .word   12, 12, .Lsra3_b18_Pos
 .Lsra3_b18_Pos:
-        .word   .Lsra_c262144, 164, .Lsra3_b17_Neg
+        .word   .Lsra_c262144, 100, .Lsra3_b17_Neg
         .word   .Lsra_n32768, 168, .+4
         .word   12, 12, .Lsra3_b17_Pos
 .Lsra3_b18_Neg:
-        .word   .Lsra_n262144, 164, .Lsra3_b17_Neg
+        .word   .Lsra_n262144, 100, .Lsra3_b17_Neg
         .word   .Lsra_n32768, 168, .+4
         .word   12, 12, .Lsra3_b17_Pos
 .Lsra3_b17_Pos:
-        .word   .Lsra_c131072, 164, .Lsra3_b16_Neg
+        .word   .Lsra_c131072, 100, .Lsra3_b16_Neg
         .word   .Lsra_n16384, 168, .+4
         .word   12, 12, .Lsra3_b16_Pos
 .Lsra3_b17_Neg:
-        .word   .Lsra_n131072, 164, .Lsra3_b16_Neg
+        .word   .Lsra_n131072, 100, .Lsra3_b16_Neg
         .word   .Lsra_n16384, 168, .+4
         .word   12, 12, .Lsra3_b16_Pos
 .Lsra3_b16_Pos:
-        .word   .Lsra_c65536, 164, .Lsra3_b15_Neg
+        .word   .Lsra_c65536, 100, .Lsra3_b15_Neg
         .word   .Lsra_n8192, 168, .+4
         .word   12, 12, .Lsra3_b15_Pos
 .Lsra3_b16_Neg:
-        .word   .Lsra_n65536, 164, .Lsra3_b15_Neg
+        .word   .Lsra_n65536, 100, .Lsra3_b15_Neg
         .word   .Lsra_n8192, 168, .+4
         .word   12, 12, .Lsra3_b15_Pos
 .Lsra3_b15_Pos:
-        .word   .Lsra_c32768, 164, .Lsra3_b14_Neg
+        .word   .Lsra_c32768, 100, .Lsra3_b14_Neg
         .word   .Lsra_n4096, 168, .+4
         .word   12, 12, .Lsra3_b14_Pos
 .Lsra3_b15_Neg:
-        .word   .Lsra_n32768, 164, .Lsra3_b14_Neg
+        .word   .Lsra_n32768, 100, .Lsra3_b14_Neg
         .word   .Lsra_n4096, 168, .+4
         .word   12, 12, .Lsra3_b14_Pos
 .Lsra3_b14_Pos:
-        .word   .Lsra_c16384, 164, .Lsra3_b13_Neg
+        .word   .Lsra_c16384, 100, .Lsra3_b13_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra3_b13_Pos
 .Lsra3_b14_Neg:
-        .word   .Lsra_n16384, 164, .Lsra3_b13_Neg
+        .word   .Lsra_n16384, 100, .Lsra3_b13_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra3_b13_Pos
 .Lsra3_b13_Pos:
-        .word   .Lsra_c8192, 164, .Lsra3_b12_Neg
+        .word   .Lsra_c8192, 100, .Lsra3_b12_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra3_b12_Pos
 .Lsra3_b13_Neg:
-        .word   .Lsra_n8192, 164, .Lsra3_b12_Neg
+        .word   .Lsra_n8192, 100, .Lsra3_b12_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra3_b12_Pos
 .Lsra3_b12_Pos:
-        .word   .Lsra_c4096, 164, .Lsra3_b11_Neg
+        .word   .Lsra_c4096, 100, .Lsra3_b11_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra3_b11_Pos
 .Lsra3_b12_Neg:
-        .word   .Lsra_n4096, 164, .Lsra3_b11_Neg
+        .word   .Lsra_n4096, 100, .Lsra3_b11_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra3_b11_Pos
 .Lsra3_b11_Pos:
-        .word   .Lsra_c2048, 164, .Lsra3_b10_Neg
+        .word   .Lsra_c2048, 100, .Lsra3_b10_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra3_b10_Pos
 .Lsra3_b11_Neg:
-        .word   .Lsra_n2048, 164, .Lsra3_b10_Neg
+        .word   .Lsra_n2048, 100, .Lsra3_b10_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra3_b10_Pos
 .Lsra3_b10_Pos:
-        .word   .Lsra_c1024, 164, .Lsra3_b9_Neg
+        .word   .Lsra_c1024, 100, .Lsra3_b9_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra3_b9_Pos
 .Lsra3_b10_Neg:
-        .word   .Lsra_n1024, 164, .Lsra3_b9_Neg
+        .word   .Lsra_n1024, 100, .Lsra3_b9_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra3_b9_Pos
 .Lsra3_b9_Pos:
-        .word   .Lsra_c512, 164, .Lsra3_b8_Neg
+        .word   .Lsra_c512, 100, .Lsra3_b8_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra3_b8_Pos
 .Lsra3_b9_Neg:
-        .word   .Lsra_n512, 164, .Lsra3_b8_Neg
+        .word   .Lsra_n512, 100, .Lsra3_b8_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra3_b8_Pos
 .Lsra3_b8_Pos:
-        .word   .Lsra_c256, 164, .Lsra3_b7_Neg
+        .word   .Lsra_c256, 100, .Lsra3_b7_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra3_b7_Pos
 .Lsra3_b8_Neg:
-        .word   .Lsra_n256, 164, .Lsra3_b7_Neg
+        .word   .Lsra_n256, 100, .Lsra3_b7_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra3_b7_Pos
 .Lsra3_b7_Pos:
-        .word   .Lsra_c128, 164, .Lsra3_b6_Neg
+        .word   .Lsra_c128, 100, .Lsra3_b6_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra3_b6_Pos
 .Lsra3_b7_Neg:
-        .word   .Lsra_n128, 164, .Lsra3_b6_Neg
+        .word   .Lsra_n128, 100, .Lsra3_b6_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra3_b6_Pos
 .Lsra3_b6_Pos:
-        .word   .Lsra_c64, 164, .Lsra3_b5_Neg
+        .word   .Lsra_c64, 100, .Lsra3_b5_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra3_b5_Pos
 .Lsra3_b6_Neg:
-        .word   .Lsra_n64, 164, .Lsra3_b5_Neg
+        .word   .Lsra_n64, 100, .Lsra3_b5_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra3_b5_Pos
 .Lsra3_b5_Pos:
-        .word   .Lsra_c32, 164, .Lsra3_b4_Neg
+        .word   .Lsra_c32, 100, .Lsra3_b4_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra3_b4_Pos
 .Lsra3_b5_Neg:
-        .word   .Lsra_n32, 164, .Lsra3_b4_Neg
+        .word   .Lsra_n32, 100, .Lsra3_b4_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra3_b4_Pos
 .Lsra3_b4_Pos:
-        .word   .Lsra_c16, 164, .Lsra3_b3_Neg
+        .word   .Lsra_c16, 100, .Lsra3_b3_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra3_b3_Pos
 .Lsra3_b4_Neg:
-        .word   .Lsra_n16, 164, .Lsra3_b3_Neg
+        .word   .Lsra_n16, 100, .Lsra3_b3_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra3_b3_Pos
 .Lsra3_b3_Pos:
-        .word   .Lsra_c8, 164, .Lsra3_store_internal
+        .word   .Lsra_c8, 100, .Lsra3_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra3_store_internal
 .Lsra3_b3_Neg:
-        .word   .Lsra_n8, 164, .Lsra3_store_internal
+        .word   .Lsra_n8, 100, .Lsra3_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra3_store_internal
 .Lsra3_store_internal:
@@ -45672,13 +45655,13 @@ __subleq_sra:
 .Lsra4_chksign:
         .word   172, 172, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   100, 12, .+4
         .word   12, 172, .+4
         .word   144, 172, .Lsra4_maybe_neg
         .word   12, 12, .Lsra4_pos
 .Lsra4_maybe_neg:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsra4_ambig
         .word   12, 12, .Lsra4_neg
 .Lsra4_ambig:
@@ -45688,226 +45671,226 @@ __subleq_sra:
 .Lsra4_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
-        .word   164, 172, .+4
-        .word   164, 164, .+4
+        .word   100, 172, .+4
+        .word   100, 100, .+4
         .word   12, 12, .+4
         .word   172, 12, .+4
-        .word   12, 164, .+4
-        .word   .Lsra_one, 164, .Lsra4_pos
+        .word   12, 100, .+4
+        .word   .Lsra_one, 100, .Lsra4_pos
 .Lsra4_pos:
         .word   168, 168, .+4
-        .word   .Lsra_negone, 164, .+4
+        .word   .Lsra_negone, 100, .+4
         .word   12, 12, .Lsra4_b30_Pos
 .Lsra4_b30_Pos:
-        .word   .Lsra_c1073741824, 164, .Lsra4_b29_Neg
+        .word   .Lsra_c1073741824, 100, .Lsra4_b29_Neg
         .word   .Lsra_n67108864, 168, .+4
         .word   12, 12, .Lsra4_b29_Pos
 .Lsra4_b29_Pos:
-        .word   .Lsra_c536870912, 164, .Lsra4_b28_Neg
+        .word   .Lsra_c536870912, 100, .Lsra4_b28_Neg
         .word   .Lsra_n33554432, 168, .+4
         .word   12, 12, .Lsra4_b28_Pos
 .Lsra4_b29_Neg:
-        .word   .Lsra_n536870912, 164, .Lsra4_b28_Neg
+        .word   .Lsra_n536870912, 100, .Lsra4_b28_Neg
         .word   .Lsra_n33554432, 168, .+4
         .word   12, 12, .Lsra4_b28_Pos
 .Lsra4_b28_Pos:
-        .word   .Lsra_c268435456, 164, .Lsra4_b27_Neg
+        .word   .Lsra_c268435456, 100, .Lsra4_b27_Neg
         .word   .Lsra_n16777216, 168, .+4
         .word   12, 12, .Lsra4_b27_Pos
 .Lsra4_b28_Neg:
-        .word   .Lsra_n268435456, 164, .Lsra4_b27_Neg
+        .word   .Lsra_n268435456, 100, .Lsra4_b27_Neg
         .word   .Lsra_n16777216, 168, .+4
         .word   12, 12, .Lsra4_b27_Pos
 .Lsra4_b27_Pos:
-        .word   .Lsra_c134217728, 164, .Lsra4_b26_Neg
+        .word   .Lsra_c134217728, 100, .Lsra4_b26_Neg
         .word   .Lsra_n8388608, 168, .+4
         .word   12, 12, .Lsra4_b26_Pos
 .Lsra4_b27_Neg:
-        .word   .Lsra_n134217728, 164, .Lsra4_b26_Neg
+        .word   .Lsra_n134217728, 100, .Lsra4_b26_Neg
         .word   .Lsra_n8388608, 168, .+4
         .word   12, 12, .Lsra4_b26_Pos
 .Lsra4_b26_Pos:
-        .word   .Lsra_c67108864, 164, .Lsra4_b25_Neg
+        .word   .Lsra_c67108864, 100, .Lsra4_b25_Neg
         .word   .Lsra_n4194304, 168, .+4
         .word   12, 12, .Lsra4_b25_Pos
 .Lsra4_b26_Neg:
-        .word   .Lsra_n67108864, 164, .Lsra4_b25_Neg
+        .word   .Lsra_n67108864, 100, .Lsra4_b25_Neg
         .word   .Lsra_n4194304, 168, .+4
         .word   12, 12, .Lsra4_b25_Pos
 .Lsra4_b25_Pos:
-        .word   .Lsra_c33554432, 164, .Lsra4_b24_Neg
+        .word   .Lsra_c33554432, 100, .Lsra4_b24_Neg
         .word   .Lsra_n2097152, 168, .+4
         .word   12, 12, .Lsra4_b24_Pos
 .Lsra4_b25_Neg:
-        .word   .Lsra_n33554432, 164, .Lsra4_b24_Neg
+        .word   .Lsra_n33554432, 100, .Lsra4_b24_Neg
         .word   .Lsra_n2097152, 168, .+4
         .word   12, 12, .Lsra4_b24_Pos
 .Lsra4_b24_Pos:
-        .word   .Lsra_c16777216, 164, .Lsra4_b23_Neg
+        .word   .Lsra_c16777216, 100, .Lsra4_b23_Neg
         .word   .Lsra_n1048576, 168, .+4
         .word   12, 12, .Lsra4_b23_Pos
 .Lsra4_b24_Neg:
-        .word   .Lsra_n16777216, 164, .Lsra4_b23_Neg
+        .word   .Lsra_n16777216, 100, .Lsra4_b23_Neg
         .word   .Lsra_n1048576, 168, .+4
         .word   12, 12, .Lsra4_b23_Pos
 .Lsra4_b23_Pos:
-        .word   .Lsra_c8388608, 164, .Lsra4_b22_Neg
+        .word   .Lsra_c8388608, 100, .Lsra4_b22_Neg
         .word   .Lsra_n524288, 168, .+4
         .word   12, 12, .Lsra4_b22_Pos
 .Lsra4_b23_Neg:
-        .word   .Lsra_n8388608, 164, .Lsra4_b22_Neg
+        .word   .Lsra_n8388608, 100, .Lsra4_b22_Neg
         .word   .Lsra_n524288, 168, .+4
         .word   12, 12, .Lsra4_b22_Pos
 .Lsra4_b22_Pos:
-        .word   .Lsra_c4194304, 164, .Lsra4_b21_Neg
+        .word   .Lsra_c4194304, 100, .Lsra4_b21_Neg
         .word   .Lsra_n262144, 168, .+4
         .word   12, 12, .Lsra4_b21_Pos
 .Lsra4_b22_Neg:
-        .word   .Lsra_n4194304, 164, .Lsra4_b21_Neg
+        .word   .Lsra_n4194304, 100, .Lsra4_b21_Neg
         .word   .Lsra_n262144, 168, .+4
         .word   12, 12, .Lsra4_b21_Pos
 .Lsra4_b21_Pos:
-        .word   .Lsra_c2097152, 164, .Lsra4_b20_Neg
+        .word   .Lsra_c2097152, 100, .Lsra4_b20_Neg
         .word   .Lsra_n131072, 168, .+4
         .word   12, 12, .Lsra4_b20_Pos
 .Lsra4_b21_Neg:
-        .word   .Lsra_n2097152, 164, .Lsra4_b20_Neg
+        .word   .Lsra_n2097152, 100, .Lsra4_b20_Neg
         .word   .Lsra_n131072, 168, .+4
         .word   12, 12, .Lsra4_b20_Pos
 .Lsra4_b20_Pos:
-        .word   .Lsra_c1048576, 164, .Lsra4_b19_Neg
+        .word   .Lsra_c1048576, 100, .Lsra4_b19_Neg
         .word   .Lsra_n65536, 168, .+4
         .word   12, 12, .Lsra4_b19_Pos
 .Lsra4_b20_Neg:
-        .word   .Lsra_n1048576, 164, .Lsra4_b19_Neg
+        .word   .Lsra_n1048576, 100, .Lsra4_b19_Neg
         .word   .Lsra_n65536, 168, .+4
         .word   12, 12, .Lsra4_b19_Pos
 .Lsra4_b19_Pos:
-        .word   .Lsra_c524288, 164, .Lsra4_b18_Neg
+        .word   .Lsra_c524288, 100, .Lsra4_b18_Neg
         .word   .Lsra_n32768, 168, .+4
         .word   12, 12, .Lsra4_b18_Pos
 .Lsra4_b19_Neg:
-        .word   .Lsra_n524288, 164, .Lsra4_b18_Neg
+        .word   .Lsra_n524288, 100, .Lsra4_b18_Neg
         .word   .Lsra_n32768, 168, .+4
         .word   12, 12, .Lsra4_b18_Pos
 .Lsra4_b18_Pos:
-        .word   .Lsra_c262144, 164, .Lsra4_b17_Neg
+        .word   .Lsra_c262144, 100, .Lsra4_b17_Neg
         .word   .Lsra_n16384, 168, .+4
         .word   12, 12, .Lsra4_b17_Pos
 .Lsra4_b18_Neg:
-        .word   .Lsra_n262144, 164, .Lsra4_b17_Neg
+        .word   .Lsra_n262144, 100, .Lsra4_b17_Neg
         .word   .Lsra_n16384, 168, .+4
         .word   12, 12, .Lsra4_b17_Pos
 .Lsra4_b17_Pos:
-        .word   .Lsra_c131072, 164, .Lsra4_b16_Neg
+        .word   .Lsra_c131072, 100, .Lsra4_b16_Neg
         .word   .Lsra_n8192, 168, .+4
         .word   12, 12, .Lsra4_b16_Pos
 .Lsra4_b17_Neg:
-        .word   .Lsra_n131072, 164, .Lsra4_b16_Neg
+        .word   .Lsra_n131072, 100, .Lsra4_b16_Neg
         .word   .Lsra_n8192, 168, .+4
         .word   12, 12, .Lsra4_b16_Pos
 .Lsra4_b16_Pos:
-        .word   .Lsra_c65536, 164, .Lsra4_b15_Neg
+        .word   .Lsra_c65536, 100, .Lsra4_b15_Neg
         .word   .Lsra_n4096, 168, .+4
         .word   12, 12, .Lsra4_b15_Pos
 .Lsra4_b16_Neg:
-        .word   .Lsra_n65536, 164, .Lsra4_b15_Neg
+        .word   .Lsra_n65536, 100, .Lsra4_b15_Neg
         .word   .Lsra_n4096, 168, .+4
         .word   12, 12, .Lsra4_b15_Pos
 .Lsra4_b15_Pos:
-        .word   .Lsra_c32768, 164, .Lsra4_b14_Neg
+        .word   .Lsra_c32768, 100, .Lsra4_b14_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra4_b14_Pos
 .Lsra4_b15_Neg:
-        .word   .Lsra_n32768, 164, .Lsra4_b14_Neg
+        .word   .Lsra_n32768, 100, .Lsra4_b14_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra4_b14_Pos
 .Lsra4_b14_Pos:
-        .word   .Lsra_c16384, 164, .Lsra4_b13_Neg
+        .word   .Lsra_c16384, 100, .Lsra4_b13_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra4_b13_Pos
 .Lsra4_b14_Neg:
-        .word   .Lsra_n16384, 164, .Lsra4_b13_Neg
+        .word   .Lsra_n16384, 100, .Lsra4_b13_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra4_b13_Pos
 .Lsra4_b13_Pos:
-        .word   .Lsra_c8192, 164, .Lsra4_b12_Neg
+        .word   .Lsra_c8192, 100, .Lsra4_b12_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra4_b12_Pos
 .Lsra4_b13_Neg:
-        .word   .Lsra_n8192, 164, .Lsra4_b12_Neg
+        .word   .Lsra_n8192, 100, .Lsra4_b12_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra4_b12_Pos
 .Lsra4_b12_Pos:
-        .word   .Lsra_c4096, 164, .Lsra4_b11_Neg
+        .word   .Lsra_c4096, 100, .Lsra4_b11_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra4_b11_Pos
 .Lsra4_b12_Neg:
-        .word   .Lsra_n4096, 164, .Lsra4_b11_Neg
+        .word   .Lsra_n4096, 100, .Lsra4_b11_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra4_b11_Pos
 .Lsra4_b11_Pos:
-        .word   .Lsra_c2048, 164, .Lsra4_b10_Neg
+        .word   .Lsra_c2048, 100, .Lsra4_b10_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra4_b10_Pos
 .Lsra4_b11_Neg:
-        .word   .Lsra_n2048, 164, .Lsra4_b10_Neg
+        .word   .Lsra_n2048, 100, .Lsra4_b10_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra4_b10_Pos
 .Lsra4_b10_Pos:
-        .word   .Lsra_c1024, 164, .Lsra4_b9_Neg
+        .word   .Lsra_c1024, 100, .Lsra4_b9_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra4_b9_Pos
 .Lsra4_b10_Neg:
-        .word   .Lsra_n1024, 164, .Lsra4_b9_Neg
+        .word   .Lsra_n1024, 100, .Lsra4_b9_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra4_b9_Pos
 .Lsra4_b9_Pos:
-        .word   .Lsra_c512, 164, .Lsra4_b8_Neg
+        .word   .Lsra_c512, 100, .Lsra4_b8_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra4_b8_Pos
 .Lsra4_b9_Neg:
-        .word   .Lsra_n512, 164, .Lsra4_b8_Neg
+        .word   .Lsra_n512, 100, .Lsra4_b8_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra4_b8_Pos
 .Lsra4_b8_Pos:
-        .word   .Lsra_c256, 164, .Lsra4_b7_Neg
+        .word   .Lsra_c256, 100, .Lsra4_b7_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra4_b7_Pos
 .Lsra4_b8_Neg:
-        .word   .Lsra_n256, 164, .Lsra4_b7_Neg
+        .word   .Lsra_n256, 100, .Lsra4_b7_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra4_b7_Pos
 .Lsra4_b7_Pos:
-        .word   .Lsra_c128, 164, .Lsra4_b6_Neg
+        .word   .Lsra_c128, 100, .Lsra4_b6_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra4_b6_Pos
 .Lsra4_b7_Neg:
-        .word   .Lsra_n128, 164, .Lsra4_b6_Neg
+        .word   .Lsra_n128, 100, .Lsra4_b6_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra4_b6_Pos
 .Lsra4_b6_Pos:
-        .word   .Lsra_c64, 164, .Lsra4_b5_Neg
+        .word   .Lsra_c64, 100, .Lsra4_b5_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra4_b5_Pos
 .Lsra4_b6_Neg:
-        .word   .Lsra_n64, 164, .Lsra4_b5_Neg
+        .word   .Lsra_n64, 100, .Lsra4_b5_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra4_b5_Pos
 .Lsra4_b5_Pos:
-        .word   .Lsra_c32, 164, .Lsra4_b4_Neg
+        .word   .Lsra_c32, 100, .Lsra4_b4_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra4_b4_Pos
 .Lsra4_b5_Neg:
-        .word   .Lsra_n32, 164, .Lsra4_b4_Neg
+        .word   .Lsra_n32, 100, .Lsra4_b4_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra4_b4_Pos
 .Lsra4_b4_Pos:
-        .word   .Lsra_c16, 164, .Lsra4_store_internal
+        .word   .Lsra_c16, 100, .Lsra4_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra4_store_internal
 .Lsra4_b4_Neg:
-        .word   .Lsra_n16, 164, .Lsra4_store_internal
+        .word   .Lsra_n16, 100, .Lsra4_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra4_store_internal
 .Lsra4_store_internal:
@@ -45931,13 +45914,13 @@ __subleq_sra:
 .Lsra5_chksign:
         .word   172, 172, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   100, 12, .+4
         .word   12, 172, .+4
         .word   144, 172, .Lsra5_maybe_neg
         .word   12, 12, .Lsra5_pos
 .Lsra5_maybe_neg:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsra5_ambig
         .word   12, 12, .Lsra5_neg
 .Lsra5_ambig:
@@ -45947,218 +45930,218 @@ __subleq_sra:
 .Lsra5_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
-        .word   164, 172, .+4
-        .word   164, 164, .+4
+        .word   100, 172, .+4
+        .word   100, 100, .+4
         .word   12, 12, .+4
         .word   172, 12, .+4
-        .word   12, 164, .+4
-        .word   .Lsra_one, 164, .Lsra5_pos
+        .word   12, 100, .+4
+        .word   .Lsra_one, 100, .Lsra5_pos
 .Lsra5_pos:
         .word   168, 168, .+4
-        .word   .Lsra_negone, 164, .+4
+        .word   .Lsra_negone, 100, .+4
         .word   12, 12, .Lsra5_b30_Pos
 .Lsra5_b30_Pos:
-        .word   .Lsra_c1073741824, 164, .Lsra5_b29_Neg
+        .word   .Lsra_c1073741824, 100, .Lsra5_b29_Neg
         .word   .Lsra_n33554432, 168, .+4
         .word   12, 12, .Lsra5_b29_Pos
 .Lsra5_b29_Pos:
-        .word   .Lsra_c536870912, 164, .Lsra5_b28_Neg
+        .word   .Lsra_c536870912, 100, .Lsra5_b28_Neg
         .word   .Lsra_n16777216, 168, .+4
         .word   12, 12, .Lsra5_b28_Pos
 .Lsra5_b29_Neg:
-        .word   .Lsra_n536870912, 164, .Lsra5_b28_Neg
+        .word   .Lsra_n536870912, 100, .Lsra5_b28_Neg
         .word   .Lsra_n16777216, 168, .+4
         .word   12, 12, .Lsra5_b28_Pos
 .Lsra5_b28_Pos:
-        .word   .Lsra_c268435456, 164, .Lsra5_b27_Neg
+        .word   .Lsra_c268435456, 100, .Lsra5_b27_Neg
         .word   .Lsra_n8388608, 168, .+4
         .word   12, 12, .Lsra5_b27_Pos
 .Lsra5_b28_Neg:
-        .word   .Lsra_n268435456, 164, .Lsra5_b27_Neg
+        .word   .Lsra_n268435456, 100, .Lsra5_b27_Neg
         .word   .Lsra_n8388608, 168, .+4
         .word   12, 12, .Lsra5_b27_Pos
 .Lsra5_b27_Pos:
-        .word   .Lsra_c134217728, 164, .Lsra5_b26_Neg
+        .word   .Lsra_c134217728, 100, .Lsra5_b26_Neg
         .word   .Lsra_n4194304, 168, .+4
         .word   12, 12, .Lsra5_b26_Pos
 .Lsra5_b27_Neg:
-        .word   .Lsra_n134217728, 164, .Lsra5_b26_Neg
+        .word   .Lsra_n134217728, 100, .Lsra5_b26_Neg
         .word   .Lsra_n4194304, 168, .+4
         .word   12, 12, .Lsra5_b26_Pos
 .Lsra5_b26_Pos:
-        .word   .Lsra_c67108864, 164, .Lsra5_b25_Neg
+        .word   .Lsra_c67108864, 100, .Lsra5_b25_Neg
         .word   .Lsra_n2097152, 168, .+4
         .word   12, 12, .Lsra5_b25_Pos
 .Lsra5_b26_Neg:
-        .word   .Lsra_n67108864, 164, .Lsra5_b25_Neg
+        .word   .Lsra_n67108864, 100, .Lsra5_b25_Neg
         .word   .Lsra_n2097152, 168, .+4
         .word   12, 12, .Lsra5_b25_Pos
 .Lsra5_b25_Pos:
-        .word   .Lsra_c33554432, 164, .Lsra5_b24_Neg
+        .word   .Lsra_c33554432, 100, .Lsra5_b24_Neg
         .word   .Lsra_n1048576, 168, .+4
         .word   12, 12, .Lsra5_b24_Pos
 .Lsra5_b25_Neg:
-        .word   .Lsra_n33554432, 164, .Lsra5_b24_Neg
+        .word   .Lsra_n33554432, 100, .Lsra5_b24_Neg
         .word   .Lsra_n1048576, 168, .+4
         .word   12, 12, .Lsra5_b24_Pos
 .Lsra5_b24_Pos:
-        .word   .Lsra_c16777216, 164, .Lsra5_b23_Neg
+        .word   .Lsra_c16777216, 100, .Lsra5_b23_Neg
         .word   .Lsra_n524288, 168, .+4
         .word   12, 12, .Lsra5_b23_Pos
 .Lsra5_b24_Neg:
-        .word   .Lsra_n16777216, 164, .Lsra5_b23_Neg
+        .word   .Lsra_n16777216, 100, .Lsra5_b23_Neg
         .word   .Lsra_n524288, 168, .+4
         .word   12, 12, .Lsra5_b23_Pos
 .Lsra5_b23_Pos:
-        .word   .Lsra_c8388608, 164, .Lsra5_b22_Neg
+        .word   .Lsra_c8388608, 100, .Lsra5_b22_Neg
         .word   .Lsra_n262144, 168, .+4
         .word   12, 12, .Lsra5_b22_Pos
 .Lsra5_b23_Neg:
-        .word   .Lsra_n8388608, 164, .Lsra5_b22_Neg
+        .word   .Lsra_n8388608, 100, .Lsra5_b22_Neg
         .word   .Lsra_n262144, 168, .+4
         .word   12, 12, .Lsra5_b22_Pos
 .Lsra5_b22_Pos:
-        .word   .Lsra_c4194304, 164, .Lsra5_b21_Neg
+        .word   .Lsra_c4194304, 100, .Lsra5_b21_Neg
         .word   .Lsra_n131072, 168, .+4
         .word   12, 12, .Lsra5_b21_Pos
 .Lsra5_b22_Neg:
-        .word   .Lsra_n4194304, 164, .Lsra5_b21_Neg
+        .word   .Lsra_n4194304, 100, .Lsra5_b21_Neg
         .word   .Lsra_n131072, 168, .+4
         .word   12, 12, .Lsra5_b21_Pos
 .Lsra5_b21_Pos:
-        .word   .Lsra_c2097152, 164, .Lsra5_b20_Neg
+        .word   .Lsra_c2097152, 100, .Lsra5_b20_Neg
         .word   .Lsra_n65536, 168, .+4
         .word   12, 12, .Lsra5_b20_Pos
 .Lsra5_b21_Neg:
-        .word   .Lsra_n2097152, 164, .Lsra5_b20_Neg
+        .word   .Lsra_n2097152, 100, .Lsra5_b20_Neg
         .word   .Lsra_n65536, 168, .+4
         .word   12, 12, .Lsra5_b20_Pos
 .Lsra5_b20_Pos:
-        .word   .Lsra_c1048576, 164, .Lsra5_b19_Neg
+        .word   .Lsra_c1048576, 100, .Lsra5_b19_Neg
         .word   .Lsra_n32768, 168, .+4
         .word   12, 12, .Lsra5_b19_Pos
 .Lsra5_b20_Neg:
-        .word   .Lsra_n1048576, 164, .Lsra5_b19_Neg
+        .word   .Lsra_n1048576, 100, .Lsra5_b19_Neg
         .word   .Lsra_n32768, 168, .+4
         .word   12, 12, .Lsra5_b19_Pos
 .Lsra5_b19_Pos:
-        .word   .Lsra_c524288, 164, .Lsra5_b18_Neg
+        .word   .Lsra_c524288, 100, .Lsra5_b18_Neg
         .word   .Lsra_n16384, 168, .+4
         .word   12, 12, .Lsra5_b18_Pos
 .Lsra5_b19_Neg:
-        .word   .Lsra_n524288, 164, .Lsra5_b18_Neg
+        .word   .Lsra_n524288, 100, .Lsra5_b18_Neg
         .word   .Lsra_n16384, 168, .+4
         .word   12, 12, .Lsra5_b18_Pos
 .Lsra5_b18_Pos:
-        .word   .Lsra_c262144, 164, .Lsra5_b17_Neg
+        .word   .Lsra_c262144, 100, .Lsra5_b17_Neg
         .word   .Lsra_n8192, 168, .+4
         .word   12, 12, .Lsra5_b17_Pos
 .Lsra5_b18_Neg:
-        .word   .Lsra_n262144, 164, .Lsra5_b17_Neg
+        .word   .Lsra_n262144, 100, .Lsra5_b17_Neg
         .word   .Lsra_n8192, 168, .+4
         .word   12, 12, .Lsra5_b17_Pos
 .Lsra5_b17_Pos:
-        .word   .Lsra_c131072, 164, .Lsra5_b16_Neg
+        .word   .Lsra_c131072, 100, .Lsra5_b16_Neg
         .word   .Lsra_n4096, 168, .+4
         .word   12, 12, .Lsra5_b16_Pos
 .Lsra5_b17_Neg:
-        .word   .Lsra_n131072, 164, .Lsra5_b16_Neg
+        .word   .Lsra_n131072, 100, .Lsra5_b16_Neg
         .word   .Lsra_n4096, 168, .+4
         .word   12, 12, .Lsra5_b16_Pos
 .Lsra5_b16_Pos:
-        .word   .Lsra_c65536, 164, .Lsra5_b15_Neg
+        .word   .Lsra_c65536, 100, .Lsra5_b15_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra5_b15_Pos
 .Lsra5_b16_Neg:
-        .word   .Lsra_n65536, 164, .Lsra5_b15_Neg
+        .word   .Lsra_n65536, 100, .Lsra5_b15_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra5_b15_Pos
 .Lsra5_b15_Pos:
-        .word   .Lsra_c32768, 164, .Lsra5_b14_Neg
+        .word   .Lsra_c32768, 100, .Lsra5_b14_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra5_b14_Pos
 .Lsra5_b15_Neg:
-        .word   .Lsra_n32768, 164, .Lsra5_b14_Neg
+        .word   .Lsra_n32768, 100, .Lsra5_b14_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra5_b14_Pos
 .Lsra5_b14_Pos:
-        .word   .Lsra_c16384, 164, .Lsra5_b13_Neg
+        .word   .Lsra_c16384, 100, .Lsra5_b13_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra5_b13_Pos
 .Lsra5_b14_Neg:
-        .word   .Lsra_n16384, 164, .Lsra5_b13_Neg
+        .word   .Lsra_n16384, 100, .Lsra5_b13_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra5_b13_Pos
 .Lsra5_b13_Pos:
-        .word   .Lsra_c8192, 164, .Lsra5_b12_Neg
+        .word   .Lsra_c8192, 100, .Lsra5_b12_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra5_b12_Pos
 .Lsra5_b13_Neg:
-        .word   .Lsra_n8192, 164, .Lsra5_b12_Neg
+        .word   .Lsra_n8192, 100, .Lsra5_b12_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra5_b12_Pos
 .Lsra5_b12_Pos:
-        .word   .Lsra_c4096, 164, .Lsra5_b11_Neg
+        .word   .Lsra_c4096, 100, .Lsra5_b11_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra5_b11_Pos
 .Lsra5_b12_Neg:
-        .word   .Lsra_n4096, 164, .Lsra5_b11_Neg
+        .word   .Lsra_n4096, 100, .Lsra5_b11_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra5_b11_Pos
 .Lsra5_b11_Pos:
-        .word   .Lsra_c2048, 164, .Lsra5_b10_Neg
+        .word   .Lsra_c2048, 100, .Lsra5_b10_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra5_b10_Pos
 .Lsra5_b11_Neg:
-        .word   .Lsra_n2048, 164, .Lsra5_b10_Neg
+        .word   .Lsra_n2048, 100, .Lsra5_b10_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra5_b10_Pos
 .Lsra5_b10_Pos:
-        .word   .Lsra_c1024, 164, .Lsra5_b9_Neg
+        .word   .Lsra_c1024, 100, .Lsra5_b9_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra5_b9_Pos
 .Lsra5_b10_Neg:
-        .word   .Lsra_n1024, 164, .Lsra5_b9_Neg
+        .word   .Lsra_n1024, 100, .Lsra5_b9_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra5_b9_Pos
 .Lsra5_b9_Pos:
-        .word   .Lsra_c512, 164, .Lsra5_b8_Neg
+        .word   .Lsra_c512, 100, .Lsra5_b8_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra5_b8_Pos
 .Lsra5_b9_Neg:
-        .word   .Lsra_n512, 164, .Lsra5_b8_Neg
+        .word   .Lsra_n512, 100, .Lsra5_b8_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra5_b8_Pos
 .Lsra5_b8_Pos:
-        .word   .Lsra_c256, 164, .Lsra5_b7_Neg
+        .word   .Lsra_c256, 100, .Lsra5_b7_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra5_b7_Pos
 .Lsra5_b8_Neg:
-        .word   .Lsra_n256, 164, .Lsra5_b7_Neg
+        .word   .Lsra_n256, 100, .Lsra5_b7_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra5_b7_Pos
 .Lsra5_b7_Pos:
-        .word   .Lsra_c128, 164, .Lsra5_b6_Neg
+        .word   .Lsra_c128, 100, .Lsra5_b6_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra5_b6_Pos
 .Lsra5_b7_Neg:
-        .word   .Lsra_n128, 164, .Lsra5_b6_Neg
+        .word   .Lsra_n128, 100, .Lsra5_b6_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra5_b6_Pos
 .Lsra5_b6_Pos:
-        .word   .Lsra_c64, 164, .Lsra5_b5_Neg
+        .word   .Lsra_c64, 100, .Lsra5_b5_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra5_b5_Pos
 .Lsra5_b6_Neg:
-        .word   .Lsra_n64, 164, .Lsra5_b5_Neg
+        .word   .Lsra_n64, 100, .Lsra5_b5_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra5_b5_Pos
 .Lsra5_b5_Pos:
-        .word   .Lsra_c32, 164, .Lsra5_store_internal
+        .word   .Lsra_c32, 100, .Lsra5_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra5_store_internal
 .Lsra5_b5_Neg:
-        .word   .Lsra_n32, 164, .Lsra5_store_internal
+        .word   .Lsra_n32, 100, .Lsra5_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra5_store_internal
 .Lsra5_store_internal:
@@ -46182,13 +46165,13 @@ __subleq_sra:
 .Lsra6_chksign:
         .word   172, 172, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   100, 12, .+4
         .word   12, 172, .+4
         .word   144, 172, .Lsra6_maybe_neg
         .word   12, 12, .Lsra6_pos
 .Lsra6_maybe_neg:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsra6_ambig
         .word   12, 12, .Lsra6_neg
 .Lsra6_ambig:
@@ -46198,210 +46181,210 @@ __subleq_sra:
 .Lsra6_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
-        .word   164, 172, .+4
-        .word   164, 164, .+4
+        .word   100, 172, .+4
+        .word   100, 100, .+4
         .word   12, 12, .+4
         .word   172, 12, .+4
-        .word   12, 164, .+4
-        .word   .Lsra_one, 164, .Lsra6_pos
+        .word   12, 100, .+4
+        .word   .Lsra_one, 100, .Lsra6_pos
 .Lsra6_pos:
         .word   168, 168, .+4
-        .word   .Lsra_negone, 164, .+4
+        .word   .Lsra_negone, 100, .+4
         .word   12, 12, .Lsra6_b30_Pos
 .Lsra6_b30_Pos:
-        .word   .Lsra_c1073741824, 164, .Lsra6_b29_Neg
+        .word   .Lsra_c1073741824, 100, .Lsra6_b29_Neg
         .word   .Lsra_n16777216, 168, .+4
         .word   12, 12, .Lsra6_b29_Pos
 .Lsra6_b29_Pos:
-        .word   .Lsra_c536870912, 164, .Lsra6_b28_Neg
+        .word   .Lsra_c536870912, 100, .Lsra6_b28_Neg
         .word   .Lsra_n8388608, 168, .+4
         .word   12, 12, .Lsra6_b28_Pos
 .Lsra6_b29_Neg:
-        .word   .Lsra_n536870912, 164, .Lsra6_b28_Neg
+        .word   .Lsra_n536870912, 100, .Lsra6_b28_Neg
         .word   .Lsra_n8388608, 168, .+4
         .word   12, 12, .Lsra6_b28_Pos
 .Lsra6_b28_Pos:
-        .word   .Lsra_c268435456, 164, .Lsra6_b27_Neg
+        .word   .Lsra_c268435456, 100, .Lsra6_b27_Neg
         .word   .Lsra_n4194304, 168, .+4
         .word   12, 12, .Lsra6_b27_Pos
 .Lsra6_b28_Neg:
-        .word   .Lsra_n268435456, 164, .Lsra6_b27_Neg
+        .word   .Lsra_n268435456, 100, .Lsra6_b27_Neg
         .word   .Lsra_n4194304, 168, .+4
         .word   12, 12, .Lsra6_b27_Pos
 .Lsra6_b27_Pos:
-        .word   .Lsra_c134217728, 164, .Lsra6_b26_Neg
+        .word   .Lsra_c134217728, 100, .Lsra6_b26_Neg
         .word   .Lsra_n2097152, 168, .+4
         .word   12, 12, .Lsra6_b26_Pos
 .Lsra6_b27_Neg:
-        .word   .Lsra_n134217728, 164, .Lsra6_b26_Neg
+        .word   .Lsra_n134217728, 100, .Lsra6_b26_Neg
         .word   .Lsra_n2097152, 168, .+4
         .word   12, 12, .Lsra6_b26_Pos
 .Lsra6_b26_Pos:
-        .word   .Lsra_c67108864, 164, .Lsra6_b25_Neg
+        .word   .Lsra_c67108864, 100, .Lsra6_b25_Neg
         .word   .Lsra_n1048576, 168, .+4
         .word   12, 12, .Lsra6_b25_Pos
 .Lsra6_b26_Neg:
-        .word   .Lsra_n67108864, 164, .Lsra6_b25_Neg
+        .word   .Lsra_n67108864, 100, .Lsra6_b25_Neg
         .word   .Lsra_n1048576, 168, .+4
         .word   12, 12, .Lsra6_b25_Pos
 .Lsra6_b25_Pos:
-        .word   .Lsra_c33554432, 164, .Lsra6_b24_Neg
+        .word   .Lsra_c33554432, 100, .Lsra6_b24_Neg
         .word   .Lsra_n524288, 168, .+4
         .word   12, 12, .Lsra6_b24_Pos
 .Lsra6_b25_Neg:
-        .word   .Lsra_n33554432, 164, .Lsra6_b24_Neg
+        .word   .Lsra_n33554432, 100, .Lsra6_b24_Neg
         .word   .Lsra_n524288, 168, .+4
         .word   12, 12, .Lsra6_b24_Pos
 .Lsra6_b24_Pos:
-        .word   .Lsra_c16777216, 164, .Lsra6_b23_Neg
+        .word   .Lsra_c16777216, 100, .Lsra6_b23_Neg
         .word   .Lsra_n262144, 168, .+4
         .word   12, 12, .Lsra6_b23_Pos
 .Lsra6_b24_Neg:
-        .word   .Lsra_n16777216, 164, .Lsra6_b23_Neg
+        .word   .Lsra_n16777216, 100, .Lsra6_b23_Neg
         .word   .Lsra_n262144, 168, .+4
         .word   12, 12, .Lsra6_b23_Pos
 .Lsra6_b23_Pos:
-        .word   .Lsra_c8388608, 164, .Lsra6_b22_Neg
+        .word   .Lsra_c8388608, 100, .Lsra6_b22_Neg
         .word   .Lsra_n131072, 168, .+4
         .word   12, 12, .Lsra6_b22_Pos
 .Lsra6_b23_Neg:
-        .word   .Lsra_n8388608, 164, .Lsra6_b22_Neg
+        .word   .Lsra_n8388608, 100, .Lsra6_b22_Neg
         .word   .Lsra_n131072, 168, .+4
         .word   12, 12, .Lsra6_b22_Pos
 .Lsra6_b22_Pos:
-        .word   .Lsra_c4194304, 164, .Lsra6_b21_Neg
+        .word   .Lsra_c4194304, 100, .Lsra6_b21_Neg
         .word   .Lsra_n65536, 168, .+4
         .word   12, 12, .Lsra6_b21_Pos
 .Lsra6_b22_Neg:
-        .word   .Lsra_n4194304, 164, .Lsra6_b21_Neg
+        .word   .Lsra_n4194304, 100, .Lsra6_b21_Neg
         .word   .Lsra_n65536, 168, .+4
         .word   12, 12, .Lsra6_b21_Pos
 .Lsra6_b21_Pos:
-        .word   .Lsra_c2097152, 164, .Lsra6_b20_Neg
+        .word   .Lsra_c2097152, 100, .Lsra6_b20_Neg
         .word   .Lsra_n32768, 168, .+4
         .word   12, 12, .Lsra6_b20_Pos
 .Lsra6_b21_Neg:
-        .word   .Lsra_n2097152, 164, .Lsra6_b20_Neg
+        .word   .Lsra_n2097152, 100, .Lsra6_b20_Neg
         .word   .Lsra_n32768, 168, .+4
         .word   12, 12, .Lsra6_b20_Pos
 .Lsra6_b20_Pos:
-        .word   .Lsra_c1048576, 164, .Lsra6_b19_Neg
+        .word   .Lsra_c1048576, 100, .Lsra6_b19_Neg
         .word   .Lsra_n16384, 168, .+4
         .word   12, 12, .Lsra6_b19_Pos
 .Lsra6_b20_Neg:
-        .word   .Lsra_n1048576, 164, .Lsra6_b19_Neg
+        .word   .Lsra_n1048576, 100, .Lsra6_b19_Neg
         .word   .Lsra_n16384, 168, .+4
         .word   12, 12, .Lsra6_b19_Pos
 .Lsra6_b19_Pos:
-        .word   .Lsra_c524288, 164, .Lsra6_b18_Neg
+        .word   .Lsra_c524288, 100, .Lsra6_b18_Neg
         .word   .Lsra_n8192, 168, .+4
         .word   12, 12, .Lsra6_b18_Pos
 .Lsra6_b19_Neg:
-        .word   .Lsra_n524288, 164, .Lsra6_b18_Neg
+        .word   .Lsra_n524288, 100, .Lsra6_b18_Neg
         .word   .Lsra_n8192, 168, .+4
         .word   12, 12, .Lsra6_b18_Pos
 .Lsra6_b18_Pos:
-        .word   .Lsra_c262144, 164, .Lsra6_b17_Neg
+        .word   .Lsra_c262144, 100, .Lsra6_b17_Neg
         .word   .Lsra_n4096, 168, .+4
         .word   12, 12, .Lsra6_b17_Pos
 .Lsra6_b18_Neg:
-        .word   .Lsra_n262144, 164, .Lsra6_b17_Neg
+        .word   .Lsra_n262144, 100, .Lsra6_b17_Neg
         .word   .Lsra_n4096, 168, .+4
         .word   12, 12, .Lsra6_b17_Pos
 .Lsra6_b17_Pos:
-        .word   .Lsra_c131072, 164, .Lsra6_b16_Neg
+        .word   .Lsra_c131072, 100, .Lsra6_b16_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra6_b16_Pos
 .Lsra6_b17_Neg:
-        .word   .Lsra_n131072, 164, .Lsra6_b16_Neg
+        .word   .Lsra_n131072, 100, .Lsra6_b16_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra6_b16_Pos
 .Lsra6_b16_Pos:
-        .word   .Lsra_c65536, 164, .Lsra6_b15_Neg
+        .word   .Lsra_c65536, 100, .Lsra6_b15_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra6_b15_Pos
 .Lsra6_b16_Neg:
-        .word   .Lsra_n65536, 164, .Lsra6_b15_Neg
+        .word   .Lsra_n65536, 100, .Lsra6_b15_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra6_b15_Pos
 .Lsra6_b15_Pos:
-        .word   .Lsra_c32768, 164, .Lsra6_b14_Neg
+        .word   .Lsra_c32768, 100, .Lsra6_b14_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra6_b14_Pos
 .Lsra6_b15_Neg:
-        .word   .Lsra_n32768, 164, .Lsra6_b14_Neg
+        .word   .Lsra_n32768, 100, .Lsra6_b14_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra6_b14_Pos
 .Lsra6_b14_Pos:
-        .word   .Lsra_c16384, 164, .Lsra6_b13_Neg
+        .word   .Lsra_c16384, 100, .Lsra6_b13_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra6_b13_Pos
 .Lsra6_b14_Neg:
-        .word   .Lsra_n16384, 164, .Lsra6_b13_Neg
+        .word   .Lsra_n16384, 100, .Lsra6_b13_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra6_b13_Pos
 .Lsra6_b13_Pos:
-        .word   .Lsra_c8192, 164, .Lsra6_b12_Neg
+        .word   .Lsra_c8192, 100, .Lsra6_b12_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra6_b12_Pos
 .Lsra6_b13_Neg:
-        .word   .Lsra_n8192, 164, .Lsra6_b12_Neg
+        .word   .Lsra_n8192, 100, .Lsra6_b12_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra6_b12_Pos
 .Lsra6_b12_Pos:
-        .word   .Lsra_c4096, 164, .Lsra6_b11_Neg
+        .word   .Lsra_c4096, 100, .Lsra6_b11_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra6_b11_Pos
 .Lsra6_b12_Neg:
-        .word   .Lsra_n4096, 164, .Lsra6_b11_Neg
+        .word   .Lsra_n4096, 100, .Lsra6_b11_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra6_b11_Pos
 .Lsra6_b11_Pos:
-        .word   .Lsra_c2048, 164, .Lsra6_b10_Neg
+        .word   .Lsra_c2048, 100, .Lsra6_b10_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra6_b10_Pos
 .Lsra6_b11_Neg:
-        .word   .Lsra_n2048, 164, .Lsra6_b10_Neg
+        .word   .Lsra_n2048, 100, .Lsra6_b10_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra6_b10_Pos
 .Lsra6_b10_Pos:
-        .word   .Lsra_c1024, 164, .Lsra6_b9_Neg
+        .word   .Lsra_c1024, 100, .Lsra6_b9_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra6_b9_Pos
 .Lsra6_b10_Neg:
-        .word   .Lsra_n1024, 164, .Lsra6_b9_Neg
+        .word   .Lsra_n1024, 100, .Lsra6_b9_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra6_b9_Pos
 .Lsra6_b9_Pos:
-        .word   .Lsra_c512, 164, .Lsra6_b8_Neg
+        .word   .Lsra_c512, 100, .Lsra6_b8_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra6_b8_Pos
 .Lsra6_b9_Neg:
-        .word   .Lsra_n512, 164, .Lsra6_b8_Neg
+        .word   .Lsra_n512, 100, .Lsra6_b8_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra6_b8_Pos
 .Lsra6_b8_Pos:
-        .word   .Lsra_c256, 164, .Lsra6_b7_Neg
+        .word   .Lsra_c256, 100, .Lsra6_b7_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra6_b7_Pos
 .Lsra6_b8_Neg:
-        .word   .Lsra_n256, 164, .Lsra6_b7_Neg
+        .word   .Lsra_n256, 100, .Lsra6_b7_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra6_b7_Pos
 .Lsra6_b7_Pos:
-        .word   .Lsra_c128, 164, .Lsra6_b6_Neg
+        .word   .Lsra_c128, 100, .Lsra6_b6_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra6_b6_Pos
 .Lsra6_b7_Neg:
-        .word   .Lsra_n128, 164, .Lsra6_b6_Neg
+        .word   .Lsra_n128, 100, .Lsra6_b6_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra6_b6_Pos
 .Lsra6_b6_Pos:
-        .word   .Lsra_c64, 164, .Lsra6_store_internal
+        .word   .Lsra_c64, 100, .Lsra6_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra6_store_internal
 .Lsra6_b6_Neg:
-        .word   .Lsra_n64, 164, .Lsra6_store_internal
+        .word   .Lsra_n64, 100, .Lsra6_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra6_store_internal
 .Lsra6_store_internal:
@@ -46425,13 +46408,13 @@ __subleq_sra:
 .Lsra7_chksign:
         .word   172, 172, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   100, 12, .+4
         .word   12, 172, .+4
         .word   144, 172, .Lsra7_maybe_neg
         .word   12, 12, .Lsra7_pos
 .Lsra7_maybe_neg:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsra7_ambig
         .word   12, 12, .Lsra7_neg
 .Lsra7_ambig:
@@ -46441,202 +46424,202 @@ __subleq_sra:
 .Lsra7_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
-        .word   164, 172, .+4
-        .word   164, 164, .+4
+        .word   100, 172, .+4
+        .word   100, 100, .+4
         .word   12, 12, .+4
         .word   172, 12, .+4
-        .word   12, 164, .+4
-        .word   .Lsra_one, 164, .Lsra7_pos
+        .word   12, 100, .+4
+        .word   .Lsra_one, 100, .Lsra7_pos
 .Lsra7_pos:
         .word   168, 168, .+4
-        .word   .Lsra_negone, 164, .+4
+        .word   .Lsra_negone, 100, .+4
         .word   12, 12, .Lsra7_b30_Pos
 .Lsra7_b30_Pos:
-        .word   .Lsra_c1073741824, 164, .Lsra7_b29_Neg
+        .word   .Lsra_c1073741824, 100, .Lsra7_b29_Neg
         .word   .Lsra_n8388608, 168, .+4
         .word   12, 12, .Lsra7_b29_Pos
 .Lsra7_b29_Pos:
-        .word   .Lsra_c536870912, 164, .Lsra7_b28_Neg
+        .word   .Lsra_c536870912, 100, .Lsra7_b28_Neg
         .word   .Lsra_n4194304, 168, .+4
         .word   12, 12, .Lsra7_b28_Pos
 .Lsra7_b29_Neg:
-        .word   .Lsra_n536870912, 164, .Lsra7_b28_Neg
+        .word   .Lsra_n536870912, 100, .Lsra7_b28_Neg
         .word   .Lsra_n4194304, 168, .+4
         .word   12, 12, .Lsra7_b28_Pos
 .Lsra7_b28_Pos:
-        .word   .Lsra_c268435456, 164, .Lsra7_b27_Neg
+        .word   .Lsra_c268435456, 100, .Lsra7_b27_Neg
         .word   .Lsra_n2097152, 168, .+4
         .word   12, 12, .Lsra7_b27_Pos
 .Lsra7_b28_Neg:
-        .word   .Lsra_n268435456, 164, .Lsra7_b27_Neg
+        .word   .Lsra_n268435456, 100, .Lsra7_b27_Neg
         .word   .Lsra_n2097152, 168, .+4
         .word   12, 12, .Lsra7_b27_Pos
 .Lsra7_b27_Pos:
-        .word   .Lsra_c134217728, 164, .Lsra7_b26_Neg
+        .word   .Lsra_c134217728, 100, .Lsra7_b26_Neg
         .word   .Lsra_n1048576, 168, .+4
         .word   12, 12, .Lsra7_b26_Pos
 .Lsra7_b27_Neg:
-        .word   .Lsra_n134217728, 164, .Lsra7_b26_Neg
+        .word   .Lsra_n134217728, 100, .Lsra7_b26_Neg
         .word   .Lsra_n1048576, 168, .+4
         .word   12, 12, .Lsra7_b26_Pos
 .Lsra7_b26_Pos:
-        .word   .Lsra_c67108864, 164, .Lsra7_b25_Neg
+        .word   .Lsra_c67108864, 100, .Lsra7_b25_Neg
         .word   .Lsra_n524288, 168, .+4
         .word   12, 12, .Lsra7_b25_Pos
 .Lsra7_b26_Neg:
-        .word   .Lsra_n67108864, 164, .Lsra7_b25_Neg
+        .word   .Lsra_n67108864, 100, .Lsra7_b25_Neg
         .word   .Lsra_n524288, 168, .+4
         .word   12, 12, .Lsra7_b25_Pos
 .Lsra7_b25_Pos:
-        .word   .Lsra_c33554432, 164, .Lsra7_b24_Neg
+        .word   .Lsra_c33554432, 100, .Lsra7_b24_Neg
         .word   .Lsra_n262144, 168, .+4
         .word   12, 12, .Lsra7_b24_Pos
 .Lsra7_b25_Neg:
-        .word   .Lsra_n33554432, 164, .Lsra7_b24_Neg
+        .word   .Lsra_n33554432, 100, .Lsra7_b24_Neg
         .word   .Lsra_n262144, 168, .+4
         .word   12, 12, .Lsra7_b24_Pos
 .Lsra7_b24_Pos:
-        .word   .Lsra_c16777216, 164, .Lsra7_b23_Neg
+        .word   .Lsra_c16777216, 100, .Lsra7_b23_Neg
         .word   .Lsra_n131072, 168, .+4
         .word   12, 12, .Lsra7_b23_Pos
 .Lsra7_b24_Neg:
-        .word   .Lsra_n16777216, 164, .Lsra7_b23_Neg
+        .word   .Lsra_n16777216, 100, .Lsra7_b23_Neg
         .word   .Lsra_n131072, 168, .+4
         .word   12, 12, .Lsra7_b23_Pos
 .Lsra7_b23_Pos:
-        .word   .Lsra_c8388608, 164, .Lsra7_b22_Neg
+        .word   .Lsra_c8388608, 100, .Lsra7_b22_Neg
         .word   .Lsra_n65536, 168, .+4
         .word   12, 12, .Lsra7_b22_Pos
 .Lsra7_b23_Neg:
-        .word   .Lsra_n8388608, 164, .Lsra7_b22_Neg
+        .word   .Lsra_n8388608, 100, .Lsra7_b22_Neg
         .word   .Lsra_n65536, 168, .+4
         .word   12, 12, .Lsra7_b22_Pos
 .Lsra7_b22_Pos:
-        .word   .Lsra_c4194304, 164, .Lsra7_b21_Neg
+        .word   .Lsra_c4194304, 100, .Lsra7_b21_Neg
         .word   .Lsra_n32768, 168, .+4
         .word   12, 12, .Lsra7_b21_Pos
 .Lsra7_b22_Neg:
-        .word   .Lsra_n4194304, 164, .Lsra7_b21_Neg
+        .word   .Lsra_n4194304, 100, .Lsra7_b21_Neg
         .word   .Lsra_n32768, 168, .+4
         .word   12, 12, .Lsra7_b21_Pos
 .Lsra7_b21_Pos:
-        .word   .Lsra_c2097152, 164, .Lsra7_b20_Neg
+        .word   .Lsra_c2097152, 100, .Lsra7_b20_Neg
         .word   .Lsra_n16384, 168, .+4
         .word   12, 12, .Lsra7_b20_Pos
 .Lsra7_b21_Neg:
-        .word   .Lsra_n2097152, 164, .Lsra7_b20_Neg
+        .word   .Lsra_n2097152, 100, .Lsra7_b20_Neg
         .word   .Lsra_n16384, 168, .+4
         .word   12, 12, .Lsra7_b20_Pos
 .Lsra7_b20_Pos:
-        .word   .Lsra_c1048576, 164, .Lsra7_b19_Neg
+        .word   .Lsra_c1048576, 100, .Lsra7_b19_Neg
         .word   .Lsra_n8192, 168, .+4
         .word   12, 12, .Lsra7_b19_Pos
 .Lsra7_b20_Neg:
-        .word   .Lsra_n1048576, 164, .Lsra7_b19_Neg
+        .word   .Lsra_n1048576, 100, .Lsra7_b19_Neg
         .word   .Lsra_n8192, 168, .+4
         .word   12, 12, .Lsra7_b19_Pos
 .Lsra7_b19_Pos:
-        .word   .Lsra_c524288, 164, .Lsra7_b18_Neg
+        .word   .Lsra_c524288, 100, .Lsra7_b18_Neg
         .word   .Lsra_n4096, 168, .+4
         .word   12, 12, .Lsra7_b18_Pos
 .Lsra7_b19_Neg:
-        .word   .Lsra_n524288, 164, .Lsra7_b18_Neg
+        .word   .Lsra_n524288, 100, .Lsra7_b18_Neg
         .word   .Lsra_n4096, 168, .+4
         .word   12, 12, .Lsra7_b18_Pos
 .Lsra7_b18_Pos:
-        .word   .Lsra_c262144, 164, .Lsra7_b17_Neg
+        .word   .Lsra_c262144, 100, .Lsra7_b17_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra7_b17_Pos
 .Lsra7_b18_Neg:
-        .word   .Lsra_n262144, 164, .Lsra7_b17_Neg
+        .word   .Lsra_n262144, 100, .Lsra7_b17_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra7_b17_Pos
 .Lsra7_b17_Pos:
-        .word   .Lsra_c131072, 164, .Lsra7_b16_Neg
+        .word   .Lsra_c131072, 100, .Lsra7_b16_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra7_b16_Pos
 .Lsra7_b17_Neg:
-        .word   .Lsra_n131072, 164, .Lsra7_b16_Neg
+        .word   .Lsra_n131072, 100, .Lsra7_b16_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra7_b16_Pos
 .Lsra7_b16_Pos:
-        .word   .Lsra_c65536, 164, .Lsra7_b15_Neg
+        .word   .Lsra_c65536, 100, .Lsra7_b15_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra7_b15_Pos
 .Lsra7_b16_Neg:
-        .word   .Lsra_n65536, 164, .Lsra7_b15_Neg
+        .word   .Lsra_n65536, 100, .Lsra7_b15_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra7_b15_Pos
 .Lsra7_b15_Pos:
-        .word   .Lsra_c32768, 164, .Lsra7_b14_Neg
+        .word   .Lsra_c32768, 100, .Lsra7_b14_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra7_b14_Pos
 .Lsra7_b15_Neg:
-        .word   .Lsra_n32768, 164, .Lsra7_b14_Neg
+        .word   .Lsra_n32768, 100, .Lsra7_b14_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra7_b14_Pos
 .Lsra7_b14_Pos:
-        .word   .Lsra_c16384, 164, .Lsra7_b13_Neg
+        .word   .Lsra_c16384, 100, .Lsra7_b13_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra7_b13_Pos
 .Lsra7_b14_Neg:
-        .word   .Lsra_n16384, 164, .Lsra7_b13_Neg
+        .word   .Lsra_n16384, 100, .Lsra7_b13_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra7_b13_Pos
 .Lsra7_b13_Pos:
-        .word   .Lsra_c8192, 164, .Lsra7_b12_Neg
+        .word   .Lsra_c8192, 100, .Lsra7_b12_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra7_b12_Pos
 .Lsra7_b13_Neg:
-        .word   .Lsra_n8192, 164, .Lsra7_b12_Neg
+        .word   .Lsra_n8192, 100, .Lsra7_b12_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra7_b12_Pos
 .Lsra7_b12_Pos:
-        .word   .Lsra_c4096, 164, .Lsra7_b11_Neg
+        .word   .Lsra_c4096, 100, .Lsra7_b11_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra7_b11_Pos
 .Lsra7_b12_Neg:
-        .word   .Lsra_n4096, 164, .Lsra7_b11_Neg
+        .word   .Lsra_n4096, 100, .Lsra7_b11_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra7_b11_Pos
 .Lsra7_b11_Pos:
-        .word   .Lsra_c2048, 164, .Lsra7_b10_Neg
+        .word   .Lsra_c2048, 100, .Lsra7_b10_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra7_b10_Pos
 .Lsra7_b11_Neg:
-        .word   .Lsra_n2048, 164, .Lsra7_b10_Neg
+        .word   .Lsra_n2048, 100, .Lsra7_b10_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra7_b10_Pos
 .Lsra7_b10_Pos:
-        .word   .Lsra_c1024, 164, .Lsra7_b9_Neg
+        .word   .Lsra_c1024, 100, .Lsra7_b9_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra7_b9_Pos
 .Lsra7_b10_Neg:
-        .word   .Lsra_n1024, 164, .Lsra7_b9_Neg
+        .word   .Lsra_n1024, 100, .Lsra7_b9_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra7_b9_Pos
 .Lsra7_b9_Pos:
-        .word   .Lsra_c512, 164, .Lsra7_b8_Neg
+        .word   .Lsra_c512, 100, .Lsra7_b8_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra7_b8_Pos
 .Lsra7_b9_Neg:
-        .word   .Lsra_n512, 164, .Lsra7_b8_Neg
+        .word   .Lsra_n512, 100, .Lsra7_b8_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra7_b8_Pos
 .Lsra7_b8_Pos:
-        .word   .Lsra_c256, 164, .Lsra7_b7_Neg
+        .word   .Lsra_c256, 100, .Lsra7_b7_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra7_b7_Pos
 .Lsra7_b8_Neg:
-        .word   .Lsra_n256, 164, .Lsra7_b7_Neg
+        .word   .Lsra_n256, 100, .Lsra7_b7_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra7_b7_Pos
 .Lsra7_b7_Pos:
-        .word   .Lsra_c128, 164, .Lsra7_store_internal
+        .word   .Lsra_c128, 100, .Lsra7_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra7_store_internal
 .Lsra7_b7_Neg:
-        .word   .Lsra_n128, 164, .Lsra7_store_internal
+        .word   .Lsra_n128, 100, .Lsra7_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra7_store_internal
 .Lsra7_store_internal:
@@ -46660,13 +46643,13 @@ __subleq_sra:
 .Lsra8_chksign:
         .word   172, 172, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   100, 12, .+4
         .word   12, 172, .+4
         .word   144, 172, .Lsra8_maybe_neg
         .word   12, 12, .Lsra8_pos
 .Lsra8_maybe_neg:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsra8_ambig
         .word   12, 12, .Lsra8_neg
 .Lsra8_ambig:
@@ -46676,194 +46659,194 @@ __subleq_sra:
 .Lsra8_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
-        .word   164, 172, .+4
-        .word   164, 164, .+4
+        .word   100, 172, .+4
+        .word   100, 100, .+4
         .word   12, 12, .+4
         .word   172, 12, .+4
-        .word   12, 164, .+4
-        .word   .Lsra_one, 164, .Lsra8_pos
+        .word   12, 100, .+4
+        .word   .Lsra_one, 100, .Lsra8_pos
 .Lsra8_pos:
         .word   168, 168, .+4
-        .word   .Lsra_negone, 164, .+4
+        .word   .Lsra_negone, 100, .+4
         .word   12, 12, .Lsra8_b30_Pos
 .Lsra8_b30_Pos:
-        .word   .Lsra_c1073741824, 164, .Lsra8_b29_Neg
+        .word   .Lsra_c1073741824, 100, .Lsra8_b29_Neg
         .word   .Lsra_n4194304, 168, .+4
         .word   12, 12, .Lsra8_b29_Pos
 .Lsra8_b29_Pos:
-        .word   .Lsra_c536870912, 164, .Lsra8_b28_Neg
+        .word   .Lsra_c536870912, 100, .Lsra8_b28_Neg
         .word   .Lsra_n2097152, 168, .+4
         .word   12, 12, .Lsra8_b28_Pos
 .Lsra8_b29_Neg:
-        .word   .Lsra_n536870912, 164, .Lsra8_b28_Neg
+        .word   .Lsra_n536870912, 100, .Lsra8_b28_Neg
         .word   .Lsra_n2097152, 168, .+4
         .word   12, 12, .Lsra8_b28_Pos
 .Lsra8_b28_Pos:
-        .word   .Lsra_c268435456, 164, .Lsra8_b27_Neg
+        .word   .Lsra_c268435456, 100, .Lsra8_b27_Neg
         .word   .Lsra_n1048576, 168, .+4
         .word   12, 12, .Lsra8_b27_Pos
 .Lsra8_b28_Neg:
-        .word   .Lsra_n268435456, 164, .Lsra8_b27_Neg
+        .word   .Lsra_n268435456, 100, .Lsra8_b27_Neg
         .word   .Lsra_n1048576, 168, .+4
         .word   12, 12, .Lsra8_b27_Pos
 .Lsra8_b27_Pos:
-        .word   .Lsra_c134217728, 164, .Lsra8_b26_Neg
+        .word   .Lsra_c134217728, 100, .Lsra8_b26_Neg
         .word   .Lsra_n524288, 168, .+4
         .word   12, 12, .Lsra8_b26_Pos
 .Lsra8_b27_Neg:
-        .word   .Lsra_n134217728, 164, .Lsra8_b26_Neg
+        .word   .Lsra_n134217728, 100, .Lsra8_b26_Neg
         .word   .Lsra_n524288, 168, .+4
         .word   12, 12, .Lsra8_b26_Pos
 .Lsra8_b26_Pos:
-        .word   .Lsra_c67108864, 164, .Lsra8_b25_Neg
+        .word   .Lsra_c67108864, 100, .Lsra8_b25_Neg
         .word   .Lsra_n262144, 168, .+4
         .word   12, 12, .Lsra8_b25_Pos
 .Lsra8_b26_Neg:
-        .word   .Lsra_n67108864, 164, .Lsra8_b25_Neg
+        .word   .Lsra_n67108864, 100, .Lsra8_b25_Neg
         .word   .Lsra_n262144, 168, .+4
         .word   12, 12, .Lsra8_b25_Pos
 .Lsra8_b25_Pos:
-        .word   .Lsra_c33554432, 164, .Lsra8_b24_Neg
+        .word   .Lsra_c33554432, 100, .Lsra8_b24_Neg
         .word   .Lsra_n131072, 168, .+4
         .word   12, 12, .Lsra8_b24_Pos
 .Lsra8_b25_Neg:
-        .word   .Lsra_n33554432, 164, .Lsra8_b24_Neg
+        .word   .Lsra_n33554432, 100, .Lsra8_b24_Neg
         .word   .Lsra_n131072, 168, .+4
         .word   12, 12, .Lsra8_b24_Pos
 .Lsra8_b24_Pos:
-        .word   .Lsra_c16777216, 164, .Lsra8_b23_Neg
+        .word   .Lsra_c16777216, 100, .Lsra8_b23_Neg
         .word   .Lsra_n65536, 168, .+4
         .word   12, 12, .Lsra8_b23_Pos
 .Lsra8_b24_Neg:
-        .word   .Lsra_n16777216, 164, .Lsra8_b23_Neg
+        .word   .Lsra_n16777216, 100, .Lsra8_b23_Neg
         .word   .Lsra_n65536, 168, .+4
         .word   12, 12, .Lsra8_b23_Pos
 .Lsra8_b23_Pos:
-        .word   .Lsra_c8388608, 164, .Lsra8_b22_Neg
+        .word   .Lsra_c8388608, 100, .Lsra8_b22_Neg
         .word   .Lsra_n32768, 168, .+4
         .word   12, 12, .Lsra8_b22_Pos
 .Lsra8_b23_Neg:
-        .word   .Lsra_n8388608, 164, .Lsra8_b22_Neg
+        .word   .Lsra_n8388608, 100, .Lsra8_b22_Neg
         .word   .Lsra_n32768, 168, .+4
         .word   12, 12, .Lsra8_b22_Pos
 .Lsra8_b22_Pos:
-        .word   .Lsra_c4194304, 164, .Lsra8_b21_Neg
+        .word   .Lsra_c4194304, 100, .Lsra8_b21_Neg
         .word   .Lsra_n16384, 168, .+4
         .word   12, 12, .Lsra8_b21_Pos
 .Lsra8_b22_Neg:
-        .word   .Lsra_n4194304, 164, .Lsra8_b21_Neg
+        .word   .Lsra_n4194304, 100, .Lsra8_b21_Neg
         .word   .Lsra_n16384, 168, .+4
         .word   12, 12, .Lsra8_b21_Pos
 .Lsra8_b21_Pos:
-        .word   .Lsra_c2097152, 164, .Lsra8_b20_Neg
+        .word   .Lsra_c2097152, 100, .Lsra8_b20_Neg
         .word   .Lsra_n8192, 168, .+4
         .word   12, 12, .Lsra8_b20_Pos
 .Lsra8_b21_Neg:
-        .word   .Lsra_n2097152, 164, .Lsra8_b20_Neg
+        .word   .Lsra_n2097152, 100, .Lsra8_b20_Neg
         .word   .Lsra_n8192, 168, .+4
         .word   12, 12, .Lsra8_b20_Pos
 .Lsra8_b20_Pos:
-        .word   .Lsra_c1048576, 164, .Lsra8_b19_Neg
+        .word   .Lsra_c1048576, 100, .Lsra8_b19_Neg
         .word   .Lsra_n4096, 168, .+4
         .word   12, 12, .Lsra8_b19_Pos
 .Lsra8_b20_Neg:
-        .word   .Lsra_n1048576, 164, .Lsra8_b19_Neg
+        .word   .Lsra_n1048576, 100, .Lsra8_b19_Neg
         .word   .Lsra_n4096, 168, .+4
         .word   12, 12, .Lsra8_b19_Pos
 .Lsra8_b19_Pos:
-        .word   .Lsra_c524288, 164, .Lsra8_b18_Neg
+        .word   .Lsra_c524288, 100, .Lsra8_b18_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra8_b18_Pos
 .Lsra8_b19_Neg:
-        .word   .Lsra_n524288, 164, .Lsra8_b18_Neg
+        .word   .Lsra_n524288, 100, .Lsra8_b18_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra8_b18_Pos
 .Lsra8_b18_Pos:
-        .word   .Lsra_c262144, 164, .Lsra8_b17_Neg
+        .word   .Lsra_c262144, 100, .Lsra8_b17_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra8_b17_Pos
 .Lsra8_b18_Neg:
-        .word   .Lsra_n262144, 164, .Lsra8_b17_Neg
+        .word   .Lsra_n262144, 100, .Lsra8_b17_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra8_b17_Pos
 .Lsra8_b17_Pos:
-        .word   .Lsra_c131072, 164, .Lsra8_b16_Neg
+        .word   .Lsra_c131072, 100, .Lsra8_b16_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra8_b16_Pos
 .Lsra8_b17_Neg:
-        .word   .Lsra_n131072, 164, .Lsra8_b16_Neg
+        .word   .Lsra_n131072, 100, .Lsra8_b16_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra8_b16_Pos
 .Lsra8_b16_Pos:
-        .word   .Lsra_c65536, 164, .Lsra8_b15_Neg
+        .word   .Lsra_c65536, 100, .Lsra8_b15_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra8_b15_Pos
 .Lsra8_b16_Neg:
-        .word   .Lsra_n65536, 164, .Lsra8_b15_Neg
+        .word   .Lsra_n65536, 100, .Lsra8_b15_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra8_b15_Pos
 .Lsra8_b15_Pos:
-        .word   .Lsra_c32768, 164, .Lsra8_b14_Neg
+        .word   .Lsra_c32768, 100, .Lsra8_b14_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra8_b14_Pos
 .Lsra8_b15_Neg:
-        .word   .Lsra_n32768, 164, .Lsra8_b14_Neg
+        .word   .Lsra_n32768, 100, .Lsra8_b14_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra8_b14_Pos
 .Lsra8_b14_Pos:
-        .word   .Lsra_c16384, 164, .Lsra8_b13_Neg
+        .word   .Lsra_c16384, 100, .Lsra8_b13_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra8_b13_Pos
 .Lsra8_b14_Neg:
-        .word   .Lsra_n16384, 164, .Lsra8_b13_Neg
+        .word   .Lsra_n16384, 100, .Lsra8_b13_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra8_b13_Pos
 .Lsra8_b13_Pos:
-        .word   .Lsra_c8192, 164, .Lsra8_b12_Neg
+        .word   .Lsra_c8192, 100, .Lsra8_b12_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra8_b12_Pos
 .Lsra8_b13_Neg:
-        .word   .Lsra_n8192, 164, .Lsra8_b12_Neg
+        .word   .Lsra_n8192, 100, .Lsra8_b12_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra8_b12_Pos
 .Lsra8_b12_Pos:
-        .word   .Lsra_c4096, 164, .Lsra8_b11_Neg
+        .word   .Lsra_c4096, 100, .Lsra8_b11_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra8_b11_Pos
 .Lsra8_b12_Neg:
-        .word   .Lsra_n4096, 164, .Lsra8_b11_Neg
+        .word   .Lsra_n4096, 100, .Lsra8_b11_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra8_b11_Pos
 .Lsra8_b11_Pos:
-        .word   .Lsra_c2048, 164, .Lsra8_b10_Neg
+        .word   .Lsra_c2048, 100, .Lsra8_b10_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra8_b10_Pos
 .Lsra8_b11_Neg:
-        .word   .Lsra_n2048, 164, .Lsra8_b10_Neg
+        .word   .Lsra_n2048, 100, .Lsra8_b10_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra8_b10_Pos
 .Lsra8_b10_Pos:
-        .word   .Lsra_c1024, 164, .Lsra8_b9_Neg
+        .word   .Lsra_c1024, 100, .Lsra8_b9_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra8_b9_Pos
 .Lsra8_b10_Neg:
-        .word   .Lsra_n1024, 164, .Lsra8_b9_Neg
+        .word   .Lsra_n1024, 100, .Lsra8_b9_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra8_b9_Pos
 .Lsra8_b9_Pos:
-        .word   .Lsra_c512, 164, .Lsra8_b8_Neg
+        .word   .Lsra_c512, 100, .Lsra8_b8_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra8_b8_Pos
 .Lsra8_b9_Neg:
-        .word   .Lsra_n512, 164, .Lsra8_b8_Neg
+        .word   .Lsra_n512, 100, .Lsra8_b8_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra8_b8_Pos
 .Lsra8_b8_Pos:
-        .word   .Lsra_c256, 164, .Lsra8_store_internal
+        .word   .Lsra_c256, 100, .Lsra8_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra8_store_internal
 .Lsra8_b8_Neg:
-        .word   .Lsra_n256, 164, .Lsra8_store_internal
+        .word   .Lsra_n256, 100, .Lsra8_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra8_store_internal
 .Lsra8_store_internal:
@@ -46887,13 +46870,13 @@ __subleq_sra:
 .Lsra9_chksign:
         .word   172, 172, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   100, 12, .+4
         .word   12, 172, .+4
         .word   144, 172, .Lsra9_maybe_neg
         .word   12, 12, .Lsra9_pos
 .Lsra9_maybe_neg:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsra9_ambig
         .word   12, 12, .Lsra9_neg
 .Lsra9_ambig:
@@ -46903,186 +46886,186 @@ __subleq_sra:
 .Lsra9_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
-        .word   164, 172, .+4
-        .word   164, 164, .+4
+        .word   100, 172, .+4
+        .word   100, 100, .+4
         .word   12, 12, .+4
         .word   172, 12, .+4
-        .word   12, 164, .+4
-        .word   .Lsra_one, 164, .Lsra9_pos
+        .word   12, 100, .+4
+        .word   .Lsra_one, 100, .Lsra9_pos
 .Lsra9_pos:
         .word   168, 168, .+4
-        .word   .Lsra_negone, 164, .+4
+        .word   .Lsra_negone, 100, .+4
         .word   12, 12, .Lsra9_b30_Pos
 .Lsra9_b30_Pos:
-        .word   .Lsra_c1073741824, 164, .Lsra9_b29_Neg
+        .word   .Lsra_c1073741824, 100, .Lsra9_b29_Neg
         .word   .Lsra_n2097152, 168, .+4
         .word   12, 12, .Lsra9_b29_Pos
 .Lsra9_b29_Pos:
-        .word   .Lsra_c536870912, 164, .Lsra9_b28_Neg
+        .word   .Lsra_c536870912, 100, .Lsra9_b28_Neg
         .word   .Lsra_n1048576, 168, .+4
         .word   12, 12, .Lsra9_b28_Pos
 .Lsra9_b29_Neg:
-        .word   .Lsra_n536870912, 164, .Lsra9_b28_Neg
+        .word   .Lsra_n536870912, 100, .Lsra9_b28_Neg
         .word   .Lsra_n1048576, 168, .+4
         .word   12, 12, .Lsra9_b28_Pos
 .Lsra9_b28_Pos:
-        .word   .Lsra_c268435456, 164, .Lsra9_b27_Neg
+        .word   .Lsra_c268435456, 100, .Lsra9_b27_Neg
         .word   .Lsra_n524288, 168, .+4
         .word   12, 12, .Lsra9_b27_Pos
 .Lsra9_b28_Neg:
-        .word   .Lsra_n268435456, 164, .Lsra9_b27_Neg
+        .word   .Lsra_n268435456, 100, .Lsra9_b27_Neg
         .word   .Lsra_n524288, 168, .+4
         .word   12, 12, .Lsra9_b27_Pos
 .Lsra9_b27_Pos:
-        .word   .Lsra_c134217728, 164, .Lsra9_b26_Neg
+        .word   .Lsra_c134217728, 100, .Lsra9_b26_Neg
         .word   .Lsra_n262144, 168, .+4
         .word   12, 12, .Lsra9_b26_Pos
 .Lsra9_b27_Neg:
-        .word   .Lsra_n134217728, 164, .Lsra9_b26_Neg
+        .word   .Lsra_n134217728, 100, .Lsra9_b26_Neg
         .word   .Lsra_n262144, 168, .+4
         .word   12, 12, .Lsra9_b26_Pos
 .Lsra9_b26_Pos:
-        .word   .Lsra_c67108864, 164, .Lsra9_b25_Neg
+        .word   .Lsra_c67108864, 100, .Lsra9_b25_Neg
         .word   .Lsra_n131072, 168, .+4
         .word   12, 12, .Lsra9_b25_Pos
 .Lsra9_b26_Neg:
-        .word   .Lsra_n67108864, 164, .Lsra9_b25_Neg
+        .word   .Lsra_n67108864, 100, .Lsra9_b25_Neg
         .word   .Lsra_n131072, 168, .+4
         .word   12, 12, .Lsra9_b25_Pos
 .Lsra9_b25_Pos:
-        .word   .Lsra_c33554432, 164, .Lsra9_b24_Neg
+        .word   .Lsra_c33554432, 100, .Lsra9_b24_Neg
         .word   .Lsra_n65536, 168, .+4
         .word   12, 12, .Lsra9_b24_Pos
 .Lsra9_b25_Neg:
-        .word   .Lsra_n33554432, 164, .Lsra9_b24_Neg
+        .word   .Lsra_n33554432, 100, .Lsra9_b24_Neg
         .word   .Lsra_n65536, 168, .+4
         .word   12, 12, .Lsra9_b24_Pos
 .Lsra9_b24_Pos:
-        .word   .Lsra_c16777216, 164, .Lsra9_b23_Neg
+        .word   .Lsra_c16777216, 100, .Lsra9_b23_Neg
         .word   .Lsra_n32768, 168, .+4
         .word   12, 12, .Lsra9_b23_Pos
 .Lsra9_b24_Neg:
-        .word   .Lsra_n16777216, 164, .Lsra9_b23_Neg
+        .word   .Lsra_n16777216, 100, .Lsra9_b23_Neg
         .word   .Lsra_n32768, 168, .+4
         .word   12, 12, .Lsra9_b23_Pos
 .Lsra9_b23_Pos:
-        .word   .Lsra_c8388608, 164, .Lsra9_b22_Neg
+        .word   .Lsra_c8388608, 100, .Lsra9_b22_Neg
         .word   .Lsra_n16384, 168, .+4
         .word   12, 12, .Lsra9_b22_Pos
 .Lsra9_b23_Neg:
-        .word   .Lsra_n8388608, 164, .Lsra9_b22_Neg
+        .word   .Lsra_n8388608, 100, .Lsra9_b22_Neg
         .word   .Lsra_n16384, 168, .+4
         .word   12, 12, .Lsra9_b22_Pos
 .Lsra9_b22_Pos:
-        .word   .Lsra_c4194304, 164, .Lsra9_b21_Neg
+        .word   .Lsra_c4194304, 100, .Lsra9_b21_Neg
         .word   .Lsra_n8192, 168, .+4
         .word   12, 12, .Lsra9_b21_Pos
 .Lsra9_b22_Neg:
-        .word   .Lsra_n4194304, 164, .Lsra9_b21_Neg
+        .word   .Lsra_n4194304, 100, .Lsra9_b21_Neg
         .word   .Lsra_n8192, 168, .+4
         .word   12, 12, .Lsra9_b21_Pos
 .Lsra9_b21_Pos:
-        .word   .Lsra_c2097152, 164, .Lsra9_b20_Neg
+        .word   .Lsra_c2097152, 100, .Lsra9_b20_Neg
         .word   .Lsra_n4096, 168, .+4
         .word   12, 12, .Lsra9_b20_Pos
 .Lsra9_b21_Neg:
-        .word   .Lsra_n2097152, 164, .Lsra9_b20_Neg
+        .word   .Lsra_n2097152, 100, .Lsra9_b20_Neg
         .word   .Lsra_n4096, 168, .+4
         .word   12, 12, .Lsra9_b20_Pos
 .Lsra9_b20_Pos:
-        .word   .Lsra_c1048576, 164, .Lsra9_b19_Neg
+        .word   .Lsra_c1048576, 100, .Lsra9_b19_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra9_b19_Pos
 .Lsra9_b20_Neg:
-        .word   .Lsra_n1048576, 164, .Lsra9_b19_Neg
+        .word   .Lsra_n1048576, 100, .Lsra9_b19_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra9_b19_Pos
 .Lsra9_b19_Pos:
-        .word   .Lsra_c524288, 164, .Lsra9_b18_Neg
+        .word   .Lsra_c524288, 100, .Lsra9_b18_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra9_b18_Pos
 .Lsra9_b19_Neg:
-        .word   .Lsra_n524288, 164, .Lsra9_b18_Neg
+        .word   .Lsra_n524288, 100, .Lsra9_b18_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra9_b18_Pos
 .Lsra9_b18_Pos:
-        .word   .Lsra_c262144, 164, .Lsra9_b17_Neg
+        .word   .Lsra_c262144, 100, .Lsra9_b17_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra9_b17_Pos
 .Lsra9_b18_Neg:
-        .word   .Lsra_n262144, 164, .Lsra9_b17_Neg
+        .word   .Lsra_n262144, 100, .Lsra9_b17_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra9_b17_Pos
 .Lsra9_b17_Pos:
-        .word   .Lsra_c131072, 164, .Lsra9_b16_Neg
+        .word   .Lsra_c131072, 100, .Lsra9_b16_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra9_b16_Pos
 .Lsra9_b17_Neg:
-        .word   .Lsra_n131072, 164, .Lsra9_b16_Neg
+        .word   .Lsra_n131072, 100, .Lsra9_b16_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra9_b16_Pos
 .Lsra9_b16_Pos:
-        .word   .Lsra_c65536, 164, .Lsra9_b15_Neg
+        .word   .Lsra_c65536, 100, .Lsra9_b15_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra9_b15_Pos
 .Lsra9_b16_Neg:
-        .word   .Lsra_n65536, 164, .Lsra9_b15_Neg
+        .word   .Lsra_n65536, 100, .Lsra9_b15_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra9_b15_Pos
 .Lsra9_b15_Pos:
-        .word   .Lsra_c32768, 164, .Lsra9_b14_Neg
+        .word   .Lsra_c32768, 100, .Lsra9_b14_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra9_b14_Pos
 .Lsra9_b15_Neg:
-        .word   .Lsra_n32768, 164, .Lsra9_b14_Neg
+        .word   .Lsra_n32768, 100, .Lsra9_b14_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra9_b14_Pos
 .Lsra9_b14_Pos:
-        .word   .Lsra_c16384, 164, .Lsra9_b13_Neg
+        .word   .Lsra_c16384, 100, .Lsra9_b13_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra9_b13_Pos
 .Lsra9_b14_Neg:
-        .word   .Lsra_n16384, 164, .Lsra9_b13_Neg
+        .word   .Lsra_n16384, 100, .Lsra9_b13_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra9_b13_Pos
 .Lsra9_b13_Pos:
-        .word   .Lsra_c8192, 164, .Lsra9_b12_Neg
+        .word   .Lsra_c8192, 100, .Lsra9_b12_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra9_b12_Pos
 .Lsra9_b13_Neg:
-        .word   .Lsra_n8192, 164, .Lsra9_b12_Neg
+        .word   .Lsra_n8192, 100, .Lsra9_b12_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra9_b12_Pos
 .Lsra9_b12_Pos:
-        .word   .Lsra_c4096, 164, .Lsra9_b11_Neg
+        .word   .Lsra_c4096, 100, .Lsra9_b11_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra9_b11_Pos
 .Lsra9_b12_Neg:
-        .word   .Lsra_n4096, 164, .Lsra9_b11_Neg
+        .word   .Lsra_n4096, 100, .Lsra9_b11_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra9_b11_Pos
 .Lsra9_b11_Pos:
-        .word   .Lsra_c2048, 164, .Lsra9_b10_Neg
+        .word   .Lsra_c2048, 100, .Lsra9_b10_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra9_b10_Pos
 .Lsra9_b11_Neg:
-        .word   .Lsra_n2048, 164, .Lsra9_b10_Neg
+        .word   .Lsra_n2048, 100, .Lsra9_b10_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra9_b10_Pos
 .Lsra9_b10_Pos:
-        .word   .Lsra_c1024, 164, .Lsra9_b9_Neg
+        .word   .Lsra_c1024, 100, .Lsra9_b9_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra9_b9_Pos
 .Lsra9_b10_Neg:
-        .word   .Lsra_n1024, 164, .Lsra9_b9_Neg
+        .word   .Lsra_n1024, 100, .Lsra9_b9_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra9_b9_Pos
 .Lsra9_b9_Pos:
-        .word   .Lsra_c512, 164, .Lsra9_store_internal
+        .word   .Lsra_c512, 100, .Lsra9_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra9_store_internal
 .Lsra9_b9_Neg:
-        .word   .Lsra_n512, 164, .Lsra9_store_internal
+        .word   .Lsra_n512, 100, .Lsra9_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra9_store_internal
 .Lsra9_store_internal:
@@ -47106,13 +47089,13 @@ __subleq_sra:
 .Lsra10_chksign:
         .word   172, 172, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   100, 12, .+4
         .word   12, 172, .+4
         .word   144, 172, .Lsra10_maybe_neg
         .word   12, 12, .Lsra10_pos
 .Lsra10_maybe_neg:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsra10_ambig
         .word   12, 12, .Lsra10_neg
 .Lsra10_ambig:
@@ -47122,178 +47105,178 @@ __subleq_sra:
 .Lsra10_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
-        .word   164, 172, .+4
-        .word   164, 164, .+4
+        .word   100, 172, .+4
+        .word   100, 100, .+4
         .word   12, 12, .+4
         .word   172, 12, .+4
-        .word   12, 164, .+4
-        .word   .Lsra_one, 164, .Lsra10_pos
+        .word   12, 100, .+4
+        .word   .Lsra_one, 100, .Lsra10_pos
 .Lsra10_pos:
         .word   168, 168, .+4
-        .word   .Lsra_negone, 164, .+4
+        .word   .Lsra_negone, 100, .+4
         .word   12, 12, .Lsra10_b30_Pos
 .Lsra10_b30_Pos:
-        .word   .Lsra_c1073741824, 164, .Lsra10_b29_Neg
+        .word   .Lsra_c1073741824, 100, .Lsra10_b29_Neg
         .word   .Lsra_n1048576, 168, .+4
         .word   12, 12, .Lsra10_b29_Pos
 .Lsra10_b29_Pos:
-        .word   .Lsra_c536870912, 164, .Lsra10_b28_Neg
+        .word   .Lsra_c536870912, 100, .Lsra10_b28_Neg
         .word   .Lsra_n524288, 168, .+4
         .word   12, 12, .Lsra10_b28_Pos
 .Lsra10_b29_Neg:
-        .word   .Lsra_n536870912, 164, .Lsra10_b28_Neg
+        .word   .Lsra_n536870912, 100, .Lsra10_b28_Neg
         .word   .Lsra_n524288, 168, .+4
         .word   12, 12, .Lsra10_b28_Pos
 .Lsra10_b28_Pos:
-        .word   .Lsra_c268435456, 164, .Lsra10_b27_Neg
+        .word   .Lsra_c268435456, 100, .Lsra10_b27_Neg
         .word   .Lsra_n262144, 168, .+4
         .word   12, 12, .Lsra10_b27_Pos
 .Lsra10_b28_Neg:
-        .word   .Lsra_n268435456, 164, .Lsra10_b27_Neg
+        .word   .Lsra_n268435456, 100, .Lsra10_b27_Neg
         .word   .Lsra_n262144, 168, .+4
         .word   12, 12, .Lsra10_b27_Pos
 .Lsra10_b27_Pos:
-        .word   .Lsra_c134217728, 164, .Lsra10_b26_Neg
+        .word   .Lsra_c134217728, 100, .Lsra10_b26_Neg
         .word   .Lsra_n131072, 168, .+4
         .word   12, 12, .Lsra10_b26_Pos
 .Lsra10_b27_Neg:
-        .word   .Lsra_n134217728, 164, .Lsra10_b26_Neg
+        .word   .Lsra_n134217728, 100, .Lsra10_b26_Neg
         .word   .Lsra_n131072, 168, .+4
         .word   12, 12, .Lsra10_b26_Pos
 .Lsra10_b26_Pos:
-        .word   .Lsra_c67108864, 164, .Lsra10_b25_Neg
+        .word   .Lsra_c67108864, 100, .Lsra10_b25_Neg
         .word   .Lsra_n65536, 168, .+4
         .word   12, 12, .Lsra10_b25_Pos
 .Lsra10_b26_Neg:
-        .word   .Lsra_n67108864, 164, .Lsra10_b25_Neg
+        .word   .Lsra_n67108864, 100, .Lsra10_b25_Neg
         .word   .Lsra_n65536, 168, .+4
         .word   12, 12, .Lsra10_b25_Pos
 .Lsra10_b25_Pos:
-        .word   .Lsra_c33554432, 164, .Lsra10_b24_Neg
+        .word   .Lsra_c33554432, 100, .Lsra10_b24_Neg
         .word   .Lsra_n32768, 168, .+4
         .word   12, 12, .Lsra10_b24_Pos
 .Lsra10_b25_Neg:
-        .word   .Lsra_n33554432, 164, .Lsra10_b24_Neg
+        .word   .Lsra_n33554432, 100, .Lsra10_b24_Neg
         .word   .Lsra_n32768, 168, .+4
         .word   12, 12, .Lsra10_b24_Pos
 .Lsra10_b24_Pos:
-        .word   .Lsra_c16777216, 164, .Lsra10_b23_Neg
+        .word   .Lsra_c16777216, 100, .Lsra10_b23_Neg
         .word   .Lsra_n16384, 168, .+4
         .word   12, 12, .Lsra10_b23_Pos
 .Lsra10_b24_Neg:
-        .word   .Lsra_n16777216, 164, .Lsra10_b23_Neg
+        .word   .Lsra_n16777216, 100, .Lsra10_b23_Neg
         .word   .Lsra_n16384, 168, .+4
         .word   12, 12, .Lsra10_b23_Pos
 .Lsra10_b23_Pos:
-        .word   .Lsra_c8388608, 164, .Lsra10_b22_Neg
+        .word   .Lsra_c8388608, 100, .Lsra10_b22_Neg
         .word   .Lsra_n8192, 168, .+4
         .word   12, 12, .Lsra10_b22_Pos
 .Lsra10_b23_Neg:
-        .word   .Lsra_n8388608, 164, .Lsra10_b22_Neg
+        .word   .Lsra_n8388608, 100, .Lsra10_b22_Neg
         .word   .Lsra_n8192, 168, .+4
         .word   12, 12, .Lsra10_b22_Pos
 .Lsra10_b22_Pos:
-        .word   .Lsra_c4194304, 164, .Lsra10_b21_Neg
+        .word   .Lsra_c4194304, 100, .Lsra10_b21_Neg
         .word   .Lsra_n4096, 168, .+4
         .word   12, 12, .Lsra10_b21_Pos
 .Lsra10_b22_Neg:
-        .word   .Lsra_n4194304, 164, .Lsra10_b21_Neg
+        .word   .Lsra_n4194304, 100, .Lsra10_b21_Neg
         .word   .Lsra_n4096, 168, .+4
         .word   12, 12, .Lsra10_b21_Pos
 .Lsra10_b21_Pos:
-        .word   .Lsra_c2097152, 164, .Lsra10_b20_Neg
+        .word   .Lsra_c2097152, 100, .Lsra10_b20_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra10_b20_Pos
 .Lsra10_b21_Neg:
-        .word   .Lsra_n2097152, 164, .Lsra10_b20_Neg
+        .word   .Lsra_n2097152, 100, .Lsra10_b20_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra10_b20_Pos
 .Lsra10_b20_Pos:
-        .word   .Lsra_c1048576, 164, .Lsra10_b19_Neg
+        .word   .Lsra_c1048576, 100, .Lsra10_b19_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra10_b19_Pos
 .Lsra10_b20_Neg:
-        .word   .Lsra_n1048576, 164, .Lsra10_b19_Neg
+        .word   .Lsra_n1048576, 100, .Lsra10_b19_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra10_b19_Pos
 .Lsra10_b19_Pos:
-        .word   .Lsra_c524288, 164, .Lsra10_b18_Neg
+        .word   .Lsra_c524288, 100, .Lsra10_b18_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra10_b18_Pos
 .Lsra10_b19_Neg:
-        .word   .Lsra_n524288, 164, .Lsra10_b18_Neg
+        .word   .Lsra_n524288, 100, .Lsra10_b18_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra10_b18_Pos
 .Lsra10_b18_Pos:
-        .word   .Lsra_c262144, 164, .Lsra10_b17_Neg
+        .word   .Lsra_c262144, 100, .Lsra10_b17_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra10_b17_Pos
 .Lsra10_b18_Neg:
-        .word   .Lsra_n262144, 164, .Lsra10_b17_Neg
+        .word   .Lsra_n262144, 100, .Lsra10_b17_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra10_b17_Pos
 .Lsra10_b17_Pos:
-        .word   .Lsra_c131072, 164, .Lsra10_b16_Neg
+        .word   .Lsra_c131072, 100, .Lsra10_b16_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra10_b16_Pos
 .Lsra10_b17_Neg:
-        .word   .Lsra_n131072, 164, .Lsra10_b16_Neg
+        .word   .Lsra_n131072, 100, .Lsra10_b16_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra10_b16_Pos
 .Lsra10_b16_Pos:
-        .word   .Lsra_c65536, 164, .Lsra10_b15_Neg
+        .word   .Lsra_c65536, 100, .Lsra10_b15_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra10_b15_Pos
 .Lsra10_b16_Neg:
-        .word   .Lsra_n65536, 164, .Lsra10_b15_Neg
+        .word   .Lsra_n65536, 100, .Lsra10_b15_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra10_b15_Pos
 .Lsra10_b15_Pos:
-        .word   .Lsra_c32768, 164, .Lsra10_b14_Neg
+        .word   .Lsra_c32768, 100, .Lsra10_b14_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra10_b14_Pos
 .Lsra10_b15_Neg:
-        .word   .Lsra_n32768, 164, .Lsra10_b14_Neg
+        .word   .Lsra_n32768, 100, .Lsra10_b14_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra10_b14_Pos
 .Lsra10_b14_Pos:
-        .word   .Lsra_c16384, 164, .Lsra10_b13_Neg
+        .word   .Lsra_c16384, 100, .Lsra10_b13_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra10_b13_Pos
 .Lsra10_b14_Neg:
-        .word   .Lsra_n16384, 164, .Lsra10_b13_Neg
+        .word   .Lsra_n16384, 100, .Lsra10_b13_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra10_b13_Pos
 .Lsra10_b13_Pos:
-        .word   .Lsra_c8192, 164, .Lsra10_b12_Neg
+        .word   .Lsra_c8192, 100, .Lsra10_b12_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra10_b12_Pos
 .Lsra10_b13_Neg:
-        .word   .Lsra_n8192, 164, .Lsra10_b12_Neg
+        .word   .Lsra_n8192, 100, .Lsra10_b12_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra10_b12_Pos
 .Lsra10_b12_Pos:
-        .word   .Lsra_c4096, 164, .Lsra10_b11_Neg
+        .word   .Lsra_c4096, 100, .Lsra10_b11_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra10_b11_Pos
 .Lsra10_b12_Neg:
-        .word   .Lsra_n4096, 164, .Lsra10_b11_Neg
+        .word   .Lsra_n4096, 100, .Lsra10_b11_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra10_b11_Pos
 .Lsra10_b11_Pos:
-        .word   .Lsra_c2048, 164, .Lsra10_b10_Neg
+        .word   .Lsra_c2048, 100, .Lsra10_b10_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra10_b10_Pos
 .Lsra10_b11_Neg:
-        .word   .Lsra_n2048, 164, .Lsra10_b10_Neg
+        .word   .Lsra_n2048, 100, .Lsra10_b10_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra10_b10_Pos
 .Lsra10_b10_Pos:
-        .word   .Lsra_c1024, 164, .Lsra10_store_internal
+        .word   .Lsra_c1024, 100, .Lsra10_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra10_store_internal
 .Lsra10_b10_Neg:
-        .word   .Lsra_n1024, 164, .Lsra10_store_internal
+        .word   .Lsra_n1024, 100, .Lsra10_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra10_store_internal
 .Lsra10_store_internal:
@@ -47317,13 +47300,13 @@ __subleq_sra:
 .Lsra11_chksign:
         .word   172, 172, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   100, 12, .+4
         .word   12, 172, .+4
         .word   144, 172, .Lsra11_maybe_neg
         .word   12, 12, .Lsra11_pos
 .Lsra11_maybe_neg:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsra11_ambig
         .word   12, 12, .Lsra11_neg
 .Lsra11_ambig:
@@ -47333,170 +47316,170 @@ __subleq_sra:
 .Lsra11_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
-        .word   164, 172, .+4
-        .word   164, 164, .+4
+        .word   100, 172, .+4
+        .word   100, 100, .+4
         .word   12, 12, .+4
         .word   172, 12, .+4
-        .word   12, 164, .+4
-        .word   .Lsra_one, 164, .Lsra11_pos
+        .word   12, 100, .+4
+        .word   .Lsra_one, 100, .Lsra11_pos
 .Lsra11_pos:
         .word   168, 168, .+4
-        .word   .Lsra_negone, 164, .+4
+        .word   .Lsra_negone, 100, .+4
         .word   12, 12, .Lsra11_b30_Pos
 .Lsra11_b30_Pos:
-        .word   .Lsra_c1073741824, 164, .Lsra11_b29_Neg
+        .word   .Lsra_c1073741824, 100, .Lsra11_b29_Neg
         .word   .Lsra_n524288, 168, .+4
         .word   12, 12, .Lsra11_b29_Pos
 .Lsra11_b29_Pos:
-        .word   .Lsra_c536870912, 164, .Lsra11_b28_Neg
+        .word   .Lsra_c536870912, 100, .Lsra11_b28_Neg
         .word   .Lsra_n262144, 168, .+4
         .word   12, 12, .Lsra11_b28_Pos
 .Lsra11_b29_Neg:
-        .word   .Lsra_n536870912, 164, .Lsra11_b28_Neg
+        .word   .Lsra_n536870912, 100, .Lsra11_b28_Neg
         .word   .Lsra_n262144, 168, .+4
         .word   12, 12, .Lsra11_b28_Pos
 .Lsra11_b28_Pos:
-        .word   .Lsra_c268435456, 164, .Lsra11_b27_Neg
+        .word   .Lsra_c268435456, 100, .Lsra11_b27_Neg
         .word   .Lsra_n131072, 168, .+4
         .word   12, 12, .Lsra11_b27_Pos
 .Lsra11_b28_Neg:
-        .word   .Lsra_n268435456, 164, .Lsra11_b27_Neg
+        .word   .Lsra_n268435456, 100, .Lsra11_b27_Neg
         .word   .Lsra_n131072, 168, .+4
         .word   12, 12, .Lsra11_b27_Pos
 .Lsra11_b27_Pos:
-        .word   .Lsra_c134217728, 164, .Lsra11_b26_Neg
+        .word   .Lsra_c134217728, 100, .Lsra11_b26_Neg
         .word   .Lsra_n65536, 168, .+4
         .word   12, 12, .Lsra11_b26_Pos
 .Lsra11_b27_Neg:
-        .word   .Lsra_n134217728, 164, .Lsra11_b26_Neg
+        .word   .Lsra_n134217728, 100, .Lsra11_b26_Neg
         .word   .Lsra_n65536, 168, .+4
         .word   12, 12, .Lsra11_b26_Pos
 .Lsra11_b26_Pos:
-        .word   .Lsra_c67108864, 164, .Lsra11_b25_Neg
+        .word   .Lsra_c67108864, 100, .Lsra11_b25_Neg
         .word   .Lsra_n32768, 168, .+4
         .word   12, 12, .Lsra11_b25_Pos
 .Lsra11_b26_Neg:
-        .word   .Lsra_n67108864, 164, .Lsra11_b25_Neg
+        .word   .Lsra_n67108864, 100, .Lsra11_b25_Neg
         .word   .Lsra_n32768, 168, .+4
         .word   12, 12, .Lsra11_b25_Pos
 .Lsra11_b25_Pos:
-        .word   .Lsra_c33554432, 164, .Lsra11_b24_Neg
+        .word   .Lsra_c33554432, 100, .Lsra11_b24_Neg
         .word   .Lsra_n16384, 168, .+4
         .word   12, 12, .Lsra11_b24_Pos
 .Lsra11_b25_Neg:
-        .word   .Lsra_n33554432, 164, .Lsra11_b24_Neg
+        .word   .Lsra_n33554432, 100, .Lsra11_b24_Neg
         .word   .Lsra_n16384, 168, .+4
         .word   12, 12, .Lsra11_b24_Pos
 .Lsra11_b24_Pos:
-        .word   .Lsra_c16777216, 164, .Lsra11_b23_Neg
+        .word   .Lsra_c16777216, 100, .Lsra11_b23_Neg
         .word   .Lsra_n8192, 168, .+4
         .word   12, 12, .Lsra11_b23_Pos
 .Lsra11_b24_Neg:
-        .word   .Lsra_n16777216, 164, .Lsra11_b23_Neg
+        .word   .Lsra_n16777216, 100, .Lsra11_b23_Neg
         .word   .Lsra_n8192, 168, .+4
         .word   12, 12, .Lsra11_b23_Pos
 .Lsra11_b23_Pos:
-        .word   .Lsra_c8388608, 164, .Lsra11_b22_Neg
+        .word   .Lsra_c8388608, 100, .Lsra11_b22_Neg
         .word   .Lsra_n4096, 168, .+4
         .word   12, 12, .Lsra11_b22_Pos
 .Lsra11_b23_Neg:
-        .word   .Lsra_n8388608, 164, .Lsra11_b22_Neg
+        .word   .Lsra_n8388608, 100, .Lsra11_b22_Neg
         .word   .Lsra_n4096, 168, .+4
         .word   12, 12, .Lsra11_b22_Pos
 .Lsra11_b22_Pos:
-        .word   .Lsra_c4194304, 164, .Lsra11_b21_Neg
+        .word   .Lsra_c4194304, 100, .Lsra11_b21_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra11_b21_Pos
 .Lsra11_b22_Neg:
-        .word   .Lsra_n4194304, 164, .Lsra11_b21_Neg
+        .word   .Lsra_n4194304, 100, .Lsra11_b21_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra11_b21_Pos
 .Lsra11_b21_Pos:
-        .word   .Lsra_c2097152, 164, .Lsra11_b20_Neg
+        .word   .Lsra_c2097152, 100, .Lsra11_b20_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra11_b20_Pos
 .Lsra11_b21_Neg:
-        .word   .Lsra_n2097152, 164, .Lsra11_b20_Neg
+        .word   .Lsra_n2097152, 100, .Lsra11_b20_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra11_b20_Pos
 .Lsra11_b20_Pos:
-        .word   .Lsra_c1048576, 164, .Lsra11_b19_Neg
+        .word   .Lsra_c1048576, 100, .Lsra11_b19_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra11_b19_Pos
 .Lsra11_b20_Neg:
-        .word   .Lsra_n1048576, 164, .Lsra11_b19_Neg
+        .word   .Lsra_n1048576, 100, .Lsra11_b19_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra11_b19_Pos
 .Lsra11_b19_Pos:
-        .word   .Lsra_c524288, 164, .Lsra11_b18_Neg
+        .word   .Lsra_c524288, 100, .Lsra11_b18_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra11_b18_Pos
 .Lsra11_b19_Neg:
-        .word   .Lsra_n524288, 164, .Lsra11_b18_Neg
+        .word   .Lsra_n524288, 100, .Lsra11_b18_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra11_b18_Pos
 .Lsra11_b18_Pos:
-        .word   .Lsra_c262144, 164, .Lsra11_b17_Neg
+        .word   .Lsra_c262144, 100, .Lsra11_b17_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra11_b17_Pos
 .Lsra11_b18_Neg:
-        .word   .Lsra_n262144, 164, .Lsra11_b17_Neg
+        .word   .Lsra_n262144, 100, .Lsra11_b17_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra11_b17_Pos
 .Lsra11_b17_Pos:
-        .word   .Lsra_c131072, 164, .Lsra11_b16_Neg
+        .word   .Lsra_c131072, 100, .Lsra11_b16_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra11_b16_Pos
 .Lsra11_b17_Neg:
-        .word   .Lsra_n131072, 164, .Lsra11_b16_Neg
+        .word   .Lsra_n131072, 100, .Lsra11_b16_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra11_b16_Pos
 .Lsra11_b16_Pos:
-        .word   .Lsra_c65536, 164, .Lsra11_b15_Neg
+        .word   .Lsra_c65536, 100, .Lsra11_b15_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra11_b15_Pos
 .Lsra11_b16_Neg:
-        .word   .Lsra_n65536, 164, .Lsra11_b15_Neg
+        .word   .Lsra_n65536, 100, .Lsra11_b15_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra11_b15_Pos
 .Lsra11_b15_Pos:
-        .word   .Lsra_c32768, 164, .Lsra11_b14_Neg
+        .word   .Lsra_c32768, 100, .Lsra11_b14_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra11_b14_Pos
 .Lsra11_b15_Neg:
-        .word   .Lsra_n32768, 164, .Lsra11_b14_Neg
+        .word   .Lsra_n32768, 100, .Lsra11_b14_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra11_b14_Pos
 .Lsra11_b14_Pos:
-        .word   .Lsra_c16384, 164, .Lsra11_b13_Neg
+        .word   .Lsra_c16384, 100, .Lsra11_b13_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra11_b13_Pos
 .Lsra11_b14_Neg:
-        .word   .Lsra_n16384, 164, .Lsra11_b13_Neg
+        .word   .Lsra_n16384, 100, .Lsra11_b13_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra11_b13_Pos
 .Lsra11_b13_Pos:
-        .word   .Lsra_c8192, 164, .Lsra11_b12_Neg
+        .word   .Lsra_c8192, 100, .Lsra11_b12_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra11_b12_Pos
 .Lsra11_b13_Neg:
-        .word   .Lsra_n8192, 164, .Lsra11_b12_Neg
+        .word   .Lsra_n8192, 100, .Lsra11_b12_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra11_b12_Pos
 .Lsra11_b12_Pos:
-        .word   .Lsra_c4096, 164, .Lsra11_b11_Neg
+        .word   .Lsra_c4096, 100, .Lsra11_b11_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra11_b11_Pos
 .Lsra11_b12_Neg:
-        .word   .Lsra_n4096, 164, .Lsra11_b11_Neg
+        .word   .Lsra_n4096, 100, .Lsra11_b11_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra11_b11_Pos
 .Lsra11_b11_Pos:
-        .word   .Lsra_c2048, 164, .Lsra11_store_internal
+        .word   .Lsra_c2048, 100, .Lsra11_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra11_store_internal
 .Lsra11_b11_Neg:
-        .word   .Lsra_n2048, 164, .Lsra11_store_internal
+        .word   .Lsra_n2048, 100, .Lsra11_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra11_store_internal
 .Lsra11_store_internal:
@@ -47520,13 +47503,13 @@ __subleq_sra:
 .Lsra12_chksign:
         .word   172, 172, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   100, 12, .+4
         .word   12, 172, .+4
         .word   144, 172, .Lsra12_maybe_neg
         .word   12, 12, .Lsra12_pos
 .Lsra12_maybe_neg:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsra12_ambig
         .word   12, 12, .Lsra12_neg
 .Lsra12_ambig:
@@ -47536,162 +47519,162 @@ __subleq_sra:
 .Lsra12_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
-        .word   164, 172, .+4
-        .word   164, 164, .+4
+        .word   100, 172, .+4
+        .word   100, 100, .+4
         .word   12, 12, .+4
         .word   172, 12, .+4
-        .word   12, 164, .+4
-        .word   .Lsra_one, 164, .Lsra12_pos
+        .word   12, 100, .+4
+        .word   .Lsra_one, 100, .Lsra12_pos
 .Lsra12_pos:
         .word   168, 168, .+4
-        .word   .Lsra_negone, 164, .+4
+        .word   .Lsra_negone, 100, .+4
         .word   12, 12, .Lsra12_b30_Pos
 .Lsra12_b30_Pos:
-        .word   .Lsra_c1073741824, 164, .Lsra12_b29_Neg
+        .word   .Lsra_c1073741824, 100, .Lsra12_b29_Neg
         .word   .Lsra_n262144, 168, .+4
         .word   12, 12, .Lsra12_b29_Pos
 .Lsra12_b29_Pos:
-        .word   .Lsra_c536870912, 164, .Lsra12_b28_Neg
+        .word   .Lsra_c536870912, 100, .Lsra12_b28_Neg
         .word   .Lsra_n131072, 168, .+4
         .word   12, 12, .Lsra12_b28_Pos
 .Lsra12_b29_Neg:
-        .word   .Lsra_n536870912, 164, .Lsra12_b28_Neg
+        .word   .Lsra_n536870912, 100, .Lsra12_b28_Neg
         .word   .Lsra_n131072, 168, .+4
         .word   12, 12, .Lsra12_b28_Pos
 .Lsra12_b28_Pos:
-        .word   .Lsra_c268435456, 164, .Lsra12_b27_Neg
+        .word   .Lsra_c268435456, 100, .Lsra12_b27_Neg
         .word   .Lsra_n65536, 168, .+4
         .word   12, 12, .Lsra12_b27_Pos
 .Lsra12_b28_Neg:
-        .word   .Lsra_n268435456, 164, .Lsra12_b27_Neg
+        .word   .Lsra_n268435456, 100, .Lsra12_b27_Neg
         .word   .Lsra_n65536, 168, .+4
         .word   12, 12, .Lsra12_b27_Pos
 .Lsra12_b27_Pos:
-        .word   .Lsra_c134217728, 164, .Lsra12_b26_Neg
+        .word   .Lsra_c134217728, 100, .Lsra12_b26_Neg
         .word   .Lsra_n32768, 168, .+4
         .word   12, 12, .Lsra12_b26_Pos
 .Lsra12_b27_Neg:
-        .word   .Lsra_n134217728, 164, .Lsra12_b26_Neg
+        .word   .Lsra_n134217728, 100, .Lsra12_b26_Neg
         .word   .Lsra_n32768, 168, .+4
         .word   12, 12, .Lsra12_b26_Pos
 .Lsra12_b26_Pos:
-        .word   .Lsra_c67108864, 164, .Lsra12_b25_Neg
+        .word   .Lsra_c67108864, 100, .Lsra12_b25_Neg
         .word   .Lsra_n16384, 168, .+4
         .word   12, 12, .Lsra12_b25_Pos
 .Lsra12_b26_Neg:
-        .word   .Lsra_n67108864, 164, .Lsra12_b25_Neg
+        .word   .Lsra_n67108864, 100, .Lsra12_b25_Neg
         .word   .Lsra_n16384, 168, .+4
         .word   12, 12, .Lsra12_b25_Pos
 .Lsra12_b25_Pos:
-        .word   .Lsra_c33554432, 164, .Lsra12_b24_Neg
+        .word   .Lsra_c33554432, 100, .Lsra12_b24_Neg
         .word   .Lsra_n8192, 168, .+4
         .word   12, 12, .Lsra12_b24_Pos
 .Lsra12_b25_Neg:
-        .word   .Lsra_n33554432, 164, .Lsra12_b24_Neg
+        .word   .Lsra_n33554432, 100, .Lsra12_b24_Neg
         .word   .Lsra_n8192, 168, .+4
         .word   12, 12, .Lsra12_b24_Pos
 .Lsra12_b24_Pos:
-        .word   .Lsra_c16777216, 164, .Lsra12_b23_Neg
+        .word   .Lsra_c16777216, 100, .Lsra12_b23_Neg
         .word   .Lsra_n4096, 168, .+4
         .word   12, 12, .Lsra12_b23_Pos
 .Lsra12_b24_Neg:
-        .word   .Lsra_n16777216, 164, .Lsra12_b23_Neg
+        .word   .Lsra_n16777216, 100, .Lsra12_b23_Neg
         .word   .Lsra_n4096, 168, .+4
         .word   12, 12, .Lsra12_b23_Pos
 .Lsra12_b23_Pos:
-        .word   .Lsra_c8388608, 164, .Lsra12_b22_Neg
+        .word   .Lsra_c8388608, 100, .Lsra12_b22_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra12_b22_Pos
 .Lsra12_b23_Neg:
-        .word   .Lsra_n8388608, 164, .Lsra12_b22_Neg
+        .word   .Lsra_n8388608, 100, .Lsra12_b22_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra12_b22_Pos
 .Lsra12_b22_Pos:
-        .word   .Lsra_c4194304, 164, .Lsra12_b21_Neg
+        .word   .Lsra_c4194304, 100, .Lsra12_b21_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra12_b21_Pos
 .Lsra12_b22_Neg:
-        .word   .Lsra_n4194304, 164, .Lsra12_b21_Neg
+        .word   .Lsra_n4194304, 100, .Lsra12_b21_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra12_b21_Pos
 .Lsra12_b21_Pos:
-        .word   .Lsra_c2097152, 164, .Lsra12_b20_Neg
+        .word   .Lsra_c2097152, 100, .Lsra12_b20_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra12_b20_Pos
 .Lsra12_b21_Neg:
-        .word   .Lsra_n2097152, 164, .Lsra12_b20_Neg
+        .word   .Lsra_n2097152, 100, .Lsra12_b20_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra12_b20_Pos
 .Lsra12_b20_Pos:
-        .word   .Lsra_c1048576, 164, .Lsra12_b19_Neg
+        .word   .Lsra_c1048576, 100, .Lsra12_b19_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra12_b19_Pos
 .Lsra12_b20_Neg:
-        .word   .Lsra_n1048576, 164, .Lsra12_b19_Neg
+        .word   .Lsra_n1048576, 100, .Lsra12_b19_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra12_b19_Pos
 .Lsra12_b19_Pos:
-        .word   .Lsra_c524288, 164, .Lsra12_b18_Neg
+        .word   .Lsra_c524288, 100, .Lsra12_b18_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra12_b18_Pos
 .Lsra12_b19_Neg:
-        .word   .Lsra_n524288, 164, .Lsra12_b18_Neg
+        .word   .Lsra_n524288, 100, .Lsra12_b18_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra12_b18_Pos
 .Lsra12_b18_Pos:
-        .word   .Lsra_c262144, 164, .Lsra12_b17_Neg
+        .word   .Lsra_c262144, 100, .Lsra12_b17_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra12_b17_Pos
 .Lsra12_b18_Neg:
-        .word   .Lsra_n262144, 164, .Lsra12_b17_Neg
+        .word   .Lsra_n262144, 100, .Lsra12_b17_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra12_b17_Pos
 .Lsra12_b17_Pos:
-        .word   .Lsra_c131072, 164, .Lsra12_b16_Neg
+        .word   .Lsra_c131072, 100, .Lsra12_b16_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra12_b16_Pos
 .Lsra12_b17_Neg:
-        .word   .Lsra_n131072, 164, .Lsra12_b16_Neg
+        .word   .Lsra_n131072, 100, .Lsra12_b16_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra12_b16_Pos
 .Lsra12_b16_Pos:
-        .word   .Lsra_c65536, 164, .Lsra12_b15_Neg
+        .word   .Lsra_c65536, 100, .Lsra12_b15_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra12_b15_Pos
 .Lsra12_b16_Neg:
-        .word   .Lsra_n65536, 164, .Lsra12_b15_Neg
+        .word   .Lsra_n65536, 100, .Lsra12_b15_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra12_b15_Pos
 .Lsra12_b15_Pos:
-        .word   .Lsra_c32768, 164, .Lsra12_b14_Neg
+        .word   .Lsra_c32768, 100, .Lsra12_b14_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra12_b14_Pos
 .Lsra12_b15_Neg:
-        .word   .Lsra_n32768, 164, .Lsra12_b14_Neg
+        .word   .Lsra_n32768, 100, .Lsra12_b14_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra12_b14_Pos
 .Lsra12_b14_Pos:
-        .word   .Lsra_c16384, 164, .Lsra12_b13_Neg
+        .word   .Lsra_c16384, 100, .Lsra12_b13_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra12_b13_Pos
 .Lsra12_b14_Neg:
-        .word   .Lsra_n16384, 164, .Lsra12_b13_Neg
+        .word   .Lsra_n16384, 100, .Lsra12_b13_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra12_b13_Pos
 .Lsra12_b13_Pos:
-        .word   .Lsra_c8192, 164, .Lsra12_b12_Neg
+        .word   .Lsra_c8192, 100, .Lsra12_b12_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra12_b12_Pos
 .Lsra12_b13_Neg:
-        .word   .Lsra_n8192, 164, .Lsra12_b12_Neg
+        .word   .Lsra_n8192, 100, .Lsra12_b12_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra12_b12_Pos
 .Lsra12_b12_Pos:
-        .word   .Lsra_c4096, 164, .Lsra12_store_internal
+        .word   .Lsra_c4096, 100, .Lsra12_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra12_store_internal
 .Lsra12_b12_Neg:
-        .word   .Lsra_n4096, 164, .Lsra12_store_internal
+        .word   .Lsra_n4096, 100, .Lsra12_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra12_store_internal
 .Lsra12_store_internal:
@@ -47715,13 +47698,13 @@ __subleq_sra:
 .Lsra13_chksign:
         .word   172, 172, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   100, 12, .+4
         .word   12, 172, .+4
         .word   144, 172, .Lsra13_maybe_neg
         .word   12, 12, .Lsra13_pos
 .Lsra13_maybe_neg:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsra13_ambig
         .word   12, 12, .Lsra13_neg
 .Lsra13_ambig:
@@ -47731,154 +47714,154 @@ __subleq_sra:
 .Lsra13_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
-        .word   164, 172, .+4
-        .word   164, 164, .+4
+        .word   100, 172, .+4
+        .word   100, 100, .+4
         .word   12, 12, .+4
         .word   172, 12, .+4
-        .word   12, 164, .+4
-        .word   .Lsra_one, 164, .Lsra13_pos
+        .word   12, 100, .+4
+        .word   .Lsra_one, 100, .Lsra13_pos
 .Lsra13_pos:
         .word   168, 168, .+4
-        .word   .Lsra_negone, 164, .+4
+        .word   .Lsra_negone, 100, .+4
         .word   12, 12, .Lsra13_b30_Pos
 .Lsra13_b30_Pos:
-        .word   .Lsra_c1073741824, 164, .Lsra13_b29_Neg
+        .word   .Lsra_c1073741824, 100, .Lsra13_b29_Neg
         .word   .Lsra_n131072, 168, .+4
         .word   12, 12, .Lsra13_b29_Pos
 .Lsra13_b29_Pos:
-        .word   .Lsra_c536870912, 164, .Lsra13_b28_Neg
+        .word   .Lsra_c536870912, 100, .Lsra13_b28_Neg
         .word   .Lsra_n65536, 168, .+4
         .word   12, 12, .Lsra13_b28_Pos
 .Lsra13_b29_Neg:
-        .word   .Lsra_n536870912, 164, .Lsra13_b28_Neg
+        .word   .Lsra_n536870912, 100, .Lsra13_b28_Neg
         .word   .Lsra_n65536, 168, .+4
         .word   12, 12, .Lsra13_b28_Pos
 .Lsra13_b28_Pos:
-        .word   .Lsra_c268435456, 164, .Lsra13_b27_Neg
+        .word   .Lsra_c268435456, 100, .Lsra13_b27_Neg
         .word   .Lsra_n32768, 168, .+4
         .word   12, 12, .Lsra13_b27_Pos
 .Lsra13_b28_Neg:
-        .word   .Lsra_n268435456, 164, .Lsra13_b27_Neg
+        .word   .Lsra_n268435456, 100, .Lsra13_b27_Neg
         .word   .Lsra_n32768, 168, .+4
         .word   12, 12, .Lsra13_b27_Pos
 .Lsra13_b27_Pos:
-        .word   .Lsra_c134217728, 164, .Lsra13_b26_Neg
+        .word   .Lsra_c134217728, 100, .Lsra13_b26_Neg
         .word   .Lsra_n16384, 168, .+4
         .word   12, 12, .Lsra13_b26_Pos
 .Lsra13_b27_Neg:
-        .word   .Lsra_n134217728, 164, .Lsra13_b26_Neg
+        .word   .Lsra_n134217728, 100, .Lsra13_b26_Neg
         .word   .Lsra_n16384, 168, .+4
         .word   12, 12, .Lsra13_b26_Pos
 .Lsra13_b26_Pos:
-        .word   .Lsra_c67108864, 164, .Lsra13_b25_Neg
+        .word   .Lsra_c67108864, 100, .Lsra13_b25_Neg
         .word   .Lsra_n8192, 168, .+4
         .word   12, 12, .Lsra13_b25_Pos
 .Lsra13_b26_Neg:
-        .word   .Lsra_n67108864, 164, .Lsra13_b25_Neg
+        .word   .Lsra_n67108864, 100, .Lsra13_b25_Neg
         .word   .Lsra_n8192, 168, .+4
         .word   12, 12, .Lsra13_b25_Pos
 .Lsra13_b25_Pos:
-        .word   .Lsra_c33554432, 164, .Lsra13_b24_Neg
+        .word   .Lsra_c33554432, 100, .Lsra13_b24_Neg
         .word   .Lsra_n4096, 168, .+4
         .word   12, 12, .Lsra13_b24_Pos
 .Lsra13_b25_Neg:
-        .word   .Lsra_n33554432, 164, .Lsra13_b24_Neg
+        .word   .Lsra_n33554432, 100, .Lsra13_b24_Neg
         .word   .Lsra_n4096, 168, .+4
         .word   12, 12, .Lsra13_b24_Pos
 .Lsra13_b24_Pos:
-        .word   .Lsra_c16777216, 164, .Lsra13_b23_Neg
+        .word   .Lsra_c16777216, 100, .Lsra13_b23_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra13_b23_Pos
 .Lsra13_b24_Neg:
-        .word   .Lsra_n16777216, 164, .Lsra13_b23_Neg
+        .word   .Lsra_n16777216, 100, .Lsra13_b23_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra13_b23_Pos
 .Lsra13_b23_Pos:
-        .word   .Lsra_c8388608, 164, .Lsra13_b22_Neg
+        .word   .Lsra_c8388608, 100, .Lsra13_b22_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra13_b22_Pos
 .Lsra13_b23_Neg:
-        .word   .Lsra_n8388608, 164, .Lsra13_b22_Neg
+        .word   .Lsra_n8388608, 100, .Lsra13_b22_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra13_b22_Pos
 .Lsra13_b22_Pos:
-        .word   .Lsra_c4194304, 164, .Lsra13_b21_Neg
+        .word   .Lsra_c4194304, 100, .Lsra13_b21_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra13_b21_Pos
 .Lsra13_b22_Neg:
-        .word   .Lsra_n4194304, 164, .Lsra13_b21_Neg
+        .word   .Lsra_n4194304, 100, .Lsra13_b21_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra13_b21_Pos
 .Lsra13_b21_Pos:
-        .word   .Lsra_c2097152, 164, .Lsra13_b20_Neg
+        .word   .Lsra_c2097152, 100, .Lsra13_b20_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra13_b20_Pos
 .Lsra13_b21_Neg:
-        .word   .Lsra_n2097152, 164, .Lsra13_b20_Neg
+        .word   .Lsra_n2097152, 100, .Lsra13_b20_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra13_b20_Pos
 .Lsra13_b20_Pos:
-        .word   .Lsra_c1048576, 164, .Lsra13_b19_Neg
+        .word   .Lsra_c1048576, 100, .Lsra13_b19_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra13_b19_Pos
 .Lsra13_b20_Neg:
-        .word   .Lsra_n1048576, 164, .Lsra13_b19_Neg
+        .word   .Lsra_n1048576, 100, .Lsra13_b19_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra13_b19_Pos
 .Lsra13_b19_Pos:
-        .word   .Lsra_c524288, 164, .Lsra13_b18_Neg
+        .word   .Lsra_c524288, 100, .Lsra13_b18_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra13_b18_Pos
 .Lsra13_b19_Neg:
-        .word   .Lsra_n524288, 164, .Lsra13_b18_Neg
+        .word   .Lsra_n524288, 100, .Lsra13_b18_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra13_b18_Pos
 .Lsra13_b18_Pos:
-        .word   .Lsra_c262144, 164, .Lsra13_b17_Neg
+        .word   .Lsra_c262144, 100, .Lsra13_b17_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra13_b17_Pos
 .Lsra13_b18_Neg:
-        .word   .Lsra_n262144, 164, .Lsra13_b17_Neg
+        .word   .Lsra_n262144, 100, .Lsra13_b17_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra13_b17_Pos
 .Lsra13_b17_Pos:
-        .word   .Lsra_c131072, 164, .Lsra13_b16_Neg
+        .word   .Lsra_c131072, 100, .Lsra13_b16_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra13_b16_Pos
 .Lsra13_b17_Neg:
-        .word   .Lsra_n131072, 164, .Lsra13_b16_Neg
+        .word   .Lsra_n131072, 100, .Lsra13_b16_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra13_b16_Pos
 .Lsra13_b16_Pos:
-        .word   .Lsra_c65536, 164, .Lsra13_b15_Neg
+        .word   .Lsra_c65536, 100, .Lsra13_b15_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra13_b15_Pos
 .Lsra13_b16_Neg:
-        .word   .Lsra_n65536, 164, .Lsra13_b15_Neg
+        .word   .Lsra_n65536, 100, .Lsra13_b15_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra13_b15_Pos
 .Lsra13_b15_Pos:
-        .word   .Lsra_c32768, 164, .Lsra13_b14_Neg
+        .word   .Lsra_c32768, 100, .Lsra13_b14_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra13_b14_Pos
 .Lsra13_b15_Neg:
-        .word   .Lsra_n32768, 164, .Lsra13_b14_Neg
+        .word   .Lsra_n32768, 100, .Lsra13_b14_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra13_b14_Pos
 .Lsra13_b14_Pos:
-        .word   .Lsra_c16384, 164, .Lsra13_b13_Neg
+        .word   .Lsra_c16384, 100, .Lsra13_b13_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra13_b13_Pos
 .Lsra13_b14_Neg:
-        .word   .Lsra_n16384, 164, .Lsra13_b13_Neg
+        .word   .Lsra_n16384, 100, .Lsra13_b13_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra13_b13_Pos
 .Lsra13_b13_Pos:
-        .word   .Lsra_c8192, 164, .Lsra13_store_internal
+        .word   .Lsra_c8192, 100, .Lsra13_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra13_store_internal
 .Lsra13_b13_Neg:
-        .word   .Lsra_n8192, 164, .Lsra13_store_internal
+        .word   .Lsra_n8192, 100, .Lsra13_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra13_store_internal
 .Lsra13_store_internal:
@@ -47902,13 +47885,13 @@ __subleq_sra:
 .Lsra14_chksign:
         .word   172, 172, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   100, 12, .+4
         .word   12, 172, .+4
         .word   144, 172, .Lsra14_maybe_neg
         .word   12, 12, .Lsra14_pos
 .Lsra14_maybe_neg:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsra14_ambig
         .word   12, 12, .Lsra14_neg
 .Lsra14_ambig:
@@ -47918,146 +47901,146 @@ __subleq_sra:
 .Lsra14_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
-        .word   164, 172, .+4
-        .word   164, 164, .+4
+        .word   100, 172, .+4
+        .word   100, 100, .+4
         .word   12, 12, .+4
         .word   172, 12, .+4
-        .word   12, 164, .+4
-        .word   .Lsra_one, 164, .Lsra14_pos
+        .word   12, 100, .+4
+        .word   .Lsra_one, 100, .Lsra14_pos
 .Lsra14_pos:
         .word   168, 168, .+4
-        .word   .Lsra_negone, 164, .+4
+        .word   .Lsra_negone, 100, .+4
         .word   12, 12, .Lsra14_b30_Pos
 .Lsra14_b30_Pos:
-        .word   .Lsra_c1073741824, 164, .Lsra14_b29_Neg
+        .word   .Lsra_c1073741824, 100, .Lsra14_b29_Neg
         .word   .Lsra_n65536, 168, .+4
         .word   12, 12, .Lsra14_b29_Pos
 .Lsra14_b29_Pos:
-        .word   .Lsra_c536870912, 164, .Lsra14_b28_Neg
+        .word   .Lsra_c536870912, 100, .Lsra14_b28_Neg
         .word   .Lsra_n32768, 168, .+4
         .word   12, 12, .Lsra14_b28_Pos
 .Lsra14_b29_Neg:
-        .word   .Lsra_n536870912, 164, .Lsra14_b28_Neg
+        .word   .Lsra_n536870912, 100, .Lsra14_b28_Neg
         .word   .Lsra_n32768, 168, .+4
         .word   12, 12, .Lsra14_b28_Pos
 .Lsra14_b28_Pos:
-        .word   .Lsra_c268435456, 164, .Lsra14_b27_Neg
+        .word   .Lsra_c268435456, 100, .Lsra14_b27_Neg
         .word   .Lsra_n16384, 168, .+4
         .word   12, 12, .Lsra14_b27_Pos
 .Lsra14_b28_Neg:
-        .word   .Lsra_n268435456, 164, .Lsra14_b27_Neg
+        .word   .Lsra_n268435456, 100, .Lsra14_b27_Neg
         .word   .Lsra_n16384, 168, .+4
         .word   12, 12, .Lsra14_b27_Pos
 .Lsra14_b27_Pos:
-        .word   .Lsra_c134217728, 164, .Lsra14_b26_Neg
+        .word   .Lsra_c134217728, 100, .Lsra14_b26_Neg
         .word   .Lsra_n8192, 168, .+4
         .word   12, 12, .Lsra14_b26_Pos
 .Lsra14_b27_Neg:
-        .word   .Lsra_n134217728, 164, .Lsra14_b26_Neg
+        .word   .Lsra_n134217728, 100, .Lsra14_b26_Neg
         .word   .Lsra_n8192, 168, .+4
         .word   12, 12, .Lsra14_b26_Pos
 .Lsra14_b26_Pos:
-        .word   .Lsra_c67108864, 164, .Lsra14_b25_Neg
+        .word   .Lsra_c67108864, 100, .Lsra14_b25_Neg
         .word   .Lsra_n4096, 168, .+4
         .word   12, 12, .Lsra14_b25_Pos
 .Lsra14_b26_Neg:
-        .word   .Lsra_n67108864, 164, .Lsra14_b25_Neg
+        .word   .Lsra_n67108864, 100, .Lsra14_b25_Neg
         .word   .Lsra_n4096, 168, .+4
         .word   12, 12, .Lsra14_b25_Pos
 .Lsra14_b25_Pos:
-        .word   .Lsra_c33554432, 164, .Lsra14_b24_Neg
+        .word   .Lsra_c33554432, 100, .Lsra14_b24_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra14_b24_Pos
 .Lsra14_b25_Neg:
-        .word   .Lsra_n33554432, 164, .Lsra14_b24_Neg
+        .word   .Lsra_n33554432, 100, .Lsra14_b24_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra14_b24_Pos
 .Lsra14_b24_Pos:
-        .word   .Lsra_c16777216, 164, .Lsra14_b23_Neg
+        .word   .Lsra_c16777216, 100, .Lsra14_b23_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra14_b23_Pos
 .Lsra14_b24_Neg:
-        .word   .Lsra_n16777216, 164, .Lsra14_b23_Neg
+        .word   .Lsra_n16777216, 100, .Lsra14_b23_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra14_b23_Pos
 .Lsra14_b23_Pos:
-        .word   .Lsra_c8388608, 164, .Lsra14_b22_Neg
+        .word   .Lsra_c8388608, 100, .Lsra14_b22_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra14_b22_Pos
 .Lsra14_b23_Neg:
-        .word   .Lsra_n8388608, 164, .Lsra14_b22_Neg
+        .word   .Lsra_n8388608, 100, .Lsra14_b22_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra14_b22_Pos
 .Lsra14_b22_Pos:
-        .word   .Lsra_c4194304, 164, .Lsra14_b21_Neg
+        .word   .Lsra_c4194304, 100, .Lsra14_b21_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra14_b21_Pos
 .Lsra14_b22_Neg:
-        .word   .Lsra_n4194304, 164, .Lsra14_b21_Neg
+        .word   .Lsra_n4194304, 100, .Lsra14_b21_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra14_b21_Pos
 .Lsra14_b21_Pos:
-        .word   .Lsra_c2097152, 164, .Lsra14_b20_Neg
+        .word   .Lsra_c2097152, 100, .Lsra14_b20_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra14_b20_Pos
 .Lsra14_b21_Neg:
-        .word   .Lsra_n2097152, 164, .Lsra14_b20_Neg
+        .word   .Lsra_n2097152, 100, .Lsra14_b20_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra14_b20_Pos
 .Lsra14_b20_Pos:
-        .word   .Lsra_c1048576, 164, .Lsra14_b19_Neg
+        .word   .Lsra_c1048576, 100, .Lsra14_b19_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra14_b19_Pos
 .Lsra14_b20_Neg:
-        .word   .Lsra_n1048576, 164, .Lsra14_b19_Neg
+        .word   .Lsra_n1048576, 100, .Lsra14_b19_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra14_b19_Pos
 .Lsra14_b19_Pos:
-        .word   .Lsra_c524288, 164, .Lsra14_b18_Neg
+        .word   .Lsra_c524288, 100, .Lsra14_b18_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra14_b18_Pos
 .Lsra14_b19_Neg:
-        .word   .Lsra_n524288, 164, .Lsra14_b18_Neg
+        .word   .Lsra_n524288, 100, .Lsra14_b18_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra14_b18_Pos
 .Lsra14_b18_Pos:
-        .word   .Lsra_c262144, 164, .Lsra14_b17_Neg
+        .word   .Lsra_c262144, 100, .Lsra14_b17_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra14_b17_Pos
 .Lsra14_b18_Neg:
-        .word   .Lsra_n262144, 164, .Lsra14_b17_Neg
+        .word   .Lsra_n262144, 100, .Lsra14_b17_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra14_b17_Pos
 .Lsra14_b17_Pos:
-        .word   .Lsra_c131072, 164, .Lsra14_b16_Neg
+        .word   .Lsra_c131072, 100, .Lsra14_b16_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra14_b16_Pos
 .Lsra14_b17_Neg:
-        .word   .Lsra_n131072, 164, .Lsra14_b16_Neg
+        .word   .Lsra_n131072, 100, .Lsra14_b16_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra14_b16_Pos
 .Lsra14_b16_Pos:
-        .word   .Lsra_c65536, 164, .Lsra14_b15_Neg
+        .word   .Lsra_c65536, 100, .Lsra14_b15_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra14_b15_Pos
 .Lsra14_b16_Neg:
-        .word   .Lsra_n65536, 164, .Lsra14_b15_Neg
+        .word   .Lsra_n65536, 100, .Lsra14_b15_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra14_b15_Pos
 .Lsra14_b15_Pos:
-        .word   .Lsra_c32768, 164, .Lsra14_b14_Neg
+        .word   .Lsra_c32768, 100, .Lsra14_b14_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra14_b14_Pos
 .Lsra14_b15_Neg:
-        .word   .Lsra_n32768, 164, .Lsra14_b14_Neg
+        .word   .Lsra_n32768, 100, .Lsra14_b14_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra14_b14_Pos
 .Lsra14_b14_Pos:
-        .word   .Lsra_c16384, 164, .Lsra14_store_internal
+        .word   .Lsra_c16384, 100, .Lsra14_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra14_store_internal
 .Lsra14_b14_Neg:
-        .word   .Lsra_n16384, 164, .Lsra14_store_internal
+        .word   .Lsra_n16384, 100, .Lsra14_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra14_store_internal
 .Lsra14_store_internal:
@@ -48081,13 +48064,13 @@ __subleq_sra:
 .Lsra15_chksign:
         .word   172, 172, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   100, 12, .+4
         .word   12, 172, .+4
         .word   144, 172, .Lsra15_maybe_neg
         .word   12, 12, .Lsra15_pos
 .Lsra15_maybe_neg:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsra15_ambig
         .word   12, 12, .Lsra15_neg
 .Lsra15_ambig:
@@ -48097,138 +48080,138 @@ __subleq_sra:
 .Lsra15_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
-        .word   164, 172, .+4
-        .word   164, 164, .+4
+        .word   100, 172, .+4
+        .word   100, 100, .+4
         .word   12, 12, .+4
         .word   172, 12, .+4
-        .word   12, 164, .+4
-        .word   .Lsra_one, 164, .Lsra15_pos
+        .word   12, 100, .+4
+        .word   .Lsra_one, 100, .Lsra15_pos
 .Lsra15_pos:
         .word   168, 168, .+4
-        .word   .Lsra_negone, 164, .+4
+        .word   .Lsra_negone, 100, .+4
         .word   12, 12, .Lsra15_b30_Pos
 .Lsra15_b30_Pos:
-        .word   .Lsra_c1073741824, 164, .Lsra15_b29_Neg
+        .word   .Lsra_c1073741824, 100, .Lsra15_b29_Neg
         .word   .Lsra_n32768, 168, .+4
         .word   12, 12, .Lsra15_b29_Pos
 .Lsra15_b29_Pos:
-        .word   .Lsra_c536870912, 164, .Lsra15_b28_Neg
+        .word   .Lsra_c536870912, 100, .Lsra15_b28_Neg
         .word   .Lsra_n16384, 168, .+4
         .word   12, 12, .Lsra15_b28_Pos
 .Lsra15_b29_Neg:
-        .word   .Lsra_n536870912, 164, .Lsra15_b28_Neg
+        .word   .Lsra_n536870912, 100, .Lsra15_b28_Neg
         .word   .Lsra_n16384, 168, .+4
         .word   12, 12, .Lsra15_b28_Pos
 .Lsra15_b28_Pos:
-        .word   .Lsra_c268435456, 164, .Lsra15_b27_Neg
+        .word   .Lsra_c268435456, 100, .Lsra15_b27_Neg
         .word   .Lsra_n8192, 168, .+4
         .word   12, 12, .Lsra15_b27_Pos
 .Lsra15_b28_Neg:
-        .word   .Lsra_n268435456, 164, .Lsra15_b27_Neg
+        .word   .Lsra_n268435456, 100, .Lsra15_b27_Neg
         .word   .Lsra_n8192, 168, .+4
         .word   12, 12, .Lsra15_b27_Pos
 .Lsra15_b27_Pos:
-        .word   .Lsra_c134217728, 164, .Lsra15_b26_Neg
+        .word   .Lsra_c134217728, 100, .Lsra15_b26_Neg
         .word   .Lsra_n4096, 168, .+4
         .word   12, 12, .Lsra15_b26_Pos
 .Lsra15_b27_Neg:
-        .word   .Lsra_n134217728, 164, .Lsra15_b26_Neg
+        .word   .Lsra_n134217728, 100, .Lsra15_b26_Neg
         .word   .Lsra_n4096, 168, .+4
         .word   12, 12, .Lsra15_b26_Pos
 .Lsra15_b26_Pos:
-        .word   .Lsra_c67108864, 164, .Lsra15_b25_Neg
+        .word   .Lsra_c67108864, 100, .Lsra15_b25_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra15_b25_Pos
 .Lsra15_b26_Neg:
-        .word   .Lsra_n67108864, 164, .Lsra15_b25_Neg
+        .word   .Lsra_n67108864, 100, .Lsra15_b25_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra15_b25_Pos
 .Lsra15_b25_Pos:
-        .word   .Lsra_c33554432, 164, .Lsra15_b24_Neg
+        .word   .Lsra_c33554432, 100, .Lsra15_b24_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra15_b24_Pos
 .Lsra15_b25_Neg:
-        .word   .Lsra_n33554432, 164, .Lsra15_b24_Neg
+        .word   .Lsra_n33554432, 100, .Lsra15_b24_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra15_b24_Pos
 .Lsra15_b24_Pos:
-        .word   .Lsra_c16777216, 164, .Lsra15_b23_Neg
+        .word   .Lsra_c16777216, 100, .Lsra15_b23_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra15_b23_Pos
 .Lsra15_b24_Neg:
-        .word   .Lsra_n16777216, 164, .Lsra15_b23_Neg
+        .word   .Lsra_n16777216, 100, .Lsra15_b23_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra15_b23_Pos
 .Lsra15_b23_Pos:
-        .word   .Lsra_c8388608, 164, .Lsra15_b22_Neg
+        .word   .Lsra_c8388608, 100, .Lsra15_b22_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra15_b22_Pos
 .Lsra15_b23_Neg:
-        .word   .Lsra_n8388608, 164, .Lsra15_b22_Neg
+        .word   .Lsra_n8388608, 100, .Lsra15_b22_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra15_b22_Pos
 .Lsra15_b22_Pos:
-        .word   .Lsra_c4194304, 164, .Lsra15_b21_Neg
+        .word   .Lsra_c4194304, 100, .Lsra15_b21_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra15_b21_Pos
 .Lsra15_b22_Neg:
-        .word   .Lsra_n4194304, 164, .Lsra15_b21_Neg
+        .word   .Lsra_n4194304, 100, .Lsra15_b21_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra15_b21_Pos
 .Lsra15_b21_Pos:
-        .word   .Lsra_c2097152, 164, .Lsra15_b20_Neg
+        .word   .Lsra_c2097152, 100, .Lsra15_b20_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra15_b20_Pos
 .Lsra15_b21_Neg:
-        .word   .Lsra_n2097152, 164, .Lsra15_b20_Neg
+        .word   .Lsra_n2097152, 100, .Lsra15_b20_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra15_b20_Pos
 .Lsra15_b20_Pos:
-        .word   .Lsra_c1048576, 164, .Lsra15_b19_Neg
+        .word   .Lsra_c1048576, 100, .Lsra15_b19_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra15_b19_Pos
 .Lsra15_b20_Neg:
-        .word   .Lsra_n1048576, 164, .Lsra15_b19_Neg
+        .word   .Lsra_n1048576, 100, .Lsra15_b19_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra15_b19_Pos
 .Lsra15_b19_Pos:
-        .word   .Lsra_c524288, 164, .Lsra15_b18_Neg
+        .word   .Lsra_c524288, 100, .Lsra15_b18_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra15_b18_Pos
 .Lsra15_b19_Neg:
-        .word   .Lsra_n524288, 164, .Lsra15_b18_Neg
+        .word   .Lsra_n524288, 100, .Lsra15_b18_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra15_b18_Pos
 .Lsra15_b18_Pos:
-        .word   .Lsra_c262144, 164, .Lsra15_b17_Neg
+        .word   .Lsra_c262144, 100, .Lsra15_b17_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra15_b17_Pos
 .Lsra15_b18_Neg:
-        .word   .Lsra_n262144, 164, .Lsra15_b17_Neg
+        .word   .Lsra_n262144, 100, .Lsra15_b17_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra15_b17_Pos
 .Lsra15_b17_Pos:
-        .word   .Lsra_c131072, 164, .Lsra15_b16_Neg
+        .word   .Lsra_c131072, 100, .Lsra15_b16_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra15_b16_Pos
 .Lsra15_b17_Neg:
-        .word   .Lsra_n131072, 164, .Lsra15_b16_Neg
+        .word   .Lsra_n131072, 100, .Lsra15_b16_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra15_b16_Pos
 .Lsra15_b16_Pos:
-        .word   .Lsra_c65536, 164, .Lsra15_b15_Neg
+        .word   .Lsra_c65536, 100, .Lsra15_b15_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra15_b15_Pos
 .Lsra15_b16_Neg:
-        .word   .Lsra_n65536, 164, .Lsra15_b15_Neg
+        .word   .Lsra_n65536, 100, .Lsra15_b15_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra15_b15_Pos
 .Lsra15_b15_Pos:
-        .word   .Lsra_c32768, 164, .Lsra15_store_internal
+        .word   .Lsra_c32768, 100, .Lsra15_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra15_store_internal
 .Lsra15_b15_Neg:
-        .word   .Lsra_n32768, 164, .Lsra15_store_internal
+        .word   .Lsra_n32768, 100, .Lsra15_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra15_store_internal
 .Lsra15_store_internal:
@@ -48252,13 +48235,13 @@ __subleq_sra:
 .Lsra16_chksign:
         .word   172, 172, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   100, 12, .+4
         .word   12, 172, .+4
         .word   144, 172, .Lsra16_maybe_neg
         .word   12, 12, .Lsra16_pos
 .Lsra16_maybe_neg:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsra16_ambig
         .word   12, 12, .Lsra16_neg
 .Lsra16_ambig:
@@ -48268,130 +48251,130 @@ __subleq_sra:
 .Lsra16_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
-        .word   164, 172, .+4
-        .word   164, 164, .+4
+        .word   100, 172, .+4
+        .word   100, 100, .+4
         .word   12, 12, .+4
         .word   172, 12, .+4
-        .word   12, 164, .+4
-        .word   .Lsra_one, 164, .Lsra16_pos
+        .word   12, 100, .+4
+        .word   .Lsra_one, 100, .Lsra16_pos
 .Lsra16_pos:
         .word   168, 168, .+4
-        .word   .Lsra_negone, 164, .+4
+        .word   .Lsra_negone, 100, .+4
         .word   12, 12, .Lsra16_b30_Pos
 .Lsra16_b30_Pos:
-        .word   .Lsra_c1073741824, 164, .Lsra16_b29_Neg
+        .word   .Lsra_c1073741824, 100, .Lsra16_b29_Neg
         .word   .Lsra_n16384, 168, .+4
         .word   12, 12, .Lsra16_b29_Pos
 .Lsra16_b29_Pos:
-        .word   .Lsra_c536870912, 164, .Lsra16_b28_Neg
+        .word   .Lsra_c536870912, 100, .Lsra16_b28_Neg
         .word   .Lsra_n8192, 168, .+4
         .word   12, 12, .Lsra16_b28_Pos
 .Lsra16_b29_Neg:
-        .word   .Lsra_n536870912, 164, .Lsra16_b28_Neg
+        .word   .Lsra_n536870912, 100, .Lsra16_b28_Neg
         .word   .Lsra_n8192, 168, .+4
         .word   12, 12, .Lsra16_b28_Pos
 .Lsra16_b28_Pos:
-        .word   .Lsra_c268435456, 164, .Lsra16_b27_Neg
+        .word   .Lsra_c268435456, 100, .Lsra16_b27_Neg
         .word   .Lsra_n4096, 168, .+4
         .word   12, 12, .Lsra16_b27_Pos
 .Lsra16_b28_Neg:
-        .word   .Lsra_n268435456, 164, .Lsra16_b27_Neg
+        .word   .Lsra_n268435456, 100, .Lsra16_b27_Neg
         .word   .Lsra_n4096, 168, .+4
         .word   12, 12, .Lsra16_b27_Pos
 .Lsra16_b27_Pos:
-        .word   .Lsra_c134217728, 164, .Lsra16_b26_Neg
+        .word   .Lsra_c134217728, 100, .Lsra16_b26_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra16_b26_Pos
 .Lsra16_b27_Neg:
-        .word   .Lsra_n134217728, 164, .Lsra16_b26_Neg
+        .word   .Lsra_n134217728, 100, .Lsra16_b26_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra16_b26_Pos
 .Lsra16_b26_Pos:
-        .word   .Lsra_c67108864, 164, .Lsra16_b25_Neg
+        .word   .Lsra_c67108864, 100, .Lsra16_b25_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra16_b25_Pos
 .Lsra16_b26_Neg:
-        .word   .Lsra_n67108864, 164, .Lsra16_b25_Neg
+        .word   .Lsra_n67108864, 100, .Lsra16_b25_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra16_b25_Pos
 .Lsra16_b25_Pos:
-        .word   .Lsra_c33554432, 164, .Lsra16_b24_Neg
+        .word   .Lsra_c33554432, 100, .Lsra16_b24_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra16_b24_Pos
 .Lsra16_b25_Neg:
-        .word   .Lsra_n33554432, 164, .Lsra16_b24_Neg
+        .word   .Lsra_n33554432, 100, .Lsra16_b24_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra16_b24_Pos
 .Lsra16_b24_Pos:
-        .word   .Lsra_c16777216, 164, .Lsra16_b23_Neg
+        .word   .Lsra_c16777216, 100, .Lsra16_b23_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra16_b23_Pos
 .Lsra16_b24_Neg:
-        .word   .Lsra_n16777216, 164, .Lsra16_b23_Neg
+        .word   .Lsra_n16777216, 100, .Lsra16_b23_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra16_b23_Pos
 .Lsra16_b23_Pos:
-        .word   .Lsra_c8388608, 164, .Lsra16_b22_Neg
+        .word   .Lsra_c8388608, 100, .Lsra16_b22_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra16_b22_Pos
 .Lsra16_b23_Neg:
-        .word   .Lsra_n8388608, 164, .Lsra16_b22_Neg
+        .word   .Lsra_n8388608, 100, .Lsra16_b22_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra16_b22_Pos
 .Lsra16_b22_Pos:
-        .word   .Lsra_c4194304, 164, .Lsra16_b21_Neg
+        .word   .Lsra_c4194304, 100, .Lsra16_b21_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra16_b21_Pos
 .Lsra16_b22_Neg:
-        .word   .Lsra_n4194304, 164, .Lsra16_b21_Neg
+        .word   .Lsra_n4194304, 100, .Lsra16_b21_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra16_b21_Pos
 .Lsra16_b21_Pos:
-        .word   .Lsra_c2097152, 164, .Lsra16_b20_Neg
+        .word   .Lsra_c2097152, 100, .Lsra16_b20_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra16_b20_Pos
 .Lsra16_b21_Neg:
-        .word   .Lsra_n2097152, 164, .Lsra16_b20_Neg
+        .word   .Lsra_n2097152, 100, .Lsra16_b20_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra16_b20_Pos
 .Lsra16_b20_Pos:
-        .word   .Lsra_c1048576, 164, .Lsra16_b19_Neg
+        .word   .Lsra_c1048576, 100, .Lsra16_b19_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra16_b19_Pos
 .Lsra16_b20_Neg:
-        .word   .Lsra_n1048576, 164, .Lsra16_b19_Neg
+        .word   .Lsra_n1048576, 100, .Lsra16_b19_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra16_b19_Pos
 .Lsra16_b19_Pos:
-        .word   .Lsra_c524288, 164, .Lsra16_b18_Neg
+        .word   .Lsra_c524288, 100, .Lsra16_b18_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra16_b18_Pos
 .Lsra16_b19_Neg:
-        .word   .Lsra_n524288, 164, .Lsra16_b18_Neg
+        .word   .Lsra_n524288, 100, .Lsra16_b18_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra16_b18_Pos
 .Lsra16_b18_Pos:
-        .word   .Lsra_c262144, 164, .Lsra16_b17_Neg
+        .word   .Lsra_c262144, 100, .Lsra16_b17_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra16_b17_Pos
 .Lsra16_b18_Neg:
-        .word   .Lsra_n262144, 164, .Lsra16_b17_Neg
+        .word   .Lsra_n262144, 100, .Lsra16_b17_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra16_b17_Pos
 .Lsra16_b17_Pos:
-        .word   .Lsra_c131072, 164, .Lsra16_b16_Neg
+        .word   .Lsra_c131072, 100, .Lsra16_b16_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra16_b16_Pos
 .Lsra16_b17_Neg:
-        .word   .Lsra_n131072, 164, .Lsra16_b16_Neg
+        .word   .Lsra_n131072, 100, .Lsra16_b16_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra16_b16_Pos
 .Lsra16_b16_Pos:
-        .word   .Lsra_c65536, 164, .Lsra16_store_internal
+        .word   .Lsra_c65536, 100, .Lsra16_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra16_store_internal
 .Lsra16_b16_Neg:
-        .word   .Lsra_n65536, 164, .Lsra16_store_internal
+        .word   .Lsra_n65536, 100, .Lsra16_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra16_store_internal
 .Lsra16_store_internal:
@@ -48415,13 +48398,13 @@ __subleq_sra:
 .Lsra17_chksign:
         .word   172, 172, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   100, 12, .+4
         .word   12, 172, .+4
         .word   144, 172, .Lsra17_maybe_neg
         .word   12, 12, .Lsra17_pos
 .Lsra17_maybe_neg:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsra17_ambig
         .word   12, 12, .Lsra17_neg
 .Lsra17_ambig:
@@ -48431,122 +48414,122 @@ __subleq_sra:
 .Lsra17_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
-        .word   164, 172, .+4
-        .word   164, 164, .+4
+        .word   100, 172, .+4
+        .word   100, 100, .+4
         .word   12, 12, .+4
         .word   172, 12, .+4
-        .word   12, 164, .+4
-        .word   .Lsra_one, 164, .Lsra17_pos
+        .word   12, 100, .+4
+        .word   .Lsra_one, 100, .Lsra17_pos
 .Lsra17_pos:
         .word   168, 168, .+4
-        .word   .Lsra_negone, 164, .+4
+        .word   .Lsra_negone, 100, .+4
         .word   12, 12, .Lsra17_b30_Pos
 .Lsra17_b30_Pos:
-        .word   .Lsra_c1073741824, 164, .Lsra17_b29_Neg
+        .word   .Lsra_c1073741824, 100, .Lsra17_b29_Neg
         .word   .Lsra_n8192, 168, .+4
         .word   12, 12, .Lsra17_b29_Pos
 .Lsra17_b29_Pos:
-        .word   .Lsra_c536870912, 164, .Lsra17_b28_Neg
+        .word   .Lsra_c536870912, 100, .Lsra17_b28_Neg
         .word   .Lsra_n4096, 168, .+4
         .word   12, 12, .Lsra17_b28_Pos
 .Lsra17_b29_Neg:
-        .word   .Lsra_n536870912, 164, .Lsra17_b28_Neg
+        .word   .Lsra_n536870912, 100, .Lsra17_b28_Neg
         .word   .Lsra_n4096, 168, .+4
         .word   12, 12, .Lsra17_b28_Pos
 .Lsra17_b28_Pos:
-        .word   .Lsra_c268435456, 164, .Lsra17_b27_Neg
+        .word   .Lsra_c268435456, 100, .Lsra17_b27_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra17_b27_Pos
 .Lsra17_b28_Neg:
-        .word   .Lsra_n268435456, 164, .Lsra17_b27_Neg
+        .word   .Lsra_n268435456, 100, .Lsra17_b27_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra17_b27_Pos
 .Lsra17_b27_Pos:
-        .word   .Lsra_c134217728, 164, .Lsra17_b26_Neg
+        .word   .Lsra_c134217728, 100, .Lsra17_b26_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra17_b26_Pos
 .Lsra17_b27_Neg:
-        .word   .Lsra_n134217728, 164, .Lsra17_b26_Neg
+        .word   .Lsra_n134217728, 100, .Lsra17_b26_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra17_b26_Pos
 .Lsra17_b26_Pos:
-        .word   .Lsra_c67108864, 164, .Lsra17_b25_Neg
+        .word   .Lsra_c67108864, 100, .Lsra17_b25_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra17_b25_Pos
 .Lsra17_b26_Neg:
-        .word   .Lsra_n67108864, 164, .Lsra17_b25_Neg
+        .word   .Lsra_n67108864, 100, .Lsra17_b25_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra17_b25_Pos
 .Lsra17_b25_Pos:
-        .word   .Lsra_c33554432, 164, .Lsra17_b24_Neg
+        .word   .Lsra_c33554432, 100, .Lsra17_b24_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra17_b24_Pos
 .Lsra17_b25_Neg:
-        .word   .Lsra_n33554432, 164, .Lsra17_b24_Neg
+        .word   .Lsra_n33554432, 100, .Lsra17_b24_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra17_b24_Pos
 .Lsra17_b24_Pos:
-        .word   .Lsra_c16777216, 164, .Lsra17_b23_Neg
+        .word   .Lsra_c16777216, 100, .Lsra17_b23_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra17_b23_Pos
 .Lsra17_b24_Neg:
-        .word   .Lsra_n16777216, 164, .Lsra17_b23_Neg
+        .word   .Lsra_n16777216, 100, .Lsra17_b23_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra17_b23_Pos
 .Lsra17_b23_Pos:
-        .word   .Lsra_c8388608, 164, .Lsra17_b22_Neg
+        .word   .Lsra_c8388608, 100, .Lsra17_b22_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra17_b22_Pos
 .Lsra17_b23_Neg:
-        .word   .Lsra_n8388608, 164, .Lsra17_b22_Neg
+        .word   .Lsra_n8388608, 100, .Lsra17_b22_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra17_b22_Pos
 .Lsra17_b22_Pos:
-        .word   .Lsra_c4194304, 164, .Lsra17_b21_Neg
+        .word   .Lsra_c4194304, 100, .Lsra17_b21_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra17_b21_Pos
 .Lsra17_b22_Neg:
-        .word   .Lsra_n4194304, 164, .Lsra17_b21_Neg
+        .word   .Lsra_n4194304, 100, .Lsra17_b21_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra17_b21_Pos
 .Lsra17_b21_Pos:
-        .word   .Lsra_c2097152, 164, .Lsra17_b20_Neg
+        .word   .Lsra_c2097152, 100, .Lsra17_b20_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra17_b20_Pos
 .Lsra17_b21_Neg:
-        .word   .Lsra_n2097152, 164, .Lsra17_b20_Neg
+        .word   .Lsra_n2097152, 100, .Lsra17_b20_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra17_b20_Pos
 .Lsra17_b20_Pos:
-        .word   .Lsra_c1048576, 164, .Lsra17_b19_Neg
+        .word   .Lsra_c1048576, 100, .Lsra17_b19_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra17_b19_Pos
 .Lsra17_b20_Neg:
-        .word   .Lsra_n1048576, 164, .Lsra17_b19_Neg
+        .word   .Lsra_n1048576, 100, .Lsra17_b19_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra17_b19_Pos
 .Lsra17_b19_Pos:
-        .word   .Lsra_c524288, 164, .Lsra17_b18_Neg
+        .word   .Lsra_c524288, 100, .Lsra17_b18_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra17_b18_Pos
 .Lsra17_b19_Neg:
-        .word   .Lsra_n524288, 164, .Lsra17_b18_Neg
+        .word   .Lsra_n524288, 100, .Lsra17_b18_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra17_b18_Pos
 .Lsra17_b18_Pos:
-        .word   .Lsra_c262144, 164, .Lsra17_b17_Neg
+        .word   .Lsra_c262144, 100, .Lsra17_b17_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra17_b17_Pos
 .Lsra17_b18_Neg:
-        .word   .Lsra_n262144, 164, .Lsra17_b17_Neg
+        .word   .Lsra_n262144, 100, .Lsra17_b17_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra17_b17_Pos
 .Lsra17_b17_Pos:
-        .word   .Lsra_c131072, 164, .Lsra17_store_internal
+        .word   .Lsra_c131072, 100, .Lsra17_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra17_store_internal
 .Lsra17_b17_Neg:
-        .word   .Lsra_n131072, 164, .Lsra17_store_internal
+        .word   .Lsra_n131072, 100, .Lsra17_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra17_store_internal
 .Lsra17_store_internal:
@@ -48570,13 +48553,13 @@ __subleq_sra:
 .Lsra18_chksign:
         .word   172, 172, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   100, 12, .+4
         .word   12, 172, .+4
         .word   144, 172, .Lsra18_maybe_neg
         .word   12, 12, .Lsra18_pos
 .Lsra18_maybe_neg:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsra18_ambig
         .word   12, 12, .Lsra18_neg
 .Lsra18_ambig:
@@ -48586,114 +48569,114 @@ __subleq_sra:
 .Lsra18_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
-        .word   164, 172, .+4
-        .word   164, 164, .+4
+        .word   100, 172, .+4
+        .word   100, 100, .+4
         .word   12, 12, .+4
         .word   172, 12, .+4
-        .word   12, 164, .+4
-        .word   .Lsra_one, 164, .Lsra18_pos
+        .word   12, 100, .+4
+        .word   .Lsra_one, 100, .Lsra18_pos
 .Lsra18_pos:
         .word   168, 168, .+4
-        .word   .Lsra_negone, 164, .+4
+        .word   .Lsra_negone, 100, .+4
         .word   12, 12, .Lsra18_b30_Pos
 .Lsra18_b30_Pos:
-        .word   .Lsra_c1073741824, 164, .Lsra18_b29_Neg
+        .word   .Lsra_c1073741824, 100, .Lsra18_b29_Neg
         .word   .Lsra_n4096, 168, .+4
         .word   12, 12, .Lsra18_b29_Pos
 .Lsra18_b29_Pos:
-        .word   .Lsra_c536870912, 164, .Lsra18_b28_Neg
+        .word   .Lsra_c536870912, 100, .Lsra18_b28_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra18_b28_Pos
 .Lsra18_b29_Neg:
-        .word   .Lsra_n536870912, 164, .Lsra18_b28_Neg
+        .word   .Lsra_n536870912, 100, .Lsra18_b28_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra18_b28_Pos
 .Lsra18_b28_Pos:
-        .word   .Lsra_c268435456, 164, .Lsra18_b27_Neg
+        .word   .Lsra_c268435456, 100, .Lsra18_b27_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra18_b27_Pos
 .Lsra18_b28_Neg:
-        .word   .Lsra_n268435456, 164, .Lsra18_b27_Neg
+        .word   .Lsra_n268435456, 100, .Lsra18_b27_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra18_b27_Pos
 .Lsra18_b27_Pos:
-        .word   .Lsra_c134217728, 164, .Lsra18_b26_Neg
+        .word   .Lsra_c134217728, 100, .Lsra18_b26_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra18_b26_Pos
 .Lsra18_b27_Neg:
-        .word   .Lsra_n134217728, 164, .Lsra18_b26_Neg
+        .word   .Lsra_n134217728, 100, .Lsra18_b26_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra18_b26_Pos
 .Lsra18_b26_Pos:
-        .word   .Lsra_c67108864, 164, .Lsra18_b25_Neg
+        .word   .Lsra_c67108864, 100, .Lsra18_b25_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra18_b25_Pos
 .Lsra18_b26_Neg:
-        .word   .Lsra_n67108864, 164, .Lsra18_b25_Neg
+        .word   .Lsra_n67108864, 100, .Lsra18_b25_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra18_b25_Pos
 .Lsra18_b25_Pos:
-        .word   .Lsra_c33554432, 164, .Lsra18_b24_Neg
+        .word   .Lsra_c33554432, 100, .Lsra18_b24_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra18_b24_Pos
 .Lsra18_b25_Neg:
-        .word   .Lsra_n33554432, 164, .Lsra18_b24_Neg
+        .word   .Lsra_n33554432, 100, .Lsra18_b24_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra18_b24_Pos
 .Lsra18_b24_Pos:
-        .word   .Lsra_c16777216, 164, .Lsra18_b23_Neg
+        .word   .Lsra_c16777216, 100, .Lsra18_b23_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra18_b23_Pos
 .Lsra18_b24_Neg:
-        .word   .Lsra_n16777216, 164, .Lsra18_b23_Neg
+        .word   .Lsra_n16777216, 100, .Lsra18_b23_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra18_b23_Pos
 .Lsra18_b23_Pos:
-        .word   .Lsra_c8388608, 164, .Lsra18_b22_Neg
+        .word   .Lsra_c8388608, 100, .Lsra18_b22_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra18_b22_Pos
 .Lsra18_b23_Neg:
-        .word   .Lsra_n8388608, 164, .Lsra18_b22_Neg
+        .word   .Lsra_n8388608, 100, .Lsra18_b22_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra18_b22_Pos
 .Lsra18_b22_Pos:
-        .word   .Lsra_c4194304, 164, .Lsra18_b21_Neg
+        .word   .Lsra_c4194304, 100, .Lsra18_b21_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra18_b21_Pos
 .Lsra18_b22_Neg:
-        .word   .Lsra_n4194304, 164, .Lsra18_b21_Neg
+        .word   .Lsra_n4194304, 100, .Lsra18_b21_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra18_b21_Pos
 .Lsra18_b21_Pos:
-        .word   .Lsra_c2097152, 164, .Lsra18_b20_Neg
+        .word   .Lsra_c2097152, 100, .Lsra18_b20_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra18_b20_Pos
 .Lsra18_b21_Neg:
-        .word   .Lsra_n2097152, 164, .Lsra18_b20_Neg
+        .word   .Lsra_n2097152, 100, .Lsra18_b20_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra18_b20_Pos
 .Lsra18_b20_Pos:
-        .word   .Lsra_c1048576, 164, .Lsra18_b19_Neg
+        .word   .Lsra_c1048576, 100, .Lsra18_b19_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra18_b19_Pos
 .Lsra18_b20_Neg:
-        .word   .Lsra_n1048576, 164, .Lsra18_b19_Neg
+        .word   .Lsra_n1048576, 100, .Lsra18_b19_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra18_b19_Pos
 .Lsra18_b19_Pos:
-        .word   .Lsra_c524288, 164, .Lsra18_b18_Neg
+        .word   .Lsra_c524288, 100, .Lsra18_b18_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra18_b18_Pos
 .Lsra18_b19_Neg:
-        .word   .Lsra_n524288, 164, .Lsra18_b18_Neg
+        .word   .Lsra_n524288, 100, .Lsra18_b18_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra18_b18_Pos
 .Lsra18_b18_Pos:
-        .word   .Lsra_c262144, 164, .Lsra18_store_internal
+        .word   .Lsra_c262144, 100, .Lsra18_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra18_store_internal
 .Lsra18_b18_Neg:
-        .word   .Lsra_n262144, 164, .Lsra18_store_internal
+        .word   .Lsra_n262144, 100, .Lsra18_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra18_store_internal
 .Lsra18_store_internal:
@@ -48717,13 +48700,13 @@ __subleq_sra:
 .Lsra19_chksign:
         .word   172, 172, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   100, 12, .+4
         .word   12, 172, .+4
         .word   144, 172, .Lsra19_maybe_neg
         .word   12, 12, .Lsra19_pos
 .Lsra19_maybe_neg:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsra19_ambig
         .word   12, 12, .Lsra19_neg
 .Lsra19_ambig:
@@ -48733,106 +48716,106 @@ __subleq_sra:
 .Lsra19_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
-        .word   164, 172, .+4
-        .word   164, 164, .+4
+        .word   100, 172, .+4
+        .word   100, 100, .+4
         .word   12, 12, .+4
         .word   172, 12, .+4
-        .word   12, 164, .+4
-        .word   .Lsra_one, 164, .Lsra19_pos
+        .word   12, 100, .+4
+        .word   .Lsra_one, 100, .Lsra19_pos
 .Lsra19_pos:
         .word   168, 168, .+4
-        .word   .Lsra_negone, 164, .+4
+        .word   .Lsra_negone, 100, .+4
         .word   12, 12, .Lsra19_b30_Pos
 .Lsra19_b30_Pos:
-        .word   .Lsra_c1073741824, 164, .Lsra19_b29_Neg
+        .word   .Lsra_c1073741824, 100, .Lsra19_b29_Neg
         .word   .Lsra_n2048, 168, .+4
         .word   12, 12, .Lsra19_b29_Pos
 .Lsra19_b29_Pos:
-        .word   .Lsra_c536870912, 164, .Lsra19_b28_Neg
+        .word   .Lsra_c536870912, 100, .Lsra19_b28_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra19_b28_Pos
 .Lsra19_b29_Neg:
-        .word   .Lsra_n536870912, 164, .Lsra19_b28_Neg
+        .word   .Lsra_n536870912, 100, .Lsra19_b28_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra19_b28_Pos
 .Lsra19_b28_Pos:
-        .word   .Lsra_c268435456, 164, .Lsra19_b27_Neg
+        .word   .Lsra_c268435456, 100, .Lsra19_b27_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra19_b27_Pos
 .Lsra19_b28_Neg:
-        .word   .Lsra_n268435456, 164, .Lsra19_b27_Neg
+        .word   .Lsra_n268435456, 100, .Lsra19_b27_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra19_b27_Pos
 .Lsra19_b27_Pos:
-        .word   .Lsra_c134217728, 164, .Lsra19_b26_Neg
+        .word   .Lsra_c134217728, 100, .Lsra19_b26_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra19_b26_Pos
 .Lsra19_b27_Neg:
-        .word   .Lsra_n134217728, 164, .Lsra19_b26_Neg
+        .word   .Lsra_n134217728, 100, .Lsra19_b26_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra19_b26_Pos
 .Lsra19_b26_Pos:
-        .word   .Lsra_c67108864, 164, .Lsra19_b25_Neg
+        .word   .Lsra_c67108864, 100, .Lsra19_b25_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra19_b25_Pos
 .Lsra19_b26_Neg:
-        .word   .Lsra_n67108864, 164, .Lsra19_b25_Neg
+        .word   .Lsra_n67108864, 100, .Lsra19_b25_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra19_b25_Pos
 .Lsra19_b25_Pos:
-        .word   .Lsra_c33554432, 164, .Lsra19_b24_Neg
+        .word   .Lsra_c33554432, 100, .Lsra19_b24_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra19_b24_Pos
 .Lsra19_b25_Neg:
-        .word   .Lsra_n33554432, 164, .Lsra19_b24_Neg
+        .word   .Lsra_n33554432, 100, .Lsra19_b24_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra19_b24_Pos
 .Lsra19_b24_Pos:
-        .word   .Lsra_c16777216, 164, .Lsra19_b23_Neg
+        .word   .Lsra_c16777216, 100, .Lsra19_b23_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra19_b23_Pos
 .Lsra19_b24_Neg:
-        .word   .Lsra_n16777216, 164, .Lsra19_b23_Neg
+        .word   .Lsra_n16777216, 100, .Lsra19_b23_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra19_b23_Pos
 .Lsra19_b23_Pos:
-        .word   .Lsra_c8388608, 164, .Lsra19_b22_Neg
+        .word   .Lsra_c8388608, 100, .Lsra19_b22_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra19_b22_Pos
 .Lsra19_b23_Neg:
-        .word   .Lsra_n8388608, 164, .Lsra19_b22_Neg
+        .word   .Lsra_n8388608, 100, .Lsra19_b22_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra19_b22_Pos
 .Lsra19_b22_Pos:
-        .word   .Lsra_c4194304, 164, .Lsra19_b21_Neg
+        .word   .Lsra_c4194304, 100, .Lsra19_b21_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra19_b21_Pos
 .Lsra19_b22_Neg:
-        .word   .Lsra_n4194304, 164, .Lsra19_b21_Neg
+        .word   .Lsra_n4194304, 100, .Lsra19_b21_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra19_b21_Pos
 .Lsra19_b21_Pos:
-        .word   .Lsra_c2097152, 164, .Lsra19_b20_Neg
+        .word   .Lsra_c2097152, 100, .Lsra19_b20_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra19_b20_Pos
 .Lsra19_b21_Neg:
-        .word   .Lsra_n2097152, 164, .Lsra19_b20_Neg
+        .word   .Lsra_n2097152, 100, .Lsra19_b20_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra19_b20_Pos
 .Lsra19_b20_Pos:
-        .word   .Lsra_c1048576, 164, .Lsra19_b19_Neg
+        .word   .Lsra_c1048576, 100, .Lsra19_b19_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra19_b19_Pos
 .Lsra19_b20_Neg:
-        .word   .Lsra_n1048576, 164, .Lsra19_b19_Neg
+        .word   .Lsra_n1048576, 100, .Lsra19_b19_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra19_b19_Pos
 .Lsra19_b19_Pos:
-        .word   .Lsra_c524288, 164, .Lsra19_store_internal
+        .word   .Lsra_c524288, 100, .Lsra19_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra19_store_internal
 .Lsra19_b19_Neg:
-        .word   .Lsra_n524288, 164, .Lsra19_store_internal
+        .word   .Lsra_n524288, 100, .Lsra19_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra19_store_internal
 .Lsra19_store_internal:
@@ -48856,13 +48839,13 @@ __subleq_sra:
 .Lsra20_chksign:
         .word   172, 172, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   100, 12, .+4
         .word   12, 172, .+4
         .word   144, 172, .Lsra20_maybe_neg
         .word   12, 12, .Lsra20_pos
 .Lsra20_maybe_neg:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsra20_ambig
         .word   12, 12, .Lsra20_neg
 .Lsra20_ambig:
@@ -48872,98 +48855,98 @@ __subleq_sra:
 .Lsra20_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
-        .word   164, 172, .+4
-        .word   164, 164, .+4
+        .word   100, 172, .+4
+        .word   100, 100, .+4
         .word   12, 12, .+4
         .word   172, 12, .+4
-        .word   12, 164, .+4
-        .word   .Lsra_one, 164, .Lsra20_pos
+        .word   12, 100, .+4
+        .word   .Lsra_one, 100, .Lsra20_pos
 .Lsra20_pos:
         .word   168, 168, .+4
-        .word   .Lsra_negone, 164, .+4
+        .word   .Lsra_negone, 100, .+4
         .word   12, 12, .Lsra20_b30_Pos
 .Lsra20_b30_Pos:
-        .word   .Lsra_c1073741824, 164, .Lsra20_b29_Neg
+        .word   .Lsra_c1073741824, 100, .Lsra20_b29_Neg
         .word   .Lsra_n1024, 168, .+4
         .word   12, 12, .Lsra20_b29_Pos
 .Lsra20_b29_Pos:
-        .word   .Lsra_c536870912, 164, .Lsra20_b28_Neg
+        .word   .Lsra_c536870912, 100, .Lsra20_b28_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra20_b28_Pos
 .Lsra20_b29_Neg:
-        .word   .Lsra_n536870912, 164, .Lsra20_b28_Neg
+        .word   .Lsra_n536870912, 100, .Lsra20_b28_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra20_b28_Pos
 .Lsra20_b28_Pos:
-        .word   .Lsra_c268435456, 164, .Lsra20_b27_Neg
+        .word   .Lsra_c268435456, 100, .Lsra20_b27_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra20_b27_Pos
 .Lsra20_b28_Neg:
-        .word   .Lsra_n268435456, 164, .Lsra20_b27_Neg
+        .word   .Lsra_n268435456, 100, .Lsra20_b27_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra20_b27_Pos
 .Lsra20_b27_Pos:
-        .word   .Lsra_c134217728, 164, .Lsra20_b26_Neg
+        .word   .Lsra_c134217728, 100, .Lsra20_b26_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra20_b26_Pos
 .Lsra20_b27_Neg:
-        .word   .Lsra_n134217728, 164, .Lsra20_b26_Neg
+        .word   .Lsra_n134217728, 100, .Lsra20_b26_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra20_b26_Pos
 .Lsra20_b26_Pos:
-        .word   .Lsra_c67108864, 164, .Lsra20_b25_Neg
+        .word   .Lsra_c67108864, 100, .Lsra20_b25_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra20_b25_Pos
 .Lsra20_b26_Neg:
-        .word   .Lsra_n67108864, 164, .Lsra20_b25_Neg
+        .word   .Lsra_n67108864, 100, .Lsra20_b25_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra20_b25_Pos
 .Lsra20_b25_Pos:
-        .word   .Lsra_c33554432, 164, .Lsra20_b24_Neg
+        .word   .Lsra_c33554432, 100, .Lsra20_b24_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra20_b24_Pos
 .Lsra20_b25_Neg:
-        .word   .Lsra_n33554432, 164, .Lsra20_b24_Neg
+        .word   .Lsra_n33554432, 100, .Lsra20_b24_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra20_b24_Pos
 .Lsra20_b24_Pos:
-        .word   .Lsra_c16777216, 164, .Lsra20_b23_Neg
+        .word   .Lsra_c16777216, 100, .Lsra20_b23_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra20_b23_Pos
 .Lsra20_b24_Neg:
-        .word   .Lsra_n16777216, 164, .Lsra20_b23_Neg
+        .word   .Lsra_n16777216, 100, .Lsra20_b23_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra20_b23_Pos
 .Lsra20_b23_Pos:
-        .word   .Lsra_c8388608, 164, .Lsra20_b22_Neg
+        .word   .Lsra_c8388608, 100, .Lsra20_b22_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra20_b22_Pos
 .Lsra20_b23_Neg:
-        .word   .Lsra_n8388608, 164, .Lsra20_b22_Neg
+        .word   .Lsra_n8388608, 100, .Lsra20_b22_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra20_b22_Pos
 .Lsra20_b22_Pos:
-        .word   .Lsra_c4194304, 164, .Lsra20_b21_Neg
+        .word   .Lsra_c4194304, 100, .Lsra20_b21_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra20_b21_Pos
 .Lsra20_b22_Neg:
-        .word   .Lsra_n4194304, 164, .Lsra20_b21_Neg
+        .word   .Lsra_n4194304, 100, .Lsra20_b21_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra20_b21_Pos
 .Lsra20_b21_Pos:
-        .word   .Lsra_c2097152, 164, .Lsra20_b20_Neg
+        .word   .Lsra_c2097152, 100, .Lsra20_b20_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra20_b20_Pos
 .Lsra20_b21_Neg:
-        .word   .Lsra_n2097152, 164, .Lsra20_b20_Neg
+        .word   .Lsra_n2097152, 100, .Lsra20_b20_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra20_b20_Pos
 .Lsra20_b20_Pos:
-        .word   .Lsra_c1048576, 164, .Lsra20_store_internal
+        .word   .Lsra_c1048576, 100, .Lsra20_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra20_store_internal
 .Lsra20_b20_Neg:
-        .word   .Lsra_n1048576, 164, .Lsra20_store_internal
+        .word   .Lsra_n1048576, 100, .Lsra20_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra20_store_internal
 .Lsra20_store_internal:
@@ -48987,13 +48970,13 @@ __subleq_sra:
 .Lsra21_chksign:
         .word   172, 172, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   100, 12, .+4
         .word   12, 172, .+4
         .word   144, 172, .Lsra21_maybe_neg
         .word   12, 12, .Lsra21_pos
 .Lsra21_maybe_neg:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsra21_ambig
         .word   12, 12, .Lsra21_neg
 .Lsra21_ambig:
@@ -49003,90 +48986,90 @@ __subleq_sra:
 .Lsra21_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
-        .word   164, 172, .+4
-        .word   164, 164, .+4
+        .word   100, 172, .+4
+        .word   100, 100, .+4
         .word   12, 12, .+4
         .word   172, 12, .+4
-        .word   12, 164, .+4
-        .word   .Lsra_one, 164, .Lsra21_pos
+        .word   12, 100, .+4
+        .word   .Lsra_one, 100, .Lsra21_pos
 .Lsra21_pos:
         .word   168, 168, .+4
-        .word   .Lsra_negone, 164, .+4
+        .word   .Lsra_negone, 100, .+4
         .word   12, 12, .Lsra21_b30_Pos
 .Lsra21_b30_Pos:
-        .word   .Lsra_c1073741824, 164, .Lsra21_b29_Neg
+        .word   .Lsra_c1073741824, 100, .Lsra21_b29_Neg
         .word   .Lsra_n512, 168, .+4
         .word   12, 12, .Lsra21_b29_Pos
 .Lsra21_b29_Pos:
-        .word   .Lsra_c536870912, 164, .Lsra21_b28_Neg
+        .word   .Lsra_c536870912, 100, .Lsra21_b28_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra21_b28_Pos
 .Lsra21_b29_Neg:
-        .word   .Lsra_n536870912, 164, .Lsra21_b28_Neg
+        .word   .Lsra_n536870912, 100, .Lsra21_b28_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra21_b28_Pos
 .Lsra21_b28_Pos:
-        .word   .Lsra_c268435456, 164, .Lsra21_b27_Neg
+        .word   .Lsra_c268435456, 100, .Lsra21_b27_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra21_b27_Pos
 .Lsra21_b28_Neg:
-        .word   .Lsra_n268435456, 164, .Lsra21_b27_Neg
+        .word   .Lsra_n268435456, 100, .Lsra21_b27_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra21_b27_Pos
 .Lsra21_b27_Pos:
-        .word   .Lsra_c134217728, 164, .Lsra21_b26_Neg
+        .word   .Lsra_c134217728, 100, .Lsra21_b26_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra21_b26_Pos
 .Lsra21_b27_Neg:
-        .word   .Lsra_n134217728, 164, .Lsra21_b26_Neg
+        .word   .Lsra_n134217728, 100, .Lsra21_b26_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra21_b26_Pos
 .Lsra21_b26_Pos:
-        .word   .Lsra_c67108864, 164, .Lsra21_b25_Neg
+        .word   .Lsra_c67108864, 100, .Lsra21_b25_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra21_b25_Pos
 .Lsra21_b26_Neg:
-        .word   .Lsra_n67108864, 164, .Lsra21_b25_Neg
+        .word   .Lsra_n67108864, 100, .Lsra21_b25_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra21_b25_Pos
 .Lsra21_b25_Pos:
-        .word   .Lsra_c33554432, 164, .Lsra21_b24_Neg
+        .word   .Lsra_c33554432, 100, .Lsra21_b24_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra21_b24_Pos
 .Lsra21_b25_Neg:
-        .word   .Lsra_n33554432, 164, .Lsra21_b24_Neg
+        .word   .Lsra_n33554432, 100, .Lsra21_b24_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra21_b24_Pos
 .Lsra21_b24_Pos:
-        .word   .Lsra_c16777216, 164, .Lsra21_b23_Neg
+        .word   .Lsra_c16777216, 100, .Lsra21_b23_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra21_b23_Pos
 .Lsra21_b24_Neg:
-        .word   .Lsra_n16777216, 164, .Lsra21_b23_Neg
+        .word   .Lsra_n16777216, 100, .Lsra21_b23_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra21_b23_Pos
 .Lsra21_b23_Pos:
-        .word   .Lsra_c8388608, 164, .Lsra21_b22_Neg
+        .word   .Lsra_c8388608, 100, .Lsra21_b22_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra21_b22_Pos
 .Lsra21_b23_Neg:
-        .word   .Lsra_n8388608, 164, .Lsra21_b22_Neg
+        .word   .Lsra_n8388608, 100, .Lsra21_b22_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra21_b22_Pos
 .Lsra21_b22_Pos:
-        .word   .Lsra_c4194304, 164, .Lsra21_b21_Neg
+        .word   .Lsra_c4194304, 100, .Lsra21_b21_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra21_b21_Pos
 .Lsra21_b22_Neg:
-        .word   .Lsra_n4194304, 164, .Lsra21_b21_Neg
+        .word   .Lsra_n4194304, 100, .Lsra21_b21_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra21_b21_Pos
 .Lsra21_b21_Pos:
-        .word   .Lsra_c2097152, 164, .Lsra21_store_internal
+        .word   .Lsra_c2097152, 100, .Lsra21_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra21_store_internal
 .Lsra21_b21_Neg:
-        .word   .Lsra_n2097152, 164, .Lsra21_store_internal
+        .word   .Lsra_n2097152, 100, .Lsra21_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra21_store_internal
 .Lsra21_store_internal:
@@ -49110,13 +49093,13 @@ __subleq_sra:
 .Lsra22_chksign:
         .word   172, 172, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   100, 12, .+4
         .word   12, 172, .+4
         .word   144, 172, .Lsra22_maybe_neg
         .word   12, 12, .Lsra22_pos
 .Lsra22_maybe_neg:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsra22_ambig
         .word   12, 12, .Lsra22_neg
 .Lsra22_ambig:
@@ -49126,82 +49109,82 @@ __subleq_sra:
 .Lsra22_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
-        .word   164, 172, .+4
-        .word   164, 164, .+4
+        .word   100, 172, .+4
+        .word   100, 100, .+4
         .word   12, 12, .+4
         .word   172, 12, .+4
-        .word   12, 164, .+4
-        .word   .Lsra_one, 164, .Lsra22_pos
+        .word   12, 100, .+4
+        .word   .Lsra_one, 100, .Lsra22_pos
 .Lsra22_pos:
         .word   168, 168, .+4
-        .word   .Lsra_negone, 164, .+4
+        .word   .Lsra_negone, 100, .+4
         .word   12, 12, .Lsra22_b30_Pos
 .Lsra22_b30_Pos:
-        .word   .Lsra_c1073741824, 164, .Lsra22_b29_Neg
+        .word   .Lsra_c1073741824, 100, .Lsra22_b29_Neg
         .word   .Lsra_n256, 168, .+4
         .word   12, 12, .Lsra22_b29_Pos
 .Lsra22_b29_Pos:
-        .word   .Lsra_c536870912, 164, .Lsra22_b28_Neg
+        .word   .Lsra_c536870912, 100, .Lsra22_b28_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra22_b28_Pos
 .Lsra22_b29_Neg:
-        .word   .Lsra_n536870912, 164, .Lsra22_b28_Neg
+        .word   .Lsra_n536870912, 100, .Lsra22_b28_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra22_b28_Pos
 .Lsra22_b28_Pos:
-        .word   .Lsra_c268435456, 164, .Lsra22_b27_Neg
+        .word   .Lsra_c268435456, 100, .Lsra22_b27_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra22_b27_Pos
 .Lsra22_b28_Neg:
-        .word   .Lsra_n268435456, 164, .Lsra22_b27_Neg
+        .word   .Lsra_n268435456, 100, .Lsra22_b27_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra22_b27_Pos
 .Lsra22_b27_Pos:
-        .word   .Lsra_c134217728, 164, .Lsra22_b26_Neg
+        .word   .Lsra_c134217728, 100, .Lsra22_b26_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra22_b26_Pos
 .Lsra22_b27_Neg:
-        .word   .Lsra_n134217728, 164, .Lsra22_b26_Neg
+        .word   .Lsra_n134217728, 100, .Lsra22_b26_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra22_b26_Pos
 .Lsra22_b26_Pos:
-        .word   .Lsra_c67108864, 164, .Lsra22_b25_Neg
+        .word   .Lsra_c67108864, 100, .Lsra22_b25_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra22_b25_Pos
 .Lsra22_b26_Neg:
-        .word   .Lsra_n67108864, 164, .Lsra22_b25_Neg
+        .word   .Lsra_n67108864, 100, .Lsra22_b25_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra22_b25_Pos
 .Lsra22_b25_Pos:
-        .word   .Lsra_c33554432, 164, .Lsra22_b24_Neg
+        .word   .Lsra_c33554432, 100, .Lsra22_b24_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra22_b24_Pos
 .Lsra22_b25_Neg:
-        .word   .Lsra_n33554432, 164, .Lsra22_b24_Neg
+        .word   .Lsra_n33554432, 100, .Lsra22_b24_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra22_b24_Pos
 .Lsra22_b24_Pos:
-        .word   .Lsra_c16777216, 164, .Lsra22_b23_Neg
+        .word   .Lsra_c16777216, 100, .Lsra22_b23_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra22_b23_Pos
 .Lsra22_b24_Neg:
-        .word   .Lsra_n16777216, 164, .Lsra22_b23_Neg
+        .word   .Lsra_n16777216, 100, .Lsra22_b23_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra22_b23_Pos
 .Lsra22_b23_Pos:
-        .word   .Lsra_c8388608, 164, .Lsra22_b22_Neg
+        .word   .Lsra_c8388608, 100, .Lsra22_b22_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra22_b22_Pos
 .Lsra22_b23_Neg:
-        .word   .Lsra_n8388608, 164, .Lsra22_b22_Neg
+        .word   .Lsra_n8388608, 100, .Lsra22_b22_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra22_b22_Pos
 .Lsra22_b22_Pos:
-        .word   .Lsra_c4194304, 164, .Lsra22_store_internal
+        .word   .Lsra_c4194304, 100, .Lsra22_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra22_store_internal
 .Lsra22_b22_Neg:
-        .word   .Lsra_n4194304, 164, .Lsra22_store_internal
+        .word   .Lsra_n4194304, 100, .Lsra22_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra22_store_internal
 .Lsra22_store_internal:
@@ -49225,13 +49208,13 @@ __subleq_sra:
 .Lsra23_chksign:
         .word   172, 172, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   100, 12, .+4
         .word   12, 172, .+4
         .word   144, 172, .Lsra23_maybe_neg
         .word   12, 12, .Lsra23_pos
 .Lsra23_maybe_neg:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsra23_ambig
         .word   12, 12, .Lsra23_neg
 .Lsra23_ambig:
@@ -49241,74 +49224,74 @@ __subleq_sra:
 .Lsra23_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
-        .word   164, 172, .+4
-        .word   164, 164, .+4
+        .word   100, 172, .+4
+        .word   100, 100, .+4
         .word   12, 12, .+4
         .word   172, 12, .+4
-        .word   12, 164, .+4
-        .word   .Lsra_one, 164, .Lsra23_pos
+        .word   12, 100, .+4
+        .word   .Lsra_one, 100, .Lsra23_pos
 .Lsra23_pos:
         .word   168, 168, .+4
-        .word   .Lsra_negone, 164, .+4
+        .word   .Lsra_negone, 100, .+4
         .word   12, 12, .Lsra23_b30_Pos
 .Lsra23_b30_Pos:
-        .word   .Lsra_c1073741824, 164, .Lsra23_b29_Neg
+        .word   .Lsra_c1073741824, 100, .Lsra23_b29_Neg
         .word   .Lsra_n128, 168, .+4
         .word   12, 12, .Lsra23_b29_Pos
 .Lsra23_b29_Pos:
-        .word   .Lsra_c536870912, 164, .Lsra23_b28_Neg
+        .word   .Lsra_c536870912, 100, .Lsra23_b28_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra23_b28_Pos
 .Lsra23_b29_Neg:
-        .word   .Lsra_n536870912, 164, .Lsra23_b28_Neg
+        .word   .Lsra_n536870912, 100, .Lsra23_b28_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra23_b28_Pos
 .Lsra23_b28_Pos:
-        .word   .Lsra_c268435456, 164, .Lsra23_b27_Neg
+        .word   .Lsra_c268435456, 100, .Lsra23_b27_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra23_b27_Pos
 .Lsra23_b28_Neg:
-        .word   .Lsra_n268435456, 164, .Lsra23_b27_Neg
+        .word   .Lsra_n268435456, 100, .Lsra23_b27_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra23_b27_Pos
 .Lsra23_b27_Pos:
-        .word   .Lsra_c134217728, 164, .Lsra23_b26_Neg
+        .word   .Lsra_c134217728, 100, .Lsra23_b26_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra23_b26_Pos
 .Lsra23_b27_Neg:
-        .word   .Lsra_n134217728, 164, .Lsra23_b26_Neg
+        .word   .Lsra_n134217728, 100, .Lsra23_b26_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra23_b26_Pos
 .Lsra23_b26_Pos:
-        .word   .Lsra_c67108864, 164, .Lsra23_b25_Neg
+        .word   .Lsra_c67108864, 100, .Lsra23_b25_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra23_b25_Pos
 .Lsra23_b26_Neg:
-        .word   .Lsra_n67108864, 164, .Lsra23_b25_Neg
+        .word   .Lsra_n67108864, 100, .Lsra23_b25_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra23_b25_Pos
 .Lsra23_b25_Pos:
-        .word   .Lsra_c33554432, 164, .Lsra23_b24_Neg
+        .word   .Lsra_c33554432, 100, .Lsra23_b24_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra23_b24_Pos
 .Lsra23_b25_Neg:
-        .word   .Lsra_n33554432, 164, .Lsra23_b24_Neg
+        .word   .Lsra_n33554432, 100, .Lsra23_b24_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra23_b24_Pos
 .Lsra23_b24_Pos:
-        .word   .Lsra_c16777216, 164, .Lsra23_b23_Neg
+        .word   .Lsra_c16777216, 100, .Lsra23_b23_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra23_b23_Pos
 .Lsra23_b24_Neg:
-        .word   .Lsra_n16777216, 164, .Lsra23_b23_Neg
+        .word   .Lsra_n16777216, 100, .Lsra23_b23_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra23_b23_Pos
 .Lsra23_b23_Pos:
-        .word   .Lsra_c8388608, 164, .Lsra23_store_internal
+        .word   .Lsra_c8388608, 100, .Lsra23_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra23_store_internal
 .Lsra23_b23_Neg:
-        .word   .Lsra_n8388608, 164, .Lsra23_store_internal
+        .word   .Lsra_n8388608, 100, .Lsra23_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra23_store_internal
 .Lsra23_store_internal:
@@ -49332,13 +49315,13 @@ __subleq_sra:
 .Lsra24_chksign:
         .word   172, 172, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   100, 12, .+4
         .word   12, 172, .+4
         .word   144, 172, .Lsra24_maybe_neg
         .word   12, 12, .Lsra24_pos
 .Lsra24_maybe_neg:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsra24_ambig
         .word   12, 12, .Lsra24_neg
 .Lsra24_ambig:
@@ -49348,66 +49331,66 @@ __subleq_sra:
 .Lsra24_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
-        .word   164, 172, .+4
-        .word   164, 164, .+4
+        .word   100, 172, .+4
+        .word   100, 100, .+4
         .word   12, 12, .+4
         .word   172, 12, .+4
-        .word   12, 164, .+4
-        .word   .Lsra_one, 164, .Lsra24_pos
+        .word   12, 100, .+4
+        .word   .Lsra_one, 100, .Lsra24_pos
 .Lsra24_pos:
         .word   168, 168, .+4
-        .word   .Lsra_negone, 164, .+4
+        .word   .Lsra_negone, 100, .+4
         .word   12, 12, .Lsra24_b30_Pos
 .Lsra24_b30_Pos:
-        .word   .Lsra_c1073741824, 164, .Lsra24_b29_Neg
+        .word   .Lsra_c1073741824, 100, .Lsra24_b29_Neg
         .word   .Lsra_n64, 168, .+4
         .word   12, 12, .Lsra24_b29_Pos
 .Lsra24_b29_Pos:
-        .word   .Lsra_c536870912, 164, .Lsra24_b28_Neg
+        .word   .Lsra_c536870912, 100, .Lsra24_b28_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra24_b28_Pos
 .Lsra24_b29_Neg:
-        .word   .Lsra_n536870912, 164, .Lsra24_b28_Neg
+        .word   .Lsra_n536870912, 100, .Lsra24_b28_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra24_b28_Pos
 .Lsra24_b28_Pos:
-        .word   .Lsra_c268435456, 164, .Lsra24_b27_Neg
+        .word   .Lsra_c268435456, 100, .Lsra24_b27_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra24_b27_Pos
 .Lsra24_b28_Neg:
-        .word   .Lsra_n268435456, 164, .Lsra24_b27_Neg
+        .word   .Lsra_n268435456, 100, .Lsra24_b27_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra24_b27_Pos
 .Lsra24_b27_Pos:
-        .word   .Lsra_c134217728, 164, .Lsra24_b26_Neg
+        .word   .Lsra_c134217728, 100, .Lsra24_b26_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra24_b26_Pos
 .Lsra24_b27_Neg:
-        .word   .Lsra_n134217728, 164, .Lsra24_b26_Neg
+        .word   .Lsra_n134217728, 100, .Lsra24_b26_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra24_b26_Pos
 .Lsra24_b26_Pos:
-        .word   .Lsra_c67108864, 164, .Lsra24_b25_Neg
+        .word   .Lsra_c67108864, 100, .Lsra24_b25_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra24_b25_Pos
 .Lsra24_b26_Neg:
-        .word   .Lsra_n67108864, 164, .Lsra24_b25_Neg
+        .word   .Lsra_n67108864, 100, .Lsra24_b25_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra24_b25_Pos
 .Lsra24_b25_Pos:
-        .word   .Lsra_c33554432, 164, .Lsra24_b24_Neg
+        .word   .Lsra_c33554432, 100, .Lsra24_b24_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra24_b24_Pos
 .Lsra24_b25_Neg:
-        .word   .Lsra_n33554432, 164, .Lsra24_b24_Neg
+        .word   .Lsra_n33554432, 100, .Lsra24_b24_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra24_b24_Pos
 .Lsra24_b24_Pos:
-        .word   .Lsra_c16777216, 164, .Lsra24_store_internal
+        .word   .Lsra_c16777216, 100, .Lsra24_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra24_store_internal
 .Lsra24_b24_Neg:
-        .word   .Lsra_n16777216, 164, .Lsra24_store_internal
+        .word   .Lsra_n16777216, 100, .Lsra24_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra24_store_internal
 .Lsra24_store_internal:
@@ -49431,13 +49414,13 @@ __subleq_sra:
 .Lsra25_chksign:
         .word   172, 172, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   100, 12, .+4
         .word   12, 172, .+4
         .word   144, 172, .Lsra25_maybe_neg
         .word   12, 12, .Lsra25_pos
 .Lsra25_maybe_neg:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsra25_ambig
         .word   12, 12, .Lsra25_neg
 .Lsra25_ambig:
@@ -49447,58 +49430,58 @@ __subleq_sra:
 .Lsra25_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
-        .word   164, 172, .+4
-        .word   164, 164, .+4
+        .word   100, 172, .+4
+        .word   100, 100, .+4
         .word   12, 12, .+4
         .word   172, 12, .+4
-        .word   12, 164, .+4
-        .word   .Lsra_one, 164, .Lsra25_pos
+        .word   12, 100, .+4
+        .word   .Lsra_one, 100, .Lsra25_pos
 .Lsra25_pos:
         .word   168, 168, .+4
-        .word   .Lsra_negone, 164, .+4
+        .word   .Lsra_negone, 100, .+4
         .word   12, 12, .Lsra25_b30_Pos
 .Lsra25_b30_Pos:
-        .word   .Lsra_c1073741824, 164, .Lsra25_b29_Neg
+        .word   .Lsra_c1073741824, 100, .Lsra25_b29_Neg
         .word   .Lsra_n32, 168, .+4
         .word   12, 12, .Lsra25_b29_Pos
 .Lsra25_b29_Pos:
-        .word   .Lsra_c536870912, 164, .Lsra25_b28_Neg
+        .word   .Lsra_c536870912, 100, .Lsra25_b28_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra25_b28_Pos
 .Lsra25_b29_Neg:
-        .word   .Lsra_n536870912, 164, .Lsra25_b28_Neg
+        .word   .Lsra_n536870912, 100, .Lsra25_b28_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra25_b28_Pos
 .Lsra25_b28_Pos:
-        .word   .Lsra_c268435456, 164, .Lsra25_b27_Neg
+        .word   .Lsra_c268435456, 100, .Lsra25_b27_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra25_b27_Pos
 .Lsra25_b28_Neg:
-        .word   .Lsra_n268435456, 164, .Lsra25_b27_Neg
+        .word   .Lsra_n268435456, 100, .Lsra25_b27_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra25_b27_Pos
 .Lsra25_b27_Pos:
-        .word   .Lsra_c134217728, 164, .Lsra25_b26_Neg
+        .word   .Lsra_c134217728, 100, .Lsra25_b26_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra25_b26_Pos
 .Lsra25_b27_Neg:
-        .word   .Lsra_n134217728, 164, .Lsra25_b26_Neg
+        .word   .Lsra_n134217728, 100, .Lsra25_b26_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra25_b26_Pos
 .Lsra25_b26_Pos:
-        .word   .Lsra_c67108864, 164, .Lsra25_b25_Neg
+        .word   .Lsra_c67108864, 100, .Lsra25_b25_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra25_b25_Pos
 .Lsra25_b26_Neg:
-        .word   .Lsra_n67108864, 164, .Lsra25_b25_Neg
+        .word   .Lsra_n67108864, 100, .Lsra25_b25_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra25_b25_Pos
 .Lsra25_b25_Pos:
-        .word   .Lsra_c33554432, 164, .Lsra25_store_internal
+        .word   .Lsra_c33554432, 100, .Lsra25_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra25_store_internal
 .Lsra25_b25_Neg:
-        .word   .Lsra_n33554432, 164, .Lsra25_store_internal
+        .word   .Lsra_n33554432, 100, .Lsra25_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra25_store_internal
 .Lsra25_store_internal:
@@ -49522,13 +49505,13 @@ __subleq_sra:
 .Lsra26_chksign:
         .word   172, 172, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   100, 12, .+4
         .word   12, 172, .+4
         .word   144, 172, .Lsra26_maybe_neg
         .word   12, 12, .Lsra26_pos
 .Lsra26_maybe_neg:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsra26_ambig
         .word   12, 12, .Lsra26_neg
 .Lsra26_ambig:
@@ -49538,50 +49521,50 @@ __subleq_sra:
 .Lsra26_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
-        .word   164, 172, .+4
-        .word   164, 164, .+4
+        .word   100, 172, .+4
+        .word   100, 100, .+4
         .word   12, 12, .+4
         .word   172, 12, .+4
-        .word   12, 164, .+4
-        .word   .Lsra_one, 164, .Lsra26_pos
+        .word   12, 100, .+4
+        .word   .Lsra_one, 100, .Lsra26_pos
 .Lsra26_pos:
         .word   168, 168, .+4
-        .word   .Lsra_negone, 164, .+4
+        .word   .Lsra_negone, 100, .+4
         .word   12, 12, .Lsra26_b30_Pos
 .Lsra26_b30_Pos:
-        .word   .Lsra_c1073741824, 164, .Lsra26_b29_Neg
+        .word   .Lsra_c1073741824, 100, .Lsra26_b29_Neg
         .word   .Lsra_n16, 168, .+4
         .word   12, 12, .Lsra26_b29_Pos
 .Lsra26_b29_Pos:
-        .word   .Lsra_c536870912, 164, .Lsra26_b28_Neg
+        .word   .Lsra_c536870912, 100, .Lsra26_b28_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra26_b28_Pos
 .Lsra26_b29_Neg:
-        .word   .Lsra_n536870912, 164, .Lsra26_b28_Neg
+        .word   .Lsra_n536870912, 100, .Lsra26_b28_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra26_b28_Pos
 .Lsra26_b28_Pos:
-        .word   .Lsra_c268435456, 164, .Lsra26_b27_Neg
+        .word   .Lsra_c268435456, 100, .Lsra26_b27_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra26_b27_Pos
 .Lsra26_b28_Neg:
-        .word   .Lsra_n268435456, 164, .Lsra26_b27_Neg
+        .word   .Lsra_n268435456, 100, .Lsra26_b27_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra26_b27_Pos
 .Lsra26_b27_Pos:
-        .word   .Lsra_c134217728, 164, .Lsra26_b26_Neg
+        .word   .Lsra_c134217728, 100, .Lsra26_b26_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra26_b26_Pos
 .Lsra26_b27_Neg:
-        .word   .Lsra_n134217728, 164, .Lsra26_b26_Neg
+        .word   .Lsra_n134217728, 100, .Lsra26_b26_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra26_b26_Pos
 .Lsra26_b26_Pos:
-        .word   .Lsra_c67108864, 164, .Lsra26_store_internal
+        .word   .Lsra_c67108864, 100, .Lsra26_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra26_store_internal
 .Lsra26_b26_Neg:
-        .word   .Lsra_n67108864, 164, .Lsra26_store_internal
+        .word   .Lsra_n67108864, 100, .Lsra26_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra26_store_internal
 .Lsra26_store_internal:
@@ -49605,13 +49588,13 @@ __subleq_sra:
 .Lsra27_chksign:
         .word   172, 172, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   100, 12, .+4
         .word   12, 172, .+4
         .word   144, 172, .Lsra27_maybe_neg
         .word   12, 12, .Lsra27_pos
 .Lsra27_maybe_neg:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsra27_ambig
         .word   12, 12, .Lsra27_neg
 .Lsra27_ambig:
@@ -49621,42 +49604,42 @@ __subleq_sra:
 .Lsra27_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
-        .word   164, 172, .+4
-        .word   164, 164, .+4
+        .word   100, 172, .+4
+        .word   100, 100, .+4
         .word   12, 12, .+4
         .word   172, 12, .+4
-        .word   12, 164, .+4
-        .word   .Lsra_one, 164, .Lsra27_pos
+        .word   12, 100, .+4
+        .word   .Lsra_one, 100, .Lsra27_pos
 .Lsra27_pos:
         .word   168, 168, .+4
-        .word   .Lsra_negone, 164, .+4
+        .word   .Lsra_negone, 100, .+4
         .word   12, 12, .Lsra27_b30_Pos
 .Lsra27_b30_Pos:
-        .word   .Lsra_c1073741824, 164, .Lsra27_b29_Neg
+        .word   .Lsra_c1073741824, 100, .Lsra27_b29_Neg
         .word   .Lsra_n8, 168, .+4
         .word   12, 12, .Lsra27_b29_Pos
 .Lsra27_b29_Pos:
-        .word   .Lsra_c536870912, 164, .Lsra27_b28_Neg
+        .word   .Lsra_c536870912, 100, .Lsra27_b28_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra27_b28_Pos
 .Lsra27_b29_Neg:
-        .word   .Lsra_n536870912, 164, .Lsra27_b28_Neg
+        .word   .Lsra_n536870912, 100, .Lsra27_b28_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra27_b28_Pos
 .Lsra27_b28_Pos:
-        .word   .Lsra_c268435456, 164, .Lsra27_b27_Neg
+        .word   .Lsra_c268435456, 100, .Lsra27_b27_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra27_b27_Pos
 .Lsra27_b28_Neg:
-        .word   .Lsra_n268435456, 164, .Lsra27_b27_Neg
+        .word   .Lsra_n268435456, 100, .Lsra27_b27_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra27_b27_Pos
 .Lsra27_b27_Pos:
-        .word   .Lsra_c134217728, 164, .Lsra27_store_internal
+        .word   .Lsra_c134217728, 100, .Lsra27_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra27_store_internal
 .Lsra27_b27_Neg:
-        .word   .Lsra_n134217728, 164, .Lsra27_store_internal
+        .word   .Lsra_n134217728, 100, .Lsra27_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra27_store_internal
 .Lsra27_store_internal:
@@ -49680,13 +49663,13 @@ __subleq_sra:
 .Lsra28_chksign:
         .word   172, 172, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   100, 12, .+4
         .word   12, 172, .+4
         .word   144, 172, .Lsra28_maybe_neg
         .word   12, 12, .Lsra28_pos
 .Lsra28_maybe_neg:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsra28_ambig
         .word   12, 12, .Lsra28_neg
 .Lsra28_ambig:
@@ -49696,34 +49679,34 @@ __subleq_sra:
 .Lsra28_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
-        .word   164, 172, .+4
-        .word   164, 164, .+4
+        .word   100, 172, .+4
+        .word   100, 100, .+4
         .word   12, 12, .+4
         .word   172, 12, .+4
-        .word   12, 164, .+4
-        .word   .Lsra_one, 164, .Lsra28_pos
+        .word   12, 100, .+4
+        .word   .Lsra_one, 100, .Lsra28_pos
 .Lsra28_pos:
         .word   168, 168, .+4
-        .word   .Lsra_negone, 164, .+4
+        .word   .Lsra_negone, 100, .+4
         .word   12, 12, .Lsra28_b30_Pos
 .Lsra28_b30_Pos:
-        .word   .Lsra_c1073741824, 164, .Lsra28_b29_Neg
+        .word   .Lsra_c1073741824, 100, .Lsra28_b29_Neg
         .word   .Lsra_n4, 168, .+4
         .word   12, 12, .Lsra28_b29_Pos
 .Lsra28_b29_Pos:
-        .word   .Lsra_c536870912, 164, .Lsra28_b28_Neg
+        .word   .Lsra_c536870912, 100, .Lsra28_b28_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra28_b28_Pos
 .Lsra28_b29_Neg:
-        .word   .Lsra_n536870912, 164, .Lsra28_b28_Neg
+        .word   .Lsra_n536870912, 100, .Lsra28_b28_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra28_b28_Pos
 .Lsra28_b28_Pos:
-        .word   .Lsra_c268435456, 164, .Lsra28_store_internal
+        .word   .Lsra_c268435456, 100, .Lsra28_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra28_store_internal
 .Lsra28_b28_Neg:
-        .word   .Lsra_n268435456, 164, .Lsra28_store_internal
+        .word   .Lsra_n268435456, 100, .Lsra28_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra28_store_internal
 .Lsra28_store_internal:
@@ -49747,13 +49730,13 @@ __subleq_sra:
 .Lsra29_chksign:
         .word   172, 172, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   100, 12, .+4
         .word   12, 172, .+4
         .word   144, 172, .Lsra29_maybe_neg
         .word   12, 12, .Lsra29_pos
 .Lsra29_maybe_neg:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsra29_ambig
         .word   12, 12, .Lsra29_neg
 .Lsra29_ambig:
@@ -49763,26 +49746,26 @@ __subleq_sra:
 .Lsra29_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
-        .word   164, 172, .+4
-        .word   164, 164, .+4
+        .word   100, 172, .+4
+        .word   100, 100, .+4
         .word   12, 12, .+4
         .word   172, 12, .+4
-        .word   12, 164, .+4
-        .word   .Lsra_one, 164, .Lsra29_pos
+        .word   12, 100, .+4
+        .word   .Lsra_one, 100, .Lsra29_pos
 .Lsra29_pos:
         .word   168, 168, .+4
-        .word   .Lsra_negone, 164, .+4
+        .word   .Lsra_negone, 100, .+4
         .word   12, 12, .Lsra29_b30_Pos
 .Lsra29_b30_Pos:
-        .word   .Lsra_c1073741824, 164, .Lsra29_b29_Neg
+        .word   .Lsra_c1073741824, 100, .Lsra29_b29_Neg
         .word   .Lsra_n2, 168, .+4
         .word   12, 12, .Lsra29_b29_Pos
 .Lsra29_b29_Pos:
-        .word   .Lsra_c536870912, 164, .Lsra29_store_internal
+        .word   .Lsra_c536870912, 100, .Lsra29_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra29_store_internal
 .Lsra29_b29_Neg:
-        .word   .Lsra_n536870912, 164, .Lsra29_store_internal
+        .word   .Lsra_n536870912, 100, .Lsra29_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra29_store_internal
 .Lsra29_store_internal:
@@ -49806,13 +49789,13 @@ __subleq_sra:
 .Lsra30_chksign:
         .word   172, 172, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   100, 12, .+4
         .word   12, 172, .+4
         .word   144, 172, .Lsra30_maybe_neg
         .word   12, 12, .Lsra30_pos
 .Lsra30_maybe_neg:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsra30_ambig
         .word   12, 12, .Lsra30_neg
 .Lsra30_ambig:
@@ -49822,18 +49805,18 @@ __subleq_sra:
 .Lsra30_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
-        .word   164, 172, .+4
-        .word   164, 164, .+4
+        .word   100, 172, .+4
+        .word   100, 100, .+4
         .word   12, 12, .+4
         .word   172, 12, .+4
-        .word   12, 164, .+4
-        .word   .Lsra_one, 164, .Lsra30_pos
+        .word   12, 100, .+4
+        .word   .Lsra_one, 100, .Lsra30_pos
 .Lsra30_pos:
         .word   168, 168, .+4
-        .word   .Lsra_negone, 164, .+4
+        .word   .Lsra_negone, 100, .+4
         .word   12, 12, .Lsra30_b30_Pos
 .Lsra30_b30_Pos:
-        .word   .Lsra_c1073741824, 164, .Lsra30_store_internal
+        .word   .Lsra_c1073741824, 100, .Lsra30_store_internal
         .word   .Lsra_n1, 168, .+4
         .word   12, 12, .Lsra30_store_internal
 .Lsra30_store_internal:
@@ -49857,13 +49840,13 @@ __subleq_sra:
 .Lsra31_chksign:
         .word   172, 172, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   100, 12, .+4
         .word   12, 172, .+4
         .word   144, 172, .Lsra31_maybe_neg
         .word   12, 12, .Lsra31_pos
 .Lsra31_maybe_neg:
         .word   172, 172, .+4
-        .word   164, 172, .+4
+        .word   100, 172, .+4
         .word   144, 172, .Lsra31_ambig
         .word   12, 12, .Lsra31_neg
 .Lsra31_ambig:
@@ -49873,15 +49856,15 @@ __subleq_sra:
 .Lsra31_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
-        .word   164, 172, .+4
-        .word   164, 164, .+4
+        .word   100, 172, .+4
+        .word   100, 100, .+4
         .word   12, 12, .+4
         .word   172, 12, .+4
-        .word   12, 164, .+4
-        .word   .Lsra_one, 164, .Lsra31_pos
+        .word   12, 100, .+4
+        .word   .Lsra_one, 100, .Lsra31_pos
 .Lsra31_pos:
         .word   168, 168, .+4
-        .word   .Lsra_negone, 164, .+4
+        .word   .Lsra_negone, 100, .+4
         .word   12, 12, .Lsra31_store_internal
 .Lsra31_store_internal:
         .word   144, 180, .Lsra31_fin
@@ -51141,208 +51124,203 @@ __subleq_lb:
 
 # __subleq_sb: Store byte - Biased Non-Restoring Lattice
 __subleq_sb:
-        .word   100, 12, .+4
-        .word   160, 160, .+4
-        .word   12, 160, .+4
-        .word   164, 164, .+4
-        .word   12, 12, .+4
-        .word   104, 12, .+4
-        .word   12, 164, .Lsb_mask
-        .word   144, 164, .Lsb_fast_chk0
+        .word   144, 104, .Lsb_fast_chk0
         .word   12, 12, .Lsb_fast_chk255
 .Lsb_fast_chk0:
         .word   180, 180, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   104, 12, .+4
         .word   12, 180, .+4
         .word   .Lsb_neg1, 180, .+4
         .word   144, 180, .Lsb_mask
 .Lsb_fast_chk255:
         .word   180, 180, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   104, 12, .+4
         .word   12, 180, .+4
         .word   .Lsb_pow256, 180, .Lsb_off
 .Lsb_mask:
         .word   180, 180, .+4
-        .word   144, 164, .Lsb_mask_chk31
+        .word   144, 104, .Lsb_mask_chk31
         .word   12, 12, .Lsb_mask_b30
 .Lsb_mask_chk31:
-        .word   164, 180, .+4
+        .word   104, 180, .+4
         .word   180, 180, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   104, 12, .+4
         .word   12, 180, .+4
         .word   .Lsb_neg1, 180, .+4
         .word   144, 180, .Lsb_mask_clr31
         .word   12, 12, .Lsb_mask_b30
 .Lsb_mask_clr31:
-        .word   .Lsb_min, 164, .Lsb_mask_b30
+        .word   .Lsb_min, 104, .Lsb_mask_b30
 .Lsb_mask_b30:
-        .word   .Lsb_pow1073741824, 164, .Lsb_mask_c30
+        .word   .Lsb_pow1073741824, 104, .Lsb_mask_c30
         .word   12, 12, .Lsb_mask_b29
 .Lsb_mask_c30:
         .word   180, 180, .+4
-        .word   164, 180, .Lsb_mask_b29
-        .word   .Lsb_npow1073741824, 164, .Lsb_mask_b29
+        .word   104, 180, .Lsb_mask_b29
+        .word   .Lsb_npow1073741824, 104, .Lsb_mask_b29
 .Lsb_mask_b29:
-        .word   .Lsb_pow536870912, 164, .Lsb_mask_c29
+        .word   .Lsb_pow536870912, 104, .Lsb_mask_c29
         .word   12, 12, .Lsb_mask_b28
 .Lsb_mask_c29:
         .word   180, 180, .+4
-        .word   164, 180, .Lsb_mask_b28
-        .word   .Lsb_npow536870912, 164, .Lsb_mask_b28
+        .word   104, 180, .Lsb_mask_b28
+        .word   .Lsb_npow536870912, 104, .Lsb_mask_b28
 .Lsb_mask_b28:
-        .word   .Lsb_pow268435456, 164, .Lsb_mask_c28
+        .word   .Lsb_pow268435456, 104, .Lsb_mask_c28
         .word   12, 12, .Lsb_mask_b27
 .Lsb_mask_c28:
         .word   180, 180, .+4
-        .word   164, 180, .Lsb_mask_b27
-        .word   .Lsb_npow268435456, 164, .Lsb_mask_b27
+        .word   104, 180, .Lsb_mask_b27
+        .word   .Lsb_npow268435456, 104, .Lsb_mask_b27
 .Lsb_mask_b27:
-        .word   .Lsb_pow134217728, 164, .Lsb_mask_c27
+        .word   .Lsb_pow134217728, 104, .Lsb_mask_c27
         .word   12, 12, .Lsb_mask_b26
 .Lsb_mask_c27:
         .word   180, 180, .+4
-        .word   164, 180, .Lsb_mask_b26
-        .word   .Lsb_npow134217728, 164, .Lsb_mask_b26
+        .word   104, 180, .Lsb_mask_b26
+        .word   .Lsb_npow134217728, 104, .Lsb_mask_b26
 .Lsb_mask_b26:
-        .word   .Lsb_pow67108864, 164, .Lsb_mask_c26
+        .word   .Lsb_pow67108864, 104, .Lsb_mask_c26
         .word   12, 12, .Lsb_mask_b25
 .Lsb_mask_c26:
         .word   180, 180, .+4
-        .word   164, 180, .Lsb_mask_b25
-        .word   .Lsb_npow67108864, 164, .Lsb_mask_b25
+        .word   104, 180, .Lsb_mask_b25
+        .word   .Lsb_npow67108864, 104, .Lsb_mask_b25
 .Lsb_mask_b25:
-        .word   .Lsb_pow33554432, 164, .Lsb_mask_c25
+        .word   .Lsb_pow33554432, 104, .Lsb_mask_c25
         .word   12, 12, .Lsb_mask_b24
 .Lsb_mask_c25:
         .word   180, 180, .+4
-        .word   164, 180, .Lsb_mask_b24
-        .word   .Lsb_npow33554432, 164, .Lsb_mask_b24
+        .word   104, 180, .Lsb_mask_b24
+        .word   .Lsb_npow33554432, 104, .Lsb_mask_b24
 .Lsb_mask_b24:
-        .word   .Lsb_pow16777216, 164, .Lsb_mask_c24
+        .word   .Lsb_pow16777216, 104, .Lsb_mask_c24
         .word   12, 12, .Lsb_mask_b23
 .Lsb_mask_c24:
         .word   180, 180, .+4
-        .word   164, 180, .Lsb_mask_b23
-        .word   .Lsb_npow16777216, 164, .Lsb_mask_b23
+        .word   104, 180, .Lsb_mask_b23
+        .word   .Lsb_npow16777216, 104, .Lsb_mask_b23
 .Lsb_mask_b23:
-        .word   .Lsb_pow8388608, 164, .Lsb_mask_c23
+        .word   .Lsb_pow8388608, 104, .Lsb_mask_c23
         .word   12, 12, .Lsb_mask_b22
 .Lsb_mask_c23:
         .word   180, 180, .+4
-        .word   164, 180, .Lsb_mask_b22
-        .word   .Lsb_npow8388608, 164, .Lsb_mask_b22
+        .word   104, 180, .Lsb_mask_b22
+        .word   .Lsb_npow8388608, 104, .Lsb_mask_b22
 .Lsb_mask_b22:
-        .word   .Lsb_pow4194304, 164, .Lsb_mask_c22
+        .word   .Lsb_pow4194304, 104, .Lsb_mask_c22
         .word   12, 12, .Lsb_mask_b21
 .Lsb_mask_c22:
         .word   180, 180, .+4
-        .word   164, 180, .Lsb_mask_b21
-        .word   .Lsb_npow4194304, 164, .Lsb_mask_b21
+        .word   104, 180, .Lsb_mask_b21
+        .word   .Lsb_npow4194304, 104, .Lsb_mask_b21
 .Lsb_mask_b21:
-        .word   .Lsb_pow2097152, 164, .Lsb_mask_c21
+        .word   .Lsb_pow2097152, 104, .Lsb_mask_c21
         .word   12, 12, .Lsb_mask_b20
 .Lsb_mask_c21:
         .word   180, 180, .+4
-        .word   164, 180, .Lsb_mask_b20
-        .word   .Lsb_npow2097152, 164, .Lsb_mask_b20
+        .word   104, 180, .Lsb_mask_b20
+        .word   .Lsb_npow2097152, 104, .Lsb_mask_b20
 .Lsb_mask_b20:
-        .word   .Lsb_pow1048576, 164, .Lsb_mask_c20
+        .word   .Lsb_pow1048576, 104, .Lsb_mask_c20
         .word   12, 12, .Lsb_mask_b19
 .Lsb_mask_c20:
         .word   180, 180, .+4
-        .word   164, 180, .Lsb_mask_b19
-        .word   .Lsb_npow1048576, 164, .Lsb_mask_b19
+        .word   104, 180, .Lsb_mask_b19
+        .word   .Lsb_npow1048576, 104, .Lsb_mask_b19
 .Lsb_mask_b19:
-        .word   .Lsb_pow524288, 164, .Lsb_mask_c19
+        .word   .Lsb_pow524288, 104, .Lsb_mask_c19
         .word   12, 12, .Lsb_mask_b18
 .Lsb_mask_c19:
         .word   180, 180, .+4
-        .word   164, 180, .Lsb_mask_b18
-        .word   .Lsb_npow524288, 164, .Lsb_mask_b18
+        .word   104, 180, .Lsb_mask_b18
+        .word   .Lsb_npow524288, 104, .Lsb_mask_b18
 .Lsb_mask_b18:
-        .word   .Lsb_pow262144, 164, .Lsb_mask_c18
+        .word   .Lsb_pow262144, 104, .Lsb_mask_c18
         .word   12, 12, .Lsb_mask_b17
 .Lsb_mask_c18:
         .word   180, 180, .+4
-        .word   164, 180, .Lsb_mask_b17
-        .word   .Lsb_npow262144, 164, .Lsb_mask_b17
+        .word   104, 180, .Lsb_mask_b17
+        .word   .Lsb_npow262144, 104, .Lsb_mask_b17
 .Lsb_mask_b17:
-        .word   .Lsb_pow131072, 164, .Lsb_mask_c17
+        .word   .Lsb_pow131072, 104, .Lsb_mask_c17
         .word   12, 12, .Lsb_mask_b16
 .Lsb_mask_c17:
         .word   180, 180, .+4
-        .word   164, 180, .Lsb_mask_b16
-        .word   .Lsb_npow131072, 164, .Lsb_mask_b16
+        .word   104, 180, .Lsb_mask_b16
+        .word   .Lsb_npow131072, 104, .Lsb_mask_b16
 .Lsb_mask_b16:
-        .word   .Lsb_pow65536, 164, .Lsb_mask_c16
+        .word   .Lsb_pow65536, 104, .Lsb_mask_c16
         .word   12, 12, .Lsb_mask_b15
 .Lsb_mask_c16:
         .word   180, 180, .+4
-        .word   164, 180, .Lsb_mask_b15
-        .word   .Lsb_npow65536, 164, .Lsb_mask_b15
+        .word   104, 180, .Lsb_mask_b15
+        .word   .Lsb_npow65536, 104, .Lsb_mask_b15
 .Lsb_mask_b15:
-        .word   .Lsb_pow32768, 164, .Lsb_mask_c15
+        .word   .Lsb_pow32768, 104, .Lsb_mask_c15
         .word   12, 12, .Lsb_mask_b14
 .Lsb_mask_c15:
         .word   180, 180, .+4
-        .word   164, 180, .Lsb_mask_b14
-        .word   .Lsb_npow32768, 164, .Lsb_mask_b14
+        .word   104, 180, .Lsb_mask_b14
+        .word   .Lsb_npow32768, 104, .Lsb_mask_b14
 .Lsb_mask_b14:
-        .word   .Lsb_pow16384, 164, .Lsb_mask_c14
+        .word   .Lsb_pow16384, 104, .Lsb_mask_c14
         .word   12, 12, .Lsb_mask_b13
 .Lsb_mask_c14:
         .word   180, 180, .+4
-        .word   164, 180, .Lsb_mask_b13
-        .word   .Lsb_npow16384, 164, .Lsb_mask_b13
+        .word   104, 180, .Lsb_mask_b13
+        .word   .Lsb_npow16384, 104, .Lsb_mask_b13
 .Lsb_mask_b13:
-        .word   .Lsb_pow8192, 164, .Lsb_mask_c13
+        .word   .Lsb_pow8192, 104, .Lsb_mask_c13
         .word   12, 12, .Lsb_mask_b12
 .Lsb_mask_c13:
         .word   180, 180, .+4
-        .word   164, 180, .Lsb_mask_b12
-        .word   .Lsb_npow8192, 164, .Lsb_mask_b12
+        .word   104, 180, .Lsb_mask_b12
+        .word   .Lsb_npow8192, 104, .Lsb_mask_b12
 .Lsb_mask_b12:
-        .word   .Lsb_pow4096, 164, .Lsb_mask_c12
+        .word   .Lsb_pow4096, 104, .Lsb_mask_c12
         .word   12, 12, .Lsb_mask_b11
 .Lsb_mask_c12:
         .word   180, 180, .+4
-        .word   164, 180, .Lsb_mask_b11
-        .word   .Lsb_npow4096, 164, .Lsb_mask_b11
+        .word   104, 180, .Lsb_mask_b11
+        .word   .Lsb_npow4096, 104, .Lsb_mask_b11
 .Lsb_mask_b11:
-        .word   .Lsb_pow2048, 164, .Lsb_mask_c11
+        .word   .Lsb_pow2048, 104, .Lsb_mask_c11
         .word   12, 12, .Lsb_mask_b10
 .Lsb_mask_c11:
         .word   180, 180, .+4
-        .word   164, 180, .Lsb_mask_b10
-        .word   .Lsb_npow2048, 164, .Lsb_mask_b10
+        .word   104, 180, .Lsb_mask_b10
+        .word   .Lsb_npow2048, 104, .Lsb_mask_b10
 .Lsb_mask_b10:
-        .word   .Lsb_pow1024, 164, .Lsb_mask_c10
+        .word   .Lsb_pow1024, 104, .Lsb_mask_c10
         .word   12, 12, .Lsb_mask_b9
 .Lsb_mask_c10:
         .word   180, 180, .+4
-        .word   164, 180, .Lsb_mask_b9
-        .word   .Lsb_npow1024, 164, .Lsb_mask_b9
+        .word   104, 180, .Lsb_mask_b9
+        .word   .Lsb_npow1024, 104, .Lsb_mask_b9
 .Lsb_mask_b9:
-        .word   .Lsb_pow512, 164, .Lsb_mask_c9
+        .word   .Lsb_pow512, 104, .Lsb_mask_c9
         .word   12, 12, .Lsb_mask_b8
 .Lsb_mask_c9:
         .word   180, 180, .+4
-        .word   164, 180, .Lsb_mask_b8
-        .word   .Lsb_npow512, 164, .Lsb_mask_b8
+        .word   104, 180, .Lsb_mask_b8
+        .word   .Lsb_npow512, 104, .Lsb_mask_b8
 .Lsb_mask_b8:
-        .word   .Lsb_pow256, 164, .Lsb_mask_c8
+        .word   .Lsb_pow256, 104, .Lsb_mask_c8
         .word   12, 12, .Lsb_off
 .Lsb_mask_c8:
         .word   180, 180, .+4
-        .word   164, 180, .Lsb_off
-        .word   .Lsb_npow256, 164, .Lsb_off
+        .word   104, 180, .Lsb_off
+        .word   .Lsb_npow256, 104, .Lsb_off
+        .globl  __subleq_sb_nomask
+__subleq_sb_nomask:
 .Lsb_off:
         .word   168, 168, .+4
         .word   12, 12, .+4
-        .word   160, 12, .+4
+        .word   100, 12, .+4
         .word   12, 168, .Lsb_mod_bias
 .Lsb_mod_bias:
         .word   184, 184, .+4
@@ -51574,11 +51552,11 @@ __subleq_sb:
         .word   168, 168, .+4
         .word   184, 168, .+4
 .Lsb_align:
-        .word   168, 160, .Lsb_ldword
+        .word   168, 100, .Lsb_ldword
 .Lsb_ldword:
         .word   172, 172, .+4
         .word   12, 12, .+4
-        .word   162, 12, .+4
+        .word   102, 12, .+4
         .word   12, 172, .Lsb_branch
 .Lsb_branch:
         .word   176, 176, .+4
@@ -51955,7 +51933,7 @@ __subleq_sb:
         .word   12, 12, .Lsb_b0_bias
 .Lsb_b0_shift:
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   104, 12, .+4
         .word   12, 176, .Lsb_b0_done
 .Lsb_b0_done:
         .word   12, 12, .Lsb_store
@@ -52330,7 +52308,7 @@ __subleq_sb:
         .word   180, 180, .Lsb_b1_sh1
 .Lsb_b1_sh1:
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   104, 12, .+4
         .word   12, 180, .Lsb_b1_dbl0
 .Lsb_b1_dbl0:
         .word   12, 12, .+4
@@ -52741,7 +52719,7 @@ __subleq_sb:
         .word   180, 180, .Lsb_b2_sh1
 .Lsb_b2_sh1:
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   104, 12, .+4
         .word   12, 180, .Lsb_b2_dbl0
 .Lsb_b2_dbl0:
         .word   12, 12, .+4
@@ -53170,7 +53148,7 @@ __subleq_sb:
         .word   180, 180, .Lsb_b3_sh1
 .Lsb_b3_sh1:
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   104, 12, .+4
         .word   12, 180, .Lsb_b3_dbl0
 .Lsb_b3_dbl0:
         .word   12, 12, .+4
@@ -53275,10 +53253,10 @@ __subleq_sb:
 .Lsb_b3_done:
         .word   12, 12, .Lsb_store
 .Lsb_store:
-        .word   162, 162, .+4
+        .word   102, 102, .+4
         .word   180, 180, .+4
         .word   176, 180, .+4
-        .word   180, 162, .Lsb_ret
+        .word   180, 102, .Lsb_ret
 .Lsb_ret:
 .Lsb_pop:
         .word   160, 160, .+4
@@ -54375,152 +54353,145 @@ __subleq_lh:
 
 # __subleq_sh: Store Halfword - Biased Non-Restoring Lattice
 __subleq_sh:
-        .word   100, 12, .+4
-        .word   160, 160, .+4
-        .word   12, 160, .+4
-        .word   164, 164, .+4
-        .word   12, 12, .+4
-        .word   104, 12, .+4
-        .word   12, 164, .Lsh_mask
-        .word   144, 164, .Lsh_fast_chk0
+        .word   144, 104, .Lsh_fast_chk0
         .word   12, 12, .Lsh_fast_chk65535
 .Lsh_fast_chk0:
         .word   180, 180, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   104, 12, .+4
         .word   12, 180, .+4
         .word   .Lsh_neg1, 180, .+4
         .word   144, 180, .Lsh_mask
 .Lsh_fast_chk65535:
         .word   180, 180, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   104, 12, .+4
         .word   12, 180, .+4
         .word   .Lsh_pow65536, 180, .Lsh_off
 .Lsh_mask:
         .word   180, 180, .+4
-        .word   144, 164, .Lsh_mask_chk31
+        .word   144, 104, .Lsh_mask_chk31
         .word   12, 12, .Lsh_mask_b30
 .Lsh_mask_chk31:
-        .word   164, 180, .+4
+        .word   104, 180, .+4
         .word   180, 180, .+4
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   104, 12, .+4
         .word   12, 180, .+4
         .word   .Lsh_neg1, 180, .+4
         .word   144, 180, .Lsh_mask_clr31
         .word   12, 12, .Lsh_mask_b30
 .Lsh_mask_clr31:
-        .word   .Lsh_min, 164, .Lsh_mask_b30
+        .word   .Lsh_min, 104, .Lsh_mask_b30
 .Lsh_mask_b30:
-        .word   .Lsh_pow1073741824, 164, .Lsh_mask_c30
+        .word   .Lsh_pow1073741824, 104, .Lsh_mask_c30
         .word   12, 12, .Lsh_mask_b29
 .Lsh_mask_c30:
         .word   180, 180, .+4
-        .word   164, 180, .Lsh_mask_b29
-        .word   .Lsh_npow1073741824, 164, .Lsh_mask_b29
+        .word   104, 180, .Lsh_mask_b29
+        .word   .Lsh_npow1073741824, 104, .Lsh_mask_b29
 .Lsh_mask_b29:
-        .word   .Lsh_pow536870912, 164, .Lsh_mask_c29
+        .word   .Lsh_pow536870912, 104, .Lsh_mask_c29
         .word   12, 12, .Lsh_mask_b28
 .Lsh_mask_c29:
         .word   180, 180, .+4
-        .word   164, 180, .Lsh_mask_b28
-        .word   .Lsh_npow536870912, 164, .Lsh_mask_b28
+        .word   104, 180, .Lsh_mask_b28
+        .word   .Lsh_npow536870912, 104, .Lsh_mask_b28
 .Lsh_mask_b28:
-        .word   .Lsh_pow268435456, 164, .Lsh_mask_c28
+        .word   .Lsh_pow268435456, 104, .Lsh_mask_c28
         .word   12, 12, .Lsh_mask_b27
 .Lsh_mask_c28:
         .word   180, 180, .+4
-        .word   164, 180, .Lsh_mask_b27
-        .word   .Lsh_npow268435456, 164, .Lsh_mask_b27
+        .word   104, 180, .Lsh_mask_b27
+        .word   .Lsh_npow268435456, 104, .Lsh_mask_b27
 .Lsh_mask_b27:
-        .word   .Lsh_pow134217728, 164, .Lsh_mask_c27
+        .word   .Lsh_pow134217728, 104, .Lsh_mask_c27
         .word   12, 12, .Lsh_mask_b26
 .Lsh_mask_c27:
         .word   180, 180, .+4
-        .word   164, 180, .Lsh_mask_b26
-        .word   .Lsh_npow134217728, 164, .Lsh_mask_b26
+        .word   104, 180, .Lsh_mask_b26
+        .word   .Lsh_npow134217728, 104, .Lsh_mask_b26
 .Lsh_mask_b26:
-        .word   .Lsh_pow67108864, 164, .Lsh_mask_c26
+        .word   .Lsh_pow67108864, 104, .Lsh_mask_c26
         .word   12, 12, .Lsh_mask_b25
 .Lsh_mask_c26:
         .word   180, 180, .+4
-        .word   164, 180, .Lsh_mask_b25
-        .word   .Lsh_npow67108864, 164, .Lsh_mask_b25
+        .word   104, 180, .Lsh_mask_b25
+        .word   .Lsh_npow67108864, 104, .Lsh_mask_b25
 .Lsh_mask_b25:
-        .word   .Lsh_pow33554432, 164, .Lsh_mask_c25
+        .word   .Lsh_pow33554432, 104, .Lsh_mask_c25
         .word   12, 12, .Lsh_mask_b24
 .Lsh_mask_c25:
         .word   180, 180, .+4
-        .word   164, 180, .Lsh_mask_b24
-        .word   .Lsh_npow33554432, 164, .Lsh_mask_b24
+        .word   104, 180, .Lsh_mask_b24
+        .word   .Lsh_npow33554432, 104, .Lsh_mask_b24
 .Lsh_mask_b24:
-        .word   .Lsh_pow16777216, 164, .Lsh_mask_c24
+        .word   .Lsh_pow16777216, 104, .Lsh_mask_c24
         .word   12, 12, .Lsh_mask_b23
 .Lsh_mask_c24:
         .word   180, 180, .+4
-        .word   164, 180, .Lsh_mask_b23
-        .word   .Lsh_npow16777216, 164, .Lsh_mask_b23
+        .word   104, 180, .Lsh_mask_b23
+        .word   .Lsh_npow16777216, 104, .Lsh_mask_b23
 .Lsh_mask_b23:
-        .word   .Lsh_pow8388608, 164, .Lsh_mask_c23
+        .word   .Lsh_pow8388608, 104, .Lsh_mask_c23
         .word   12, 12, .Lsh_mask_b22
 .Lsh_mask_c23:
         .word   180, 180, .+4
-        .word   164, 180, .Lsh_mask_b22
-        .word   .Lsh_npow8388608, 164, .Lsh_mask_b22
+        .word   104, 180, .Lsh_mask_b22
+        .word   .Lsh_npow8388608, 104, .Lsh_mask_b22
 .Lsh_mask_b22:
-        .word   .Lsh_pow4194304, 164, .Lsh_mask_c22
+        .word   .Lsh_pow4194304, 104, .Lsh_mask_c22
         .word   12, 12, .Lsh_mask_b21
 .Lsh_mask_c22:
         .word   180, 180, .+4
-        .word   164, 180, .Lsh_mask_b21
-        .word   .Lsh_npow4194304, 164, .Lsh_mask_b21
+        .word   104, 180, .Lsh_mask_b21
+        .word   .Lsh_npow4194304, 104, .Lsh_mask_b21
 .Lsh_mask_b21:
-        .word   .Lsh_pow2097152, 164, .Lsh_mask_c21
+        .word   .Lsh_pow2097152, 104, .Lsh_mask_c21
         .word   12, 12, .Lsh_mask_b20
 .Lsh_mask_c21:
         .word   180, 180, .+4
-        .word   164, 180, .Lsh_mask_b20
-        .word   .Lsh_npow2097152, 164, .Lsh_mask_b20
+        .word   104, 180, .Lsh_mask_b20
+        .word   .Lsh_npow2097152, 104, .Lsh_mask_b20
 .Lsh_mask_b20:
-        .word   .Lsh_pow1048576, 164, .Lsh_mask_c20
+        .word   .Lsh_pow1048576, 104, .Lsh_mask_c20
         .word   12, 12, .Lsh_mask_b19
 .Lsh_mask_c20:
         .word   180, 180, .+4
-        .word   164, 180, .Lsh_mask_b19
-        .word   .Lsh_npow1048576, 164, .Lsh_mask_b19
+        .word   104, 180, .Lsh_mask_b19
+        .word   .Lsh_npow1048576, 104, .Lsh_mask_b19
 .Lsh_mask_b19:
-        .word   .Lsh_pow524288, 164, .Lsh_mask_c19
+        .word   .Lsh_pow524288, 104, .Lsh_mask_c19
         .word   12, 12, .Lsh_mask_b18
 .Lsh_mask_c19:
         .word   180, 180, .+4
-        .word   164, 180, .Lsh_mask_b18
-        .word   .Lsh_npow524288, 164, .Lsh_mask_b18
+        .word   104, 180, .Lsh_mask_b18
+        .word   .Lsh_npow524288, 104, .Lsh_mask_b18
 .Lsh_mask_b18:
-        .word   .Lsh_pow262144, 164, .Lsh_mask_c18
+        .word   .Lsh_pow262144, 104, .Lsh_mask_c18
         .word   12, 12, .Lsh_mask_b17
 .Lsh_mask_c18:
         .word   180, 180, .+4
-        .word   164, 180, .Lsh_mask_b17
-        .word   .Lsh_npow262144, 164, .Lsh_mask_b17
+        .word   104, 180, .Lsh_mask_b17
+        .word   .Lsh_npow262144, 104, .Lsh_mask_b17
 .Lsh_mask_b17:
-        .word   .Lsh_pow131072, 164, .Lsh_mask_c17
+        .word   .Lsh_pow131072, 104, .Lsh_mask_c17
         .word   12, 12, .Lsh_mask_b16
 .Lsh_mask_c17:
         .word   180, 180, .+4
-        .word   164, 180, .Lsh_mask_b16
-        .word   .Lsh_npow131072, 164, .Lsh_mask_b16
+        .word   104, 180, .Lsh_mask_b16
+        .word   .Lsh_npow131072, 104, .Lsh_mask_b16
 .Lsh_mask_b16:
-        .word   .Lsh_pow65536, 164, .Lsh_mask_c16
+        .word   .Lsh_pow65536, 104, .Lsh_mask_c16
         .word   12, 12, .Lsh_off
 .Lsh_mask_c16:
         .word   180, 180, .+4
-        .word   164, 180, .Lsh_off
-        .word   .Lsh_npow65536, 164, .Lsh_off
+        .word   104, 180, .Lsh_off
+        .word   .Lsh_npow65536, 104, .Lsh_off
 .Lsh_off:
         .word   168, 168, .+4
         .word   12, 12, .+4
-        .word   160, 12, .+4
+        .word   100, 12, .+4
         .word   12, 168, .Lsh_mod_bias
 .Lsh_mod_bias:
         .word   184, 184, .+4
@@ -54752,11 +54723,11 @@ __subleq_sh:
         .word   168, 168, .+4
         .word   184, 168, .+4
 .Lsh_align:
-        .word   168, 160, .Lsh_ldword
+        .word   168, 100, .Lsh_ldword
 .Lsh_ldword:
         .word   172, 172, .+4
         .word   12, 12, .+4
-        .word   162, 12, .+4
+        .word   102, 12, .+4
         .word   12, 172, .Lsh_branch
 .Lsh_branch:
         .word   176, 176, .+4
@@ -55115,7 +55086,7 @@ __subleq_sh:
         .word   12, 12, .Lsh_b0_bias
 .Lsh_b0_shift:
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   104, 12, .+4
         .word   12, 176, .Lsh_b0_done
 .Lsh_b0_done:
         .word   12, 12, .Lsh_store
@@ -55436,7 +55407,7 @@ __subleq_sh:
         .word   180, 180, .Lsh_b1_sh1
 .Lsh_b1_sh1:
         .word   12, 12, .+4
-        .word   164, 12, .+4
+        .word   104, 12, .+4
         .word   12, 180, .Lsh_b1_dbl0
 .Lsh_b1_dbl0:
         .word   12, 12, .+4
@@ -55509,10 +55480,10 @@ __subleq_sh:
 .Lsh_b1_done:
         .word   12, 12, .Lsh_store
 .Lsh_store:
-        .word   162, 162, .+4
+        .word   102, 102, .+4
         .word   180, 180, .+4
         .word   176, 180, .+4
-        .word   180, 162, .Lsh_ret
+        .word   180, 102, .Lsh_ret
 .Lsh_ret:
 .Lsh_pop:
         .word   160, 160, .+4
@@ -61747,6 +61718,1173 @@ __subleq_memset:
 
         .size __subleq_memset, . - __subleq_memset
 
+        .globl  __subleq_memset32
+        .type   __subleq_memset32,@function
+# __subleq_memset32(s=R21, v=R22, count=R23) returns R20=s
+__subleq_memset32:
+        .word 96, 96, .+4
+        .word 96, 96, .+4
+        .word 100, 12, .+4
+        .word 12, 96, .+4
+        .word .Lms32_zero, 108, .Lms32_done
+        .word 160, 160, .+4
+        .word 104, 160, .+4
+.Lms32_body_loop:
+        .word .Lms32_c16, 108, .Lms32_body_fixup
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lms32_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lms32_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lms32_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lms32_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lms32_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lms32_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lms32_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lms32_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lms32_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lms32_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lms32_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lms32_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lms32_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lms32_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lms32_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lms32_n4, 100, .+4
+        .word 12, 12, .Lms32_body_loop
+.Lms32_body_fixup:
+        .word .Lms32_n16, 108, .+4
+        .word .Lms32_zero, 108, .Lms32_done
+.Lms32_body_single:
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lms32_n4, 100, .+4
+        .word .Lms32_c1, 108, .Lms32_done
+        .word 12, 12, .Lms32_body_single
+.Lms32_done:
+.Lmemset32_pop:
+        .word   160, 160, .+4
+        .word   12, 12, .+4
+        .word   18, 12, .+4
+        .word   12, 160, .+4
+        .word   .Lmemset32_neg4, 16, .+4
+        .word   12
+        .word   12
+        .word   162
+.Lmemset32_neg1:
+        .word   -1
+.Lmemset32_neg4:
+        .word   -4
+.Lms32_zero:
+        .word 0
+.Lms32_c1:
+        .word 1
+.Lms32_c16:
+        .word 16
+.Lms32_n4:
+        .word -4
+.Lms32_n16:
+        .word -16
+
+        .size __subleq_memset32, . - __subleq_memset32
+
+        .globl  __subleq_memset16
+        .type   __subleq_memset16,@function
+# __subleq_memset16(s=R21, v=R22, count=R23) returns R20=s
+__subleq_memset16:
+        .word 96, 96, .+4
+        .word 96, 96, .+4
+        .word 100, 12, .+4
+        .word 12, 96, .+4
+        .word 12, 12, .+4
+        .word 200, 200, .+4
+        .word 100, 12, .+4
+        .word 12, 200, .+4
+        .word 12, 12, .+4
+        .word .Lms16_zero, 108, .Lms16_done
+        .word 12, 12, .+4
+        .word 196, 196, .+4
+        .word 104, 12, .+4
+        .word 12, 196, .+4
+        .word 180, 180, .+4
+        .word 12, 12, .+4
+        .word 100, 12, .+4
+        .word 12, 180, .+4
+.Lms16_align_sign:
+        .word 144, 180, .Lms16_align_sign_neg
+        .word 12, 12, .Lms16_align_bias
+.Lms16_align_sign_neg:
+        .word 184, 184, .+4
+        .word 180, 184, .+4
+        .word 144, 184, .Lms16_align_sign_ambig
+        .word .Lms16_min, 180, .+4
+        .word 12, 12, .Lms16_align_bias
+.Lms16_align_sign_ambig:
+        .word .Lms16_n1, 184, .+4
+        .word 144, 184, .Lms16_align_sign_intmin
+        .word 12, 12, .Lms16_align_bias
+.Lms16_align_sign_intmin:
+        .word .Lms16_min, 180, .+4
+.Lms16_align_bias:
+        .word 184, 184, .+4
+        .word .Lms16_n1, 180, .+4
+.Lms16_align_b30_P:
+        .word .Lms16_pow1073741824, 180, .Lms16_align_b30_P_to_N
+.Lms16_align_b29_P:
+        .word .Lms16_pow536870912, 180, .Lms16_align_b29_P_to_N
+.Lms16_align_b28_P:
+        .word .Lms16_pow268435456, 180, .Lms16_align_b28_P_to_N
+.Lms16_align_b27_P:
+        .word .Lms16_pow134217728, 180, .Lms16_align_b27_P_to_N
+.Lms16_align_b26_P:
+        .word .Lms16_pow67108864, 180, .Lms16_align_b26_P_to_N
+.Lms16_align_b25_P:
+        .word .Lms16_pow33554432, 180, .Lms16_align_b25_P_to_N
+.Lms16_align_b24_P:
+        .word .Lms16_pow16777216, 180, .Lms16_align_b24_P_to_N
+.Lms16_align_b23_P:
+        .word .Lms16_pow8388608, 180, .Lms16_align_b23_P_to_N
+.Lms16_align_b22_P:
+        .word .Lms16_pow4194304, 180, .Lms16_align_b22_P_to_N
+.Lms16_align_b21_P:
+        .word .Lms16_pow2097152, 180, .Lms16_align_b21_P_to_N
+.Lms16_align_b20_P:
+        .word .Lms16_pow1048576, 180, .Lms16_align_b20_P_to_N
+.Lms16_align_b19_P:
+        .word .Lms16_pow524288, 180, .Lms16_align_b19_P_to_N
+.Lms16_align_b18_P:
+        .word .Lms16_pow262144, 180, .Lms16_align_b18_P_to_N
+.Lms16_align_b17_P:
+        .word .Lms16_pow131072, 180, .Lms16_align_b17_P_to_N
+.Lms16_align_b16_P:
+        .word .Lms16_pow65536, 180, .Lms16_align_b16_P_to_N
+.Lms16_align_b15_P:
+        .word .Lms16_pow32768, 180, .Lms16_align_b15_P_to_N
+.Lms16_align_b14_P:
+        .word .Lms16_pow16384, 180, .Lms16_align_b14_P_to_N
+.Lms16_align_b13_P:
+        .word .Lms16_pow8192, 180, .Lms16_align_b13_P_to_N
+.Lms16_align_b12_P:
+        .word .Lms16_pow4096, 180, .Lms16_align_b12_P_to_N
+.Lms16_align_b11_P:
+        .word .Lms16_pow2048, 180, .Lms16_align_b11_P_to_N
+.Lms16_align_b10_P:
+        .word .Lms16_pow1024, 180, .Lms16_align_b10_P_to_N
+.Lms16_align_b9_P:
+        .word .Lms16_pow512, 180, .Lms16_align_b9_P_to_N
+.Lms16_align_b8_P:
+        .word .Lms16_pow256, 180, .Lms16_align_b8_P_to_N
+.Lms16_align_b7_P:
+        .word .Lms16_pow128, 180, .Lms16_align_b7_P_to_N
+.Lms16_align_b6_P:
+        .word .Lms16_pow64, 180, .Lms16_align_b6_P_to_N
+.Lms16_align_b5_P:
+        .word .Lms16_pow32, 180, .Lms16_align_b5_P_to_N
+.Lms16_align_b4_P:
+        .word .Lms16_pow16, 180, .Lms16_align_b4_P_to_N
+.Lms16_align_b3_P:
+        .word .Lms16_pow8, 180, .Lms16_align_b3_P_to_N
+.Lms16_align_b2_P:
+        .word .Lms16_pow4, 180, .Lms16_align_b2_P_to_N
+.Lms16_align_b1_P:
+        .word .Lms16_pow2, 180, .Lms16_align_b1_P_to_N
+        .word .Lms16_pow2, 184, .Lms16_align_b0_P
+.Lms16_align_b1_P_to_N:
+        .word 12, 12, .Lms16_align_b0_N
+.Lms16_align_b1_N:
+        .word .Lms16_npow2, 180, .Lms16_align_b1_N_to_N
+        .word .Lms16_pow2, 184, .Lms16_align_b0_P
+.Lms16_align_b1_N_to_N:
+        .word 12, 12, .Lms16_align_b0_N
+.Lms16_align_b0_P:
+        .word .Lms16_pow1, 180, .Lms16_align_b0_P_to_N
+        .word .Lms16_pow1, 184, .Lms16_align_done
+.Lms16_align_b0_P_to_N:
+        .word 12, 12, .Lms16_align_done
+.Lms16_align_b0_N:
+        .word .Lms16_npow1, 180, .Lms16_align_b0_N_to_N
+        .word .Lms16_pow1, 184, .Lms16_align_done
+.Lms16_align_b0_N_to_N:
+        .word 12, 12, .Lms16_align_done
+.Lms16_align_b30_P_to_N:
+        .word 12, 12, .Lms16_align_b29_N
+.Lms16_align_b30_N:
+        .word .Lms16_npow1073741824, 180, .Lms16_align_b30_N_to_N
+        .word 12, 12, .Lms16_align_b29_P
+.Lms16_align_b30_N_to_N:
+        .word 12, 12, .Lms16_align_b29_N
+.Lms16_align_b29_P_to_N:
+        .word 12, 12, .Lms16_align_b28_N
+.Lms16_align_b29_N:
+        .word .Lms16_npow536870912, 180, .Lms16_align_b29_N_to_N
+        .word 12, 12, .Lms16_align_b28_P
+.Lms16_align_b29_N_to_N:
+        .word 12, 12, .Lms16_align_b28_N
+.Lms16_align_b28_P_to_N:
+        .word 12, 12, .Lms16_align_b27_N
+.Lms16_align_b28_N:
+        .word .Lms16_npow268435456, 180, .Lms16_align_b28_N_to_N
+        .word 12, 12, .Lms16_align_b27_P
+.Lms16_align_b28_N_to_N:
+        .word 12, 12, .Lms16_align_b27_N
+.Lms16_align_b27_P_to_N:
+        .word 12, 12, .Lms16_align_b26_N
+.Lms16_align_b27_N:
+        .word .Lms16_npow134217728, 180, .Lms16_align_b27_N_to_N
+        .word 12, 12, .Lms16_align_b26_P
+.Lms16_align_b27_N_to_N:
+        .word 12, 12, .Lms16_align_b26_N
+.Lms16_align_b26_P_to_N:
+        .word 12, 12, .Lms16_align_b25_N
+.Lms16_align_b26_N:
+        .word .Lms16_npow67108864, 180, .Lms16_align_b26_N_to_N
+        .word 12, 12, .Lms16_align_b25_P
+.Lms16_align_b26_N_to_N:
+        .word 12, 12, .Lms16_align_b25_N
+.Lms16_align_b25_P_to_N:
+        .word 12, 12, .Lms16_align_b24_N
+.Lms16_align_b25_N:
+        .word .Lms16_npow33554432, 180, .Lms16_align_b25_N_to_N
+        .word 12, 12, .Lms16_align_b24_P
+.Lms16_align_b25_N_to_N:
+        .word 12, 12, .Lms16_align_b24_N
+.Lms16_align_b24_P_to_N:
+        .word 12, 12, .Lms16_align_b23_N
+.Lms16_align_b24_N:
+        .word .Lms16_npow16777216, 180, .Lms16_align_b24_N_to_N
+        .word 12, 12, .Lms16_align_b23_P
+.Lms16_align_b24_N_to_N:
+        .word 12, 12, .Lms16_align_b23_N
+.Lms16_align_b23_P_to_N:
+        .word 12, 12, .Lms16_align_b22_N
+.Lms16_align_b23_N:
+        .word .Lms16_npow8388608, 180, .Lms16_align_b23_N_to_N
+        .word 12, 12, .Lms16_align_b22_P
+.Lms16_align_b23_N_to_N:
+        .word 12, 12, .Lms16_align_b22_N
+.Lms16_align_b22_P_to_N:
+        .word 12, 12, .Lms16_align_b21_N
+.Lms16_align_b22_N:
+        .word .Lms16_npow4194304, 180, .Lms16_align_b22_N_to_N
+        .word 12, 12, .Lms16_align_b21_P
+.Lms16_align_b22_N_to_N:
+        .word 12, 12, .Lms16_align_b21_N
+.Lms16_align_b21_P_to_N:
+        .word 12, 12, .Lms16_align_b20_N
+.Lms16_align_b21_N:
+        .word .Lms16_npow2097152, 180, .Lms16_align_b21_N_to_N
+        .word 12, 12, .Lms16_align_b20_P
+.Lms16_align_b21_N_to_N:
+        .word 12, 12, .Lms16_align_b20_N
+.Lms16_align_b20_P_to_N:
+        .word 12, 12, .Lms16_align_b19_N
+.Lms16_align_b20_N:
+        .word .Lms16_npow1048576, 180, .Lms16_align_b20_N_to_N
+        .word 12, 12, .Lms16_align_b19_P
+.Lms16_align_b20_N_to_N:
+        .word 12, 12, .Lms16_align_b19_N
+.Lms16_align_b19_P_to_N:
+        .word 12, 12, .Lms16_align_b18_N
+.Lms16_align_b19_N:
+        .word .Lms16_npow524288, 180, .Lms16_align_b19_N_to_N
+        .word 12, 12, .Lms16_align_b18_P
+.Lms16_align_b19_N_to_N:
+        .word 12, 12, .Lms16_align_b18_N
+.Lms16_align_b18_P_to_N:
+        .word 12, 12, .Lms16_align_b17_N
+.Lms16_align_b18_N:
+        .word .Lms16_npow262144, 180, .Lms16_align_b18_N_to_N
+        .word 12, 12, .Lms16_align_b17_P
+.Lms16_align_b18_N_to_N:
+        .word 12, 12, .Lms16_align_b17_N
+.Lms16_align_b17_P_to_N:
+        .word 12, 12, .Lms16_align_b16_N
+.Lms16_align_b17_N:
+        .word .Lms16_npow131072, 180, .Lms16_align_b17_N_to_N
+        .word 12, 12, .Lms16_align_b16_P
+.Lms16_align_b17_N_to_N:
+        .word 12, 12, .Lms16_align_b16_N
+.Lms16_align_b16_P_to_N:
+        .word 12, 12, .Lms16_align_b15_N
+.Lms16_align_b16_N:
+        .word .Lms16_npow65536, 180, .Lms16_align_b16_N_to_N
+        .word 12, 12, .Lms16_align_b15_P
+.Lms16_align_b16_N_to_N:
+        .word 12, 12, .Lms16_align_b15_N
+.Lms16_align_b15_P_to_N:
+        .word 12, 12, .Lms16_align_b14_N
+.Lms16_align_b15_N:
+        .word .Lms16_npow32768, 180, .Lms16_align_b15_N_to_N
+        .word 12, 12, .Lms16_align_b14_P
+.Lms16_align_b15_N_to_N:
+        .word 12, 12, .Lms16_align_b14_N
+.Lms16_align_b14_P_to_N:
+        .word 12, 12, .Lms16_align_b13_N
+.Lms16_align_b14_N:
+        .word .Lms16_npow16384, 180, .Lms16_align_b14_N_to_N
+        .word 12, 12, .Lms16_align_b13_P
+.Lms16_align_b14_N_to_N:
+        .word 12, 12, .Lms16_align_b13_N
+.Lms16_align_b13_P_to_N:
+        .word 12, 12, .Lms16_align_b12_N
+.Lms16_align_b13_N:
+        .word .Lms16_npow8192, 180, .Lms16_align_b13_N_to_N
+        .word 12, 12, .Lms16_align_b12_P
+.Lms16_align_b13_N_to_N:
+        .word 12, 12, .Lms16_align_b12_N
+.Lms16_align_b12_P_to_N:
+        .word 12, 12, .Lms16_align_b11_N
+.Lms16_align_b12_N:
+        .word .Lms16_npow4096, 180, .Lms16_align_b12_N_to_N
+        .word 12, 12, .Lms16_align_b11_P
+.Lms16_align_b12_N_to_N:
+        .word 12, 12, .Lms16_align_b11_N
+.Lms16_align_b11_P_to_N:
+        .word 12, 12, .Lms16_align_b10_N
+.Lms16_align_b11_N:
+        .word .Lms16_npow2048, 180, .Lms16_align_b11_N_to_N
+        .word 12, 12, .Lms16_align_b10_P
+.Lms16_align_b11_N_to_N:
+        .word 12, 12, .Lms16_align_b10_N
+.Lms16_align_b10_P_to_N:
+        .word 12, 12, .Lms16_align_b9_N
+.Lms16_align_b10_N:
+        .word .Lms16_npow1024, 180, .Lms16_align_b10_N_to_N
+        .word 12, 12, .Lms16_align_b9_P
+.Lms16_align_b10_N_to_N:
+        .word 12, 12, .Lms16_align_b9_N
+.Lms16_align_b9_P_to_N:
+        .word 12, 12, .Lms16_align_b8_N
+.Lms16_align_b9_N:
+        .word .Lms16_npow512, 180, .Lms16_align_b9_N_to_N
+        .word 12, 12, .Lms16_align_b8_P
+.Lms16_align_b9_N_to_N:
+        .word 12, 12, .Lms16_align_b8_N
+.Lms16_align_b8_P_to_N:
+        .word 12, 12, .Lms16_align_b7_N
+.Lms16_align_b8_N:
+        .word .Lms16_npow256, 180, .Lms16_align_b8_N_to_N
+        .word 12, 12, .Lms16_align_b7_P
+.Lms16_align_b8_N_to_N:
+        .word 12, 12, .Lms16_align_b7_N
+.Lms16_align_b7_P_to_N:
+        .word 12, 12, .Lms16_align_b6_N
+.Lms16_align_b7_N:
+        .word .Lms16_npow128, 180, .Lms16_align_b7_N_to_N
+        .word 12, 12, .Lms16_align_b6_P
+.Lms16_align_b7_N_to_N:
+        .word 12, 12, .Lms16_align_b6_N
+.Lms16_align_b6_P_to_N:
+        .word 12, 12, .Lms16_align_b5_N
+.Lms16_align_b6_N:
+        .word .Lms16_npow64, 180, .Lms16_align_b6_N_to_N
+        .word 12, 12, .Lms16_align_b5_P
+.Lms16_align_b6_N_to_N:
+        .word 12, 12, .Lms16_align_b5_N
+.Lms16_align_b5_P_to_N:
+        .word 12, 12, .Lms16_align_b4_N
+.Lms16_align_b5_N:
+        .word .Lms16_npow32, 180, .Lms16_align_b5_N_to_N
+        .word 12, 12, .Lms16_align_b4_P
+.Lms16_align_b5_N_to_N:
+        .word 12, 12, .Lms16_align_b4_N
+.Lms16_align_b4_P_to_N:
+        .word 12, 12, .Lms16_align_b3_N
+.Lms16_align_b4_N:
+        .word .Lms16_npow16, 180, .Lms16_align_b4_N_to_N
+        .word 12, 12, .Lms16_align_b3_P
+.Lms16_align_b4_N_to_N:
+        .word 12, 12, .Lms16_align_b3_N
+.Lms16_align_b3_P_to_N:
+        .word 12, 12, .Lms16_align_b2_N
+.Lms16_align_b3_N:
+        .word .Lms16_npow8, 180, .Lms16_align_b3_N_to_N
+        .word 12, 12, .Lms16_align_b2_P
+.Lms16_align_b3_N_to_N:
+        .word 12, 12, .Lms16_align_b2_N
+.Lms16_align_b2_P_to_N:
+        .word 12, 12, .Lms16_align_b1_N
+.Lms16_align_b2_N:
+        .word .Lms16_npow4, 180, .Lms16_align_b2_N_to_N
+        .word 12, 12, .Lms16_align_b1_P
+.Lms16_align_b2_N_to_N:
+        .word 12, 12, .Lms16_align_b1_N
+.Lms16_align_done:
+        .word 180, 180, .+4
+        .word 184, 180, .+4
+        .word .Lms16_zero, 180, .Lms16_body_setup
+        .word 12, 12, .+4
+        .word 192, 192, .+4
+        .word 108, 12, .+4
+        .word 12, 192, .+4
+        .word 12, 12, .+4
+        .word 204, 204, .+4
+        .word 100, 12, .+4
+        .word 12, 204, .+4
+        .word .Lms16_c4, 16, .+4
+        .word 18, 18, .+4
+        .word 12, 12, .+4
+        .word .Lms16_head_sh_ret_const, 12, .+4
+        .word 12, 18, .+4
+        .word 12, 12, __subleq_sh
+.Lms16_head_sh_ret:
+        .word 12, 12, .+4
+        .word 100, 100, .+4
+        .word 204, 12, .+4
+        .word 12, 100, .+4
+        .word 12, 12, .+4
+        .word 104, 104, .+4
+        .word 196, 12, .+4
+        .word 12, 104, .+4
+        .word 12, 12, .+4
+        .word 108, 108, .+4
+        .word 192, 12, .+4
+        .word 12, 108, .+4
+        .word .Lms16_n2, 100, .+4
+        .word .Lms16_c1, 108, .+4
+.Lms16_body_setup:
+        .word 12, 12, .+4
+        .word 164, 164, .+4
+        .word 196, 12, .+4
+        .word 12, 164, .+4
+        .word 12, 12, .+4
+        .word 168, 168, .+4
+        .word 196, 12, .+4
+        .word 12, 168, .+4
+.Lms16_shl16_dbl0:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lms16_shl16_dbl1:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lms16_shl16_dbl2:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lms16_shl16_dbl3:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lms16_shl16_dbl4:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lms16_shl16_dbl5:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lms16_shl16_dbl6:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lms16_shl16_dbl7:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lms16_shl16_dbl8:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lms16_shl16_dbl9:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lms16_shl16_dbl10:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lms16_shl16_dbl11:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lms16_shl16_dbl12:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lms16_shl16_dbl13:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lms16_shl16_dbl14:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+        .word 12, 12, .+4
+.Lms16_shl16_dbl15:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 168, .+4
+.Lms16_shl16_done:
+        .word 12, 12, .+4
+        .word 168, 12, .+4
+        .word 12, 164, .+4
+        .word 160, 160, .+4
+        .word 164, 160, .+4
+        .word 12, 12, .+4
+        .word 180, 180, .+4
+        .word 108, 12, .+4
+        .word 12, 180, .+4
+        .word 12, 12, .+4
+        .word 172, 172, .+4
+        .word 180, 12, .+4
+        .word 12, 172, .+4
+        .word 188, 188, .+4
+.Lms16_srl1_b31:
+        .word 176, 176, .+4
+        .word 172, 176, .+4
+        .word 144, 176, .Lms16_srl1_b30_check
+        .word .Lms16_npow1073741824, 188, .+4
+        .word .Lms16_min, 172, .+4
+.Lms16_srl1_b30_check:
+        .word 176, 176, .+4
+        .word 172, 176, .+4
+        .word .Lms16_npow1073741824, 176, .Lms16_srl1_b30_set
+        .word 12, 12, .Lms16_srl1_lattice_start
+.Lms16_srl1_b30_set:
+        .word .Lms16_npow536870912, 188, .+4
+        .word .Lms16_pow1073741824, 172, .+4
+.Lms16_srl1_lattice_start:
+        .word .Lms16_n1, 172, .+4
+.Lms16_srl1_b29_P:
+        .word .Lms16_pow536870912, 172, .Lms16_srl1_b29_P_to_N
+        .word .Lms16_npow268435456, 188, .+4
+        .word 12, 12, .Lms16_srl1_b28_P
+.Lms16_srl1_b29_P_to_N:
+        .word 12, 12, .Lms16_srl1_b28_N
+.Lms16_srl1_b29_N:
+        .word .Lms16_npow536870912, 172, .Lms16_srl1_b29_N_to_N
+        .word .Lms16_npow268435456, 188, .+4
+        .word 12, 12, .Lms16_srl1_b28_P
+.Lms16_srl1_b29_N_to_N:
+        .word 12, 12, .Lms16_srl1_b28_N
+.Lms16_srl1_b28_P:
+        .word .Lms16_pow268435456, 172, .Lms16_srl1_b28_P_to_N
+        .word .Lms16_npow134217728, 188, .+4
+        .word 12, 12, .Lms16_srl1_b27_P
+.Lms16_srl1_b28_P_to_N:
+        .word 12, 12, .Lms16_srl1_b27_N
+.Lms16_srl1_b28_N:
+        .word .Lms16_npow268435456, 172, .Lms16_srl1_b28_N_to_N
+        .word .Lms16_npow134217728, 188, .+4
+        .word 12, 12, .Lms16_srl1_b27_P
+.Lms16_srl1_b28_N_to_N:
+        .word 12, 12, .Lms16_srl1_b27_N
+.Lms16_srl1_b27_P:
+        .word .Lms16_pow134217728, 172, .Lms16_srl1_b27_P_to_N
+        .word .Lms16_npow67108864, 188, .+4
+        .word 12, 12, .Lms16_srl1_b26_P
+.Lms16_srl1_b27_P_to_N:
+        .word 12, 12, .Lms16_srl1_b26_N
+.Lms16_srl1_b27_N:
+        .word .Lms16_npow134217728, 172, .Lms16_srl1_b27_N_to_N
+        .word .Lms16_npow67108864, 188, .+4
+        .word 12, 12, .Lms16_srl1_b26_P
+.Lms16_srl1_b27_N_to_N:
+        .word 12, 12, .Lms16_srl1_b26_N
+.Lms16_srl1_b26_P:
+        .word .Lms16_pow67108864, 172, .Lms16_srl1_b26_P_to_N
+        .word .Lms16_npow33554432, 188, .+4
+        .word 12, 12, .Lms16_srl1_b25_P
+.Lms16_srl1_b26_P_to_N:
+        .word 12, 12, .Lms16_srl1_b25_N
+.Lms16_srl1_b26_N:
+        .word .Lms16_npow67108864, 172, .Lms16_srl1_b26_N_to_N
+        .word .Lms16_npow33554432, 188, .+4
+        .word 12, 12, .Lms16_srl1_b25_P
+.Lms16_srl1_b26_N_to_N:
+        .word 12, 12, .Lms16_srl1_b25_N
+.Lms16_srl1_b25_P:
+        .word .Lms16_pow33554432, 172, .Lms16_srl1_b25_P_to_N
+        .word .Lms16_npow16777216, 188, .+4
+        .word 12, 12, .Lms16_srl1_b24_P
+.Lms16_srl1_b25_P_to_N:
+        .word 12, 12, .Lms16_srl1_b24_N
+.Lms16_srl1_b25_N:
+        .word .Lms16_npow33554432, 172, .Lms16_srl1_b25_N_to_N
+        .word .Lms16_npow16777216, 188, .+4
+        .word 12, 12, .Lms16_srl1_b24_P
+.Lms16_srl1_b25_N_to_N:
+        .word 12, 12, .Lms16_srl1_b24_N
+.Lms16_srl1_b24_P:
+        .word .Lms16_pow16777216, 172, .Lms16_srl1_b24_P_to_N
+        .word .Lms16_npow8388608, 188, .+4
+        .word 12, 12, .Lms16_srl1_b23_P
+.Lms16_srl1_b24_P_to_N:
+        .word 12, 12, .Lms16_srl1_b23_N
+.Lms16_srl1_b24_N:
+        .word .Lms16_npow16777216, 172, .Lms16_srl1_b24_N_to_N
+        .word .Lms16_npow8388608, 188, .+4
+        .word 12, 12, .Lms16_srl1_b23_P
+.Lms16_srl1_b24_N_to_N:
+        .word 12, 12, .Lms16_srl1_b23_N
+.Lms16_srl1_b23_P:
+        .word .Lms16_pow8388608, 172, .Lms16_srl1_b23_P_to_N
+        .word .Lms16_npow4194304, 188, .+4
+        .word 12, 12, .Lms16_srl1_b22_P
+.Lms16_srl1_b23_P_to_N:
+        .word 12, 12, .Lms16_srl1_b22_N
+.Lms16_srl1_b23_N:
+        .word .Lms16_npow8388608, 172, .Lms16_srl1_b23_N_to_N
+        .word .Lms16_npow4194304, 188, .+4
+        .word 12, 12, .Lms16_srl1_b22_P
+.Lms16_srl1_b23_N_to_N:
+        .word 12, 12, .Lms16_srl1_b22_N
+.Lms16_srl1_b22_P:
+        .word .Lms16_pow4194304, 172, .Lms16_srl1_b22_P_to_N
+        .word .Lms16_npow2097152, 188, .+4
+        .word 12, 12, .Lms16_srl1_b21_P
+.Lms16_srl1_b22_P_to_N:
+        .word 12, 12, .Lms16_srl1_b21_N
+.Lms16_srl1_b22_N:
+        .word .Lms16_npow4194304, 172, .Lms16_srl1_b22_N_to_N
+        .word .Lms16_npow2097152, 188, .+4
+        .word 12, 12, .Lms16_srl1_b21_P
+.Lms16_srl1_b22_N_to_N:
+        .word 12, 12, .Lms16_srl1_b21_N
+.Lms16_srl1_b21_P:
+        .word .Lms16_pow2097152, 172, .Lms16_srl1_b21_P_to_N
+        .word .Lms16_npow1048576, 188, .+4
+        .word 12, 12, .Lms16_srl1_b20_P
+.Lms16_srl1_b21_P_to_N:
+        .word 12, 12, .Lms16_srl1_b20_N
+.Lms16_srl1_b21_N:
+        .word .Lms16_npow2097152, 172, .Lms16_srl1_b21_N_to_N
+        .word .Lms16_npow1048576, 188, .+4
+        .word 12, 12, .Lms16_srl1_b20_P
+.Lms16_srl1_b21_N_to_N:
+        .word 12, 12, .Lms16_srl1_b20_N
+.Lms16_srl1_b20_P:
+        .word .Lms16_pow1048576, 172, .Lms16_srl1_b20_P_to_N
+        .word .Lms16_npow524288, 188, .+4
+        .word 12, 12, .Lms16_srl1_b19_P
+.Lms16_srl1_b20_P_to_N:
+        .word 12, 12, .Lms16_srl1_b19_N
+.Lms16_srl1_b20_N:
+        .word .Lms16_npow1048576, 172, .Lms16_srl1_b20_N_to_N
+        .word .Lms16_npow524288, 188, .+4
+        .word 12, 12, .Lms16_srl1_b19_P
+.Lms16_srl1_b20_N_to_N:
+        .word 12, 12, .Lms16_srl1_b19_N
+.Lms16_srl1_b19_P:
+        .word .Lms16_pow524288, 172, .Lms16_srl1_b19_P_to_N
+        .word .Lms16_npow262144, 188, .+4
+        .word 12, 12, .Lms16_srl1_b18_P
+.Lms16_srl1_b19_P_to_N:
+        .word 12, 12, .Lms16_srl1_b18_N
+.Lms16_srl1_b19_N:
+        .word .Lms16_npow524288, 172, .Lms16_srl1_b19_N_to_N
+        .word .Lms16_npow262144, 188, .+4
+        .word 12, 12, .Lms16_srl1_b18_P
+.Lms16_srl1_b19_N_to_N:
+        .word 12, 12, .Lms16_srl1_b18_N
+.Lms16_srl1_b18_P:
+        .word .Lms16_pow262144, 172, .Lms16_srl1_b18_P_to_N
+        .word .Lms16_npow131072, 188, .+4
+        .word 12, 12, .Lms16_srl1_b17_P
+.Lms16_srl1_b18_P_to_N:
+        .word 12, 12, .Lms16_srl1_b17_N
+.Lms16_srl1_b18_N:
+        .word .Lms16_npow262144, 172, .Lms16_srl1_b18_N_to_N
+        .word .Lms16_npow131072, 188, .+4
+        .word 12, 12, .Lms16_srl1_b17_P
+.Lms16_srl1_b18_N_to_N:
+        .word 12, 12, .Lms16_srl1_b17_N
+.Lms16_srl1_b17_P:
+        .word .Lms16_pow131072, 172, .Lms16_srl1_b17_P_to_N
+        .word .Lms16_npow65536, 188, .+4
+        .word 12, 12, .Lms16_srl1_b16_P
+.Lms16_srl1_b17_P_to_N:
+        .word 12, 12, .Lms16_srl1_b16_N
+.Lms16_srl1_b17_N:
+        .word .Lms16_npow131072, 172, .Lms16_srl1_b17_N_to_N
+        .word .Lms16_npow65536, 188, .+4
+        .word 12, 12, .Lms16_srl1_b16_P
+.Lms16_srl1_b17_N_to_N:
+        .word 12, 12, .Lms16_srl1_b16_N
+.Lms16_srl1_b16_P:
+        .word .Lms16_pow65536, 172, .Lms16_srl1_b16_P_to_N
+        .word .Lms16_npow32768, 188, .+4
+        .word 12, 12, .Lms16_srl1_b15_P
+.Lms16_srl1_b16_P_to_N:
+        .word 12, 12, .Lms16_srl1_b15_N
+.Lms16_srl1_b16_N:
+        .word .Lms16_npow65536, 172, .Lms16_srl1_b16_N_to_N
+        .word .Lms16_npow32768, 188, .+4
+        .word 12, 12, .Lms16_srl1_b15_P
+.Lms16_srl1_b16_N_to_N:
+        .word 12, 12, .Lms16_srl1_b15_N
+.Lms16_srl1_b15_P:
+        .word .Lms16_pow32768, 172, .Lms16_srl1_b15_P_to_N
+        .word .Lms16_npow16384, 188, .+4
+        .word 12, 12, .Lms16_srl1_b14_P
+.Lms16_srl1_b15_P_to_N:
+        .word 12, 12, .Lms16_srl1_b14_N
+.Lms16_srl1_b15_N:
+        .word .Lms16_npow32768, 172, .Lms16_srl1_b15_N_to_N
+        .word .Lms16_npow16384, 188, .+4
+        .word 12, 12, .Lms16_srl1_b14_P
+.Lms16_srl1_b15_N_to_N:
+        .word 12, 12, .Lms16_srl1_b14_N
+.Lms16_srl1_b14_P:
+        .word .Lms16_pow16384, 172, .Lms16_srl1_b14_P_to_N
+        .word .Lms16_npow8192, 188, .+4
+        .word 12, 12, .Lms16_srl1_b13_P
+.Lms16_srl1_b14_P_to_N:
+        .word 12, 12, .Lms16_srl1_b13_N
+.Lms16_srl1_b14_N:
+        .word .Lms16_npow16384, 172, .Lms16_srl1_b14_N_to_N
+        .word .Lms16_npow8192, 188, .+4
+        .word 12, 12, .Lms16_srl1_b13_P
+.Lms16_srl1_b14_N_to_N:
+        .word 12, 12, .Lms16_srl1_b13_N
+.Lms16_srl1_b13_P:
+        .word .Lms16_pow8192, 172, .Lms16_srl1_b13_P_to_N
+        .word .Lms16_npow4096, 188, .+4
+        .word 12, 12, .Lms16_srl1_b12_P
+.Lms16_srl1_b13_P_to_N:
+        .word 12, 12, .Lms16_srl1_b12_N
+.Lms16_srl1_b13_N:
+        .word .Lms16_npow8192, 172, .Lms16_srl1_b13_N_to_N
+        .word .Lms16_npow4096, 188, .+4
+        .word 12, 12, .Lms16_srl1_b12_P
+.Lms16_srl1_b13_N_to_N:
+        .word 12, 12, .Lms16_srl1_b12_N
+.Lms16_srl1_b12_P:
+        .word .Lms16_pow4096, 172, .Lms16_srl1_b12_P_to_N
+        .word .Lms16_npow2048, 188, .+4
+        .word 12, 12, .Lms16_srl1_b11_P
+.Lms16_srl1_b12_P_to_N:
+        .word 12, 12, .Lms16_srl1_b11_N
+.Lms16_srl1_b12_N:
+        .word .Lms16_npow4096, 172, .Lms16_srl1_b12_N_to_N
+        .word .Lms16_npow2048, 188, .+4
+        .word 12, 12, .Lms16_srl1_b11_P
+.Lms16_srl1_b12_N_to_N:
+        .word 12, 12, .Lms16_srl1_b11_N
+.Lms16_srl1_b11_P:
+        .word .Lms16_pow2048, 172, .Lms16_srl1_b11_P_to_N
+        .word .Lms16_npow1024, 188, .+4
+        .word 12, 12, .Lms16_srl1_b10_P
+.Lms16_srl1_b11_P_to_N:
+        .word 12, 12, .Lms16_srl1_b10_N
+.Lms16_srl1_b11_N:
+        .word .Lms16_npow2048, 172, .Lms16_srl1_b11_N_to_N
+        .word .Lms16_npow1024, 188, .+4
+        .word 12, 12, .Lms16_srl1_b10_P
+.Lms16_srl1_b11_N_to_N:
+        .word 12, 12, .Lms16_srl1_b10_N
+.Lms16_srl1_b10_P:
+        .word .Lms16_pow1024, 172, .Lms16_srl1_b10_P_to_N
+        .word .Lms16_npow512, 188, .+4
+        .word 12, 12, .Lms16_srl1_b9_P
+.Lms16_srl1_b10_P_to_N:
+        .word 12, 12, .Lms16_srl1_b9_N
+.Lms16_srl1_b10_N:
+        .word .Lms16_npow1024, 172, .Lms16_srl1_b10_N_to_N
+        .word .Lms16_npow512, 188, .+4
+        .word 12, 12, .Lms16_srl1_b9_P
+.Lms16_srl1_b10_N_to_N:
+        .word 12, 12, .Lms16_srl1_b9_N
+.Lms16_srl1_b9_P:
+        .word .Lms16_pow512, 172, .Lms16_srl1_b9_P_to_N
+        .word .Lms16_npow256, 188, .+4
+        .word 12, 12, .Lms16_srl1_b8_P
+.Lms16_srl1_b9_P_to_N:
+        .word 12, 12, .Lms16_srl1_b8_N
+.Lms16_srl1_b9_N:
+        .word .Lms16_npow512, 172, .Lms16_srl1_b9_N_to_N
+        .word .Lms16_npow256, 188, .+4
+        .word 12, 12, .Lms16_srl1_b8_P
+.Lms16_srl1_b9_N_to_N:
+        .word 12, 12, .Lms16_srl1_b8_N
+.Lms16_srl1_b8_P:
+        .word .Lms16_pow256, 172, .Lms16_srl1_b8_P_to_N
+        .word .Lms16_npow128, 188, .+4
+        .word 12, 12, .Lms16_srl1_b7_P
+.Lms16_srl1_b8_P_to_N:
+        .word 12, 12, .Lms16_srl1_b7_N
+.Lms16_srl1_b8_N:
+        .word .Lms16_npow256, 172, .Lms16_srl1_b8_N_to_N
+        .word .Lms16_npow128, 188, .+4
+        .word 12, 12, .Lms16_srl1_b7_P
+.Lms16_srl1_b8_N_to_N:
+        .word 12, 12, .Lms16_srl1_b7_N
+.Lms16_srl1_b7_P:
+        .word .Lms16_pow128, 172, .Lms16_srl1_b7_P_to_N
+        .word .Lms16_npow64, 188, .+4
+        .word 12, 12, .Lms16_srl1_b6_P
+.Lms16_srl1_b7_P_to_N:
+        .word 12, 12, .Lms16_srl1_b6_N
+.Lms16_srl1_b7_N:
+        .word .Lms16_npow128, 172, .Lms16_srl1_b7_N_to_N
+        .word .Lms16_npow64, 188, .+4
+        .word 12, 12, .Lms16_srl1_b6_P
+.Lms16_srl1_b7_N_to_N:
+        .word 12, 12, .Lms16_srl1_b6_N
+.Lms16_srl1_b6_P:
+        .word .Lms16_pow64, 172, .Lms16_srl1_b6_P_to_N
+        .word .Lms16_npow32, 188, .+4
+        .word 12, 12, .Lms16_srl1_b5_P
+.Lms16_srl1_b6_P_to_N:
+        .word 12, 12, .Lms16_srl1_b5_N
+.Lms16_srl1_b6_N:
+        .word .Lms16_npow64, 172, .Lms16_srl1_b6_N_to_N
+        .word .Lms16_npow32, 188, .+4
+        .word 12, 12, .Lms16_srl1_b5_P
+.Lms16_srl1_b6_N_to_N:
+        .word 12, 12, .Lms16_srl1_b5_N
+.Lms16_srl1_b5_P:
+        .word .Lms16_pow32, 172, .Lms16_srl1_b5_P_to_N
+        .word .Lms16_npow16, 188, .+4
+        .word 12, 12, .Lms16_srl1_b4_P
+.Lms16_srl1_b5_P_to_N:
+        .word 12, 12, .Lms16_srl1_b4_N
+.Lms16_srl1_b5_N:
+        .word .Lms16_npow32, 172, .Lms16_srl1_b5_N_to_N
+        .word .Lms16_npow16, 188, .+4
+        .word 12, 12, .Lms16_srl1_b4_P
+.Lms16_srl1_b5_N_to_N:
+        .word 12, 12, .Lms16_srl1_b4_N
+.Lms16_srl1_b4_P:
+        .word .Lms16_pow16, 172, .Lms16_srl1_b4_P_to_N
+        .word .Lms16_npow8, 188, .+4
+        .word 12, 12, .Lms16_srl1_b3_P
+.Lms16_srl1_b4_P_to_N:
+        .word 12, 12, .Lms16_srl1_b3_N
+.Lms16_srl1_b4_N:
+        .word .Lms16_npow16, 172, .Lms16_srl1_b4_N_to_N
+        .word .Lms16_npow8, 188, .+4
+        .word 12, 12, .Lms16_srl1_b3_P
+.Lms16_srl1_b4_N_to_N:
+        .word 12, 12, .Lms16_srl1_b3_N
+.Lms16_srl1_b3_P:
+        .word .Lms16_pow8, 172, .Lms16_srl1_b3_P_to_N
+        .word .Lms16_npow4, 188, .+4
+        .word 12, 12, .Lms16_srl1_b2_P
+.Lms16_srl1_b3_P_to_N:
+        .word 12, 12, .Lms16_srl1_b2_N
+.Lms16_srl1_b3_N:
+        .word .Lms16_npow8, 172, .Lms16_srl1_b3_N_to_N
+        .word .Lms16_npow4, 188, .+4
+        .word 12, 12, .Lms16_srl1_b2_P
+.Lms16_srl1_b3_N_to_N:
+        .word 12, 12, .Lms16_srl1_b2_N
+.Lms16_srl1_b2_P:
+        .word .Lms16_pow4, 172, .Lms16_srl1_b2_P_to_N
+        .word .Lms16_npow2, 188, .+4
+        .word 12, 12, .Lms16_srl1_b1_P
+.Lms16_srl1_b2_P_to_N:
+        .word 12, 12, .Lms16_srl1_b1_N
+.Lms16_srl1_b2_N:
+        .word .Lms16_npow4, 172, .Lms16_srl1_b2_N_to_N
+        .word .Lms16_npow2, 188, .+4
+        .word 12, 12, .Lms16_srl1_b1_P
+.Lms16_srl1_b2_N_to_N:
+        .word 12, 12, .Lms16_srl1_b1_N
+.Lms16_srl1_b1_P:
+        .word .Lms16_pow2, 172, .Lms16_srl1_b1_P_to_N
+        .word .Lms16_npow1, 188, .+4
+        .word 12, 12, .Lms16_srl1_done
+.Lms16_srl1_b1_P_to_N:
+        .word 12, 12, .Lms16_srl1_done
+.Lms16_srl1_b1_N:
+        .word .Lms16_npow2, 172, .Lms16_srl1_b1_N_to_N
+        .word .Lms16_npow1, 188, .+4
+        .word 12, 12, .Lms16_srl1_done
+.Lms16_srl1_b1_N_to_N:
+        .word 12, 12, .Lms16_srl1_done
+.Lms16_srl1_done:
+        .word .Lms16_zero, 188, .Lms16_tail_check
+.Lms16_body_loop:
+        .word .Lms16_c16, 188, .Lms16_body_fixup
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lms16_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lms16_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lms16_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lms16_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lms16_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lms16_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lms16_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lms16_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lms16_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lms16_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lms16_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lms16_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lms16_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lms16_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lms16_n4, 100, .+4
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lms16_n4, 100, .+4
+        .word .Lms16_c32, 108, .+4
+        .word 12, 12, .Lms16_body_loop
+.Lms16_body_fixup:
+        .word .Lms16_n16, 188, .+4
+        .word .Lms16_zero, 188, .Lms16_tail_check
+.Lms16_body_single:
+        .word 102, 102, .+4
+        .word 160, 102, .+4
+        .word .Lms16_n4, 100, .+4
+        .word .Lms16_c2, 108, .+4
+        .word .Lms16_c1, 188, .Lms16_tail_check
+        .word 12, 12, .Lms16_body_single
+.Lms16_tail_check:
+        .word .Lms16_zero, 108, .Lms16_done
+        .word 12, 12, .+4
+        .word 104, 104, .+4
+        .word 196, 12, .+4
+        .word 12, 104, .+4
+        .word .Lms16_c4, 16, .+4
+        .word 18, 18, .+4
+        .word 12, 12, .+4
+        .word .Lms16_tail_sh_ret_const, 12, .+4
+        .word 12, 18, .+4
+        .word 12, 12, __subleq_sh
+.Lms16_tail_sh_ret:
+.Lms16_done:
+        .word 96, 96, .+4
+        .word 12, 12, .+4
+        .word 200, 12, .+4
+        .word 12, 96, .+4
+.Lmemset16_pop:
+        .word   160, 160, .+4
+        .word   12, 12, .+4
+        .word   18, 12, .+4
+        .word   12, 160, .+4
+        .word   .Lmemset16_neg4, 16, .+4
+        .word   12
+        .word   12
+        .word   162
+.Lmemset16_neg1:
+        .word   -1
+.Lmemset16_neg4:
+        .word   -4
+.Lms16_zero:
+        .word 0
+.Lms16_c1:
+        .word 1
+.Lms16_c2:
+        .word 2
+.Lms16_c4:
+        .word 4
+.Lms16_c16:
+        .word 16
+.Lms16_c32:
+        .word 32
+.Lms16_n2:
+        .word -2
+.Lms16_n4:
+        .word -4
+.Lms16_n16:
+        .word -16
+.Lms16_n1:
+        .word -1
+.Lms16_min:
+        .word -2147483648
+.Lms16_pow1:
+        .word 1
+.Lms16_npow1:
+        .word -1
+.Lms16_pow2:
+        .word 2
+.Lms16_npow2:
+        .word -2
+.Lms16_pow4:
+        .word 4
+.Lms16_npow4:
+        .word -4
+.Lms16_pow8:
+        .word 8
+.Lms16_npow8:
+        .word -8
+.Lms16_pow16:
+        .word 16
+.Lms16_npow16:
+        .word -16
+.Lms16_pow32:
+        .word 32
+.Lms16_npow32:
+        .word -32
+.Lms16_pow64:
+        .word 64
+.Lms16_npow64:
+        .word -64
+.Lms16_pow128:
+        .word 128
+.Lms16_npow128:
+        .word -128
+.Lms16_pow256:
+        .word 256
+.Lms16_npow256:
+        .word -256
+.Lms16_pow512:
+        .word 512
+.Lms16_npow512:
+        .word -512
+.Lms16_pow1024:
+        .word 1024
+.Lms16_npow1024:
+        .word -1024
+.Lms16_pow2048:
+        .word 2048
+.Lms16_npow2048:
+        .word -2048
+.Lms16_pow4096:
+        .word 4096
+.Lms16_npow4096:
+        .word -4096
+.Lms16_pow8192:
+        .word 8192
+.Lms16_npow8192:
+        .word -8192
+.Lms16_pow16384:
+        .word 16384
+.Lms16_npow16384:
+        .word -16384
+.Lms16_pow32768:
+        .word 32768
+.Lms16_npow32768:
+        .word -32768
+.Lms16_pow65536:
+        .word 65536
+.Lms16_npow65536:
+        .word -65536
+.Lms16_pow131072:
+        .word 131072
+.Lms16_npow131072:
+        .word -131072
+.Lms16_pow262144:
+        .word 262144
+.Lms16_npow262144:
+        .word -262144
+.Lms16_pow524288:
+        .word 524288
+.Lms16_npow524288:
+        .word -524288
+.Lms16_pow1048576:
+        .word 1048576
+.Lms16_npow1048576:
+        .word -1048576
+.Lms16_pow2097152:
+        .word 2097152
+.Lms16_npow2097152:
+        .word -2097152
+.Lms16_pow4194304:
+        .word 4194304
+.Lms16_npow4194304:
+        .word -4194304
+.Lms16_pow8388608:
+        .word 8388608
+.Lms16_npow8388608:
+        .word -8388608
+.Lms16_pow16777216:
+        .word 16777216
+.Lms16_npow16777216:
+        .word -16777216
+.Lms16_pow33554432:
+        .word 33554432
+.Lms16_npow33554432:
+        .word -33554432
+.Lms16_pow67108864:
+        .word 67108864
+.Lms16_npow67108864:
+        .word -67108864
+.Lms16_pow134217728:
+        .word 134217728
+.Lms16_npow134217728:
+        .word -134217728
+.Lms16_pow268435456:
+        .word 268435456
+.Lms16_npow268435456:
+        .word -268435456
+.Lms16_pow536870912:
+        .word 536870912
+.Lms16_npow536870912:
+        .word -536870912
+.Lms16_pow1073741824:
+        .word 1073741824
+.Lms16_npow1073741824:
+        .word -1073741824
+.Lms16_head_sh_ret_const:
+        .word .Lms16_head_sh_ret
+.Lms16_tail_sh_ret_const:
+        .word .Lms16_tail_sh_ret
+
+        .size __subleq_memset16, . - __subleq_memset16
+
         .globl  __subleq_memmove
         .type   __subleq_memmove,@function
 # __subleq_memmove(dest=R21, src=R22, n=R23) returns R20=dest
@@ -62403,35 +63541,19 @@ __subleq_memmove:
         .word 12, 12, __subleq_lb
 .Lmemmove_bwd_hlb_ret:
         .word 12, 12, .+4
-        .word 160, 160, .+4
+        .word 104, 104, .+4
         .word 96, 12, .+4
-        .word 12, 160, .+4
+        .word 12, 104, .+4
         .word 12, 12, .+4
         .word 100, 100, .+4
         .word 192, 12, .+4
         .word 12, 100, .+4
-        .word 12, 12, .+4
-        .word 104, 104, .+4
-        .word 196, 12, .+4
-        .word 12, 104, .+4
-        .word 12, 12, .+4
-        .word 192, 192, .+4
-        .word 100, 12, .+4
-        .word 12, 192, .+4
-        .word 12, 12, .+4
-        .word 196, 196, .+4
-        .word 104, 12, .+4
-        .word 12, 196, .+4
-        .word 12, 12, .+4
-        .word 104, 104, .+4
-        .word 160, 12, .+4
-        .word 12, 104, .+4
         .word .Lmemmove_c4, 16, .+4
         .word 18, 18, .+4
         .word 12, 12, .+4
         .word .Lmemmove_bwd_hsb_ret_const, 12, .+4
         .word 12, 18, .+4
-        .word 12, 12, __subleq_sb
+        .word 12, 12, __subleq_sb_nomask
 .Lmemmove_bwd_hsb_ret:
         .word 12, 12, .+4
         .word 100, 100, .+4
@@ -65372,35 +66494,19 @@ __subleq_memmove:
         .word 12, 12, __subleq_lb
 .Lmemmove_bwd_tail_lb_ret:
         .word 12, 12, .+4
-        .word 160, 160, .+4
+        .word 104, 104, .+4
         .word 96, 12, .+4
-        .word 12, 160, .+4
+        .word 12, 104, .+4
         .word 12, 12, .+4
         .word 100, 100, .+4
         .word 192, 12, .+4
         .word 12, 100, .+4
-        .word 12, 12, .+4
-        .word 104, 104, .+4
-        .word 196, 12, .+4
-        .word 12, 104, .+4
-        .word 12, 12, .+4
-        .word 192, 192, .+4
-        .word 100, 12, .+4
-        .word 12, 192, .+4
-        .word 12, 12, .+4
-        .word 196, 196, .+4
-        .word 104, 12, .+4
-        .word 12, 196, .+4
-        .word 12, 12, .+4
-        .word 104, 104, .+4
-        .word 160, 12, .+4
-        .word 12, 104, .+4
         .word .Lmemmove_c4, 16, .+4
         .word 18, 18, .+4
         .word 12, 12, .+4
         .word .Lmemmove_bwd_tail_sb_ret_const, 12, .+4
         .word 12, 18, .+4
-        .word 12, 12, __subleq_sb
+        .word 12, 12, __subleq_sb_nomask
 .Lmemmove_bwd_tail_sb_ret:
         .word 12, 12, .+4
         .word 100, 100, .+4
@@ -65864,35 +66970,19 @@ __subleq_memmove:
         .word 12, 12, __subleq_lb
 .Lmemmove_bwd_head_lb_ret:
         .word 12, 12, .+4
-        .word 160, 160, .+4
+        .word 104, 104, .+4
         .word 96, 12, .+4
-        .word 12, 160, .+4
+        .word 12, 104, .+4
         .word 12, 12, .+4
         .word 100, 100, .+4
         .word 192, 12, .+4
         .word 12, 100, .+4
-        .word 12, 12, .+4
-        .word 104, 104, .+4
-        .word 196, 12, .+4
-        .word 12, 104, .+4
-        .word 12, 12, .+4
-        .word 192, 192, .+4
-        .word 100, 12, .+4
-        .word 12, 192, .+4
-        .word 12, 12, .+4
-        .word 196, 196, .+4
-        .word 104, 12, .+4
-        .word 12, 196, .+4
-        .word 12, 12, .+4
-        .word 104, 104, .+4
-        .word 160, 12, .+4
-        .word 12, 104, .+4
         .word .Lmemmove_c4, 16, .+4
         .word 18, 18, .+4
         .word 12, 12, .+4
         .word .Lmemmove_bwd_head_sb_ret_const, 12, .+4
         .word 12, 18, .+4
-        .word 12, 12, __subleq_sb
+        .word 12, 12, __subleq_sb_nomask
 .Lmemmove_bwd_head_sb_ret:
         .word 12, 12, .+4
         .word 100, 100, .+4
@@ -66540,35 +67630,19 @@ __subleq_memmove:
         .word 12, 12, __subleq_lb
 .Lmemmove_head_lb_ret:
         .word 12, 12, .+4
-        .word 160, 160, .+4
+        .word 104, 104, .+4
         .word 96, 12, .+4
-        .word 12, 160, .+4
+        .word 12, 104, .+4
         .word 12, 12, .+4
         .word 100, 100, .+4
         .word 192, 12, .+4
         .word 12, 100, .+4
-        .word 12, 12, .+4
-        .word 104, 104, .+4
-        .word 196, 12, .+4
-        .word 12, 104, .+4
-        .word 12, 12, .+4
-        .word 192, 192, .+4
-        .word 100, 12, .+4
-        .word 12, 192, .+4
-        .word 12, 12, .+4
-        .word 196, 196, .+4
-        .word 104, 12, .+4
-        .word 12, 196, .+4
-        .word 12, 12, .+4
-        .word 104, 104, .+4
-        .word 160, 12, .+4
-        .word 12, 104, .+4
         .word .Lmemmove_c4, 16, .+4
         .word 18, 18, .+4
         .word 12, 12, .+4
         .word .Lmemmove_head_sb_ret_const, 12, .+4
         .word 12, 18, .+4
-        .word 12, 12, __subleq_sb
+        .word 12, 12, __subleq_sb_nomask
 .Lmemmove_head_sb_ret:
         .word 12, 12, .+4
         .word 100, 100, .+4
@@ -67027,35 +68101,19 @@ __subleq_memmove:
         .word 12, 12, __subleq_lb
 .Lmemmove_tail_lb_ret:
         .word 12, 12, .+4
-        .word 160, 160, .+4
+        .word 104, 104, .+4
         .word 96, 12, .+4
-        .word 12, 160, .+4
+        .word 12, 104, .+4
         .word 12, 12, .+4
         .word 100, 100, .+4
         .word 192, 12, .+4
         .word 12, 100, .+4
-        .word 12, 12, .+4
-        .word 104, 104, .+4
-        .word 196, 12, .+4
-        .word 12, 104, .+4
-        .word 12, 12, .+4
-        .word 192, 192, .+4
-        .word 100, 12, .+4
-        .word 12, 192, .+4
-        .word 12, 12, .+4
-        .word 196, 196, .+4
-        .word 104, 12, .+4
-        .word 12, 196, .+4
-        .word 12, 12, .+4
-        .word 104, 104, .+4
-        .word 160, 12, .+4
-        .word 12, 104, .+4
         .word .Lmemmove_c4, 16, .+4
         .word 18, 18, .+4
         .word 12, 12, .+4
         .word .Lmemmove_tail_sb_ret_const, 12, .+4
         .word 12, 18, .+4
-        .word 12, 12, __subleq_sb
+        .word 12, 12, __subleq_sb_nomask
 .Lmemmove_tail_sb_ret:
         .word 12, 12, .+4
         .word 100, 100, .+4
@@ -67399,35 +68457,19 @@ __subleq_memmove:
         .word 12, 12, __subleq_lb
 .Lmemmove_uhead_lb_ret:
         .word 12, 12, .+4
-        .word 160, 160, .+4
+        .word 104, 104, .+4
         .word 96, 12, .+4
-        .word 12, 160, .+4
+        .word 12, 104, .+4
         .word 12, 12, .+4
         .word 100, 100, .+4
         .word 192, 12, .+4
         .word 12, 100, .+4
-        .word 12, 12, .+4
-        .word 104, 104, .+4
-        .word 196, 12, .+4
-        .word 12, 104, .+4
-        .word 12, 12, .+4
-        .word 192, 192, .+4
-        .word 100, 12, .+4
-        .word 12, 192, .+4
-        .word 12, 12, .+4
-        .word 196, 196, .+4
-        .word 104, 12, .+4
-        .word 12, 196, .+4
-        .word 12, 12, .+4
-        .word 104, 104, .+4
-        .word 160, 12, .+4
-        .word 12, 104, .+4
         .word .Lmemmove_c4, 16, .+4
         .word 18, 18, .+4
         .word 12, 12, .+4
         .word .Lmemmove_uhead_sb_ret_const, 12, .+4
         .word 12, 18, .+4
-        .word 12, 12, __subleq_sb
+        .word 12, 12, __subleq_sb_nomask
 .Lmemmove_uhead_sb_ret:
         .word 12, 12, .+4
         .word 100, 100, .+4
@@ -69993,35 +71035,19 @@ __subleq_memmove:
         .word 12, 12, __subleq_lb
 .Lmemmove_fwd_lb_ret:
         .word 12, 12, .+4
-        .word 160, 160, .+4
+        .word 104, 104, .+4
         .word 96, 12, .+4
-        .word 12, 160, .+4
+        .word 12, 104, .+4
         .word 12, 12, .+4
         .word 100, 100, .+4
         .word 192, 12, .+4
         .word 12, 100, .+4
-        .word 12, 12, .+4
-        .word 104, 104, .+4
-        .word 196, 12, .+4
-        .word 12, 104, .+4
-        .word 12, 12, .+4
-        .word 192, 192, .+4
-        .word 100, 12, .+4
-        .word 12, 192, .+4
-        .word 12, 12, .+4
-        .word 196, 196, .+4
-        .word 104, 12, .+4
-        .word 12, 196, .+4
-        .word 12, 12, .+4
-        .word 104, 104, .+4
-        .word 160, 12, .+4
-        .word 12, 104, .+4
         .word .Lmemmove_c4, 16, .+4
         .word 18, 18, .+4
         .word 12, 12, .+4
         .word .Lmemmove_fwd_sb_ret_const, 12, .+4
         .word 12, 18, .+4
-        .word 12, 12, __subleq_sb
+        .word 12, 12, __subleq_sb_nomask
 .Lmemmove_fwd_sb_ret:
         .word 12, 12, .+4
         .word 100, 100, .+4

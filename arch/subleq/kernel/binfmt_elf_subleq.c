@@ -117,13 +117,25 @@ extern void __lshrdi3(void);
 extern void __moddi3(void);
 extern void __subleq_and(void);
 extern void __subleq_lb(void);
+extern void __subleq_lb_b0(void);
+extern void __subleq_lb_b1(void);
+extern void __subleq_lb_b2(void);
+extern void __subleq_lb_b3(void);
 extern void __subleq_lh(void);
+extern void __subleq_lh_h0(void);
+extern void __subleq_lh_h1(void);
 extern void __subleq_mul(void);
 extern void __subleq_or(void);
 extern void __subleq_sb(void);
+extern void __subleq_sb_b0(void);
+extern void __subleq_sb_b1(void);
+extern void __subleq_sb_b2(void);
+extern void __subleq_sb_b3(void);
 extern void __subleq_sdivrem(void);
 extern void __subleq_sdivrem64(void);
 extern void __subleq_sh(void);
+extern void __subleq_sh_h0(void);
+extern void __subleq_sh_h1(void);
 extern void __subleq_shl(void);
 extern void __subleq_sra(void);
 extern void __subleq_srl(void);
@@ -250,16 +262,28 @@ static const struct {
 	{ "__subdf3", &__subdf3 },
 	{ "__subleq_and", &__subleq_and },
 	{ "__subleq_lb", &__subleq_lb },
+	{ "__subleq_lb_b0", &__subleq_lb_b0 },
+	{ "__subleq_lb_b1", &__subleq_lb_b1 },
+	{ "__subleq_lb_b2", &__subleq_lb_b2 },
+	{ "__subleq_lb_b3", &__subleq_lb_b3 },
 	{ "__subleq_lh", &__subleq_lh },
+	{ "__subleq_lh_h0", &__subleq_lh_h0 },
+	{ "__subleq_lh_h1", &__subleq_lh_h1 },
 	{ "__subleq_memcpy", &__subleq_memcpy },
 	{ "__subleq_memmove", &__subleq_memmove },
 	{ "__subleq_memset", &__subleq_memset },
 	{ "__subleq_mul", &__subleq_mul },
 	{ "__subleq_or", &__subleq_or },
 	{ "__subleq_sb", &__subleq_sb },
+	{ "__subleq_sb_b0", &__subleq_sb_b0 },
+	{ "__subleq_sb_b1", &__subleq_sb_b1 },
+	{ "__subleq_sb_b2", &__subleq_sb_b2 },
+	{ "__subleq_sb_b3", &__subleq_sb_b3 },
 	{ "__subleq_sdivrem", &__subleq_sdivrem },
 	{ "__subleq_sdivrem64", &__subleq_sdivrem64 },
 	{ "__subleq_sh", &__subleq_sh },
+	{ "__subleq_sh_h0", &__subleq_sh_h0 },
+	{ "__subleq_sh_h1", &__subleq_sh_h1 },
 	{ "__subleq_shl", &__subleq_shl },
 	{ "__subleq_sra", &__subleq_sra },
 	{ "__subleq_srl", &__subleq_srl },

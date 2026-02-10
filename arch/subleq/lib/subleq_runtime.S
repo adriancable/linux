@@ -50215,10 +50215,42 @@ __subleq_lb:
         .word   162, 12, .+4
         .word   12, 172, .Llb_branch
 .Llb_branch:
-        .word   100, 100, .+4
+        .word   96, 96, .+4
         .word   144, 184, .Llb_byte0
         .word   .Llb_c1, 184, .Llb_byte1
         .word   .Llb_c1, 184, .Llb_byte2
+        .word   12, 12, .Llb_byte3
+
+        .globl  __subleq_lb_b0
+__subleq_lb_b0:
+        .word   172, 172, .+4
+        .word   102, 12, .+4
+        .word   12, 172, .+4
+        .word   96, 96, .+4
+        .word   12, 12, .Llb_byte0
+
+        .globl  __subleq_lb_b1
+__subleq_lb_b1:
+        .word   172, 172, .+4
+        .word   102, 12, .+4
+        .word   12, 172, .+4
+        .word   96, 96, .+4
+        .word   12, 12, .Llb_byte1
+
+        .globl  __subleq_lb_b2
+__subleq_lb_b2:
+        .word   172, 172, .+4
+        .word   102, 12, .+4
+        .word   12, 172, .+4
+        .word   96, 96, .+4
+        .word   12, 12, .Llb_byte2
+
+        .globl  __subleq_lb_b3
+__subleq_lb_b3:
+        .word   172, 172, .+4
+        .word   102, 12, .+4
+        .word   12, 172, .+4
+        .word   96, 96, .+4
         .word   12, 12, .Llb_byte3
 .Llb_byte0:
 .Llb_b0_sign:
@@ -50273,97 +50305,97 @@ __subleq_lb:
         .word   .Llb_c256, 172, .Llb_b0_b8_P_N
 .Llb_b0_b7_P:
         .word   .Llb_c128, 172, .Llb_b0_b7_P_N
-        .word   .Llb_n128, 100, .+4
+        .word   .Llb_n128, 96, .+4
         .word   12, 12, .Llb_b0_b6_P
 .Llb_b0_b7_P_N:
         .word   12, 12, .Llb_b0_b6_N
 .Llb_b0_b7_N:
         .word   .Llb_n128, 172, .Llb_b0_b7_N_st
-        .word   .Llb_n128, 100, .+4
+        .word   .Llb_n128, 96, .+4
         .word   12, 12, .Llb_b0_b6_P
 .Llb_b0_b7_N_st:
         .word   12, 12, .Llb_b0_b6_N
 .Llb_b0_b6_P:
         .word   .Llb_c64, 172, .Llb_b0_b6_P_N
-        .word   .Llb_n64, 100, .+4
+        .word   .Llb_n64, 96, .+4
         .word   12, 12, .Llb_b0_b5_P
 .Llb_b0_b6_P_N:
         .word   12, 12, .Llb_b0_b5_N
 .Llb_b0_b6_N:
         .word   .Llb_n64, 172, .Llb_b0_b6_N_st
-        .word   .Llb_n64, 100, .+4
+        .word   .Llb_n64, 96, .+4
         .word   12, 12, .Llb_b0_b5_P
 .Llb_b0_b6_N_st:
         .word   12, 12, .Llb_b0_b5_N
 .Llb_b0_b5_P:
         .word   .Llb_c32, 172, .Llb_b0_b5_P_N
-        .word   .Llb_n32, 100, .+4
+        .word   .Llb_n32, 96, .+4
         .word   12, 12, .Llb_b0_b4_P
 .Llb_b0_b5_P_N:
         .word   12, 12, .Llb_b0_b4_N
 .Llb_b0_b5_N:
         .word   .Llb_n32, 172, .Llb_b0_b5_N_st
-        .word   .Llb_n32, 100, .+4
+        .word   .Llb_n32, 96, .+4
         .word   12, 12, .Llb_b0_b4_P
 .Llb_b0_b5_N_st:
         .word   12, 12, .Llb_b0_b4_N
 .Llb_b0_b4_P:
         .word   .Llb_c16, 172, .Llb_b0_b4_P_N
-        .word   .Llb_n16, 100, .+4
+        .word   .Llb_n16, 96, .+4
         .word   12, 12, .Llb_b0_b3_P
 .Llb_b0_b4_P_N:
         .word   12, 12, .Llb_b0_b3_N
 .Llb_b0_b4_N:
         .word   .Llb_n16, 172, .Llb_b0_b4_N_st
-        .word   .Llb_n16, 100, .+4
+        .word   .Llb_n16, 96, .+4
         .word   12, 12, .Llb_b0_b3_P
 .Llb_b0_b4_N_st:
         .word   12, 12, .Llb_b0_b3_N
 .Llb_b0_b3_P:
         .word   .Llb_c8, 172, .Llb_b0_b3_P_N
-        .word   .Llb_n8, 100, .+4
+        .word   .Llb_n8, 96, .+4
         .word   12, 12, .Llb_b0_b2_P
 .Llb_b0_b3_P_N:
         .word   12, 12, .Llb_b0_b2_N
 .Llb_b0_b3_N:
         .word   .Llb_n8, 172, .Llb_b0_b3_N_st
-        .word   .Llb_n8, 100, .+4
+        .word   .Llb_n8, 96, .+4
         .word   12, 12, .Llb_b0_b2_P
 .Llb_b0_b3_N_st:
         .word   12, 12, .Llb_b0_b2_N
 .Llb_b0_b2_P:
         .word   .Llb_c4, 172, .Llb_b0_b2_P_N
-        .word   .Llb_n4, 100, .+4
+        .word   .Llb_n4, 96, .+4
         .word   12, 12, .Llb_b0_b1_P
 .Llb_b0_b2_P_N:
         .word   12, 12, .Llb_b0_b1_N
 .Llb_b0_b2_N:
         .word   .Llb_n4, 172, .Llb_b0_b2_N_st
-        .word   .Llb_n4, 100, .+4
+        .word   .Llb_n4, 96, .+4
         .word   12, 12, .Llb_b0_b1_P
 .Llb_b0_b2_N_st:
         .word   12, 12, .Llb_b0_b1_N
 .Llb_b0_b1_P:
         .word   .Llb_c2, 172, .Llb_b0_b1_P_N
-        .word   .Llb_n2, 100, .+4
+        .word   .Llb_n2, 96, .+4
         .word   12, 12, .Llb_b0_b0_P
 .Llb_b0_b1_P_N:
         .word   12, 12, .Llb_b0_b0_N
 .Llb_b0_b1_N:
         .word   .Llb_n2, 172, .Llb_b0_b1_N_st
-        .word   .Llb_n2, 100, .+4
+        .word   .Llb_n2, 96, .+4
         .word   12, 12, .Llb_b0_b0_P
 .Llb_b0_b1_N_st:
         .word   12, 12, .Llb_b0_b0_N
 .Llb_b0_b0_P:
         .word   .Llb_c1, 172, .Llb_b0_b0_P_N
-        .word   .Llb_n1, 100, .+4
+        .word   .Llb_n1, 96, .+4
         .word   12, 12, .Llb_ret1
 .Llb_b0_b0_P_N:
         .word   12, 12, .Llb_ret1
 .Llb_b0_b0_N:
         .word   .Llb_n1, 172, .Llb_b0_b0_N_st
-        .word   .Llb_n1, 100, .+4
+        .word   .Llb_n1, 96, .+4
         .word   12, 12, .Llb_ret1
 .Llb_b0_b0_N_st:
         .word   12, 12, .Llb_ret1
@@ -50530,97 +50562,97 @@ __subleq_lb:
         .word   .Llb_c65536, 172, .Llb_b1_b16_P_N
 .Llb_b1_b15_P:
         .word   .Llb_c32768, 172, .Llb_b1_b15_P_N
-        .word   .Llb_n128, 100, .+4
+        .word   .Llb_n128, 96, .+4
         .word   12, 12, .Llb_b1_b14_P
 .Llb_b1_b15_P_N:
         .word   12, 12, .Llb_b1_b14_N
 .Llb_b1_b15_N:
         .word   .Llb_n32768, 172, .Llb_b1_b15_N_st
-        .word   .Llb_n128, 100, .+4
+        .word   .Llb_n128, 96, .+4
         .word   12, 12, .Llb_b1_b14_P
 .Llb_b1_b15_N_st:
         .word   12, 12, .Llb_b1_b14_N
 .Llb_b1_b14_P:
         .word   .Llb_c16384, 172, .Llb_b1_b14_P_N
-        .word   .Llb_n64, 100, .+4
+        .word   .Llb_n64, 96, .+4
         .word   12, 12, .Llb_b1_b13_P
 .Llb_b1_b14_P_N:
         .word   12, 12, .Llb_b1_b13_N
 .Llb_b1_b14_N:
         .word   .Llb_n16384, 172, .Llb_b1_b14_N_st
-        .word   .Llb_n64, 100, .+4
+        .word   .Llb_n64, 96, .+4
         .word   12, 12, .Llb_b1_b13_P
 .Llb_b1_b14_N_st:
         .word   12, 12, .Llb_b1_b13_N
 .Llb_b1_b13_P:
         .word   .Llb_c8192, 172, .Llb_b1_b13_P_N
-        .word   .Llb_n32, 100, .+4
+        .word   .Llb_n32, 96, .+4
         .word   12, 12, .Llb_b1_b12_P
 .Llb_b1_b13_P_N:
         .word   12, 12, .Llb_b1_b12_N
 .Llb_b1_b13_N:
         .word   .Llb_n8192, 172, .Llb_b1_b13_N_st
-        .word   .Llb_n32, 100, .+4
+        .word   .Llb_n32, 96, .+4
         .word   12, 12, .Llb_b1_b12_P
 .Llb_b1_b13_N_st:
         .word   12, 12, .Llb_b1_b12_N
 .Llb_b1_b12_P:
         .word   .Llb_c4096, 172, .Llb_b1_b12_P_N
-        .word   .Llb_n16, 100, .+4
+        .word   .Llb_n16, 96, .+4
         .word   12, 12, .Llb_b1_b11_P
 .Llb_b1_b12_P_N:
         .word   12, 12, .Llb_b1_b11_N
 .Llb_b1_b12_N:
         .word   .Llb_n4096, 172, .Llb_b1_b12_N_st
-        .word   .Llb_n16, 100, .+4
+        .word   .Llb_n16, 96, .+4
         .word   12, 12, .Llb_b1_b11_P
 .Llb_b1_b12_N_st:
         .word   12, 12, .Llb_b1_b11_N
 .Llb_b1_b11_P:
         .word   .Llb_c2048, 172, .Llb_b1_b11_P_N
-        .word   .Llb_n8, 100, .+4
+        .word   .Llb_n8, 96, .+4
         .word   12, 12, .Llb_b1_b10_P
 .Llb_b1_b11_P_N:
         .word   12, 12, .Llb_b1_b10_N
 .Llb_b1_b11_N:
         .word   .Llb_n2048, 172, .Llb_b1_b11_N_st
-        .word   .Llb_n8, 100, .+4
+        .word   .Llb_n8, 96, .+4
         .word   12, 12, .Llb_b1_b10_P
 .Llb_b1_b11_N_st:
         .word   12, 12, .Llb_b1_b10_N
 .Llb_b1_b10_P:
         .word   .Llb_c1024, 172, .Llb_b1_b10_P_N
-        .word   .Llb_n4, 100, .+4
+        .word   .Llb_n4, 96, .+4
         .word   12, 12, .Llb_b1_b9_P
 .Llb_b1_b10_P_N:
         .word   12, 12, .Llb_b1_b9_N
 .Llb_b1_b10_N:
         .word   .Llb_n1024, 172, .Llb_b1_b10_N_st
-        .word   .Llb_n4, 100, .+4
+        .word   .Llb_n4, 96, .+4
         .word   12, 12, .Llb_b1_b9_P
 .Llb_b1_b10_N_st:
         .word   12, 12, .Llb_b1_b9_N
 .Llb_b1_b9_P:
         .word   .Llb_c512, 172, .Llb_b1_b9_P_N
-        .word   .Llb_n2, 100, .+4
+        .word   .Llb_n2, 96, .+4
         .word   12, 12, .Llb_b1_b8_P
 .Llb_b1_b9_P_N:
         .word   12, 12, .Llb_b1_b8_N
 .Llb_b1_b9_N:
         .word   .Llb_n512, 172, .Llb_b1_b9_N_st
-        .word   .Llb_n2, 100, .+4
+        .word   .Llb_n2, 96, .+4
         .word   12, 12, .Llb_b1_b8_P
 .Llb_b1_b9_N_st:
         .word   12, 12, .Llb_b1_b8_N
 .Llb_b1_b8_P:
         .word   .Llb_c256, 172, .Llb_b1_b8_P_N
-        .word   .Llb_n1, 100, .+4
+        .word   .Llb_n1, 96, .+4
         .word   12, 12, .Llb_ret1
 .Llb_b1_b8_P_N:
         .word   12, 12, .Llb_ret1
 .Llb_b1_b8_N:
         .word   .Llb_n256, 172, .Llb_b1_b8_N_st
-        .word   .Llb_n1, 100, .+4
+        .word   .Llb_n1, 96, .+4
         .word   12, 12, .Llb_ret1
 .Llb_b1_b8_N_st:
         .word   12, 12, .Llb_ret1
@@ -50731,97 +50763,97 @@ __subleq_lb:
         .word   .Llb_c16777216, 172, .Llb_b2_b24_P_N
 .Llb_b2_b23_P:
         .word   .Llb_c8388608, 172, .Llb_b2_b23_P_N
-        .word   .Llb_n128, 100, .+4
+        .word   .Llb_n128, 96, .+4
         .word   12, 12, .Llb_b2_b22_P
 .Llb_b2_b23_P_N:
         .word   12, 12, .Llb_b2_b22_N
 .Llb_b2_b23_N:
         .word   .Llb_n8388608, 172, .Llb_b2_b23_N_st
-        .word   .Llb_n128, 100, .+4
+        .word   .Llb_n128, 96, .+4
         .word   12, 12, .Llb_b2_b22_P
 .Llb_b2_b23_N_st:
         .word   12, 12, .Llb_b2_b22_N
 .Llb_b2_b22_P:
         .word   .Llb_c4194304, 172, .Llb_b2_b22_P_N
-        .word   .Llb_n64, 100, .+4
+        .word   .Llb_n64, 96, .+4
         .word   12, 12, .Llb_b2_b21_P
 .Llb_b2_b22_P_N:
         .word   12, 12, .Llb_b2_b21_N
 .Llb_b2_b22_N:
         .word   .Llb_n4194304, 172, .Llb_b2_b22_N_st
-        .word   .Llb_n64, 100, .+4
+        .word   .Llb_n64, 96, .+4
         .word   12, 12, .Llb_b2_b21_P
 .Llb_b2_b22_N_st:
         .word   12, 12, .Llb_b2_b21_N
 .Llb_b2_b21_P:
         .word   .Llb_c2097152, 172, .Llb_b2_b21_P_N
-        .word   .Llb_n32, 100, .+4
+        .word   .Llb_n32, 96, .+4
         .word   12, 12, .Llb_b2_b20_P
 .Llb_b2_b21_P_N:
         .word   12, 12, .Llb_b2_b20_N
 .Llb_b2_b21_N:
         .word   .Llb_n2097152, 172, .Llb_b2_b21_N_st
-        .word   .Llb_n32, 100, .+4
+        .word   .Llb_n32, 96, .+4
         .word   12, 12, .Llb_b2_b20_P
 .Llb_b2_b21_N_st:
         .word   12, 12, .Llb_b2_b20_N
 .Llb_b2_b20_P:
         .word   .Llb_c1048576, 172, .Llb_b2_b20_P_N
-        .word   .Llb_n16, 100, .+4
+        .word   .Llb_n16, 96, .+4
         .word   12, 12, .Llb_b2_b19_P
 .Llb_b2_b20_P_N:
         .word   12, 12, .Llb_b2_b19_N
 .Llb_b2_b20_N:
         .word   .Llb_n1048576, 172, .Llb_b2_b20_N_st
-        .word   .Llb_n16, 100, .+4
+        .word   .Llb_n16, 96, .+4
         .word   12, 12, .Llb_b2_b19_P
 .Llb_b2_b20_N_st:
         .word   12, 12, .Llb_b2_b19_N
 .Llb_b2_b19_P:
         .word   .Llb_c524288, 172, .Llb_b2_b19_P_N
-        .word   .Llb_n8, 100, .+4
+        .word   .Llb_n8, 96, .+4
         .word   12, 12, .Llb_b2_b18_P
 .Llb_b2_b19_P_N:
         .word   12, 12, .Llb_b2_b18_N
 .Llb_b2_b19_N:
         .word   .Llb_n524288, 172, .Llb_b2_b19_N_st
-        .word   .Llb_n8, 100, .+4
+        .word   .Llb_n8, 96, .+4
         .word   12, 12, .Llb_b2_b18_P
 .Llb_b2_b19_N_st:
         .word   12, 12, .Llb_b2_b18_N
 .Llb_b2_b18_P:
         .word   .Llb_c262144, 172, .Llb_b2_b18_P_N
-        .word   .Llb_n4, 100, .+4
+        .word   .Llb_n4, 96, .+4
         .word   12, 12, .Llb_b2_b17_P
 .Llb_b2_b18_P_N:
         .word   12, 12, .Llb_b2_b17_N
 .Llb_b2_b18_N:
         .word   .Llb_n262144, 172, .Llb_b2_b18_N_st
-        .word   .Llb_n4, 100, .+4
+        .word   .Llb_n4, 96, .+4
         .word   12, 12, .Llb_b2_b17_P
 .Llb_b2_b18_N_st:
         .word   12, 12, .Llb_b2_b17_N
 .Llb_b2_b17_P:
         .word   .Llb_c131072, 172, .Llb_b2_b17_P_N
-        .word   .Llb_n2, 100, .+4
+        .word   .Llb_n2, 96, .+4
         .word   12, 12, .Llb_b2_b16_P
 .Llb_b2_b17_P_N:
         .word   12, 12, .Llb_b2_b16_N
 .Llb_b2_b17_N:
         .word   .Llb_n131072, 172, .Llb_b2_b17_N_st
-        .word   .Llb_n2, 100, .+4
+        .word   .Llb_n2, 96, .+4
         .word   12, 12, .Llb_b2_b16_P
 .Llb_b2_b17_N_st:
         .word   12, 12, .Llb_b2_b16_N
 .Llb_b2_b16_P:
         .word   .Llb_c65536, 172, .Llb_b2_b16_P_N
-        .word   .Llb_n1, 100, .+4
+        .word   .Llb_n1, 96, .+4
         .word   12, 12, .Llb_ret1
 .Llb_b2_b16_P_N:
         .word   12, 12, .Llb_ret1
 .Llb_b2_b16_N:
         .word   .Llb_n65536, 172, .Llb_b2_b16_N_st
-        .word   .Llb_n1, 100, .+4
+        .word   .Llb_n1, 96, .+4
         .word   12, 12, .Llb_ret1
 .Llb_b2_b16_N_st:
         .word   12, 12, .Llb_ret1
@@ -50878,85 +50910,85 @@ __subleq_lb:
         .word   .Llb_neg1, 172, .+4
 .Llb_b3_b30_P:
         .word   .Llb_c1073741824, 172, .Llb_b3_b30_P_N
-        .word   .Llb_n64, 100, .+4
+        .word   .Llb_n64, 96, .+4
         .word   12, 12, .Llb_b3_b29_P
 .Llb_b3_b30_P_N:
         .word   12, 12, .Llb_b3_b29_N
 .Llb_b3_b30_N:
         .word   .Llb_n1073741824, 172, .Llb_b3_b30_N_st
-        .word   .Llb_n64, 100, .+4
+        .word   .Llb_n64, 96, .+4
         .word   12, 12, .Llb_b3_b29_P
 .Llb_b3_b30_N_st:
         .word   12, 12, .Llb_b3_b29_N
 .Llb_b3_b29_P:
         .word   .Llb_c536870912, 172, .Llb_b3_b29_P_N
-        .word   .Llb_n32, 100, .+4
+        .word   .Llb_n32, 96, .+4
         .word   12, 12, .Llb_b3_b28_P
 .Llb_b3_b29_P_N:
         .word   12, 12, .Llb_b3_b28_N
 .Llb_b3_b29_N:
         .word   .Llb_n536870912, 172, .Llb_b3_b29_N_st
-        .word   .Llb_n32, 100, .+4
+        .word   .Llb_n32, 96, .+4
         .word   12, 12, .Llb_b3_b28_P
 .Llb_b3_b29_N_st:
         .word   12, 12, .Llb_b3_b28_N
 .Llb_b3_b28_P:
         .word   .Llb_c268435456, 172, .Llb_b3_b28_P_N
-        .word   .Llb_n16, 100, .+4
+        .word   .Llb_n16, 96, .+4
         .word   12, 12, .Llb_b3_b27_P
 .Llb_b3_b28_P_N:
         .word   12, 12, .Llb_b3_b27_N
 .Llb_b3_b28_N:
         .word   .Llb_n268435456, 172, .Llb_b3_b28_N_st
-        .word   .Llb_n16, 100, .+4
+        .word   .Llb_n16, 96, .+4
         .word   12, 12, .Llb_b3_b27_P
 .Llb_b3_b28_N_st:
         .word   12, 12, .Llb_b3_b27_N
 .Llb_b3_b27_P:
         .word   .Llb_c134217728, 172, .Llb_b3_b27_P_N
-        .word   .Llb_n8, 100, .+4
+        .word   .Llb_n8, 96, .+4
         .word   12, 12, .Llb_b3_b26_P
 .Llb_b3_b27_P_N:
         .word   12, 12, .Llb_b3_b26_N
 .Llb_b3_b27_N:
         .word   .Llb_n134217728, 172, .Llb_b3_b27_N_st
-        .word   .Llb_n8, 100, .+4
+        .word   .Llb_n8, 96, .+4
         .word   12, 12, .Llb_b3_b26_P
 .Llb_b3_b27_N_st:
         .word   12, 12, .Llb_b3_b26_N
 .Llb_b3_b26_P:
         .word   .Llb_c67108864, 172, .Llb_b3_b26_P_N
-        .word   .Llb_n4, 100, .+4
+        .word   .Llb_n4, 96, .+4
         .word   12, 12, .Llb_b3_b25_P
 .Llb_b3_b26_P_N:
         .word   12, 12, .Llb_b3_b25_N
 .Llb_b3_b26_N:
         .word   .Llb_n67108864, 172, .Llb_b3_b26_N_st
-        .word   .Llb_n4, 100, .+4
+        .word   .Llb_n4, 96, .+4
         .word   12, 12, .Llb_b3_b25_P
 .Llb_b3_b26_N_st:
         .word   12, 12, .Llb_b3_b25_N
 .Llb_b3_b25_P:
         .word   .Llb_c33554432, 172, .Llb_b3_b25_P_N
-        .word   .Llb_n2, 100, .+4
+        .word   .Llb_n2, 96, .+4
         .word   12, 12, .Llb_b3_b24_P
 .Llb_b3_b25_P_N:
         .word   12, 12, .Llb_b3_b24_N
 .Llb_b3_b25_N:
         .word   .Llb_n33554432, 172, .Llb_b3_b25_N_st
-        .word   .Llb_n2, 100, .+4
+        .word   .Llb_n2, 96, .+4
         .word   12, 12, .Llb_b3_b24_P
 .Llb_b3_b25_N_st:
         .word   12, 12, .Llb_b3_b24_N
 .Llb_b3_b24_P:
         .word   .Llb_c16777216, 172, .Llb_b3_b24_P_N
-        .word   .Llb_n1, 100, .+4
+        .word   .Llb_n1, 96, .+4
         .word   12, 12, .Llb_ret1
 .Llb_b3_b24_P_N:
         .word   12, 12, .Llb_ret1
 .Llb_b3_b24_N:
         .word   .Llb_n16777216, 172, .Llb_b3_b24_N_st
-        .word   .Llb_n1, 100, .+4
+        .word   .Llb_n1, 96, .+4
         .word   12, 12, .Llb_ret1
 .Llb_b3_b24_N_st:
         .word   12, 12, .Llb_ret1
@@ -50969,14 +51001,10 @@ __subleq_lb:
         .word   144, 184, .Llb_b3_neg
         .word   12, 12, .Llb_b3_bias
 .Llb_b3_neg:
-        .word   .Llb_n128, 100, .+4
+        .word   .Llb_n128, 96, .+4
         .word   .Llb_min, 172, .+4
         .word   12, 12, .Llb_b3_bias
 .Llb_ret1:
-        .word   96, 96, .+4
-        .word   12, 12, .+4
-        .word   100, 12, .+4
-        .word   12, 96, .Llb_pop
 .Llb_pop:
         .word   160, 160, .+4
         .word   12, 12, .+4
@@ -51315,8 +51343,12 @@ __subleq_sb:
         .word   180, 180, .+4
         .word   104, 180, .Lsb_off
         .word   .Lsb_npow256, 104, .Lsb_off
+        .word   12, 12, .Lsb_off
         .globl  __subleq_sb_nomask
 __subleq_sb_nomask:
+        .word   100, 12, .+4
+        .word   168, 168, .+4
+        .word   12, 168, .Lsb_mod_bias
 .Lsb_off:
         .word   168, 168, .+4
         .word   12, 12, .+4
@@ -51564,6 +51596,116 @@ __subleq_sb_nomask:
         .word   .Lsb_one, 168, .Lsb_byte1
         .word   .Lsb_one, 168, .Lsb_byte2
         .word   12, 12, .Lsb_byte3
+
+        .globl  __subleq_sb_b0
+__subleq_sb_b0:
+        .word   168, 168, .+4
+        .word   12, 12, .Lsb_fast_s0
+
+        .globl  __subleq_sb_b1
+__subleq_sb_b1:
+        .word   168, 168, .+4
+        .word   .Lsb_neg1, 168, .+4
+        .word   12, 12, .Lsb_fast_s1
+
+        .globl  __subleq_sb_b2
+__subleq_sb_b2:
+        .word   168, 168, .+4
+        .word   .Lsb_npow2, 168, .+4
+        .word   12, 12, .Lsb_fast_s2
+
+        .globl  __subleq_sb_b3
+__subleq_sb_b3:
+        .word   168, 168, .+4
+        .word   .Lsb_neg3, 168, .+4
+        .word   12, 12, .Lsb_fast_s3
+
+.Lsb_fast_s0:
+        .word   144, 104, .Lsb_fast_le0_s0
+        .word   12, 12, .Lsb_fast_chk255_s0
+.Lsb_fast_le0_s0:
+        .word   180, 180, .+4
+        .word   12, 12, .+4
+        .word   104, 12, .+4
+        .word   12, 180, .+4
+        .word   .Lsb_neg1, 180, .+4
+        .word   144, 180, .Lsb_mask_s0
+        .word   12, 12, .Lsb_ldword
+.Lsb_fast_chk255_s0:
+        .word   180, 180, .+4
+        .word   12, 12, .+4
+        .word   104, 12, .+4
+        .word   12, 180, .+4
+        .word   .Lsb_pow256, 180, .Lsb_ldword
+        .word   12, 12, .Lsb_mask_s0
+.Lsb_mask_s0:
+        .word   12, 12, .Lsb_mask
+
+.Lsb_fast_s1:
+        .word   144, 104, .Lsb_fast_le0_s1
+        .word   12, 12, .Lsb_fast_chk255_s1
+.Lsb_fast_le0_s1:
+        .word   180, 180, .+4
+        .word   12, 12, .+4
+        .word   104, 12, .+4
+        .word   12, 180, .+4
+        .word   .Lsb_neg1, 180, .+4
+        .word   144, 180, .Lsb_mask_s1
+        .word   12, 12, .Lsb_ldword
+.Lsb_fast_chk255_s1:
+        .word   180, 180, .+4
+        .word   12, 12, .+4
+        .word   104, 12, .+4
+        .word   12, 180, .+4
+        .word   .Lsb_pow256, 180, .Lsb_ldword
+        .word   12, 12, .Lsb_mask_s1
+.Lsb_mask_s1:
+        .word   .Lsb_neg1, 100, .+4
+        .word   12, 12, .Lsb_mask
+
+.Lsb_fast_s2:
+        .word   144, 104, .Lsb_fast_le0_s2
+        .word   12, 12, .Lsb_fast_chk255_s2
+.Lsb_fast_le0_s2:
+        .word   180, 180, .+4
+        .word   12, 12, .+4
+        .word   104, 12, .+4
+        .word   12, 180, .+4
+        .word   .Lsb_neg1, 180, .+4
+        .word   144, 180, .Lsb_mask_s2
+        .word   12, 12, .Lsb_ldword
+.Lsb_fast_chk255_s2:
+        .word   180, 180, .+4
+        .word   12, 12, .+4
+        .word   104, 12, .+4
+        .word   12, 180, .+4
+        .word   .Lsb_pow256, 180, .Lsb_ldword
+        .word   12, 12, .Lsb_mask_s2
+.Lsb_mask_s2:
+        .word   .Lsb_npow2, 100, .+4
+        .word   12, 12, .Lsb_mask
+
+.Lsb_fast_s3:
+        .word   144, 104, .Lsb_fast_le0_s3
+        .word   12, 12, .Lsb_fast_chk255_s3
+.Lsb_fast_le0_s3:
+        .word   180, 180, .+4
+        .word   12, 12, .+4
+        .word   104, 12, .+4
+        .word   12, 180, .+4
+        .word   .Lsb_neg1, 180, .+4
+        .word   144, 180, .Lsb_mask_s3
+        .word   12, 12, .Lsb_ldword
+.Lsb_fast_chk255_s3:
+        .word   180, 180, .+4
+        .word   12, 12, .+4
+        .word   104, 12, .+4
+        .word   12, 180, .+4
+        .word   .Lsb_pow256, 180, .Lsb_ldword
+        .word   12, 12, .Lsb_mask_s3
+.Lsb_mask_s3:
+        .word   .Lsb_neg3, 100, .+4
+        .word   12, 12, .Lsb_mask
 .Lsb_byte0:
 .Lsb_b0_sign:
         .word   144, 172, .Lsb_b0_le0
@@ -53273,6 +53415,7 @@ __subleq_sb_nomask:
         .word   -4
 .Lsb_one: .word 1
 .Lsb_two: .word 2
+.Lsb_neg3: .word -3
 .Lsb_min: .word -2147483648
 .Lsb_n2147483648: .word -2147483648
 .Lsb_pow1: .word 1
@@ -53599,6 +53742,32 @@ __subleq_lh:
 .Llh_branch:
         .word   100, 100, .+4
         .word   144, 164, .Llh_half0
+        .word   12, 12, .Llh_half1
+
+        .globl  __subleq_lh_h0
+__subleq_lh_h0:
+        .word   160, 160, .+4
+        .word   12, 12, .+4
+        .word   100, 12, .+4
+        .word   12, 160, .+4
+        .word   172, 172, .+4
+        .word   12, 12, .+4
+        .word   162, 12, .+4
+        .word   12, 172, .+4
+        .word   100, 100, .+4
+        .word   12, 12, .Llh_half0
+
+        .globl  __subleq_lh_h1
+__subleq_lh_h1:
+        .word   160, 160, .+4
+        .word   12, 12, .+4
+        .word   100, 12, .+4
+        .word   12, 160, .+4
+        .word   172, 172, .+4
+        .word   12, 12, .+4
+        .word   162, 12, .+4
+        .word   12, 172, .+4
+        .word   100, 100, .+4
         .word   12, 12, .Llh_half1
 .Llh_half0:
 .Llh_h0_sign:
@@ -54733,6 +54902,60 @@ __subleq_sh:
         .word   176, 176, .+4
         .word   144, 168, .Lsh_h0
         .word   12, 12, .Lsh_h1
+
+        .globl  __subleq_sh_h0
+__subleq_sh_h0:
+        .word   168, 168, .+4
+        .word   12, 12, .Lsh_fast_chk0_split0
+
+        .globl  __subleq_sh_h1
+__subleq_sh_h1:
+        .word   168, 168, .+4
+        .word   .Lsh_npow2, 168, .+4
+        .word   12, 12, .Lsh_fast_chk0_split1
+
+.Lsh_fast_chk0_split0:
+        .word   144, 104, .Lsh_fast_chk0_s0
+        .word   12, 12, .Lsh_fast_chk65535_s0
+.Lsh_fast_chk0_s0:
+        .word   180, 180, .+4
+        .word   12, 12, .+4
+        .word   104, 12, .+4
+        .word   12, 180, .+4
+        .word   .Lsh_neg1, 180, .+4
+        .word   144, 180, .Lsh_mask_split0
+        .word   12, 12, .Lsh_ldword
+.Lsh_fast_chk65535_s0:
+        .word   180, 180, .+4
+        .word   12, 12, .+4
+        .word   104, 12, .+4
+        .word   12, 180, .+4
+        .word   .Lsh_pow65536, 180, .Lsh_ldword
+        .word   12, 12, .Lsh_mask_split0
+.Lsh_mask_split0:
+        .word   12, 12, .Lsh_mask
+
+.Lsh_fast_chk0_split1:
+        .word   144, 104, .Lsh_fast_chk0_s1
+        .word   12, 12, .Lsh_fast_chk65535_s1
+.Lsh_fast_chk0_s1:
+        .word   180, 180, .+4
+        .word   12, 12, .+4
+        .word   104, 12, .+4
+        .word   12, 180, .+4
+        .word   .Lsh_neg1, 180, .+4
+        .word   144, 180, .Lsh_mask_split1
+        .word   12, 12, .Lsh_ldword
+.Lsh_fast_chk65535_s1:
+        .word   180, 180, .+4
+        .word   12, 12, .+4
+        .word   104, 12, .+4
+        .word   12, 180, .+4
+        .word   .Lsh_pow65536, 180, .Lsh_ldword
+        .word   12, 12, .Lsh_mask_split1
+.Lsh_mask_split1:
+        .word   .Lsh_npow2, 100, .+4
+        .word   12, 12, .Lsh_mask
 .Lsh_h0:
 .Lsh_b0_sign:
         .word   144, 172, .Lsh_b0_le0

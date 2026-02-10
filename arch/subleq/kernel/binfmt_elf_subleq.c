@@ -116,6 +116,37 @@ extern void __divdi3(void);
 extern void __lshrdi3(void);
 extern void __moddi3(void);
 extern void __subleq_and(void);
+extern void __subleq_and_b0(void);
+extern void __subleq_and_b1(void);
+extern void __subleq_and_b2(void);
+extern void __subleq_and_b3(void);
+extern void __subleq_and_b4(void);
+extern void __subleq_and_b5(void);
+extern void __subleq_and_b6(void);
+extern void __subleq_and_b7(void);
+extern void __subleq_and_b8(void);
+extern void __subleq_and_b9(void);
+extern void __subleq_and_b10(void);
+extern void __subleq_and_b11(void);
+extern void __subleq_and_b12(void);
+extern void __subleq_and_b13(void);
+extern void __subleq_and_b14(void);
+extern void __subleq_and_b15(void);
+extern void __subleq_and_b16(void);
+extern void __subleq_and_b17(void);
+extern void __subleq_and_b18(void);
+extern void __subleq_and_b19(void);
+extern void __subleq_and_b20(void);
+extern void __subleq_and_b21(void);
+extern void __subleq_and_b22(void);
+extern void __subleq_and_b23(void);
+extern void __subleq_and_b24(void);
+extern void __subleq_and_b25(void);
+extern void __subleq_and_b26(void);
+extern void __subleq_and_b27(void);
+extern void __subleq_and_b28(void);
+extern void __subleq_and_b29(void);
+extern void __subleq_and_b30(void);
 extern void __subleq_lb(void);
 extern void __subleq_lb_b0(void);
 extern void __subleq_lb_b1(void);
@@ -126,6 +157,37 @@ extern void __subleq_lh_h0(void);
 extern void __subleq_lh_h1(void);
 extern void __subleq_mul(void);
 extern void __subleq_or(void);
+extern void __subleq_or_b0(void);
+extern void __subleq_or_b1(void);
+extern void __subleq_or_b2(void);
+extern void __subleq_or_b3(void);
+extern void __subleq_or_b4(void);
+extern void __subleq_or_b5(void);
+extern void __subleq_or_b6(void);
+extern void __subleq_or_b7(void);
+extern void __subleq_or_b8(void);
+extern void __subleq_or_b9(void);
+extern void __subleq_or_b10(void);
+extern void __subleq_or_b11(void);
+extern void __subleq_or_b12(void);
+extern void __subleq_or_b13(void);
+extern void __subleq_or_b14(void);
+extern void __subleq_or_b15(void);
+extern void __subleq_or_b16(void);
+extern void __subleq_or_b17(void);
+extern void __subleq_or_b18(void);
+extern void __subleq_or_b19(void);
+extern void __subleq_or_b20(void);
+extern void __subleq_or_b21(void);
+extern void __subleq_or_b22(void);
+extern void __subleq_or_b23(void);
+extern void __subleq_or_b24(void);
+extern void __subleq_or_b25(void);
+extern void __subleq_or_b26(void);
+extern void __subleq_or_b27(void);
+extern void __subleq_or_b28(void);
+extern void __subleq_or_b29(void);
+extern void __subleq_or_b30(void);
 extern void __subleq_sb(void);
 extern void __subleq_sb_b0(void);
 extern void __subleq_sb_b1(void);
@@ -142,6 +204,37 @@ extern void __subleq_srl(void);
 extern void __subleq_udivrem(void);
 extern void __subleq_udivrem64(void);
 extern void __subleq_xor(void);
+extern void __subleq_xor_b0(void);
+extern void __subleq_xor_b1(void);
+extern void __subleq_xor_b2(void);
+extern void __subleq_xor_b3(void);
+extern void __subleq_xor_b4(void);
+extern void __subleq_xor_b5(void);
+extern void __subleq_xor_b6(void);
+extern void __subleq_xor_b7(void);
+extern void __subleq_xor_b8(void);
+extern void __subleq_xor_b9(void);
+extern void __subleq_xor_b10(void);
+extern void __subleq_xor_b11(void);
+extern void __subleq_xor_b12(void);
+extern void __subleq_xor_b13(void);
+extern void __subleq_xor_b14(void);
+extern void __subleq_xor_b15(void);
+extern void __subleq_xor_b16(void);
+extern void __subleq_xor_b17(void);
+extern void __subleq_xor_b18(void);
+extern void __subleq_xor_b19(void);
+extern void __subleq_xor_b20(void);
+extern void __subleq_xor_b21(void);
+extern void __subleq_xor_b22(void);
+extern void __subleq_xor_b23(void);
+extern void __subleq_xor_b24(void);
+extern void __subleq_xor_b25(void);
+extern void __subleq_xor_b26(void);
+extern void __subleq_xor_b27(void);
+extern void __subleq_xor_b28(void);
+extern void __subleq_xor_b29(void);
+extern void __subleq_xor_b30(void);
 extern void __udivdi3(void);
 extern void __umoddi3(void);
 // extern void __subleq_memcpy(void);
@@ -261,6 +354,37 @@ static const struct {
 	{ "__nesf2", &__nesf2 },
 	{ "__subdf3", &__subdf3 },
 	{ "__subleq_and", &__subleq_and },
+	{ "__subleq_and_b0", &__subleq_and_b0 },
+	{ "__subleq_and_b1", &__subleq_and_b1 },
+	{ "__subleq_and_b10", &__subleq_and_b10 },
+	{ "__subleq_and_b11", &__subleq_and_b11 },
+	{ "__subleq_and_b12", &__subleq_and_b12 },
+	{ "__subleq_and_b13", &__subleq_and_b13 },
+	{ "__subleq_and_b14", &__subleq_and_b14 },
+	{ "__subleq_and_b15", &__subleq_and_b15 },
+	{ "__subleq_and_b16", &__subleq_and_b16 },
+	{ "__subleq_and_b17", &__subleq_and_b17 },
+	{ "__subleq_and_b18", &__subleq_and_b18 },
+	{ "__subleq_and_b19", &__subleq_and_b19 },
+	{ "__subleq_and_b2", &__subleq_and_b2 },
+	{ "__subleq_and_b20", &__subleq_and_b20 },
+	{ "__subleq_and_b21", &__subleq_and_b21 },
+	{ "__subleq_and_b22", &__subleq_and_b22 },
+	{ "__subleq_and_b23", &__subleq_and_b23 },
+	{ "__subleq_and_b24", &__subleq_and_b24 },
+	{ "__subleq_and_b25", &__subleq_and_b25 },
+	{ "__subleq_and_b26", &__subleq_and_b26 },
+	{ "__subleq_and_b27", &__subleq_and_b27 },
+	{ "__subleq_and_b28", &__subleq_and_b28 },
+	{ "__subleq_and_b29", &__subleq_and_b29 },
+	{ "__subleq_and_b3", &__subleq_and_b3 },
+	{ "__subleq_and_b30", &__subleq_and_b30 },
+	{ "__subleq_and_b4", &__subleq_and_b4 },
+	{ "__subleq_and_b5", &__subleq_and_b5 },
+	{ "__subleq_and_b6", &__subleq_and_b6 },
+	{ "__subleq_and_b7", &__subleq_and_b7 },
+	{ "__subleq_and_b8", &__subleq_and_b8 },
+	{ "__subleq_and_b9", &__subleq_and_b9 },
 	{ "__subleq_lb", &__subleq_lb },
 	{ "__subleq_lb_b0", &__subleq_lb_b0 },
 	{ "__subleq_lb_b1", &__subleq_lb_b1 },
@@ -274,6 +398,37 @@ static const struct {
 	{ "__subleq_memset", &__subleq_memset },
 	{ "__subleq_mul", &__subleq_mul },
 	{ "__subleq_or", &__subleq_or },
+	{ "__subleq_or_b0", &__subleq_or_b0 },
+	{ "__subleq_or_b1", &__subleq_or_b1 },
+	{ "__subleq_or_b10", &__subleq_or_b10 },
+	{ "__subleq_or_b11", &__subleq_or_b11 },
+	{ "__subleq_or_b12", &__subleq_or_b12 },
+	{ "__subleq_or_b13", &__subleq_or_b13 },
+	{ "__subleq_or_b14", &__subleq_or_b14 },
+	{ "__subleq_or_b15", &__subleq_or_b15 },
+	{ "__subleq_or_b16", &__subleq_or_b16 },
+	{ "__subleq_or_b17", &__subleq_or_b17 },
+	{ "__subleq_or_b18", &__subleq_or_b18 },
+	{ "__subleq_or_b19", &__subleq_or_b19 },
+	{ "__subleq_or_b2", &__subleq_or_b2 },
+	{ "__subleq_or_b20", &__subleq_or_b20 },
+	{ "__subleq_or_b21", &__subleq_or_b21 },
+	{ "__subleq_or_b22", &__subleq_or_b22 },
+	{ "__subleq_or_b23", &__subleq_or_b23 },
+	{ "__subleq_or_b24", &__subleq_or_b24 },
+	{ "__subleq_or_b25", &__subleq_or_b25 },
+	{ "__subleq_or_b26", &__subleq_or_b26 },
+	{ "__subleq_or_b27", &__subleq_or_b27 },
+	{ "__subleq_or_b28", &__subleq_or_b28 },
+	{ "__subleq_or_b29", &__subleq_or_b29 },
+	{ "__subleq_or_b3", &__subleq_or_b3 },
+	{ "__subleq_or_b30", &__subleq_or_b30 },
+	{ "__subleq_or_b4", &__subleq_or_b4 },
+	{ "__subleq_or_b5", &__subleq_or_b5 },
+	{ "__subleq_or_b6", &__subleq_or_b6 },
+	{ "__subleq_or_b7", &__subleq_or_b7 },
+	{ "__subleq_or_b8", &__subleq_or_b8 },
+	{ "__subleq_or_b9", &__subleq_or_b9 },
 	{ "__subleq_sb", &__subleq_sb },
 	{ "__subleq_sb_b0", &__subleq_sb_b0 },
 	{ "__subleq_sb_b1", &__subleq_sb_b1 },
@@ -291,6 +446,37 @@ static const struct {
 	{ "__subleq_udivrem", &__subleq_udivrem },
 	{ "__subleq_udivrem64", &__subleq_udivrem64 },
 	{ "__subleq_xor", &__subleq_xor },
+	{ "__subleq_xor_b0", &__subleq_xor_b0 },
+	{ "__subleq_xor_b1", &__subleq_xor_b1 },
+	{ "__subleq_xor_b10", &__subleq_xor_b10 },
+	{ "__subleq_xor_b11", &__subleq_xor_b11 },
+	{ "__subleq_xor_b12", &__subleq_xor_b12 },
+	{ "__subleq_xor_b13", &__subleq_xor_b13 },
+	{ "__subleq_xor_b14", &__subleq_xor_b14 },
+	{ "__subleq_xor_b15", &__subleq_xor_b15 },
+	{ "__subleq_xor_b16", &__subleq_xor_b16 },
+	{ "__subleq_xor_b17", &__subleq_xor_b17 },
+	{ "__subleq_xor_b18", &__subleq_xor_b18 },
+	{ "__subleq_xor_b19", &__subleq_xor_b19 },
+	{ "__subleq_xor_b2", &__subleq_xor_b2 },
+	{ "__subleq_xor_b20", &__subleq_xor_b20 },
+	{ "__subleq_xor_b21", &__subleq_xor_b21 },
+	{ "__subleq_xor_b22", &__subleq_xor_b22 },
+	{ "__subleq_xor_b23", &__subleq_xor_b23 },
+	{ "__subleq_xor_b24", &__subleq_xor_b24 },
+	{ "__subleq_xor_b25", &__subleq_xor_b25 },
+	{ "__subleq_xor_b26", &__subleq_xor_b26 },
+	{ "__subleq_xor_b27", &__subleq_xor_b27 },
+	{ "__subleq_xor_b28", &__subleq_xor_b28 },
+	{ "__subleq_xor_b29", &__subleq_xor_b29 },
+	{ "__subleq_xor_b3", &__subleq_xor_b3 },
+	{ "__subleq_xor_b30", &__subleq_xor_b30 },
+	{ "__subleq_xor_b4", &__subleq_xor_b4 },
+	{ "__subleq_xor_b5", &__subleq_xor_b5 },
+	{ "__subleq_xor_b6", &__subleq_xor_b6 },
+	{ "__subleq_xor_b7", &__subleq_xor_b7 },
+	{ "__subleq_xor_b8", &__subleq_xor_b8 },
+	{ "__subleq_xor_b9", &__subleq_xor_b9 },
 	{ "__subsf3", &__subsf3 },
 	{ "__truncdfsf2", &__truncdfsf2 },
 	{ "__udivdi3", &__udivdi3 },

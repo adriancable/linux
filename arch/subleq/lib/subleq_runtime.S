@@ -36100,6 +36100,2982 @@ __subleq_and:
         .word   .Land_n1, 100, .+4
         .word   .Land_n1, 104, .+4
         .word   12, 12, .Land_b15_PP
+
+        .globl  __subleq_and_b30
+        .type   __subleq_and_b30,@function
+__subleq_and_b30:
+        .word   160, 160, .+4
+        .word   96, 96, .+4
+        .word   144, 100, .Land_split_b30_r21_le0
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+.Land_split_b30_strip:
+        .word   12, 12, .Land_b30_PP
+.Land_split_b30_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Land_split_b30_r21_ambig
+        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+        .word   12, 12, .Land_split_b30_strip
+.Land_split_b30_r21_ambig:
+        .word   12, 12, .Land_done
+
+        .globl  __subleq_and_b29
+        .type   __subleq_and_b29,@function
+__subleq_and_b29:
+        .word   160, 160, .+4
+        .word   96, 96, .+4
+        .word   144, 100, .Land_split_b29_r21_le0
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+.Land_split_b29_strip:
+        .word   .Land_pow30, 100, .Land_srs_b29_30
+        .word   12, 12, .Land_sra_b29_30
+.Land_srs_b29_30:
+        .word   .Land_npow30, 100, .+4
+.Land_sra_b29_30:
+        .word   12, 12, .Land_b29_PP
+.Land_split_b29_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Land_split_b29_r21_ambig
+        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+        .word   12, 12, .Land_split_b29_strip
+.Land_split_b29_r21_ambig:
+        .word   12, 12, .Land_done
+
+        .globl  __subleq_and_b28
+        .type   __subleq_and_b28,@function
+__subleq_and_b28:
+        .word   160, 160, .+4
+        .word   96, 96, .+4
+        .word   144, 100, .Land_split_b28_r21_le0
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+.Land_split_b28_strip:
+        .word   .Land_pow30, 100, .Land_srs_b28_30
+        .word   12, 12, .Land_sra_b28_30
+.Land_srs_b28_30:
+        .word   .Land_npow30, 100, .+4
+.Land_sra_b28_30:
+        .word   .Land_pow29, 100, .Land_srs_b28_29
+        .word   12, 12, .Land_sra_b28_29
+.Land_srs_b28_29:
+        .word   .Land_npow29, 100, .+4
+.Land_sra_b28_29:
+        .word   12, 12, .Land_b28_PP
+.Land_split_b28_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Land_split_b28_r21_ambig
+        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+        .word   12, 12, .Land_split_b28_strip
+.Land_split_b28_r21_ambig:
+        .word   12, 12, .Land_done
+
+        .globl  __subleq_and_b27
+        .type   __subleq_and_b27,@function
+__subleq_and_b27:
+        .word   160, 160, .+4
+        .word   96, 96, .+4
+        .word   144, 100, .Land_split_b27_r21_le0
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+.Land_split_b27_strip:
+        .word   .Land_pow30, 100, .Land_srs_b27_30
+        .word   12, 12, .Land_sra_b27_30
+.Land_srs_b27_30:
+        .word   .Land_npow30, 100, .+4
+.Land_sra_b27_30:
+        .word   .Land_pow29, 100, .Land_srs_b27_29
+        .word   12, 12, .Land_sra_b27_29
+.Land_srs_b27_29:
+        .word   .Land_npow29, 100, .+4
+.Land_sra_b27_29:
+        .word   .Land_pow28, 100, .Land_srs_b27_28
+        .word   12, 12, .Land_sra_b27_28
+.Land_srs_b27_28:
+        .word   .Land_npow28, 100, .+4
+.Land_sra_b27_28:
+        .word   12, 12, .Land_b27_PP
+.Land_split_b27_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Land_split_b27_r21_ambig
+        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+        .word   12, 12, .Land_split_b27_strip
+.Land_split_b27_r21_ambig:
+        .word   12, 12, .Land_done
+
+        .globl  __subleq_and_b26
+        .type   __subleq_and_b26,@function
+__subleq_and_b26:
+        .word   160, 160, .+4
+        .word   96, 96, .+4
+        .word   144, 100, .Land_split_b26_r21_le0
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+.Land_split_b26_strip:
+        .word   .Land_pow30, 100, .Land_srs_b26_30
+        .word   12, 12, .Land_sra_b26_30
+.Land_srs_b26_30:
+        .word   .Land_npow30, 100, .+4
+.Land_sra_b26_30:
+        .word   .Land_pow29, 100, .Land_srs_b26_29
+        .word   12, 12, .Land_sra_b26_29
+.Land_srs_b26_29:
+        .word   .Land_npow29, 100, .+4
+.Land_sra_b26_29:
+        .word   .Land_pow28, 100, .Land_srs_b26_28
+        .word   12, 12, .Land_sra_b26_28
+.Land_srs_b26_28:
+        .word   .Land_npow28, 100, .+4
+.Land_sra_b26_28:
+        .word   .Land_pow27, 100, .Land_srs_b26_27
+        .word   12, 12, .Land_sra_b26_27
+.Land_srs_b26_27:
+        .word   .Land_npow27, 100, .+4
+.Land_sra_b26_27:
+        .word   12, 12, .Land_b26_PP
+.Land_split_b26_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Land_split_b26_r21_ambig
+        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+        .word   12, 12, .Land_split_b26_strip
+.Land_split_b26_r21_ambig:
+        .word   12, 12, .Land_done
+
+        .globl  __subleq_and_b25
+        .type   __subleq_and_b25,@function
+__subleq_and_b25:
+        .word   160, 160, .+4
+        .word   96, 96, .+4
+        .word   144, 100, .Land_split_b25_r21_le0
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+.Land_split_b25_strip:
+        .word   .Land_pow30, 100, .Land_srs_b25_30
+        .word   12, 12, .Land_sra_b25_30
+.Land_srs_b25_30:
+        .word   .Land_npow30, 100, .+4
+.Land_sra_b25_30:
+        .word   .Land_pow29, 100, .Land_srs_b25_29
+        .word   12, 12, .Land_sra_b25_29
+.Land_srs_b25_29:
+        .word   .Land_npow29, 100, .+4
+.Land_sra_b25_29:
+        .word   .Land_pow28, 100, .Land_srs_b25_28
+        .word   12, 12, .Land_sra_b25_28
+.Land_srs_b25_28:
+        .word   .Land_npow28, 100, .+4
+.Land_sra_b25_28:
+        .word   .Land_pow27, 100, .Land_srs_b25_27
+        .word   12, 12, .Land_sra_b25_27
+.Land_srs_b25_27:
+        .word   .Land_npow27, 100, .+4
+.Land_sra_b25_27:
+        .word   .Land_pow26, 100, .Land_srs_b25_26
+        .word   12, 12, .Land_sra_b25_26
+.Land_srs_b25_26:
+        .word   .Land_npow26, 100, .+4
+.Land_sra_b25_26:
+        .word   12, 12, .Land_b25_PP
+.Land_split_b25_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Land_split_b25_r21_ambig
+        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+        .word   12, 12, .Land_split_b25_strip
+.Land_split_b25_r21_ambig:
+        .word   12, 12, .Land_done
+
+        .globl  __subleq_and_b24
+        .type   __subleq_and_b24,@function
+__subleq_and_b24:
+        .word   160, 160, .+4
+        .word   96, 96, .+4
+        .word   144, 100, .Land_split_b24_r21_le0
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+.Land_split_b24_strip:
+        .word   .Land_pow30, 100, .Land_srs_b24_30
+        .word   12, 12, .Land_sra_b24_30
+.Land_srs_b24_30:
+        .word   .Land_npow30, 100, .+4
+.Land_sra_b24_30:
+        .word   .Land_pow29, 100, .Land_srs_b24_29
+        .word   12, 12, .Land_sra_b24_29
+.Land_srs_b24_29:
+        .word   .Land_npow29, 100, .+4
+.Land_sra_b24_29:
+        .word   .Land_pow28, 100, .Land_srs_b24_28
+        .word   12, 12, .Land_sra_b24_28
+.Land_srs_b24_28:
+        .word   .Land_npow28, 100, .+4
+.Land_sra_b24_28:
+        .word   .Land_pow27, 100, .Land_srs_b24_27
+        .word   12, 12, .Land_sra_b24_27
+.Land_srs_b24_27:
+        .word   .Land_npow27, 100, .+4
+.Land_sra_b24_27:
+        .word   .Land_pow26, 100, .Land_srs_b24_26
+        .word   12, 12, .Land_sra_b24_26
+.Land_srs_b24_26:
+        .word   .Land_npow26, 100, .+4
+.Land_sra_b24_26:
+        .word   .Land_pow25, 100, .Land_srs_b24_25
+        .word   12, 12, .Land_sra_b24_25
+.Land_srs_b24_25:
+        .word   .Land_npow25, 100, .+4
+.Land_sra_b24_25:
+        .word   12, 12, .Land_b24_PP
+.Land_split_b24_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Land_split_b24_r21_ambig
+        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+        .word   12, 12, .Land_split_b24_strip
+.Land_split_b24_r21_ambig:
+        .word   12, 12, .Land_done
+
+        .globl  __subleq_and_b23
+        .type   __subleq_and_b23,@function
+__subleq_and_b23:
+        .word   160, 160, .+4
+        .word   96, 96, .+4
+        .word   144, 100, .Land_split_b23_r21_le0
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+.Land_split_b23_strip:
+        .word   .Land_pow30, 100, .Land_srs_b23_30
+        .word   12, 12, .Land_sra_b23_30
+.Land_srs_b23_30:
+        .word   .Land_npow30, 100, .+4
+.Land_sra_b23_30:
+        .word   .Land_pow29, 100, .Land_srs_b23_29
+        .word   12, 12, .Land_sra_b23_29
+.Land_srs_b23_29:
+        .word   .Land_npow29, 100, .+4
+.Land_sra_b23_29:
+        .word   .Land_pow28, 100, .Land_srs_b23_28
+        .word   12, 12, .Land_sra_b23_28
+.Land_srs_b23_28:
+        .word   .Land_npow28, 100, .+4
+.Land_sra_b23_28:
+        .word   .Land_pow27, 100, .Land_srs_b23_27
+        .word   12, 12, .Land_sra_b23_27
+.Land_srs_b23_27:
+        .word   .Land_npow27, 100, .+4
+.Land_sra_b23_27:
+        .word   .Land_pow26, 100, .Land_srs_b23_26
+        .word   12, 12, .Land_sra_b23_26
+.Land_srs_b23_26:
+        .word   .Land_npow26, 100, .+4
+.Land_sra_b23_26:
+        .word   .Land_pow25, 100, .Land_srs_b23_25
+        .word   12, 12, .Land_sra_b23_25
+.Land_srs_b23_25:
+        .word   .Land_npow25, 100, .+4
+.Land_sra_b23_25:
+        .word   .Land_pow24, 100, .Land_srs_b23_24
+        .word   12, 12, .Land_sra_b23_24
+.Land_srs_b23_24:
+        .word   .Land_npow24, 100, .+4
+.Land_sra_b23_24:
+        .word   12, 12, .Land_b23_PP
+.Land_split_b23_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Land_split_b23_r21_ambig
+        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+        .word   12, 12, .Land_split_b23_strip
+.Land_split_b23_r21_ambig:
+        .word   12, 12, .Land_done
+
+        .globl  __subleq_and_b22
+        .type   __subleq_and_b22,@function
+__subleq_and_b22:
+        .word   160, 160, .+4
+        .word   96, 96, .+4
+        .word   144, 100, .Land_split_b22_r21_le0
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+.Land_split_b22_strip:
+        .word   .Land_pow30, 100, .Land_srs_b22_30
+        .word   12, 12, .Land_sra_b22_30
+.Land_srs_b22_30:
+        .word   .Land_npow30, 100, .+4
+.Land_sra_b22_30:
+        .word   .Land_pow29, 100, .Land_srs_b22_29
+        .word   12, 12, .Land_sra_b22_29
+.Land_srs_b22_29:
+        .word   .Land_npow29, 100, .+4
+.Land_sra_b22_29:
+        .word   .Land_pow28, 100, .Land_srs_b22_28
+        .word   12, 12, .Land_sra_b22_28
+.Land_srs_b22_28:
+        .word   .Land_npow28, 100, .+4
+.Land_sra_b22_28:
+        .word   .Land_pow27, 100, .Land_srs_b22_27
+        .word   12, 12, .Land_sra_b22_27
+.Land_srs_b22_27:
+        .word   .Land_npow27, 100, .+4
+.Land_sra_b22_27:
+        .word   .Land_pow26, 100, .Land_srs_b22_26
+        .word   12, 12, .Land_sra_b22_26
+.Land_srs_b22_26:
+        .word   .Land_npow26, 100, .+4
+.Land_sra_b22_26:
+        .word   .Land_pow25, 100, .Land_srs_b22_25
+        .word   12, 12, .Land_sra_b22_25
+.Land_srs_b22_25:
+        .word   .Land_npow25, 100, .+4
+.Land_sra_b22_25:
+        .word   .Land_pow24, 100, .Land_srs_b22_24
+        .word   12, 12, .Land_sra_b22_24
+.Land_srs_b22_24:
+        .word   .Land_npow24, 100, .+4
+.Land_sra_b22_24:
+        .word   .Land_pow23, 100, .Land_srs_b22_23
+        .word   12, 12, .Land_sra_b22_23
+.Land_srs_b22_23:
+        .word   .Land_npow23, 100, .+4
+.Land_sra_b22_23:
+        .word   12, 12, .Land_b22_PP
+.Land_split_b22_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Land_split_b22_r21_ambig
+        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+        .word   12, 12, .Land_split_b22_strip
+.Land_split_b22_r21_ambig:
+        .word   12, 12, .Land_done
+
+        .globl  __subleq_and_b21
+        .type   __subleq_and_b21,@function
+__subleq_and_b21:
+        .word   160, 160, .+4
+        .word   96, 96, .+4
+        .word   144, 100, .Land_split_b21_r21_le0
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+.Land_split_b21_strip:
+        .word   .Land_pow30, 100, .Land_srs_b21_30
+        .word   12, 12, .Land_sra_b21_30
+.Land_srs_b21_30:
+        .word   .Land_npow30, 100, .+4
+.Land_sra_b21_30:
+        .word   .Land_pow29, 100, .Land_srs_b21_29
+        .word   12, 12, .Land_sra_b21_29
+.Land_srs_b21_29:
+        .word   .Land_npow29, 100, .+4
+.Land_sra_b21_29:
+        .word   .Land_pow28, 100, .Land_srs_b21_28
+        .word   12, 12, .Land_sra_b21_28
+.Land_srs_b21_28:
+        .word   .Land_npow28, 100, .+4
+.Land_sra_b21_28:
+        .word   .Land_pow27, 100, .Land_srs_b21_27
+        .word   12, 12, .Land_sra_b21_27
+.Land_srs_b21_27:
+        .word   .Land_npow27, 100, .+4
+.Land_sra_b21_27:
+        .word   .Land_pow26, 100, .Land_srs_b21_26
+        .word   12, 12, .Land_sra_b21_26
+.Land_srs_b21_26:
+        .word   .Land_npow26, 100, .+4
+.Land_sra_b21_26:
+        .word   .Land_pow25, 100, .Land_srs_b21_25
+        .word   12, 12, .Land_sra_b21_25
+.Land_srs_b21_25:
+        .word   .Land_npow25, 100, .+4
+.Land_sra_b21_25:
+        .word   .Land_pow24, 100, .Land_srs_b21_24
+        .word   12, 12, .Land_sra_b21_24
+.Land_srs_b21_24:
+        .word   .Land_npow24, 100, .+4
+.Land_sra_b21_24:
+        .word   .Land_pow23, 100, .Land_srs_b21_23
+        .word   12, 12, .Land_sra_b21_23
+.Land_srs_b21_23:
+        .word   .Land_npow23, 100, .+4
+.Land_sra_b21_23:
+        .word   .Land_pow22, 100, .Land_srs_b21_22
+        .word   12, 12, .Land_sra_b21_22
+.Land_srs_b21_22:
+        .word   .Land_npow22, 100, .+4
+.Land_sra_b21_22:
+        .word   12, 12, .Land_b21_PP
+.Land_split_b21_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Land_split_b21_r21_ambig
+        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+        .word   12, 12, .Land_split_b21_strip
+.Land_split_b21_r21_ambig:
+        .word   12, 12, .Land_done
+
+        .globl  __subleq_and_b20
+        .type   __subleq_and_b20,@function
+__subleq_and_b20:
+        .word   160, 160, .+4
+        .word   96, 96, .+4
+        .word   144, 100, .Land_split_b20_r21_le0
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+.Land_split_b20_strip:
+        .word   .Land_pow30, 100, .Land_srs_b20_30
+        .word   12, 12, .Land_sra_b20_30
+.Land_srs_b20_30:
+        .word   .Land_npow30, 100, .+4
+.Land_sra_b20_30:
+        .word   .Land_pow29, 100, .Land_srs_b20_29
+        .word   12, 12, .Land_sra_b20_29
+.Land_srs_b20_29:
+        .word   .Land_npow29, 100, .+4
+.Land_sra_b20_29:
+        .word   .Land_pow28, 100, .Land_srs_b20_28
+        .word   12, 12, .Land_sra_b20_28
+.Land_srs_b20_28:
+        .word   .Land_npow28, 100, .+4
+.Land_sra_b20_28:
+        .word   .Land_pow27, 100, .Land_srs_b20_27
+        .word   12, 12, .Land_sra_b20_27
+.Land_srs_b20_27:
+        .word   .Land_npow27, 100, .+4
+.Land_sra_b20_27:
+        .word   .Land_pow26, 100, .Land_srs_b20_26
+        .word   12, 12, .Land_sra_b20_26
+.Land_srs_b20_26:
+        .word   .Land_npow26, 100, .+4
+.Land_sra_b20_26:
+        .word   .Land_pow25, 100, .Land_srs_b20_25
+        .word   12, 12, .Land_sra_b20_25
+.Land_srs_b20_25:
+        .word   .Land_npow25, 100, .+4
+.Land_sra_b20_25:
+        .word   .Land_pow24, 100, .Land_srs_b20_24
+        .word   12, 12, .Land_sra_b20_24
+.Land_srs_b20_24:
+        .word   .Land_npow24, 100, .+4
+.Land_sra_b20_24:
+        .word   .Land_pow23, 100, .Land_srs_b20_23
+        .word   12, 12, .Land_sra_b20_23
+.Land_srs_b20_23:
+        .word   .Land_npow23, 100, .+4
+.Land_sra_b20_23:
+        .word   .Land_pow22, 100, .Land_srs_b20_22
+        .word   12, 12, .Land_sra_b20_22
+.Land_srs_b20_22:
+        .word   .Land_npow22, 100, .+4
+.Land_sra_b20_22:
+        .word   .Land_pow21, 100, .Land_srs_b20_21
+        .word   12, 12, .Land_sra_b20_21
+.Land_srs_b20_21:
+        .word   .Land_npow21, 100, .+4
+.Land_sra_b20_21:
+        .word   12, 12, .Land_b20_PP
+.Land_split_b20_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Land_split_b20_r21_ambig
+        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+        .word   12, 12, .Land_split_b20_strip
+.Land_split_b20_r21_ambig:
+        .word   12, 12, .Land_done
+
+        .globl  __subleq_and_b19
+        .type   __subleq_and_b19,@function
+__subleq_and_b19:
+        .word   160, 160, .+4
+        .word   96, 96, .+4
+        .word   144, 100, .Land_split_b19_r21_le0
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+.Land_split_b19_strip:
+        .word   .Land_pow30, 100, .Land_srs_b19_30
+        .word   12, 12, .Land_sra_b19_30
+.Land_srs_b19_30:
+        .word   .Land_npow30, 100, .+4
+.Land_sra_b19_30:
+        .word   .Land_pow29, 100, .Land_srs_b19_29
+        .word   12, 12, .Land_sra_b19_29
+.Land_srs_b19_29:
+        .word   .Land_npow29, 100, .+4
+.Land_sra_b19_29:
+        .word   .Land_pow28, 100, .Land_srs_b19_28
+        .word   12, 12, .Land_sra_b19_28
+.Land_srs_b19_28:
+        .word   .Land_npow28, 100, .+4
+.Land_sra_b19_28:
+        .word   .Land_pow27, 100, .Land_srs_b19_27
+        .word   12, 12, .Land_sra_b19_27
+.Land_srs_b19_27:
+        .word   .Land_npow27, 100, .+4
+.Land_sra_b19_27:
+        .word   .Land_pow26, 100, .Land_srs_b19_26
+        .word   12, 12, .Land_sra_b19_26
+.Land_srs_b19_26:
+        .word   .Land_npow26, 100, .+4
+.Land_sra_b19_26:
+        .word   .Land_pow25, 100, .Land_srs_b19_25
+        .word   12, 12, .Land_sra_b19_25
+.Land_srs_b19_25:
+        .word   .Land_npow25, 100, .+4
+.Land_sra_b19_25:
+        .word   .Land_pow24, 100, .Land_srs_b19_24
+        .word   12, 12, .Land_sra_b19_24
+.Land_srs_b19_24:
+        .word   .Land_npow24, 100, .+4
+.Land_sra_b19_24:
+        .word   .Land_pow23, 100, .Land_srs_b19_23
+        .word   12, 12, .Land_sra_b19_23
+.Land_srs_b19_23:
+        .word   .Land_npow23, 100, .+4
+.Land_sra_b19_23:
+        .word   .Land_pow22, 100, .Land_srs_b19_22
+        .word   12, 12, .Land_sra_b19_22
+.Land_srs_b19_22:
+        .word   .Land_npow22, 100, .+4
+.Land_sra_b19_22:
+        .word   .Land_pow21, 100, .Land_srs_b19_21
+        .word   12, 12, .Land_sra_b19_21
+.Land_srs_b19_21:
+        .word   .Land_npow21, 100, .+4
+.Land_sra_b19_21:
+        .word   .Land_pow20, 100, .Land_srs_b19_20
+        .word   12, 12, .Land_sra_b19_20
+.Land_srs_b19_20:
+        .word   .Land_npow20, 100, .+4
+.Land_sra_b19_20:
+        .word   12, 12, .Land_b19_PP
+.Land_split_b19_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Land_split_b19_r21_ambig
+        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+        .word   12, 12, .Land_split_b19_strip
+.Land_split_b19_r21_ambig:
+        .word   12, 12, .Land_done
+
+        .globl  __subleq_and_b18
+        .type   __subleq_and_b18,@function
+__subleq_and_b18:
+        .word   160, 160, .+4
+        .word   96, 96, .+4
+        .word   144, 100, .Land_split_b18_r21_le0
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+.Land_split_b18_strip:
+        .word   .Land_pow30, 100, .Land_srs_b18_30
+        .word   12, 12, .Land_sra_b18_30
+.Land_srs_b18_30:
+        .word   .Land_npow30, 100, .+4
+.Land_sra_b18_30:
+        .word   .Land_pow29, 100, .Land_srs_b18_29
+        .word   12, 12, .Land_sra_b18_29
+.Land_srs_b18_29:
+        .word   .Land_npow29, 100, .+4
+.Land_sra_b18_29:
+        .word   .Land_pow28, 100, .Land_srs_b18_28
+        .word   12, 12, .Land_sra_b18_28
+.Land_srs_b18_28:
+        .word   .Land_npow28, 100, .+4
+.Land_sra_b18_28:
+        .word   .Land_pow27, 100, .Land_srs_b18_27
+        .word   12, 12, .Land_sra_b18_27
+.Land_srs_b18_27:
+        .word   .Land_npow27, 100, .+4
+.Land_sra_b18_27:
+        .word   .Land_pow26, 100, .Land_srs_b18_26
+        .word   12, 12, .Land_sra_b18_26
+.Land_srs_b18_26:
+        .word   .Land_npow26, 100, .+4
+.Land_sra_b18_26:
+        .word   .Land_pow25, 100, .Land_srs_b18_25
+        .word   12, 12, .Land_sra_b18_25
+.Land_srs_b18_25:
+        .word   .Land_npow25, 100, .+4
+.Land_sra_b18_25:
+        .word   .Land_pow24, 100, .Land_srs_b18_24
+        .word   12, 12, .Land_sra_b18_24
+.Land_srs_b18_24:
+        .word   .Land_npow24, 100, .+4
+.Land_sra_b18_24:
+        .word   .Land_pow23, 100, .Land_srs_b18_23
+        .word   12, 12, .Land_sra_b18_23
+.Land_srs_b18_23:
+        .word   .Land_npow23, 100, .+4
+.Land_sra_b18_23:
+        .word   .Land_pow22, 100, .Land_srs_b18_22
+        .word   12, 12, .Land_sra_b18_22
+.Land_srs_b18_22:
+        .word   .Land_npow22, 100, .+4
+.Land_sra_b18_22:
+        .word   .Land_pow21, 100, .Land_srs_b18_21
+        .word   12, 12, .Land_sra_b18_21
+.Land_srs_b18_21:
+        .word   .Land_npow21, 100, .+4
+.Land_sra_b18_21:
+        .word   .Land_pow20, 100, .Land_srs_b18_20
+        .word   12, 12, .Land_sra_b18_20
+.Land_srs_b18_20:
+        .word   .Land_npow20, 100, .+4
+.Land_sra_b18_20:
+        .word   .Land_pow19, 100, .Land_srs_b18_19
+        .word   12, 12, .Land_sra_b18_19
+.Land_srs_b18_19:
+        .word   .Land_npow19, 100, .+4
+.Land_sra_b18_19:
+        .word   12, 12, .Land_b18_PP
+.Land_split_b18_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Land_split_b18_r21_ambig
+        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+        .word   12, 12, .Land_split_b18_strip
+.Land_split_b18_r21_ambig:
+        .word   12, 12, .Land_done
+
+        .globl  __subleq_and_b17
+        .type   __subleq_and_b17,@function
+__subleq_and_b17:
+        .word   160, 160, .+4
+        .word   96, 96, .+4
+        .word   144, 100, .Land_split_b17_r21_le0
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+.Land_split_b17_strip:
+        .word   .Land_pow30, 100, .Land_srs_b17_30
+        .word   12, 12, .Land_sra_b17_30
+.Land_srs_b17_30:
+        .word   .Land_npow30, 100, .+4
+.Land_sra_b17_30:
+        .word   .Land_pow29, 100, .Land_srs_b17_29
+        .word   12, 12, .Land_sra_b17_29
+.Land_srs_b17_29:
+        .word   .Land_npow29, 100, .+4
+.Land_sra_b17_29:
+        .word   .Land_pow28, 100, .Land_srs_b17_28
+        .word   12, 12, .Land_sra_b17_28
+.Land_srs_b17_28:
+        .word   .Land_npow28, 100, .+4
+.Land_sra_b17_28:
+        .word   .Land_pow27, 100, .Land_srs_b17_27
+        .word   12, 12, .Land_sra_b17_27
+.Land_srs_b17_27:
+        .word   .Land_npow27, 100, .+4
+.Land_sra_b17_27:
+        .word   .Land_pow26, 100, .Land_srs_b17_26
+        .word   12, 12, .Land_sra_b17_26
+.Land_srs_b17_26:
+        .word   .Land_npow26, 100, .+4
+.Land_sra_b17_26:
+        .word   .Land_pow25, 100, .Land_srs_b17_25
+        .word   12, 12, .Land_sra_b17_25
+.Land_srs_b17_25:
+        .word   .Land_npow25, 100, .+4
+.Land_sra_b17_25:
+        .word   .Land_pow24, 100, .Land_srs_b17_24
+        .word   12, 12, .Land_sra_b17_24
+.Land_srs_b17_24:
+        .word   .Land_npow24, 100, .+4
+.Land_sra_b17_24:
+        .word   .Land_pow23, 100, .Land_srs_b17_23
+        .word   12, 12, .Land_sra_b17_23
+.Land_srs_b17_23:
+        .word   .Land_npow23, 100, .+4
+.Land_sra_b17_23:
+        .word   .Land_pow22, 100, .Land_srs_b17_22
+        .word   12, 12, .Land_sra_b17_22
+.Land_srs_b17_22:
+        .word   .Land_npow22, 100, .+4
+.Land_sra_b17_22:
+        .word   .Land_pow21, 100, .Land_srs_b17_21
+        .word   12, 12, .Land_sra_b17_21
+.Land_srs_b17_21:
+        .word   .Land_npow21, 100, .+4
+.Land_sra_b17_21:
+        .word   .Land_pow20, 100, .Land_srs_b17_20
+        .word   12, 12, .Land_sra_b17_20
+.Land_srs_b17_20:
+        .word   .Land_npow20, 100, .+4
+.Land_sra_b17_20:
+        .word   .Land_pow19, 100, .Land_srs_b17_19
+        .word   12, 12, .Land_sra_b17_19
+.Land_srs_b17_19:
+        .word   .Land_npow19, 100, .+4
+.Land_sra_b17_19:
+        .word   .Land_pow18, 100, .Land_srs_b17_18
+        .word   12, 12, .Land_sra_b17_18
+.Land_srs_b17_18:
+        .word   .Land_npow18, 100, .+4
+.Land_sra_b17_18:
+        .word   12, 12, .Land_b17_PP
+.Land_split_b17_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Land_split_b17_r21_ambig
+        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+        .word   12, 12, .Land_split_b17_strip
+.Land_split_b17_r21_ambig:
+        .word   12, 12, .Land_done
+
+        .globl  __subleq_and_b16
+        .type   __subleq_and_b16,@function
+__subleq_and_b16:
+        .word   160, 160, .+4
+        .word   96, 96, .+4
+        .word   144, 100, .Land_split_b16_r21_le0
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+.Land_split_b16_strip:
+        .word   .Land_pow30, 100, .Land_srs_b16_30
+        .word   12, 12, .Land_sra_b16_30
+.Land_srs_b16_30:
+        .word   .Land_npow30, 100, .+4
+.Land_sra_b16_30:
+        .word   .Land_pow29, 100, .Land_srs_b16_29
+        .word   12, 12, .Land_sra_b16_29
+.Land_srs_b16_29:
+        .word   .Land_npow29, 100, .+4
+.Land_sra_b16_29:
+        .word   .Land_pow28, 100, .Land_srs_b16_28
+        .word   12, 12, .Land_sra_b16_28
+.Land_srs_b16_28:
+        .word   .Land_npow28, 100, .+4
+.Land_sra_b16_28:
+        .word   .Land_pow27, 100, .Land_srs_b16_27
+        .word   12, 12, .Land_sra_b16_27
+.Land_srs_b16_27:
+        .word   .Land_npow27, 100, .+4
+.Land_sra_b16_27:
+        .word   .Land_pow26, 100, .Land_srs_b16_26
+        .word   12, 12, .Land_sra_b16_26
+.Land_srs_b16_26:
+        .word   .Land_npow26, 100, .+4
+.Land_sra_b16_26:
+        .word   .Land_pow25, 100, .Land_srs_b16_25
+        .word   12, 12, .Land_sra_b16_25
+.Land_srs_b16_25:
+        .word   .Land_npow25, 100, .+4
+.Land_sra_b16_25:
+        .word   .Land_pow24, 100, .Land_srs_b16_24
+        .word   12, 12, .Land_sra_b16_24
+.Land_srs_b16_24:
+        .word   .Land_npow24, 100, .+4
+.Land_sra_b16_24:
+        .word   .Land_pow23, 100, .Land_srs_b16_23
+        .word   12, 12, .Land_sra_b16_23
+.Land_srs_b16_23:
+        .word   .Land_npow23, 100, .+4
+.Land_sra_b16_23:
+        .word   .Land_pow22, 100, .Land_srs_b16_22
+        .word   12, 12, .Land_sra_b16_22
+.Land_srs_b16_22:
+        .word   .Land_npow22, 100, .+4
+.Land_sra_b16_22:
+        .word   .Land_pow21, 100, .Land_srs_b16_21
+        .word   12, 12, .Land_sra_b16_21
+.Land_srs_b16_21:
+        .word   .Land_npow21, 100, .+4
+.Land_sra_b16_21:
+        .word   .Land_pow20, 100, .Land_srs_b16_20
+        .word   12, 12, .Land_sra_b16_20
+.Land_srs_b16_20:
+        .word   .Land_npow20, 100, .+4
+.Land_sra_b16_20:
+        .word   .Land_pow19, 100, .Land_srs_b16_19
+        .word   12, 12, .Land_sra_b16_19
+.Land_srs_b16_19:
+        .word   .Land_npow19, 100, .+4
+.Land_sra_b16_19:
+        .word   .Land_pow18, 100, .Land_srs_b16_18
+        .word   12, 12, .Land_sra_b16_18
+.Land_srs_b16_18:
+        .word   .Land_npow18, 100, .+4
+.Land_sra_b16_18:
+        .word   .Land_pow17, 100, .Land_srs_b16_17
+        .word   12, 12, .Land_sra_b16_17
+.Land_srs_b16_17:
+        .word   .Land_npow17, 100, .+4
+.Land_sra_b16_17:
+        .word   12, 12, .Land_b16_PP
+.Land_split_b16_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Land_split_b16_r21_ambig
+        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+        .word   12, 12, .Land_split_b16_strip
+.Land_split_b16_r21_ambig:
+        .word   12, 12, .Land_done
+
+        .globl  __subleq_and_b15
+        .type   __subleq_and_b15,@function
+__subleq_and_b15:
+        .word   160, 160, .+4
+        .word   96, 96, .+4
+        .word   144, 100, .Land_split_b15_r21_le0
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+.Land_split_b15_strip:
+        .word   .Land_pow30, 100, .Land_srs_b15_30
+        .word   12, 12, .Land_sra_b15_30
+.Land_srs_b15_30:
+        .word   .Land_npow30, 100, .+4
+.Land_sra_b15_30:
+        .word   .Land_pow29, 100, .Land_srs_b15_29
+        .word   12, 12, .Land_sra_b15_29
+.Land_srs_b15_29:
+        .word   .Land_npow29, 100, .+4
+.Land_sra_b15_29:
+        .word   .Land_pow28, 100, .Land_srs_b15_28
+        .word   12, 12, .Land_sra_b15_28
+.Land_srs_b15_28:
+        .word   .Land_npow28, 100, .+4
+.Land_sra_b15_28:
+        .word   .Land_pow27, 100, .Land_srs_b15_27
+        .word   12, 12, .Land_sra_b15_27
+.Land_srs_b15_27:
+        .word   .Land_npow27, 100, .+4
+.Land_sra_b15_27:
+        .word   .Land_pow26, 100, .Land_srs_b15_26
+        .word   12, 12, .Land_sra_b15_26
+.Land_srs_b15_26:
+        .word   .Land_npow26, 100, .+4
+.Land_sra_b15_26:
+        .word   .Land_pow25, 100, .Land_srs_b15_25
+        .word   12, 12, .Land_sra_b15_25
+.Land_srs_b15_25:
+        .word   .Land_npow25, 100, .+4
+.Land_sra_b15_25:
+        .word   .Land_pow24, 100, .Land_srs_b15_24
+        .word   12, 12, .Land_sra_b15_24
+.Land_srs_b15_24:
+        .word   .Land_npow24, 100, .+4
+.Land_sra_b15_24:
+        .word   .Land_pow23, 100, .Land_srs_b15_23
+        .word   12, 12, .Land_sra_b15_23
+.Land_srs_b15_23:
+        .word   .Land_npow23, 100, .+4
+.Land_sra_b15_23:
+        .word   .Land_pow22, 100, .Land_srs_b15_22
+        .word   12, 12, .Land_sra_b15_22
+.Land_srs_b15_22:
+        .word   .Land_npow22, 100, .+4
+.Land_sra_b15_22:
+        .word   .Land_pow21, 100, .Land_srs_b15_21
+        .word   12, 12, .Land_sra_b15_21
+.Land_srs_b15_21:
+        .word   .Land_npow21, 100, .+4
+.Land_sra_b15_21:
+        .word   .Land_pow20, 100, .Land_srs_b15_20
+        .word   12, 12, .Land_sra_b15_20
+.Land_srs_b15_20:
+        .word   .Land_npow20, 100, .+4
+.Land_sra_b15_20:
+        .word   .Land_pow19, 100, .Land_srs_b15_19
+        .word   12, 12, .Land_sra_b15_19
+.Land_srs_b15_19:
+        .word   .Land_npow19, 100, .+4
+.Land_sra_b15_19:
+        .word   .Land_pow18, 100, .Land_srs_b15_18
+        .word   12, 12, .Land_sra_b15_18
+.Land_srs_b15_18:
+        .word   .Land_npow18, 100, .+4
+.Land_sra_b15_18:
+        .word   .Land_pow17, 100, .Land_srs_b15_17
+        .word   12, 12, .Land_sra_b15_17
+.Land_srs_b15_17:
+        .word   .Land_npow17, 100, .+4
+.Land_sra_b15_17:
+        .word   .Land_pow16, 100, .Land_srs_b15_16
+        .word   12, 12, .Land_sra_b15_16
+.Land_srs_b15_16:
+        .word   .Land_npow16, 100, .+4
+.Land_sra_b15_16:
+        .word   12, 12, .Land_b15_PP
+.Land_split_b15_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Land_split_b15_r21_ambig
+        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+        .word   12, 12, .Land_split_b15_strip
+.Land_split_b15_r21_ambig:
+        .word   12, 12, .Land_done
+
+        .globl  __subleq_and_b14
+        .type   __subleq_and_b14,@function
+__subleq_and_b14:
+        .word   160, 160, .+4
+        .word   96, 96, .+4
+        .word   144, 100, .Land_split_b14_r21_le0
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+.Land_split_b14_strip:
+        .word   .Land_pow30, 100, .Land_srs_b14_30
+        .word   12, 12, .Land_sra_b14_30
+.Land_srs_b14_30:
+        .word   .Land_npow30, 100, .+4
+.Land_sra_b14_30:
+        .word   .Land_pow29, 100, .Land_srs_b14_29
+        .word   12, 12, .Land_sra_b14_29
+.Land_srs_b14_29:
+        .word   .Land_npow29, 100, .+4
+.Land_sra_b14_29:
+        .word   .Land_pow28, 100, .Land_srs_b14_28
+        .word   12, 12, .Land_sra_b14_28
+.Land_srs_b14_28:
+        .word   .Land_npow28, 100, .+4
+.Land_sra_b14_28:
+        .word   .Land_pow27, 100, .Land_srs_b14_27
+        .word   12, 12, .Land_sra_b14_27
+.Land_srs_b14_27:
+        .word   .Land_npow27, 100, .+4
+.Land_sra_b14_27:
+        .word   .Land_pow26, 100, .Land_srs_b14_26
+        .word   12, 12, .Land_sra_b14_26
+.Land_srs_b14_26:
+        .word   .Land_npow26, 100, .+4
+.Land_sra_b14_26:
+        .word   .Land_pow25, 100, .Land_srs_b14_25
+        .word   12, 12, .Land_sra_b14_25
+.Land_srs_b14_25:
+        .word   .Land_npow25, 100, .+4
+.Land_sra_b14_25:
+        .word   .Land_pow24, 100, .Land_srs_b14_24
+        .word   12, 12, .Land_sra_b14_24
+.Land_srs_b14_24:
+        .word   .Land_npow24, 100, .+4
+.Land_sra_b14_24:
+        .word   .Land_pow23, 100, .Land_srs_b14_23
+        .word   12, 12, .Land_sra_b14_23
+.Land_srs_b14_23:
+        .word   .Land_npow23, 100, .+4
+.Land_sra_b14_23:
+        .word   .Land_pow22, 100, .Land_srs_b14_22
+        .word   12, 12, .Land_sra_b14_22
+.Land_srs_b14_22:
+        .word   .Land_npow22, 100, .+4
+.Land_sra_b14_22:
+        .word   .Land_pow21, 100, .Land_srs_b14_21
+        .word   12, 12, .Land_sra_b14_21
+.Land_srs_b14_21:
+        .word   .Land_npow21, 100, .+4
+.Land_sra_b14_21:
+        .word   .Land_pow20, 100, .Land_srs_b14_20
+        .word   12, 12, .Land_sra_b14_20
+.Land_srs_b14_20:
+        .word   .Land_npow20, 100, .+4
+.Land_sra_b14_20:
+        .word   .Land_pow19, 100, .Land_srs_b14_19
+        .word   12, 12, .Land_sra_b14_19
+.Land_srs_b14_19:
+        .word   .Land_npow19, 100, .+4
+.Land_sra_b14_19:
+        .word   .Land_pow18, 100, .Land_srs_b14_18
+        .word   12, 12, .Land_sra_b14_18
+.Land_srs_b14_18:
+        .word   .Land_npow18, 100, .+4
+.Land_sra_b14_18:
+        .word   .Land_pow17, 100, .Land_srs_b14_17
+        .word   12, 12, .Land_sra_b14_17
+.Land_srs_b14_17:
+        .word   .Land_npow17, 100, .+4
+.Land_sra_b14_17:
+        .word   .Land_pow16, 100, .Land_srs_b14_16
+        .word   12, 12, .Land_sra_b14_16
+.Land_srs_b14_16:
+        .word   .Land_npow16, 100, .+4
+.Land_sra_b14_16:
+        .word   .Land_pow15, 100, .Land_srs_b14_15
+        .word   12, 12, .Land_sra_b14_15
+.Land_srs_b14_15:
+        .word   .Land_npow15, 100, .+4
+.Land_sra_b14_15:
+        .word   12, 12, .Land_b14_PP
+.Land_split_b14_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Land_split_b14_r21_ambig
+        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+        .word   12, 12, .Land_split_b14_strip
+.Land_split_b14_r21_ambig:
+        .word   12, 12, .Land_done
+
+        .globl  __subleq_and_b13
+        .type   __subleq_and_b13,@function
+__subleq_and_b13:
+        .word   160, 160, .+4
+        .word   96, 96, .+4
+        .word   144, 100, .Land_split_b13_r21_le0
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+.Land_split_b13_strip:
+        .word   .Land_pow30, 100, .Land_srs_b13_30
+        .word   12, 12, .Land_sra_b13_30
+.Land_srs_b13_30:
+        .word   .Land_npow30, 100, .+4
+.Land_sra_b13_30:
+        .word   .Land_pow29, 100, .Land_srs_b13_29
+        .word   12, 12, .Land_sra_b13_29
+.Land_srs_b13_29:
+        .word   .Land_npow29, 100, .+4
+.Land_sra_b13_29:
+        .word   .Land_pow28, 100, .Land_srs_b13_28
+        .word   12, 12, .Land_sra_b13_28
+.Land_srs_b13_28:
+        .word   .Land_npow28, 100, .+4
+.Land_sra_b13_28:
+        .word   .Land_pow27, 100, .Land_srs_b13_27
+        .word   12, 12, .Land_sra_b13_27
+.Land_srs_b13_27:
+        .word   .Land_npow27, 100, .+4
+.Land_sra_b13_27:
+        .word   .Land_pow26, 100, .Land_srs_b13_26
+        .word   12, 12, .Land_sra_b13_26
+.Land_srs_b13_26:
+        .word   .Land_npow26, 100, .+4
+.Land_sra_b13_26:
+        .word   .Land_pow25, 100, .Land_srs_b13_25
+        .word   12, 12, .Land_sra_b13_25
+.Land_srs_b13_25:
+        .word   .Land_npow25, 100, .+4
+.Land_sra_b13_25:
+        .word   .Land_pow24, 100, .Land_srs_b13_24
+        .word   12, 12, .Land_sra_b13_24
+.Land_srs_b13_24:
+        .word   .Land_npow24, 100, .+4
+.Land_sra_b13_24:
+        .word   .Land_pow23, 100, .Land_srs_b13_23
+        .word   12, 12, .Land_sra_b13_23
+.Land_srs_b13_23:
+        .word   .Land_npow23, 100, .+4
+.Land_sra_b13_23:
+        .word   .Land_pow22, 100, .Land_srs_b13_22
+        .word   12, 12, .Land_sra_b13_22
+.Land_srs_b13_22:
+        .word   .Land_npow22, 100, .+4
+.Land_sra_b13_22:
+        .word   .Land_pow21, 100, .Land_srs_b13_21
+        .word   12, 12, .Land_sra_b13_21
+.Land_srs_b13_21:
+        .word   .Land_npow21, 100, .+4
+.Land_sra_b13_21:
+        .word   .Land_pow20, 100, .Land_srs_b13_20
+        .word   12, 12, .Land_sra_b13_20
+.Land_srs_b13_20:
+        .word   .Land_npow20, 100, .+4
+.Land_sra_b13_20:
+        .word   .Land_pow19, 100, .Land_srs_b13_19
+        .word   12, 12, .Land_sra_b13_19
+.Land_srs_b13_19:
+        .word   .Land_npow19, 100, .+4
+.Land_sra_b13_19:
+        .word   .Land_pow18, 100, .Land_srs_b13_18
+        .word   12, 12, .Land_sra_b13_18
+.Land_srs_b13_18:
+        .word   .Land_npow18, 100, .+4
+.Land_sra_b13_18:
+        .word   .Land_pow17, 100, .Land_srs_b13_17
+        .word   12, 12, .Land_sra_b13_17
+.Land_srs_b13_17:
+        .word   .Land_npow17, 100, .+4
+.Land_sra_b13_17:
+        .word   .Land_pow16, 100, .Land_srs_b13_16
+        .word   12, 12, .Land_sra_b13_16
+.Land_srs_b13_16:
+        .word   .Land_npow16, 100, .+4
+.Land_sra_b13_16:
+        .word   .Land_pow15, 100, .Land_srs_b13_15
+        .word   12, 12, .Land_sra_b13_15
+.Land_srs_b13_15:
+        .word   .Land_npow15, 100, .+4
+.Land_sra_b13_15:
+        .word   .Land_pow14, 100, .Land_srs_b13_14
+        .word   12, 12, .Land_sra_b13_14
+.Land_srs_b13_14:
+        .word   .Land_npow14, 100, .+4
+.Land_sra_b13_14:
+        .word   12, 12, .Land_b13_PP
+.Land_split_b13_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Land_split_b13_r21_ambig
+        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+        .word   12, 12, .Land_split_b13_strip
+.Land_split_b13_r21_ambig:
+        .word   12, 12, .Land_done
+
+        .globl  __subleq_and_b12
+        .type   __subleq_and_b12,@function
+__subleq_and_b12:
+        .word   160, 160, .+4
+        .word   96, 96, .+4
+        .word   144, 100, .Land_split_b12_r21_le0
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+.Land_split_b12_strip:
+        .word   .Land_pow30, 100, .Land_srs_b12_30
+        .word   12, 12, .Land_sra_b12_30
+.Land_srs_b12_30:
+        .word   .Land_npow30, 100, .+4
+.Land_sra_b12_30:
+        .word   .Land_pow29, 100, .Land_srs_b12_29
+        .word   12, 12, .Land_sra_b12_29
+.Land_srs_b12_29:
+        .word   .Land_npow29, 100, .+4
+.Land_sra_b12_29:
+        .word   .Land_pow28, 100, .Land_srs_b12_28
+        .word   12, 12, .Land_sra_b12_28
+.Land_srs_b12_28:
+        .word   .Land_npow28, 100, .+4
+.Land_sra_b12_28:
+        .word   .Land_pow27, 100, .Land_srs_b12_27
+        .word   12, 12, .Land_sra_b12_27
+.Land_srs_b12_27:
+        .word   .Land_npow27, 100, .+4
+.Land_sra_b12_27:
+        .word   .Land_pow26, 100, .Land_srs_b12_26
+        .word   12, 12, .Land_sra_b12_26
+.Land_srs_b12_26:
+        .word   .Land_npow26, 100, .+4
+.Land_sra_b12_26:
+        .word   .Land_pow25, 100, .Land_srs_b12_25
+        .word   12, 12, .Land_sra_b12_25
+.Land_srs_b12_25:
+        .word   .Land_npow25, 100, .+4
+.Land_sra_b12_25:
+        .word   .Land_pow24, 100, .Land_srs_b12_24
+        .word   12, 12, .Land_sra_b12_24
+.Land_srs_b12_24:
+        .word   .Land_npow24, 100, .+4
+.Land_sra_b12_24:
+        .word   .Land_pow23, 100, .Land_srs_b12_23
+        .word   12, 12, .Land_sra_b12_23
+.Land_srs_b12_23:
+        .word   .Land_npow23, 100, .+4
+.Land_sra_b12_23:
+        .word   .Land_pow22, 100, .Land_srs_b12_22
+        .word   12, 12, .Land_sra_b12_22
+.Land_srs_b12_22:
+        .word   .Land_npow22, 100, .+4
+.Land_sra_b12_22:
+        .word   .Land_pow21, 100, .Land_srs_b12_21
+        .word   12, 12, .Land_sra_b12_21
+.Land_srs_b12_21:
+        .word   .Land_npow21, 100, .+4
+.Land_sra_b12_21:
+        .word   .Land_pow20, 100, .Land_srs_b12_20
+        .word   12, 12, .Land_sra_b12_20
+.Land_srs_b12_20:
+        .word   .Land_npow20, 100, .+4
+.Land_sra_b12_20:
+        .word   .Land_pow19, 100, .Land_srs_b12_19
+        .word   12, 12, .Land_sra_b12_19
+.Land_srs_b12_19:
+        .word   .Land_npow19, 100, .+4
+.Land_sra_b12_19:
+        .word   .Land_pow18, 100, .Land_srs_b12_18
+        .word   12, 12, .Land_sra_b12_18
+.Land_srs_b12_18:
+        .word   .Land_npow18, 100, .+4
+.Land_sra_b12_18:
+        .word   .Land_pow17, 100, .Land_srs_b12_17
+        .word   12, 12, .Land_sra_b12_17
+.Land_srs_b12_17:
+        .word   .Land_npow17, 100, .+4
+.Land_sra_b12_17:
+        .word   .Land_pow16, 100, .Land_srs_b12_16
+        .word   12, 12, .Land_sra_b12_16
+.Land_srs_b12_16:
+        .word   .Land_npow16, 100, .+4
+.Land_sra_b12_16:
+        .word   .Land_pow15, 100, .Land_srs_b12_15
+        .word   12, 12, .Land_sra_b12_15
+.Land_srs_b12_15:
+        .word   .Land_npow15, 100, .+4
+.Land_sra_b12_15:
+        .word   .Land_pow14, 100, .Land_srs_b12_14
+        .word   12, 12, .Land_sra_b12_14
+.Land_srs_b12_14:
+        .word   .Land_npow14, 100, .+4
+.Land_sra_b12_14:
+        .word   .Land_pow13, 100, .Land_srs_b12_13
+        .word   12, 12, .Land_sra_b12_13
+.Land_srs_b12_13:
+        .word   .Land_npow13, 100, .+4
+.Land_sra_b12_13:
+        .word   12, 12, .Land_b12_PP
+.Land_split_b12_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Land_split_b12_r21_ambig
+        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+        .word   12, 12, .Land_split_b12_strip
+.Land_split_b12_r21_ambig:
+        .word   12, 12, .Land_done
+
+        .globl  __subleq_and_b11
+        .type   __subleq_and_b11,@function
+__subleq_and_b11:
+        .word   160, 160, .+4
+        .word   96, 96, .+4
+        .word   144, 100, .Land_split_b11_r21_le0
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+.Land_split_b11_strip:
+        .word   .Land_pow30, 100, .Land_srs_b11_30
+        .word   12, 12, .Land_sra_b11_30
+.Land_srs_b11_30:
+        .word   .Land_npow30, 100, .+4
+.Land_sra_b11_30:
+        .word   .Land_pow29, 100, .Land_srs_b11_29
+        .word   12, 12, .Land_sra_b11_29
+.Land_srs_b11_29:
+        .word   .Land_npow29, 100, .+4
+.Land_sra_b11_29:
+        .word   .Land_pow28, 100, .Land_srs_b11_28
+        .word   12, 12, .Land_sra_b11_28
+.Land_srs_b11_28:
+        .word   .Land_npow28, 100, .+4
+.Land_sra_b11_28:
+        .word   .Land_pow27, 100, .Land_srs_b11_27
+        .word   12, 12, .Land_sra_b11_27
+.Land_srs_b11_27:
+        .word   .Land_npow27, 100, .+4
+.Land_sra_b11_27:
+        .word   .Land_pow26, 100, .Land_srs_b11_26
+        .word   12, 12, .Land_sra_b11_26
+.Land_srs_b11_26:
+        .word   .Land_npow26, 100, .+4
+.Land_sra_b11_26:
+        .word   .Land_pow25, 100, .Land_srs_b11_25
+        .word   12, 12, .Land_sra_b11_25
+.Land_srs_b11_25:
+        .word   .Land_npow25, 100, .+4
+.Land_sra_b11_25:
+        .word   .Land_pow24, 100, .Land_srs_b11_24
+        .word   12, 12, .Land_sra_b11_24
+.Land_srs_b11_24:
+        .word   .Land_npow24, 100, .+4
+.Land_sra_b11_24:
+        .word   .Land_pow23, 100, .Land_srs_b11_23
+        .word   12, 12, .Land_sra_b11_23
+.Land_srs_b11_23:
+        .word   .Land_npow23, 100, .+4
+.Land_sra_b11_23:
+        .word   .Land_pow22, 100, .Land_srs_b11_22
+        .word   12, 12, .Land_sra_b11_22
+.Land_srs_b11_22:
+        .word   .Land_npow22, 100, .+4
+.Land_sra_b11_22:
+        .word   .Land_pow21, 100, .Land_srs_b11_21
+        .word   12, 12, .Land_sra_b11_21
+.Land_srs_b11_21:
+        .word   .Land_npow21, 100, .+4
+.Land_sra_b11_21:
+        .word   .Land_pow20, 100, .Land_srs_b11_20
+        .word   12, 12, .Land_sra_b11_20
+.Land_srs_b11_20:
+        .word   .Land_npow20, 100, .+4
+.Land_sra_b11_20:
+        .word   .Land_pow19, 100, .Land_srs_b11_19
+        .word   12, 12, .Land_sra_b11_19
+.Land_srs_b11_19:
+        .word   .Land_npow19, 100, .+4
+.Land_sra_b11_19:
+        .word   .Land_pow18, 100, .Land_srs_b11_18
+        .word   12, 12, .Land_sra_b11_18
+.Land_srs_b11_18:
+        .word   .Land_npow18, 100, .+4
+.Land_sra_b11_18:
+        .word   .Land_pow17, 100, .Land_srs_b11_17
+        .word   12, 12, .Land_sra_b11_17
+.Land_srs_b11_17:
+        .word   .Land_npow17, 100, .+4
+.Land_sra_b11_17:
+        .word   .Land_pow16, 100, .Land_srs_b11_16
+        .word   12, 12, .Land_sra_b11_16
+.Land_srs_b11_16:
+        .word   .Land_npow16, 100, .+4
+.Land_sra_b11_16:
+        .word   .Land_pow15, 100, .Land_srs_b11_15
+        .word   12, 12, .Land_sra_b11_15
+.Land_srs_b11_15:
+        .word   .Land_npow15, 100, .+4
+.Land_sra_b11_15:
+        .word   .Land_pow14, 100, .Land_srs_b11_14
+        .word   12, 12, .Land_sra_b11_14
+.Land_srs_b11_14:
+        .word   .Land_npow14, 100, .+4
+.Land_sra_b11_14:
+        .word   .Land_pow13, 100, .Land_srs_b11_13
+        .word   12, 12, .Land_sra_b11_13
+.Land_srs_b11_13:
+        .word   .Land_npow13, 100, .+4
+.Land_sra_b11_13:
+        .word   .Land_pow12, 100, .Land_srs_b11_12
+        .word   12, 12, .Land_sra_b11_12
+.Land_srs_b11_12:
+        .word   .Land_npow12, 100, .+4
+.Land_sra_b11_12:
+        .word   12, 12, .Land_b11_PP
+.Land_split_b11_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Land_split_b11_r21_ambig
+        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+        .word   12, 12, .Land_split_b11_strip
+.Land_split_b11_r21_ambig:
+        .word   12, 12, .Land_done
+
+        .globl  __subleq_and_b10
+        .type   __subleq_and_b10,@function
+__subleq_and_b10:
+        .word   160, 160, .+4
+        .word   96, 96, .+4
+        .word   144, 100, .Land_split_b10_r21_le0
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+.Land_split_b10_strip:
+        .word   .Land_pow30, 100, .Land_srs_b10_30
+        .word   12, 12, .Land_sra_b10_30
+.Land_srs_b10_30:
+        .word   .Land_npow30, 100, .+4
+.Land_sra_b10_30:
+        .word   .Land_pow29, 100, .Land_srs_b10_29
+        .word   12, 12, .Land_sra_b10_29
+.Land_srs_b10_29:
+        .word   .Land_npow29, 100, .+4
+.Land_sra_b10_29:
+        .word   .Land_pow28, 100, .Land_srs_b10_28
+        .word   12, 12, .Land_sra_b10_28
+.Land_srs_b10_28:
+        .word   .Land_npow28, 100, .+4
+.Land_sra_b10_28:
+        .word   .Land_pow27, 100, .Land_srs_b10_27
+        .word   12, 12, .Land_sra_b10_27
+.Land_srs_b10_27:
+        .word   .Land_npow27, 100, .+4
+.Land_sra_b10_27:
+        .word   .Land_pow26, 100, .Land_srs_b10_26
+        .word   12, 12, .Land_sra_b10_26
+.Land_srs_b10_26:
+        .word   .Land_npow26, 100, .+4
+.Land_sra_b10_26:
+        .word   .Land_pow25, 100, .Land_srs_b10_25
+        .word   12, 12, .Land_sra_b10_25
+.Land_srs_b10_25:
+        .word   .Land_npow25, 100, .+4
+.Land_sra_b10_25:
+        .word   .Land_pow24, 100, .Land_srs_b10_24
+        .word   12, 12, .Land_sra_b10_24
+.Land_srs_b10_24:
+        .word   .Land_npow24, 100, .+4
+.Land_sra_b10_24:
+        .word   .Land_pow23, 100, .Land_srs_b10_23
+        .word   12, 12, .Land_sra_b10_23
+.Land_srs_b10_23:
+        .word   .Land_npow23, 100, .+4
+.Land_sra_b10_23:
+        .word   .Land_pow22, 100, .Land_srs_b10_22
+        .word   12, 12, .Land_sra_b10_22
+.Land_srs_b10_22:
+        .word   .Land_npow22, 100, .+4
+.Land_sra_b10_22:
+        .word   .Land_pow21, 100, .Land_srs_b10_21
+        .word   12, 12, .Land_sra_b10_21
+.Land_srs_b10_21:
+        .word   .Land_npow21, 100, .+4
+.Land_sra_b10_21:
+        .word   .Land_pow20, 100, .Land_srs_b10_20
+        .word   12, 12, .Land_sra_b10_20
+.Land_srs_b10_20:
+        .word   .Land_npow20, 100, .+4
+.Land_sra_b10_20:
+        .word   .Land_pow19, 100, .Land_srs_b10_19
+        .word   12, 12, .Land_sra_b10_19
+.Land_srs_b10_19:
+        .word   .Land_npow19, 100, .+4
+.Land_sra_b10_19:
+        .word   .Land_pow18, 100, .Land_srs_b10_18
+        .word   12, 12, .Land_sra_b10_18
+.Land_srs_b10_18:
+        .word   .Land_npow18, 100, .+4
+.Land_sra_b10_18:
+        .word   .Land_pow17, 100, .Land_srs_b10_17
+        .word   12, 12, .Land_sra_b10_17
+.Land_srs_b10_17:
+        .word   .Land_npow17, 100, .+4
+.Land_sra_b10_17:
+        .word   .Land_pow16, 100, .Land_srs_b10_16
+        .word   12, 12, .Land_sra_b10_16
+.Land_srs_b10_16:
+        .word   .Land_npow16, 100, .+4
+.Land_sra_b10_16:
+        .word   .Land_pow15, 100, .Land_srs_b10_15
+        .word   12, 12, .Land_sra_b10_15
+.Land_srs_b10_15:
+        .word   .Land_npow15, 100, .+4
+.Land_sra_b10_15:
+        .word   .Land_pow14, 100, .Land_srs_b10_14
+        .word   12, 12, .Land_sra_b10_14
+.Land_srs_b10_14:
+        .word   .Land_npow14, 100, .+4
+.Land_sra_b10_14:
+        .word   .Land_pow13, 100, .Land_srs_b10_13
+        .word   12, 12, .Land_sra_b10_13
+.Land_srs_b10_13:
+        .word   .Land_npow13, 100, .+4
+.Land_sra_b10_13:
+        .word   .Land_pow12, 100, .Land_srs_b10_12
+        .word   12, 12, .Land_sra_b10_12
+.Land_srs_b10_12:
+        .word   .Land_npow12, 100, .+4
+.Land_sra_b10_12:
+        .word   .Land_pow11, 100, .Land_srs_b10_11
+        .word   12, 12, .Land_sra_b10_11
+.Land_srs_b10_11:
+        .word   .Land_npow11, 100, .+4
+.Land_sra_b10_11:
+        .word   12, 12, .Land_b10_PP
+.Land_split_b10_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Land_split_b10_r21_ambig
+        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+        .word   12, 12, .Land_split_b10_strip
+.Land_split_b10_r21_ambig:
+        .word   12, 12, .Land_done
+
+        .globl  __subleq_and_b9
+        .type   __subleq_and_b9,@function
+__subleq_and_b9:
+        .word   160, 160, .+4
+        .word   96, 96, .+4
+        .word   144, 100, .Land_split_b9_r21_le0
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+.Land_split_b9_strip:
+        .word   .Land_pow30, 100, .Land_srs_b9_30
+        .word   12, 12, .Land_sra_b9_30
+.Land_srs_b9_30:
+        .word   .Land_npow30, 100, .+4
+.Land_sra_b9_30:
+        .word   .Land_pow29, 100, .Land_srs_b9_29
+        .word   12, 12, .Land_sra_b9_29
+.Land_srs_b9_29:
+        .word   .Land_npow29, 100, .+4
+.Land_sra_b9_29:
+        .word   .Land_pow28, 100, .Land_srs_b9_28
+        .word   12, 12, .Land_sra_b9_28
+.Land_srs_b9_28:
+        .word   .Land_npow28, 100, .+4
+.Land_sra_b9_28:
+        .word   .Land_pow27, 100, .Land_srs_b9_27
+        .word   12, 12, .Land_sra_b9_27
+.Land_srs_b9_27:
+        .word   .Land_npow27, 100, .+4
+.Land_sra_b9_27:
+        .word   .Land_pow26, 100, .Land_srs_b9_26
+        .word   12, 12, .Land_sra_b9_26
+.Land_srs_b9_26:
+        .word   .Land_npow26, 100, .+4
+.Land_sra_b9_26:
+        .word   .Land_pow25, 100, .Land_srs_b9_25
+        .word   12, 12, .Land_sra_b9_25
+.Land_srs_b9_25:
+        .word   .Land_npow25, 100, .+4
+.Land_sra_b9_25:
+        .word   .Land_pow24, 100, .Land_srs_b9_24
+        .word   12, 12, .Land_sra_b9_24
+.Land_srs_b9_24:
+        .word   .Land_npow24, 100, .+4
+.Land_sra_b9_24:
+        .word   .Land_pow23, 100, .Land_srs_b9_23
+        .word   12, 12, .Land_sra_b9_23
+.Land_srs_b9_23:
+        .word   .Land_npow23, 100, .+4
+.Land_sra_b9_23:
+        .word   .Land_pow22, 100, .Land_srs_b9_22
+        .word   12, 12, .Land_sra_b9_22
+.Land_srs_b9_22:
+        .word   .Land_npow22, 100, .+4
+.Land_sra_b9_22:
+        .word   .Land_pow21, 100, .Land_srs_b9_21
+        .word   12, 12, .Land_sra_b9_21
+.Land_srs_b9_21:
+        .word   .Land_npow21, 100, .+4
+.Land_sra_b9_21:
+        .word   .Land_pow20, 100, .Land_srs_b9_20
+        .word   12, 12, .Land_sra_b9_20
+.Land_srs_b9_20:
+        .word   .Land_npow20, 100, .+4
+.Land_sra_b9_20:
+        .word   .Land_pow19, 100, .Land_srs_b9_19
+        .word   12, 12, .Land_sra_b9_19
+.Land_srs_b9_19:
+        .word   .Land_npow19, 100, .+4
+.Land_sra_b9_19:
+        .word   .Land_pow18, 100, .Land_srs_b9_18
+        .word   12, 12, .Land_sra_b9_18
+.Land_srs_b9_18:
+        .word   .Land_npow18, 100, .+4
+.Land_sra_b9_18:
+        .word   .Land_pow17, 100, .Land_srs_b9_17
+        .word   12, 12, .Land_sra_b9_17
+.Land_srs_b9_17:
+        .word   .Land_npow17, 100, .+4
+.Land_sra_b9_17:
+        .word   .Land_pow16, 100, .Land_srs_b9_16
+        .word   12, 12, .Land_sra_b9_16
+.Land_srs_b9_16:
+        .word   .Land_npow16, 100, .+4
+.Land_sra_b9_16:
+        .word   .Land_pow15, 100, .Land_srs_b9_15
+        .word   12, 12, .Land_sra_b9_15
+.Land_srs_b9_15:
+        .word   .Land_npow15, 100, .+4
+.Land_sra_b9_15:
+        .word   .Land_pow14, 100, .Land_srs_b9_14
+        .word   12, 12, .Land_sra_b9_14
+.Land_srs_b9_14:
+        .word   .Land_npow14, 100, .+4
+.Land_sra_b9_14:
+        .word   .Land_pow13, 100, .Land_srs_b9_13
+        .word   12, 12, .Land_sra_b9_13
+.Land_srs_b9_13:
+        .word   .Land_npow13, 100, .+4
+.Land_sra_b9_13:
+        .word   .Land_pow12, 100, .Land_srs_b9_12
+        .word   12, 12, .Land_sra_b9_12
+.Land_srs_b9_12:
+        .word   .Land_npow12, 100, .+4
+.Land_sra_b9_12:
+        .word   .Land_pow11, 100, .Land_srs_b9_11
+        .word   12, 12, .Land_sra_b9_11
+.Land_srs_b9_11:
+        .word   .Land_npow11, 100, .+4
+.Land_sra_b9_11:
+        .word   .Land_pow10, 100, .Land_srs_b9_10
+        .word   12, 12, .Land_sra_b9_10
+.Land_srs_b9_10:
+        .word   .Land_npow10, 100, .+4
+.Land_sra_b9_10:
+        .word   12, 12, .Land_b9_PP
+.Land_split_b9_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Land_split_b9_r21_ambig
+        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+        .word   12, 12, .Land_split_b9_strip
+.Land_split_b9_r21_ambig:
+        .word   12, 12, .Land_done
+
+        .globl  __subleq_and_b8
+        .type   __subleq_and_b8,@function
+__subleq_and_b8:
+        .word   160, 160, .+4
+        .word   96, 96, .+4
+        .word   144, 100, .Land_split_b8_r21_le0
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+.Land_split_b8_strip:
+        .word   .Land_pow30, 100, .Land_srs_b8_30
+        .word   12, 12, .Land_sra_b8_30
+.Land_srs_b8_30:
+        .word   .Land_npow30, 100, .+4
+.Land_sra_b8_30:
+        .word   .Land_pow29, 100, .Land_srs_b8_29
+        .word   12, 12, .Land_sra_b8_29
+.Land_srs_b8_29:
+        .word   .Land_npow29, 100, .+4
+.Land_sra_b8_29:
+        .word   .Land_pow28, 100, .Land_srs_b8_28
+        .word   12, 12, .Land_sra_b8_28
+.Land_srs_b8_28:
+        .word   .Land_npow28, 100, .+4
+.Land_sra_b8_28:
+        .word   .Land_pow27, 100, .Land_srs_b8_27
+        .word   12, 12, .Land_sra_b8_27
+.Land_srs_b8_27:
+        .word   .Land_npow27, 100, .+4
+.Land_sra_b8_27:
+        .word   .Land_pow26, 100, .Land_srs_b8_26
+        .word   12, 12, .Land_sra_b8_26
+.Land_srs_b8_26:
+        .word   .Land_npow26, 100, .+4
+.Land_sra_b8_26:
+        .word   .Land_pow25, 100, .Land_srs_b8_25
+        .word   12, 12, .Land_sra_b8_25
+.Land_srs_b8_25:
+        .word   .Land_npow25, 100, .+4
+.Land_sra_b8_25:
+        .word   .Land_pow24, 100, .Land_srs_b8_24
+        .word   12, 12, .Land_sra_b8_24
+.Land_srs_b8_24:
+        .word   .Land_npow24, 100, .+4
+.Land_sra_b8_24:
+        .word   .Land_pow23, 100, .Land_srs_b8_23
+        .word   12, 12, .Land_sra_b8_23
+.Land_srs_b8_23:
+        .word   .Land_npow23, 100, .+4
+.Land_sra_b8_23:
+        .word   .Land_pow22, 100, .Land_srs_b8_22
+        .word   12, 12, .Land_sra_b8_22
+.Land_srs_b8_22:
+        .word   .Land_npow22, 100, .+4
+.Land_sra_b8_22:
+        .word   .Land_pow21, 100, .Land_srs_b8_21
+        .word   12, 12, .Land_sra_b8_21
+.Land_srs_b8_21:
+        .word   .Land_npow21, 100, .+4
+.Land_sra_b8_21:
+        .word   .Land_pow20, 100, .Land_srs_b8_20
+        .word   12, 12, .Land_sra_b8_20
+.Land_srs_b8_20:
+        .word   .Land_npow20, 100, .+4
+.Land_sra_b8_20:
+        .word   .Land_pow19, 100, .Land_srs_b8_19
+        .word   12, 12, .Land_sra_b8_19
+.Land_srs_b8_19:
+        .word   .Land_npow19, 100, .+4
+.Land_sra_b8_19:
+        .word   .Land_pow18, 100, .Land_srs_b8_18
+        .word   12, 12, .Land_sra_b8_18
+.Land_srs_b8_18:
+        .word   .Land_npow18, 100, .+4
+.Land_sra_b8_18:
+        .word   .Land_pow17, 100, .Land_srs_b8_17
+        .word   12, 12, .Land_sra_b8_17
+.Land_srs_b8_17:
+        .word   .Land_npow17, 100, .+4
+.Land_sra_b8_17:
+        .word   .Land_pow16, 100, .Land_srs_b8_16
+        .word   12, 12, .Land_sra_b8_16
+.Land_srs_b8_16:
+        .word   .Land_npow16, 100, .+4
+.Land_sra_b8_16:
+        .word   .Land_pow15, 100, .Land_srs_b8_15
+        .word   12, 12, .Land_sra_b8_15
+.Land_srs_b8_15:
+        .word   .Land_npow15, 100, .+4
+.Land_sra_b8_15:
+        .word   .Land_pow14, 100, .Land_srs_b8_14
+        .word   12, 12, .Land_sra_b8_14
+.Land_srs_b8_14:
+        .word   .Land_npow14, 100, .+4
+.Land_sra_b8_14:
+        .word   .Land_pow13, 100, .Land_srs_b8_13
+        .word   12, 12, .Land_sra_b8_13
+.Land_srs_b8_13:
+        .word   .Land_npow13, 100, .+4
+.Land_sra_b8_13:
+        .word   .Land_pow12, 100, .Land_srs_b8_12
+        .word   12, 12, .Land_sra_b8_12
+.Land_srs_b8_12:
+        .word   .Land_npow12, 100, .+4
+.Land_sra_b8_12:
+        .word   .Land_pow11, 100, .Land_srs_b8_11
+        .word   12, 12, .Land_sra_b8_11
+.Land_srs_b8_11:
+        .word   .Land_npow11, 100, .+4
+.Land_sra_b8_11:
+        .word   .Land_pow10, 100, .Land_srs_b8_10
+        .word   12, 12, .Land_sra_b8_10
+.Land_srs_b8_10:
+        .word   .Land_npow10, 100, .+4
+.Land_sra_b8_10:
+        .word   .Land_pow9, 100, .Land_srs_b8_9
+        .word   12, 12, .Land_sra_b8_9
+.Land_srs_b8_9:
+        .word   .Land_npow9, 100, .+4
+.Land_sra_b8_9:
+        .word   12, 12, .Land_b8_PP
+.Land_split_b8_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Land_split_b8_r21_ambig
+        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+        .word   12, 12, .Land_split_b8_strip
+.Land_split_b8_r21_ambig:
+        .word   12, 12, .Land_done
+
+        .globl  __subleq_and_b7
+        .type   __subleq_and_b7,@function
+__subleq_and_b7:
+        .word   160, 160, .+4
+        .word   96, 96, .+4
+        .word   144, 100, .Land_split_b7_r21_le0
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+.Land_split_b7_strip:
+        .word   .Land_pow30, 100, .Land_srs_b7_30
+        .word   12, 12, .Land_sra_b7_30
+.Land_srs_b7_30:
+        .word   .Land_npow30, 100, .+4
+.Land_sra_b7_30:
+        .word   .Land_pow29, 100, .Land_srs_b7_29
+        .word   12, 12, .Land_sra_b7_29
+.Land_srs_b7_29:
+        .word   .Land_npow29, 100, .+4
+.Land_sra_b7_29:
+        .word   .Land_pow28, 100, .Land_srs_b7_28
+        .word   12, 12, .Land_sra_b7_28
+.Land_srs_b7_28:
+        .word   .Land_npow28, 100, .+4
+.Land_sra_b7_28:
+        .word   .Land_pow27, 100, .Land_srs_b7_27
+        .word   12, 12, .Land_sra_b7_27
+.Land_srs_b7_27:
+        .word   .Land_npow27, 100, .+4
+.Land_sra_b7_27:
+        .word   .Land_pow26, 100, .Land_srs_b7_26
+        .word   12, 12, .Land_sra_b7_26
+.Land_srs_b7_26:
+        .word   .Land_npow26, 100, .+4
+.Land_sra_b7_26:
+        .word   .Land_pow25, 100, .Land_srs_b7_25
+        .word   12, 12, .Land_sra_b7_25
+.Land_srs_b7_25:
+        .word   .Land_npow25, 100, .+4
+.Land_sra_b7_25:
+        .word   .Land_pow24, 100, .Land_srs_b7_24
+        .word   12, 12, .Land_sra_b7_24
+.Land_srs_b7_24:
+        .word   .Land_npow24, 100, .+4
+.Land_sra_b7_24:
+        .word   .Land_pow23, 100, .Land_srs_b7_23
+        .word   12, 12, .Land_sra_b7_23
+.Land_srs_b7_23:
+        .word   .Land_npow23, 100, .+4
+.Land_sra_b7_23:
+        .word   .Land_pow22, 100, .Land_srs_b7_22
+        .word   12, 12, .Land_sra_b7_22
+.Land_srs_b7_22:
+        .word   .Land_npow22, 100, .+4
+.Land_sra_b7_22:
+        .word   .Land_pow21, 100, .Land_srs_b7_21
+        .word   12, 12, .Land_sra_b7_21
+.Land_srs_b7_21:
+        .word   .Land_npow21, 100, .+4
+.Land_sra_b7_21:
+        .word   .Land_pow20, 100, .Land_srs_b7_20
+        .word   12, 12, .Land_sra_b7_20
+.Land_srs_b7_20:
+        .word   .Land_npow20, 100, .+4
+.Land_sra_b7_20:
+        .word   .Land_pow19, 100, .Land_srs_b7_19
+        .word   12, 12, .Land_sra_b7_19
+.Land_srs_b7_19:
+        .word   .Land_npow19, 100, .+4
+.Land_sra_b7_19:
+        .word   .Land_pow18, 100, .Land_srs_b7_18
+        .word   12, 12, .Land_sra_b7_18
+.Land_srs_b7_18:
+        .word   .Land_npow18, 100, .+4
+.Land_sra_b7_18:
+        .word   .Land_pow17, 100, .Land_srs_b7_17
+        .word   12, 12, .Land_sra_b7_17
+.Land_srs_b7_17:
+        .word   .Land_npow17, 100, .+4
+.Land_sra_b7_17:
+        .word   .Land_pow16, 100, .Land_srs_b7_16
+        .word   12, 12, .Land_sra_b7_16
+.Land_srs_b7_16:
+        .word   .Land_npow16, 100, .+4
+.Land_sra_b7_16:
+        .word   .Land_pow15, 100, .Land_srs_b7_15
+        .word   12, 12, .Land_sra_b7_15
+.Land_srs_b7_15:
+        .word   .Land_npow15, 100, .+4
+.Land_sra_b7_15:
+        .word   .Land_pow14, 100, .Land_srs_b7_14
+        .word   12, 12, .Land_sra_b7_14
+.Land_srs_b7_14:
+        .word   .Land_npow14, 100, .+4
+.Land_sra_b7_14:
+        .word   .Land_pow13, 100, .Land_srs_b7_13
+        .word   12, 12, .Land_sra_b7_13
+.Land_srs_b7_13:
+        .word   .Land_npow13, 100, .+4
+.Land_sra_b7_13:
+        .word   .Land_pow12, 100, .Land_srs_b7_12
+        .word   12, 12, .Land_sra_b7_12
+.Land_srs_b7_12:
+        .word   .Land_npow12, 100, .+4
+.Land_sra_b7_12:
+        .word   .Land_pow11, 100, .Land_srs_b7_11
+        .word   12, 12, .Land_sra_b7_11
+.Land_srs_b7_11:
+        .word   .Land_npow11, 100, .+4
+.Land_sra_b7_11:
+        .word   .Land_pow10, 100, .Land_srs_b7_10
+        .word   12, 12, .Land_sra_b7_10
+.Land_srs_b7_10:
+        .word   .Land_npow10, 100, .+4
+.Land_sra_b7_10:
+        .word   .Land_pow9, 100, .Land_srs_b7_9
+        .word   12, 12, .Land_sra_b7_9
+.Land_srs_b7_9:
+        .word   .Land_npow9, 100, .+4
+.Land_sra_b7_9:
+        .word   .Land_pow8, 100, .Land_srs_b7_8
+        .word   12, 12, .Land_sra_b7_8
+.Land_srs_b7_8:
+        .word   .Land_npow8, 100, .+4
+.Land_sra_b7_8:
+        .word   12, 12, .Land_b7_PP
+.Land_split_b7_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Land_split_b7_r21_ambig
+        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+        .word   12, 12, .Land_split_b7_strip
+.Land_split_b7_r21_ambig:
+        .word   12, 12, .Land_done
+
+        .globl  __subleq_and_b6
+        .type   __subleq_and_b6,@function
+__subleq_and_b6:
+        .word   160, 160, .+4
+        .word   96, 96, .+4
+        .word   144, 100, .Land_split_b6_r21_le0
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+.Land_split_b6_strip:
+        .word   .Land_pow30, 100, .Land_srs_b6_30
+        .word   12, 12, .Land_sra_b6_30
+.Land_srs_b6_30:
+        .word   .Land_npow30, 100, .+4
+.Land_sra_b6_30:
+        .word   .Land_pow29, 100, .Land_srs_b6_29
+        .word   12, 12, .Land_sra_b6_29
+.Land_srs_b6_29:
+        .word   .Land_npow29, 100, .+4
+.Land_sra_b6_29:
+        .word   .Land_pow28, 100, .Land_srs_b6_28
+        .word   12, 12, .Land_sra_b6_28
+.Land_srs_b6_28:
+        .word   .Land_npow28, 100, .+4
+.Land_sra_b6_28:
+        .word   .Land_pow27, 100, .Land_srs_b6_27
+        .word   12, 12, .Land_sra_b6_27
+.Land_srs_b6_27:
+        .word   .Land_npow27, 100, .+4
+.Land_sra_b6_27:
+        .word   .Land_pow26, 100, .Land_srs_b6_26
+        .word   12, 12, .Land_sra_b6_26
+.Land_srs_b6_26:
+        .word   .Land_npow26, 100, .+4
+.Land_sra_b6_26:
+        .word   .Land_pow25, 100, .Land_srs_b6_25
+        .word   12, 12, .Land_sra_b6_25
+.Land_srs_b6_25:
+        .word   .Land_npow25, 100, .+4
+.Land_sra_b6_25:
+        .word   .Land_pow24, 100, .Land_srs_b6_24
+        .word   12, 12, .Land_sra_b6_24
+.Land_srs_b6_24:
+        .word   .Land_npow24, 100, .+4
+.Land_sra_b6_24:
+        .word   .Land_pow23, 100, .Land_srs_b6_23
+        .word   12, 12, .Land_sra_b6_23
+.Land_srs_b6_23:
+        .word   .Land_npow23, 100, .+4
+.Land_sra_b6_23:
+        .word   .Land_pow22, 100, .Land_srs_b6_22
+        .word   12, 12, .Land_sra_b6_22
+.Land_srs_b6_22:
+        .word   .Land_npow22, 100, .+4
+.Land_sra_b6_22:
+        .word   .Land_pow21, 100, .Land_srs_b6_21
+        .word   12, 12, .Land_sra_b6_21
+.Land_srs_b6_21:
+        .word   .Land_npow21, 100, .+4
+.Land_sra_b6_21:
+        .word   .Land_pow20, 100, .Land_srs_b6_20
+        .word   12, 12, .Land_sra_b6_20
+.Land_srs_b6_20:
+        .word   .Land_npow20, 100, .+4
+.Land_sra_b6_20:
+        .word   .Land_pow19, 100, .Land_srs_b6_19
+        .word   12, 12, .Land_sra_b6_19
+.Land_srs_b6_19:
+        .word   .Land_npow19, 100, .+4
+.Land_sra_b6_19:
+        .word   .Land_pow18, 100, .Land_srs_b6_18
+        .word   12, 12, .Land_sra_b6_18
+.Land_srs_b6_18:
+        .word   .Land_npow18, 100, .+4
+.Land_sra_b6_18:
+        .word   .Land_pow17, 100, .Land_srs_b6_17
+        .word   12, 12, .Land_sra_b6_17
+.Land_srs_b6_17:
+        .word   .Land_npow17, 100, .+4
+.Land_sra_b6_17:
+        .word   .Land_pow16, 100, .Land_srs_b6_16
+        .word   12, 12, .Land_sra_b6_16
+.Land_srs_b6_16:
+        .word   .Land_npow16, 100, .+4
+.Land_sra_b6_16:
+        .word   .Land_pow15, 100, .Land_srs_b6_15
+        .word   12, 12, .Land_sra_b6_15
+.Land_srs_b6_15:
+        .word   .Land_npow15, 100, .+4
+.Land_sra_b6_15:
+        .word   .Land_pow14, 100, .Land_srs_b6_14
+        .word   12, 12, .Land_sra_b6_14
+.Land_srs_b6_14:
+        .word   .Land_npow14, 100, .+4
+.Land_sra_b6_14:
+        .word   .Land_pow13, 100, .Land_srs_b6_13
+        .word   12, 12, .Land_sra_b6_13
+.Land_srs_b6_13:
+        .word   .Land_npow13, 100, .+4
+.Land_sra_b6_13:
+        .word   .Land_pow12, 100, .Land_srs_b6_12
+        .word   12, 12, .Land_sra_b6_12
+.Land_srs_b6_12:
+        .word   .Land_npow12, 100, .+4
+.Land_sra_b6_12:
+        .word   .Land_pow11, 100, .Land_srs_b6_11
+        .word   12, 12, .Land_sra_b6_11
+.Land_srs_b6_11:
+        .word   .Land_npow11, 100, .+4
+.Land_sra_b6_11:
+        .word   .Land_pow10, 100, .Land_srs_b6_10
+        .word   12, 12, .Land_sra_b6_10
+.Land_srs_b6_10:
+        .word   .Land_npow10, 100, .+4
+.Land_sra_b6_10:
+        .word   .Land_pow9, 100, .Land_srs_b6_9
+        .word   12, 12, .Land_sra_b6_9
+.Land_srs_b6_9:
+        .word   .Land_npow9, 100, .+4
+.Land_sra_b6_9:
+        .word   .Land_pow8, 100, .Land_srs_b6_8
+        .word   12, 12, .Land_sra_b6_8
+.Land_srs_b6_8:
+        .word   .Land_npow8, 100, .+4
+.Land_sra_b6_8:
+        .word   .Land_pow7, 100, .Land_srs_b6_7
+        .word   12, 12, .Land_sra_b6_7
+.Land_srs_b6_7:
+        .word   .Land_npow7, 100, .+4
+.Land_sra_b6_7:
+        .word   12, 12, .Land_b6_PP
+.Land_split_b6_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Land_split_b6_r21_ambig
+        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+        .word   12, 12, .Land_split_b6_strip
+.Land_split_b6_r21_ambig:
+        .word   12, 12, .Land_done
+
+        .globl  __subleq_and_b5
+        .type   __subleq_and_b5,@function
+__subleq_and_b5:
+        .word   160, 160, .+4
+        .word   96, 96, .+4
+        .word   144, 100, .Land_split_b5_r21_le0
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+.Land_split_b5_strip:
+        .word   .Land_pow30, 100, .Land_srs_b5_30
+        .word   12, 12, .Land_sra_b5_30
+.Land_srs_b5_30:
+        .word   .Land_npow30, 100, .+4
+.Land_sra_b5_30:
+        .word   .Land_pow29, 100, .Land_srs_b5_29
+        .word   12, 12, .Land_sra_b5_29
+.Land_srs_b5_29:
+        .word   .Land_npow29, 100, .+4
+.Land_sra_b5_29:
+        .word   .Land_pow28, 100, .Land_srs_b5_28
+        .word   12, 12, .Land_sra_b5_28
+.Land_srs_b5_28:
+        .word   .Land_npow28, 100, .+4
+.Land_sra_b5_28:
+        .word   .Land_pow27, 100, .Land_srs_b5_27
+        .word   12, 12, .Land_sra_b5_27
+.Land_srs_b5_27:
+        .word   .Land_npow27, 100, .+4
+.Land_sra_b5_27:
+        .word   .Land_pow26, 100, .Land_srs_b5_26
+        .word   12, 12, .Land_sra_b5_26
+.Land_srs_b5_26:
+        .word   .Land_npow26, 100, .+4
+.Land_sra_b5_26:
+        .word   .Land_pow25, 100, .Land_srs_b5_25
+        .word   12, 12, .Land_sra_b5_25
+.Land_srs_b5_25:
+        .word   .Land_npow25, 100, .+4
+.Land_sra_b5_25:
+        .word   .Land_pow24, 100, .Land_srs_b5_24
+        .word   12, 12, .Land_sra_b5_24
+.Land_srs_b5_24:
+        .word   .Land_npow24, 100, .+4
+.Land_sra_b5_24:
+        .word   .Land_pow23, 100, .Land_srs_b5_23
+        .word   12, 12, .Land_sra_b5_23
+.Land_srs_b5_23:
+        .word   .Land_npow23, 100, .+4
+.Land_sra_b5_23:
+        .word   .Land_pow22, 100, .Land_srs_b5_22
+        .word   12, 12, .Land_sra_b5_22
+.Land_srs_b5_22:
+        .word   .Land_npow22, 100, .+4
+.Land_sra_b5_22:
+        .word   .Land_pow21, 100, .Land_srs_b5_21
+        .word   12, 12, .Land_sra_b5_21
+.Land_srs_b5_21:
+        .word   .Land_npow21, 100, .+4
+.Land_sra_b5_21:
+        .word   .Land_pow20, 100, .Land_srs_b5_20
+        .word   12, 12, .Land_sra_b5_20
+.Land_srs_b5_20:
+        .word   .Land_npow20, 100, .+4
+.Land_sra_b5_20:
+        .word   .Land_pow19, 100, .Land_srs_b5_19
+        .word   12, 12, .Land_sra_b5_19
+.Land_srs_b5_19:
+        .word   .Land_npow19, 100, .+4
+.Land_sra_b5_19:
+        .word   .Land_pow18, 100, .Land_srs_b5_18
+        .word   12, 12, .Land_sra_b5_18
+.Land_srs_b5_18:
+        .word   .Land_npow18, 100, .+4
+.Land_sra_b5_18:
+        .word   .Land_pow17, 100, .Land_srs_b5_17
+        .word   12, 12, .Land_sra_b5_17
+.Land_srs_b5_17:
+        .word   .Land_npow17, 100, .+4
+.Land_sra_b5_17:
+        .word   .Land_pow16, 100, .Land_srs_b5_16
+        .word   12, 12, .Land_sra_b5_16
+.Land_srs_b5_16:
+        .word   .Land_npow16, 100, .+4
+.Land_sra_b5_16:
+        .word   .Land_pow15, 100, .Land_srs_b5_15
+        .word   12, 12, .Land_sra_b5_15
+.Land_srs_b5_15:
+        .word   .Land_npow15, 100, .+4
+.Land_sra_b5_15:
+        .word   .Land_pow14, 100, .Land_srs_b5_14
+        .word   12, 12, .Land_sra_b5_14
+.Land_srs_b5_14:
+        .word   .Land_npow14, 100, .+4
+.Land_sra_b5_14:
+        .word   .Land_pow13, 100, .Land_srs_b5_13
+        .word   12, 12, .Land_sra_b5_13
+.Land_srs_b5_13:
+        .word   .Land_npow13, 100, .+4
+.Land_sra_b5_13:
+        .word   .Land_pow12, 100, .Land_srs_b5_12
+        .word   12, 12, .Land_sra_b5_12
+.Land_srs_b5_12:
+        .word   .Land_npow12, 100, .+4
+.Land_sra_b5_12:
+        .word   .Land_pow11, 100, .Land_srs_b5_11
+        .word   12, 12, .Land_sra_b5_11
+.Land_srs_b5_11:
+        .word   .Land_npow11, 100, .+4
+.Land_sra_b5_11:
+        .word   .Land_pow10, 100, .Land_srs_b5_10
+        .word   12, 12, .Land_sra_b5_10
+.Land_srs_b5_10:
+        .word   .Land_npow10, 100, .+4
+.Land_sra_b5_10:
+        .word   .Land_pow9, 100, .Land_srs_b5_9
+        .word   12, 12, .Land_sra_b5_9
+.Land_srs_b5_9:
+        .word   .Land_npow9, 100, .+4
+.Land_sra_b5_9:
+        .word   .Land_pow8, 100, .Land_srs_b5_8
+        .word   12, 12, .Land_sra_b5_8
+.Land_srs_b5_8:
+        .word   .Land_npow8, 100, .+4
+.Land_sra_b5_8:
+        .word   .Land_pow7, 100, .Land_srs_b5_7
+        .word   12, 12, .Land_sra_b5_7
+.Land_srs_b5_7:
+        .word   .Land_npow7, 100, .+4
+.Land_sra_b5_7:
+        .word   .Land_pow6, 100, .Land_srs_b5_6
+        .word   12, 12, .Land_sra_b5_6
+.Land_srs_b5_6:
+        .word   .Land_npow6, 100, .+4
+.Land_sra_b5_6:
+        .word   12, 12, .Land_b5_PP
+.Land_split_b5_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Land_split_b5_r21_ambig
+        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+        .word   12, 12, .Land_split_b5_strip
+.Land_split_b5_r21_ambig:
+        .word   12, 12, .Land_done
+
+        .globl  __subleq_and_b4
+        .type   __subleq_and_b4,@function
+__subleq_and_b4:
+        .word   160, 160, .+4
+        .word   96, 96, .+4
+        .word   144, 100, .Land_split_b4_r21_le0
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+.Land_split_b4_strip:
+        .word   .Land_pow30, 100, .Land_srs_b4_30
+        .word   12, 12, .Land_sra_b4_30
+.Land_srs_b4_30:
+        .word   .Land_npow30, 100, .+4
+.Land_sra_b4_30:
+        .word   .Land_pow29, 100, .Land_srs_b4_29
+        .word   12, 12, .Land_sra_b4_29
+.Land_srs_b4_29:
+        .word   .Land_npow29, 100, .+4
+.Land_sra_b4_29:
+        .word   .Land_pow28, 100, .Land_srs_b4_28
+        .word   12, 12, .Land_sra_b4_28
+.Land_srs_b4_28:
+        .word   .Land_npow28, 100, .+4
+.Land_sra_b4_28:
+        .word   .Land_pow27, 100, .Land_srs_b4_27
+        .word   12, 12, .Land_sra_b4_27
+.Land_srs_b4_27:
+        .word   .Land_npow27, 100, .+4
+.Land_sra_b4_27:
+        .word   .Land_pow26, 100, .Land_srs_b4_26
+        .word   12, 12, .Land_sra_b4_26
+.Land_srs_b4_26:
+        .word   .Land_npow26, 100, .+4
+.Land_sra_b4_26:
+        .word   .Land_pow25, 100, .Land_srs_b4_25
+        .word   12, 12, .Land_sra_b4_25
+.Land_srs_b4_25:
+        .word   .Land_npow25, 100, .+4
+.Land_sra_b4_25:
+        .word   .Land_pow24, 100, .Land_srs_b4_24
+        .word   12, 12, .Land_sra_b4_24
+.Land_srs_b4_24:
+        .word   .Land_npow24, 100, .+4
+.Land_sra_b4_24:
+        .word   .Land_pow23, 100, .Land_srs_b4_23
+        .word   12, 12, .Land_sra_b4_23
+.Land_srs_b4_23:
+        .word   .Land_npow23, 100, .+4
+.Land_sra_b4_23:
+        .word   .Land_pow22, 100, .Land_srs_b4_22
+        .word   12, 12, .Land_sra_b4_22
+.Land_srs_b4_22:
+        .word   .Land_npow22, 100, .+4
+.Land_sra_b4_22:
+        .word   .Land_pow21, 100, .Land_srs_b4_21
+        .word   12, 12, .Land_sra_b4_21
+.Land_srs_b4_21:
+        .word   .Land_npow21, 100, .+4
+.Land_sra_b4_21:
+        .word   .Land_pow20, 100, .Land_srs_b4_20
+        .word   12, 12, .Land_sra_b4_20
+.Land_srs_b4_20:
+        .word   .Land_npow20, 100, .+4
+.Land_sra_b4_20:
+        .word   .Land_pow19, 100, .Land_srs_b4_19
+        .word   12, 12, .Land_sra_b4_19
+.Land_srs_b4_19:
+        .word   .Land_npow19, 100, .+4
+.Land_sra_b4_19:
+        .word   .Land_pow18, 100, .Land_srs_b4_18
+        .word   12, 12, .Land_sra_b4_18
+.Land_srs_b4_18:
+        .word   .Land_npow18, 100, .+4
+.Land_sra_b4_18:
+        .word   .Land_pow17, 100, .Land_srs_b4_17
+        .word   12, 12, .Land_sra_b4_17
+.Land_srs_b4_17:
+        .word   .Land_npow17, 100, .+4
+.Land_sra_b4_17:
+        .word   .Land_pow16, 100, .Land_srs_b4_16
+        .word   12, 12, .Land_sra_b4_16
+.Land_srs_b4_16:
+        .word   .Land_npow16, 100, .+4
+.Land_sra_b4_16:
+        .word   .Land_pow15, 100, .Land_srs_b4_15
+        .word   12, 12, .Land_sra_b4_15
+.Land_srs_b4_15:
+        .word   .Land_npow15, 100, .+4
+.Land_sra_b4_15:
+        .word   .Land_pow14, 100, .Land_srs_b4_14
+        .word   12, 12, .Land_sra_b4_14
+.Land_srs_b4_14:
+        .word   .Land_npow14, 100, .+4
+.Land_sra_b4_14:
+        .word   .Land_pow13, 100, .Land_srs_b4_13
+        .word   12, 12, .Land_sra_b4_13
+.Land_srs_b4_13:
+        .word   .Land_npow13, 100, .+4
+.Land_sra_b4_13:
+        .word   .Land_pow12, 100, .Land_srs_b4_12
+        .word   12, 12, .Land_sra_b4_12
+.Land_srs_b4_12:
+        .word   .Land_npow12, 100, .+4
+.Land_sra_b4_12:
+        .word   .Land_pow11, 100, .Land_srs_b4_11
+        .word   12, 12, .Land_sra_b4_11
+.Land_srs_b4_11:
+        .word   .Land_npow11, 100, .+4
+.Land_sra_b4_11:
+        .word   .Land_pow10, 100, .Land_srs_b4_10
+        .word   12, 12, .Land_sra_b4_10
+.Land_srs_b4_10:
+        .word   .Land_npow10, 100, .+4
+.Land_sra_b4_10:
+        .word   .Land_pow9, 100, .Land_srs_b4_9
+        .word   12, 12, .Land_sra_b4_9
+.Land_srs_b4_9:
+        .word   .Land_npow9, 100, .+4
+.Land_sra_b4_9:
+        .word   .Land_pow8, 100, .Land_srs_b4_8
+        .word   12, 12, .Land_sra_b4_8
+.Land_srs_b4_8:
+        .word   .Land_npow8, 100, .+4
+.Land_sra_b4_8:
+        .word   .Land_pow7, 100, .Land_srs_b4_7
+        .word   12, 12, .Land_sra_b4_7
+.Land_srs_b4_7:
+        .word   .Land_npow7, 100, .+4
+.Land_sra_b4_7:
+        .word   .Land_pow6, 100, .Land_srs_b4_6
+        .word   12, 12, .Land_sra_b4_6
+.Land_srs_b4_6:
+        .word   .Land_npow6, 100, .+4
+.Land_sra_b4_6:
+        .word   .Land_pow5, 100, .Land_srs_b4_5
+        .word   12, 12, .Land_sra_b4_5
+.Land_srs_b4_5:
+        .word   .Land_npow5, 100, .+4
+.Land_sra_b4_5:
+        .word   12, 12, .Land_b4_PP
+.Land_split_b4_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Land_split_b4_r21_ambig
+        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+        .word   12, 12, .Land_split_b4_strip
+.Land_split_b4_r21_ambig:
+        .word   12, 12, .Land_done
+
+        .globl  __subleq_and_b3
+        .type   __subleq_and_b3,@function
+__subleq_and_b3:
+        .word   160, 160, .+4
+        .word   96, 96, .+4
+        .word   144, 100, .Land_split_b3_r21_le0
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+.Land_split_b3_strip:
+        .word   .Land_pow30, 100, .Land_srs_b3_30
+        .word   12, 12, .Land_sra_b3_30
+.Land_srs_b3_30:
+        .word   .Land_npow30, 100, .+4
+.Land_sra_b3_30:
+        .word   .Land_pow29, 100, .Land_srs_b3_29
+        .word   12, 12, .Land_sra_b3_29
+.Land_srs_b3_29:
+        .word   .Land_npow29, 100, .+4
+.Land_sra_b3_29:
+        .word   .Land_pow28, 100, .Land_srs_b3_28
+        .word   12, 12, .Land_sra_b3_28
+.Land_srs_b3_28:
+        .word   .Land_npow28, 100, .+4
+.Land_sra_b3_28:
+        .word   .Land_pow27, 100, .Land_srs_b3_27
+        .word   12, 12, .Land_sra_b3_27
+.Land_srs_b3_27:
+        .word   .Land_npow27, 100, .+4
+.Land_sra_b3_27:
+        .word   .Land_pow26, 100, .Land_srs_b3_26
+        .word   12, 12, .Land_sra_b3_26
+.Land_srs_b3_26:
+        .word   .Land_npow26, 100, .+4
+.Land_sra_b3_26:
+        .word   .Land_pow25, 100, .Land_srs_b3_25
+        .word   12, 12, .Land_sra_b3_25
+.Land_srs_b3_25:
+        .word   .Land_npow25, 100, .+4
+.Land_sra_b3_25:
+        .word   .Land_pow24, 100, .Land_srs_b3_24
+        .word   12, 12, .Land_sra_b3_24
+.Land_srs_b3_24:
+        .word   .Land_npow24, 100, .+4
+.Land_sra_b3_24:
+        .word   .Land_pow23, 100, .Land_srs_b3_23
+        .word   12, 12, .Land_sra_b3_23
+.Land_srs_b3_23:
+        .word   .Land_npow23, 100, .+4
+.Land_sra_b3_23:
+        .word   .Land_pow22, 100, .Land_srs_b3_22
+        .word   12, 12, .Land_sra_b3_22
+.Land_srs_b3_22:
+        .word   .Land_npow22, 100, .+4
+.Land_sra_b3_22:
+        .word   .Land_pow21, 100, .Land_srs_b3_21
+        .word   12, 12, .Land_sra_b3_21
+.Land_srs_b3_21:
+        .word   .Land_npow21, 100, .+4
+.Land_sra_b3_21:
+        .word   .Land_pow20, 100, .Land_srs_b3_20
+        .word   12, 12, .Land_sra_b3_20
+.Land_srs_b3_20:
+        .word   .Land_npow20, 100, .+4
+.Land_sra_b3_20:
+        .word   .Land_pow19, 100, .Land_srs_b3_19
+        .word   12, 12, .Land_sra_b3_19
+.Land_srs_b3_19:
+        .word   .Land_npow19, 100, .+4
+.Land_sra_b3_19:
+        .word   .Land_pow18, 100, .Land_srs_b3_18
+        .word   12, 12, .Land_sra_b3_18
+.Land_srs_b3_18:
+        .word   .Land_npow18, 100, .+4
+.Land_sra_b3_18:
+        .word   .Land_pow17, 100, .Land_srs_b3_17
+        .word   12, 12, .Land_sra_b3_17
+.Land_srs_b3_17:
+        .word   .Land_npow17, 100, .+4
+.Land_sra_b3_17:
+        .word   .Land_pow16, 100, .Land_srs_b3_16
+        .word   12, 12, .Land_sra_b3_16
+.Land_srs_b3_16:
+        .word   .Land_npow16, 100, .+4
+.Land_sra_b3_16:
+        .word   .Land_pow15, 100, .Land_srs_b3_15
+        .word   12, 12, .Land_sra_b3_15
+.Land_srs_b3_15:
+        .word   .Land_npow15, 100, .+4
+.Land_sra_b3_15:
+        .word   .Land_pow14, 100, .Land_srs_b3_14
+        .word   12, 12, .Land_sra_b3_14
+.Land_srs_b3_14:
+        .word   .Land_npow14, 100, .+4
+.Land_sra_b3_14:
+        .word   .Land_pow13, 100, .Land_srs_b3_13
+        .word   12, 12, .Land_sra_b3_13
+.Land_srs_b3_13:
+        .word   .Land_npow13, 100, .+4
+.Land_sra_b3_13:
+        .word   .Land_pow12, 100, .Land_srs_b3_12
+        .word   12, 12, .Land_sra_b3_12
+.Land_srs_b3_12:
+        .word   .Land_npow12, 100, .+4
+.Land_sra_b3_12:
+        .word   .Land_pow11, 100, .Land_srs_b3_11
+        .word   12, 12, .Land_sra_b3_11
+.Land_srs_b3_11:
+        .word   .Land_npow11, 100, .+4
+.Land_sra_b3_11:
+        .word   .Land_pow10, 100, .Land_srs_b3_10
+        .word   12, 12, .Land_sra_b3_10
+.Land_srs_b3_10:
+        .word   .Land_npow10, 100, .+4
+.Land_sra_b3_10:
+        .word   .Land_pow9, 100, .Land_srs_b3_9
+        .word   12, 12, .Land_sra_b3_9
+.Land_srs_b3_9:
+        .word   .Land_npow9, 100, .+4
+.Land_sra_b3_9:
+        .word   .Land_pow8, 100, .Land_srs_b3_8
+        .word   12, 12, .Land_sra_b3_8
+.Land_srs_b3_8:
+        .word   .Land_npow8, 100, .+4
+.Land_sra_b3_8:
+        .word   .Land_pow7, 100, .Land_srs_b3_7
+        .word   12, 12, .Land_sra_b3_7
+.Land_srs_b3_7:
+        .word   .Land_npow7, 100, .+4
+.Land_sra_b3_7:
+        .word   .Land_pow6, 100, .Land_srs_b3_6
+        .word   12, 12, .Land_sra_b3_6
+.Land_srs_b3_6:
+        .word   .Land_npow6, 100, .+4
+.Land_sra_b3_6:
+        .word   .Land_pow5, 100, .Land_srs_b3_5
+        .word   12, 12, .Land_sra_b3_5
+.Land_srs_b3_5:
+        .word   .Land_npow5, 100, .+4
+.Land_sra_b3_5:
+        .word   .Land_pow4, 100, .Land_srs_b3_4
+        .word   12, 12, .Land_sra_b3_4
+.Land_srs_b3_4:
+        .word   .Land_npow4, 100, .+4
+.Land_sra_b3_4:
+        .word   12, 12, .Land_b3_PP
+.Land_split_b3_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Land_split_b3_r21_ambig
+        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+        .word   12, 12, .Land_split_b3_strip
+.Land_split_b3_r21_ambig:
+        .word   12, 12, .Land_done
+
+        .globl  __subleq_and_b2
+        .type   __subleq_and_b2,@function
+__subleq_and_b2:
+        .word   160, 160, .+4
+        .word   96, 96, .+4
+        .word   144, 100, .Land_split_b2_r21_le0
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+.Land_split_b2_strip:
+        .word   .Land_pow30, 100, .Land_srs_b2_30
+        .word   12, 12, .Land_sra_b2_30
+.Land_srs_b2_30:
+        .word   .Land_npow30, 100, .+4
+.Land_sra_b2_30:
+        .word   .Land_pow29, 100, .Land_srs_b2_29
+        .word   12, 12, .Land_sra_b2_29
+.Land_srs_b2_29:
+        .word   .Land_npow29, 100, .+4
+.Land_sra_b2_29:
+        .word   .Land_pow28, 100, .Land_srs_b2_28
+        .word   12, 12, .Land_sra_b2_28
+.Land_srs_b2_28:
+        .word   .Land_npow28, 100, .+4
+.Land_sra_b2_28:
+        .word   .Land_pow27, 100, .Land_srs_b2_27
+        .word   12, 12, .Land_sra_b2_27
+.Land_srs_b2_27:
+        .word   .Land_npow27, 100, .+4
+.Land_sra_b2_27:
+        .word   .Land_pow26, 100, .Land_srs_b2_26
+        .word   12, 12, .Land_sra_b2_26
+.Land_srs_b2_26:
+        .word   .Land_npow26, 100, .+4
+.Land_sra_b2_26:
+        .word   .Land_pow25, 100, .Land_srs_b2_25
+        .word   12, 12, .Land_sra_b2_25
+.Land_srs_b2_25:
+        .word   .Land_npow25, 100, .+4
+.Land_sra_b2_25:
+        .word   .Land_pow24, 100, .Land_srs_b2_24
+        .word   12, 12, .Land_sra_b2_24
+.Land_srs_b2_24:
+        .word   .Land_npow24, 100, .+4
+.Land_sra_b2_24:
+        .word   .Land_pow23, 100, .Land_srs_b2_23
+        .word   12, 12, .Land_sra_b2_23
+.Land_srs_b2_23:
+        .word   .Land_npow23, 100, .+4
+.Land_sra_b2_23:
+        .word   .Land_pow22, 100, .Land_srs_b2_22
+        .word   12, 12, .Land_sra_b2_22
+.Land_srs_b2_22:
+        .word   .Land_npow22, 100, .+4
+.Land_sra_b2_22:
+        .word   .Land_pow21, 100, .Land_srs_b2_21
+        .word   12, 12, .Land_sra_b2_21
+.Land_srs_b2_21:
+        .word   .Land_npow21, 100, .+4
+.Land_sra_b2_21:
+        .word   .Land_pow20, 100, .Land_srs_b2_20
+        .word   12, 12, .Land_sra_b2_20
+.Land_srs_b2_20:
+        .word   .Land_npow20, 100, .+4
+.Land_sra_b2_20:
+        .word   .Land_pow19, 100, .Land_srs_b2_19
+        .word   12, 12, .Land_sra_b2_19
+.Land_srs_b2_19:
+        .word   .Land_npow19, 100, .+4
+.Land_sra_b2_19:
+        .word   .Land_pow18, 100, .Land_srs_b2_18
+        .word   12, 12, .Land_sra_b2_18
+.Land_srs_b2_18:
+        .word   .Land_npow18, 100, .+4
+.Land_sra_b2_18:
+        .word   .Land_pow17, 100, .Land_srs_b2_17
+        .word   12, 12, .Land_sra_b2_17
+.Land_srs_b2_17:
+        .word   .Land_npow17, 100, .+4
+.Land_sra_b2_17:
+        .word   .Land_pow16, 100, .Land_srs_b2_16
+        .word   12, 12, .Land_sra_b2_16
+.Land_srs_b2_16:
+        .word   .Land_npow16, 100, .+4
+.Land_sra_b2_16:
+        .word   .Land_pow15, 100, .Land_srs_b2_15
+        .word   12, 12, .Land_sra_b2_15
+.Land_srs_b2_15:
+        .word   .Land_npow15, 100, .+4
+.Land_sra_b2_15:
+        .word   .Land_pow14, 100, .Land_srs_b2_14
+        .word   12, 12, .Land_sra_b2_14
+.Land_srs_b2_14:
+        .word   .Land_npow14, 100, .+4
+.Land_sra_b2_14:
+        .word   .Land_pow13, 100, .Land_srs_b2_13
+        .word   12, 12, .Land_sra_b2_13
+.Land_srs_b2_13:
+        .word   .Land_npow13, 100, .+4
+.Land_sra_b2_13:
+        .word   .Land_pow12, 100, .Land_srs_b2_12
+        .word   12, 12, .Land_sra_b2_12
+.Land_srs_b2_12:
+        .word   .Land_npow12, 100, .+4
+.Land_sra_b2_12:
+        .word   .Land_pow11, 100, .Land_srs_b2_11
+        .word   12, 12, .Land_sra_b2_11
+.Land_srs_b2_11:
+        .word   .Land_npow11, 100, .+4
+.Land_sra_b2_11:
+        .word   .Land_pow10, 100, .Land_srs_b2_10
+        .word   12, 12, .Land_sra_b2_10
+.Land_srs_b2_10:
+        .word   .Land_npow10, 100, .+4
+.Land_sra_b2_10:
+        .word   .Land_pow9, 100, .Land_srs_b2_9
+        .word   12, 12, .Land_sra_b2_9
+.Land_srs_b2_9:
+        .word   .Land_npow9, 100, .+4
+.Land_sra_b2_9:
+        .word   .Land_pow8, 100, .Land_srs_b2_8
+        .word   12, 12, .Land_sra_b2_8
+.Land_srs_b2_8:
+        .word   .Land_npow8, 100, .+4
+.Land_sra_b2_8:
+        .word   .Land_pow7, 100, .Land_srs_b2_7
+        .word   12, 12, .Land_sra_b2_7
+.Land_srs_b2_7:
+        .word   .Land_npow7, 100, .+4
+.Land_sra_b2_7:
+        .word   .Land_pow6, 100, .Land_srs_b2_6
+        .word   12, 12, .Land_sra_b2_6
+.Land_srs_b2_6:
+        .word   .Land_npow6, 100, .+4
+.Land_sra_b2_6:
+        .word   .Land_pow5, 100, .Land_srs_b2_5
+        .word   12, 12, .Land_sra_b2_5
+.Land_srs_b2_5:
+        .word   .Land_npow5, 100, .+4
+.Land_sra_b2_5:
+        .word   .Land_pow4, 100, .Land_srs_b2_4
+        .word   12, 12, .Land_sra_b2_4
+.Land_srs_b2_4:
+        .word   .Land_npow4, 100, .+4
+.Land_sra_b2_4:
+        .word   .Land_pow3, 100, .Land_srs_b2_3
+        .word   12, 12, .Land_sra_b2_3
+.Land_srs_b2_3:
+        .word   .Land_npow3, 100, .+4
+.Land_sra_b2_3:
+        .word   12, 12, .Land_b2_PP
+.Land_split_b2_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Land_split_b2_r21_ambig
+        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+        .word   12, 12, .Land_split_b2_strip
+.Land_split_b2_r21_ambig:
+        .word   12, 12, .Land_done
+
+        .globl  __subleq_and_b1
+        .type   __subleq_and_b1,@function
+__subleq_and_b1:
+        .word   160, 160, .+4
+        .word   96, 96, .+4
+        .word   144, 100, .Land_split_b1_r21_le0
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+.Land_split_b1_strip:
+        .word   .Land_pow30, 100, .Land_srs_b1_30
+        .word   12, 12, .Land_sra_b1_30
+.Land_srs_b1_30:
+        .word   .Land_npow30, 100, .+4
+.Land_sra_b1_30:
+        .word   .Land_pow29, 100, .Land_srs_b1_29
+        .word   12, 12, .Land_sra_b1_29
+.Land_srs_b1_29:
+        .word   .Land_npow29, 100, .+4
+.Land_sra_b1_29:
+        .word   .Land_pow28, 100, .Land_srs_b1_28
+        .word   12, 12, .Land_sra_b1_28
+.Land_srs_b1_28:
+        .word   .Land_npow28, 100, .+4
+.Land_sra_b1_28:
+        .word   .Land_pow27, 100, .Land_srs_b1_27
+        .word   12, 12, .Land_sra_b1_27
+.Land_srs_b1_27:
+        .word   .Land_npow27, 100, .+4
+.Land_sra_b1_27:
+        .word   .Land_pow26, 100, .Land_srs_b1_26
+        .word   12, 12, .Land_sra_b1_26
+.Land_srs_b1_26:
+        .word   .Land_npow26, 100, .+4
+.Land_sra_b1_26:
+        .word   .Land_pow25, 100, .Land_srs_b1_25
+        .word   12, 12, .Land_sra_b1_25
+.Land_srs_b1_25:
+        .word   .Land_npow25, 100, .+4
+.Land_sra_b1_25:
+        .word   .Land_pow24, 100, .Land_srs_b1_24
+        .word   12, 12, .Land_sra_b1_24
+.Land_srs_b1_24:
+        .word   .Land_npow24, 100, .+4
+.Land_sra_b1_24:
+        .word   .Land_pow23, 100, .Land_srs_b1_23
+        .word   12, 12, .Land_sra_b1_23
+.Land_srs_b1_23:
+        .word   .Land_npow23, 100, .+4
+.Land_sra_b1_23:
+        .word   .Land_pow22, 100, .Land_srs_b1_22
+        .word   12, 12, .Land_sra_b1_22
+.Land_srs_b1_22:
+        .word   .Land_npow22, 100, .+4
+.Land_sra_b1_22:
+        .word   .Land_pow21, 100, .Land_srs_b1_21
+        .word   12, 12, .Land_sra_b1_21
+.Land_srs_b1_21:
+        .word   .Land_npow21, 100, .+4
+.Land_sra_b1_21:
+        .word   .Land_pow20, 100, .Land_srs_b1_20
+        .word   12, 12, .Land_sra_b1_20
+.Land_srs_b1_20:
+        .word   .Land_npow20, 100, .+4
+.Land_sra_b1_20:
+        .word   .Land_pow19, 100, .Land_srs_b1_19
+        .word   12, 12, .Land_sra_b1_19
+.Land_srs_b1_19:
+        .word   .Land_npow19, 100, .+4
+.Land_sra_b1_19:
+        .word   .Land_pow18, 100, .Land_srs_b1_18
+        .word   12, 12, .Land_sra_b1_18
+.Land_srs_b1_18:
+        .word   .Land_npow18, 100, .+4
+.Land_sra_b1_18:
+        .word   .Land_pow17, 100, .Land_srs_b1_17
+        .word   12, 12, .Land_sra_b1_17
+.Land_srs_b1_17:
+        .word   .Land_npow17, 100, .+4
+.Land_sra_b1_17:
+        .word   .Land_pow16, 100, .Land_srs_b1_16
+        .word   12, 12, .Land_sra_b1_16
+.Land_srs_b1_16:
+        .word   .Land_npow16, 100, .+4
+.Land_sra_b1_16:
+        .word   .Land_pow15, 100, .Land_srs_b1_15
+        .word   12, 12, .Land_sra_b1_15
+.Land_srs_b1_15:
+        .word   .Land_npow15, 100, .+4
+.Land_sra_b1_15:
+        .word   .Land_pow14, 100, .Land_srs_b1_14
+        .word   12, 12, .Land_sra_b1_14
+.Land_srs_b1_14:
+        .word   .Land_npow14, 100, .+4
+.Land_sra_b1_14:
+        .word   .Land_pow13, 100, .Land_srs_b1_13
+        .word   12, 12, .Land_sra_b1_13
+.Land_srs_b1_13:
+        .word   .Land_npow13, 100, .+4
+.Land_sra_b1_13:
+        .word   .Land_pow12, 100, .Land_srs_b1_12
+        .word   12, 12, .Land_sra_b1_12
+.Land_srs_b1_12:
+        .word   .Land_npow12, 100, .+4
+.Land_sra_b1_12:
+        .word   .Land_pow11, 100, .Land_srs_b1_11
+        .word   12, 12, .Land_sra_b1_11
+.Land_srs_b1_11:
+        .word   .Land_npow11, 100, .+4
+.Land_sra_b1_11:
+        .word   .Land_pow10, 100, .Land_srs_b1_10
+        .word   12, 12, .Land_sra_b1_10
+.Land_srs_b1_10:
+        .word   .Land_npow10, 100, .+4
+.Land_sra_b1_10:
+        .word   .Land_pow9, 100, .Land_srs_b1_9
+        .word   12, 12, .Land_sra_b1_9
+.Land_srs_b1_9:
+        .word   .Land_npow9, 100, .+4
+.Land_sra_b1_9:
+        .word   .Land_pow8, 100, .Land_srs_b1_8
+        .word   12, 12, .Land_sra_b1_8
+.Land_srs_b1_8:
+        .word   .Land_npow8, 100, .+4
+.Land_sra_b1_8:
+        .word   .Land_pow7, 100, .Land_srs_b1_7
+        .word   12, 12, .Land_sra_b1_7
+.Land_srs_b1_7:
+        .word   .Land_npow7, 100, .+4
+.Land_sra_b1_7:
+        .word   .Land_pow6, 100, .Land_srs_b1_6
+        .word   12, 12, .Land_sra_b1_6
+.Land_srs_b1_6:
+        .word   .Land_npow6, 100, .+4
+.Land_sra_b1_6:
+        .word   .Land_pow5, 100, .Land_srs_b1_5
+        .word   12, 12, .Land_sra_b1_5
+.Land_srs_b1_5:
+        .word   .Land_npow5, 100, .+4
+.Land_sra_b1_5:
+        .word   .Land_pow4, 100, .Land_srs_b1_4
+        .word   12, 12, .Land_sra_b1_4
+.Land_srs_b1_4:
+        .word   .Land_npow4, 100, .+4
+.Land_sra_b1_4:
+        .word   .Land_pow3, 100, .Land_srs_b1_3
+        .word   12, 12, .Land_sra_b1_3
+.Land_srs_b1_3:
+        .word   .Land_npow3, 100, .+4
+.Land_sra_b1_3:
+        .word   .Land_pow2, 100, .Land_srs_b1_2
+        .word   12, 12, .Land_sra_b1_2
+.Land_srs_b1_2:
+        .word   .Land_npow2, 100, .+4
+.Land_sra_b1_2:
+        .word   12, 12, .Land_b1_PP
+.Land_split_b1_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Land_split_b1_r21_ambig
+        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+        .word   12, 12, .Land_split_b1_strip
+.Land_split_b1_r21_ambig:
+        .word   12, 12, .Land_done
+
+        .globl  __subleq_and_b0
+        .type   __subleq_and_b0,@function
+__subleq_and_b0:
+        .word   160, 160, .+4
+        .word   96, 96, .+4
+        .word   144, 100, .Land_split_b0_r21_le0
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+.Land_split_b0_strip:
+        .word   .Land_pow30, 100, .Land_srs_b0_30
+        .word   12, 12, .Land_sra_b0_30
+.Land_srs_b0_30:
+        .word   .Land_npow30, 100, .+4
+.Land_sra_b0_30:
+        .word   .Land_pow29, 100, .Land_srs_b0_29
+        .word   12, 12, .Land_sra_b0_29
+.Land_srs_b0_29:
+        .word   .Land_npow29, 100, .+4
+.Land_sra_b0_29:
+        .word   .Land_pow28, 100, .Land_srs_b0_28
+        .word   12, 12, .Land_sra_b0_28
+.Land_srs_b0_28:
+        .word   .Land_npow28, 100, .+4
+.Land_sra_b0_28:
+        .word   .Land_pow27, 100, .Land_srs_b0_27
+        .word   12, 12, .Land_sra_b0_27
+.Land_srs_b0_27:
+        .word   .Land_npow27, 100, .+4
+.Land_sra_b0_27:
+        .word   .Land_pow26, 100, .Land_srs_b0_26
+        .word   12, 12, .Land_sra_b0_26
+.Land_srs_b0_26:
+        .word   .Land_npow26, 100, .+4
+.Land_sra_b0_26:
+        .word   .Land_pow25, 100, .Land_srs_b0_25
+        .word   12, 12, .Land_sra_b0_25
+.Land_srs_b0_25:
+        .word   .Land_npow25, 100, .+4
+.Land_sra_b0_25:
+        .word   .Land_pow24, 100, .Land_srs_b0_24
+        .word   12, 12, .Land_sra_b0_24
+.Land_srs_b0_24:
+        .word   .Land_npow24, 100, .+4
+.Land_sra_b0_24:
+        .word   .Land_pow23, 100, .Land_srs_b0_23
+        .word   12, 12, .Land_sra_b0_23
+.Land_srs_b0_23:
+        .word   .Land_npow23, 100, .+4
+.Land_sra_b0_23:
+        .word   .Land_pow22, 100, .Land_srs_b0_22
+        .word   12, 12, .Land_sra_b0_22
+.Land_srs_b0_22:
+        .word   .Land_npow22, 100, .+4
+.Land_sra_b0_22:
+        .word   .Land_pow21, 100, .Land_srs_b0_21
+        .word   12, 12, .Land_sra_b0_21
+.Land_srs_b0_21:
+        .word   .Land_npow21, 100, .+4
+.Land_sra_b0_21:
+        .word   .Land_pow20, 100, .Land_srs_b0_20
+        .word   12, 12, .Land_sra_b0_20
+.Land_srs_b0_20:
+        .word   .Land_npow20, 100, .+4
+.Land_sra_b0_20:
+        .word   .Land_pow19, 100, .Land_srs_b0_19
+        .word   12, 12, .Land_sra_b0_19
+.Land_srs_b0_19:
+        .word   .Land_npow19, 100, .+4
+.Land_sra_b0_19:
+        .word   .Land_pow18, 100, .Land_srs_b0_18
+        .word   12, 12, .Land_sra_b0_18
+.Land_srs_b0_18:
+        .word   .Land_npow18, 100, .+4
+.Land_sra_b0_18:
+        .word   .Land_pow17, 100, .Land_srs_b0_17
+        .word   12, 12, .Land_sra_b0_17
+.Land_srs_b0_17:
+        .word   .Land_npow17, 100, .+4
+.Land_sra_b0_17:
+        .word   .Land_pow16, 100, .Land_srs_b0_16
+        .word   12, 12, .Land_sra_b0_16
+.Land_srs_b0_16:
+        .word   .Land_npow16, 100, .+4
+.Land_sra_b0_16:
+        .word   .Land_pow15, 100, .Land_srs_b0_15
+        .word   12, 12, .Land_sra_b0_15
+.Land_srs_b0_15:
+        .word   .Land_npow15, 100, .+4
+.Land_sra_b0_15:
+        .word   .Land_pow14, 100, .Land_srs_b0_14
+        .word   12, 12, .Land_sra_b0_14
+.Land_srs_b0_14:
+        .word   .Land_npow14, 100, .+4
+.Land_sra_b0_14:
+        .word   .Land_pow13, 100, .Land_srs_b0_13
+        .word   12, 12, .Land_sra_b0_13
+.Land_srs_b0_13:
+        .word   .Land_npow13, 100, .+4
+.Land_sra_b0_13:
+        .word   .Land_pow12, 100, .Land_srs_b0_12
+        .word   12, 12, .Land_sra_b0_12
+.Land_srs_b0_12:
+        .word   .Land_npow12, 100, .+4
+.Land_sra_b0_12:
+        .word   .Land_pow11, 100, .Land_srs_b0_11
+        .word   12, 12, .Land_sra_b0_11
+.Land_srs_b0_11:
+        .word   .Land_npow11, 100, .+4
+.Land_sra_b0_11:
+        .word   .Land_pow10, 100, .Land_srs_b0_10
+        .word   12, 12, .Land_sra_b0_10
+.Land_srs_b0_10:
+        .word   .Land_npow10, 100, .+4
+.Land_sra_b0_10:
+        .word   .Land_pow9, 100, .Land_srs_b0_9
+        .word   12, 12, .Land_sra_b0_9
+.Land_srs_b0_9:
+        .word   .Land_npow9, 100, .+4
+.Land_sra_b0_9:
+        .word   .Land_pow8, 100, .Land_srs_b0_8
+        .word   12, 12, .Land_sra_b0_8
+.Land_srs_b0_8:
+        .word   .Land_npow8, 100, .+4
+.Land_sra_b0_8:
+        .word   .Land_pow7, 100, .Land_srs_b0_7
+        .word   12, 12, .Land_sra_b0_7
+.Land_srs_b0_7:
+        .word   .Land_npow7, 100, .+4
+.Land_sra_b0_7:
+        .word   .Land_pow6, 100, .Land_srs_b0_6
+        .word   12, 12, .Land_sra_b0_6
+.Land_srs_b0_6:
+        .word   .Land_npow6, 100, .+4
+.Land_sra_b0_6:
+        .word   .Land_pow5, 100, .Land_srs_b0_5
+        .word   12, 12, .Land_sra_b0_5
+.Land_srs_b0_5:
+        .word   .Land_npow5, 100, .+4
+.Land_sra_b0_5:
+        .word   .Land_pow4, 100, .Land_srs_b0_4
+        .word   12, 12, .Land_sra_b0_4
+.Land_srs_b0_4:
+        .word   .Land_npow4, 100, .+4
+.Land_sra_b0_4:
+        .word   .Land_pow3, 100, .Land_srs_b0_3
+        .word   12, 12, .Land_sra_b0_3
+.Land_srs_b0_3:
+        .word   .Land_npow3, 100, .+4
+.Land_sra_b0_3:
+        .word   .Land_pow2, 100, .Land_srs_b0_2
+        .word   12, 12, .Land_sra_b0_2
+.Land_srs_b0_2:
+        .word   .Land_npow2, 100, .+4
+.Land_sra_b0_2:
+        .word   .Land_pow1, 100, .Land_srs_b0_1
+        .word   12, 12, .Land_sra_b0_1
+.Land_srs_b0_1:
+        .word   .Land_npow1, 100, .+4
+.Land_sra_b0_1:
+        .word   12, 12, .Land_b0_PP
+.Land_split_b0_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Land_split_b0_r21_ambig
+        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .+4
+        .word   .Land_n1, 104, .+4
+        .word   12, 12, .Land_split_b0_strip
+.Land_split_b0_r21_ambig:
+        .word   12, 12, .Land_done
 .Land_Bit31:
         .word   160, 160, .+4
         .word   96, 96, .+4
@@ -37202,6 +40178,3695 @@ __subleq_or:
         .word   .Lor_n1, 100, .+4
         .word   .Lor_n1, 104, .+4
         .word   12, 12, .Lor_b15_PP
+
+        .globl  __subleq_or_b30
+        .type   __subleq_or_b30,@function
+__subleq_or_b30:
+        .word   160, 160, .+4
+        .word   144, 100, .Lor_split_b30_r21_le0
+        .word   .Lor_n1, 100, .+4
+.Lor_split_b30_strip:
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b30_PP
+.Lor_split_b30_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lor_split_b30_r21_ambig
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b30_strip
+.Lor_split_b30_r21_ambig:
+        .word   .Lor_one, 168, .+4
+        .word   144, 168, .Lor_split_b30_r21_zero
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b30_strip
+.Lor_split_b30_r21_zero:
+        .word   .Lor_n1, 100, .+4
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b30_PP
+
+        .globl  __subleq_or_b29
+        .type   __subleq_or_b29,@function
+__subleq_or_b29:
+        .word   160, 160, .+4
+        .word   144, 100, .Lor_split_b29_r21_le0
+        .word   .Lor_n1, 100, .+4
+.Lor_split_b29_strip:
+        .word   .Lor_pow30, 100, .Lor_srs_b29_30
+        .word   .Lor_pow30, 160, .+4
+        .word   12, 12, .Lor_sra_b29_30
+.Lor_srs_b29_30:
+        .word   .Lor_npow30, 100, .+4
+.Lor_sra_b29_30:
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b29_PP
+.Lor_split_b29_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lor_split_b29_r21_ambig
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b29_strip
+.Lor_split_b29_r21_ambig:
+        .word   .Lor_one, 168, .+4
+        .word   144, 168, .Lor_split_b29_r21_zero
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b29_strip
+.Lor_split_b29_r21_zero:
+        .word   .Lor_n1, 100, .+4
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b29_PP
+
+        .globl  __subleq_or_b28
+        .type   __subleq_or_b28,@function
+__subleq_or_b28:
+        .word   160, 160, .+4
+        .word   144, 100, .Lor_split_b28_r21_le0
+        .word   .Lor_n1, 100, .+4
+.Lor_split_b28_strip:
+        .word   .Lor_pow30, 100, .Lor_srs_b28_30
+        .word   .Lor_pow30, 160, .+4
+        .word   12, 12, .Lor_sra_b28_30
+.Lor_srs_b28_30:
+        .word   .Lor_npow30, 100, .+4
+.Lor_sra_b28_30:
+        .word   .Lor_pow29, 100, .Lor_srs_b28_29
+        .word   .Lor_pow29, 160, .+4
+        .word   12, 12, .Lor_sra_b28_29
+.Lor_srs_b28_29:
+        .word   .Lor_npow29, 100, .+4
+.Lor_sra_b28_29:
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b28_PP
+.Lor_split_b28_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lor_split_b28_r21_ambig
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b28_strip
+.Lor_split_b28_r21_ambig:
+        .word   .Lor_one, 168, .+4
+        .word   144, 168, .Lor_split_b28_r21_zero
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b28_strip
+.Lor_split_b28_r21_zero:
+        .word   .Lor_n1, 100, .+4
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b28_PP
+
+        .globl  __subleq_or_b27
+        .type   __subleq_or_b27,@function
+__subleq_or_b27:
+        .word   160, 160, .+4
+        .word   144, 100, .Lor_split_b27_r21_le0
+        .word   .Lor_n1, 100, .+4
+.Lor_split_b27_strip:
+        .word   .Lor_pow30, 100, .Lor_srs_b27_30
+        .word   .Lor_pow30, 160, .+4
+        .word   12, 12, .Lor_sra_b27_30
+.Lor_srs_b27_30:
+        .word   .Lor_npow30, 100, .+4
+.Lor_sra_b27_30:
+        .word   .Lor_pow29, 100, .Lor_srs_b27_29
+        .word   .Lor_pow29, 160, .+4
+        .word   12, 12, .Lor_sra_b27_29
+.Lor_srs_b27_29:
+        .word   .Lor_npow29, 100, .+4
+.Lor_sra_b27_29:
+        .word   .Lor_pow28, 100, .Lor_srs_b27_28
+        .word   .Lor_pow28, 160, .+4
+        .word   12, 12, .Lor_sra_b27_28
+.Lor_srs_b27_28:
+        .word   .Lor_npow28, 100, .+4
+.Lor_sra_b27_28:
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b27_PP
+.Lor_split_b27_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lor_split_b27_r21_ambig
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b27_strip
+.Lor_split_b27_r21_ambig:
+        .word   .Lor_one, 168, .+4
+        .word   144, 168, .Lor_split_b27_r21_zero
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b27_strip
+.Lor_split_b27_r21_zero:
+        .word   .Lor_n1, 100, .+4
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b27_PP
+
+        .globl  __subleq_or_b26
+        .type   __subleq_or_b26,@function
+__subleq_or_b26:
+        .word   160, 160, .+4
+        .word   144, 100, .Lor_split_b26_r21_le0
+        .word   .Lor_n1, 100, .+4
+.Lor_split_b26_strip:
+        .word   .Lor_pow30, 100, .Lor_srs_b26_30
+        .word   .Lor_pow30, 160, .+4
+        .word   12, 12, .Lor_sra_b26_30
+.Lor_srs_b26_30:
+        .word   .Lor_npow30, 100, .+4
+.Lor_sra_b26_30:
+        .word   .Lor_pow29, 100, .Lor_srs_b26_29
+        .word   .Lor_pow29, 160, .+4
+        .word   12, 12, .Lor_sra_b26_29
+.Lor_srs_b26_29:
+        .word   .Lor_npow29, 100, .+4
+.Lor_sra_b26_29:
+        .word   .Lor_pow28, 100, .Lor_srs_b26_28
+        .word   .Lor_pow28, 160, .+4
+        .word   12, 12, .Lor_sra_b26_28
+.Lor_srs_b26_28:
+        .word   .Lor_npow28, 100, .+4
+.Lor_sra_b26_28:
+        .word   .Lor_pow27, 100, .Lor_srs_b26_27
+        .word   .Lor_pow27, 160, .+4
+        .word   12, 12, .Lor_sra_b26_27
+.Lor_srs_b26_27:
+        .word   .Lor_npow27, 100, .+4
+.Lor_sra_b26_27:
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b26_PP
+.Lor_split_b26_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lor_split_b26_r21_ambig
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b26_strip
+.Lor_split_b26_r21_ambig:
+        .word   .Lor_one, 168, .+4
+        .word   144, 168, .Lor_split_b26_r21_zero
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b26_strip
+.Lor_split_b26_r21_zero:
+        .word   .Lor_n1, 100, .+4
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b26_PP
+
+        .globl  __subleq_or_b25
+        .type   __subleq_or_b25,@function
+__subleq_or_b25:
+        .word   160, 160, .+4
+        .word   144, 100, .Lor_split_b25_r21_le0
+        .word   .Lor_n1, 100, .+4
+.Lor_split_b25_strip:
+        .word   .Lor_pow30, 100, .Lor_srs_b25_30
+        .word   .Lor_pow30, 160, .+4
+        .word   12, 12, .Lor_sra_b25_30
+.Lor_srs_b25_30:
+        .word   .Lor_npow30, 100, .+4
+.Lor_sra_b25_30:
+        .word   .Lor_pow29, 100, .Lor_srs_b25_29
+        .word   .Lor_pow29, 160, .+4
+        .word   12, 12, .Lor_sra_b25_29
+.Lor_srs_b25_29:
+        .word   .Lor_npow29, 100, .+4
+.Lor_sra_b25_29:
+        .word   .Lor_pow28, 100, .Lor_srs_b25_28
+        .word   .Lor_pow28, 160, .+4
+        .word   12, 12, .Lor_sra_b25_28
+.Lor_srs_b25_28:
+        .word   .Lor_npow28, 100, .+4
+.Lor_sra_b25_28:
+        .word   .Lor_pow27, 100, .Lor_srs_b25_27
+        .word   .Lor_pow27, 160, .+4
+        .word   12, 12, .Lor_sra_b25_27
+.Lor_srs_b25_27:
+        .word   .Lor_npow27, 100, .+4
+.Lor_sra_b25_27:
+        .word   .Lor_pow26, 100, .Lor_srs_b25_26
+        .word   .Lor_pow26, 160, .+4
+        .word   12, 12, .Lor_sra_b25_26
+.Lor_srs_b25_26:
+        .word   .Lor_npow26, 100, .+4
+.Lor_sra_b25_26:
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b25_PP
+.Lor_split_b25_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lor_split_b25_r21_ambig
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b25_strip
+.Lor_split_b25_r21_ambig:
+        .word   .Lor_one, 168, .+4
+        .word   144, 168, .Lor_split_b25_r21_zero
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b25_strip
+.Lor_split_b25_r21_zero:
+        .word   .Lor_n1, 100, .+4
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b25_PP
+
+        .globl  __subleq_or_b24
+        .type   __subleq_or_b24,@function
+__subleq_or_b24:
+        .word   160, 160, .+4
+        .word   144, 100, .Lor_split_b24_r21_le0
+        .word   .Lor_n1, 100, .+4
+.Lor_split_b24_strip:
+        .word   .Lor_pow30, 100, .Lor_srs_b24_30
+        .word   .Lor_pow30, 160, .+4
+        .word   12, 12, .Lor_sra_b24_30
+.Lor_srs_b24_30:
+        .word   .Lor_npow30, 100, .+4
+.Lor_sra_b24_30:
+        .word   .Lor_pow29, 100, .Lor_srs_b24_29
+        .word   .Lor_pow29, 160, .+4
+        .word   12, 12, .Lor_sra_b24_29
+.Lor_srs_b24_29:
+        .word   .Lor_npow29, 100, .+4
+.Lor_sra_b24_29:
+        .word   .Lor_pow28, 100, .Lor_srs_b24_28
+        .word   .Lor_pow28, 160, .+4
+        .word   12, 12, .Lor_sra_b24_28
+.Lor_srs_b24_28:
+        .word   .Lor_npow28, 100, .+4
+.Lor_sra_b24_28:
+        .word   .Lor_pow27, 100, .Lor_srs_b24_27
+        .word   .Lor_pow27, 160, .+4
+        .word   12, 12, .Lor_sra_b24_27
+.Lor_srs_b24_27:
+        .word   .Lor_npow27, 100, .+4
+.Lor_sra_b24_27:
+        .word   .Lor_pow26, 100, .Lor_srs_b24_26
+        .word   .Lor_pow26, 160, .+4
+        .word   12, 12, .Lor_sra_b24_26
+.Lor_srs_b24_26:
+        .word   .Lor_npow26, 100, .+4
+.Lor_sra_b24_26:
+        .word   .Lor_pow25, 100, .Lor_srs_b24_25
+        .word   .Lor_pow25, 160, .+4
+        .word   12, 12, .Lor_sra_b24_25
+.Lor_srs_b24_25:
+        .word   .Lor_npow25, 100, .+4
+.Lor_sra_b24_25:
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b24_PP
+.Lor_split_b24_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lor_split_b24_r21_ambig
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b24_strip
+.Lor_split_b24_r21_ambig:
+        .word   .Lor_one, 168, .+4
+        .word   144, 168, .Lor_split_b24_r21_zero
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b24_strip
+.Lor_split_b24_r21_zero:
+        .word   .Lor_n1, 100, .+4
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b24_PP
+
+        .globl  __subleq_or_b23
+        .type   __subleq_or_b23,@function
+__subleq_or_b23:
+        .word   160, 160, .+4
+        .word   144, 100, .Lor_split_b23_r21_le0
+        .word   .Lor_n1, 100, .+4
+.Lor_split_b23_strip:
+        .word   .Lor_pow30, 100, .Lor_srs_b23_30
+        .word   .Lor_pow30, 160, .+4
+        .word   12, 12, .Lor_sra_b23_30
+.Lor_srs_b23_30:
+        .word   .Lor_npow30, 100, .+4
+.Lor_sra_b23_30:
+        .word   .Lor_pow29, 100, .Lor_srs_b23_29
+        .word   .Lor_pow29, 160, .+4
+        .word   12, 12, .Lor_sra_b23_29
+.Lor_srs_b23_29:
+        .word   .Lor_npow29, 100, .+4
+.Lor_sra_b23_29:
+        .word   .Lor_pow28, 100, .Lor_srs_b23_28
+        .word   .Lor_pow28, 160, .+4
+        .word   12, 12, .Lor_sra_b23_28
+.Lor_srs_b23_28:
+        .word   .Lor_npow28, 100, .+4
+.Lor_sra_b23_28:
+        .word   .Lor_pow27, 100, .Lor_srs_b23_27
+        .word   .Lor_pow27, 160, .+4
+        .word   12, 12, .Lor_sra_b23_27
+.Lor_srs_b23_27:
+        .word   .Lor_npow27, 100, .+4
+.Lor_sra_b23_27:
+        .word   .Lor_pow26, 100, .Lor_srs_b23_26
+        .word   .Lor_pow26, 160, .+4
+        .word   12, 12, .Lor_sra_b23_26
+.Lor_srs_b23_26:
+        .word   .Lor_npow26, 100, .+4
+.Lor_sra_b23_26:
+        .word   .Lor_pow25, 100, .Lor_srs_b23_25
+        .word   .Lor_pow25, 160, .+4
+        .word   12, 12, .Lor_sra_b23_25
+.Lor_srs_b23_25:
+        .word   .Lor_npow25, 100, .+4
+.Lor_sra_b23_25:
+        .word   .Lor_pow24, 100, .Lor_srs_b23_24
+        .word   .Lor_pow24, 160, .+4
+        .word   12, 12, .Lor_sra_b23_24
+.Lor_srs_b23_24:
+        .word   .Lor_npow24, 100, .+4
+.Lor_sra_b23_24:
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b23_PP
+.Lor_split_b23_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lor_split_b23_r21_ambig
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b23_strip
+.Lor_split_b23_r21_ambig:
+        .word   .Lor_one, 168, .+4
+        .word   144, 168, .Lor_split_b23_r21_zero
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b23_strip
+.Lor_split_b23_r21_zero:
+        .word   .Lor_n1, 100, .+4
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b23_PP
+
+        .globl  __subleq_or_b22
+        .type   __subleq_or_b22,@function
+__subleq_or_b22:
+        .word   160, 160, .+4
+        .word   144, 100, .Lor_split_b22_r21_le0
+        .word   .Lor_n1, 100, .+4
+.Lor_split_b22_strip:
+        .word   .Lor_pow30, 100, .Lor_srs_b22_30
+        .word   .Lor_pow30, 160, .+4
+        .word   12, 12, .Lor_sra_b22_30
+.Lor_srs_b22_30:
+        .word   .Lor_npow30, 100, .+4
+.Lor_sra_b22_30:
+        .word   .Lor_pow29, 100, .Lor_srs_b22_29
+        .word   .Lor_pow29, 160, .+4
+        .word   12, 12, .Lor_sra_b22_29
+.Lor_srs_b22_29:
+        .word   .Lor_npow29, 100, .+4
+.Lor_sra_b22_29:
+        .word   .Lor_pow28, 100, .Lor_srs_b22_28
+        .word   .Lor_pow28, 160, .+4
+        .word   12, 12, .Lor_sra_b22_28
+.Lor_srs_b22_28:
+        .word   .Lor_npow28, 100, .+4
+.Lor_sra_b22_28:
+        .word   .Lor_pow27, 100, .Lor_srs_b22_27
+        .word   .Lor_pow27, 160, .+4
+        .word   12, 12, .Lor_sra_b22_27
+.Lor_srs_b22_27:
+        .word   .Lor_npow27, 100, .+4
+.Lor_sra_b22_27:
+        .word   .Lor_pow26, 100, .Lor_srs_b22_26
+        .word   .Lor_pow26, 160, .+4
+        .word   12, 12, .Lor_sra_b22_26
+.Lor_srs_b22_26:
+        .word   .Lor_npow26, 100, .+4
+.Lor_sra_b22_26:
+        .word   .Lor_pow25, 100, .Lor_srs_b22_25
+        .word   .Lor_pow25, 160, .+4
+        .word   12, 12, .Lor_sra_b22_25
+.Lor_srs_b22_25:
+        .word   .Lor_npow25, 100, .+4
+.Lor_sra_b22_25:
+        .word   .Lor_pow24, 100, .Lor_srs_b22_24
+        .word   .Lor_pow24, 160, .+4
+        .word   12, 12, .Lor_sra_b22_24
+.Lor_srs_b22_24:
+        .word   .Lor_npow24, 100, .+4
+.Lor_sra_b22_24:
+        .word   .Lor_pow23, 100, .Lor_srs_b22_23
+        .word   .Lor_pow23, 160, .+4
+        .word   12, 12, .Lor_sra_b22_23
+.Lor_srs_b22_23:
+        .word   .Lor_npow23, 100, .+4
+.Lor_sra_b22_23:
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b22_PP
+.Lor_split_b22_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lor_split_b22_r21_ambig
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b22_strip
+.Lor_split_b22_r21_ambig:
+        .word   .Lor_one, 168, .+4
+        .word   144, 168, .Lor_split_b22_r21_zero
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b22_strip
+.Lor_split_b22_r21_zero:
+        .word   .Lor_n1, 100, .+4
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b22_PP
+
+        .globl  __subleq_or_b21
+        .type   __subleq_or_b21,@function
+__subleq_or_b21:
+        .word   160, 160, .+4
+        .word   144, 100, .Lor_split_b21_r21_le0
+        .word   .Lor_n1, 100, .+4
+.Lor_split_b21_strip:
+        .word   .Lor_pow30, 100, .Lor_srs_b21_30
+        .word   .Lor_pow30, 160, .+4
+        .word   12, 12, .Lor_sra_b21_30
+.Lor_srs_b21_30:
+        .word   .Lor_npow30, 100, .+4
+.Lor_sra_b21_30:
+        .word   .Lor_pow29, 100, .Lor_srs_b21_29
+        .word   .Lor_pow29, 160, .+4
+        .word   12, 12, .Lor_sra_b21_29
+.Lor_srs_b21_29:
+        .word   .Lor_npow29, 100, .+4
+.Lor_sra_b21_29:
+        .word   .Lor_pow28, 100, .Lor_srs_b21_28
+        .word   .Lor_pow28, 160, .+4
+        .word   12, 12, .Lor_sra_b21_28
+.Lor_srs_b21_28:
+        .word   .Lor_npow28, 100, .+4
+.Lor_sra_b21_28:
+        .word   .Lor_pow27, 100, .Lor_srs_b21_27
+        .word   .Lor_pow27, 160, .+4
+        .word   12, 12, .Lor_sra_b21_27
+.Lor_srs_b21_27:
+        .word   .Lor_npow27, 100, .+4
+.Lor_sra_b21_27:
+        .word   .Lor_pow26, 100, .Lor_srs_b21_26
+        .word   .Lor_pow26, 160, .+4
+        .word   12, 12, .Lor_sra_b21_26
+.Lor_srs_b21_26:
+        .word   .Lor_npow26, 100, .+4
+.Lor_sra_b21_26:
+        .word   .Lor_pow25, 100, .Lor_srs_b21_25
+        .word   .Lor_pow25, 160, .+4
+        .word   12, 12, .Lor_sra_b21_25
+.Lor_srs_b21_25:
+        .word   .Lor_npow25, 100, .+4
+.Lor_sra_b21_25:
+        .word   .Lor_pow24, 100, .Lor_srs_b21_24
+        .word   .Lor_pow24, 160, .+4
+        .word   12, 12, .Lor_sra_b21_24
+.Lor_srs_b21_24:
+        .word   .Lor_npow24, 100, .+4
+.Lor_sra_b21_24:
+        .word   .Lor_pow23, 100, .Lor_srs_b21_23
+        .word   .Lor_pow23, 160, .+4
+        .word   12, 12, .Lor_sra_b21_23
+.Lor_srs_b21_23:
+        .word   .Lor_npow23, 100, .+4
+.Lor_sra_b21_23:
+        .word   .Lor_pow22, 100, .Lor_srs_b21_22
+        .word   .Lor_pow22, 160, .+4
+        .word   12, 12, .Lor_sra_b21_22
+.Lor_srs_b21_22:
+        .word   .Lor_npow22, 100, .+4
+.Lor_sra_b21_22:
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b21_PP
+.Lor_split_b21_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lor_split_b21_r21_ambig
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b21_strip
+.Lor_split_b21_r21_ambig:
+        .word   .Lor_one, 168, .+4
+        .word   144, 168, .Lor_split_b21_r21_zero
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b21_strip
+.Lor_split_b21_r21_zero:
+        .word   .Lor_n1, 100, .+4
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b21_PP
+
+        .globl  __subleq_or_b20
+        .type   __subleq_or_b20,@function
+__subleq_or_b20:
+        .word   160, 160, .+4
+        .word   144, 100, .Lor_split_b20_r21_le0
+        .word   .Lor_n1, 100, .+4
+.Lor_split_b20_strip:
+        .word   .Lor_pow30, 100, .Lor_srs_b20_30
+        .word   .Lor_pow30, 160, .+4
+        .word   12, 12, .Lor_sra_b20_30
+.Lor_srs_b20_30:
+        .word   .Lor_npow30, 100, .+4
+.Lor_sra_b20_30:
+        .word   .Lor_pow29, 100, .Lor_srs_b20_29
+        .word   .Lor_pow29, 160, .+4
+        .word   12, 12, .Lor_sra_b20_29
+.Lor_srs_b20_29:
+        .word   .Lor_npow29, 100, .+4
+.Lor_sra_b20_29:
+        .word   .Lor_pow28, 100, .Lor_srs_b20_28
+        .word   .Lor_pow28, 160, .+4
+        .word   12, 12, .Lor_sra_b20_28
+.Lor_srs_b20_28:
+        .word   .Lor_npow28, 100, .+4
+.Lor_sra_b20_28:
+        .word   .Lor_pow27, 100, .Lor_srs_b20_27
+        .word   .Lor_pow27, 160, .+4
+        .word   12, 12, .Lor_sra_b20_27
+.Lor_srs_b20_27:
+        .word   .Lor_npow27, 100, .+4
+.Lor_sra_b20_27:
+        .word   .Lor_pow26, 100, .Lor_srs_b20_26
+        .word   .Lor_pow26, 160, .+4
+        .word   12, 12, .Lor_sra_b20_26
+.Lor_srs_b20_26:
+        .word   .Lor_npow26, 100, .+4
+.Lor_sra_b20_26:
+        .word   .Lor_pow25, 100, .Lor_srs_b20_25
+        .word   .Lor_pow25, 160, .+4
+        .word   12, 12, .Lor_sra_b20_25
+.Lor_srs_b20_25:
+        .word   .Lor_npow25, 100, .+4
+.Lor_sra_b20_25:
+        .word   .Lor_pow24, 100, .Lor_srs_b20_24
+        .word   .Lor_pow24, 160, .+4
+        .word   12, 12, .Lor_sra_b20_24
+.Lor_srs_b20_24:
+        .word   .Lor_npow24, 100, .+4
+.Lor_sra_b20_24:
+        .word   .Lor_pow23, 100, .Lor_srs_b20_23
+        .word   .Lor_pow23, 160, .+4
+        .word   12, 12, .Lor_sra_b20_23
+.Lor_srs_b20_23:
+        .word   .Lor_npow23, 100, .+4
+.Lor_sra_b20_23:
+        .word   .Lor_pow22, 100, .Lor_srs_b20_22
+        .word   .Lor_pow22, 160, .+4
+        .word   12, 12, .Lor_sra_b20_22
+.Lor_srs_b20_22:
+        .word   .Lor_npow22, 100, .+4
+.Lor_sra_b20_22:
+        .word   .Lor_pow21, 100, .Lor_srs_b20_21
+        .word   .Lor_pow21, 160, .+4
+        .word   12, 12, .Lor_sra_b20_21
+.Lor_srs_b20_21:
+        .word   .Lor_npow21, 100, .+4
+.Lor_sra_b20_21:
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b20_PP
+.Lor_split_b20_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lor_split_b20_r21_ambig
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b20_strip
+.Lor_split_b20_r21_ambig:
+        .word   .Lor_one, 168, .+4
+        .word   144, 168, .Lor_split_b20_r21_zero
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b20_strip
+.Lor_split_b20_r21_zero:
+        .word   .Lor_n1, 100, .+4
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b20_PP
+
+        .globl  __subleq_or_b19
+        .type   __subleq_or_b19,@function
+__subleq_or_b19:
+        .word   160, 160, .+4
+        .word   144, 100, .Lor_split_b19_r21_le0
+        .word   .Lor_n1, 100, .+4
+.Lor_split_b19_strip:
+        .word   .Lor_pow30, 100, .Lor_srs_b19_30
+        .word   .Lor_pow30, 160, .+4
+        .word   12, 12, .Lor_sra_b19_30
+.Lor_srs_b19_30:
+        .word   .Lor_npow30, 100, .+4
+.Lor_sra_b19_30:
+        .word   .Lor_pow29, 100, .Lor_srs_b19_29
+        .word   .Lor_pow29, 160, .+4
+        .word   12, 12, .Lor_sra_b19_29
+.Lor_srs_b19_29:
+        .word   .Lor_npow29, 100, .+4
+.Lor_sra_b19_29:
+        .word   .Lor_pow28, 100, .Lor_srs_b19_28
+        .word   .Lor_pow28, 160, .+4
+        .word   12, 12, .Lor_sra_b19_28
+.Lor_srs_b19_28:
+        .word   .Lor_npow28, 100, .+4
+.Lor_sra_b19_28:
+        .word   .Lor_pow27, 100, .Lor_srs_b19_27
+        .word   .Lor_pow27, 160, .+4
+        .word   12, 12, .Lor_sra_b19_27
+.Lor_srs_b19_27:
+        .word   .Lor_npow27, 100, .+4
+.Lor_sra_b19_27:
+        .word   .Lor_pow26, 100, .Lor_srs_b19_26
+        .word   .Lor_pow26, 160, .+4
+        .word   12, 12, .Lor_sra_b19_26
+.Lor_srs_b19_26:
+        .word   .Lor_npow26, 100, .+4
+.Lor_sra_b19_26:
+        .word   .Lor_pow25, 100, .Lor_srs_b19_25
+        .word   .Lor_pow25, 160, .+4
+        .word   12, 12, .Lor_sra_b19_25
+.Lor_srs_b19_25:
+        .word   .Lor_npow25, 100, .+4
+.Lor_sra_b19_25:
+        .word   .Lor_pow24, 100, .Lor_srs_b19_24
+        .word   .Lor_pow24, 160, .+4
+        .word   12, 12, .Lor_sra_b19_24
+.Lor_srs_b19_24:
+        .word   .Lor_npow24, 100, .+4
+.Lor_sra_b19_24:
+        .word   .Lor_pow23, 100, .Lor_srs_b19_23
+        .word   .Lor_pow23, 160, .+4
+        .word   12, 12, .Lor_sra_b19_23
+.Lor_srs_b19_23:
+        .word   .Lor_npow23, 100, .+4
+.Lor_sra_b19_23:
+        .word   .Lor_pow22, 100, .Lor_srs_b19_22
+        .word   .Lor_pow22, 160, .+4
+        .word   12, 12, .Lor_sra_b19_22
+.Lor_srs_b19_22:
+        .word   .Lor_npow22, 100, .+4
+.Lor_sra_b19_22:
+        .word   .Lor_pow21, 100, .Lor_srs_b19_21
+        .word   .Lor_pow21, 160, .+4
+        .word   12, 12, .Lor_sra_b19_21
+.Lor_srs_b19_21:
+        .word   .Lor_npow21, 100, .+4
+.Lor_sra_b19_21:
+        .word   .Lor_pow20, 100, .Lor_srs_b19_20
+        .word   .Lor_pow20, 160, .+4
+        .word   12, 12, .Lor_sra_b19_20
+.Lor_srs_b19_20:
+        .word   .Lor_npow20, 100, .+4
+.Lor_sra_b19_20:
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b19_PP
+.Lor_split_b19_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lor_split_b19_r21_ambig
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b19_strip
+.Lor_split_b19_r21_ambig:
+        .word   .Lor_one, 168, .+4
+        .word   144, 168, .Lor_split_b19_r21_zero
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b19_strip
+.Lor_split_b19_r21_zero:
+        .word   .Lor_n1, 100, .+4
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b19_PP
+
+        .globl  __subleq_or_b18
+        .type   __subleq_or_b18,@function
+__subleq_or_b18:
+        .word   160, 160, .+4
+        .word   144, 100, .Lor_split_b18_r21_le0
+        .word   .Lor_n1, 100, .+4
+.Lor_split_b18_strip:
+        .word   .Lor_pow30, 100, .Lor_srs_b18_30
+        .word   .Lor_pow30, 160, .+4
+        .word   12, 12, .Lor_sra_b18_30
+.Lor_srs_b18_30:
+        .word   .Lor_npow30, 100, .+4
+.Lor_sra_b18_30:
+        .word   .Lor_pow29, 100, .Lor_srs_b18_29
+        .word   .Lor_pow29, 160, .+4
+        .word   12, 12, .Lor_sra_b18_29
+.Lor_srs_b18_29:
+        .word   .Lor_npow29, 100, .+4
+.Lor_sra_b18_29:
+        .word   .Lor_pow28, 100, .Lor_srs_b18_28
+        .word   .Lor_pow28, 160, .+4
+        .word   12, 12, .Lor_sra_b18_28
+.Lor_srs_b18_28:
+        .word   .Lor_npow28, 100, .+4
+.Lor_sra_b18_28:
+        .word   .Lor_pow27, 100, .Lor_srs_b18_27
+        .word   .Lor_pow27, 160, .+4
+        .word   12, 12, .Lor_sra_b18_27
+.Lor_srs_b18_27:
+        .word   .Lor_npow27, 100, .+4
+.Lor_sra_b18_27:
+        .word   .Lor_pow26, 100, .Lor_srs_b18_26
+        .word   .Lor_pow26, 160, .+4
+        .word   12, 12, .Lor_sra_b18_26
+.Lor_srs_b18_26:
+        .word   .Lor_npow26, 100, .+4
+.Lor_sra_b18_26:
+        .word   .Lor_pow25, 100, .Lor_srs_b18_25
+        .word   .Lor_pow25, 160, .+4
+        .word   12, 12, .Lor_sra_b18_25
+.Lor_srs_b18_25:
+        .word   .Lor_npow25, 100, .+4
+.Lor_sra_b18_25:
+        .word   .Lor_pow24, 100, .Lor_srs_b18_24
+        .word   .Lor_pow24, 160, .+4
+        .word   12, 12, .Lor_sra_b18_24
+.Lor_srs_b18_24:
+        .word   .Lor_npow24, 100, .+4
+.Lor_sra_b18_24:
+        .word   .Lor_pow23, 100, .Lor_srs_b18_23
+        .word   .Lor_pow23, 160, .+4
+        .word   12, 12, .Lor_sra_b18_23
+.Lor_srs_b18_23:
+        .word   .Lor_npow23, 100, .+4
+.Lor_sra_b18_23:
+        .word   .Lor_pow22, 100, .Lor_srs_b18_22
+        .word   .Lor_pow22, 160, .+4
+        .word   12, 12, .Lor_sra_b18_22
+.Lor_srs_b18_22:
+        .word   .Lor_npow22, 100, .+4
+.Lor_sra_b18_22:
+        .word   .Lor_pow21, 100, .Lor_srs_b18_21
+        .word   .Lor_pow21, 160, .+4
+        .word   12, 12, .Lor_sra_b18_21
+.Lor_srs_b18_21:
+        .word   .Lor_npow21, 100, .+4
+.Lor_sra_b18_21:
+        .word   .Lor_pow20, 100, .Lor_srs_b18_20
+        .word   .Lor_pow20, 160, .+4
+        .word   12, 12, .Lor_sra_b18_20
+.Lor_srs_b18_20:
+        .word   .Lor_npow20, 100, .+4
+.Lor_sra_b18_20:
+        .word   .Lor_pow19, 100, .Lor_srs_b18_19
+        .word   .Lor_pow19, 160, .+4
+        .word   12, 12, .Lor_sra_b18_19
+.Lor_srs_b18_19:
+        .word   .Lor_npow19, 100, .+4
+.Lor_sra_b18_19:
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b18_PP
+.Lor_split_b18_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lor_split_b18_r21_ambig
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b18_strip
+.Lor_split_b18_r21_ambig:
+        .word   .Lor_one, 168, .+4
+        .word   144, 168, .Lor_split_b18_r21_zero
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b18_strip
+.Lor_split_b18_r21_zero:
+        .word   .Lor_n1, 100, .+4
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b18_PP
+
+        .globl  __subleq_or_b17
+        .type   __subleq_or_b17,@function
+__subleq_or_b17:
+        .word   160, 160, .+4
+        .word   144, 100, .Lor_split_b17_r21_le0
+        .word   .Lor_n1, 100, .+4
+.Lor_split_b17_strip:
+        .word   .Lor_pow30, 100, .Lor_srs_b17_30
+        .word   .Lor_pow30, 160, .+4
+        .word   12, 12, .Lor_sra_b17_30
+.Lor_srs_b17_30:
+        .word   .Lor_npow30, 100, .+4
+.Lor_sra_b17_30:
+        .word   .Lor_pow29, 100, .Lor_srs_b17_29
+        .word   .Lor_pow29, 160, .+4
+        .word   12, 12, .Lor_sra_b17_29
+.Lor_srs_b17_29:
+        .word   .Lor_npow29, 100, .+4
+.Lor_sra_b17_29:
+        .word   .Lor_pow28, 100, .Lor_srs_b17_28
+        .word   .Lor_pow28, 160, .+4
+        .word   12, 12, .Lor_sra_b17_28
+.Lor_srs_b17_28:
+        .word   .Lor_npow28, 100, .+4
+.Lor_sra_b17_28:
+        .word   .Lor_pow27, 100, .Lor_srs_b17_27
+        .word   .Lor_pow27, 160, .+4
+        .word   12, 12, .Lor_sra_b17_27
+.Lor_srs_b17_27:
+        .word   .Lor_npow27, 100, .+4
+.Lor_sra_b17_27:
+        .word   .Lor_pow26, 100, .Lor_srs_b17_26
+        .word   .Lor_pow26, 160, .+4
+        .word   12, 12, .Lor_sra_b17_26
+.Lor_srs_b17_26:
+        .word   .Lor_npow26, 100, .+4
+.Lor_sra_b17_26:
+        .word   .Lor_pow25, 100, .Lor_srs_b17_25
+        .word   .Lor_pow25, 160, .+4
+        .word   12, 12, .Lor_sra_b17_25
+.Lor_srs_b17_25:
+        .word   .Lor_npow25, 100, .+4
+.Lor_sra_b17_25:
+        .word   .Lor_pow24, 100, .Lor_srs_b17_24
+        .word   .Lor_pow24, 160, .+4
+        .word   12, 12, .Lor_sra_b17_24
+.Lor_srs_b17_24:
+        .word   .Lor_npow24, 100, .+4
+.Lor_sra_b17_24:
+        .word   .Lor_pow23, 100, .Lor_srs_b17_23
+        .word   .Lor_pow23, 160, .+4
+        .word   12, 12, .Lor_sra_b17_23
+.Lor_srs_b17_23:
+        .word   .Lor_npow23, 100, .+4
+.Lor_sra_b17_23:
+        .word   .Lor_pow22, 100, .Lor_srs_b17_22
+        .word   .Lor_pow22, 160, .+4
+        .word   12, 12, .Lor_sra_b17_22
+.Lor_srs_b17_22:
+        .word   .Lor_npow22, 100, .+4
+.Lor_sra_b17_22:
+        .word   .Lor_pow21, 100, .Lor_srs_b17_21
+        .word   .Lor_pow21, 160, .+4
+        .word   12, 12, .Lor_sra_b17_21
+.Lor_srs_b17_21:
+        .word   .Lor_npow21, 100, .+4
+.Lor_sra_b17_21:
+        .word   .Lor_pow20, 100, .Lor_srs_b17_20
+        .word   .Lor_pow20, 160, .+4
+        .word   12, 12, .Lor_sra_b17_20
+.Lor_srs_b17_20:
+        .word   .Lor_npow20, 100, .+4
+.Lor_sra_b17_20:
+        .word   .Lor_pow19, 100, .Lor_srs_b17_19
+        .word   .Lor_pow19, 160, .+4
+        .word   12, 12, .Lor_sra_b17_19
+.Lor_srs_b17_19:
+        .word   .Lor_npow19, 100, .+4
+.Lor_sra_b17_19:
+        .word   .Lor_pow18, 100, .Lor_srs_b17_18
+        .word   .Lor_pow18, 160, .+4
+        .word   12, 12, .Lor_sra_b17_18
+.Lor_srs_b17_18:
+        .word   .Lor_npow18, 100, .+4
+.Lor_sra_b17_18:
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b17_PP
+.Lor_split_b17_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lor_split_b17_r21_ambig
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b17_strip
+.Lor_split_b17_r21_ambig:
+        .word   .Lor_one, 168, .+4
+        .word   144, 168, .Lor_split_b17_r21_zero
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b17_strip
+.Lor_split_b17_r21_zero:
+        .word   .Lor_n1, 100, .+4
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b17_PP
+
+        .globl  __subleq_or_b16
+        .type   __subleq_or_b16,@function
+__subleq_or_b16:
+        .word   160, 160, .+4
+        .word   144, 100, .Lor_split_b16_r21_le0
+        .word   .Lor_n1, 100, .+4
+.Lor_split_b16_strip:
+        .word   .Lor_pow30, 100, .Lor_srs_b16_30
+        .word   .Lor_pow30, 160, .+4
+        .word   12, 12, .Lor_sra_b16_30
+.Lor_srs_b16_30:
+        .word   .Lor_npow30, 100, .+4
+.Lor_sra_b16_30:
+        .word   .Lor_pow29, 100, .Lor_srs_b16_29
+        .word   .Lor_pow29, 160, .+4
+        .word   12, 12, .Lor_sra_b16_29
+.Lor_srs_b16_29:
+        .word   .Lor_npow29, 100, .+4
+.Lor_sra_b16_29:
+        .word   .Lor_pow28, 100, .Lor_srs_b16_28
+        .word   .Lor_pow28, 160, .+4
+        .word   12, 12, .Lor_sra_b16_28
+.Lor_srs_b16_28:
+        .word   .Lor_npow28, 100, .+4
+.Lor_sra_b16_28:
+        .word   .Lor_pow27, 100, .Lor_srs_b16_27
+        .word   .Lor_pow27, 160, .+4
+        .word   12, 12, .Lor_sra_b16_27
+.Lor_srs_b16_27:
+        .word   .Lor_npow27, 100, .+4
+.Lor_sra_b16_27:
+        .word   .Lor_pow26, 100, .Lor_srs_b16_26
+        .word   .Lor_pow26, 160, .+4
+        .word   12, 12, .Lor_sra_b16_26
+.Lor_srs_b16_26:
+        .word   .Lor_npow26, 100, .+4
+.Lor_sra_b16_26:
+        .word   .Lor_pow25, 100, .Lor_srs_b16_25
+        .word   .Lor_pow25, 160, .+4
+        .word   12, 12, .Lor_sra_b16_25
+.Lor_srs_b16_25:
+        .word   .Lor_npow25, 100, .+4
+.Lor_sra_b16_25:
+        .word   .Lor_pow24, 100, .Lor_srs_b16_24
+        .word   .Lor_pow24, 160, .+4
+        .word   12, 12, .Lor_sra_b16_24
+.Lor_srs_b16_24:
+        .word   .Lor_npow24, 100, .+4
+.Lor_sra_b16_24:
+        .word   .Lor_pow23, 100, .Lor_srs_b16_23
+        .word   .Lor_pow23, 160, .+4
+        .word   12, 12, .Lor_sra_b16_23
+.Lor_srs_b16_23:
+        .word   .Lor_npow23, 100, .+4
+.Lor_sra_b16_23:
+        .word   .Lor_pow22, 100, .Lor_srs_b16_22
+        .word   .Lor_pow22, 160, .+4
+        .word   12, 12, .Lor_sra_b16_22
+.Lor_srs_b16_22:
+        .word   .Lor_npow22, 100, .+4
+.Lor_sra_b16_22:
+        .word   .Lor_pow21, 100, .Lor_srs_b16_21
+        .word   .Lor_pow21, 160, .+4
+        .word   12, 12, .Lor_sra_b16_21
+.Lor_srs_b16_21:
+        .word   .Lor_npow21, 100, .+4
+.Lor_sra_b16_21:
+        .word   .Lor_pow20, 100, .Lor_srs_b16_20
+        .word   .Lor_pow20, 160, .+4
+        .word   12, 12, .Lor_sra_b16_20
+.Lor_srs_b16_20:
+        .word   .Lor_npow20, 100, .+4
+.Lor_sra_b16_20:
+        .word   .Lor_pow19, 100, .Lor_srs_b16_19
+        .word   .Lor_pow19, 160, .+4
+        .word   12, 12, .Lor_sra_b16_19
+.Lor_srs_b16_19:
+        .word   .Lor_npow19, 100, .+4
+.Lor_sra_b16_19:
+        .word   .Lor_pow18, 100, .Lor_srs_b16_18
+        .word   .Lor_pow18, 160, .+4
+        .word   12, 12, .Lor_sra_b16_18
+.Lor_srs_b16_18:
+        .word   .Lor_npow18, 100, .+4
+.Lor_sra_b16_18:
+        .word   .Lor_pow17, 100, .Lor_srs_b16_17
+        .word   .Lor_pow17, 160, .+4
+        .word   12, 12, .Lor_sra_b16_17
+.Lor_srs_b16_17:
+        .word   .Lor_npow17, 100, .+4
+.Lor_sra_b16_17:
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b16_PP
+.Lor_split_b16_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lor_split_b16_r21_ambig
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b16_strip
+.Lor_split_b16_r21_ambig:
+        .word   .Lor_one, 168, .+4
+        .word   144, 168, .Lor_split_b16_r21_zero
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b16_strip
+.Lor_split_b16_r21_zero:
+        .word   .Lor_n1, 100, .+4
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b16_PP
+
+        .globl  __subleq_or_b15
+        .type   __subleq_or_b15,@function
+__subleq_or_b15:
+        .word   160, 160, .+4
+        .word   144, 100, .Lor_split_b15_r21_le0
+        .word   .Lor_n1, 100, .+4
+.Lor_split_b15_strip:
+        .word   .Lor_pow30, 100, .Lor_srs_b15_30
+        .word   .Lor_pow30, 160, .+4
+        .word   12, 12, .Lor_sra_b15_30
+.Lor_srs_b15_30:
+        .word   .Lor_npow30, 100, .+4
+.Lor_sra_b15_30:
+        .word   .Lor_pow29, 100, .Lor_srs_b15_29
+        .word   .Lor_pow29, 160, .+4
+        .word   12, 12, .Lor_sra_b15_29
+.Lor_srs_b15_29:
+        .word   .Lor_npow29, 100, .+4
+.Lor_sra_b15_29:
+        .word   .Lor_pow28, 100, .Lor_srs_b15_28
+        .word   .Lor_pow28, 160, .+4
+        .word   12, 12, .Lor_sra_b15_28
+.Lor_srs_b15_28:
+        .word   .Lor_npow28, 100, .+4
+.Lor_sra_b15_28:
+        .word   .Lor_pow27, 100, .Lor_srs_b15_27
+        .word   .Lor_pow27, 160, .+4
+        .word   12, 12, .Lor_sra_b15_27
+.Lor_srs_b15_27:
+        .word   .Lor_npow27, 100, .+4
+.Lor_sra_b15_27:
+        .word   .Lor_pow26, 100, .Lor_srs_b15_26
+        .word   .Lor_pow26, 160, .+4
+        .word   12, 12, .Lor_sra_b15_26
+.Lor_srs_b15_26:
+        .word   .Lor_npow26, 100, .+4
+.Lor_sra_b15_26:
+        .word   .Lor_pow25, 100, .Lor_srs_b15_25
+        .word   .Lor_pow25, 160, .+4
+        .word   12, 12, .Lor_sra_b15_25
+.Lor_srs_b15_25:
+        .word   .Lor_npow25, 100, .+4
+.Lor_sra_b15_25:
+        .word   .Lor_pow24, 100, .Lor_srs_b15_24
+        .word   .Lor_pow24, 160, .+4
+        .word   12, 12, .Lor_sra_b15_24
+.Lor_srs_b15_24:
+        .word   .Lor_npow24, 100, .+4
+.Lor_sra_b15_24:
+        .word   .Lor_pow23, 100, .Lor_srs_b15_23
+        .word   .Lor_pow23, 160, .+4
+        .word   12, 12, .Lor_sra_b15_23
+.Lor_srs_b15_23:
+        .word   .Lor_npow23, 100, .+4
+.Lor_sra_b15_23:
+        .word   .Lor_pow22, 100, .Lor_srs_b15_22
+        .word   .Lor_pow22, 160, .+4
+        .word   12, 12, .Lor_sra_b15_22
+.Lor_srs_b15_22:
+        .word   .Lor_npow22, 100, .+4
+.Lor_sra_b15_22:
+        .word   .Lor_pow21, 100, .Lor_srs_b15_21
+        .word   .Lor_pow21, 160, .+4
+        .word   12, 12, .Lor_sra_b15_21
+.Lor_srs_b15_21:
+        .word   .Lor_npow21, 100, .+4
+.Lor_sra_b15_21:
+        .word   .Lor_pow20, 100, .Lor_srs_b15_20
+        .word   .Lor_pow20, 160, .+4
+        .word   12, 12, .Lor_sra_b15_20
+.Lor_srs_b15_20:
+        .word   .Lor_npow20, 100, .+4
+.Lor_sra_b15_20:
+        .word   .Lor_pow19, 100, .Lor_srs_b15_19
+        .word   .Lor_pow19, 160, .+4
+        .word   12, 12, .Lor_sra_b15_19
+.Lor_srs_b15_19:
+        .word   .Lor_npow19, 100, .+4
+.Lor_sra_b15_19:
+        .word   .Lor_pow18, 100, .Lor_srs_b15_18
+        .word   .Lor_pow18, 160, .+4
+        .word   12, 12, .Lor_sra_b15_18
+.Lor_srs_b15_18:
+        .word   .Lor_npow18, 100, .+4
+.Lor_sra_b15_18:
+        .word   .Lor_pow17, 100, .Lor_srs_b15_17
+        .word   .Lor_pow17, 160, .+4
+        .word   12, 12, .Lor_sra_b15_17
+.Lor_srs_b15_17:
+        .word   .Lor_npow17, 100, .+4
+.Lor_sra_b15_17:
+        .word   .Lor_pow16, 100, .Lor_srs_b15_16
+        .word   .Lor_pow16, 160, .+4
+        .word   12, 12, .Lor_sra_b15_16
+.Lor_srs_b15_16:
+        .word   .Lor_npow16, 100, .+4
+.Lor_sra_b15_16:
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b15_PP
+.Lor_split_b15_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lor_split_b15_r21_ambig
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b15_strip
+.Lor_split_b15_r21_ambig:
+        .word   .Lor_one, 168, .+4
+        .word   144, 168, .Lor_split_b15_r21_zero
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b15_strip
+.Lor_split_b15_r21_zero:
+        .word   .Lor_n1, 100, .+4
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b15_PP
+
+        .globl  __subleq_or_b14
+        .type   __subleq_or_b14,@function
+__subleq_or_b14:
+        .word   160, 160, .+4
+        .word   144, 100, .Lor_split_b14_r21_le0
+        .word   .Lor_n1, 100, .+4
+.Lor_split_b14_strip:
+        .word   .Lor_pow30, 100, .Lor_srs_b14_30
+        .word   .Lor_pow30, 160, .+4
+        .word   12, 12, .Lor_sra_b14_30
+.Lor_srs_b14_30:
+        .word   .Lor_npow30, 100, .+4
+.Lor_sra_b14_30:
+        .word   .Lor_pow29, 100, .Lor_srs_b14_29
+        .word   .Lor_pow29, 160, .+4
+        .word   12, 12, .Lor_sra_b14_29
+.Lor_srs_b14_29:
+        .word   .Lor_npow29, 100, .+4
+.Lor_sra_b14_29:
+        .word   .Lor_pow28, 100, .Lor_srs_b14_28
+        .word   .Lor_pow28, 160, .+4
+        .word   12, 12, .Lor_sra_b14_28
+.Lor_srs_b14_28:
+        .word   .Lor_npow28, 100, .+4
+.Lor_sra_b14_28:
+        .word   .Lor_pow27, 100, .Lor_srs_b14_27
+        .word   .Lor_pow27, 160, .+4
+        .word   12, 12, .Lor_sra_b14_27
+.Lor_srs_b14_27:
+        .word   .Lor_npow27, 100, .+4
+.Lor_sra_b14_27:
+        .word   .Lor_pow26, 100, .Lor_srs_b14_26
+        .word   .Lor_pow26, 160, .+4
+        .word   12, 12, .Lor_sra_b14_26
+.Lor_srs_b14_26:
+        .word   .Lor_npow26, 100, .+4
+.Lor_sra_b14_26:
+        .word   .Lor_pow25, 100, .Lor_srs_b14_25
+        .word   .Lor_pow25, 160, .+4
+        .word   12, 12, .Lor_sra_b14_25
+.Lor_srs_b14_25:
+        .word   .Lor_npow25, 100, .+4
+.Lor_sra_b14_25:
+        .word   .Lor_pow24, 100, .Lor_srs_b14_24
+        .word   .Lor_pow24, 160, .+4
+        .word   12, 12, .Lor_sra_b14_24
+.Lor_srs_b14_24:
+        .word   .Lor_npow24, 100, .+4
+.Lor_sra_b14_24:
+        .word   .Lor_pow23, 100, .Lor_srs_b14_23
+        .word   .Lor_pow23, 160, .+4
+        .word   12, 12, .Lor_sra_b14_23
+.Lor_srs_b14_23:
+        .word   .Lor_npow23, 100, .+4
+.Lor_sra_b14_23:
+        .word   .Lor_pow22, 100, .Lor_srs_b14_22
+        .word   .Lor_pow22, 160, .+4
+        .word   12, 12, .Lor_sra_b14_22
+.Lor_srs_b14_22:
+        .word   .Lor_npow22, 100, .+4
+.Lor_sra_b14_22:
+        .word   .Lor_pow21, 100, .Lor_srs_b14_21
+        .word   .Lor_pow21, 160, .+4
+        .word   12, 12, .Lor_sra_b14_21
+.Lor_srs_b14_21:
+        .word   .Lor_npow21, 100, .+4
+.Lor_sra_b14_21:
+        .word   .Lor_pow20, 100, .Lor_srs_b14_20
+        .word   .Lor_pow20, 160, .+4
+        .word   12, 12, .Lor_sra_b14_20
+.Lor_srs_b14_20:
+        .word   .Lor_npow20, 100, .+4
+.Lor_sra_b14_20:
+        .word   .Lor_pow19, 100, .Lor_srs_b14_19
+        .word   .Lor_pow19, 160, .+4
+        .word   12, 12, .Lor_sra_b14_19
+.Lor_srs_b14_19:
+        .word   .Lor_npow19, 100, .+4
+.Lor_sra_b14_19:
+        .word   .Lor_pow18, 100, .Lor_srs_b14_18
+        .word   .Lor_pow18, 160, .+4
+        .word   12, 12, .Lor_sra_b14_18
+.Lor_srs_b14_18:
+        .word   .Lor_npow18, 100, .+4
+.Lor_sra_b14_18:
+        .word   .Lor_pow17, 100, .Lor_srs_b14_17
+        .word   .Lor_pow17, 160, .+4
+        .word   12, 12, .Lor_sra_b14_17
+.Lor_srs_b14_17:
+        .word   .Lor_npow17, 100, .+4
+.Lor_sra_b14_17:
+        .word   .Lor_pow16, 100, .Lor_srs_b14_16
+        .word   .Lor_pow16, 160, .+4
+        .word   12, 12, .Lor_sra_b14_16
+.Lor_srs_b14_16:
+        .word   .Lor_npow16, 100, .+4
+.Lor_sra_b14_16:
+        .word   .Lor_pow15, 100, .Lor_srs_b14_15
+        .word   .Lor_pow15, 160, .+4
+        .word   12, 12, .Lor_sra_b14_15
+.Lor_srs_b14_15:
+        .word   .Lor_npow15, 100, .+4
+.Lor_sra_b14_15:
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b14_PP
+.Lor_split_b14_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lor_split_b14_r21_ambig
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b14_strip
+.Lor_split_b14_r21_ambig:
+        .word   .Lor_one, 168, .+4
+        .word   144, 168, .Lor_split_b14_r21_zero
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b14_strip
+.Lor_split_b14_r21_zero:
+        .word   .Lor_n1, 100, .+4
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b14_PP
+
+        .globl  __subleq_or_b13
+        .type   __subleq_or_b13,@function
+__subleq_or_b13:
+        .word   160, 160, .+4
+        .word   144, 100, .Lor_split_b13_r21_le0
+        .word   .Lor_n1, 100, .+4
+.Lor_split_b13_strip:
+        .word   .Lor_pow30, 100, .Lor_srs_b13_30
+        .word   .Lor_pow30, 160, .+4
+        .word   12, 12, .Lor_sra_b13_30
+.Lor_srs_b13_30:
+        .word   .Lor_npow30, 100, .+4
+.Lor_sra_b13_30:
+        .word   .Lor_pow29, 100, .Lor_srs_b13_29
+        .word   .Lor_pow29, 160, .+4
+        .word   12, 12, .Lor_sra_b13_29
+.Lor_srs_b13_29:
+        .word   .Lor_npow29, 100, .+4
+.Lor_sra_b13_29:
+        .word   .Lor_pow28, 100, .Lor_srs_b13_28
+        .word   .Lor_pow28, 160, .+4
+        .word   12, 12, .Lor_sra_b13_28
+.Lor_srs_b13_28:
+        .word   .Lor_npow28, 100, .+4
+.Lor_sra_b13_28:
+        .word   .Lor_pow27, 100, .Lor_srs_b13_27
+        .word   .Lor_pow27, 160, .+4
+        .word   12, 12, .Lor_sra_b13_27
+.Lor_srs_b13_27:
+        .word   .Lor_npow27, 100, .+4
+.Lor_sra_b13_27:
+        .word   .Lor_pow26, 100, .Lor_srs_b13_26
+        .word   .Lor_pow26, 160, .+4
+        .word   12, 12, .Lor_sra_b13_26
+.Lor_srs_b13_26:
+        .word   .Lor_npow26, 100, .+4
+.Lor_sra_b13_26:
+        .word   .Lor_pow25, 100, .Lor_srs_b13_25
+        .word   .Lor_pow25, 160, .+4
+        .word   12, 12, .Lor_sra_b13_25
+.Lor_srs_b13_25:
+        .word   .Lor_npow25, 100, .+4
+.Lor_sra_b13_25:
+        .word   .Lor_pow24, 100, .Lor_srs_b13_24
+        .word   .Lor_pow24, 160, .+4
+        .word   12, 12, .Lor_sra_b13_24
+.Lor_srs_b13_24:
+        .word   .Lor_npow24, 100, .+4
+.Lor_sra_b13_24:
+        .word   .Lor_pow23, 100, .Lor_srs_b13_23
+        .word   .Lor_pow23, 160, .+4
+        .word   12, 12, .Lor_sra_b13_23
+.Lor_srs_b13_23:
+        .word   .Lor_npow23, 100, .+4
+.Lor_sra_b13_23:
+        .word   .Lor_pow22, 100, .Lor_srs_b13_22
+        .word   .Lor_pow22, 160, .+4
+        .word   12, 12, .Lor_sra_b13_22
+.Lor_srs_b13_22:
+        .word   .Lor_npow22, 100, .+4
+.Lor_sra_b13_22:
+        .word   .Lor_pow21, 100, .Lor_srs_b13_21
+        .word   .Lor_pow21, 160, .+4
+        .word   12, 12, .Lor_sra_b13_21
+.Lor_srs_b13_21:
+        .word   .Lor_npow21, 100, .+4
+.Lor_sra_b13_21:
+        .word   .Lor_pow20, 100, .Lor_srs_b13_20
+        .word   .Lor_pow20, 160, .+4
+        .word   12, 12, .Lor_sra_b13_20
+.Lor_srs_b13_20:
+        .word   .Lor_npow20, 100, .+4
+.Lor_sra_b13_20:
+        .word   .Lor_pow19, 100, .Lor_srs_b13_19
+        .word   .Lor_pow19, 160, .+4
+        .word   12, 12, .Lor_sra_b13_19
+.Lor_srs_b13_19:
+        .word   .Lor_npow19, 100, .+4
+.Lor_sra_b13_19:
+        .word   .Lor_pow18, 100, .Lor_srs_b13_18
+        .word   .Lor_pow18, 160, .+4
+        .word   12, 12, .Lor_sra_b13_18
+.Lor_srs_b13_18:
+        .word   .Lor_npow18, 100, .+4
+.Lor_sra_b13_18:
+        .word   .Lor_pow17, 100, .Lor_srs_b13_17
+        .word   .Lor_pow17, 160, .+4
+        .word   12, 12, .Lor_sra_b13_17
+.Lor_srs_b13_17:
+        .word   .Lor_npow17, 100, .+4
+.Lor_sra_b13_17:
+        .word   .Lor_pow16, 100, .Lor_srs_b13_16
+        .word   .Lor_pow16, 160, .+4
+        .word   12, 12, .Lor_sra_b13_16
+.Lor_srs_b13_16:
+        .word   .Lor_npow16, 100, .+4
+.Lor_sra_b13_16:
+        .word   .Lor_pow15, 100, .Lor_srs_b13_15
+        .word   .Lor_pow15, 160, .+4
+        .word   12, 12, .Lor_sra_b13_15
+.Lor_srs_b13_15:
+        .word   .Lor_npow15, 100, .+4
+.Lor_sra_b13_15:
+        .word   .Lor_pow14, 100, .Lor_srs_b13_14
+        .word   .Lor_pow14, 160, .+4
+        .word   12, 12, .Lor_sra_b13_14
+.Lor_srs_b13_14:
+        .word   .Lor_npow14, 100, .+4
+.Lor_sra_b13_14:
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b13_PP
+.Lor_split_b13_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lor_split_b13_r21_ambig
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b13_strip
+.Lor_split_b13_r21_ambig:
+        .word   .Lor_one, 168, .+4
+        .word   144, 168, .Lor_split_b13_r21_zero
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b13_strip
+.Lor_split_b13_r21_zero:
+        .word   .Lor_n1, 100, .+4
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b13_PP
+
+        .globl  __subleq_or_b12
+        .type   __subleq_or_b12,@function
+__subleq_or_b12:
+        .word   160, 160, .+4
+        .word   144, 100, .Lor_split_b12_r21_le0
+        .word   .Lor_n1, 100, .+4
+.Lor_split_b12_strip:
+        .word   .Lor_pow30, 100, .Lor_srs_b12_30
+        .word   .Lor_pow30, 160, .+4
+        .word   12, 12, .Lor_sra_b12_30
+.Lor_srs_b12_30:
+        .word   .Lor_npow30, 100, .+4
+.Lor_sra_b12_30:
+        .word   .Lor_pow29, 100, .Lor_srs_b12_29
+        .word   .Lor_pow29, 160, .+4
+        .word   12, 12, .Lor_sra_b12_29
+.Lor_srs_b12_29:
+        .word   .Lor_npow29, 100, .+4
+.Lor_sra_b12_29:
+        .word   .Lor_pow28, 100, .Lor_srs_b12_28
+        .word   .Lor_pow28, 160, .+4
+        .word   12, 12, .Lor_sra_b12_28
+.Lor_srs_b12_28:
+        .word   .Lor_npow28, 100, .+4
+.Lor_sra_b12_28:
+        .word   .Lor_pow27, 100, .Lor_srs_b12_27
+        .word   .Lor_pow27, 160, .+4
+        .word   12, 12, .Lor_sra_b12_27
+.Lor_srs_b12_27:
+        .word   .Lor_npow27, 100, .+4
+.Lor_sra_b12_27:
+        .word   .Lor_pow26, 100, .Lor_srs_b12_26
+        .word   .Lor_pow26, 160, .+4
+        .word   12, 12, .Lor_sra_b12_26
+.Lor_srs_b12_26:
+        .word   .Lor_npow26, 100, .+4
+.Lor_sra_b12_26:
+        .word   .Lor_pow25, 100, .Lor_srs_b12_25
+        .word   .Lor_pow25, 160, .+4
+        .word   12, 12, .Lor_sra_b12_25
+.Lor_srs_b12_25:
+        .word   .Lor_npow25, 100, .+4
+.Lor_sra_b12_25:
+        .word   .Lor_pow24, 100, .Lor_srs_b12_24
+        .word   .Lor_pow24, 160, .+4
+        .word   12, 12, .Lor_sra_b12_24
+.Lor_srs_b12_24:
+        .word   .Lor_npow24, 100, .+4
+.Lor_sra_b12_24:
+        .word   .Lor_pow23, 100, .Lor_srs_b12_23
+        .word   .Lor_pow23, 160, .+4
+        .word   12, 12, .Lor_sra_b12_23
+.Lor_srs_b12_23:
+        .word   .Lor_npow23, 100, .+4
+.Lor_sra_b12_23:
+        .word   .Lor_pow22, 100, .Lor_srs_b12_22
+        .word   .Lor_pow22, 160, .+4
+        .word   12, 12, .Lor_sra_b12_22
+.Lor_srs_b12_22:
+        .word   .Lor_npow22, 100, .+4
+.Lor_sra_b12_22:
+        .word   .Lor_pow21, 100, .Lor_srs_b12_21
+        .word   .Lor_pow21, 160, .+4
+        .word   12, 12, .Lor_sra_b12_21
+.Lor_srs_b12_21:
+        .word   .Lor_npow21, 100, .+4
+.Lor_sra_b12_21:
+        .word   .Lor_pow20, 100, .Lor_srs_b12_20
+        .word   .Lor_pow20, 160, .+4
+        .word   12, 12, .Lor_sra_b12_20
+.Lor_srs_b12_20:
+        .word   .Lor_npow20, 100, .+4
+.Lor_sra_b12_20:
+        .word   .Lor_pow19, 100, .Lor_srs_b12_19
+        .word   .Lor_pow19, 160, .+4
+        .word   12, 12, .Lor_sra_b12_19
+.Lor_srs_b12_19:
+        .word   .Lor_npow19, 100, .+4
+.Lor_sra_b12_19:
+        .word   .Lor_pow18, 100, .Lor_srs_b12_18
+        .word   .Lor_pow18, 160, .+4
+        .word   12, 12, .Lor_sra_b12_18
+.Lor_srs_b12_18:
+        .word   .Lor_npow18, 100, .+4
+.Lor_sra_b12_18:
+        .word   .Lor_pow17, 100, .Lor_srs_b12_17
+        .word   .Lor_pow17, 160, .+4
+        .word   12, 12, .Lor_sra_b12_17
+.Lor_srs_b12_17:
+        .word   .Lor_npow17, 100, .+4
+.Lor_sra_b12_17:
+        .word   .Lor_pow16, 100, .Lor_srs_b12_16
+        .word   .Lor_pow16, 160, .+4
+        .word   12, 12, .Lor_sra_b12_16
+.Lor_srs_b12_16:
+        .word   .Lor_npow16, 100, .+4
+.Lor_sra_b12_16:
+        .word   .Lor_pow15, 100, .Lor_srs_b12_15
+        .word   .Lor_pow15, 160, .+4
+        .word   12, 12, .Lor_sra_b12_15
+.Lor_srs_b12_15:
+        .word   .Lor_npow15, 100, .+4
+.Lor_sra_b12_15:
+        .word   .Lor_pow14, 100, .Lor_srs_b12_14
+        .word   .Lor_pow14, 160, .+4
+        .word   12, 12, .Lor_sra_b12_14
+.Lor_srs_b12_14:
+        .word   .Lor_npow14, 100, .+4
+.Lor_sra_b12_14:
+        .word   .Lor_pow13, 100, .Lor_srs_b12_13
+        .word   .Lor_pow13, 160, .+4
+        .word   12, 12, .Lor_sra_b12_13
+.Lor_srs_b12_13:
+        .word   .Lor_npow13, 100, .+4
+.Lor_sra_b12_13:
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b12_PP
+.Lor_split_b12_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lor_split_b12_r21_ambig
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b12_strip
+.Lor_split_b12_r21_ambig:
+        .word   .Lor_one, 168, .+4
+        .word   144, 168, .Lor_split_b12_r21_zero
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b12_strip
+.Lor_split_b12_r21_zero:
+        .word   .Lor_n1, 100, .+4
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b12_PP
+
+        .globl  __subleq_or_b11
+        .type   __subleq_or_b11,@function
+__subleq_or_b11:
+        .word   160, 160, .+4
+        .word   144, 100, .Lor_split_b11_r21_le0
+        .word   .Lor_n1, 100, .+4
+.Lor_split_b11_strip:
+        .word   .Lor_pow30, 100, .Lor_srs_b11_30
+        .word   .Lor_pow30, 160, .+4
+        .word   12, 12, .Lor_sra_b11_30
+.Lor_srs_b11_30:
+        .word   .Lor_npow30, 100, .+4
+.Lor_sra_b11_30:
+        .word   .Lor_pow29, 100, .Lor_srs_b11_29
+        .word   .Lor_pow29, 160, .+4
+        .word   12, 12, .Lor_sra_b11_29
+.Lor_srs_b11_29:
+        .word   .Lor_npow29, 100, .+4
+.Lor_sra_b11_29:
+        .word   .Lor_pow28, 100, .Lor_srs_b11_28
+        .word   .Lor_pow28, 160, .+4
+        .word   12, 12, .Lor_sra_b11_28
+.Lor_srs_b11_28:
+        .word   .Lor_npow28, 100, .+4
+.Lor_sra_b11_28:
+        .word   .Lor_pow27, 100, .Lor_srs_b11_27
+        .word   .Lor_pow27, 160, .+4
+        .word   12, 12, .Lor_sra_b11_27
+.Lor_srs_b11_27:
+        .word   .Lor_npow27, 100, .+4
+.Lor_sra_b11_27:
+        .word   .Lor_pow26, 100, .Lor_srs_b11_26
+        .word   .Lor_pow26, 160, .+4
+        .word   12, 12, .Lor_sra_b11_26
+.Lor_srs_b11_26:
+        .word   .Lor_npow26, 100, .+4
+.Lor_sra_b11_26:
+        .word   .Lor_pow25, 100, .Lor_srs_b11_25
+        .word   .Lor_pow25, 160, .+4
+        .word   12, 12, .Lor_sra_b11_25
+.Lor_srs_b11_25:
+        .word   .Lor_npow25, 100, .+4
+.Lor_sra_b11_25:
+        .word   .Lor_pow24, 100, .Lor_srs_b11_24
+        .word   .Lor_pow24, 160, .+4
+        .word   12, 12, .Lor_sra_b11_24
+.Lor_srs_b11_24:
+        .word   .Lor_npow24, 100, .+4
+.Lor_sra_b11_24:
+        .word   .Lor_pow23, 100, .Lor_srs_b11_23
+        .word   .Lor_pow23, 160, .+4
+        .word   12, 12, .Lor_sra_b11_23
+.Lor_srs_b11_23:
+        .word   .Lor_npow23, 100, .+4
+.Lor_sra_b11_23:
+        .word   .Lor_pow22, 100, .Lor_srs_b11_22
+        .word   .Lor_pow22, 160, .+4
+        .word   12, 12, .Lor_sra_b11_22
+.Lor_srs_b11_22:
+        .word   .Lor_npow22, 100, .+4
+.Lor_sra_b11_22:
+        .word   .Lor_pow21, 100, .Lor_srs_b11_21
+        .word   .Lor_pow21, 160, .+4
+        .word   12, 12, .Lor_sra_b11_21
+.Lor_srs_b11_21:
+        .word   .Lor_npow21, 100, .+4
+.Lor_sra_b11_21:
+        .word   .Lor_pow20, 100, .Lor_srs_b11_20
+        .word   .Lor_pow20, 160, .+4
+        .word   12, 12, .Lor_sra_b11_20
+.Lor_srs_b11_20:
+        .word   .Lor_npow20, 100, .+4
+.Lor_sra_b11_20:
+        .word   .Lor_pow19, 100, .Lor_srs_b11_19
+        .word   .Lor_pow19, 160, .+4
+        .word   12, 12, .Lor_sra_b11_19
+.Lor_srs_b11_19:
+        .word   .Lor_npow19, 100, .+4
+.Lor_sra_b11_19:
+        .word   .Lor_pow18, 100, .Lor_srs_b11_18
+        .word   .Lor_pow18, 160, .+4
+        .word   12, 12, .Lor_sra_b11_18
+.Lor_srs_b11_18:
+        .word   .Lor_npow18, 100, .+4
+.Lor_sra_b11_18:
+        .word   .Lor_pow17, 100, .Lor_srs_b11_17
+        .word   .Lor_pow17, 160, .+4
+        .word   12, 12, .Lor_sra_b11_17
+.Lor_srs_b11_17:
+        .word   .Lor_npow17, 100, .+4
+.Lor_sra_b11_17:
+        .word   .Lor_pow16, 100, .Lor_srs_b11_16
+        .word   .Lor_pow16, 160, .+4
+        .word   12, 12, .Lor_sra_b11_16
+.Lor_srs_b11_16:
+        .word   .Lor_npow16, 100, .+4
+.Lor_sra_b11_16:
+        .word   .Lor_pow15, 100, .Lor_srs_b11_15
+        .word   .Lor_pow15, 160, .+4
+        .word   12, 12, .Lor_sra_b11_15
+.Lor_srs_b11_15:
+        .word   .Lor_npow15, 100, .+4
+.Lor_sra_b11_15:
+        .word   .Lor_pow14, 100, .Lor_srs_b11_14
+        .word   .Lor_pow14, 160, .+4
+        .word   12, 12, .Lor_sra_b11_14
+.Lor_srs_b11_14:
+        .word   .Lor_npow14, 100, .+4
+.Lor_sra_b11_14:
+        .word   .Lor_pow13, 100, .Lor_srs_b11_13
+        .word   .Lor_pow13, 160, .+4
+        .word   12, 12, .Lor_sra_b11_13
+.Lor_srs_b11_13:
+        .word   .Lor_npow13, 100, .+4
+.Lor_sra_b11_13:
+        .word   .Lor_pow12, 100, .Lor_srs_b11_12
+        .word   .Lor_pow12, 160, .+4
+        .word   12, 12, .Lor_sra_b11_12
+.Lor_srs_b11_12:
+        .word   .Lor_npow12, 100, .+4
+.Lor_sra_b11_12:
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b11_PP
+.Lor_split_b11_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lor_split_b11_r21_ambig
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b11_strip
+.Lor_split_b11_r21_ambig:
+        .word   .Lor_one, 168, .+4
+        .word   144, 168, .Lor_split_b11_r21_zero
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b11_strip
+.Lor_split_b11_r21_zero:
+        .word   .Lor_n1, 100, .+4
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b11_PP
+
+        .globl  __subleq_or_b10
+        .type   __subleq_or_b10,@function
+__subleq_or_b10:
+        .word   160, 160, .+4
+        .word   144, 100, .Lor_split_b10_r21_le0
+        .word   .Lor_n1, 100, .+4
+.Lor_split_b10_strip:
+        .word   .Lor_pow30, 100, .Lor_srs_b10_30
+        .word   .Lor_pow30, 160, .+4
+        .word   12, 12, .Lor_sra_b10_30
+.Lor_srs_b10_30:
+        .word   .Lor_npow30, 100, .+4
+.Lor_sra_b10_30:
+        .word   .Lor_pow29, 100, .Lor_srs_b10_29
+        .word   .Lor_pow29, 160, .+4
+        .word   12, 12, .Lor_sra_b10_29
+.Lor_srs_b10_29:
+        .word   .Lor_npow29, 100, .+4
+.Lor_sra_b10_29:
+        .word   .Lor_pow28, 100, .Lor_srs_b10_28
+        .word   .Lor_pow28, 160, .+4
+        .word   12, 12, .Lor_sra_b10_28
+.Lor_srs_b10_28:
+        .word   .Lor_npow28, 100, .+4
+.Lor_sra_b10_28:
+        .word   .Lor_pow27, 100, .Lor_srs_b10_27
+        .word   .Lor_pow27, 160, .+4
+        .word   12, 12, .Lor_sra_b10_27
+.Lor_srs_b10_27:
+        .word   .Lor_npow27, 100, .+4
+.Lor_sra_b10_27:
+        .word   .Lor_pow26, 100, .Lor_srs_b10_26
+        .word   .Lor_pow26, 160, .+4
+        .word   12, 12, .Lor_sra_b10_26
+.Lor_srs_b10_26:
+        .word   .Lor_npow26, 100, .+4
+.Lor_sra_b10_26:
+        .word   .Lor_pow25, 100, .Lor_srs_b10_25
+        .word   .Lor_pow25, 160, .+4
+        .word   12, 12, .Lor_sra_b10_25
+.Lor_srs_b10_25:
+        .word   .Lor_npow25, 100, .+4
+.Lor_sra_b10_25:
+        .word   .Lor_pow24, 100, .Lor_srs_b10_24
+        .word   .Lor_pow24, 160, .+4
+        .word   12, 12, .Lor_sra_b10_24
+.Lor_srs_b10_24:
+        .word   .Lor_npow24, 100, .+4
+.Lor_sra_b10_24:
+        .word   .Lor_pow23, 100, .Lor_srs_b10_23
+        .word   .Lor_pow23, 160, .+4
+        .word   12, 12, .Lor_sra_b10_23
+.Lor_srs_b10_23:
+        .word   .Lor_npow23, 100, .+4
+.Lor_sra_b10_23:
+        .word   .Lor_pow22, 100, .Lor_srs_b10_22
+        .word   .Lor_pow22, 160, .+4
+        .word   12, 12, .Lor_sra_b10_22
+.Lor_srs_b10_22:
+        .word   .Lor_npow22, 100, .+4
+.Lor_sra_b10_22:
+        .word   .Lor_pow21, 100, .Lor_srs_b10_21
+        .word   .Lor_pow21, 160, .+4
+        .word   12, 12, .Lor_sra_b10_21
+.Lor_srs_b10_21:
+        .word   .Lor_npow21, 100, .+4
+.Lor_sra_b10_21:
+        .word   .Lor_pow20, 100, .Lor_srs_b10_20
+        .word   .Lor_pow20, 160, .+4
+        .word   12, 12, .Lor_sra_b10_20
+.Lor_srs_b10_20:
+        .word   .Lor_npow20, 100, .+4
+.Lor_sra_b10_20:
+        .word   .Lor_pow19, 100, .Lor_srs_b10_19
+        .word   .Lor_pow19, 160, .+4
+        .word   12, 12, .Lor_sra_b10_19
+.Lor_srs_b10_19:
+        .word   .Lor_npow19, 100, .+4
+.Lor_sra_b10_19:
+        .word   .Lor_pow18, 100, .Lor_srs_b10_18
+        .word   .Lor_pow18, 160, .+4
+        .word   12, 12, .Lor_sra_b10_18
+.Lor_srs_b10_18:
+        .word   .Lor_npow18, 100, .+4
+.Lor_sra_b10_18:
+        .word   .Lor_pow17, 100, .Lor_srs_b10_17
+        .word   .Lor_pow17, 160, .+4
+        .word   12, 12, .Lor_sra_b10_17
+.Lor_srs_b10_17:
+        .word   .Lor_npow17, 100, .+4
+.Lor_sra_b10_17:
+        .word   .Lor_pow16, 100, .Lor_srs_b10_16
+        .word   .Lor_pow16, 160, .+4
+        .word   12, 12, .Lor_sra_b10_16
+.Lor_srs_b10_16:
+        .word   .Lor_npow16, 100, .+4
+.Lor_sra_b10_16:
+        .word   .Lor_pow15, 100, .Lor_srs_b10_15
+        .word   .Lor_pow15, 160, .+4
+        .word   12, 12, .Lor_sra_b10_15
+.Lor_srs_b10_15:
+        .word   .Lor_npow15, 100, .+4
+.Lor_sra_b10_15:
+        .word   .Lor_pow14, 100, .Lor_srs_b10_14
+        .word   .Lor_pow14, 160, .+4
+        .word   12, 12, .Lor_sra_b10_14
+.Lor_srs_b10_14:
+        .word   .Lor_npow14, 100, .+4
+.Lor_sra_b10_14:
+        .word   .Lor_pow13, 100, .Lor_srs_b10_13
+        .word   .Lor_pow13, 160, .+4
+        .word   12, 12, .Lor_sra_b10_13
+.Lor_srs_b10_13:
+        .word   .Lor_npow13, 100, .+4
+.Lor_sra_b10_13:
+        .word   .Lor_pow12, 100, .Lor_srs_b10_12
+        .word   .Lor_pow12, 160, .+4
+        .word   12, 12, .Lor_sra_b10_12
+.Lor_srs_b10_12:
+        .word   .Lor_npow12, 100, .+4
+.Lor_sra_b10_12:
+        .word   .Lor_pow11, 100, .Lor_srs_b10_11
+        .word   .Lor_pow11, 160, .+4
+        .word   12, 12, .Lor_sra_b10_11
+.Lor_srs_b10_11:
+        .word   .Lor_npow11, 100, .+4
+.Lor_sra_b10_11:
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b10_PP
+.Lor_split_b10_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lor_split_b10_r21_ambig
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b10_strip
+.Lor_split_b10_r21_ambig:
+        .word   .Lor_one, 168, .+4
+        .word   144, 168, .Lor_split_b10_r21_zero
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b10_strip
+.Lor_split_b10_r21_zero:
+        .word   .Lor_n1, 100, .+4
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b10_PP
+
+        .globl  __subleq_or_b9
+        .type   __subleq_or_b9,@function
+__subleq_or_b9:
+        .word   160, 160, .+4
+        .word   144, 100, .Lor_split_b9_r21_le0
+        .word   .Lor_n1, 100, .+4
+.Lor_split_b9_strip:
+        .word   .Lor_pow30, 100, .Lor_srs_b9_30
+        .word   .Lor_pow30, 160, .+4
+        .word   12, 12, .Lor_sra_b9_30
+.Lor_srs_b9_30:
+        .word   .Lor_npow30, 100, .+4
+.Lor_sra_b9_30:
+        .word   .Lor_pow29, 100, .Lor_srs_b9_29
+        .word   .Lor_pow29, 160, .+4
+        .word   12, 12, .Lor_sra_b9_29
+.Lor_srs_b9_29:
+        .word   .Lor_npow29, 100, .+4
+.Lor_sra_b9_29:
+        .word   .Lor_pow28, 100, .Lor_srs_b9_28
+        .word   .Lor_pow28, 160, .+4
+        .word   12, 12, .Lor_sra_b9_28
+.Lor_srs_b9_28:
+        .word   .Lor_npow28, 100, .+4
+.Lor_sra_b9_28:
+        .word   .Lor_pow27, 100, .Lor_srs_b9_27
+        .word   .Lor_pow27, 160, .+4
+        .word   12, 12, .Lor_sra_b9_27
+.Lor_srs_b9_27:
+        .word   .Lor_npow27, 100, .+4
+.Lor_sra_b9_27:
+        .word   .Lor_pow26, 100, .Lor_srs_b9_26
+        .word   .Lor_pow26, 160, .+4
+        .word   12, 12, .Lor_sra_b9_26
+.Lor_srs_b9_26:
+        .word   .Lor_npow26, 100, .+4
+.Lor_sra_b9_26:
+        .word   .Lor_pow25, 100, .Lor_srs_b9_25
+        .word   .Lor_pow25, 160, .+4
+        .word   12, 12, .Lor_sra_b9_25
+.Lor_srs_b9_25:
+        .word   .Lor_npow25, 100, .+4
+.Lor_sra_b9_25:
+        .word   .Lor_pow24, 100, .Lor_srs_b9_24
+        .word   .Lor_pow24, 160, .+4
+        .word   12, 12, .Lor_sra_b9_24
+.Lor_srs_b9_24:
+        .word   .Lor_npow24, 100, .+4
+.Lor_sra_b9_24:
+        .word   .Lor_pow23, 100, .Lor_srs_b9_23
+        .word   .Lor_pow23, 160, .+4
+        .word   12, 12, .Lor_sra_b9_23
+.Lor_srs_b9_23:
+        .word   .Lor_npow23, 100, .+4
+.Lor_sra_b9_23:
+        .word   .Lor_pow22, 100, .Lor_srs_b9_22
+        .word   .Lor_pow22, 160, .+4
+        .word   12, 12, .Lor_sra_b9_22
+.Lor_srs_b9_22:
+        .word   .Lor_npow22, 100, .+4
+.Lor_sra_b9_22:
+        .word   .Lor_pow21, 100, .Lor_srs_b9_21
+        .word   .Lor_pow21, 160, .+4
+        .word   12, 12, .Lor_sra_b9_21
+.Lor_srs_b9_21:
+        .word   .Lor_npow21, 100, .+4
+.Lor_sra_b9_21:
+        .word   .Lor_pow20, 100, .Lor_srs_b9_20
+        .word   .Lor_pow20, 160, .+4
+        .word   12, 12, .Lor_sra_b9_20
+.Lor_srs_b9_20:
+        .word   .Lor_npow20, 100, .+4
+.Lor_sra_b9_20:
+        .word   .Lor_pow19, 100, .Lor_srs_b9_19
+        .word   .Lor_pow19, 160, .+4
+        .word   12, 12, .Lor_sra_b9_19
+.Lor_srs_b9_19:
+        .word   .Lor_npow19, 100, .+4
+.Lor_sra_b9_19:
+        .word   .Lor_pow18, 100, .Lor_srs_b9_18
+        .word   .Lor_pow18, 160, .+4
+        .word   12, 12, .Lor_sra_b9_18
+.Lor_srs_b9_18:
+        .word   .Lor_npow18, 100, .+4
+.Lor_sra_b9_18:
+        .word   .Lor_pow17, 100, .Lor_srs_b9_17
+        .word   .Lor_pow17, 160, .+4
+        .word   12, 12, .Lor_sra_b9_17
+.Lor_srs_b9_17:
+        .word   .Lor_npow17, 100, .+4
+.Lor_sra_b9_17:
+        .word   .Lor_pow16, 100, .Lor_srs_b9_16
+        .word   .Lor_pow16, 160, .+4
+        .word   12, 12, .Lor_sra_b9_16
+.Lor_srs_b9_16:
+        .word   .Lor_npow16, 100, .+4
+.Lor_sra_b9_16:
+        .word   .Lor_pow15, 100, .Lor_srs_b9_15
+        .word   .Lor_pow15, 160, .+4
+        .word   12, 12, .Lor_sra_b9_15
+.Lor_srs_b9_15:
+        .word   .Lor_npow15, 100, .+4
+.Lor_sra_b9_15:
+        .word   .Lor_pow14, 100, .Lor_srs_b9_14
+        .word   .Lor_pow14, 160, .+4
+        .word   12, 12, .Lor_sra_b9_14
+.Lor_srs_b9_14:
+        .word   .Lor_npow14, 100, .+4
+.Lor_sra_b9_14:
+        .word   .Lor_pow13, 100, .Lor_srs_b9_13
+        .word   .Lor_pow13, 160, .+4
+        .word   12, 12, .Lor_sra_b9_13
+.Lor_srs_b9_13:
+        .word   .Lor_npow13, 100, .+4
+.Lor_sra_b9_13:
+        .word   .Lor_pow12, 100, .Lor_srs_b9_12
+        .word   .Lor_pow12, 160, .+4
+        .word   12, 12, .Lor_sra_b9_12
+.Lor_srs_b9_12:
+        .word   .Lor_npow12, 100, .+4
+.Lor_sra_b9_12:
+        .word   .Lor_pow11, 100, .Lor_srs_b9_11
+        .word   .Lor_pow11, 160, .+4
+        .word   12, 12, .Lor_sra_b9_11
+.Lor_srs_b9_11:
+        .word   .Lor_npow11, 100, .+4
+.Lor_sra_b9_11:
+        .word   .Lor_pow10, 100, .Lor_srs_b9_10
+        .word   .Lor_pow10, 160, .+4
+        .word   12, 12, .Lor_sra_b9_10
+.Lor_srs_b9_10:
+        .word   .Lor_npow10, 100, .+4
+.Lor_sra_b9_10:
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b9_PP
+.Lor_split_b9_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lor_split_b9_r21_ambig
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b9_strip
+.Lor_split_b9_r21_ambig:
+        .word   .Lor_one, 168, .+4
+        .word   144, 168, .Lor_split_b9_r21_zero
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b9_strip
+.Lor_split_b9_r21_zero:
+        .word   .Lor_n1, 100, .+4
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b9_PP
+
+        .globl  __subleq_or_b8
+        .type   __subleq_or_b8,@function
+__subleq_or_b8:
+        .word   160, 160, .+4
+        .word   144, 100, .Lor_split_b8_r21_le0
+        .word   .Lor_n1, 100, .+4
+.Lor_split_b8_strip:
+        .word   .Lor_pow30, 100, .Lor_srs_b8_30
+        .word   .Lor_pow30, 160, .+4
+        .word   12, 12, .Lor_sra_b8_30
+.Lor_srs_b8_30:
+        .word   .Lor_npow30, 100, .+4
+.Lor_sra_b8_30:
+        .word   .Lor_pow29, 100, .Lor_srs_b8_29
+        .word   .Lor_pow29, 160, .+4
+        .word   12, 12, .Lor_sra_b8_29
+.Lor_srs_b8_29:
+        .word   .Lor_npow29, 100, .+4
+.Lor_sra_b8_29:
+        .word   .Lor_pow28, 100, .Lor_srs_b8_28
+        .word   .Lor_pow28, 160, .+4
+        .word   12, 12, .Lor_sra_b8_28
+.Lor_srs_b8_28:
+        .word   .Lor_npow28, 100, .+4
+.Lor_sra_b8_28:
+        .word   .Lor_pow27, 100, .Lor_srs_b8_27
+        .word   .Lor_pow27, 160, .+4
+        .word   12, 12, .Lor_sra_b8_27
+.Lor_srs_b8_27:
+        .word   .Lor_npow27, 100, .+4
+.Lor_sra_b8_27:
+        .word   .Lor_pow26, 100, .Lor_srs_b8_26
+        .word   .Lor_pow26, 160, .+4
+        .word   12, 12, .Lor_sra_b8_26
+.Lor_srs_b8_26:
+        .word   .Lor_npow26, 100, .+4
+.Lor_sra_b8_26:
+        .word   .Lor_pow25, 100, .Lor_srs_b8_25
+        .word   .Lor_pow25, 160, .+4
+        .word   12, 12, .Lor_sra_b8_25
+.Lor_srs_b8_25:
+        .word   .Lor_npow25, 100, .+4
+.Lor_sra_b8_25:
+        .word   .Lor_pow24, 100, .Lor_srs_b8_24
+        .word   .Lor_pow24, 160, .+4
+        .word   12, 12, .Lor_sra_b8_24
+.Lor_srs_b8_24:
+        .word   .Lor_npow24, 100, .+4
+.Lor_sra_b8_24:
+        .word   .Lor_pow23, 100, .Lor_srs_b8_23
+        .word   .Lor_pow23, 160, .+4
+        .word   12, 12, .Lor_sra_b8_23
+.Lor_srs_b8_23:
+        .word   .Lor_npow23, 100, .+4
+.Lor_sra_b8_23:
+        .word   .Lor_pow22, 100, .Lor_srs_b8_22
+        .word   .Lor_pow22, 160, .+4
+        .word   12, 12, .Lor_sra_b8_22
+.Lor_srs_b8_22:
+        .word   .Lor_npow22, 100, .+4
+.Lor_sra_b8_22:
+        .word   .Lor_pow21, 100, .Lor_srs_b8_21
+        .word   .Lor_pow21, 160, .+4
+        .word   12, 12, .Lor_sra_b8_21
+.Lor_srs_b8_21:
+        .word   .Lor_npow21, 100, .+4
+.Lor_sra_b8_21:
+        .word   .Lor_pow20, 100, .Lor_srs_b8_20
+        .word   .Lor_pow20, 160, .+4
+        .word   12, 12, .Lor_sra_b8_20
+.Lor_srs_b8_20:
+        .word   .Lor_npow20, 100, .+4
+.Lor_sra_b8_20:
+        .word   .Lor_pow19, 100, .Lor_srs_b8_19
+        .word   .Lor_pow19, 160, .+4
+        .word   12, 12, .Lor_sra_b8_19
+.Lor_srs_b8_19:
+        .word   .Lor_npow19, 100, .+4
+.Lor_sra_b8_19:
+        .word   .Lor_pow18, 100, .Lor_srs_b8_18
+        .word   .Lor_pow18, 160, .+4
+        .word   12, 12, .Lor_sra_b8_18
+.Lor_srs_b8_18:
+        .word   .Lor_npow18, 100, .+4
+.Lor_sra_b8_18:
+        .word   .Lor_pow17, 100, .Lor_srs_b8_17
+        .word   .Lor_pow17, 160, .+4
+        .word   12, 12, .Lor_sra_b8_17
+.Lor_srs_b8_17:
+        .word   .Lor_npow17, 100, .+4
+.Lor_sra_b8_17:
+        .word   .Lor_pow16, 100, .Lor_srs_b8_16
+        .word   .Lor_pow16, 160, .+4
+        .word   12, 12, .Lor_sra_b8_16
+.Lor_srs_b8_16:
+        .word   .Lor_npow16, 100, .+4
+.Lor_sra_b8_16:
+        .word   .Lor_pow15, 100, .Lor_srs_b8_15
+        .word   .Lor_pow15, 160, .+4
+        .word   12, 12, .Lor_sra_b8_15
+.Lor_srs_b8_15:
+        .word   .Lor_npow15, 100, .+4
+.Lor_sra_b8_15:
+        .word   .Lor_pow14, 100, .Lor_srs_b8_14
+        .word   .Lor_pow14, 160, .+4
+        .word   12, 12, .Lor_sra_b8_14
+.Lor_srs_b8_14:
+        .word   .Lor_npow14, 100, .+4
+.Lor_sra_b8_14:
+        .word   .Lor_pow13, 100, .Lor_srs_b8_13
+        .word   .Lor_pow13, 160, .+4
+        .word   12, 12, .Lor_sra_b8_13
+.Lor_srs_b8_13:
+        .word   .Lor_npow13, 100, .+4
+.Lor_sra_b8_13:
+        .word   .Lor_pow12, 100, .Lor_srs_b8_12
+        .word   .Lor_pow12, 160, .+4
+        .word   12, 12, .Lor_sra_b8_12
+.Lor_srs_b8_12:
+        .word   .Lor_npow12, 100, .+4
+.Lor_sra_b8_12:
+        .word   .Lor_pow11, 100, .Lor_srs_b8_11
+        .word   .Lor_pow11, 160, .+4
+        .word   12, 12, .Lor_sra_b8_11
+.Lor_srs_b8_11:
+        .word   .Lor_npow11, 100, .+4
+.Lor_sra_b8_11:
+        .word   .Lor_pow10, 100, .Lor_srs_b8_10
+        .word   .Lor_pow10, 160, .+4
+        .word   12, 12, .Lor_sra_b8_10
+.Lor_srs_b8_10:
+        .word   .Lor_npow10, 100, .+4
+.Lor_sra_b8_10:
+        .word   .Lor_pow9, 100, .Lor_srs_b8_9
+        .word   .Lor_pow9, 160, .+4
+        .word   12, 12, .Lor_sra_b8_9
+.Lor_srs_b8_9:
+        .word   .Lor_npow9, 100, .+4
+.Lor_sra_b8_9:
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b8_PP
+.Lor_split_b8_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lor_split_b8_r21_ambig
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b8_strip
+.Lor_split_b8_r21_ambig:
+        .word   .Lor_one, 168, .+4
+        .word   144, 168, .Lor_split_b8_r21_zero
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b8_strip
+.Lor_split_b8_r21_zero:
+        .word   .Lor_n1, 100, .+4
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b8_PP
+
+        .globl  __subleq_or_b7
+        .type   __subleq_or_b7,@function
+__subleq_or_b7:
+        .word   160, 160, .+4
+        .word   144, 100, .Lor_split_b7_r21_le0
+        .word   .Lor_n1, 100, .+4
+.Lor_split_b7_strip:
+        .word   .Lor_pow30, 100, .Lor_srs_b7_30
+        .word   .Lor_pow30, 160, .+4
+        .word   12, 12, .Lor_sra_b7_30
+.Lor_srs_b7_30:
+        .word   .Lor_npow30, 100, .+4
+.Lor_sra_b7_30:
+        .word   .Lor_pow29, 100, .Lor_srs_b7_29
+        .word   .Lor_pow29, 160, .+4
+        .word   12, 12, .Lor_sra_b7_29
+.Lor_srs_b7_29:
+        .word   .Lor_npow29, 100, .+4
+.Lor_sra_b7_29:
+        .word   .Lor_pow28, 100, .Lor_srs_b7_28
+        .word   .Lor_pow28, 160, .+4
+        .word   12, 12, .Lor_sra_b7_28
+.Lor_srs_b7_28:
+        .word   .Lor_npow28, 100, .+4
+.Lor_sra_b7_28:
+        .word   .Lor_pow27, 100, .Lor_srs_b7_27
+        .word   .Lor_pow27, 160, .+4
+        .word   12, 12, .Lor_sra_b7_27
+.Lor_srs_b7_27:
+        .word   .Lor_npow27, 100, .+4
+.Lor_sra_b7_27:
+        .word   .Lor_pow26, 100, .Lor_srs_b7_26
+        .word   .Lor_pow26, 160, .+4
+        .word   12, 12, .Lor_sra_b7_26
+.Lor_srs_b7_26:
+        .word   .Lor_npow26, 100, .+4
+.Lor_sra_b7_26:
+        .word   .Lor_pow25, 100, .Lor_srs_b7_25
+        .word   .Lor_pow25, 160, .+4
+        .word   12, 12, .Lor_sra_b7_25
+.Lor_srs_b7_25:
+        .word   .Lor_npow25, 100, .+4
+.Lor_sra_b7_25:
+        .word   .Lor_pow24, 100, .Lor_srs_b7_24
+        .word   .Lor_pow24, 160, .+4
+        .word   12, 12, .Lor_sra_b7_24
+.Lor_srs_b7_24:
+        .word   .Lor_npow24, 100, .+4
+.Lor_sra_b7_24:
+        .word   .Lor_pow23, 100, .Lor_srs_b7_23
+        .word   .Lor_pow23, 160, .+4
+        .word   12, 12, .Lor_sra_b7_23
+.Lor_srs_b7_23:
+        .word   .Lor_npow23, 100, .+4
+.Lor_sra_b7_23:
+        .word   .Lor_pow22, 100, .Lor_srs_b7_22
+        .word   .Lor_pow22, 160, .+4
+        .word   12, 12, .Lor_sra_b7_22
+.Lor_srs_b7_22:
+        .word   .Lor_npow22, 100, .+4
+.Lor_sra_b7_22:
+        .word   .Lor_pow21, 100, .Lor_srs_b7_21
+        .word   .Lor_pow21, 160, .+4
+        .word   12, 12, .Lor_sra_b7_21
+.Lor_srs_b7_21:
+        .word   .Lor_npow21, 100, .+4
+.Lor_sra_b7_21:
+        .word   .Lor_pow20, 100, .Lor_srs_b7_20
+        .word   .Lor_pow20, 160, .+4
+        .word   12, 12, .Lor_sra_b7_20
+.Lor_srs_b7_20:
+        .word   .Lor_npow20, 100, .+4
+.Lor_sra_b7_20:
+        .word   .Lor_pow19, 100, .Lor_srs_b7_19
+        .word   .Lor_pow19, 160, .+4
+        .word   12, 12, .Lor_sra_b7_19
+.Lor_srs_b7_19:
+        .word   .Lor_npow19, 100, .+4
+.Lor_sra_b7_19:
+        .word   .Lor_pow18, 100, .Lor_srs_b7_18
+        .word   .Lor_pow18, 160, .+4
+        .word   12, 12, .Lor_sra_b7_18
+.Lor_srs_b7_18:
+        .word   .Lor_npow18, 100, .+4
+.Lor_sra_b7_18:
+        .word   .Lor_pow17, 100, .Lor_srs_b7_17
+        .word   .Lor_pow17, 160, .+4
+        .word   12, 12, .Lor_sra_b7_17
+.Lor_srs_b7_17:
+        .word   .Lor_npow17, 100, .+4
+.Lor_sra_b7_17:
+        .word   .Lor_pow16, 100, .Lor_srs_b7_16
+        .word   .Lor_pow16, 160, .+4
+        .word   12, 12, .Lor_sra_b7_16
+.Lor_srs_b7_16:
+        .word   .Lor_npow16, 100, .+4
+.Lor_sra_b7_16:
+        .word   .Lor_pow15, 100, .Lor_srs_b7_15
+        .word   .Lor_pow15, 160, .+4
+        .word   12, 12, .Lor_sra_b7_15
+.Lor_srs_b7_15:
+        .word   .Lor_npow15, 100, .+4
+.Lor_sra_b7_15:
+        .word   .Lor_pow14, 100, .Lor_srs_b7_14
+        .word   .Lor_pow14, 160, .+4
+        .word   12, 12, .Lor_sra_b7_14
+.Lor_srs_b7_14:
+        .word   .Lor_npow14, 100, .+4
+.Lor_sra_b7_14:
+        .word   .Lor_pow13, 100, .Lor_srs_b7_13
+        .word   .Lor_pow13, 160, .+4
+        .word   12, 12, .Lor_sra_b7_13
+.Lor_srs_b7_13:
+        .word   .Lor_npow13, 100, .+4
+.Lor_sra_b7_13:
+        .word   .Lor_pow12, 100, .Lor_srs_b7_12
+        .word   .Lor_pow12, 160, .+4
+        .word   12, 12, .Lor_sra_b7_12
+.Lor_srs_b7_12:
+        .word   .Lor_npow12, 100, .+4
+.Lor_sra_b7_12:
+        .word   .Lor_pow11, 100, .Lor_srs_b7_11
+        .word   .Lor_pow11, 160, .+4
+        .word   12, 12, .Lor_sra_b7_11
+.Lor_srs_b7_11:
+        .word   .Lor_npow11, 100, .+4
+.Lor_sra_b7_11:
+        .word   .Lor_pow10, 100, .Lor_srs_b7_10
+        .word   .Lor_pow10, 160, .+4
+        .word   12, 12, .Lor_sra_b7_10
+.Lor_srs_b7_10:
+        .word   .Lor_npow10, 100, .+4
+.Lor_sra_b7_10:
+        .word   .Lor_pow9, 100, .Lor_srs_b7_9
+        .word   .Lor_pow9, 160, .+4
+        .word   12, 12, .Lor_sra_b7_9
+.Lor_srs_b7_9:
+        .word   .Lor_npow9, 100, .+4
+.Lor_sra_b7_9:
+        .word   .Lor_pow8, 100, .Lor_srs_b7_8
+        .word   .Lor_pow8, 160, .+4
+        .word   12, 12, .Lor_sra_b7_8
+.Lor_srs_b7_8:
+        .word   .Lor_npow8, 100, .+4
+.Lor_sra_b7_8:
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b7_PP
+.Lor_split_b7_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lor_split_b7_r21_ambig
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b7_strip
+.Lor_split_b7_r21_ambig:
+        .word   .Lor_one, 168, .+4
+        .word   144, 168, .Lor_split_b7_r21_zero
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b7_strip
+.Lor_split_b7_r21_zero:
+        .word   .Lor_n1, 100, .+4
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b7_PP
+
+        .globl  __subleq_or_b6
+        .type   __subleq_or_b6,@function
+__subleq_or_b6:
+        .word   160, 160, .+4
+        .word   144, 100, .Lor_split_b6_r21_le0
+        .word   .Lor_n1, 100, .+4
+.Lor_split_b6_strip:
+        .word   .Lor_pow30, 100, .Lor_srs_b6_30
+        .word   .Lor_pow30, 160, .+4
+        .word   12, 12, .Lor_sra_b6_30
+.Lor_srs_b6_30:
+        .word   .Lor_npow30, 100, .+4
+.Lor_sra_b6_30:
+        .word   .Lor_pow29, 100, .Lor_srs_b6_29
+        .word   .Lor_pow29, 160, .+4
+        .word   12, 12, .Lor_sra_b6_29
+.Lor_srs_b6_29:
+        .word   .Lor_npow29, 100, .+4
+.Lor_sra_b6_29:
+        .word   .Lor_pow28, 100, .Lor_srs_b6_28
+        .word   .Lor_pow28, 160, .+4
+        .word   12, 12, .Lor_sra_b6_28
+.Lor_srs_b6_28:
+        .word   .Lor_npow28, 100, .+4
+.Lor_sra_b6_28:
+        .word   .Lor_pow27, 100, .Lor_srs_b6_27
+        .word   .Lor_pow27, 160, .+4
+        .word   12, 12, .Lor_sra_b6_27
+.Lor_srs_b6_27:
+        .word   .Lor_npow27, 100, .+4
+.Lor_sra_b6_27:
+        .word   .Lor_pow26, 100, .Lor_srs_b6_26
+        .word   .Lor_pow26, 160, .+4
+        .word   12, 12, .Lor_sra_b6_26
+.Lor_srs_b6_26:
+        .word   .Lor_npow26, 100, .+4
+.Lor_sra_b6_26:
+        .word   .Lor_pow25, 100, .Lor_srs_b6_25
+        .word   .Lor_pow25, 160, .+4
+        .word   12, 12, .Lor_sra_b6_25
+.Lor_srs_b6_25:
+        .word   .Lor_npow25, 100, .+4
+.Lor_sra_b6_25:
+        .word   .Lor_pow24, 100, .Lor_srs_b6_24
+        .word   .Lor_pow24, 160, .+4
+        .word   12, 12, .Lor_sra_b6_24
+.Lor_srs_b6_24:
+        .word   .Lor_npow24, 100, .+4
+.Lor_sra_b6_24:
+        .word   .Lor_pow23, 100, .Lor_srs_b6_23
+        .word   .Lor_pow23, 160, .+4
+        .word   12, 12, .Lor_sra_b6_23
+.Lor_srs_b6_23:
+        .word   .Lor_npow23, 100, .+4
+.Lor_sra_b6_23:
+        .word   .Lor_pow22, 100, .Lor_srs_b6_22
+        .word   .Lor_pow22, 160, .+4
+        .word   12, 12, .Lor_sra_b6_22
+.Lor_srs_b6_22:
+        .word   .Lor_npow22, 100, .+4
+.Lor_sra_b6_22:
+        .word   .Lor_pow21, 100, .Lor_srs_b6_21
+        .word   .Lor_pow21, 160, .+4
+        .word   12, 12, .Lor_sra_b6_21
+.Lor_srs_b6_21:
+        .word   .Lor_npow21, 100, .+4
+.Lor_sra_b6_21:
+        .word   .Lor_pow20, 100, .Lor_srs_b6_20
+        .word   .Lor_pow20, 160, .+4
+        .word   12, 12, .Lor_sra_b6_20
+.Lor_srs_b6_20:
+        .word   .Lor_npow20, 100, .+4
+.Lor_sra_b6_20:
+        .word   .Lor_pow19, 100, .Lor_srs_b6_19
+        .word   .Lor_pow19, 160, .+4
+        .word   12, 12, .Lor_sra_b6_19
+.Lor_srs_b6_19:
+        .word   .Lor_npow19, 100, .+4
+.Lor_sra_b6_19:
+        .word   .Lor_pow18, 100, .Lor_srs_b6_18
+        .word   .Lor_pow18, 160, .+4
+        .word   12, 12, .Lor_sra_b6_18
+.Lor_srs_b6_18:
+        .word   .Lor_npow18, 100, .+4
+.Lor_sra_b6_18:
+        .word   .Lor_pow17, 100, .Lor_srs_b6_17
+        .word   .Lor_pow17, 160, .+4
+        .word   12, 12, .Lor_sra_b6_17
+.Lor_srs_b6_17:
+        .word   .Lor_npow17, 100, .+4
+.Lor_sra_b6_17:
+        .word   .Lor_pow16, 100, .Lor_srs_b6_16
+        .word   .Lor_pow16, 160, .+4
+        .word   12, 12, .Lor_sra_b6_16
+.Lor_srs_b6_16:
+        .word   .Lor_npow16, 100, .+4
+.Lor_sra_b6_16:
+        .word   .Lor_pow15, 100, .Lor_srs_b6_15
+        .word   .Lor_pow15, 160, .+4
+        .word   12, 12, .Lor_sra_b6_15
+.Lor_srs_b6_15:
+        .word   .Lor_npow15, 100, .+4
+.Lor_sra_b6_15:
+        .word   .Lor_pow14, 100, .Lor_srs_b6_14
+        .word   .Lor_pow14, 160, .+4
+        .word   12, 12, .Lor_sra_b6_14
+.Lor_srs_b6_14:
+        .word   .Lor_npow14, 100, .+4
+.Lor_sra_b6_14:
+        .word   .Lor_pow13, 100, .Lor_srs_b6_13
+        .word   .Lor_pow13, 160, .+4
+        .word   12, 12, .Lor_sra_b6_13
+.Lor_srs_b6_13:
+        .word   .Lor_npow13, 100, .+4
+.Lor_sra_b6_13:
+        .word   .Lor_pow12, 100, .Lor_srs_b6_12
+        .word   .Lor_pow12, 160, .+4
+        .word   12, 12, .Lor_sra_b6_12
+.Lor_srs_b6_12:
+        .word   .Lor_npow12, 100, .+4
+.Lor_sra_b6_12:
+        .word   .Lor_pow11, 100, .Lor_srs_b6_11
+        .word   .Lor_pow11, 160, .+4
+        .word   12, 12, .Lor_sra_b6_11
+.Lor_srs_b6_11:
+        .word   .Lor_npow11, 100, .+4
+.Lor_sra_b6_11:
+        .word   .Lor_pow10, 100, .Lor_srs_b6_10
+        .word   .Lor_pow10, 160, .+4
+        .word   12, 12, .Lor_sra_b6_10
+.Lor_srs_b6_10:
+        .word   .Lor_npow10, 100, .+4
+.Lor_sra_b6_10:
+        .word   .Lor_pow9, 100, .Lor_srs_b6_9
+        .word   .Lor_pow9, 160, .+4
+        .word   12, 12, .Lor_sra_b6_9
+.Lor_srs_b6_9:
+        .word   .Lor_npow9, 100, .+4
+.Lor_sra_b6_9:
+        .word   .Lor_pow8, 100, .Lor_srs_b6_8
+        .word   .Lor_pow8, 160, .+4
+        .word   12, 12, .Lor_sra_b6_8
+.Lor_srs_b6_8:
+        .word   .Lor_npow8, 100, .+4
+.Lor_sra_b6_8:
+        .word   .Lor_pow7, 100, .Lor_srs_b6_7
+        .word   .Lor_pow7, 160, .+4
+        .word   12, 12, .Lor_sra_b6_7
+.Lor_srs_b6_7:
+        .word   .Lor_npow7, 100, .+4
+.Lor_sra_b6_7:
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b6_PP
+.Lor_split_b6_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lor_split_b6_r21_ambig
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b6_strip
+.Lor_split_b6_r21_ambig:
+        .word   .Lor_one, 168, .+4
+        .word   144, 168, .Lor_split_b6_r21_zero
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b6_strip
+.Lor_split_b6_r21_zero:
+        .word   .Lor_n1, 100, .+4
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b6_PP
+
+        .globl  __subleq_or_b5
+        .type   __subleq_or_b5,@function
+__subleq_or_b5:
+        .word   160, 160, .+4
+        .word   144, 100, .Lor_split_b5_r21_le0
+        .word   .Lor_n1, 100, .+4
+.Lor_split_b5_strip:
+        .word   .Lor_pow30, 100, .Lor_srs_b5_30
+        .word   .Lor_pow30, 160, .+4
+        .word   12, 12, .Lor_sra_b5_30
+.Lor_srs_b5_30:
+        .word   .Lor_npow30, 100, .+4
+.Lor_sra_b5_30:
+        .word   .Lor_pow29, 100, .Lor_srs_b5_29
+        .word   .Lor_pow29, 160, .+4
+        .word   12, 12, .Lor_sra_b5_29
+.Lor_srs_b5_29:
+        .word   .Lor_npow29, 100, .+4
+.Lor_sra_b5_29:
+        .word   .Lor_pow28, 100, .Lor_srs_b5_28
+        .word   .Lor_pow28, 160, .+4
+        .word   12, 12, .Lor_sra_b5_28
+.Lor_srs_b5_28:
+        .word   .Lor_npow28, 100, .+4
+.Lor_sra_b5_28:
+        .word   .Lor_pow27, 100, .Lor_srs_b5_27
+        .word   .Lor_pow27, 160, .+4
+        .word   12, 12, .Lor_sra_b5_27
+.Lor_srs_b5_27:
+        .word   .Lor_npow27, 100, .+4
+.Lor_sra_b5_27:
+        .word   .Lor_pow26, 100, .Lor_srs_b5_26
+        .word   .Lor_pow26, 160, .+4
+        .word   12, 12, .Lor_sra_b5_26
+.Lor_srs_b5_26:
+        .word   .Lor_npow26, 100, .+4
+.Lor_sra_b5_26:
+        .word   .Lor_pow25, 100, .Lor_srs_b5_25
+        .word   .Lor_pow25, 160, .+4
+        .word   12, 12, .Lor_sra_b5_25
+.Lor_srs_b5_25:
+        .word   .Lor_npow25, 100, .+4
+.Lor_sra_b5_25:
+        .word   .Lor_pow24, 100, .Lor_srs_b5_24
+        .word   .Lor_pow24, 160, .+4
+        .word   12, 12, .Lor_sra_b5_24
+.Lor_srs_b5_24:
+        .word   .Lor_npow24, 100, .+4
+.Lor_sra_b5_24:
+        .word   .Lor_pow23, 100, .Lor_srs_b5_23
+        .word   .Lor_pow23, 160, .+4
+        .word   12, 12, .Lor_sra_b5_23
+.Lor_srs_b5_23:
+        .word   .Lor_npow23, 100, .+4
+.Lor_sra_b5_23:
+        .word   .Lor_pow22, 100, .Lor_srs_b5_22
+        .word   .Lor_pow22, 160, .+4
+        .word   12, 12, .Lor_sra_b5_22
+.Lor_srs_b5_22:
+        .word   .Lor_npow22, 100, .+4
+.Lor_sra_b5_22:
+        .word   .Lor_pow21, 100, .Lor_srs_b5_21
+        .word   .Lor_pow21, 160, .+4
+        .word   12, 12, .Lor_sra_b5_21
+.Lor_srs_b5_21:
+        .word   .Lor_npow21, 100, .+4
+.Lor_sra_b5_21:
+        .word   .Lor_pow20, 100, .Lor_srs_b5_20
+        .word   .Lor_pow20, 160, .+4
+        .word   12, 12, .Lor_sra_b5_20
+.Lor_srs_b5_20:
+        .word   .Lor_npow20, 100, .+4
+.Lor_sra_b5_20:
+        .word   .Lor_pow19, 100, .Lor_srs_b5_19
+        .word   .Lor_pow19, 160, .+4
+        .word   12, 12, .Lor_sra_b5_19
+.Lor_srs_b5_19:
+        .word   .Lor_npow19, 100, .+4
+.Lor_sra_b5_19:
+        .word   .Lor_pow18, 100, .Lor_srs_b5_18
+        .word   .Lor_pow18, 160, .+4
+        .word   12, 12, .Lor_sra_b5_18
+.Lor_srs_b5_18:
+        .word   .Lor_npow18, 100, .+4
+.Lor_sra_b5_18:
+        .word   .Lor_pow17, 100, .Lor_srs_b5_17
+        .word   .Lor_pow17, 160, .+4
+        .word   12, 12, .Lor_sra_b5_17
+.Lor_srs_b5_17:
+        .word   .Lor_npow17, 100, .+4
+.Lor_sra_b5_17:
+        .word   .Lor_pow16, 100, .Lor_srs_b5_16
+        .word   .Lor_pow16, 160, .+4
+        .word   12, 12, .Lor_sra_b5_16
+.Lor_srs_b5_16:
+        .word   .Lor_npow16, 100, .+4
+.Lor_sra_b5_16:
+        .word   .Lor_pow15, 100, .Lor_srs_b5_15
+        .word   .Lor_pow15, 160, .+4
+        .word   12, 12, .Lor_sra_b5_15
+.Lor_srs_b5_15:
+        .word   .Lor_npow15, 100, .+4
+.Lor_sra_b5_15:
+        .word   .Lor_pow14, 100, .Lor_srs_b5_14
+        .word   .Lor_pow14, 160, .+4
+        .word   12, 12, .Lor_sra_b5_14
+.Lor_srs_b5_14:
+        .word   .Lor_npow14, 100, .+4
+.Lor_sra_b5_14:
+        .word   .Lor_pow13, 100, .Lor_srs_b5_13
+        .word   .Lor_pow13, 160, .+4
+        .word   12, 12, .Lor_sra_b5_13
+.Lor_srs_b5_13:
+        .word   .Lor_npow13, 100, .+4
+.Lor_sra_b5_13:
+        .word   .Lor_pow12, 100, .Lor_srs_b5_12
+        .word   .Lor_pow12, 160, .+4
+        .word   12, 12, .Lor_sra_b5_12
+.Lor_srs_b5_12:
+        .word   .Lor_npow12, 100, .+4
+.Lor_sra_b5_12:
+        .word   .Lor_pow11, 100, .Lor_srs_b5_11
+        .word   .Lor_pow11, 160, .+4
+        .word   12, 12, .Lor_sra_b5_11
+.Lor_srs_b5_11:
+        .word   .Lor_npow11, 100, .+4
+.Lor_sra_b5_11:
+        .word   .Lor_pow10, 100, .Lor_srs_b5_10
+        .word   .Lor_pow10, 160, .+4
+        .word   12, 12, .Lor_sra_b5_10
+.Lor_srs_b5_10:
+        .word   .Lor_npow10, 100, .+4
+.Lor_sra_b5_10:
+        .word   .Lor_pow9, 100, .Lor_srs_b5_9
+        .word   .Lor_pow9, 160, .+4
+        .word   12, 12, .Lor_sra_b5_9
+.Lor_srs_b5_9:
+        .word   .Lor_npow9, 100, .+4
+.Lor_sra_b5_9:
+        .word   .Lor_pow8, 100, .Lor_srs_b5_8
+        .word   .Lor_pow8, 160, .+4
+        .word   12, 12, .Lor_sra_b5_8
+.Lor_srs_b5_8:
+        .word   .Lor_npow8, 100, .+4
+.Lor_sra_b5_8:
+        .word   .Lor_pow7, 100, .Lor_srs_b5_7
+        .word   .Lor_pow7, 160, .+4
+        .word   12, 12, .Lor_sra_b5_7
+.Lor_srs_b5_7:
+        .word   .Lor_npow7, 100, .+4
+.Lor_sra_b5_7:
+        .word   .Lor_pow6, 100, .Lor_srs_b5_6
+        .word   .Lor_pow6, 160, .+4
+        .word   12, 12, .Lor_sra_b5_6
+.Lor_srs_b5_6:
+        .word   .Lor_npow6, 100, .+4
+.Lor_sra_b5_6:
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b5_PP
+.Lor_split_b5_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lor_split_b5_r21_ambig
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b5_strip
+.Lor_split_b5_r21_ambig:
+        .word   .Lor_one, 168, .+4
+        .word   144, 168, .Lor_split_b5_r21_zero
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b5_strip
+.Lor_split_b5_r21_zero:
+        .word   .Lor_n1, 100, .+4
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b5_PP
+
+        .globl  __subleq_or_b4
+        .type   __subleq_or_b4,@function
+__subleq_or_b4:
+        .word   160, 160, .+4
+        .word   144, 100, .Lor_split_b4_r21_le0
+        .word   .Lor_n1, 100, .+4
+.Lor_split_b4_strip:
+        .word   .Lor_pow30, 100, .Lor_srs_b4_30
+        .word   .Lor_pow30, 160, .+4
+        .word   12, 12, .Lor_sra_b4_30
+.Lor_srs_b4_30:
+        .word   .Lor_npow30, 100, .+4
+.Lor_sra_b4_30:
+        .word   .Lor_pow29, 100, .Lor_srs_b4_29
+        .word   .Lor_pow29, 160, .+4
+        .word   12, 12, .Lor_sra_b4_29
+.Lor_srs_b4_29:
+        .word   .Lor_npow29, 100, .+4
+.Lor_sra_b4_29:
+        .word   .Lor_pow28, 100, .Lor_srs_b4_28
+        .word   .Lor_pow28, 160, .+4
+        .word   12, 12, .Lor_sra_b4_28
+.Lor_srs_b4_28:
+        .word   .Lor_npow28, 100, .+4
+.Lor_sra_b4_28:
+        .word   .Lor_pow27, 100, .Lor_srs_b4_27
+        .word   .Lor_pow27, 160, .+4
+        .word   12, 12, .Lor_sra_b4_27
+.Lor_srs_b4_27:
+        .word   .Lor_npow27, 100, .+4
+.Lor_sra_b4_27:
+        .word   .Lor_pow26, 100, .Lor_srs_b4_26
+        .word   .Lor_pow26, 160, .+4
+        .word   12, 12, .Lor_sra_b4_26
+.Lor_srs_b4_26:
+        .word   .Lor_npow26, 100, .+4
+.Lor_sra_b4_26:
+        .word   .Lor_pow25, 100, .Lor_srs_b4_25
+        .word   .Lor_pow25, 160, .+4
+        .word   12, 12, .Lor_sra_b4_25
+.Lor_srs_b4_25:
+        .word   .Lor_npow25, 100, .+4
+.Lor_sra_b4_25:
+        .word   .Lor_pow24, 100, .Lor_srs_b4_24
+        .word   .Lor_pow24, 160, .+4
+        .word   12, 12, .Lor_sra_b4_24
+.Lor_srs_b4_24:
+        .word   .Lor_npow24, 100, .+4
+.Lor_sra_b4_24:
+        .word   .Lor_pow23, 100, .Lor_srs_b4_23
+        .word   .Lor_pow23, 160, .+4
+        .word   12, 12, .Lor_sra_b4_23
+.Lor_srs_b4_23:
+        .word   .Lor_npow23, 100, .+4
+.Lor_sra_b4_23:
+        .word   .Lor_pow22, 100, .Lor_srs_b4_22
+        .word   .Lor_pow22, 160, .+4
+        .word   12, 12, .Lor_sra_b4_22
+.Lor_srs_b4_22:
+        .word   .Lor_npow22, 100, .+4
+.Lor_sra_b4_22:
+        .word   .Lor_pow21, 100, .Lor_srs_b4_21
+        .word   .Lor_pow21, 160, .+4
+        .word   12, 12, .Lor_sra_b4_21
+.Lor_srs_b4_21:
+        .word   .Lor_npow21, 100, .+4
+.Lor_sra_b4_21:
+        .word   .Lor_pow20, 100, .Lor_srs_b4_20
+        .word   .Lor_pow20, 160, .+4
+        .word   12, 12, .Lor_sra_b4_20
+.Lor_srs_b4_20:
+        .word   .Lor_npow20, 100, .+4
+.Lor_sra_b4_20:
+        .word   .Lor_pow19, 100, .Lor_srs_b4_19
+        .word   .Lor_pow19, 160, .+4
+        .word   12, 12, .Lor_sra_b4_19
+.Lor_srs_b4_19:
+        .word   .Lor_npow19, 100, .+4
+.Lor_sra_b4_19:
+        .word   .Lor_pow18, 100, .Lor_srs_b4_18
+        .word   .Lor_pow18, 160, .+4
+        .word   12, 12, .Lor_sra_b4_18
+.Lor_srs_b4_18:
+        .word   .Lor_npow18, 100, .+4
+.Lor_sra_b4_18:
+        .word   .Lor_pow17, 100, .Lor_srs_b4_17
+        .word   .Lor_pow17, 160, .+4
+        .word   12, 12, .Lor_sra_b4_17
+.Lor_srs_b4_17:
+        .word   .Lor_npow17, 100, .+4
+.Lor_sra_b4_17:
+        .word   .Lor_pow16, 100, .Lor_srs_b4_16
+        .word   .Lor_pow16, 160, .+4
+        .word   12, 12, .Lor_sra_b4_16
+.Lor_srs_b4_16:
+        .word   .Lor_npow16, 100, .+4
+.Lor_sra_b4_16:
+        .word   .Lor_pow15, 100, .Lor_srs_b4_15
+        .word   .Lor_pow15, 160, .+4
+        .word   12, 12, .Lor_sra_b4_15
+.Lor_srs_b4_15:
+        .word   .Lor_npow15, 100, .+4
+.Lor_sra_b4_15:
+        .word   .Lor_pow14, 100, .Lor_srs_b4_14
+        .word   .Lor_pow14, 160, .+4
+        .word   12, 12, .Lor_sra_b4_14
+.Lor_srs_b4_14:
+        .word   .Lor_npow14, 100, .+4
+.Lor_sra_b4_14:
+        .word   .Lor_pow13, 100, .Lor_srs_b4_13
+        .word   .Lor_pow13, 160, .+4
+        .word   12, 12, .Lor_sra_b4_13
+.Lor_srs_b4_13:
+        .word   .Lor_npow13, 100, .+4
+.Lor_sra_b4_13:
+        .word   .Lor_pow12, 100, .Lor_srs_b4_12
+        .word   .Lor_pow12, 160, .+4
+        .word   12, 12, .Lor_sra_b4_12
+.Lor_srs_b4_12:
+        .word   .Lor_npow12, 100, .+4
+.Lor_sra_b4_12:
+        .word   .Lor_pow11, 100, .Lor_srs_b4_11
+        .word   .Lor_pow11, 160, .+4
+        .word   12, 12, .Lor_sra_b4_11
+.Lor_srs_b4_11:
+        .word   .Lor_npow11, 100, .+4
+.Lor_sra_b4_11:
+        .word   .Lor_pow10, 100, .Lor_srs_b4_10
+        .word   .Lor_pow10, 160, .+4
+        .word   12, 12, .Lor_sra_b4_10
+.Lor_srs_b4_10:
+        .word   .Lor_npow10, 100, .+4
+.Lor_sra_b4_10:
+        .word   .Lor_pow9, 100, .Lor_srs_b4_9
+        .word   .Lor_pow9, 160, .+4
+        .word   12, 12, .Lor_sra_b4_9
+.Lor_srs_b4_9:
+        .word   .Lor_npow9, 100, .+4
+.Lor_sra_b4_9:
+        .word   .Lor_pow8, 100, .Lor_srs_b4_8
+        .word   .Lor_pow8, 160, .+4
+        .word   12, 12, .Lor_sra_b4_8
+.Lor_srs_b4_8:
+        .word   .Lor_npow8, 100, .+4
+.Lor_sra_b4_8:
+        .word   .Lor_pow7, 100, .Lor_srs_b4_7
+        .word   .Lor_pow7, 160, .+4
+        .word   12, 12, .Lor_sra_b4_7
+.Lor_srs_b4_7:
+        .word   .Lor_npow7, 100, .+4
+.Lor_sra_b4_7:
+        .word   .Lor_pow6, 100, .Lor_srs_b4_6
+        .word   .Lor_pow6, 160, .+4
+        .word   12, 12, .Lor_sra_b4_6
+.Lor_srs_b4_6:
+        .word   .Lor_npow6, 100, .+4
+.Lor_sra_b4_6:
+        .word   .Lor_pow5, 100, .Lor_srs_b4_5
+        .word   .Lor_pow5, 160, .+4
+        .word   12, 12, .Lor_sra_b4_5
+.Lor_srs_b4_5:
+        .word   .Lor_npow5, 100, .+4
+.Lor_sra_b4_5:
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b4_PP
+.Lor_split_b4_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lor_split_b4_r21_ambig
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b4_strip
+.Lor_split_b4_r21_ambig:
+        .word   .Lor_one, 168, .+4
+        .word   144, 168, .Lor_split_b4_r21_zero
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b4_strip
+.Lor_split_b4_r21_zero:
+        .word   .Lor_n1, 100, .+4
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b4_PP
+
+        .globl  __subleq_or_b3
+        .type   __subleq_or_b3,@function
+__subleq_or_b3:
+        .word   160, 160, .+4
+        .word   144, 100, .Lor_split_b3_r21_le0
+        .word   .Lor_n1, 100, .+4
+.Lor_split_b3_strip:
+        .word   .Lor_pow30, 100, .Lor_srs_b3_30
+        .word   .Lor_pow30, 160, .+4
+        .word   12, 12, .Lor_sra_b3_30
+.Lor_srs_b3_30:
+        .word   .Lor_npow30, 100, .+4
+.Lor_sra_b3_30:
+        .word   .Lor_pow29, 100, .Lor_srs_b3_29
+        .word   .Lor_pow29, 160, .+4
+        .word   12, 12, .Lor_sra_b3_29
+.Lor_srs_b3_29:
+        .word   .Lor_npow29, 100, .+4
+.Lor_sra_b3_29:
+        .word   .Lor_pow28, 100, .Lor_srs_b3_28
+        .word   .Lor_pow28, 160, .+4
+        .word   12, 12, .Lor_sra_b3_28
+.Lor_srs_b3_28:
+        .word   .Lor_npow28, 100, .+4
+.Lor_sra_b3_28:
+        .word   .Lor_pow27, 100, .Lor_srs_b3_27
+        .word   .Lor_pow27, 160, .+4
+        .word   12, 12, .Lor_sra_b3_27
+.Lor_srs_b3_27:
+        .word   .Lor_npow27, 100, .+4
+.Lor_sra_b3_27:
+        .word   .Lor_pow26, 100, .Lor_srs_b3_26
+        .word   .Lor_pow26, 160, .+4
+        .word   12, 12, .Lor_sra_b3_26
+.Lor_srs_b3_26:
+        .word   .Lor_npow26, 100, .+4
+.Lor_sra_b3_26:
+        .word   .Lor_pow25, 100, .Lor_srs_b3_25
+        .word   .Lor_pow25, 160, .+4
+        .word   12, 12, .Lor_sra_b3_25
+.Lor_srs_b3_25:
+        .word   .Lor_npow25, 100, .+4
+.Lor_sra_b3_25:
+        .word   .Lor_pow24, 100, .Lor_srs_b3_24
+        .word   .Lor_pow24, 160, .+4
+        .word   12, 12, .Lor_sra_b3_24
+.Lor_srs_b3_24:
+        .word   .Lor_npow24, 100, .+4
+.Lor_sra_b3_24:
+        .word   .Lor_pow23, 100, .Lor_srs_b3_23
+        .word   .Lor_pow23, 160, .+4
+        .word   12, 12, .Lor_sra_b3_23
+.Lor_srs_b3_23:
+        .word   .Lor_npow23, 100, .+4
+.Lor_sra_b3_23:
+        .word   .Lor_pow22, 100, .Lor_srs_b3_22
+        .word   .Lor_pow22, 160, .+4
+        .word   12, 12, .Lor_sra_b3_22
+.Lor_srs_b3_22:
+        .word   .Lor_npow22, 100, .+4
+.Lor_sra_b3_22:
+        .word   .Lor_pow21, 100, .Lor_srs_b3_21
+        .word   .Lor_pow21, 160, .+4
+        .word   12, 12, .Lor_sra_b3_21
+.Lor_srs_b3_21:
+        .word   .Lor_npow21, 100, .+4
+.Lor_sra_b3_21:
+        .word   .Lor_pow20, 100, .Lor_srs_b3_20
+        .word   .Lor_pow20, 160, .+4
+        .word   12, 12, .Lor_sra_b3_20
+.Lor_srs_b3_20:
+        .word   .Lor_npow20, 100, .+4
+.Lor_sra_b3_20:
+        .word   .Lor_pow19, 100, .Lor_srs_b3_19
+        .word   .Lor_pow19, 160, .+4
+        .word   12, 12, .Lor_sra_b3_19
+.Lor_srs_b3_19:
+        .word   .Lor_npow19, 100, .+4
+.Lor_sra_b3_19:
+        .word   .Lor_pow18, 100, .Lor_srs_b3_18
+        .word   .Lor_pow18, 160, .+4
+        .word   12, 12, .Lor_sra_b3_18
+.Lor_srs_b3_18:
+        .word   .Lor_npow18, 100, .+4
+.Lor_sra_b3_18:
+        .word   .Lor_pow17, 100, .Lor_srs_b3_17
+        .word   .Lor_pow17, 160, .+4
+        .word   12, 12, .Lor_sra_b3_17
+.Lor_srs_b3_17:
+        .word   .Lor_npow17, 100, .+4
+.Lor_sra_b3_17:
+        .word   .Lor_pow16, 100, .Lor_srs_b3_16
+        .word   .Lor_pow16, 160, .+4
+        .word   12, 12, .Lor_sra_b3_16
+.Lor_srs_b3_16:
+        .word   .Lor_npow16, 100, .+4
+.Lor_sra_b3_16:
+        .word   .Lor_pow15, 100, .Lor_srs_b3_15
+        .word   .Lor_pow15, 160, .+4
+        .word   12, 12, .Lor_sra_b3_15
+.Lor_srs_b3_15:
+        .word   .Lor_npow15, 100, .+4
+.Lor_sra_b3_15:
+        .word   .Lor_pow14, 100, .Lor_srs_b3_14
+        .word   .Lor_pow14, 160, .+4
+        .word   12, 12, .Lor_sra_b3_14
+.Lor_srs_b3_14:
+        .word   .Lor_npow14, 100, .+4
+.Lor_sra_b3_14:
+        .word   .Lor_pow13, 100, .Lor_srs_b3_13
+        .word   .Lor_pow13, 160, .+4
+        .word   12, 12, .Lor_sra_b3_13
+.Lor_srs_b3_13:
+        .word   .Lor_npow13, 100, .+4
+.Lor_sra_b3_13:
+        .word   .Lor_pow12, 100, .Lor_srs_b3_12
+        .word   .Lor_pow12, 160, .+4
+        .word   12, 12, .Lor_sra_b3_12
+.Lor_srs_b3_12:
+        .word   .Lor_npow12, 100, .+4
+.Lor_sra_b3_12:
+        .word   .Lor_pow11, 100, .Lor_srs_b3_11
+        .word   .Lor_pow11, 160, .+4
+        .word   12, 12, .Lor_sra_b3_11
+.Lor_srs_b3_11:
+        .word   .Lor_npow11, 100, .+4
+.Lor_sra_b3_11:
+        .word   .Lor_pow10, 100, .Lor_srs_b3_10
+        .word   .Lor_pow10, 160, .+4
+        .word   12, 12, .Lor_sra_b3_10
+.Lor_srs_b3_10:
+        .word   .Lor_npow10, 100, .+4
+.Lor_sra_b3_10:
+        .word   .Lor_pow9, 100, .Lor_srs_b3_9
+        .word   .Lor_pow9, 160, .+4
+        .word   12, 12, .Lor_sra_b3_9
+.Lor_srs_b3_9:
+        .word   .Lor_npow9, 100, .+4
+.Lor_sra_b3_9:
+        .word   .Lor_pow8, 100, .Lor_srs_b3_8
+        .word   .Lor_pow8, 160, .+4
+        .word   12, 12, .Lor_sra_b3_8
+.Lor_srs_b3_8:
+        .word   .Lor_npow8, 100, .+4
+.Lor_sra_b3_8:
+        .word   .Lor_pow7, 100, .Lor_srs_b3_7
+        .word   .Lor_pow7, 160, .+4
+        .word   12, 12, .Lor_sra_b3_7
+.Lor_srs_b3_7:
+        .word   .Lor_npow7, 100, .+4
+.Lor_sra_b3_7:
+        .word   .Lor_pow6, 100, .Lor_srs_b3_6
+        .word   .Lor_pow6, 160, .+4
+        .word   12, 12, .Lor_sra_b3_6
+.Lor_srs_b3_6:
+        .word   .Lor_npow6, 100, .+4
+.Lor_sra_b3_6:
+        .word   .Lor_pow5, 100, .Lor_srs_b3_5
+        .word   .Lor_pow5, 160, .+4
+        .word   12, 12, .Lor_sra_b3_5
+.Lor_srs_b3_5:
+        .word   .Lor_npow5, 100, .+4
+.Lor_sra_b3_5:
+        .word   .Lor_pow4, 100, .Lor_srs_b3_4
+        .word   .Lor_pow4, 160, .+4
+        .word   12, 12, .Lor_sra_b3_4
+.Lor_srs_b3_4:
+        .word   .Lor_npow4, 100, .+4
+.Lor_sra_b3_4:
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b3_PP
+.Lor_split_b3_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lor_split_b3_r21_ambig
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b3_strip
+.Lor_split_b3_r21_ambig:
+        .word   .Lor_one, 168, .+4
+        .word   144, 168, .Lor_split_b3_r21_zero
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b3_strip
+.Lor_split_b3_r21_zero:
+        .word   .Lor_n1, 100, .+4
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b3_PP
+
+        .globl  __subleq_or_b2
+        .type   __subleq_or_b2,@function
+__subleq_or_b2:
+        .word   160, 160, .+4
+        .word   144, 100, .Lor_split_b2_r21_le0
+        .word   .Lor_n1, 100, .+4
+.Lor_split_b2_strip:
+        .word   .Lor_pow30, 100, .Lor_srs_b2_30
+        .word   .Lor_pow30, 160, .+4
+        .word   12, 12, .Lor_sra_b2_30
+.Lor_srs_b2_30:
+        .word   .Lor_npow30, 100, .+4
+.Lor_sra_b2_30:
+        .word   .Lor_pow29, 100, .Lor_srs_b2_29
+        .word   .Lor_pow29, 160, .+4
+        .word   12, 12, .Lor_sra_b2_29
+.Lor_srs_b2_29:
+        .word   .Lor_npow29, 100, .+4
+.Lor_sra_b2_29:
+        .word   .Lor_pow28, 100, .Lor_srs_b2_28
+        .word   .Lor_pow28, 160, .+4
+        .word   12, 12, .Lor_sra_b2_28
+.Lor_srs_b2_28:
+        .word   .Lor_npow28, 100, .+4
+.Lor_sra_b2_28:
+        .word   .Lor_pow27, 100, .Lor_srs_b2_27
+        .word   .Lor_pow27, 160, .+4
+        .word   12, 12, .Lor_sra_b2_27
+.Lor_srs_b2_27:
+        .word   .Lor_npow27, 100, .+4
+.Lor_sra_b2_27:
+        .word   .Lor_pow26, 100, .Lor_srs_b2_26
+        .word   .Lor_pow26, 160, .+4
+        .word   12, 12, .Lor_sra_b2_26
+.Lor_srs_b2_26:
+        .word   .Lor_npow26, 100, .+4
+.Lor_sra_b2_26:
+        .word   .Lor_pow25, 100, .Lor_srs_b2_25
+        .word   .Lor_pow25, 160, .+4
+        .word   12, 12, .Lor_sra_b2_25
+.Lor_srs_b2_25:
+        .word   .Lor_npow25, 100, .+4
+.Lor_sra_b2_25:
+        .word   .Lor_pow24, 100, .Lor_srs_b2_24
+        .word   .Lor_pow24, 160, .+4
+        .word   12, 12, .Lor_sra_b2_24
+.Lor_srs_b2_24:
+        .word   .Lor_npow24, 100, .+4
+.Lor_sra_b2_24:
+        .word   .Lor_pow23, 100, .Lor_srs_b2_23
+        .word   .Lor_pow23, 160, .+4
+        .word   12, 12, .Lor_sra_b2_23
+.Lor_srs_b2_23:
+        .word   .Lor_npow23, 100, .+4
+.Lor_sra_b2_23:
+        .word   .Lor_pow22, 100, .Lor_srs_b2_22
+        .word   .Lor_pow22, 160, .+4
+        .word   12, 12, .Lor_sra_b2_22
+.Lor_srs_b2_22:
+        .word   .Lor_npow22, 100, .+4
+.Lor_sra_b2_22:
+        .word   .Lor_pow21, 100, .Lor_srs_b2_21
+        .word   .Lor_pow21, 160, .+4
+        .word   12, 12, .Lor_sra_b2_21
+.Lor_srs_b2_21:
+        .word   .Lor_npow21, 100, .+4
+.Lor_sra_b2_21:
+        .word   .Lor_pow20, 100, .Lor_srs_b2_20
+        .word   .Lor_pow20, 160, .+4
+        .word   12, 12, .Lor_sra_b2_20
+.Lor_srs_b2_20:
+        .word   .Lor_npow20, 100, .+4
+.Lor_sra_b2_20:
+        .word   .Lor_pow19, 100, .Lor_srs_b2_19
+        .word   .Lor_pow19, 160, .+4
+        .word   12, 12, .Lor_sra_b2_19
+.Lor_srs_b2_19:
+        .word   .Lor_npow19, 100, .+4
+.Lor_sra_b2_19:
+        .word   .Lor_pow18, 100, .Lor_srs_b2_18
+        .word   .Lor_pow18, 160, .+4
+        .word   12, 12, .Lor_sra_b2_18
+.Lor_srs_b2_18:
+        .word   .Lor_npow18, 100, .+4
+.Lor_sra_b2_18:
+        .word   .Lor_pow17, 100, .Lor_srs_b2_17
+        .word   .Lor_pow17, 160, .+4
+        .word   12, 12, .Lor_sra_b2_17
+.Lor_srs_b2_17:
+        .word   .Lor_npow17, 100, .+4
+.Lor_sra_b2_17:
+        .word   .Lor_pow16, 100, .Lor_srs_b2_16
+        .word   .Lor_pow16, 160, .+4
+        .word   12, 12, .Lor_sra_b2_16
+.Lor_srs_b2_16:
+        .word   .Lor_npow16, 100, .+4
+.Lor_sra_b2_16:
+        .word   .Lor_pow15, 100, .Lor_srs_b2_15
+        .word   .Lor_pow15, 160, .+4
+        .word   12, 12, .Lor_sra_b2_15
+.Lor_srs_b2_15:
+        .word   .Lor_npow15, 100, .+4
+.Lor_sra_b2_15:
+        .word   .Lor_pow14, 100, .Lor_srs_b2_14
+        .word   .Lor_pow14, 160, .+4
+        .word   12, 12, .Lor_sra_b2_14
+.Lor_srs_b2_14:
+        .word   .Lor_npow14, 100, .+4
+.Lor_sra_b2_14:
+        .word   .Lor_pow13, 100, .Lor_srs_b2_13
+        .word   .Lor_pow13, 160, .+4
+        .word   12, 12, .Lor_sra_b2_13
+.Lor_srs_b2_13:
+        .word   .Lor_npow13, 100, .+4
+.Lor_sra_b2_13:
+        .word   .Lor_pow12, 100, .Lor_srs_b2_12
+        .word   .Lor_pow12, 160, .+4
+        .word   12, 12, .Lor_sra_b2_12
+.Lor_srs_b2_12:
+        .word   .Lor_npow12, 100, .+4
+.Lor_sra_b2_12:
+        .word   .Lor_pow11, 100, .Lor_srs_b2_11
+        .word   .Lor_pow11, 160, .+4
+        .word   12, 12, .Lor_sra_b2_11
+.Lor_srs_b2_11:
+        .word   .Lor_npow11, 100, .+4
+.Lor_sra_b2_11:
+        .word   .Lor_pow10, 100, .Lor_srs_b2_10
+        .word   .Lor_pow10, 160, .+4
+        .word   12, 12, .Lor_sra_b2_10
+.Lor_srs_b2_10:
+        .word   .Lor_npow10, 100, .+4
+.Lor_sra_b2_10:
+        .word   .Lor_pow9, 100, .Lor_srs_b2_9
+        .word   .Lor_pow9, 160, .+4
+        .word   12, 12, .Lor_sra_b2_9
+.Lor_srs_b2_9:
+        .word   .Lor_npow9, 100, .+4
+.Lor_sra_b2_9:
+        .word   .Lor_pow8, 100, .Lor_srs_b2_8
+        .word   .Lor_pow8, 160, .+4
+        .word   12, 12, .Lor_sra_b2_8
+.Lor_srs_b2_8:
+        .word   .Lor_npow8, 100, .+4
+.Lor_sra_b2_8:
+        .word   .Lor_pow7, 100, .Lor_srs_b2_7
+        .word   .Lor_pow7, 160, .+4
+        .word   12, 12, .Lor_sra_b2_7
+.Lor_srs_b2_7:
+        .word   .Lor_npow7, 100, .+4
+.Lor_sra_b2_7:
+        .word   .Lor_pow6, 100, .Lor_srs_b2_6
+        .word   .Lor_pow6, 160, .+4
+        .word   12, 12, .Lor_sra_b2_6
+.Lor_srs_b2_6:
+        .word   .Lor_npow6, 100, .+4
+.Lor_sra_b2_6:
+        .word   .Lor_pow5, 100, .Lor_srs_b2_5
+        .word   .Lor_pow5, 160, .+4
+        .word   12, 12, .Lor_sra_b2_5
+.Lor_srs_b2_5:
+        .word   .Lor_npow5, 100, .+4
+.Lor_sra_b2_5:
+        .word   .Lor_pow4, 100, .Lor_srs_b2_4
+        .word   .Lor_pow4, 160, .+4
+        .word   12, 12, .Lor_sra_b2_4
+.Lor_srs_b2_4:
+        .word   .Lor_npow4, 100, .+4
+.Lor_sra_b2_4:
+        .word   .Lor_pow3, 100, .Lor_srs_b2_3
+        .word   .Lor_pow3, 160, .+4
+        .word   12, 12, .Lor_sra_b2_3
+.Lor_srs_b2_3:
+        .word   .Lor_npow3, 100, .+4
+.Lor_sra_b2_3:
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b2_PP
+.Lor_split_b2_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lor_split_b2_r21_ambig
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b2_strip
+.Lor_split_b2_r21_ambig:
+        .word   .Lor_one, 168, .+4
+        .word   144, 168, .Lor_split_b2_r21_zero
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b2_strip
+.Lor_split_b2_r21_zero:
+        .word   .Lor_n1, 100, .+4
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b2_PP
+
+        .globl  __subleq_or_b1
+        .type   __subleq_or_b1,@function
+__subleq_or_b1:
+        .word   160, 160, .+4
+        .word   144, 100, .Lor_split_b1_r21_le0
+        .word   .Lor_n1, 100, .+4
+.Lor_split_b1_strip:
+        .word   .Lor_pow30, 100, .Lor_srs_b1_30
+        .word   .Lor_pow30, 160, .+4
+        .word   12, 12, .Lor_sra_b1_30
+.Lor_srs_b1_30:
+        .word   .Lor_npow30, 100, .+4
+.Lor_sra_b1_30:
+        .word   .Lor_pow29, 100, .Lor_srs_b1_29
+        .word   .Lor_pow29, 160, .+4
+        .word   12, 12, .Lor_sra_b1_29
+.Lor_srs_b1_29:
+        .word   .Lor_npow29, 100, .+4
+.Lor_sra_b1_29:
+        .word   .Lor_pow28, 100, .Lor_srs_b1_28
+        .word   .Lor_pow28, 160, .+4
+        .word   12, 12, .Lor_sra_b1_28
+.Lor_srs_b1_28:
+        .word   .Lor_npow28, 100, .+4
+.Lor_sra_b1_28:
+        .word   .Lor_pow27, 100, .Lor_srs_b1_27
+        .word   .Lor_pow27, 160, .+4
+        .word   12, 12, .Lor_sra_b1_27
+.Lor_srs_b1_27:
+        .word   .Lor_npow27, 100, .+4
+.Lor_sra_b1_27:
+        .word   .Lor_pow26, 100, .Lor_srs_b1_26
+        .word   .Lor_pow26, 160, .+4
+        .word   12, 12, .Lor_sra_b1_26
+.Lor_srs_b1_26:
+        .word   .Lor_npow26, 100, .+4
+.Lor_sra_b1_26:
+        .word   .Lor_pow25, 100, .Lor_srs_b1_25
+        .word   .Lor_pow25, 160, .+4
+        .word   12, 12, .Lor_sra_b1_25
+.Lor_srs_b1_25:
+        .word   .Lor_npow25, 100, .+4
+.Lor_sra_b1_25:
+        .word   .Lor_pow24, 100, .Lor_srs_b1_24
+        .word   .Lor_pow24, 160, .+4
+        .word   12, 12, .Lor_sra_b1_24
+.Lor_srs_b1_24:
+        .word   .Lor_npow24, 100, .+4
+.Lor_sra_b1_24:
+        .word   .Lor_pow23, 100, .Lor_srs_b1_23
+        .word   .Lor_pow23, 160, .+4
+        .word   12, 12, .Lor_sra_b1_23
+.Lor_srs_b1_23:
+        .word   .Lor_npow23, 100, .+4
+.Lor_sra_b1_23:
+        .word   .Lor_pow22, 100, .Lor_srs_b1_22
+        .word   .Lor_pow22, 160, .+4
+        .word   12, 12, .Lor_sra_b1_22
+.Lor_srs_b1_22:
+        .word   .Lor_npow22, 100, .+4
+.Lor_sra_b1_22:
+        .word   .Lor_pow21, 100, .Lor_srs_b1_21
+        .word   .Lor_pow21, 160, .+4
+        .word   12, 12, .Lor_sra_b1_21
+.Lor_srs_b1_21:
+        .word   .Lor_npow21, 100, .+4
+.Lor_sra_b1_21:
+        .word   .Lor_pow20, 100, .Lor_srs_b1_20
+        .word   .Lor_pow20, 160, .+4
+        .word   12, 12, .Lor_sra_b1_20
+.Lor_srs_b1_20:
+        .word   .Lor_npow20, 100, .+4
+.Lor_sra_b1_20:
+        .word   .Lor_pow19, 100, .Lor_srs_b1_19
+        .word   .Lor_pow19, 160, .+4
+        .word   12, 12, .Lor_sra_b1_19
+.Lor_srs_b1_19:
+        .word   .Lor_npow19, 100, .+4
+.Lor_sra_b1_19:
+        .word   .Lor_pow18, 100, .Lor_srs_b1_18
+        .word   .Lor_pow18, 160, .+4
+        .word   12, 12, .Lor_sra_b1_18
+.Lor_srs_b1_18:
+        .word   .Lor_npow18, 100, .+4
+.Lor_sra_b1_18:
+        .word   .Lor_pow17, 100, .Lor_srs_b1_17
+        .word   .Lor_pow17, 160, .+4
+        .word   12, 12, .Lor_sra_b1_17
+.Lor_srs_b1_17:
+        .word   .Lor_npow17, 100, .+4
+.Lor_sra_b1_17:
+        .word   .Lor_pow16, 100, .Lor_srs_b1_16
+        .word   .Lor_pow16, 160, .+4
+        .word   12, 12, .Lor_sra_b1_16
+.Lor_srs_b1_16:
+        .word   .Lor_npow16, 100, .+4
+.Lor_sra_b1_16:
+        .word   .Lor_pow15, 100, .Lor_srs_b1_15
+        .word   .Lor_pow15, 160, .+4
+        .word   12, 12, .Lor_sra_b1_15
+.Lor_srs_b1_15:
+        .word   .Lor_npow15, 100, .+4
+.Lor_sra_b1_15:
+        .word   .Lor_pow14, 100, .Lor_srs_b1_14
+        .word   .Lor_pow14, 160, .+4
+        .word   12, 12, .Lor_sra_b1_14
+.Lor_srs_b1_14:
+        .word   .Lor_npow14, 100, .+4
+.Lor_sra_b1_14:
+        .word   .Lor_pow13, 100, .Lor_srs_b1_13
+        .word   .Lor_pow13, 160, .+4
+        .word   12, 12, .Lor_sra_b1_13
+.Lor_srs_b1_13:
+        .word   .Lor_npow13, 100, .+4
+.Lor_sra_b1_13:
+        .word   .Lor_pow12, 100, .Lor_srs_b1_12
+        .word   .Lor_pow12, 160, .+4
+        .word   12, 12, .Lor_sra_b1_12
+.Lor_srs_b1_12:
+        .word   .Lor_npow12, 100, .+4
+.Lor_sra_b1_12:
+        .word   .Lor_pow11, 100, .Lor_srs_b1_11
+        .word   .Lor_pow11, 160, .+4
+        .word   12, 12, .Lor_sra_b1_11
+.Lor_srs_b1_11:
+        .word   .Lor_npow11, 100, .+4
+.Lor_sra_b1_11:
+        .word   .Lor_pow10, 100, .Lor_srs_b1_10
+        .word   .Lor_pow10, 160, .+4
+        .word   12, 12, .Lor_sra_b1_10
+.Lor_srs_b1_10:
+        .word   .Lor_npow10, 100, .+4
+.Lor_sra_b1_10:
+        .word   .Lor_pow9, 100, .Lor_srs_b1_9
+        .word   .Lor_pow9, 160, .+4
+        .word   12, 12, .Lor_sra_b1_9
+.Lor_srs_b1_9:
+        .word   .Lor_npow9, 100, .+4
+.Lor_sra_b1_9:
+        .word   .Lor_pow8, 100, .Lor_srs_b1_8
+        .word   .Lor_pow8, 160, .+4
+        .word   12, 12, .Lor_sra_b1_8
+.Lor_srs_b1_8:
+        .word   .Lor_npow8, 100, .+4
+.Lor_sra_b1_8:
+        .word   .Lor_pow7, 100, .Lor_srs_b1_7
+        .word   .Lor_pow7, 160, .+4
+        .word   12, 12, .Lor_sra_b1_7
+.Lor_srs_b1_7:
+        .word   .Lor_npow7, 100, .+4
+.Lor_sra_b1_7:
+        .word   .Lor_pow6, 100, .Lor_srs_b1_6
+        .word   .Lor_pow6, 160, .+4
+        .word   12, 12, .Lor_sra_b1_6
+.Lor_srs_b1_6:
+        .word   .Lor_npow6, 100, .+4
+.Lor_sra_b1_6:
+        .word   .Lor_pow5, 100, .Lor_srs_b1_5
+        .word   .Lor_pow5, 160, .+4
+        .word   12, 12, .Lor_sra_b1_5
+.Lor_srs_b1_5:
+        .word   .Lor_npow5, 100, .+4
+.Lor_sra_b1_5:
+        .word   .Lor_pow4, 100, .Lor_srs_b1_4
+        .word   .Lor_pow4, 160, .+4
+        .word   12, 12, .Lor_sra_b1_4
+.Lor_srs_b1_4:
+        .word   .Lor_npow4, 100, .+4
+.Lor_sra_b1_4:
+        .word   .Lor_pow3, 100, .Lor_srs_b1_3
+        .word   .Lor_pow3, 160, .+4
+        .word   12, 12, .Lor_sra_b1_3
+.Lor_srs_b1_3:
+        .word   .Lor_npow3, 100, .+4
+.Lor_sra_b1_3:
+        .word   .Lor_pow2, 100, .Lor_srs_b1_2
+        .word   .Lor_pow2, 160, .+4
+        .word   12, 12, .Lor_sra_b1_2
+.Lor_srs_b1_2:
+        .word   .Lor_npow2, 100, .+4
+.Lor_sra_b1_2:
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b1_PP
+.Lor_split_b1_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lor_split_b1_r21_ambig
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b1_strip
+.Lor_split_b1_r21_ambig:
+        .word   .Lor_one, 168, .+4
+        .word   144, 168, .Lor_split_b1_r21_zero
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b1_strip
+.Lor_split_b1_r21_zero:
+        .word   .Lor_n1, 100, .+4
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b1_PP
+
+        .globl  __subleq_or_b0
+        .type   __subleq_or_b0,@function
+__subleq_or_b0:
+        .word   160, 160, .+4
+        .word   144, 100, .Lor_split_b0_r21_le0
+        .word   .Lor_n1, 100, .+4
+.Lor_split_b0_strip:
+        .word   .Lor_pow30, 100, .Lor_srs_b0_30
+        .word   .Lor_pow30, 160, .+4
+        .word   12, 12, .Lor_sra_b0_30
+.Lor_srs_b0_30:
+        .word   .Lor_npow30, 100, .+4
+.Lor_sra_b0_30:
+        .word   .Lor_pow29, 100, .Lor_srs_b0_29
+        .word   .Lor_pow29, 160, .+4
+        .word   12, 12, .Lor_sra_b0_29
+.Lor_srs_b0_29:
+        .word   .Lor_npow29, 100, .+4
+.Lor_sra_b0_29:
+        .word   .Lor_pow28, 100, .Lor_srs_b0_28
+        .word   .Lor_pow28, 160, .+4
+        .word   12, 12, .Lor_sra_b0_28
+.Lor_srs_b0_28:
+        .word   .Lor_npow28, 100, .+4
+.Lor_sra_b0_28:
+        .word   .Lor_pow27, 100, .Lor_srs_b0_27
+        .word   .Lor_pow27, 160, .+4
+        .word   12, 12, .Lor_sra_b0_27
+.Lor_srs_b0_27:
+        .word   .Lor_npow27, 100, .+4
+.Lor_sra_b0_27:
+        .word   .Lor_pow26, 100, .Lor_srs_b0_26
+        .word   .Lor_pow26, 160, .+4
+        .word   12, 12, .Lor_sra_b0_26
+.Lor_srs_b0_26:
+        .word   .Lor_npow26, 100, .+4
+.Lor_sra_b0_26:
+        .word   .Lor_pow25, 100, .Lor_srs_b0_25
+        .word   .Lor_pow25, 160, .+4
+        .word   12, 12, .Lor_sra_b0_25
+.Lor_srs_b0_25:
+        .word   .Lor_npow25, 100, .+4
+.Lor_sra_b0_25:
+        .word   .Lor_pow24, 100, .Lor_srs_b0_24
+        .word   .Lor_pow24, 160, .+4
+        .word   12, 12, .Lor_sra_b0_24
+.Lor_srs_b0_24:
+        .word   .Lor_npow24, 100, .+4
+.Lor_sra_b0_24:
+        .word   .Lor_pow23, 100, .Lor_srs_b0_23
+        .word   .Lor_pow23, 160, .+4
+        .word   12, 12, .Lor_sra_b0_23
+.Lor_srs_b0_23:
+        .word   .Lor_npow23, 100, .+4
+.Lor_sra_b0_23:
+        .word   .Lor_pow22, 100, .Lor_srs_b0_22
+        .word   .Lor_pow22, 160, .+4
+        .word   12, 12, .Lor_sra_b0_22
+.Lor_srs_b0_22:
+        .word   .Lor_npow22, 100, .+4
+.Lor_sra_b0_22:
+        .word   .Lor_pow21, 100, .Lor_srs_b0_21
+        .word   .Lor_pow21, 160, .+4
+        .word   12, 12, .Lor_sra_b0_21
+.Lor_srs_b0_21:
+        .word   .Lor_npow21, 100, .+4
+.Lor_sra_b0_21:
+        .word   .Lor_pow20, 100, .Lor_srs_b0_20
+        .word   .Lor_pow20, 160, .+4
+        .word   12, 12, .Lor_sra_b0_20
+.Lor_srs_b0_20:
+        .word   .Lor_npow20, 100, .+4
+.Lor_sra_b0_20:
+        .word   .Lor_pow19, 100, .Lor_srs_b0_19
+        .word   .Lor_pow19, 160, .+4
+        .word   12, 12, .Lor_sra_b0_19
+.Lor_srs_b0_19:
+        .word   .Lor_npow19, 100, .+4
+.Lor_sra_b0_19:
+        .word   .Lor_pow18, 100, .Lor_srs_b0_18
+        .word   .Lor_pow18, 160, .+4
+        .word   12, 12, .Lor_sra_b0_18
+.Lor_srs_b0_18:
+        .word   .Lor_npow18, 100, .+4
+.Lor_sra_b0_18:
+        .word   .Lor_pow17, 100, .Lor_srs_b0_17
+        .word   .Lor_pow17, 160, .+4
+        .word   12, 12, .Lor_sra_b0_17
+.Lor_srs_b0_17:
+        .word   .Lor_npow17, 100, .+4
+.Lor_sra_b0_17:
+        .word   .Lor_pow16, 100, .Lor_srs_b0_16
+        .word   .Lor_pow16, 160, .+4
+        .word   12, 12, .Lor_sra_b0_16
+.Lor_srs_b0_16:
+        .word   .Lor_npow16, 100, .+4
+.Lor_sra_b0_16:
+        .word   .Lor_pow15, 100, .Lor_srs_b0_15
+        .word   .Lor_pow15, 160, .+4
+        .word   12, 12, .Lor_sra_b0_15
+.Lor_srs_b0_15:
+        .word   .Lor_npow15, 100, .+4
+.Lor_sra_b0_15:
+        .word   .Lor_pow14, 100, .Lor_srs_b0_14
+        .word   .Lor_pow14, 160, .+4
+        .word   12, 12, .Lor_sra_b0_14
+.Lor_srs_b0_14:
+        .word   .Lor_npow14, 100, .+4
+.Lor_sra_b0_14:
+        .word   .Lor_pow13, 100, .Lor_srs_b0_13
+        .word   .Lor_pow13, 160, .+4
+        .word   12, 12, .Lor_sra_b0_13
+.Lor_srs_b0_13:
+        .word   .Lor_npow13, 100, .+4
+.Lor_sra_b0_13:
+        .word   .Lor_pow12, 100, .Lor_srs_b0_12
+        .word   .Lor_pow12, 160, .+4
+        .word   12, 12, .Lor_sra_b0_12
+.Lor_srs_b0_12:
+        .word   .Lor_npow12, 100, .+4
+.Lor_sra_b0_12:
+        .word   .Lor_pow11, 100, .Lor_srs_b0_11
+        .word   .Lor_pow11, 160, .+4
+        .word   12, 12, .Lor_sra_b0_11
+.Lor_srs_b0_11:
+        .word   .Lor_npow11, 100, .+4
+.Lor_sra_b0_11:
+        .word   .Lor_pow10, 100, .Lor_srs_b0_10
+        .word   .Lor_pow10, 160, .+4
+        .word   12, 12, .Lor_sra_b0_10
+.Lor_srs_b0_10:
+        .word   .Lor_npow10, 100, .+4
+.Lor_sra_b0_10:
+        .word   .Lor_pow9, 100, .Lor_srs_b0_9
+        .word   .Lor_pow9, 160, .+4
+        .word   12, 12, .Lor_sra_b0_9
+.Lor_srs_b0_9:
+        .word   .Lor_npow9, 100, .+4
+.Lor_sra_b0_9:
+        .word   .Lor_pow8, 100, .Lor_srs_b0_8
+        .word   .Lor_pow8, 160, .+4
+        .word   12, 12, .Lor_sra_b0_8
+.Lor_srs_b0_8:
+        .word   .Lor_npow8, 100, .+4
+.Lor_sra_b0_8:
+        .word   .Lor_pow7, 100, .Lor_srs_b0_7
+        .word   .Lor_pow7, 160, .+4
+        .word   12, 12, .Lor_sra_b0_7
+.Lor_srs_b0_7:
+        .word   .Lor_npow7, 100, .+4
+.Lor_sra_b0_7:
+        .word   .Lor_pow6, 100, .Lor_srs_b0_6
+        .word   .Lor_pow6, 160, .+4
+        .word   12, 12, .Lor_sra_b0_6
+.Lor_srs_b0_6:
+        .word   .Lor_npow6, 100, .+4
+.Lor_sra_b0_6:
+        .word   .Lor_pow5, 100, .Lor_srs_b0_5
+        .word   .Lor_pow5, 160, .+4
+        .word   12, 12, .Lor_sra_b0_5
+.Lor_srs_b0_5:
+        .word   .Lor_npow5, 100, .+4
+.Lor_sra_b0_5:
+        .word   .Lor_pow4, 100, .Lor_srs_b0_4
+        .word   .Lor_pow4, 160, .+4
+        .word   12, 12, .Lor_sra_b0_4
+.Lor_srs_b0_4:
+        .word   .Lor_npow4, 100, .+4
+.Lor_sra_b0_4:
+        .word   .Lor_pow3, 100, .Lor_srs_b0_3
+        .word   .Lor_pow3, 160, .+4
+        .word   12, 12, .Lor_sra_b0_3
+.Lor_srs_b0_3:
+        .word   .Lor_npow3, 100, .+4
+.Lor_sra_b0_3:
+        .word   .Lor_pow2, 100, .Lor_srs_b0_2
+        .word   .Lor_pow2, 160, .+4
+        .word   12, 12, .Lor_sra_b0_2
+.Lor_srs_b0_2:
+        .word   .Lor_npow2, 100, .+4
+.Lor_sra_b0_2:
+        .word   .Lor_pow1, 100, .Lor_srs_b0_1
+        .word   .Lor_pow1, 160, .+4
+        .word   12, 12, .Lor_sra_b0_1
+.Lor_srs_b0_1:
+        .word   .Lor_npow1, 100, .+4
+.Lor_sra_b0_1:
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b0_PP
+.Lor_split_b0_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lor_split_b0_r21_ambig
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b0_strip
+.Lor_split_b0_r21_ambig:
+        .word   .Lor_one, 168, .+4
+        .word   144, 168, .Lor_split_b0_r21_zero
+        .word   .Lor_c80, 100, .+4
+        .word   .Lor_c80, 160, .+4
+        .word   .Lor_n1, 100, .+4
+        .word   12, 12, .Lor_split_b0_strip
+.Lor_split_b0_r21_zero:
+        .word   .Lor_n1, 100, .+4
+        .word   .Lor_n1, 104, .+4
+        .word   12, 12, .Lor_b0_PP
 .Lor_Bit31:
         .word   144, 100, .Lor_b31_r21_neg
         .word   12, 12, .Lor_b31_r21_pos
@@ -38547,6 +45212,3695 @@ __subleq_xor:
         .word   .Lxor_n1, 100, .+4
         .word   .Lxor_n1, 104, .+4
         .word   12, 12, .Lxor_b15_PP
+
+        .globl  __subleq_xor_b30
+        .type   __subleq_xor_b30,@function
+__subleq_xor_b30:
+        .word   160, 160, .+4
+        .word   144, 100, .Lxor_split_b30_r21_le0
+        .word   .Lxor_n1, 100, .+4
+.Lxor_split_b30_strip:
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b30_PP
+.Lxor_split_b30_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lxor_split_b30_r21_ambig
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b30_strip
+.Lxor_split_b30_r21_ambig:
+        .word   .Lxor_one, 168, .+4
+        .word   144, 168, .Lxor_split_b30_r21_zero
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b30_strip
+.Lxor_split_b30_r21_zero:
+        .word   .Lxor_n1, 100, .+4
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b30_PP
+
+        .globl  __subleq_xor_b29
+        .type   __subleq_xor_b29,@function
+__subleq_xor_b29:
+        .word   160, 160, .+4
+        .word   144, 100, .Lxor_split_b29_r21_le0
+        .word   .Lxor_n1, 100, .+4
+.Lxor_split_b29_strip:
+        .word   .Lxor_pow30, 100, .Lxor_srs_b29_30
+        .word   .Lxor_pow30, 160, .+4
+        .word   12, 12, .Lxor_sra_b29_30
+.Lxor_srs_b29_30:
+        .word   .Lxor_npow30, 100, .+4
+.Lxor_sra_b29_30:
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b29_PP
+.Lxor_split_b29_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lxor_split_b29_r21_ambig
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b29_strip
+.Lxor_split_b29_r21_ambig:
+        .word   .Lxor_one, 168, .+4
+        .word   144, 168, .Lxor_split_b29_r21_zero
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b29_strip
+.Lxor_split_b29_r21_zero:
+        .word   .Lxor_n1, 100, .+4
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b29_PP
+
+        .globl  __subleq_xor_b28
+        .type   __subleq_xor_b28,@function
+__subleq_xor_b28:
+        .word   160, 160, .+4
+        .word   144, 100, .Lxor_split_b28_r21_le0
+        .word   .Lxor_n1, 100, .+4
+.Lxor_split_b28_strip:
+        .word   .Lxor_pow30, 100, .Lxor_srs_b28_30
+        .word   .Lxor_pow30, 160, .+4
+        .word   12, 12, .Lxor_sra_b28_30
+.Lxor_srs_b28_30:
+        .word   .Lxor_npow30, 100, .+4
+.Lxor_sra_b28_30:
+        .word   .Lxor_pow29, 100, .Lxor_srs_b28_29
+        .word   .Lxor_pow29, 160, .+4
+        .word   12, 12, .Lxor_sra_b28_29
+.Lxor_srs_b28_29:
+        .word   .Lxor_npow29, 100, .+4
+.Lxor_sra_b28_29:
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b28_PP
+.Lxor_split_b28_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lxor_split_b28_r21_ambig
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b28_strip
+.Lxor_split_b28_r21_ambig:
+        .word   .Lxor_one, 168, .+4
+        .word   144, 168, .Lxor_split_b28_r21_zero
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b28_strip
+.Lxor_split_b28_r21_zero:
+        .word   .Lxor_n1, 100, .+4
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b28_PP
+
+        .globl  __subleq_xor_b27
+        .type   __subleq_xor_b27,@function
+__subleq_xor_b27:
+        .word   160, 160, .+4
+        .word   144, 100, .Lxor_split_b27_r21_le0
+        .word   .Lxor_n1, 100, .+4
+.Lxor_split_b27_strip:
+        .word   .Lxor_pow30, 100, .Lxor_srs_b27_30
+        .word   .Lxor_pow30, 160, .+4
+        .word   12, 12, .Lxor_sra_b27_30
+.Lxor_srs_b27_30:
+        .word   .Lxor_npow30, 100, .+4
+.Lxor_sra_b27_30:
+        .word   .Lxor_pow29, 100, .Lxor_srs_b27_29
+        .word   .Lxor_pow29, 160, .+4
+        .word   12, 12, .Lxor_sra_b27_29
+.Lxor_srs_b27_29:
+        .word   .Lxor_npow29, 100, .+4
+.Lxor_sra_b27_29:
+        .word   .Lxor_pow28, 100, .Lxor_srs_b27_28
+        .word   .Lxor_pow28, 160, .+4
+        .word   12, 12, .Lxor_sra_b27_28
+.Lxor_srs_b27_28:
+        .word   .Lxor_npow28, 100, .+4
+.Lxor_sra_b27_28:
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b27_PP
+.Lxor_split_b27_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lxor_split_b27_r21_ambig
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b27_strip
+.Lxor_split_b27_r21_ambig:
+        .word   .Lxor_one, 168, .+4
+        .word   144, 168, .Lxor_split_b27_r21_zero
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b27_strip
+.Lxor_split_b27_r21_zero:
+        .word   .Lxor_n1, 100, .+4
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b27_PP
+
+        .globl  __subleq_xor_b26
+        .type   __subleq_xor_b26,@function
+__subleq_xor_b26:
+        .word   160, 160, .+4
+        .word   144, 100, .Lxor_split_b26_r21_le0
+        .word   .Lxor_n1, 100, .+4
+.Lxor_split_b26_strip:
+        .word   .Lxor_pow30, 100, .Lxor_srs_b26_30
+        .word   .Lxor_pow30, 160, .+4
+        .word   12, 12, .Lxor_sra_b26_30
+.Lxor_srs_b26_30:
+        .word   .Lxor_npow30, 100, .+4
+.Lxor_sra_b26_30:
+        .word   .Lxor_pow29, 100, .Lxor_srs_b26_29
+        .word   .Lxor_pow29, 160, .+4
+        .word   12, 12, .Lxor_sra_b26_29
+.Lxor_srs_b26_29:
+        .word   .Lxor_npow29, 100, .+4
+.Lxor_sra_b26_29:
+        .word   .Lxor_pow28, 100, .Lxor_srs_b26_28
+        .word   .Lxor_pow28, 160, .+4
+        .word   12, 12, .Lxor_sra_b26_28
+.Lxor_srs_b26_28:
+        .word   .Lxor_npow28, 100, .+4
+.Lxor_sra_b26_28:
+        .word   .Lxor_pow27, 100, .Lxor_srs_b26_27
+        .word   .Lxor_pow27, 160, .+4
+        .word   12, 12, .Lxor_sra_b26_27
+.Lxor_srs_b26_27:
+        .word   .Lxor_npow27, 100, .+4
+.Lxor_sra_b26_27:
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b26_PP
+.Lxor_split_b26_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lxor_split_b26_r21_ambig
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b26_strip
+.Lxor_split_b26_r21_ambig:
+        .word   .Lxor_one, 168, .+4
+        .word   144, 168, .Lxor_split_b26_r21_zero
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b26_strip
+.Lxor_split_b26_r21_zero:
+        .word   .Lxor_n1, 100, .+4
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b26_PP
+
+        .globl  __subleq_xor_b25
+        .type   __subleq_xor_b25,@function
+__subleq_xor_b25:
+        .word   160, 160, .+4
+        .word   144, 100, .Lxor_split_b25_r21_le0
+        .word   .Lxor_n1, 100, .+4
+.Lxor_split_b25_strip:
+        .word   .Lxor_pow30, 100, .Lxor_srs_b25_30
+        .word   .Lxor_pow30, 160, .+4
+        .word   12, 12, .Lxor_sra_b25_30
+.Lxor_srs_b25_30:
+        .word   .Lxor_npow30, 100, .+4
+.Lxor_sra_b25_30:
+        .word   .Lxor_pow29, 100, .Lxor_srs_b25_29
+        .word   .Lxor_pow29, 160, .+4
+        .word   12, 12, .Lxor_sra_b25_29
+.Lxor_srs_b25_29:
+        .word   .Lxor_npow29, 100, .+4
+.Lxor_sra_b25_29:
+        .word   .Lxor_pow28, 100, .Lxor_srs_b25_28
+        .word   .Lxor_pow28, 160, .+4
+        .word   12, 12, .Lxor_sra_b25_28
+.Lxor_srs_b25_28:
+        .word   .Lxor_npow28, 100, .+4
+.Lxor_sra_b25_28:
+        .word   .Lxor_pow27, 100, .Lxor_srs_b25_27
+        .word   .Lxor_pow27, 160, .+4
+        .word   12, 12, .Lxor_sra_b25_27
+.Lxor_srs_b25_27:
+        .word   .Lxor_npow27, 100, .+4
+.Lxor_sra_b25_27:
+        .word   .Lxor_pow26, 100, .Lxor_srs_b25_26
+        .word   .Lxor_pow26, 160, .+4
+        .word   12, 12, .Lxor_sra_b25_26
+.Lxor_srs_b25_26:
+        .word   .Lxor_npow26, 100, .+4
+.Lxor_sra_b25_26:
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b25_PP
+.Lxor_split_b25_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lxor_split_b25_r21_ambig
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b25_strip
+.Lxor_split_b25_r21_ambig:
+        .word   .Lxor_one, 168, .+4
+        .word   144, 168, .Lxor_split_b25_r21_zero
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b25_strip
+.Lxor_split_b25_r21_zero:
+        .word   .Lxor_n1, 100, .+4
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b25_PP
+
+        .globl  __subleq_xor_b24
+        .type   __subleq_xor_b24,@function
+__subleq_xor_b24:
+        .word   160, 160, .+4
+        .word   144, 100, .Lxor_split_b24_r21_le0
+        .word   .Lxor_n1, 100, .+4
+.Lxor_split_b24_strip:
+        .word   .Lxor_pow30, 100, .Lxor_srs_b24_30
+        .word   .Lxor_pow30, 160, .+4
+        .word   12, 12, .Lxor_sra_b24_30
+.Lxor_srs_b24_30:
+        .word   .Lxor_npow30, 100, .+4
+.Lxor_sra_b24_30:
+        .word   .Lxor_pow29, 100, .Lxor_srs_b24_29
+        .word   .Lxor_pow29, 160, .+4
+        .word   12, 12, .Lxor_sra_b24_29
+.Lxor_srs_b24_29:
+        .word   .Lxor_npow29, 100, .+4
+.Lxor_sra_b24_29:
+        .word   .Lxor_pow28, 100, .Lxor_srs_b24_28
+        .word   .Lxor_pow28, 160, .+4
+        .word   12, 12, .Lxor_sra_b24_28
+.Lxor_srs_b24_28:
+        .word   .Lxor_npow28, 100, .+4
+.Lxor_sra_b24_28:
+        .word   .Lxor_pow27, 100, .Lxor_srs_b24_27
+        .word   .Lxor_pow27, 160, .+4
+        .word   12, 12, .Lxor_sra_b24_27
+.Lxor_srs_b24_27:
+        .word   .Lxor_npow27, 100, .+4
+.Lxor_sra_b24_27:
+        .word   .Lxor_pow26, 100, .Lxor_srs_b24_26
+        .word   .Lxor_pow26, 160, .+4
+        .word   12, 12, .Lxor_sra_b24_26
+.Lxor_srs_b24_26:
+        .word   .Lxor_npow26, 100, .+4
+.Lxor_sra_b24_26:
+        .word   .Lxor_pow25, 100, .Lxor_srs_b24_25
+        .word   .Lxor_pow25, 160, .+4
+        .word   12, 12, .Lxor_sra_b24_25
+.Lxor_srs_b24_25:
+        .word   .Lxor_npow25, 100, .+4
+.Lxor_sra_b24_25:
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b24_PP
+.Lxor_split_b24_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lxor_split_b24_r21_ambig
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b24_strip
+.Lxor_split_b24_r21_ambig:
+        .word   .Lxor_one, 168, .+4
+        .word   144, 168, .Lxor_split_b24_r21_zero
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b24_strip
+.Lxor_split_b24_r21_zero:
+        .word   .Lxor_n1, 100, .+4
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b24_PP
+
+        .globl  __subleq_xor_b23
+        .type   __subleq_xor_b23,@function
+__subleq_xor_b23:
+        .word   160, 160, .+4
+        .word   144, 100, .Lxor_split_b23_r21_le0
+        .word   .Lxor_n1, 100, .+4
+.Lxor_split_b23_strip:
+        .word   .Lxor_pow30, 100, .Lxor_srs_b23_30
+        .word   .Lxor_pow30, 160, .+4
+        .word   12, 12, .Lxor_sra_b23_30
+.Lxor_srs_b23_30:
+        .word   .Lxor_npow30, 100, .+4
+.Lxor_sra_b23_30:
+        .word   .Lxor_pow29, 100, .Lxor_srs_b23_29
+        .word   .Lxor_pow29, 160, .+4
+        .word   12, 12, .Lxor_sra_b23_29
+.Lxor_srs_b23_29:
+        .word   .Lxor_npow29, 100, .+4
+.Lxor_sra_b23_29:
+        .word   .Lxor_pow28, 100, .Lxor_srs_b23_28
+        .word   .Lxor_pow28, 160, .+4
+        .word   12, 12, .Lxor_sra_b23_28
+.Lxor_srs_b23_28:
+        .word   .Lxor_npow28, 100, .+4
+.Lxor_sra_b23_28:
+        .word   .Lxor_pow27, 100, .Lxor_srs_b23_27
+        .word   .Lxor_pow27, 160, .+4
+        .word   12, 12, .Lxor_sra_b23_27
+.Lxor_srs_b23_27:
+        .word   .Lxor_npow27, 100, .+4
+.Lxor_sra_b23_27:
+        .word   .Lxor_pow26, 100, .Lxor_srs_b23_26
+        .word   .Lxor_pow26, 160, .+4
+        .word   12, 12, .Lxor_sra_b23_26
+.Lxor_srs_b23_26:
+        .word   .Lxor_npow26, 100, .+4
+.Lxor_sra_b23_26:
+        .word   .Lxor_pow25, 100, .Lxor_srs_b23_25
+        .word   .Lxor_pow25, 160, .+4
+        .word   12, 12, .Lxor_sra_b23_25
+.Lxor_srs_b23_25:
+        .word   .Lxor_npow25, 100, .+4
+.Lxor_sra_b23_25:
+        .word   .Lxor_pow24, 100, .Lxor_srs_b23_24
+        .word   .Lxor_pow24, 160, .+4
+        .word   12, 12, .Lxor_sra_b23_24
+.Lxor_srs_b23_24:
+        .word   .Lxor_npow24, 100, .+4
+.Lxor_sra_b23_24:
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b23_PP
+.Lxor_split_b23_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lxor_split_b23_r21_ambig
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b23_strip
+.Lxor_split_b23_r21_ambig:
+        .word   .Lxor_one, 168, .+4
+        .word   144, 168, .Lxor_split_b23_r21_zero
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b23_strip
+.Lxor_split_b23_r21_zero:
+        .word   .Lxor_n1, 100, .+4
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b23_PP
+
+        .globl  __subleq_xor_b22
+        .type   __subleq_xor_b22,@function
+__subleq_xor_b22:
+        .word   160, 160, .+4
+        .word   144, 100, .Lxor_split_b22_r21_le0
+        .word   .Lxor_n1, 100, .+4
+.Lxor_split_b22_strip:
+        .word   .Lxor_pow30, 100, .Lxor_srs_b22_30
+        .word   .Lxor_pow30, 160, .+4
+        .word   12, 12, .Lxor_sra_b22_30
+.Lxor_srs_b22_30:
+        .word   .Lxor_npow30, 100, .+4
+.Lxor_sra_b22_30:
+        .word   .Lxor_pow29, 100, .Lxor_srs_b22_29
+        .word   .Lxor_pow29, 160, .+4
+        .word   12, 12, .Lxor_sra_b22_29
+.Lxor_srs_b22_29:
+        .word   .Lxor_npow29, 100, .+4
+.Lxor_sra_b22_29:
+        .word   .Lxor_pow28, 100, .Lxor_srs_b22_28
+        .word   .Lxor_pow28, 160, .+4
+        .word   12, 12, .Lxor_sra_b22_28
+.Lxor_srs_b22_28:
+        .word   .Lxor_npow28, 100, .+4
+.Lxor_sra_b22_28:
+        .word   .Lxor_pow27, 100, .Lxor_srs_b22_27
+        .word   .Lxor_pow27, 160, .+4
+        .word   12, 12, .Lxor_sra_b22_27
+.Lxor_srs_b22_27:
+        .word   .Lxor_npow27, 100, .+4
+.Lxor_sra_b22_27:
+        .word   .Lxor_pow26, 100, .Lxor_srs_b22_26
+        .word   .Lxor_pow26, 160, .+4
+        .word   12, 12, .Lxor_sra_b22_26
+.Lxor_srs_b22_26:
+        .word   .Lxor_npow26, 100, .+4
+.Lxor_sra_b22_26:
+        .word   .Lxor_pow25, 100, .Lxor_srs_b22_25
+        .word   .Lxor_pow25, 160, .+4
+        .word   12, 12, .Lxor_sra_b22_25
+.Lxor_srs_b22_25:
+        .word   .Lxor_npow25, 100, .+4
+.Lxor_sra_b22_25:
+        .word   .Lxor_pow24, 100, .Lxor_srs_b22_24
+        .word   .Lxor_pow24, 160, .+4
+        .word   12, 12, .Lxor_sra_b22_24
+.Lxor_srs_b22_24:
+        .word   .Lxor_npow24, 100, .+4
+.Lxor_sra_b22_24:
+        .word   .Lxor_pow23, 100, .Lxor_srs_b22_23
+        .word   .Lxor_pow23, 160, .+4
+        .word   12, 12, .Lxor_sra_b22_23
+.Lxor_srs_b22_23:
+        .word   .Lxor_npow23, 100, .+4
+.Lxor_sra_b22_23:
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b22_PP
+.Lxor_split_b22_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lxor_split_b22_r21_ambig
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b22_strip
+.Lxor_split_b22_r21_ambig:
+        .word   .Lxor_one, 168, .+4
+        .word   144, 168, .Lxor_split_b22_r21_zero
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b22_strip
+.Lxor_split_b22_r21_zero:
+        .word   .Lxor_n1, 100, .+4
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b22_PP
+
+        .globl  __subleq_xor_b21
+        .type   __subleq_xor_b21,@function
+__subleq_xor_b21:
+        .word   160, 160, .+4
+        .word   144, 100, .Lxor_split_b21_r21_le0
+        .word   .Lxor_n1, 100, .+4
+.Lxor_split_b21_strip:
+        .word   .Lxor_pow30, 100, .Lxor_srs_b21_30
+        .word   .Lxor_pow30, 160, .+4
+        .word   12, 12, .Lxor_sra_b21_30
+.Lxor_srs_b21_30:
+        .word   .Lxor_npow30, 100, .+4
+.Lxor_sra_b21_30:
+        .word   .Lxor_pow29, 100, .Lxor_srs_b21_29
+        .word   .Lxor_pow29, 160, .+4
+        .word   12, 12, .Lxor_sra_b21_29
+.Lxor_srs_b21_29:
+        .word   .Lxor_npow29, 100, .+4
+.Lxor_sra_b21_29:
+        .word   .Lxor_pow28, 100, .Lxor_srs_b21_28
+        .word   .Lxor_pow28, 160, .+4
+        .word   12, 12, .Lxor_sra_b21_28
+.Lxor_srs_b21_28:
+        .word   .Lxor_npow28, 100, .+4
+.Lxor_sra_b21_28:
+        .word   .Lxor_pow27, 100, .Lxor_srs_b21_27
+        .word   .Lxor_pow27, 160, .+4
+        .word   12, 12, .Lxor_sra_b21_27
+.Lxor_srs_b21_27:
+        .word   .Lxor_npow27, 100, .+4
+.Lxor_sra_b21_27:
+        .word   .Lxor_pow26, 100, .Lxor_srs_b21_26
+        .word   .Lxor_pow26, 160, .+4
+        .word   12, 12, .Lxor_sra_b21_26
+.Lxor_srs_b21_26:
+        .word   .Lxor_npow26, 100, .+4
+.Lxor_sra_b21_26:
+        .word   .Lxor_pow25, 100, .Lxor_srs_b21_25
+        .word   .Lxor_pow25, 160, .+4
+        .word   12, 12, .Lxor_sra_b21_25
+.Lxor_srs_b21_25:
+        .word   .Lxor_npow25, 100, .+4
+.Lxor_sra_b21_25:
+        .word   .Lxor_pow24, 100, .Lxor_srs_b21_24
+        .word   .Lxor_pow24, 160, .+4
+        .word   12, 12, .Lxor_sra_b21_24
+.Lxor_srs_b21_24:
+        .word   .Lxor_npow24, 100, .+4
+.Lxor_sra_b21_24:
+        .word   .Lxor_pow23, 100, .Lxor_srs_b21_23
+        .word   .Lxor_pow23, 160, .+4
+        .word   12, 12, .Lxor_sra_b21_23
+.Lxor_srs_b21_23:
+        .word   .Lxor_npow23, 100, .+4
+.Lxor_sra_b21_23:
+        .word   .Lxor_pow22, 100, .Lxor_srs_b21_22
+        .word   .Lxor_pow22, 160, .+4
+        .word   12, 12, .Lxor_sra_b21_22
+.Lxor_srs_b21_22:
+        .word   .Lxor_npow22, 100, .+4
+.Lxor_sra_b21_22:
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b21_PP
+.Lxor_split_b21_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lxor_split_b21_r21_ambig
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b21_strip
+.Lxor_split_b21_r21_ambig:
+        .word   .Lxor_one, 168, .+4
+        .word   144, 168, .Lxor_split_b21_r21_zero
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b21_strip
+.Lxor_split_b21_r21_zero:
+        .word   .Lxor_n1, 100, .+4
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b21_PP
+
+        .globl  __subleq_xor_b20
+        .type   __subleq_xor_b20,@function
+__subleq_xor_b20:
+        .word   160, 160, .+4
+        .word   144, 100, .Lxor_split_b20_r21_le0
+        .word   .Lxor_n1, 100, .+4
+.Lxor_split_b20_strip:
+        .word   .Lxor_pow30, 100, .Lxor_srs_b20_30
+        .word   .Lxor_pow30, 160, .+4
+        .word   12, 12, .Lxor_sra_b20_30
+.Lxor_srs_b20_30:
+        .word   .Lxor_npow30, 100, .+4
+.Lxor_sra_b20_30:
+        .word   .Lxor_pow29, 100, .Lxor_srs_b20_29
+        .word   .Lxor_pow29, 160, .+4
+        .word   12, 12, .Lxor_sra_b20_29
+.Lxor_srs_b20_29:
+        .word   .Lxor_npow29, 100, .+4
+.Lxor_sra_b20_29:
+        .word   .Lxor_pow28, 100, .Lxor_srs_b20_28
+        .word   .Lxor_pow28, 160, .+4
+        .word   12, 12, .Lxor_sra_b20_28
+.Lxor_srs_b20_28:
+        .word   .Lxor_npow28, 100, .+4
+.Lxor_sra_b20_28:
+        .word   .Lxor_pow27, 100, .Lxor_srs_b20_27
+        .word   .Lxor_pow27, 160, .+4
+        .word   12, 12, .Lxor_sra_b20_27
+.Lxor_srs_b20_27:
+        .word   .Lxor_npow27, 100, .+4
+.Lxor_sra_b20_27:
+        .word   .Lxor_pow26, 100, .Lxor_srs_b20_26
+        .word   .Lxor_pow26, 160, .+4
+        .word   12, 12, .Lxor_sra_b20_26
+.Lxor_srs_b20_26:
+        .word   .Lxor_npow26, 100, .+4
+.Lxor_sra_b20_26:
+        .word   .Lxor_pow25, 100, .Lxor_srs_b20_25
+        .word   .Lxor_pow25, 160, .+4
+        .word   12, 12, .Lxor_sra_b20_25
+.Lxor_srs_b20_25:
+        .word   .Lxor_npow25, 100, .+4
+.Lxor_sra_b20_25:
+        .word   .Lxor_pow24, 100, .Lxor_srs_b20_24
+        .word   .Lxor_pow24, 160, .+4
+        .word   12, 12, .Lxor_sra_b20_24
+.Lxor_srs_b20_24:
+        .word   .Lxor_npow24, 100, .+4
+.Lxor_sra_b20_24:
+        .word   .Lxor_pow23, 100, .Lxor_srs_b20_23
+        .word   .Lxor_pow23, 160, .+4
+        .word   12, 12, .Lxor_sra_b20_23
+.Lxor_srs_b20_23:
+        .word   .Lxor_npow23, 100, .+4
+.Lxor_sra_b20_23:
+        .word   .Lxor_pow22, 100, .Lxor_srs_b20_22
+        .word   .Lxor_pow22, 160, .+4
+        .word   12, 12, .Lxor_sra_b20_22
+.Lxor_srs_b20_22:
+        .word   .Lxor_npow22, 100, .+4
+.Lxor_sra_b20_22:
+        .word   .Lxor_pow21, 100, .Lxor_srs_b20_21
+        .word   .Lxor_pow21, 160, .+4
+        .word   12, 12, .Lxor_sra_b20_21
+.Lxor_srs_b20_21:
+        .word   .Lxor_npow21, 100, .+4
+.Lxor_sra_b20_21:
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b20_PP
+.Lxor_split_b20_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lxor_split_b20_r21_ambig
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b20_strip
+.Lxor_split_b20_r21_ambig:
+        .word   .Lxor_one, 168, .+4
+        .word   144, 168, .Lxor_split_b20_r21_zero
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b20_strip
+.Lxor_split_b20_r21_zero:
+        .word   .Lxor_n1, 100, .+4
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b20_PP
+
+        .globl  __subleq_xor_b19
+        .type   __subleq_xor_b19,@function
+__subleq_xor_b19:
+        .word   160, 160, .+4
+        .word   144, 100, .Lxor_split_b19_r21_le0
+        .word   .Lxor_n1, 100, .+4
+.Lxor_split_b19_strip:
+        .word   .Lxor_pow30, 100, .Lxor_srs_b19_30
+        .word   .Lxor_pow30, 160, .+4
+        .word   12, 12, .Lxor_sra_b19_30
+.Lxor_srs_b19_30:
+        .word   .Lxor_npow30, 100, .+4
+.Lxor_sra_b19_30:
+        .word   .Lxor_pow29, 100, .Lxor_srs_b19_29
+        .word   .Lxor_pow29, 160, .+4
+        .word   12, 12, .Lxor_sra_b19_29
+.Lxor_srs_b19_29:
+        .word   .Lxor_npow29, 100, .+4
+.Lxor_sra_b19_29:
+        .word   .Lxor_pow28, 100, .Lxor_srs_b19_28
+        .word   .Lxor_pow28, 160, .+4
+        .word   12, 12, .Lxor_sra_b19_28
+.Lxor_srs_b19_28:
+        .word   .Lxor_npow28, 100, .+4
+.Lxor_sra_b19_28:
+        .word   .Lxor_pow27, 100, .Lxor_srs_b19_27
+        .word   .Lxor_pow27, 160, .+4
+        .word   12, 12, .Lxor_sra_b19_27
+.Lxor_srs_b19_27:
+        .word   .Lxor_npow27, 100, .+4
+.Lxor_sra_b19_27:
+        .word   .Lxor_pow26, 100, .Lxor_srs_b19_26
+        .word   .Lxor_pow26, 160, .+4
+        .word   12, 12, .Lxor_sra_b19_26
+.Lxor_srs_b19_26:
+        .word   .Lxor_npow26, 100, .+4
+.Lxor_sra_b19_26:
+        .word   .Lxor_pow25, 100, .Lxor_srs_b19_25
+        .word   .Lxor_pow25, 160, .+4
+        .word   12, 12, .Lxor_sra_b19_25
+.Lxor_srs_b19_25:
+        .word   .Lxor_npow25, 100, .+4
+.Lxor_sra_b19_25:
+        .word   .Lxor_pow24, 100, .Lxor_srs_b19_24
+        .word   .Lxor_pow24, 160, .+4
+        .word   12, 12, .Lxor_sra_b19_24
+.Lxor_srs_b19_24:
+        .word   .Lxor_npow24, 100, .+4
+.Lxor_sra_b19_24:
+        .word   .Lxor_pow23, 100, .Lxor_srs_b19_23
+        .word   .Lxor_pow23, 160, .+4
+        .word   12, 12, .Lxor_sra_b19_23
+.Lxor_srs_b19_23:
+        .word   .Lxor_npow23, 100, .+4
+.Lxor_sra_b19_23:
+        .word   .Lxor_pow22, 100, .Lxor_srs_b19_22
+        .word   .Lxor_pow22, 160, .+4
+        .word   12, 12, .Lxor_sra_b19_22
+.Lxor_srs_b19_22:
+        .word   .Lxor_npow22, 100, .+4
+.Lxor_sra_b19_22:
+        .word   .Lxor_pow21, 100, .Lxor_srs_b19_21
+        .word   .Lxor_pow21, 160, .+4
+        .word   12, 12, .Lxor_sra_b19_21
+.Lxor_srs_b19_21:
+        .word   .Lxor_npow21, 100, .+4
+.Lxor_sra_b19_21:
+        .word   .Lxor_pow20, 100, .Lxor_srs_b19_20
+        .word   .Lxor_pow20, 160, .+4
+        .word   12, 12, .Lxor_sra_b19_20
+.Lxor_srs_b19_20:
+        .word   .Lxor_npow20, 100, .+4
+.Lxor_sra_b19_20:
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b19_PP
+.Lxor_split_b19_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lxor_split_b19_r21_ambig
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b19_strip
+.Lxor_split_b19_r21_ambig:
+        .word   .Lxor_one, 168, .+4
+        .word   144, 168, .Lxor_split_b19_r21_zero
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b19_strip
+.Lxor_split_b19_r21_zero:
+        .word   .Lxor_n1, 100, .+4
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b19_PP
+
+        .globl  __subleq_xor_b18
+        .type   __subleq_xor_b18,@function
+__subleq_xor_b18:
+        .word   160, 160, .+4
+        .word   144, 100, .Lxor_split_b18_r21_le0
+        .word   .Lxor_n1, 100, .+4
+.Lxor_split_b18_strip:
+        .word   .Lxor_pow30, 100, .Lxor_srs_b18_30
+        .word   .Lxor_pow30, 160, .+4
+        .word   12, 12, .Lxor_sra_b18_30
+.Lxor_srs_b18_30:
+        .word   .Lxor_npow30, 100, .+4
+.Lxor_sra_b18_30:
+        .word   .Lxor_pow29, 100, .Lxor_srs_b18_29
+        .word   .Lxor_pow29, 160, .+4
+        .word   12, 12, .Lxor_sra_b18_29
+.Lxor_srs_b18_29:
+        .word   .Lxor_npow29, 100, .+4
+.Lxor_sra_b18_29:
+        .word   .Lxor_pow28, 100, .Lxor_srs_b18_28
+        .word   .Lxor_pow28, 160, .+4
+        .word   12, 12, .Lxor_sra_b18_28
+.Lxor_srs_b18_28:
+        .word   .Lxor_npow28, 100, .+4
+.Lxor_sra_b18_28:
+        .word   .Lxor_pow27, 100, .Lxor_srs_b18_27
+        .word   .Lxor_pow27, 160, .+4
+        .word   12, 12, .Lxor_sra_b18_27
+.Lxor_srs_b18_27:
+        .word   .Lxor_npow27, 100, .+4
+.Lxor_sra_b18_27:
+        .word   .Lxor_pow26, 100, .Lxor_srs_b18_26
+        .word   .Lxor_pow26, 160, .+4
+        .word   12, 12, .Lxor_sra_b18_26
+.Lxor_srs_b18_26:
+        .word   .Lxor_npow26, 100, .+4
+.Lxor_sra_b18_26:
+        .word   .Lxor_pow25, 100, .Lxor_srs_b18_25
+        .word   .Lxor_pow25, 160, .+4
+        .word   12, 12, .Lxor_sra_b18_25
+.Lxor_srs_b18_25:
+        .word   .Lxor_npow25, 100, .+4
+.Lxor_sra_b18_25:
+        .word   .Lxor_pow24, 100, .Lxor_srs_b18_24
+        .word   .Lxor_pow24, 160, .+4
+        .word   12, 12, .Lxor_sra_b18_24
+.Lxor_srs_b18_24:
+        .word   .Lxor_npow24, 100, .+4
+.Lxor_sra_b18_24:
+        .word   .Lxor_pow23, 100, .Lxor_srs_b18_23
+        .word   .Lxor_pow23, 160, .+4
+        .word   12, 12, .Lxor_sra_b18_23
+.Lxor_srs_b18_23:
+        .word   .Lxor_npow23, 100, .+4
+.Lxor_sra_b18_23:
+        .word   .Lxor_pow22, 100, .Lxor_srs_b18_22
+        .word   .Lxor_pow22, 160, .+4
+        .word   12, 12, .Lxor_sra_b18_22
+.Lxor_srs_b18_22:
+        .word   .Lxor_npow22, 100, .+4
+.Lxor_sra_b18_22:
+        .word   .Lxor_pow21, 100, .Lxor_srs_b18_21
+        .word   .Lxor_pow21, 160, .+4
+        .word   12, 12, .Lxor_sra_b18_21
+.Lxor_srs_b18_21:
+        .word   .Lxor_npow21, 100, .+4
+.Lxor_sra_b18_21:
+        .word   .Lxor_pow20, 100, .Lxor_srs_b18_20
+        .word   .Lxor_pow20, 160, .+4
+        .word   12, 12, .Lxor_sra_b18_20
+.Lxor_srs_b18_20:
+        .word   .Lxor_npow20, 100, .+4
+.Lxor_sra_b18_20:
+        .word   .Lxor_pow19, 100, .Lxor_srs_b18_19
+        .word   .Lxor_pow19, 160, .+4
+        .word   12, 12, .Lxor_sra_b18_19
+.Lxor_srs_b18_19:
+        .word   .Lxor_npow19, 100, .+4
+.Lxor_sra_b18_19:
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b18_PP
+.Lxor_split_b18_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lxor_split_b18_r21_ambig
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b18_strip
+.Lxor_split_b18_r21_ambig:
+        .word   .Lxor_one, 168, .+4
+        .word   144, 168, .Lxor_split_b18_r21_zero
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b18_strip
+.Lxor_split_b18_r21_zero:
+        .word   .Lxor_n1, 100, .+4
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b18_PP
+
+        .globl  __subleq_xor_b17
+        .type   __subleq_xor_b17,@function
+__subleq_xor_b17:
+        .word   160, 160, .+4
+        .word   144, 100, .Lxor_split_b17_r21_le0
+        .word   .Lxor_n1, 100, .+4
+.Lxor_split_b17_strip:
+        .word   .Lxor_pow30, 100, .Lxor_srs_b17_30
+        .word   .Lxor_pow30, 160, .+4
+        .word   12, 12, .Lxor_sra_b17_30
+.Lxor_srs_b17_30:
+        .word   .Lxor_npow30, 100, .+4
+.Lxor_sra_b17_30:
+        .word   .Lxor_pow29, 100, .Lxor_srs_b17_29
+        .word   .Lxor_pow29, 160, .+4
+        .word   12, 12, .Lxor_sra_b17_29
+.Lxor_srs_b17_29:
+        .word   .Lxor_npow29, 100, .+4
+.Lxor_sra_b17_29:
+        .word   .Lxor_pow28, 100, .Lxor_srs_b17_28
+        .word   .Lxor_pow28, 160, .+4
+        .word   12, 12, .Lxor_sra_b17_28
+.Lxor_srs_b17_28:
+        .word   .Lxor_npow28, 100, .+4
+.Lxor_sra_b17_28:
+        .word   .Lxor_pow27, 100, .Lxor_srs_b17_27
+        .word   .Lxor_pow27, 160, .+4
+        .word   12, 12, .Lxor_sra_b17_27
+.Lxor_srs_b17_27:
+        .word   .Lxor_npow27, 100, .+4
+.Lxor_sra_b17_27:
+        .word   .Lxor_pow26, 100, .Lxor_srs_b17_26
+        .word   .Lxor_pow26, 160, .+4
+        .word   12, 12, .Lxor_sra_b17_26
+.Lxor_srs_b17_26:
+        .word   .Lxor_npow26, 100, .+4
+.Lxor_sra_b17_26:
+        .word   .Lxor_pow25, 100, .Lxor_srs_b17_25
+        .word   .Lxor_pow25, 160, .+4
+        .word   12, 12, .Lxor_sra_b17_25
+.Lxor_srs_b17_25:
+        .word   .Lxor_npow25, 100, .+4
+.Lxor_sra_b17_25:
+        .word   .Lxor_pow24, 100, .Lxor_srs_b17_24
+        .word   .Lxor_pow24, 160, .+4
+        .word   12, 12, .Lxor_sra_b17_24
+.Lxor_srs_b17_24:
+        .word   .Lxor_npow24, 100, .+4
+.Lxor_sra_b17_24:
+        .word   .Lxor_pow23, 100, .Lxor_srs_b17_23
+        .word   .Lxor_pow23, 160, .+4
+        .word   12, 12, .Lxor_sra_b17_23
+.Lxor_srs_b17_23:
+        .word   .Lxor_npow23, 100, .+4
+.Lxor_sra_b17_23:
+        .word   .Lxor_pow22, 100, .Lxor_srs_b17_22
+        .word   .Lxor_pow22, 160, .+4
+        .word   12, 12, .Lxor_sra_b17_22
+.Lxor_srs_b17_22:
+        .word   .Lxor_npow22, 100, .+4
+.Lxor_sra_b17_22:
+        .word   .Lxor_pow21, 100, .Lxor_srs_b17_21
+        .word   .Lxor_pow21, 160, .+4
+        .word   12, 12, .Lxor_sra_b17_21
+.Lxor_srs_b17_21:
+        .word   .Lxor_npow21, 100, .+4
+.Lxor_sra_b17_21:
+        .word   .Lxor_pow20, 100, .Lxor_srs_b17_20
+        .word   .Lxor_pow20, 160, .+4
+        .word   12, 12, .Lxor_sra_b17_20
+.Lxor_srs_b17_20:
+        .word   .Lxor_npow20, 100, .+4
+.Lxor_sra_b17_20:
+        .word   .Lxor_pow19, 100, .Lxor_srs_b17_19
+        .word   .Lxor_pow19, 160, .+4
+        .word   12, 12, .Lxor_sra_b17_19
+.Lxor_srs_b17_19:
+        .word   .Lxor_npow19, 100, .+4
+.Lxor_sra_b17_19:
+        .word   .Lxor_pow18, 100, .Lxor_srs_b17_18
+        .word   .Lxor_pow18, 160, .+4
+        .word   12, 12, .Lxor_sra_b17_18
+.Lxor_srs_b17_18:
+        .word   .Lxor_npow18, 100, .+4
+.Lxor_sra_b17_18:
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b17_PP
+.Lxor_split_b17_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lxor_split_b17_r21_ambig
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b17_strip
+.Lxor_split_b17_r21_ambig:
+        .word   .Lxor_one, 168, .+4
+        .word   144, 168, .Lxor_split_b17_r21_zero
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b17_strip
+.Lxor_split_b17_r21_zero:
+        .word   .Lxor_n1, 100, .+4
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b17_PP
+
+        .globl  __subleq_xor_b16
+        .type   __subleq_xor_b16,@function
+__subleq_xor_b16:
+        .word   160, 160, .+4
+        .word   144, 100, .Lxor_split_b16_r21_le0
+        .word   .Lxor_n1, 100, .+4
+.Lxor_split_b16_strip:
+        .word   .Lxor_pow30, 100, .Lxor_srs_b16_30
+        .word   .Lxor_pow30, 160, .+4
+        .word   12, 12, .Lxor_sra_b16_30
+.Lxor_srs_b16_30:
+        .word   .Lxor_npow30, 100, .+4
+.Lxor_sra_b16_30:
+        .word   .Lxor_pow29, 100, .Lxor_srs_b16_29
+        .word   .Lxor_pow29, 160, .+4
+        .word   12, 12, .Lxor_sra_b16_29
+.Lxor_srs_b16_29:
+        .word   .Lxor_npow29, 100, .+4
+.Lxor_sra_b16_29:
+        .word   .Lxor_pow28, 100, .Lxor_srs_b16_28
+        .word   .Lxor_pow28, 160, .+4
+        .word   12, 12, .Lxor_sra_b16_28
+.Lxor_srs_b16_28:
+        .word   .Lxor_npow28, 100, .+4
+.Lxor_sra_b16_28:
+        .word   .Lxor_pow27, 100, .Lxor_srs_b16_27
+        .word   .Lxor_pow27, 160, .+4
+        .word   12, 12, .Lxor_sra_b16_27
+.Lxor_srs_b16_27:
+        .word   .Lxor_npow27, 100, .+4
+.Lxor_sra_b16_27:
+        .word   .Lxor_pow26, 100, .Lxor_srs_b16_26
+        .word   .Lxor_pow26, 160, .+4
+        .word   12, 12, .Lxor_sra_b16_26
+.Lxor_srs_b16_26:
+        .word   .Lxor_npow26, 100, .+4
+.Lxor_sra_b16_26:
+        .word   .Lxor_pow25, 100, .Lxor_srs_b16_25
+        .word   .Lxor_pow25, 160, .+4
+        .word   12, 12, .Lxor_sra_b16_25
+.Lxor_srs_b16_25:
+        .word   .Lxor_npow25, 100, .+4
+.Lxor_sra_b16_25:
+        .word   .Lxor_pow24, 100, .Lxor_srs_b16_24
+        .word   .Lxor_pow24, 160, .+4
+        .word   12, 12, .Lxor_sra_b16_24
+.Lxor_srs_b16_24:
+        .word   .Lxor_npow24, 100, .+4
+.Lxor_sra_b16_24:
+        .word   .Lxor_pow23, 100, .Lxor_srs_b16_23
+        .word   .Lxor_pow23, 160, .+4
+        .word   12, 12, .Lxor_sra_b16_23
+.Lxor_srs_b16_23:
+        .word   .Lxor_npow23, 100, .+4
+.Lxor_sra_b16_23:
+        .word   .Lxor_pow22, 100, .Lxor_srs_b16_22
+        .word   .Lxor_pow22, 160, .+4
+        .word   12, 12, .Lxor_sra_b16_22
+.Lxor_srs_b16_22:
+        .word   .Lxor_npow22, 100, .+4
+.Lxor_sra_b16_22:
+        .word   .Lxor_pow21, 100, .Lxor_srs_b16_21
+        .word   .Lxor_pow21, 160, .+4
+        .word   12, 12, .Lxor_sra_b16_21
+.Lxor_srs_b16_21:
+        .word   .Lxor_npow21, 100, .+4
+.Lxor_sra_b16_21:
+        .word   .Lxor_pow20, 100, .Lxor_srs_b16_20
+        .word   .Lxor_pow20, 160, .+4
+        .word   12, 12, .Lxor_sra_b16_20
+.Lxor_srs_b16_20:
+        .word   .Lxor_npow20, 100, .+4
+.Lxor_sra_b16_20:
+        .word   .Lxor_pow19, 100, .Lxor_srs_b16_19
+        .word   .Lxor_pow19, 160, .+4
+        .word   12, 12, .Lxor_sra_b16_19
+.Lxor_srs_b16_19:
+        .word   .Lxor_npow19, 100, .+4
+.Lxor_sra_b16_19:
+        .word   .Lxor_pow18, 100, .Lxor_srs_b16_18
+        .word   .Lxor_pow18, 160, .+4
+        .word   12, 12, .Lxor_sra_b16_18
+.Lxor_srs_b16_18:
+        .word   .Lxor_npow18, 100, .+4
+.Lxor_sra_b16_18:
+        .word   .Lxor_pow17, 100, .Lxor_srs_b16_17
+        .word   .Lxor_pow17, 160, .+4
+        .word   12, 12, .Lxor_sra_b16_17
+.Lxor_srs_b16_17:
+        .word   .Lxor_npow17, 100, .+4
+.Lxor_sra_b16_17:
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b16_PP
+.Lxor_split_b16_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lxor_split_b16_r21_ambig
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b16_strip
+.Lxor_split_b16_r21_ambig:
+        .word   .Lxor_one, 168, .+4
+        .word   144, 168, .Lxor_split_b16_r21_zero
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b16_strip
+.Lxor_split_b16_r21_zero:
+        .word   .Lxor_n1, 100, .+4
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b16_PP
+
+        .globl  __subleq_xor_b15
+        .type   __subleq_xor_b15,@function
+__subleq_xor_b15:
+        .word   160, 160, .+4
+        .word   144, 100, .Lxor_split_b15_r21_le0
+        .word   .Lxor_n1, 100, .+4
+.Lxor_split_b15_strip:
+        .word   .Lxor_pow30, 100, .Lxor_srs_b15_30
+        .word   .Lxor_pow30, 160, .+4
+        .word   12, 12, .Lxor_sra_b15_30
+.Lxor_srs_b15_30:
+        .word   .Lxor_npow30, 100, .+4
+.Lxor_sra_b15_30:
+        .word   .Lxor_pow29, 100, .Lxor_srs_b15_29
+        .word   .Lxor_pow29, 160, .+4
+        .word   12, 12, .Lxor_sra_b15_29
+.Lxor_srs_b15_29:
+        .word   .Lxor_npow29, 100, .+4
+.Lxor_sra_b15_29:
+        .word   .Lxor_pow28, 100, .Lxor_srs_b15_28
+        .word   .Lxor_pow28, 160, .+4
+        .word   12, 12, .Lxor_sra_b15_28
+.Lxor_srs_b15_28:
+        .word   .Lxor_npow28, 100, .+4
+.Lxor_sra_b15_28:
+        .word   .Lxor_pow27, 100, .Lxor_srs_b15_27
+        .word   .Lxor_pow27, 160, .+4
+        .word   12, 12, .Lxor_sra_b15_27
+.Lxor_srs_b15_27:
+        .word   .Lxor_npow27, 100, .+4
+.Lxor_sra_b15_27:
+        .word   .Lxor_pow26, 100, .Lxor_srs_b15_26
+        .word   .Lxor_pow26, 160, .+4
+        .word   12, 12, .Lxor_sra_b15_26
+.Lxor_srs_b15_26:
+        .word   .Lxor_npow26, 100, .+4
+.Lxor_sra_b15_26:
+        .word   .Lxor_pow25, 100, .Lxor_srs_b15_25
+        .word   .Lxor_pow25, 160, .+4
+        .word   12, 12, .Lxor_sra_b15_25
+.Lxor_srs_b15_25:
+        .word   .Lxor_npow25, 100, .+4
+.Lxor_sra_b15_25:
+        .word   .Lxor_pow24, 100, .Lxor_srs_b15_24
+        .word   .Lxor_pow24, 160, .+4
+        .word   12, 12, .Lxor_sra_b15_24
+.Lxor_srs_b15_24:
+        .word   .Lxor_npow24, 100, .+4
+.Lxor_sra_b15_24:
+        .word   .Lxor_pow23, 100, .Lxor_srs_b15_23
+        .word   .Lxor_pow23, 160, .+4
+        .word   12, 12, .Lxor_sra_b15_23
+.Lxor_srs_b15_23:
+        .word   .Lxor_npow23, 100, .+4
+.Lxor_sra_b15_23:
+        .word   .Lxor_pow22, 100, .Lxor_srs_b15_22
+        .word   .Lxor_pow22, 160, .+4
+        .word   12, 12, .Lxor_sra_b15_22
+.Lxor_srs_b15_22:
+        .word   .Lxor_npow22, 100, .+4
+.Lxor_sra_b15_22:
+        .word   .Lxor_pow21, 100, .Lxor_srs_b15_21
+        .word   .Lxor_pow21, 160, .+4
+        .word   12, 12, .Lxor_sra_b15_21
+.Lxor_srs_b15_21:
+        .word   .Lxor_npow21, 100, .+4
+.Lxor_sra_b15_21:
+        .word   .Lxor_pow20, 100, .Lxor_srs_b15_20
+        .word   .Lxor_pow20, 160, .+4
+        .word   12, 12, .Lxor_sra_b15_20
+.Lxor_srs_b15_20:
+        .word   .Lxor_npow20, 100, .+4
+.Lxor_sra_b15_20:
+        .word   .Lxor_pow19, 100, .Lxor_srs_b15_19
+        .word   .Lxor_pow19, 160, .+4
+        .word   12, 12, .Lxor_sra_b15_19
+.Lxor_srs_b15_19:
+        .word   .Lxor_npow19, 100, .+4
+.Lxor_sra_b15_19:
+        .word   .Lxor_pow18, 100, .Lxor_srs_b15_18
+        .word   .Lxor_pow18, 160, .+4
+        .word   12, 12, .Lxor_sra_b15_18
+.Lxor_srs_b15_18:
+        .word   .Lxor_npow18, 100, .+4
+.Lxor_sra_b15_18:
+        .word   .Lxor_pow17, 100, .Lxor_srs_b15_17
+        .word   .Lxor_pow17, 160, .+4
+        .word   12, 12, .Lxor_sra_b15_17
+.Lxor_srs_b15_17:
+        .word   .Lxor_npow17, 100, .+4
+.Lxor_sra_b15_17:
+        .word   .Lxor_pow16, 100, .Lxor_srs_b15_16
+        .word   .Lxor_pow16, 160, .+4
+        .word   12, 12, .Lxor_sra_b15_16
+.Lxor_srs_b15_16:
+        .word   .Lxor_npow16, 100, .+4
+.Lxor_sra_b15_16:
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b15_PP
+.Lxor_split_b15_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lxor_split_b15_r21_ambig
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b15_strip
+.Lxor_split_b15_r21_ambig:
+        .word   .Lxor_one, 168, .+4
+        .word   144, 168, .Lxor_split_b15_r21_zero
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b15_strip
+.Lxor_split_b15_r21_zero:
+        .word   .Lxor_n1, 100, .+4
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b15_PP
+
+        .globl  __subleq_xor_b14
+        .type   __subleq_xor_b14,@function
+__subleq_xor_b14:
+        .word   160, 160, .+4
+        .word   144, 100, .Lxor_split_b14_r21_le0
+        .word   .Lxor_n1, 100, .+4
+.Lxor_split_b14_strip:
+        .word   .Lxor_pow30, 100, .Lxor_srs_b14_30
+        .word   .Lxor_pow30, 160, .+4
+        .word   12, 12, .Lxor_sra_b14_30
+.Lxor_srs_b14_30:
+        .word   .Lxor_npow30, 100, .+4
+.Lxor_sra_b14_30:
+        .word   .Lxor_pow29, 100, .Lxor_srs_b14_29
+        .word   .Lxor_pow29, 160, .+4
+        .word   12, 12, .Lxor_sra_b14_29
+.Lxor_srs_b14_29:
+        .word   .Lxor_npow29, 100, .+4
+.Lxor_sra_b14_29:
+        .word   .Lxor_pow28, 100, .Lxor_srs_b14_28
+        .word   .Lxor_pow28, 160, .+4
+        .word   12, 12, .Lxor_sra_b14_28
+.Lxor_srs_b14_28:
+        .word   .Lxor_npow28, 100, .+4
+.Lxor_sra_b14_28:
+        .word   .Lxor_pow27, 100, .Lxor_srs_b14_27
+        .word   .Lxor_pow27, 160, .+4
+        .word   12, 12, .Lxor_sra_b14_27
+.Lxor_srs_b14_27:
+        .word   .Lxor_npow27, 100, .+4
+.Lxor_sra_b14_27:
+        .word   .Lxor_pow26, 100, .Lxor_srs_b14_26
+        .word   .Lxor_pow26, 160, .+4
+        .word   12, 12, .Lxor_sra_b14_26
+.Lxor_srs_b14_26:
+        .word   .Lxor_npow26, 100, .+4
+.Lxor_sra_b14_26:
+        .word   .Lxor_pow25, 100, .Lxor_srs_b14_25
+        .word   .Lxor_pow25, 160, .+4
+        .word   12, 12, .Lxor_sra_b14_25
+.Lxor_srs_b14_25:
+        .word   .Lxor_npow25, 100, .+4
+.Lxor_sra_b14_25:
+        .word   .Lxor_pow24, 100, .Lxor_srs_b14_24
+        .word   .Lxor_pow24, 160, .+4
+        .word   12, 12, .Lxor_sra_b14_24
+.Lxor_srs_b14_24:
+        .word   .Lxor_npow24, 100, .+4
+.Lxor_sra_b14_24:
+        .word   .Lxor_pow23, 100, .Lxor_srs_b14_23
+        .word   .Lxor_pow23, 160, .+4
+        .word   12, 12, .Lxor_sra_b14_23
+.Lxor_srs_b14_23:
+        .word   .Lxor_npow23, 100, .+4
+.Lxor_sra_b14_23:
+        .word   .Lxor_pow22, 100, .Lxor_srs_b14_22
+        .word   .Lxor_pow22, 160, .+4
+        .word   12, 12, .Lxor_sra_b14_22
+.Lxor_srs_b14_22:
+        .word   .Lxor_npow22, 100, .+4
+.Lxor_sra_b14_22:
+        .word   .Lxor_pow21, 100, .Lxor_srs_b14_21
+        .word   .Lxor_pow21, 160, .+4
+        .word   12, 12, .Lxor_sra_b14_21
+.Lxor_srs_b14_21:
+        .word   .Lxor_npow21, 100, .+4
+.Lxor_sra_b14_21:
+        .word   .Lxor_pow20, 100, .Lxor_srs_b14_20
+        .word   .Lxor_pow20, 160, .+4
+        .word   12, 12, .Lxor_sra_b14_20
+.Lxor_srs_b14_20:
+        .word   .Lxor_npow20, 100, .+4
+.Lxor_sra_b14_20:
+        .word   .Lxor_pow19, 100, .Lxor_srs_b14_19
+        .word   .Lxor_pow19, 160, .+4
+        .word   12, 12, .Lxor_sra_b14_19
+.Lxor_srs_b14_19:
+        .word   .Lxor_npow19, 100, .+4
+.Lxor_sra_b14_19:
+        .word   .Lxor_pow18, 100, .Lxor_srs_b14_18
+        .word   .Lxor_pow18, 160, .+4
+        .word   12, 12, .Lxor_sra_b14_18
+.Lxor_srs_b14_18:
+        .word   .Lxor_npow18, 100, .+4
+.Lxor_sra_b14_18:
+        .word   .Lxor_pow17, 100, .Lxor_srs_b14_17
+        .word   .Lxor_pow17, 160, .+4
+        .word   12, 12, .Lxor_sra_b14_17
+.Lxor_srs_b14_17:
+        .word   .Lxor_npow17, 100, .+4
+.Lxor_sra_b14_17:
+        .word   .Lxor_pow16, 100, .Lxor_srs_b14_16
+        .word   .Lxor_pow16, 160, .+4
+        .word   12, 12, .Lxor_sra_b14_16
+.Lxor_srs_b14_16:
+        .word   .Lxor_npow16, 100, .+4
+.Lxor_sra_b14_16:
+        .word   .Lxor_pow15, 100, .Lxor_srs_b14_15
+        .word   .Lxor_pow15, 160, .+4
+        .word   12, 12, .Lxor_sra_b14_15
+.Lxor_srs_b14_15:
+        .word   .Lxor_npow15, 100, .+4
+.Lxor_sra_b14_15:
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b14_PP
+.Lxor_split_b14_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lxor_split_b14_r21_ambig
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b14_strip
+.Lxor_split_b14_r21_ambig:
+        .word   .Lxor_one, 168, .+4
+        .word   144, 168, .Lxor_split_b14_r21_zero
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b14_strip
+.Lxor_split_b14_r21_zero:
+        .word   .Lxor_n1, 100, .+4
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b14_PP
+
+        .globl  __subleq_xor_b13
+        .type   __subleq_xor_b13,@function
+__subleq_xor_b13:
+        .word   160, 160, .+4
+        .word   144, 100, .Lxor_split_b13_r21_le0
+        .word   .Lxor_n1, 100, .+4
+.Lxor_split_b13_strip:
+        .word   .Lxor_pow30, 100, .Lxor_srs_b13_30
+        .word   .Lxor_pow30, 160, .+4
+        .word   12, 12, .Lxor_sra_b13_30
+.Lxor_srs_b13_30:
+        .word   .Lxor_npow30, 100, .+4
+.Lxor_sra_b13_30:
+        .word   .Lxor_pow29, 100, .Lxor_srs_b13_29
+        .word   .Lxor_pow29, 160, .+4
+        .word   12, 12, .Lxor_sra_b13_29
+.Lxor_srs_b13_29:
+        .word   .Lxor_npow29, 100, .+4
+.Lxor_sra_b13_29:
+        .word   .Lxor_pow28, 100, .Lxor_srs_b13_28
+        .word   .Lxor_pow28, 160, .+4
+        .word   12, 12, .Lxor_sra_b13_28
+.Lxor_srs_b13_28:
+        .word   .Lxor_npow28, 100, .+4
+.Lxor_sra_b13_28:
+        .word   .Lxor_pow27, 100, .Lxor_srs_b13_27
+        .word   .Lxor_pow27, 160, .+4
+        .word   12, 12, .Lxor_sra_b13_27
+.Lxor_srs_b13_27:
+        .word   .Lxor_npow27, 100, .+4
+.Lxor_sra_b13_27:
+        .word   .Lxor_pow26, 100, .Lxor_srs_b13_26
+        .word   .Lxor_pow26, 160, .+4
+        .word   12, 12, .Lxor_sra_b13_26
+.Lxor_srs_b13_26:
+        .word   .Lxor_npow26, 100, .+4
+.Lxor_sra_b13_26:
+        .word   .Lxor_pow25, 100, .Lxor_srs_b13_25
+        .word   .Lxor_pow25, 160, .+4
+        .word   12, 12, .Lxor_sra_b13_25
+.Lxor_srs_b13_25:
+        .word   .Lxor_npow25, 100, .+4
+.Lxor_sra_b13_25:
+        .word   .Lxor_pow24, 100, .Lxor_srs_b13_24
+        .word   .Lxor_pow24, 160, .+4
+        .word   12, 12, .Lxor_sra_b13_24
+.Lxor_srs_b13_24:
+        .word   .Lxor_npow24, 100, .+4
+.Lxor_sra_b13_24:
+        .word   .Lxor_pow23, 100, .Lxor_srs_b13_23
+        .word   .Lxor_pow23, 160, .+4
+        .word   12, 12, .Lxor_sra_b13_23
+.Lxor_srs_b13_23:
+        .word   .Lxor_npow23, 100, .+4
+.Lxor_sra_b13_23:
+        .word   .Lxor_pow22, 100, .Lxor_srs_b13_22
+        .word   .Lxor_pow22, 160, .+4
+        .word   12, 12, .Lxor_sra_b13_22
+.Lxor_srs_b13_22:
+        .word   .Lxor_npow22, 100, .+4
+.Lxor_sra_b13_22:
+        .word   .Lxor_pow21, 100, .Lxor_srs_b13_21
+        .word   .Lxor_pow21, 160, .+4
+        .word   12, 12, .Lxor_sra_b13_21
+.Lxor_srs_b13_21:
+        .word   .Lxor_npow21, 100, .+4
+.Lxor_sra_b13_21:
+        .word   .Lxor_pow20, 100, .Lxor_srs_b13_20
+        .word   .Lxor_pow20, 160, .+4
+        .word   12, 12, .Lxor_sra_b13_20
+.Lxor_srs_b13_20:
+        .word   .Lxor_npow20, 100, .+4
+.Lxor_sra_b13_20:
+        .word   .Lxor_pow19, 100, .Lxor_srs_b13_19
+        .word   .Lxor_pow19, 160, .+4
+        .word   12, 12, .Lxor_sra_b13_19
+.Lxor_srs_b13_19:
+        .word   .Lxor_npow19, 100, .+4
+.Lxor_sra_b13_19:
+        .word   .Lxor_pow18, 100, .Lxor_srs_b13_18
+        .word   .Lxor_pow18, 160, .+4
+        .word   12, 12, .Lxor_sra_b13_18
+.Lxor_srs_b13_18:
+        .word   .Lxor_npow18, 100, .+4
+.Lxor_sra_b13_18:
+        .word   .Lxor_pow17, 100, .Lxor_srs_b13_17
+        .word   .Lxor_pow17, 160, .+4
+        .word   12, 12, .Lxor_sra_b13_17
+.Lxor_srs_b13_17:
+        .word   .Lxor_npow17, 100, .+4
+.Lxor_sra_b13_17:
+        .word   .Lxor_pow16, 100, .Lxor_srs_b13_16
+        .word   .Lxor_pow16, 160, .+4
+        .word   12, 12, .Lxor_sra_b13_16
+.Lxor_srs_b13_16:
+        .word   .Lxor_npow16, 100, .+4
+.Lxor_sra_b13_16:
+        .word   .Lxor_pow15, 100, .Lxor_srs_b13_15
+        .word   .Lxor_pow15, 160, .+4
+        .word   12, 12, .Lxor_sra_b13_15
+.Lxor_srs_b13_15:
+        .word   .Lxor_npow15, 100, .+4
+.Lxor_sra_b13_15:
+        .word   .Lxor_pow14, 100, .Lxor_srs_b13_14
+        .word   .Lxor_pow14, 160, .+4
+        .word   12, 12, .Lxor_sra_b13_14
+.Lxor_srs_b13_14:
+        .word   .Lxor_npow14, 100, .+4
+.Lxor_sra_b13_14:
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b13_PP
+.Lxor_split_b13_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lxor_split_b13_r21_ambig
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b13_strip
+.Lxor_split_b13_r21_ambig:
+        .word   .Lxor_one, 168, .+4
+        .word   144, 168, .Lxor_split_b13_r21_zero
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b13_strip
+.Lxor_split_b13_r21_zero:
+        .word   .Lxor_n1, 100, .+4
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b13_PP
+
+        .globl  __subleq_xor_b12
+        .type   __subleq_xor_b12,@function
+__subleq_xor_b12:
+        .word   160, 160, .+4
+        .word   144, 100, .Lxor_split_b12_r21_le0
+        .word   .Lxor_n1, 100, .+4
+.Lxor_split_b12_strip:
+        .word   .Lxor_pow30, 100, .Lxor_srs_b12_30
+        .word   .Lxor_pow30, 160, .+4
+        .word   12, 12, .Lxor_sra_b12_30
+.Lxor_srs_b12_30:
+        .word   .Lxor_npow30, 100, .+4
+.Lxor_sra_b12_30:
+        .word   .Lxor_pow29, 100, .Lxor_srs_b12_29
+        .word   .Lxor_pow29, 160, .+4
+        .word   12, 12, .Lxor_sra_b12_29
+.Lxor_srs_b12_29:
+        .word   .Lxor_npow29, 100, .+4
+.Lxor_sra_b12_29:
+        .word   .Lxor_pow28, 100, .Lxor_srs_b12_28
+        .word   .Lxor_pow28, 160, .+4
+        .word   12, 12, .Lxor_sra_b12_28
+.Lxor_srs_b12_28:
+        .word   .Lxor_npow28, 100, .+4
+.Lxor_sra_b12_28:
+        .word   .Lxor_pow27, 100, .Lxor_srs_b12_27
+        .word   .Lxor_pow27, 160, .+4
+        .word   12, 12, .Lxor_sra_b12_27
+.Lxor_srs_b12_27:
+        .word   .Lxor_npow27, 100, .+4
+.Lxor_sra_b12_27:
+        .word   .Lxor_pow26, 100, .Lxor_srs_b12_26
+        .word   .Lxor_pow26, 160, .+4
+        .word   12, 12, .Lxor_sra_b12_26
+.Lxor_srs_b12_26:
+        .word   .Lxor_npow26, 100, .+4
+.Lxor_sra_b12_26:
+        .word   .Lxor_pow25, 100, .Lxor_srs_b12_25
+        .word   .Lxor_pow25, 160, .+4
+        .word   12, 12, .Lxor_sra_b12_25
+.Lxor_srs_b12_25:
+        .word   .Lxor_npow25, 100, .+4
+.Lxor_sra_b12_25:
+        .word   .Lxor_pow24, 100, .Lxor_srs_b12_24
+        .word   .Lxor_pow24, 160, .+4
+        .word   12, 12, .Lxor_sra_b12_24
+.Lxor_srs_b12_24:
+        .word   .Lxor_npow24, 100, .+4
+.Lxor_sra_b12_24:
+        .word   .Lxor_pow23, 100, .Lxor_srs_b12_23
+        .word   .Lxor_pow23, 160, .+4
+        .word   12, 12, .Lxor_sra_b12_23
+.Lxor_srs_b12_23:
+        .word   .Lxor_npow23, 100, .+4
+.Lxor_sra_b12_23:
+        .word   .Lxor_pow22, 100, .Lxor_srs_b12_22
+        .word   .Lxor_pow22, 160, .+4
+        .word   12, 12, .Lxor_sra_b12_22
+.Lxor_srs_b12_22:
+        .word   .Lxor_npow22, 100, .+4
+.Lxor_sra_b12_22:
+        .word   .Lxor_pow21, 100, .Lxor_srs_b12_21
+        .word   .Lxor_pow21, 160, .+4
+        .word   12, 12, .Lxor_sra_b12_21
+.Lxor_srs_b12_21:
+        .word   .Lxor_npow21, 100, .+4
+.Lxor_sra_b12_21:
+        .word   .Lxor_pow20, 100, .Lxor_srs_b12_20
+        .word   .Lxor_pow20, 160, .+4
+        .word   12, 12, .Lxor_sra_b12_20
+.Lxor_srs_b12_20:
+        .word   .Lxor_npow20, 100, .+4
+.Lxor_sra_b12_20:
+        .word   .Lxor_pow19, 100, .Lxor_srs_b12_19
+        .word   .Lxor_pow19, 160, .+4
+        .word   12, 12, .Lxor_sra_b12_19
+.Lxor_srs_b12_19:
+        .word   .Lxor_npow19, 100, .+4
+.Lxor_sra_b12_19:
+        .word   .Lxor_pow18, 100, .Lxor_srs_b12_18
+        .word   .Lxor_pow18, 160, .+4
+        .word   12, 12, .Lxor_sra_b12_18
+.Lxor_srs_b12_18:
+        .word   .Lxor_npow18, 100, .+4
+.Lxor_sra_b12_18:
+        .word   .Lxor_pow17, 100, .Lxor_srs_b12_17
+        .word   .Lxor_pow17, 160, .+4
+        .word   12, 12, .Lxor_sra_b12_17
+.Lxor_srs_b12_17:
+        .word   .Lxor_npow17, 100, .+4
+.Lxor_sra_b12_17:
+        .word   .Lxor_pow16, 100, .Lxor_srs_b12_16
+        .word   .Lxor_pow16, 160, .+4
+        .word   12, 12, .Lxor_sra_b12_16
+.Lxor_srs_b12_16:
+        .word   .Lxor_npow16, 100, .+4
+.Lxor_sra_b12_16:
+        .word   .Lxor_pow15, 100, .Lxor_srs_b12_15
+        .word   .Lxor_pow15, 160, .+4
+        .word   12, 12, .Lxor_sra_b12_15
+.Lxor_srs_b12_15:
+        .word   .Lxor_npow15, 100, .+4
+.Lxor_sra_b12_15:
+        .word   .Lxor_pow14, 100, .Lxor_srs_b12_14
+        .word   .Lxor_pow14, 160, .+4
+        .word   12, 12, .Lxor_sra_b12_14
+.Lxor_srs_b12_14:
+        .word   .Lxor_npow14, 100, .+4
+.Lxor_sra_b12_14:
+        .word   .Lxor_pow13, 100, .Lxor_srs_b12_13
+        .word   .Lxor_pow13, 160, .+4
+        .word   12, 12, .Lxor_sra_b12_13
+.Lxor_srs_b12_13:
+        .word   .Lxor_npow13, 100, .+4
+.Lxor_sra_b12_13:
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b12_PP
+.Lxor_split_b12_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lxor_split_b12_r21_ambig
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b12_strip
+.Lxor_split_b12_r21_ambig:
+        .word   .Lxor_one, 168, .+4
+        .word   144, 168, .Lxor_split_b12_r21_zero
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b12_strip
+.Lxor_split_b12_r21_zero:
+        .word   .Lxor_n1, 100, .+4
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b12_PP
+
+        .globl  __subleq_xor_b11
+        .type   __subleq_xor_b11,@function
+__subleq_xor_b11:
+        .word   160, 160, .+4
+        .word   144, 100, .Lxor_split_b11_r21_le0
+        .word   .Lxor_n1, 100, .+4
+.Lxor_split_b11_strip:
+        .word   .Lxor_pow30, 100, .Lxor_srs_b11_30
+        .word   .Lxor_pow30, 160, .+4
+        .word   12, 12, .Lxor_sra_b11_30
+.Lxor_srs_b11_30:
+        .word   .Lxor_npow30, 100, .+4
+.Lxor_sra_b11_30:
+        .word   .Lxor_pow29, 100, .Lxor_srs_b11_29
+        .word   .Lxor_pow29, 160, .+4
+        .word   12, 12, .Lxor_sra_b11_29
+.Lxor_srs_b11_29:
+        .word   .Lxor_npow29, 100, .+4
+.Lxor_sra_b11_29:
+        .word   .Lxor_pow28, 100, .Lxor_srs_b11_28
+        .word   .Lxor_pow28, 160, .+4
+        .word   12, 12, .Lxor_sra_b11_28
+.Lxor_srs_b11_28:
+        .word   .Lxor_npow28, 100, .+4
+.Lxor_sra_b11_28:
+        .word   .Lxor_pow27, 100, .Lxor_srs_b11_27
+        .word   .Lxor_pow27, 160, .+4
+        .word   12, 12, .Lxor_sra_b11_27
+.Lxor_srs_b11_27:
+        .word   .Lxor_npow27, 100, .+4
+.Lxor_sra_b11_27:
+        .word   .Lxor_pow26, 100, .Lxor_srs_b11_26
+        .word   .Lxor_pow26, 160, .+4
+        .word   12, 12, .Lxor_sra_b11_26
+.Lxor_srs_b11_26:
+        .word   .Lxor_npow26, 100, .+4
+.Lxor_sra_b11_26:
+        .word   .Lxor_pow25, 100, .Lxor_srs_b11_25
+        .word   .Lxor_pow25, 160, .+4
+        .word   12, 12, .Lxor_sra_b11_25
+.Lxor_srs_b11_25:
+        .word   .Lxor_npow25, 100, .+4
+.Lxor_sra_b11_25:
+        .word   .Lxor_pow24, 100, .Lxor_srs_b11_24
+        .word   .Lxor_pow24, 160, .+4
+        .word   12, 12, .Lxor_sra_b11_24
+.Lxor_srs_b11_24:
+        .word   .Lxor_npow24, 100, .+4
+.Lxor_sra_b11_24:
+        .word   .Lxor_pow23, 100, .Lxor_srs_b11_23
+        .word   .Lxor_pow23, 160, .+4
+        .word   12, 12, .Lxor_sra_b11_23
+.Lxor_srs_b11_23:
+        .word   .Lxor_npow23, 100, .+4
+.Lxor_sra_b11_23:
+        .word   .Lxor_pow22, 100, .Lxor_srs_b11_22
+        .word   .Lxor_pow22, 160, .+4
+        .word   12, 12, .Lxor_sra_b11_22
+.Lxor_srs_b11_22:
+        .word   .Lxor_npow22, 100, .+4
+.Lxor_sra_b11_22:
+        .word   .Lxor_pow21, 100, .Lxor_srs_b11_21
+        .word   .Lxor_pow21, 160, .+4
+        .word   12, 12, .Lxor_sra_b11_21
+.Lxor_srs_b11_21:
+        .word   .Lxor_npow21, 100, .+4
+.Lxor_sra_b11_21:
+        .word   .Lxor_pow20, 100, .Lxor_srs_b11_20
+        .word   .Lxor_pow20, 160, .+4
+        .word   12, 12, .Lxor_sra_b11_20
+.Lxor_srs_b11_20:
+        .word   .Lxor_npow20, 100, .+4
+.Lxor_sra_b11_20:
+        .word   .Lxor_pow19, 100, .Lxor_srs_b11_19
+        .word   .Lxor_pow19, 160, .+4
+        .word   12, 12, .Lxor_sra_b11_19
+.Lxor_srs_b11_19:
+        .word   .Lxor_npow19, 100, .+4
+.Lxor_sra_b11_19:
+        .word   .Lxor_pow18, 100, .Lxor_srs_b11_18
+        .word   .Lxor_pow18, 160, .+4
+        .word   12, 12, .Lxor_sra_b11_18
+.Lxor_srs_b11_18:
+        .word   .Lxor_npow18, 100, .+4
+.Lxor_sra_b11_18:
+        .word   .Lxor_pow17, 100, .Lxor_srs_b11_17
+        .word   .Lxor_pow17, 160, .+4
+        .word   12, 12, .Lxor_sra_b11_17
+.Lxor_srs_b11_17:
+        .word   .Lxor_npow17, 100, .+4
+.Lxor_sra_b11_17:
+        .word   .Lxor_pow16, 100, .Lxor_srs_b11_16
+        .word   .Lxor_pow16, 160, .+4
+        .word   12, 12, .Lxor_sra_b11_16
+.Lxor_srs_b11_16:
+        .word   .Lxor_npow16, 100, .+4
+.Lxor_sra_b11_16:
+        .word   .Lxor_pow15, 100, .Lxor_srs_b11_15
+        .word   .Lxor_pow15, 160, .+4
+        .word   12, 12, .Lxor_sra_b11_15
+.Lxor_srs_b11_15:
+        .word   .Lxor_npow15, 100, .+4
+.Lxor_sra_b11_15:
+        .word   .Lxor_pow14, 100, .Lxor_srs_b11_14
+        .word   .Lxor_pow14, 160, .+4
+        .word   12, 12, .Lxor_sra_b11_14
+.Lxor_srs_b11_14:
+        .word   .Lxor_npow14, 100, .+4
+.Lxor_sra_b11_14:
+        .word   .Lxor_pow13, 100, .Lxor_srs_b11_13
+        .word   .Lxor_pow13, 160, .+4
+        .word   12, 12, .Lxor_sra_b11_13
+.Lxor_srs_b11_13:
+        .word   .Lxor_npow13, 100, .+4
+.Lxor_sra_b11_13:
+        .word   .Lxor_pow12, 100, .Lxor_srs_b11_12
+        .word   .Lxor_pow12, 160, .+4
+        .word   12, 12, .Lxor_sra_b11_12
+.Lxor_srs_b11_12:
+        .word   .Lxor_npow12, 100, .+4
+.Lxor_sra_b11_12:
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b11_PP
+.Lxor_split_b11_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lxor_split_b11_r21_ambig
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b11_strip
+.Lxor_split_b11_r21_ambig:
+        .word   .Lxor_one, 168, .+4
+        .word   144, 168, .Lxor_split_b11_r21_zero
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b11_strip
+.Lxor_split_b11_r21_zero:
+        .word   .Lxor_n1, 100, .+4
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b11_PP
+
+        .globl  __subleq_xor_b10
+        .type   __subleq_xor_b10,@function
+__subleq_xor_b10:
+        .word   160, 160, .+4
+        .word   144, 100, .Lxor_split_b10_r21_le0
+        .word   .Lxor_n1, 100, .+4
+.Lxor_split_b10_strip:
+        .word   .Lxor_pow30, 100, .Lxor_srs_b10_30
+        .word   .Lxor_pow30, 160, .+4
+        .word   12, 12, .Lxor_sra_b10_30
+.Lxor_srs_b10_30:
+        .word   .Lxor_npow30, 100, .+4
+.Lxor_sra_b10_30:
+        .word   .Lxor_pow29, 100, .Lxor_srs_b10_29
+        .word   .Lxor_pow29, 160, .+4
+        .word   12, 12, .Lxor_sra_b10_29
+.Lxor_srs_b10_29:
+        .word   .Lxor_npow29, 100, .+4
+.Lxor_sra_b10_29:
+        .word   .Lxor_pow28, 100, .Lxor_srs_b10_28
+        .word   .Lxor_pow28, 160, .+4
+        .word   12, 12, .Lxor_sra_b10_28
+.Lxor_srs_b10_28:
+        .word   .Lxor_npow28, 100, .+4
+.Lxor_sra_b10_28:
+        .word   .Lxor_pow27, 100, .Lxor_srs_b10_27
+        .word   .Lxor_pow27, 160, .+4
+        .word   12, 12, .Lxor_sra_b10_27
+.Lxor_srs_b10_27:
+        .word   .Lxor_npow27, 100, .+4
+.Lxor_sra_b10_27:
+        .word   .Lxor_pow26, 100, .Lxor_srs_b10_26
+        .word   .Lxor_pow26, 160, .+4
+        .word   12, 12, .Lxor_sra_b10_26
+.Lxor_srs_b10_26:
+        .word   .Lxor_npow26, 100, .+4
+.Lxor_sra_b10_26:
+        .word   .Lxor_pow25, 100, .Lxor_srs_b10_25
+        .word   .Lxor_pow25, 160, .+4
+        .word   12, 12, .Lxor_sra_b10_25
+.Lxor_srs_b10_25:
+        .word   .Lxor_npow25, 100, .+4
+.Lxor_sra_b10_25:
+        .word   .Lxor_pow24, 100, .Lxor_srs_b10_24
+        .word   .Lxor_pow24, 160, .+4
+        .word   12, 12, .Lxor_sra_b10_24
+.Lxor_srs_b10_24:
+        .word   .Lxor_npow24, 100, .+4
+.Lxor_sra_b10_24:
+        .word   .Lxor_pow23, 100, .Lxor_srs_b10_23
+        .word   .Lxor_pow23, 160, .+4
+        .word   12, 12, .Lxor_sra_b10_23
+.Lxor_srs_b10_23:
+        .word   .Lxor_npow23, 100, .+4
+.Lxor_sra_b10_23:
+        .word   .Lxor_pow22, 100, .Lxor_srs_b10_22
+        .word   .Lxor_pow22, 160, .+4
+        .word   12, 12, .Lxor_sra_b10_22
+.Lxor_srs_b10_22:
+        .word   .Lxor_npow22, 100, .+4
+.Lxor_sra_b10_22:
+        .word   .Lxor_pow21, 100, .Lxor_srs_b10_21
+        .word   .Lxor_pow21, 160, .+4
+        .word   12, 12, .Lxor_sra_b10_21
+.Lxor_srs_b10_21:
+        .word   .Lxor_npow21, 100, .+4
+.Lxor_sra_b10_21:
+        .word   .Lxor_pow20, 100, .Lxor_srs_b10_20
+        .word   .Lxor_pow20, 160, .+4
+        .word   12, 12, .Lxor_sra_b10_20
+.Lxor_srs_b10_20:
+        .word   .Lxor_npow20, 100, .+4
+.Lxor_sra_b10_20:
+        .word   .Lxor_pow19, 100, .Lxor_srs_b10_19
+        .word   .Lxor_pow19, 160, .+4
+        .word   12, 12, .Lxor_sra_b10_19
+.Lxor_srs_b10_19:
+        .word   .Lxor_npow19, 100, .+4
+.Lxor_sra_b10_19:
+        .word   .Lxor_pow18, 100, .Lxor_srs_b10_18
+        .word   .Lxor_pow18, 160, .+4
+        .word   12, 12, .Lxor_sra_b10_18
+.Lxor_srs_b10_18:
+        .word   .Lxor_npow18, 100, .+4
+.Lxor_sra_b10_18:
+        .word   .Lxor_pow17, 100, .Lxor_srs_b10_17
+        .word   .Lxor_pow17, 160, .+4
+        .word   12, 12, .Lxor_sra_b10_17
+.Lxor_srs_b10_17:
+        .word   .Lxor_npow17, 100, .+4
+.Lxor_sra_b10_17:
+        .word   .Lxor_pow16, 100, .Lxor_srs_b10_16
+        .word   .Lxor_pow16, 160, .+4
+        .word   12, 12, .Lxor_sra_b10_16
+.Lxor_srs_b10_16:
+        .word   .Lxor_npow16, 100, .+4
+.Lxor_sra_b10_16:
+        .word   .Lxor_pow15, 100, .Lxor_srs_b10_15
+        .word   .Lxor_pow15, 160, .+4
+        .word   12, 12, .Lxor_sra_b10_15
+.Lxor_srs_b10_15:
+        .word   .Lxor_npow15, 100, .+4
+.Lxor_sra_b10_15:
+        .word   .Lxor_pow14, 100, .Lxor_srs_b10_14
+        .word   .Lxor_pow14, 160, .+4
+        .word   12, 12, .Lxor_sra_b10_14
+.Lxor_srs_b10_14:
+        .word   .Lxor_npow14, 100, .+4
+.Lxor_sra_b10_14:
+        .word   .Lxor_pow13, 100, .Lxor_srs_b10_13
+        .word   .Lxor_pow13, 160, .+4
+        .word   12, 12, .Lxor_sra_b10_13
+.Lxor_srs_b10_13:
+        .word   .Lxor_npow13, 100, .+4
+.Lxor_sra_b10_13:
+        .word   .Lxor_pow12, 100, .Lxor_srs_b10_12
+        .word   .Lxor_pow12, 160, .+4
+        .word   12, 12, .Lxor_sra_b10_12
+.Lxor_srs_b10_12:
+        .word   .Lxor_npow12, 100, .+4
+.Lxor_sra_b10_12:
+        .word   .Lxor_pow11, 100, .Lxor_srs_b10_11
+        .word   .Lxor_pow11, 160, .+4
+        .word   12, 12, .Lxor_sra_b10_11
+.Lxor_srs_b10_11:
+        .word   .Lxor_npow11, 100, .+4
+.Lxor_sra_b10_11:
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b10_PP
+.Lxor_split_b10_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lxor_split_b10_r21_ambig
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b10_strip
+.Lxor_split_b10_r21_ambig:
+        .word   .Lxor_one, 168, .+4
+        .word   144, 168, .Lxor_split_b10_r21_zero
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b10_strip
+.Lxor_split_b10_r21_zero:
+        .word   .Lxor_n1, 100, .+4
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b10_PP
+
+        .globl  __subleq_xor_b9
+        .type   __subleq_xor_b9,@function
+__subleq_xor_b9:
+        .word   160, 160, .+4
+        .word   144, 100, .Lxor_split_b9_r21_le0
+        .word   .Lxor_n1, 100, .+4
+.Lxor_split_b9_strip:
+        .word   .Lxor_pow30, 100, .Lxor_srs_b9_30
+        .word   .Lxor_pow30, 160, .+4
+        .word   12, 12, .Lxor_sra_b9_30
+.Lxor_srs_b9_30:
+        .word   .Lxor_npow30, 100, .+4
+.Lxor_sra_b9_30:
+        .word   .Lxor_pow29, 100, .Lxor_srs_b9_29
+        .word   .Lxor_pow29, 160, .+4
+        .word   12, 12, .Lxor_sra_b9_29
+.Lxor_srs_b9_29:
+        .word   .Lxor_npow29, 100, .+4
+.Lxor_sra_b9_29:
+        .word   .Lxor_pow28, 100, .Lxor_srs_b9_28
+        .word   .Lxor_pow28, 160, .+4
+        .word   12, 12, .Lxor_sra_b9_28
+.Lxor_srs_b9_28:
+        .word   .Lxor_npow28, 100, .+4
+.Lxor_sra_b9_28:
+        .word   .Lxor_pow27, 100, .Lxor_srs_b9_27
+        .word   .Lxor_pow27, 160, .+4
+        .word   12, 12, .Lxor_sra_b9_27
+.Lxor_srs_b9_27:
+        .word   .Lxor_npow27, 100, .+4
+.Lxor_sra_b9_27:
+        .word   .Lxor_pow26, 100, .Lxor_srs_b9_26
+        .word   .Lxor_pow26, 160, .+4
+        .word   12, 12, .Lxor_sra_b9_26
+.Lxor_srs_b9_26:
+        .word   .Lxor_npow26, 100, .+4
+.Lxor_sra_b9_26:
+        .word   .Lxor_pow25, 100, .Lxor_srs_b9_25
+        .word   .Lxor_pow25, 160, .+4
+        .word   12, 12, .Lxor_sra_b9_25
+.Lxor_srs_b9_25:
+        .word   .Lxor_npow25, 100, .+4
+.Lxor_sra_b9_25:
+        .word   .Lxor_pow24, 100, .Lxor_srs_b9_24
+        .word   .Lxor_pow24, 160, .+4
+        .word   12, 12, .Lxor_sra_b9_24
+.Lxor_srs_b9_24:
+        .word   .Lxor_npow24, 100, .+4
+.Lxor_sra_b9_24:
+        .word   .Lxor_pow23, 100, .Lxor_srs_b9_23
+        .word   .Lxor_pow23, 160, .+4
+        .word   12, 12, .Lxor_sra_b9_23
+.Lxor_srs_b9_23:
+        .word   .Lxor_npow23, 100, .+4
+.Lxor_sra_b9_23:
+        .word   .Lxor_pow22, 100, .Lxor_srs_b9_22
+        .word   .Lxor_pow22, 160, .+4
+        .word   12, 12, .Lxor_sra_b9_22
+.Lxor_srs_b9_22:
+        .word   .Lxor_npow22, 100, .+4
+.Lxor_sra_b9_22:
+        .word   .Lxor_pow21, 100, .Lxor_srs_b9_21
+        .word   .Lxor_pow21, 160, .+4
+        .word   12, 12, .Lxor_sra_b9_21
+.Lxor_srs_b9_21:
+        .word   .Lxor_npow21, 100, .+4
+.Lxor_sra_b9_21:
+        .word   .Lxor_pow20, 100, .Lxor_srs_b9_20
+        .word   .Lxor_pow20, 160, .+4
+        .word   12, 12, .Lxor_sra_b9_20
+.Lxor_srs_b9_20:
+        .word   .Lxor_npow20, 100, .+4
+.Lxor_sra_b9_20:
+        .word   .Lxor_pow19, 100, .Lxor_srs_b9_19
+        .word   .Lxor_pow19, 160, .+4
+        .word   12, 12, .Lxor_sra_b9_19
+.Lxor_srs_b9_19:
+        .word   .Lxor_npow19, 100, .+4
+.Lxor_sra_b9_19:
+        .word   .Lxor_pow18, 100, .Lxor_srs_b9_18
+        .word   .Lxor_pow18, 160, .+4
+        .word   12, 12, .Lxor_sra_b9_18
+.Lxor_srs_b9_18:
+        .word   .Lxor_npow18, 100, .+4
+.Lxor_sra_b9_18:
+        .word   .Lxor_pow17, 100, .Lxor_srs_b9_17
+        .word   .Lxor_pow17, 160, .+4
+        .word   12, 12, .Lxor_sra_b9_17
+.Lxor_srs_b9_17:
+        .word   .Lxor_npow17, 100, .+4
+.Lxor_sra_b9_17:
+        .word   .Lxor_pow16, 100, .Lxor_srs_b9_16
+        .word   .Lxor_pow16, 160, .+4
+        .word   12, 12, .Lxor_sra_b9_16
+.Lxor_srs_b9_16:
+        .word   .Lxor_npow16, 100, .+4
+.Lxor_sra_b9_16:
+        .word   .Lxor_pow15, 100, .Lxor_srs_b9_15
+        .word   .Lxor_pow15, 160, .+4
+        .word   12, 12, .Lxor_sra_b9_15
+.Lxor_srs_b9_15:
+        .word   .Lxor_npow15, 100, .+4
+.Lxor_sra_b9_15:
+        .word   .Lxor_pow14, 100, .Lxor_srs_b9_14
+        .word   .Lxor_pow14, 160, .+4
+        .word   12, 12, .Lxor_sra_b9_14
+.Lxor_srs_b9_14:
+        .word   .Lxor_npow14, 100, .+4
+.Lxor_sra_b9_14:
+        .word   .Lxor_pow13, 100, .Lxor_srs_b9_13
+        .word   .Lxor_pow13, 160, .+4
+        .word   12, 12, .Lxor_sra_b9_13
+.Lxor_srs_b9_13:
+        .word   .Lxor_npow13, 100, .+4
+.Lxor_sra_b9_13:
+        .word   .Lxor_pow12, 100, .Lxor_srs_b9_12
+        .word   .Lxor_pow12, 160, .+4
+        .word   12, 12, .Lxor_sra_b9_12
+.Lxor_srs_b9_12:
+        .word   .Lxor_npow12, 100, .+4
+.Lxor_sra_b9_12:
+        .word   .Lxor_pow11, 100, .Lxor_srs_b9_11
+        .word   .Lxor_pow11, 160, .+4
+        .word   12, 12, .Lxor_sra_b9_11
+.Lxor_srs_b9_11:
+        .word   .Lxor_npow11, 100, .+4
+.Lxor_sra_b9_11:
+        .word   .Lxor_pow10, 100, .Lxor_srs_b9_10
+        .word   .Lxor_pow10, 160, .+4
+        .word   12, 12, .Lxor_sra_b9_10
+.Lxor_srs_b9_10:
+        .word   .Lxor_npow10, 100, .+4
+.Lxor_sra_b9_10:
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b9_PP
+.Lxor_split_b9_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lxor_split_b9_r21_ambig
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b9_strip
+.Lxor_split_b9_r21_ambig:
+        .word   .Lxor_one, 168, .+4
+        .word   144, 168, .Lxor_split_b9_r21_zero
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b9_strip
+.Lxor_split_b9_r21_zero:
+        .word   .Lxor_n1, 100, .+4
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b9_PP
+
+        .globl  __subleq_xor_b8
+        .type   __subleq_xor_b8,@function
+__subleq_xor_b8:
+        .word   160, 160, .+4
+        .word   144, 100, .Lxor_split_b8_r21_le0
+        .word   .Lxor_n1, 100, .+4
+.Lxor_split_b8_strip:
+        .word   .Lxor_pow30, 100, .Lxor_srs_b8_30
+        .word   .Lxor_pow30, 160, .+4
+        .word   12, 12, .Lxor_sra_b8_30
+.Lxor_srs_b8_30:
+        .word   .Lxor_npow30, 100, .+4
+.Lxor_sra_b8_30:
+        .word   .Lxor_pow29, 100, .Lxor_srs_b8_29
+        .word   .Lxor_pow29, 160, .+4
+        .word   12, 12, .Lxor_sra_b8_29
+.Lxor_srs_b8_29:
+        .word   .Lxor_npow29, 100, .+4
+.Lxor_sra_b8_29:
+        .word   .Lxor_pow28, 100, .Lxor_srs_b8_28
+        .word   .Lxor_pow28, 160, .+4
+        .word   12, 12, .Lxor_sra_b8_28
+.Lxor_srs_b8_28:
+        .word   .Lxor_npow28, 100, .+4
+.Lxor_sra_b8_28:
+        .word   .Lxor_pow27, 100, .Lxor_srs_b8_27
+        .word   .Lxor_pow27, 160, .+4
+        .word   12, 12, .Lxor_sra_b8_27
+.Lxor_srs_b8_27:
+        .word   .Lxor_npow27, 100, .+4
+.Lxor_sra_b8_27:
+        .word   .Lxor_pow26, 100, .Lxor_srs_b8_26
+        .word   .Lxor_pow26, 160, .+4
+        .word   12, 12, .Lxor_sra_b8_26
+.Lxor_srs_b8_26:
+        .word   .Lxor_npow26, 100, .+4
+.Lxor_sra_b8_26:
+        .word   .Lxor_pow25, 100, .Lxor_srs_b8_25
+        .word   .Lxor_pow25, 160, .+4
+        .word   12, 12, .Lxor_sra_b8_25
+.Lxor_srs_b8_25:
+        .word   .Lxor_npow25, 100, .+4
+.Lxor_sra_b8_25:
+        .word   .Lxor_pow24, 100, .Lxor_srs_b8_24
+        .word   .Lxor_pow24, 160, .+4
+        .word   12, 12, .Lxor_sra_b8_24
+.Lxor_srs_b8_24:
+        .word   .Lxor_npow24, 100, .+4
+.Lxor_sra_b8_24:
+        .word   .Lxor_pow23, 100, .Lxor_srs_b8_23
+        .word   .Lxor_pow23, 160, .+4
+        .word   12, 12, .Lxor_sra_b8_23
+.Lxor_srs_b8_23:
+        .word   .Lxor_npow23, 100, .+4
+.Lxor_sra_b8_23:
+        .word   .Lxor_pow22, 100, .Lxor_srs_b8_22
+        .word   .Lxor_pow22, 160, .+4
+        .word   12, 12, .Lxor_sra_b8_22
+.Lxor_srs_b8_22:
+        .word   .Lxor_npow22, 100, .+4
+.Lxor_sra_b8_22:
+        .word   .Lxor_pow21, 100, .Lxor_srs_b8_21
+        .word   .Lxor_pow21, 160, .+4
+        .word   12, 12, .Lxor_sra_b8_21
+.Lxor_srs_b8_21:
+        .word   .Lxor_npow21, 100, .+4
+.Lxor_sra_b8_21:
+        .word   .Lxor_pow20, 100, .Lxor_srs_b8_20
+        .word   .Lxor_pow20, 160, .+4
+        .word   12, 12, .Lxor_sra_b8_20
+.Lxor_srs_b8_20:
+        .word   .Lxor_npow20, 100, .+4
+.Lxor_sra_b8_20:
+        .word   .Lxor_pow19, 100, .Lxor_srs_b8_19
+        .word   .Lxor_pow19, 160, .+4
+        .word   12, 12, .Lxor_sra_b8_19
+.Lxor_srs_b8_19:
+        .word   .Lxor_npow19, 100, .+4
+.Lxor_sra_b8_19:
+        .word   .Lxor_pow18, 100, .Lxor_srs_b8_18
+        .word   .Lxor_pow18, 160, .+4
+        .word   12, 12, .Lxor_sra_b8_18
+.Lxor_srs_b8_18:
+        .word   .Lxor_npow18, 100, .+4
+.Lxor_sra_b8_18:
+        .word   .Lxor_pow17, 100, .Lxor_srs_b8_17
+        .word   .Lxor_pow17, 160, .+4
+        .word   12, 12, .Lxor_sra_b8_17
+.Lxor_srs_b8_17:
+        .word   .Lxor_npow17, 100, .+4
+.Lxor_sra_b8_17:
+        .word   .Lxor_pow16, 100, .Lxor_srs_b8_16
+        .word   .Lxor_pow16, 160, .+4
+        .word   12, 12, .Lxor_sra_b8_16
+.Lxor_srs_b8_16:
+        .word   .Lxor_npow16, 100, .+4
+.Lxor_sra_b8_16:
+        .word   .Lxor_pow15, 100, .Lxor_srs_b8_15
+        .word   .Lxor_pow15, 160, .+4
+        .word   12, 12, .Lxor_sra_b8_15
+.Lxor_srs_b8_15:
+        .word   .Lxor_npow15, 100, .+4
+.Lxor_sra_b8_15:
+        .word   .Lxor_pow14, 100, .Lxor_srs_b8_14
+        .word   .Lxor_pow14, 160, .+4
+        .word   12, 12, .Lxor_sra_b8_14
+.Lxor_srs_b8_14:
+        .word   .Lxor_npow14, 100, .+4
+.Lxor_sra_b8_14:
+        .word   .Lxor_pow13, 100, .Lxor_srs_b8_13
+        .word   .Lxor_pow13, 160, .+4
+        .word   12, 12, .Lxor_sra_b8_13
+.Lxor_srs_b8_13:
+        .word   .Lxor_npow13, 100, .+4
+.Lxor_sra_b8_13:
+        .word   .Lxor_pow12, 100, .Lxor_srs_b8_12
+        .word   .Lxor_pow12, 160, .+4
+        .word   12, 12, .Lxor_sra_b8_12
+.Lxor_srs_b8_12:
+        .word   .Lxor_npow12, 100, .+4
+.Lxor_sra_b8_12:
+        .word   .Lxor_pow11, 100, .Lxor_srs_b8_11
+        .word   .Lxor_pow11, 160, .+4
+        .word   12, 12, .Lxor_sra_b8_11
+.Lxor_srs_b8_11:
+        .word   .Lxor_npow11, 100, .+4
+.Lxor_sra_b8_11:
+        .word   .Lxor_pow10, 100, .Lxor_srs_b8_10
+        .word   .Lxor_pow10, 160, .+4
+        .word   12, 12, .Lxor_sra_b8_10
+.Lxor_srs_b8_10:
+        .word   .Lxor_npow10, 100, .+4
+.Lxor_sra_b8_10:
+        .word   .Lxor_pow9, 100, .Lxor_srs_b8_9
+        .word   .Lxor_pow9, 160, .+4
+        .word   12, 12, .Lxor_sra_b8_9
+.Lxor_srs_b8_9:
+        .word   .Lxor_npow9, 100, .+4
+.Lxor_sra_b8_9:
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b8_PP
+.Lxor_split_b8_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lxor_split_b8_r21_ambig
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b8_strip
+.Lxor_split_b8_r21_ambig:
+        .word   .Lxor_one, 168, .+4
+        .word   144, 168, .Lxor_split_b8_r21_zero
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b8_strip
+.Lxor_split_b8_r21_zero:
+        .word   .Lxor_n1, 100, .+4
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b8_PP
+
+        .globl  __subleq_xor_b7
+        .type   __subleq_xor_b7,@function
+__subleq_xor_b7:
+        .word   160, 160, .+4
+        .word   144, 100, .Lxor_split_b7_r21_le0
+        .word   .Lxor_n1, 100, .+4
+.Lxor_split_b7_strip:
+        .word   .Lxor_pow30, 100, .Lxor_srs_b7_30
+        .word   .Lxor_pow30, 160, .+4
+        .word   12, 12, .Lxor_sra_b7_30
+.Lxor_srs_b7_30:
+        .word   .Lxor_npow30, 100, .+4
+.Lxor_sra_b7_30:
+        .word   .Lxor_pow29, 100, .Lxor_srs_b7_29
+        .word   .Lxor_pow29, 160, .+4
+        .word   12, 12, .Lxor_sra_b7_29
+.Lxor_srs_b7_29:
+        .word   .Lxor_npow29, 100, .+4
+.Lxor_sra_b7_29:
+        .word   .Lxor_pow28, 100, .Lxor_srs_b7_28
+        .word   .Lxor_pow28, 160, .+4
+        .word   12, 12, .Lxor_sra_b7_28
+.Lxor_srs_b7_28:
+        .word   .Lxor_npow28, 100, .+4
+.Lxor_sra_b7_28:
+        .word   .Lxor_pow27, 100, .Lxor_srs_b7_27
+        .word   .Lxor_pow27, 160, .+4
+        .word   12, 12, .Lxor_sra_b7_27
+.Lxor_srs_b7_27:
+        .word   .Lxor_npow27, 100, .+4
+.Lxor_sra_b7_27:
+        .word   .Lxor_pow26, 100, .Lxor_srs_b7_26
+        .word   .Lxor_pow26, 160, .+4
+        .word   12, 12, .Lxor_sra_b7_26
+.Lxor_srs_b7_26:
+        .word   .Lxor_npow26, 100, .+4
+.Lxor_sra_b7_26:
+        .word   .Lxor_pow25, 100, .Lxor_srs_b7_25
+        .word   .Lxor_pow25, 160, .+4
+        .word   12, 12, .Lxor_sra_b7_25
+.Lxor_srs_b7_25:
+        .word   .Lxor_npow25, 100, .+4
+.Lxor_sra_b7_25:
+        .word   .Lxor_pow24, 100, .Lxor_srs_b7_24
+        .word   .Lxor_pow24, 160, .+4
+        .word   12, 12, .Lxor_sra_b7_24
+.Lxor_srs_b7_24:
+        .word   .Lxor_npow24, 100, .+4
+.Lxor_sra_b7_24:
+        .word   .Lxor_pow23, 100, .Lxor_srs_b7_23
+        .word   .Lxor_pow23, 160, .+4
+        .word   12, 12, .Lxor_sra_b7_23
+.Lxor_srs_b7_23:
+        .word   .Lxor_npow23, 100, .+4
+.Lxor_sra_b7_23:
+        .word   .Lxor_pow22, 100, .Lxor_srs_b7_22
+        .word   .Lxor_pow22, 160, .+4
+        .word   12, 12, .Lxor_sra_b7_22
+.Lxor_srs_b7_22:
+        .word   .Lxor_npow22, 100, .+4
+.Lxor_sra_b7_22:
+        .word   .Lxor_pow21, 100, .Lxor_srs_b7_21
+        .word   .Lxor_pow21, 160, .+4
+        .word   12, 12, .Lxor_sra_b7_21
+.Lxor_srs_b7_21:
+        .word   .Lxor_npow21, 100, .+4
+.Lxor_sra_b7_21:
+        .word   .Lxor_pow20, 100, .Lxor_srs_b7_20
+        .word   .Lxor_pow20, 160, .+4
+        .word   12, 12, .Lxor_sra_b7_20
+.Lxor_srs_b7_20:
+        .word   .Lxor_npow20, 100, .+4
+.Lxor_sra_b7_20:
+        .word   .Lxor_pow19, 100, .Lxor_srs_b7_19
+        .word   .Lxor_pow19, 160, .+4
+        .word   12, 12, .Lxor_sra_b7_19
+.Lxor_srs_b7_19:
+        .word   .Lxor_npow19, 100, .+4
+.Lxor_sra_b7_19:
+        .word   .Lxor_pow18, 100, .Lxor_srs_b7_18
+        .word   .Lxor_pow18, 160, .+4
+        .word   12, 12, .Lxor_sra_b7_18
+.Lxor_srs_b7_18:
+        .word   .Lxor_npow18, 100, .+4
+.Lxor_sra_b7_18:
+        .word   .Lxor_pow17, 100, .Lxor_srs_b7_17
+        .word   .Lxor_pow17, 160, .+4
+        .word   12, 12, .Lxor_sra_b7_17
+.Lxor_srs_b7_17:
+        .word   .Lxor_npow17, 100, .+4
+.Lxor_sra_b7_17:
+        .word   .Lxor_pow16, 100, .Lxor_srs_b7_16
+        .word   .Lxor_pow16, 160, .+4
+        .word   12, 12, .Lxor_sra_b7_16
+.Lxor_srs_b7_16:
+        .word   .Lxor_npow16, 100, .+4
+.Lxor_sra_b7_16:
+        .word   .Lxor_pow15, 100, .Lxor_srs_b7_15
+        .word   .Lxor_pow15, 160, .+4
+        .word   12, 12, .Lxor_sra_b7_15
+.Lxor_srs_b7_15:
+        .word   .Lxor_npow15, 100, .+4
+.Lxor_sra_b7_15:
+        .word   .Lxor_pow14, 100, .Lxor_srs_b7_14
+        .word   .Lxor_pow14, 160, .+4
+        .word   12, 12, .Lxor_sra_b7_14
+.Lxor_srs_b7_14:
+        .word   .Lxor_npow14, 100, .+4
+.Lxor_sra_b7_14:
+        .word   .Lxor_pow13, 100, .Lxor_srs_b7_13
+        .word   .Lxor_pow13, 160, .+4
+        .word   12, 12, .Lxor_sra_b7_13
+.Lxor_srs_b7_13:
+        .word   .Lxor_npow13, 100, .+4
+.Lxor_sra_b7_13:
+        .word   .Lxor_pow12, 100, .Lxor_srs_b7_12
+        .word   .Lxor_pow12, 160, .+4
+        .word   12, 12, .Lxor_sra_b7_12
+.Lxor_srs_b7_12:
+        .word   .Lxor_npow12, 100, .+4
+.Lxor_sra_b7_12:
+        .word   .Lxor_pow11, 100, .Lxor_srs_b7_11
+        .word   .Lxor_pow11, 160, .+4
+        .word   12, 12, .Lxor_sra_b7_11
+.Lxor_srs_b7_11:
+        .word   .Lxor_npow11, 100, .+4
+.Lxor_sra_b7_11:
+        .word   .Lxor_pow10, 100, .Lxor_srs_b7_10
+        .word   .Lxor_pow10, 160, .+4
+        .word   12, 12, .Lxor_sra_b7_10
+.Lxor_srs_b7_10:
+        .word   .Lxor_npow10, 100, .+4
+.Lxor_sra_b7_10:
+        .word   .Lxor_pow9, 100, .Lxor_srs_b7_9
+        .word   .Lxor_pow9, 160, .+4
+        .word   12, 12, .Lxor_sra_b7_9
+.Lxor_srs_b7_9:
+        .word   .Lxor_npow9, 100, .+4
+.Lxor_sra_b7_9:
+        .word   .Lxor_pow8, 100, .Lxor_srs_b7_8
+        .word   .Lxor_pow8, 160, .+4
+        .word   12, 12, .Lxor_sra_b7_8
+.Lxor_srs_b7_8:
+        .word   .Lxor_npow8, 100, .+4
+.Lxor_sra_b7_8:
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b7_PP
+.Lxor_split_b7_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lxor_split_b7_r21_ambig
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b7_strip
+.Lxor_split_b7_r21_ambig:
+        .word   .Lxor_one, 168, .+4
+        .word   144, 168, .Lxor_split_b7_r21_zero
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b7_strip
+.Lxor_split_b7_r21_zero:
+        .word   .Lxor_n1, 100, .+4
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b7_PP
+
+        .globl  __subleq_xor_b6
+        .type   __subleq_xor_b6,@function
+__subleq_xor_b6:
+        .word   160, 160, .+4
+        .word   144, 100, .Lxor_split_b6_r21_le0
+        .word   .Lxor_n1, 100, .+4
+.Lxor_split_b6_strip:
+        .word   .Lxor_pow30, 100, .Lxor_srs_b6_30
+        .word   .Lxor_pow30, 160, .+4
+        .word   12, 12, .Lxor_sra_b6_30
+.Lxor_srs_b6_30:
+        .word   .Lxor_npow30, 100, .+4
+.Lxor_sra_b6_30:
+        .word   .Lxor_pow29, 100, .Lxor_srs_b6_29
+        .word   .Lxor_pow29, 160, .+4
+        .word   12, 12, .Lxor_sra_b6_29
+.Lxor_srs_b6_29:
+        .word   .Lxor_npow29, 100, .+4
+.Lxor_sra_b6_29:
+        .word   .Lxor_pow28, 100, .Lxor_srs_b6_28
+        .word   .Lxor_pow28, 160, .+4
+        .word   12, 12, .Lxor_sra_b6_28
+.Lxor_srs_b6_28:
+        .word   .Lxor_npow28, 100, .+4
+.Lxor_sra_b6_28:
+        .word   .Lxor_pow27, 100, .Lxor_srs_b6_27
+        .word   .Lxor_pow27, 160, .+4
+        .word   12, 12, .Lxor_sra_b6_27
+.Lxor_srs_b6_27:
+        .word   .Lxor_npow27, 100, .+4
+.Lxor_sra_b6_27:
+        .word   .Lxor_pow26, 100, .Lxor_srs_b6_26
+        .word   .Lxor_pow26, 160, .+4
+        .word   12, 12, .Lxor_sra_b6_26
+.Lxor_srs_b6_26:
+        .word   .Lxor_npow26, 100, .+4
+.Lxor_sra_b6_26:
+        .word   .Lxor_pow25, 100, .Lxor_srs_b6_25
+        .word   .Lxor_pow25, 160, .+4
+        .word   12, 12, .Lxor_sra_b6_25
+.Lxor_srs_b6_25:
+        .word   .Lxor_npow25, 100, .+4
+.Lxor_sra_b6_25:
+        .word   .Lxor_pow24, 100, .Lxor_srs_b6_24
+        .word   .Lxor_pow24, 160, .+4
+        .word   12, 12, .Lxor_sra_b6_24
+.Lxor_srs_b6_24:
+        .word   .Lxor_npow24, 100, .+4
+.Lxor_sra_b6_24:
+        .word   .Lxor_pow23, 100, .Lxor_srs_b6_23
+        .word   .Lxor_pow23, 160, .+4
+        .word   12, 12, .Lxor_sra_b6_23
+.Lxor_srs_b6_23:
+        .word   .Lxor_npow23, 100, .+4
+.Lxor_sra_b6_23:
+        .word   .Lxor_pow22, 100, .Lxor_srs_b6_22
+        .word   .Lxor_pow22, 160, .+4
+        .word   12, 12, .Lxor_sra_b6_22
+.Lxor_srs_b6_22:
+        .word   .Lxor_npow22, 100, .+4
+.Lxor_sra_b6_22:
+        .word   .Lxor_pow21, 100, .Lxor_srs_b6_21
+        .word   .Lxor_pow21, 160, .+4
+        .word   12, 12, .Lxor_sra_b6_21
+.Lxor_srs_b6_21:
+        .word   .Lxor_npow21, 100, .+4
+.Lxor_sra_b6_21:
+        .word   .Lxor_pow20, 100, .Lxor_srs_b6_20
+        .word   .Lxor_pow20, 160, .+4
+        .word   12, 12, .Lxor_sra_b6_20
+.Lxor_srs_b6_20:
+        .word   .Lxor_npow20, 100, .+4
+.Lxor_sra_b6_20:
+        .word   .Lxor_pow19, 100, .Lxor_srs_b6_19
+        .word   .Lxor_pow19, 160, .+4
+        .word   12, 12, .Lxor_sra_b6_19
+.Lxor_srs_b6_19:
+        .word   .Lxor_npow19, 100, .+4
+.Lxor_sra_b6_19:
+        .word   .Lxor_pow18, 100, .Lxor_srs_b6_18
+        .word   .Lxor_pow18, 160, .+4
+        .word   12, 12, .Lxor_sra_b6_18
+.Lxor_srs_b6_18:
+        .word   .Lxor_npow18, 100, .+4
+.Lxor_sra_b6_18:
+        .word   .Lxor_pow17, 100, .Lxor_srs_b6_17
+        .word   .Lxor_pow17, 160, .+4
+        .word   12, 12, .Lxor_sra_b6_17
+.Lxor_srs_b6_17:
+        .word   .Lxor_npow17, 100, .+4
+.Lxor_sra_b6_17:
+        .word   .Lxor_pow16, 100, .Lxor_srs_b6_16
+        .word   .Lxor_pow16, 160, .+4
+        .word   12, 12, .Lxor_sra_b6_16
+.Lxor_srs_b6_16:
+        .word   .Lxor_npow16, 100, .+4
+.Lxor_sra_b6_16:
+        .word   .Lxor_pow15, 100, .Lxor_srs_b6_15
+        .word   .Lxor_pow15, 160, .+4
+        .word   12, 12, .Lxor_sra_b6_15
+.Lxor_srs_b6_15:
+        .word   .Lxor_npow15, 100, .+4
+.Lxor_sra_b6_15:
+        .word   .Lxor_pow14, 100, .Lxor_srs_b6_14
+        .word   .Lxor_pow14, 160, .+4
+        .word   12, 12, .Lxor_sra_b6_14
+.Lxor_srs_b6_14:
+        .word   .Lxor_npow14, 100, .+4
+.Lxor_sra_b6_14:
+        .word   .Lxor_pow13, 100, .Lxor_srs_b6_13
+        .word   .Lxor_pow13, 160, .+4
+        .word   12, 12, .Lxor_sra_b6_13
+.Lxor_srs_b6_13:
+        .word   .Lxor_npow13, 100, .+4
+.Lxor_sra_b6_13:
+        .word   .Lxor_pow12, 100, .Lxor_srs_b6_12
+        .word   .Lxor_pow12, 160, .+4
+        .word   12, 12, .Lxor_sra_b6_12
+.Lxor_srs_b6_12:
+        .word   .Lxor_npow12, 100, .+4
+.Lxor_sra_b6_12:
+        .word   .Lxor_pow11, 100, .Lxor_srs_b6_11
+        .word   .Lxor_pow11, 160, .+4
+        .word   12, 12, .Lxor_sra_b6_11
+.Lxor_srs_b6_11:
+        .word   .Lxor_npow11, 100, .+4
+.Lxor_sra_b6_11:
+        .word   .Lxor_pow10, 100, .Lxor_srs_b6_10
+        .word   .Lxor_pow10, 160, .+4
+        .word   12, 12, .Lxor_sra_b6_10
+.Lxor_srs_b6_10:
+        .word   .Lxor_npow10, 100, .+4
+.Lxor_sra_b6_10:
+        .word   .Lxor_pow9, 100, .Lxor_srs_b6_9
+        .word   .Lxor_pow9, 160, .+4
+        .word   12, 12, .Lxor_sra_b6_9
+.Lxor_srs_b6_9:
+        .word   .Lxor_npow9, 100, .+4
+.Lxor_sra_b6_9:
+        .word   .Lxor_pow8, 100, .Lxor_srs_b6_8
+        .word   .Lxor_pow8, 160, .+4
+        .word   12, 12, .Lxor_sra_b6_8
+.Lxor_srs_b6_8:
+        .word   .Lxor_npow8, 100, .+4
+.Lxor_sra_b6_8:
+        .word   .Lxor_pow7, 100, .Lxor_srs_b6_7
+        .word   .Lxor_pow7, 160, .+4
+        .word   12, 12, .Lxor_sra_b6_7
+.Lxor_srs_b6_7:
+        .word   .Lxor_npow7, 100, .+4
+.Lxor_sra_b6_7:
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b6_PP
+.Lxor_split_b6_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lxor_split_b6_r21_ambig
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b6_strip
+.Lxor_split_b6_r21_ambig:
+        .word   .Lxor_one, 168, .+4
+        .word   144, 168, .Lxor_split_b6_r21_zero
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b6_strip
+.Lxor_split_b6_r21_zero:
+        .word   .Lxor_n1, 100, .+4
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b6_PP
+
+        .globl  __subleq_xor_b5
+        .type   __subleq_xor_b5,@function
+__subleq_xor_b5:
+        .word   160, 160, .+4
+        .word   144, 100, .Lxor_split_b5_r21_le0
+        .word   .Lxor_n1, 100, .+4
+.Lxor_split_b5_strip:
+        .word   .Lxor_pow30, 100, .Lxor_srs_b5_30
+        .word   .Lxor_pow30, 160, .+4
+        .word   12, 12, .Lxor_sra_b5_30
+.Lxor_srs_b5_30:
+        .word   .Lxor_npow30, 100, .+4
+.Lxor_sra_b5_30:
+        .word   .Lxor_pow29, 100, .Lxor_srs_b5_29
+        .word   .Lxor_pow29, 160, .+4
+        .word   12, 12, .Lxor_sra_b5_29
+.Lxor_srs_b5_29:
+        .word   .Lxor_npow29, 100, .+4
+.Lxor_sra_b5_29:
+        .word   .Lxor_pow28, 100, .Lxor_srs_b5_28
+        .word   .Lxor_pow28, 160, .+4
+        .word   12, 12, .Lxor_sra_b5_28
+.Lxor_srs_b5_28:
+        .word   .Lxor_npow28, 100, .+4
+.Lxor_sra_b5_28:
+        .word   .Lxor_pow27, 100, .Lxor_srs_b5_27
+        .word   .Lxor_pow27, 160, .+4
+        .word   12, 12, .Lxor_sra_b5_27
+.Lxor_srs_b5_27:
+        .word   .Lxor_npow27, 100, .+4
+.Lxor_sra_b5_27:
+        .word   .Lxor_pow26, 100, .Lxor_srs_b5_26
+        .word   .Lxor_pow26, 160, .+4
+        .word   12, 12, .Lxor_sra_b5_26
+.Lxor_srs_b5_26:
+        .word   .Lxor_npow26, 100, .+4
+.Lxor_sra_b5_26:
+        .word   .Lxor_pow25, 100, .Lxor_srs_b5_25
+        .word   .Lxor_pow25, 160, .+4
+        .word   12, 12, .Lxor_sra_b5_25
+.Lxor_srs_b5_25:
+        .word   .Lxor_npow25, 100, .+4
+.Lxor_sra_b5_25:
+        .word   .Lxor_pow24, 100, .Lxor_srs_b5_24
+        .word   .Lxor_pow24, 160, .+4
+        .word   12, 12, .Lxor_sra_b5_24
+.Lxor_srs_b5_24:
+        .word   .Lxor_npow24, 100, .+4
+.Lxor_sra_b5_24:
+        .word   .Lxor_pow23, 100, .Lxor_srs_b5_23
+        .word   .Lxor_pow23, 160, .+4
+        .word   12, 12, .Lxor_sra_b5_23
+.Lxor_srs_b5_23:
+        .word   .Lxor_npow23, 100, .+4
+.Lxor_sra_b5_23:
+        .word   .Lxor_pow22, 100, .Lxor_srs_b5_22
+        .word   .Lxor_pow22, 160, .+4
+        .word   12, 12, .Lxor_sra_b5_22
+.Lxor_srs_b5_22:
+        .word   .Lxor_npow22, 100, .+4
+.Lxor_sra_b5_22:
+        .word   .Lxor_pow21, 100, .Lxor_srs_b5_21
+        .word   .Lxor_pow21, 160, .+4
+        .word   12, 12, .Lxor_sra_b5_21
+.Lxor_srs_b5_21:
+        .word   .Lxor_npow21, 100, .+4
+.Lxor_sra_b5_21:
+        .word   .Lxor_pow20, 100, .Lxor_srs_b5_20
+        .word   .Lxor_pow20, 160, .+4
+        .word   12, 12, .Lxor_sra_b5_20
+.Lxor_srs_b5_20:
+        .word   .Lxor_npow20, 100, .+4
+.Lxor_sra_b5_20:
+        .word   .Lxor_pow19, 100, .Lxor_srs_b5_19
+        .word   .Lxor_pow19, 160, .+4
+        .word   12, 12, .Lxor_sra_b5_19
+.Lxor_srs_b5_19:
+        .word   .Lxor_npow19, 100, .+4
+.Lxor_sra_b5_19:
+        .word   .Lxor_pow18, 100, .Lxor_srs_b5_18
+        .word   .Lxor_pow18, 160, .+4
+        .word   12, 12, .Lxor_sra_b5_18
+.Lxor_srs_b5_18:
+        .word   .Lxor_npow18, 100, .+4
+.Lxor_sra_b5_18:
+        .word   .Lxor_pow17, 100, .Lxor_srs_b5_17
+        .word   .Lxor_pow17, 160, .+4
+        .word   12, 12, .Lxor_sra_b5_17
+.Lxor_srs_b5_17:
+        .word   .Lxor_npow17, 100, .+4
+.Lxor_sra_b5_17:
+        .word   .Lxor_pow16, 100, .Lxor_srs_b5_16
+        .word   .Lxor_pow16, 160, .+4
+        .word   12, 12, .Lxor_sra_b5_16
+.Lxor_srs_b5_16:
+        .word   .Lxor_npow16, 100, .+4
+.Lxor_sra_b5_16:
+        .word   .Lxor_pow15, 100, .Lxor_srs_b5_15
+        .word   .Lxor_pow15, 160, .+4
+        .word   12, 12, .Lxor_sra_b5_15
+.Lxor_srs_b5_15:
+        .word   .Lxor_npow15, 100, .+4
+.Lxor_sra_b5_15:
+        .word   .Lxor_pow14, 100, .Lxor_srs_b5_14
+        .word   .Lxor_pow14, 160, .+4
+        .word   12, 12, .Lxor_sra_b5_14
+.Lxor_srs_b5_14:
+        .word   .Lxor_npow14, 100, .+4
+.Lxor_sra_b5_14:
+        .word   .Lxor_pow13, 100, .Lxor_srs_b5_13
+        .word   .Lxor_pow13, 160, .+4
+        .word   12, 12, .Lxor_sra_b5_13
+.Lxor_srs_b5_13:
+        .word   .Lxor_npow13, 100, .+4
+.Lxor_sra_b5_13:
+        .word   .Lxor_pow12, 100, .Lxor_srs_b5_12
+        .word   .Lxor_pow12, 160, .+4
+        .word   12, 12, .Lxor_sra_b5_12
+.Lxor_srs_b5_12:
+        .word   .Lxor_npow12, 100, .+4
+.Lxor_sra_b5_12:
+        .word   .Lxor_pow11, 100, .Lxor_srs_b5_11
+        .word   .Lxor_pow11, 160, .+4
+        .word   12, 12, .Lxor_sra_b5_11
+.Lxor_srs_b5_11:
+        .word   .Lxor_npow11, 100, .+4
+.Lxor_sra_b5_11:
+        .word   .Lxor_pow10, 100, .Lxor_srs_b5_10
+        .word   .Lxor_pow10, 160, .+4
+        .word   12, 12, .Lxor_sra_b5_10
+.Lxor_srs_b5_10:
+        .word   .Lxor_npow10, 100, .+4
+.Lxor_sra_b5_10:
+        .word   .Lxor_pow9, 100, .Lxor_srs_b5_9
+        .word   .Lxor_pow9, 160, .+4
+        .word   12, 12, .Lxor_sra_b5_9
+.Lxor_srs_b5_9:
+        .word   .Lxor_npow9, 100, .+4
+.Lxor_sra_b5_9:
+        .word   .Lxor_pow8, 100, .Lxor_srs_b5_8
+        .word   .Lxor_pow8, 160, .+4
+        .word   12, 12, .Lxor_sra_b5_8
+.Lxor_srs_b5_8:
+        .word   .Lxor_npow8, 100, .+4
+.Lxor_sra_b5_8:
+        .word   .Lxor_pow7, 100, .Lxor_srs_b5_7
+        .word   .Lxor_pow7, 160, .+4
+        .word   12, 12, .Lxor_sra_b5_7
+.Lxor_srs_b5_7:
+        .word   .Lxor_npow7, 100, .+4
+.Lxor_sra_b5_7:
+        .word   .Lxor_pow6, 100, .Lxor_srs_b5_6
+        .word   .Lxor_pow6, 160, .+4
+        .word   12, 12, .Lxor_sra_b5_6
+.Lxor_srs_b5_6:
+        .word   .Lxor_npow6, 100, .+4
+.Lxor_sra_b5_6:
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b5_PP
+.Lxor_split_b5_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lxor_split_b5_r21_ambig
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b5_strip
+.Lxor_split_b5_r21_ambig:
+        .word   .Lxor_one, 168, .+4
+        .word   144, 168, .Lxor_split_b5_r21_zero
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b5_strip
+.Lxor_split_b5_r21_zero:
+        .word   .Lxor_n1, 100, .+4
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b5_PP
+
+        .globl  __subleq_xor_b4
+        .type   __subleq_xor_b4,@function
+__subleq_xor_b4:
+        .word   160, 160, .+4
+        .word   144, 100, .Lxor_split_b4_r21_le0
+        .word   .Lxor_n1, 100, .+4
+.Lxor_split_b4_strip:
+        .word   .Lxor_pow30, 100, .Lxor_srs_b4_30
+        .word   .Lxor_pow30, 160, .+4
+        .word   12, 12, .Lxor_sra_b4_30
+.Lxor_srs_b4_30:
+        .word   .Lxor_npow30, 100, .+4
+.Lxor_sra_b4_30:
+        .word   .Lxor_pow29, 100, .Lxor_srs_b4_29
+        .word   .Lxor_pow29, 160, .+4
+        .word   12, 12, .Lxor_sra_b4_29
+.Lxor_srs_b4_29:
+        .word   .Lxor_npow29, 100, .+4
+.Lxor_sra_b4_29:
+        .word   .Lxor_pow28, 100, .Lxor_srs_b4_28
+        .word   .Lxor_pow28, 160, .+4
+        .word   12, 12, .Lxor_sra_b4_28
+.Lxor_srs_b4_28:
+        .word   .Lxor_npow28, 100, .+4
+.Lxor_sra_b4_28:
+        .word   .Lxor_pow27, 100, .Lxor_srs_b4_27
+        .word   .Lxor_pow27, 160, .+4
+        .word   12, 12, .Lxor_sra_b4_27
+.Lxor_srs_b4_27:
+        .word   .Lxor_npow27, 100, .+4
+.Lxor_sra_b4_27:
+        .word   .Lxor_pow26, 100, .Lxor_srs_b4_26
+        .word   .Lxor_pow26, 160, .+4
+        .word   12, 12, .Lxor_sra_b4_26
+.Lxor_srs_b4_26:
+        .word   .Lxor_npow26, 100, .+4
+.Lxor_sra_b4_26:
+        .word   .Lxor_pow25, 100, .Lxor_srs_b4_25
+        .word   .Lxor_pow25, 160, .+4
+        .word   12, 12, .Lxor_sra_b4_25
+.Lxor_srs_b4_25:
+        .word   .Lxor_npow25, 100, .+4
+.Lxor_sra_b4_25:
+        .word   .Lxor_pow24, 100, .Lxor_srs_b4_24
+        .word   .Lxor_pow24, 160, .+4
+        .word   12, 12, .Lxor_sra_b4_24
+.Lxor_srs_b4_24:
+        .word   .Lxor_npow24, 100, .+4
+.Lxor_sra_b4_24:
+        .word   .Lxor_pow23, 100, .Lxor_srs_b4_23
+        .word   .Lxor_pow23, 160, .+4
+        .word   12, 12, .Lxor_sra_b4_23
+.Lxor_srs_b4_23:
+        .word   .Lxor_npow23, 100, .+4
+.Lxor_sra_b4_23:
+        .word   .Lxor_pow22, 100, .Lxor_srs_b4_22
+        .word   .Lxor_pow22, 160, .+4
+        .word   12, 12, .Lxor_sra_b4_22
+.Lxor_srs_b4_22:
+        .word   .Lxor_npow22, 100, .+4
+.Lxor_sra_b4_22:
+        .word   .Lxor_pow21, 100, .Lxor_srs_b4_21
+        .word   .Lxor_pow21, 160, .+4
+        .word   12, 12, .Lxor_sra_b4_21
+.Lxor_srs_b4_21:
+        .word   .Lxor_npow21, 100, .+4
+.Lxor_sra_b4_21:
+        .word   .Lxor_pow20, 100, .Lxor_srs_b4_20
+        .word   .Lxor_pow20, 160, .+4
+        .word   12, 12, .Lxor_sra_b4_20
+.Lxor_srs_b4_20:
+        .word   .Lxor_npow20, 100, .+4
+.Lxor_sra_b4_20:
+        .word   .Lxor_pow19, 100, .Lxor_srs_b4_19
+        .word   .Lxor_pow19, 160, .+4
+        .word   12, 12, .Lxor_sra_b4_19
+.Lxor_srs_b4_19:
+        .word   .Lxor_npow19, 100, .+4
+.Lxor_sra_b4_19:
+        .word   .Lxor_pow18, 100, .Lxor_srs_b4_18
+        .word   .Lxor_pow18, 160, .+4
+        .word   12, 12, .Lxor_sra_b4_18
+.Lxor_srs_b4_18:
+        .word   .Lxor_npow18, 100, .+4
+.Lxor_sra_b4_18:
+        .word   .Lxor_pow17, 100, .Lxor_srs_b4_17
+        .word   .Lxor_pow17, 160, .+4
+        .word   12, 12, .Lxor_sra_b4_17
+.Lxor_srs_b4_17:
+        .word   .Lxor_npow17, 100, .+4
+.Lxor_sra_b4_17:
+        .word   .Lxor_pow16, 100, .Lxor_srs_b4_16
+        .word   .Lxor_pow16, 160, .+4
+        .word   12, 12, .Lxor_sra_b4_16
+.Lxor_srs_b4_16:
+        .word   .Lxor_npow16, 100, .+4
+.Lxor_sra_b4_16:
+        .word   .Lxor_pow15, 100, .Lxor_srs_b4_15
+        .word   .Lxor_pow15, 160, .+4
+        .word   12, 12, .Lxor_sra_b4_15
+.Lxor_srs_b4_15:
+        .word   .Lxor_npow15, 100, .+4
+.Lxor_sra_b4_15:
+        .word   .Lxor_pow14, 100, .Lxor_srs_b4_14
+        .word   .Lxor_pow14, 160, .+4
+        .word   12, 12, .Lxor_sra_b4_14
+.Lxor_srs_b4_14:
+        .word   .Lxor_npow14, 100, .+4
+.Lxor_sra_b4_14:
+        .word   .Lxor_pow13, 100, .Lxor_srs_b4_13
+        .word   .Lxor_pow13, 160, .+4
+        .word   12, 12, .Lxor_sra_b4_13
+.Lxor_srs_b4_13:
+        .word   .Lxor_npow13, 100, .+4
+.Lxor_sra_b4_13:
+        .word   .Lxor_pow12, 100, .Lxor_srs_b4_12
+        .word   .Lxor_pow12, 160, .+4
+        .word   12, 12, .Lxor_sra_b4_12
+.Lxor_srs_b4_12:
+        .word   .Lxor_npow12, 100, .+4
+.Lxor_sra_b4_12:
+        .word   .Lxor_pow11, 100, .Lxor_srs_b4_11
+        .word   .Lxor_pow11, 160, .+4
+        .word   12, 12, .Lxor_sra_b4_11
+.Lxor_srs_b4_11:
+        .word   .Lxor_npow11, 100, .+4
+.Lxor_sra_b4_11:
+        .word   .Lxor_pow10, 100, .Lxor_srs_b4_10
+        .word   .Lxor_pow10, 160, .+4
+        .word   12, 12, .Lxor_sra_b4_10
+.Lxor_srs_b4_10:
+        .word   .Lxor_npow10, 100, .+4
+.Lxor_sra_b4_10:
+        .word   .Lxor_pow9, 100, .Lxor_srs_b4_9
+        .word   .Lxor_pow9, 160, .+4
+        .word   12, 12, .Lxor_sra_b4_9
+.Lxor_srs_b4_9:
+        .word   .Lxor_npow9, 100, .+4
+.Lxor_sra_b4_9:
+        .word   .Lxor_pow8, 100, .Lxor_srs_b4_8
+        .word   .Lxor_pow8, 160, .+4
+        .word   12, 12, .Lxor_sra_b4_8
+.Lxor_srs_b4_8:
+        .word   .Lxor_npow8, 100, .+4
+.Lxor_sra_b4_8:
+        .word   .Lxor_pow7, 100, .Lxor_srs_b4_7
+        .word   .Lxor_pow7, 160, .+4
+        .word   12, 12, .Lxor_sra_b4_7
+.Lxor_srs_b4_7:
+        .word   .Lxor_npow7, 100, .+4
+.Lxor_sra_b4_7:
+        .word   .Lxor_pow6, 100, .Lxor_srs_b4_6
+        .word   .Lxor_pow6, 160, .+4
+        .word   12, 12, .Lxor_sra_b4_6
+.Lxor_srs_b4_6:
+        .word   .Lxor_npow6, 100, .+4
+.Lxor_sra_b4_6:
+        .word   .Lxor_pow5, 100, .Lxor_srs_b4_5
+        .word   .Lxor_pow5, 160, .+4
+        .word   12, 12, .Lxor_sra_b4_5
+.Lxor_srs_b4_5:
+        .word   .Lxor_npow5, 100, .+4
+.Lxor_sra_b4_5:
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b4_PP
+.Lxor_split_b4_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lxor_split_b4_r21_ambig
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b4_strip
+.Lxor_split_b4_r21_ambig:
+        .word   .Lxor_one, 168, .+4
+        .word   144, 168, .Lxor_split_b4_r21_zero
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b4_strip
+.Lxor_split_b4_r21_zero:
+        .word   .Lxor_n1, 100, .+4
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b4_PP
+
+        .globl  __subleq_xor_b3
+        .type   __subleq_xor_b3,@function
+__subleq_xor_b3:
+        .word   160, 160, .+4
+        .word   144, 100, .Lxor_split_b3_r21_le0
+        .word   .Lxor_n1, 100, .+4
+.Lxor_split_b3_strip:
+        .word   .Lxor_pow30, 100, .Lxor_srs_b3_30
+        .word   .Lxor_pow30, 160, .+4
+        .word   12, 12, .Lxor_sra_b3_30
+.Lxor_srs_b3_30:
+        .word   .Lxor_npow30, 100, .+4
+.Lxor_sra_b3_30:
+        .word   .Lxor_pow29, 100, .Lxor_srs_b3_29
+        .word   .Lxor_pow29, 160, .+4
+        .word   12, 12, .Lxor_sra_b3_29
+.Lxor_srs_b3_29:
+        .word   .Lxor_npow29, 100, .+4
+.Lxor_sra_b3_29:
+        .word   .Lxor_pow28, 100, .Lxor_srs_b3_28
+        .word   .Lxor_pow28, 160, .+4
+        .word   12, 12, .Lxor_sra_b3_28
+.Lxor_srs_b3_28:
+        .word   .Lxor_npow28, 100, .+4
+.Lxor_sra_b3_28:
+        .word   .Lxor_pow27, 100, .Lxor_srs_b3_27
+        .word   .Lxor_pow27, 160, .+4
+        .word   12, 12, .Lxor_sra_b3_27
+.Lxor_srs_b3_27:
+        .word   .Lxor_npow27, 100, .+4
+.Lxor_sra_b3_27:
+        .word   .Lxor_pow26, 100, .Lxor_srs_b3_26
+        .word   .Lxor_pow26, 160, .+4
+        .word   12, 12, .Lxor_sra_b3_26
+.Lxor_srs_b3_26:
+        .word   .Lxor_npow26, 100, .+4
+.Lxor_sra_b3_26:
+        .word   .Lxor_pow25, 100, .Lxor_srs_b3_25
+        .word   .Lxor_pow25, 160, .+4
+        .word   12, 12, .Lxor_sra_b3_25
+.Lxor_srs_b3_25:
+        .word   .Lxor_npow25, 100, .+4
+.Lxor_sra_b3_25:
+        .word   .Lxor_pow24, 100, .Lxor_srs_b3_24
+        .word   .Lxor_pow24, 160, .+4
+        .word   12, 12, .Lxor_sra_b3_24
+.Lxor_srs_b3_24:
+        .word   .Lxor_npow24, 100, .+4
+.Lxor_sra_b3_24:
+        .word   .Lxor_pow23, 100, .Lxor_srs_b3_23
+        .word   .Lxor_pow23, 160, .+4
+        .word   12, 12, .Lxor_sra_b3_23
+.Lxor_srs_b3_23:
+        .word   .Lxor_npow23, 100, .+4
+.Lxor_sra_b3_23:
+        .word   .Lxor_pow22, 100, .Lxor_srs_b3_22
+        .word   .Lxor_pow22, 160, .+4
+        .word   12, 12, .Lxor_sra_b3_22
+.Lxor_srs_b3_22:
+        .word   .Lxor_npow22, 100, .+4
+.Lxor_sra_b3_22:
+        .word   .Lxor_pow21, 100, .Lxor_srs_b3_21
+        .word   .Lxor_pow21, 160, .+4
+        .word   12, 12, .Lxor_sra_b3_21
+.Lxor_srs_b3_21:
+        .word   .Lxor_npow21, 100, .+4
+.Lxor_sra_b3_21:
+        .word   .Lxor_pow20, 100, .Lxor_srs_b3_20
+        .word   .Lxor_pow20, 160, .+4
+        .word   12, 12, .Lxor_sra_b3_20
+.Lxor_srs_b3_20:
+        .word   .Lxor_npow20, 100, .+4
+.Lxor_sra_b3_20:
+        .word   .Lxor_pow19, 100, .Lxor_srs_b3_19
+        .word   .Lxor_pow19, 160, .+4
+        .word   12, 12, .Lxor_sra_b3_19
+.Lxor_srs_b3_19:
+        .word   .Lxor_npow19, 100, .+4
+.Lxor_sra_b3_19:
+        .word   .Lxor_pow18, 100, .Lxor_srs_b3_18
+        .word   .Lxor_pow18, 160, .+4
+        .word   12, 12, .Lxor_sra_b3_18
+.Lxor_srs_b3_18:
+        .word   .Lxor_npow18, 100, .+4
+.Lxor_sra_b3_18:
+        .word   .Lxor_pow17, 100, .Lxor_srs_b3_17
+        .word   .Lxor_pow17, 160, .+4
+        .word   12, 12, .Lxor_sra_b3_17
+.Lxor_srs_b3_17:
+        .word   .Lxor_npow17, 100, .+4
+.Lxor_sra_b3_17:
+        .word   .Lxor_pow16, 100, .Lxor_srs_b3_16
+        .word   .Lxor_pow16, 160, .+4
+        .word   12, 12, .Lxor_sra_b3_16
+.Lxor_srs_b3_16:
+        .word   .Lxor_npow16, 100, .+4
+.Lxor_sra_b3_16:
+        .word   .Lxor_pow15, 100, .Lxor_srs_b3_15
+        .word   .Lxor_pow15, 160, .+4
+        .word   12, 12, .Lxor_sra_b3_15
+.Lxor_srs_b3_15:
+        .word   .Lxor_npow15, 100, .+4
+.Lxor_sra_b3_15:
+        .word   .Lxor_pow14, 100, .Lxor_srs_b3_14
+        .word   .Lxor_pow14, 160, .+4
+        .word   12, 12, .Lxor_sra_b3_14
+.Lxor_srs_b3_14:
+        .word   .Lxor_npow14, 100, .+4
+.Lxor_sra_b3_14:
+        .word   .Lxor_pow13, 100, .Lxor_srs_b3_13
+        .word   .Lxor_pow13, 160, .+4
+        .word   12, 12, .Lxor_sra_b3_13
+.Lxor_srs_b3_13:
+        .word   .Lxor_npow13, 100, .+4
+.Lxor_sra_b3_13:
+        .word   .Lxor_pow12, 100, .Lxor_srs_b3_12
+        .word   .Lxor_pow12, 160, .+4
+        .word   12, 12, .Lxor_sra_b3_12
+.Lxor_srs_b3_12:
+        .word   .Lxor_npow12, 100, .+4
+.Lxor_sra_b3_12:
+        .word   .Lxor_pow11, 100, .Lxor_srs_b3_11
+        .word   .Lxor_pow11, 160, .+4
+        .word   12, 12, .Lxor_sra_b3_11
+.Lxor_srs_b3_11:
+        .word   .Lxor_npow11, 100, .+4
+.Lxor_sra_b3_11:
+        .word   .Lxor_pow10, 100, .Lxor_srs_b3_10
+        .word   .Lxor_pow10, 160, .+4
+        .word   12, 12, .Lxor_sra_b3_10
+.Lxor_srs_b3_10:
+        .word   .Lxor_npow10, 100, .+4
+.Lxor_sra_b3_10:
+        .word   .Lxor_pow9, 100, .Lxor_srs_b3_9
+        .word   .Lxor_pow9, 160, .+4
+        .word   12, 12, .Lxor_sra_b3_9
+.Lxor_srs_b3_9:
+        .word   .Lxor_npow9, 100, .+4
+.Lxor_sra_b3_9:
+        .word   .Lxor_pow8, 100, .Lxor_srs_b3_8
+        .word   .Lxor_pow8, 160, .+4
+        .word   12, 12, .Lxor_sra_b3_8
+.Lxor_srs_b3_8:
+        .word   .Lxor_npow8, 100, .+4
+.Lxor_sra_b3_8:
+        .word   .Lxor_pow7, 100, .Lxor_srs_b3_7
+        .word   .Lxor_pow7, 160, .+4
+        .word   12, 12, .Lxor_sra_b3_7
+.Lxor_srs_b3_7:
+        .word   .Lxor_npow7, 100, .+4
+.Lxor_sra_b3_7:
+        .word   .Lxor_pow6, 100, .Lxor_srs_b3_6
+        .word   .Lxor_pow6, 160, .+4
+        .word   12, 12, .Lxor_sra_b3_6
+.Lxor_srs_b3_6:
+        .word   .Lxor_npow6, 100, .+4
+.Lxor_sra_b3_6:
+        .word   .Lxor_pow5, 100, .Lxor_srs_b3_5
+        .word   .Lxor_pow5, 160, .+4
+        .word   12, 12, .Lxor_sra_b3_5
+.Lxor_srs_b3_5:
+        .word   .Lxor_npow5, 100, .+4
+.Lxor_sra_b3_5:
+        .word   .Lxor_pow4, 100, .Lxor_srs_b3_4
+        .word   .Lxor_pow4, 160, .+4
+        .word   12, 12, .Lxor_sra_b3_4
+.Lxor_srs_b3_4:
+        .word   .Lxor_npow4, 100, .+4
+.Lxor_sra_b3_4:
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b3_PP
+.Lxor_split_b3_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lxor_split_b3_r21_ambig
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b3_strip
+.Lxor_split_b3_r21_ambig:
+        .word   .Lxor_one, 168, .+4
+        .word   144, 168, .Lxor_split_b3_r21_zero
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b3_strip
+.Lxor_split_b3_r21_zero:
+        .word   .Lxor_n1, 100, .+4
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b3_PP
+
+        .globl  __subleq_xor_b2
+        .type   __subleq_xor_b2,@function
+__subleq_xor_b2:
+        .word   160, 160, .+4
+        .word   144, 100, .Lxor_split_b2_r21_le0
+        .word   .Lxor_n1, 100, .+4
+.Lxor_split_b2_strip:
+        .word   .Lxor_pow30, 100, .Lxor_srs_b2_30
+        .word   .Lxor_pow30, 160, .+4
+        .word   12, 12, .Lxor_sra_b2_30
+.Lxor_srs_b2_30:
+        .word   .Lxor_npow30, 100, .+4
+.Lxor_sra_b2_30:
+        .word   .Lxor_pow29, 100, .Lxor_srs_b2_29
+        .word   .Lxor_pow29, 160, .+4
+        .word   12, 12, .Lxor_sra_b2_29
+.Lxor_srs_b2_29:
+        .word   .Lxor_npow29, 100, .+4
+.Lxor_sra_b2_29:
+        .word   .Lxor_pow28, 100, .Lxor_srs_b2_28
+        .word   .Lxor_pow28, 160, .+4
+        .word   12, 12, .Lxor_sra_b2_28
+.Lxor_srs_b2_28:
+        .word   .Lxor_npow28, 100, .+4
+.Lxor_sra_b2_28:
+        .word   .Lxor_pow27, 100, .Lxor_srs_b2_27
+        .word   .Lxor_pow27, 160, .+4
+        .word   12, 12, .Lxor_sra_b2_27
+.Lxor_srs_b2_27:
+        .word   .Lxor_npow27, 100, .+4
+.Lxor_sra_b2_27:
+        .word   .Lxor_pow26, 100, .Lxor_srs_b2_26
+        .word   .Lxor_pow26, 160, .+4
+        .word   12, 12, .Lxor_sra_b2_26
+.Lxor_srs_b2_26:
+        .word   .Lxor_npow26, 100, .+4
+.Lxor_sra_b2_26:
+        .word   .Lxor_pow25, 100, .Lxor_srs_b2_25
+        .word   .Lxor_pow25, 160, .+4
+        .word   12, 12, .Lxor_sra_b2_25
+.Lxor_srs_b2_25:
+        .word   .Lxor_npow25, 100, .+4
+.Lxor_sra_b2_25:
+        .word   .Lxor_pow24, 100, .Lxor_srs_b2_24
+        .word   .Lxor_pow24, 160, .+4
+        .word   12, 12, .Lxor_sra_b2_24
+.Lxor_srs_b2_24:
+        .word   .Lxor_npow24, 100, .+4
+.Lxor_sra_b2_24:
+        .word   .Lxor_pow23, 100, .Lxor_srs_b2_23
+        .word   .Lxor_pow23, 160, .+4
+        .word   12, 12, .Lxor_sra_b2_23
+.Lxor_srs_b2_23:
+        .word   .Lxor_npow23, 100, .+4
+.Lxor_sra_b2_23:
+        .word   .Lxor_pow22, 100, .Lxor_srs_b2_22
+        .word   .Lxor_pow22, 160, .+4
+        .word   12, 12, .Lxor_sra_b2_22
+.Lxor_srs_b2_22:
+        .word   .Lxor_npow22, 100, .+4
+.Lxor_sra_b2_22:
+        .word   .Lxor_pow21, 100, .Lxor_srs_b2_21
+        .word   .Lxor_pow21, 160, .+4
+        .word   12, 12, .Lxor_sra_b2_21
+.Lxor_srs_b2_21:
+        .word   .Lxor_npow21, 100, .+4
+.Lxor_sra_b2_21:
+        .word   .Lxor_pow20, 100, .Lxor_srs_b2_20
+        .word   .Lxor_pow20, 160, .+4
+        .word   12, 12, .Lxor_sra_b2_20
+.Lxor_srs_b2_20:
+        .word   .Lxor_npow20, 100, .+4
+.Lxor_sra_b2_20:
+        .word   .Lxor_pow19, 100, .Lxor_srs_b2_19
+        .word   .Lxor_pow19, 160, .+4
+        .word   12, 12, .Lxor_sra_b2_19
+.Lxor_srs_b2_19:
+        .word   .Lxor_npow19, 100, .+4
+.Lxor_sra_b2_19:
+        .word   .Lxor_pow18, 100, .Lxor_srs_b2_18
+        .word   .Lxor_pow18, 160, .+4
+        .word   12, 12, .Lxor_sra_b2_18
+.Lxor_srs_b2_18:
+        .word   .Lxor_npow18, 100, .+4
+.Lxor_sra_b2_18:
+        .word   .Lxor_pow17, 100, .Lxor_srs_b2_17
+        .word   .Lxor_pow17, 160, .+4
+        .word   12, 12, .Lxor_sra_b2_17
+.Lxor_srs_b2_17:
+        .word   .Lxor_npow17, 100, .+4
+.Lxor_sra_b2_17:
+        .word   .Lxor_pow16, 100, .Lxor_srs_b2_16
+        .word   .Lxor_pow16, 160, .+4
+        .word   12, 12, .Lxor_sra_b2_16
+.Lxor_srs_b2_16:
+        .word   .Lxor_npow16, 100, .+4
+.Lxor_sra_b2_16:
+        .word   .Lxor_pow15, 100, .Lxor_srs_b2_15
+        .word   .Lxor_pow15, 160, .+4
+        .word   12, 12, .Lxor_sra_b2_15
+.Lxor_srs_b2_15:
+        .word   .Lxor_npow15, 100, .+4
+.Lxor_sra_b2_15:
+        .word   .Lxor_pow14, 100, .Lxor_srs_b2_14
+        .word   .Lxor_pow14, 160, .+4
+        .word   12, 12, .Lxor_sra_b2_14
+.Lxor_srs_b2_14:
+        .word   .Lxor_npow14, 100, .+4
+.Lxor_sra_b2_14:
+        .word   .Lxor_pow13, 100, .Lxor_srs_b2_13
+        .word   .Lxor_pow13, 160, .+4
+        .word   12, 12, .Lxor_sra_b2_13
+.Lxor_srs_b2_13:
+        .word   .Lxor_npow13, 100, .+4
+.Lxor_sra_b2_13:
+        .word   .Lxor_pow12, 100, .Lxor_srs_b2_12
+        .word   .Lxor_pow12, 160, .+4
+        .word   12, 12, .Lxor_sra_b2_12
+.Lxor_srs_b2_12:
+        .word   .Lxor_npow12, 100, .+4
+.Lxor_sra_b2_12:
+        .word   .Lxor_pow11, 100, .Lxor_srs_b2_11
+        .word   .Lxor_pow11, 160, .+4
+        .word   12, 12, .Lxor_sra_b2_11
+.Lxor_srs_b2_11:
+        .word   .Lxor_npow11, 100, .+4
+.Lxor_sra_b2_11:
+        .word   .Lxor_pow10, 100, .Lxor_srs_b2_10
+        .word   .Lxor_pow10, 160, .+4
+        .word   12, 12, .Lxor_sra_b2_10
+.Lxor_srs_b2_10:
+        .word   .Lxor_npow10, 100, .+4
+.Lxor_sra_b2_10:
+        .word   .Lxor_pow9, 100, .Lxor_srs_b2_9
+        .word   .Lxor_pow9, 160, .+4
+        .word   12, 12, .Lxor_sra_b2_9
+.Lxor_srs_b2_9:
+        .word   .Lxor_npow9, 100, .+4
+.Lxor_sra_b2_9:
+        .word   .Lxor_pow8, 100, .Lxor_srs_b2_8
+        .word   .Lxor_pow8, 160, .+4
+        .word   12, 12, .Lxor_sra_b2_8
+.Lxor_srs_b2_8:
+        .word   .Lxor_npow8, 100, .+4
+.Lxor_sra_b2_8:
+        .word   .Lxor_pow7, 100, .Lxor_srs_b2_7
+        .word   .Lxor_pow7, 160, .+4
+        .word   12, 12, .Lxor_sra_b2_7
+.Lxor_srs_b2_7:
+        .word   .Lxor_npow7, 100, .+4
+.Lxor_sra_b2_7:
+        .word   .Lxor_pow6, 100, .Lxor_srs_b2_6
+        .word   .Lxor_pow6, 160, .+4
+        .word   12, 12, .Lxor_sra_b2_6
+.Lxor_srs_b2_6:
+        .word   .Lxor_npow6, 100, .+4
+.Lxor_sra_b2_6:
+        .word   .Lxor_pow5, 100, .Lxor_srs_b2_5
+        .word   .Lxor_pow5, 160, .+4
+        .word   12, 12, .Lxor_sra_b2_5
+.Lxor_srs_b2_5:
+        .word   .Lxor_npow5, 100, .+4
+.Lxor_sra_b2_5:
+        .word   .Lxor_pow4, 100, .Lxor_srs_b2_4
+        .word   .Lxor_pow4, 160, .+4
+        .word   12, 12, .Lxor_sra_b2_4
+.Lxor_srs_b2_4:
+        .word   .Lxor_npow4, 100, .+4
+.Lxor_sra_b2_4:
+        .word   .Lxor_pow3, 100, .Lxor_srs_b2_3
+        .word   .Lxor_pow3, 160, .+4
+        .word   12, 12, .Lxor_sra_b2_3
+.Lxor_srs_b2_3:
+        .word   .Lxor_npow3, 100, .+4
+.Lxor_sra_b2_3:
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b2_PP
+.Lxor_split_b2_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lxor_split_b2_r21_ambig
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b2_strip
+.Lxor_split_b2_r21_ambig:
+        .word   .Lxor_one, 168, .+4
+        .word   144, 168, .Lxor_split_b2_r21_zero
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b2_strip
+.Lxor_split_b2_r21_zero:
+        .word   .Lxor_n1, 100, .+4
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b2_PP
+
+        .globl  __subleq_xor_b1
+        .type   __subleq_xor_b1,@function
+__subleq_xor_b1:
+        .word   160, 160, .+4
+        .word   144, 100, .Lxor_split_b1_r21_le0
+        .word   .Lxor_n1, 100, .+4
+.Lxor_split_b1_strip:
+        .word   .Lxor_pow30, 100, .Lxor_srs_b1_30
+        .word   .Lxor_pow30, 160, .+4
+        .word   12, 12, .Lxor_sra_b1_30
+.Lxor_srs_b1_30:
+        .word   .Lxor_npow30, 100, .+4
+.Lxor_sra_b1_30:
+        .word   .Lxor_pow29, 100, .Lxor_srs_b1_29
+        .word   .Lxor_pow29, 160, .+4
+        .word   12, 12, .Lxor_sra_b1_29
+.Lxor_srs_b1_29:
+        .word   .Lxor_npow29, 100, .+4
+.Lxor_sra_b1_29:
+        .word   .Lxor_pow28, 100, .Lxor_srs_b1_28
+        .word   .Lxor_pow28, 160, .+4
+        .word   12, 12, .Lxor_sra_b1_28
+.Lxor_srs_b1_28:
+        .word   .Lxor_npow28, 100, .+4
+.Lxor_sra_b1_28:
+        .word   .Lxor_pow27, 100, .Lxor_srs_b1_27
+        .word   .Lxor_pow27, 160, .+4
+        .word   12, 12, .Lxor_sra_b1_27
+.Lxor_srs_b1_27:
+        .word   .Lxor_npow27, 100, .+4
+.Lxor_sra_b1_27:
+        .word   .Lxor_pow26, 100, .Lxor_srs_b1_26
+        .word   .Lxor_pow26, 160, .+4
+        .word   12, 12, .Lxor_sra_b1_26
+.Lxor_srs_b1_26:
+        .word   .Lxor_npow26, 100, .+4
+.Lxor_sra_b1_26:
+        .word   .Lxor_pow25, 100, .Lxor_srs_b1_25
+        .word   .Lxor_pow25, 160, .+4
+        .word   12, 12, .Lxor_sra_b1_25
+.Lxor_srs_b1_25:
+        .word   .Lxor_npow25, 100, .+4
+.Lxor_sra_b1_25:
+        .word   .Lxor_pow24, 100, .Lxor_srs_b1_24
+        .word   .Lxor_pow24, 160, .+4
+        .word   12, 12, .Lxor_sra_b1_24
+.Lxor_srs_b1_24:
+        .word   .Lxor_npow24, 100, .+4
+.Lxor_sra_b1_24:
+        .word   .Lxor_pow23, 100, .Lxor_srs_b1_23
+        .word   .Lxor_pow23, 160, .+4
+        .word   12, 12, .Lxor_sra_b1_23
+.Lxor_srs_b1_23:
+        .word   .Lxor_npow23, 100, .+4
+.Lxor_sra_b1_23:
+        .word   .Lxor_pow22, 100, .Lxor_srs_b1_22
+        .word   .Lxor_pow22, 160, .+4
+        .word   12, 12, .Lxor_sra_b1_22
+.Lxor_srs_b1_22:
+        .word   .Lxor_npow22, 100, .+4
+.Lxor_sra_b1_22:
+        .word   .Lxor_pow21, 100, .Lxor_srs_b1_21
+        .word   .Lxor_pow21, 160, .+4
+        .word   12, 12, .Lxor_sra_b1_21
+.Lxor_srs_b1_21:
+        .word   .Lxor_npow21, 100, .+4
+.Lxor_sra_b1_21:
+        .word   .Lxor_pow20, 100, .Lxor_srs_b1_20
+        .word   .Lxor_pow20, 160, .+4
+        .word   12, 12, .Lxor_sra_b1_20
+.Lxor_srs_b1_20:
+        .word   .Lxor_npow20, 100, .+4
+.Lxor_sra_b1_20:
+        .word   .Lxor_pow19, 100, .Lxor_srs_b1_19
+        .word   .Lxor_pow19, 160, .+4
+        .word   12, 12, .Lxor_sra_b1_19
+.Lxor_srs_b1_19:
+        .word   .Lxor_npow19, 100, .+4
+.Lxor_sra_b1_19:
+        .word   .Lxor_pow18, 100, .Lxor_srs_b1_18
+        .word   .Lxor_pow18, 160, .+4
+        .word   12, 12, .Lxor_sra_b1_18
+.Lxor_srs_b1_18:
+        .word   .Lxor_npow18, 100, .+4
+.Lxor_sra_b1_18:
+        .word   .Lxor_pow17, 100, .Lxor_srs_b1_17
+        .word   .Lxor_pow17, 160, .+4
+        .word   12, 12, .Lxor_sra_b1_17
+.Lxor_srs_b1_17:
+        .word   .Lxor_npow17, 100, .+4
+.Lxor_sra_b1_17:
+        .word   .Lxor_pow16, 100, .Lxor_srs_b1_16
+        .word   .Lxor_pow16, 160, .+4
+        .word   12, 12, .Lxor_sra_b1_16
+.Lxor_srs_b1_16:
+        .word   .Lxor_npow16, 100, .+4
+.Lxor_sra_b1_16:
+        .word   .Lxor_pow15, 100, .Lxor_srs_b1_15
+        .word   .Lxor_pow15, 160, .+4
+        .word   12, 12, .Lxor_sra_b1_15
+.Lxor_srs_b1_15:
+        .word   .Lxor_npow15, 100, .+4
+.Lxor_sra_b1_15:
+        .word   .Lxor_pow14, 100, .Lxor_srs_b1_14
+        .word   .Lxor_pow14, 160, .+4
+        .word   12, 12, .Lxor_sra_b1_14
+.Lxor_srs_b1_14:
+        .word   .Lxor_npow14, 100, .+4
+.Lxor_sra_b1_14:
+        .word   .Lxor_pow13, 100, .Lxor_srs_b1_13
+        .word   .Lxor_pow13, 160, .+4
+        .word   12, 12, .Lxor_sra_b1_13
+.Lxor_srs_b1_13:
+        .word   .Lxor_npow13, 100, .+4
+.Lxor_sra_b1_13:
+        .word   .Lxor_pow12, 100, .Lxor_srs_b1_12
+        .word   .Lxor_pow12, 160, .+4
+        .word   12, 12, .Lxor_sra_b1_12
+.Lxor_srs_b1_12:
+        .word   .Lxor_npow12, 100, .+4
+.Lxor_sra_b1_12:
+        .word   .Lxor_pow11, 100, .Lxor_srs_b1_11
+        .word   .Lxor_pow11, 160, .+4
+        .word   12, 12, .Lxor_sra_b1_11
+.Lxor_srs_b1_11:
+        .word   .Lxor_npow11, 100, .+4
+.Lxor_sra_b1_11:
+        .word   .Lxor_pow10, 100, .Lxor_srs_b1_10
+        .word   .Lxor_pow10, 160, .+4
+        .word   12, 12, .Lxor_sra_b1_10
+.Lxor_srs_b1_10:
+        .word   .Lxor_npow10, 100, .+4
+.Lxor_sra_b1_10:
+        .word   .Lxor_pow9, 100, .Lxor_srs_b1_9
+        .word   .Lxor_pow9, 160, .+4
+        .word   12, 12, .Lxor_sra_b1_9
+.Lxor_srs_b1_9:
+        .word   .Lxor_npow9, 100, .+4
+.Lxor_sra_b1_9:
+        .word   .Lxor_pow8, 100, .Lxor_srs_b1_8
+        .word   .Lxor_pow8, 160, .+4
+        .word   12, 12, .Lxor_sra_b1_8
+.Lxor_srs_b1_8:
+        .word   .Lxor_npow8, 100, .+4
+.Lxor_sra_b1_8:
+        .word   .Lxor_pow7, 100, .Lxor_srs_b1_7
+        .word   .Lxor_pow7, 160, .+4
+        .word   12, 12, .Lxor_sra_b1_7
+.Lxor_srs_b1_7:
+        .word   .Lxor_npow7, 100, .+4
+.Lxor_sra_b1_7:
+        .word   .Lxor_pow6, 100, .Lxor_srs_b1_6
+        .word   .Lxor_pow6, 160, .+4
+        .word   12, 12, .Lxor_sra_b1_6
+.Lxor_srs_b1_6:
+        .word   .Lxor_npow6, 100, .+4
+.Lxor_sra_b1_6:
+        .word   .Lxor_pow5, 100, .Lxor_srs_b1_5
+        .word   .Lxor_pow5, 160, .+4
+        .word   12, 12, .Lxor_sra_b1_5
+.Lxor_srs_b1_5:
+        .word   .Lxor_npow5, 100, .+4
+.Lxor_sra_b1_5:
+        .word   .Lxor_pow4, 100, .Lxor_srs_b1_4
+        .word   .Lxor_pow4, 160, .+4
+        .word   12, 12, .Lxor_sra_b1_4
+.Lxor_srs_b1_4:
+        .word   .Lxor_npow4, 100, .+4
+.Lxor_sra_b1_4:
+        .word   .Lxor_pow3, 100, .Lxor_srs_b1_3
+        .word   .Lxor_pow3, 160, .+4
+        .word   12, 12, .Lxor_sra_b1_3
+.Lxor_srs_b1_3:
+        .word   .Lxor_npow3, 100, .+4
+.Lxor_sra_b1_3:
+        .word   .Lxor_pow2, 100, .Lxor_srs_b1_2
+        .word   .Lxor_pow2, 160, .+4
+        .word   12, 12, .Lxor_sra_b1_2
+.Lxor_srs_b1_2:
+        .word   .Lxor_npow2, 100, .+4
+.Lxor_sra_b1_2:
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b1_PP
+.Lxor_split_b1_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lxor_split_b1_r21_ambig
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b1_strip
+.Lxor_split_b1_r21_ambig:
+        .word   .Lxor_one, 168, .+4
+        .word   144, 168, .Lxor_split_b1_r21_zero
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b1_strip
+.Lxor_split_b1_r21_zero:
+        .word   .Lxor_n1, 100, .+4
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b1_PP
+
+        .globl  __subleq_xor_b0
+        .type   __subleq_xor_b0,@function
+__subleq_xor_b0:
+        .word   160, 160, .+4
+        .word   144, 100, .Lxor_split_b0_r21_le0
+        .word   .Lxor_n1, 100, .+4
+.Lxor_split_b0_strip:
+        .word   .Lxor_pow30, 100, .Lxor_srs_b0_30
+        .word   .Lxor_pow30, 160, .+4
+        .word   12, 12, .Lxor_sra_b0_30
+.Lxor_srs_b0_30:
+        .word   .Lxor_npow30, 100, .+4
+.Lxor_sra_b0_30:
+        .word   .Lxor_pow29, 100, .Lxor_srs_b0_29
+        .word   .Lxor_pow29, 160, .+4
+        .word   12, 12, .Lxor_sra_b0_29
+.Lxor_srs_b0_29:
+        .word   .Lxor_npow29, 100, .+4
+.Lxor_sra_b0_29:
+        .word   .Lxor_pow28, 100, .Lxor_srs_b0_28
+        .word   .Lxor_pow28, 160, .+4
+        .word   12, 12, .Lxor_sra_b0_28
+.Lxor_srs_b0_28:
+        .word   .Lxor_npow28, 100, .+4
+.Lxor_sra_b0_28:
+        .word   .Lxor_pow27, 100, .Lxor_srs_b0_27
+        .word   .Lxor_pow27, 160, .+4
+        .word   12, 12, .Lxor_sra_b0_27
+.Lxor_srs_b0_27:
+        .word   .Lxor_npow27, 100, .+4
+.Lxor_sra_b0_27:
+        .word   .Lxor_pow26, 100, .Lxor_srs_b0_26
+        .word   .Lxor_pow26, 160, .+4
+        .word   12, 12, .Lxor_sra_b0_26
+.Lxor_srs_b0_26:
+        .word   .Lxor_npow26, 100, .+4
+.Lxor_sra_b0_26:
+        .word   .Lxor_pow25, 100, .Lxor_srs_b0_25
+        .word   .Lxor_pow25, 160, .+4
+        .word   12, 12, .Lxor_sra_b0_25
+.Lxor_srs_b0_25:
+        .word   .Lxor_npow25, 100, .+4
+.Lxor_sra_b0_25:
+        .word   .Lxor_pow24, 100, .Lxor_srs_b0_24
+        .word   .Lxor_pow24, 160, .+4
+        .word   12, 12, .Lxor_sra_b0_24
+.Lxor_srs_b0_24:
+        .word   .Lxor_npow24, 100, .+4
+.Lxor_sra_b0_24:
+        .word   .Lxor_pow23, 100, .Lxor_srs_b0_23
+        .word   .Lxor_pow23, 160, .+4
+        .word   12, 12, .Lxor_sra_b0_23
+.Lxor_srs_b0_23:
+        .word   .Lxor_npow23, 100, .+4
+.Lxor_sra_b0_23:
+        .word   .Lxor_pow22, 100, .Lxor_srs_b0_22
+        .word   .Lxor_pow22, 160, .+4
+        .word   12, 12, .Lxor_sra_b0_22
+.Lxor_srs_b0_22:
+        .word   .Lxor_npow22, 100, .+4
+.Lxor_sra_b0_22:
+        .word   .Lxor_pow21, 100, .Lxor_srs_b0_21
+        .word   .Lxor_pow21, 160, .+4
+        .word   12, 12, .Lxor_sra_b0_21
+.Lxor_srs_b0_21:
+        .word   .Lxor_npow21, 100, .+4
+.Lxor_sra_b0_21:
+        .word   .Lxor_pow20, 100, .Lxor_srs_b0_20
+        .word   .Lxor_pow20, 160, .+4
+        .word   12, 12, .Lxor_sra_b0_20
+.Lxor_srs_b0_20:
+        .word   .Lxor_npow20, 100, .+4
+.Lxor_sra_b0_20:
+        .word   .Lxor_pow19, 100, .Lxor_srs_b0_19
+        .word   .Lxor_pow19, 160, .+4
+        .word   12, 12, .Lxor_sra_b0_19
+.Lxor_srs_b0_19:
+        .word   .Lxor_npow19, 100, .+4
+.Lxor_sra_b0_19:
+        .word   .Lxor_pow18, 100, .Lxor_srs_b0_18
+        .word   .Lxor_pow18, 160, .+4
+        .word   12, 12, .Lxor_sra_b0_18
+.Lxor_srs_b0_18:
+        .word   .Lxor_npow18, 100, .+4
+.Lxor_sra_b0_18:
+        .word   .Lxor_pow17, 100, .Lxor_srs_b0_17
+        .word   .Lxor_pow17, 160, .+4
+        .word   12, 12, .Lxor_sra_b0_17
+.Lxor_srs_b0_17:
+        .word   .Lxor_npow17, 100, .+4
+.Lxor_sra_b0_17:
+        .word   .Lxor_pow16, 100, .Lxor_srs_b0_16
+        .word   .Lxor_pow16, 160, .+4
+        .word   12, 12, .Lxor_sra_b0_16
+.Lxor_srs_b0_16:
+        .word   .Lxor_npow16, 100, .+4
+.Lxor_sra_b0_16:
+        .word   .Lxor_pow15, 100, .Lxor_srs_b0_15
+        .word   .Lxor_pow15, 160, .+4
+        .word   12, 12, .Lxor_sra_b0_15
+.Lxor_srs_b0_15:
+        .word   .Lxor_npow15, 100, .+4
+.Lxor_sra_b0_15:
+        .word   .Lxor_pow14, 100, .Lxor_srs_b0_14
+        .word   .Lxor_pow14, 160, .+4
+        .word   12, 12, .Lxor_sra_b0_14
+.Lxor_srs_b0_14:
+        .word   .Lxor_npow14, 100, .+4
+.Lxor_sra_b0_14:
+        .word   .Lxor_pow13, 100, .Lxor_srs_b0_13
+        .word   .Lxor_pow13, 160, .+4
+        .word   12, 12, .Lxor_sra_b0_13
+.Lxor_srs_b0_13:
+        .word   .Lxor_npow13, 100, .+4
+.Lxor_sra_b0_13:
+        .word   .Lxor_pow12, 100, .Lxor_srs_b0_12
+        .word   .Lxor_pow12, 160, .+4
+        .word   12, 12, .Lxor_sra_b0_12
+.Lxor_srs_b0_12:
+        .word   .Lxor_npow12, 100, .+4
+.Lxor_sra_b0_12:
+        .word   .Lxor_pow11, 100, .Lxor_srs_b0_11
+        .word   .Lxor_pow11, 160, .+4
+        .word   12, 12, .Lxor_sra_b0_11
+.Lxor_srs_b0_11:
+        .word   .Lxor_npow11, 100, .+4
+.Lxor_sra_b0_11:
+        .word   .Lxor_pow10, 100, .Lxor_srs_b0_10
+        .word   .Lxor_pow10, 160, .+4
+        .word   12, 12, .Lxor_sra_b0_10
+.Lxor_srs_b0_10:
+        .word   .Lxor_npow10, 100, .+4
+.Lxor_sra_b0_10:
+        .word   .Lxor_pow9, 100, .Lxor_srs_b0_9
+        .word   .Lxor_pow9, 160, .+4
+        .word   12, 12, .Lxor_sra_b0_9
+.Lxor_srs_b0_9:
+        .word   .Lxor_npow9, 100, .+4
+.Lxor_sra_b0_9:
+        .word   .Lxor_pow8, 100, .Lxor_srs_b0_8
+        .word   .Lxor_pow8, 160, .+4
+        .word   12, 12, .Lxor_sra_b0_8
+.Lxor_srs_b0_8:
+        .word   .Lxor_npow8, 100, .+4
+.Lxor_sra_b0_8:
+        .word   .Lxor_pow7, 100, .Lxor_srs_b0_7
+        .word   .Lxor_pow7, 160, .+4
+        .word   12, 12, .Lxor_sra_b0_7
+.Lxor_srs_b0_7:
+        .word   .Lxor_npow7, 100, .+4
+.Lxor_sra_b0_7:
+        .word   .Lxor_pow6, 100, .Lxor_srs_b0_6
+        .word   .Lxor_pow6, 160, .+4
+        .word   12, 12, .Lxor_sra_b0_6
+.Lxor_srs_b0_6:
+        .word   .Lxor_npow6, 100, .+4
+.Lxor_sra_b0_6:
+        .word   .Lxor_pow5, 100, .Lxor_srs_b0_5
+        .word   .Lxor_pow5, 160, .+4
+        .word   12, 12, .Lxor_sra_b0_5
+.Lxor_srs_b0_5:
+        .word   .Lxor_npow5, 100, .+4
+.Lxor_sra_b0_5:
+        .word   .Lxor_pow4, 100, .Lxor_srs_b0_4
+        .word   .Lxor_pow4, 160, .+4
+        .word   12, 12, .Lxor_sra_b0_4
+.Lxor_srs_b0_4:
+        .word   .Lxor_npow4, 100, .+4
+.Lxor_sra_b0_4:
+        .word   .Lxor_pow3, 100, .Lxor_srs_b0_3
+        .word   .Lxor_pow3, 160, .+4
+        .word   12, 12, .Lxor_sra_b0_3
+.Lxor_srs_b0_3:
+        .word   .Lxor_npow3, 100, .+4
+.Lxor_sra_b0_3:
+        .word   .Lxor_pow2, 100, .Lxor_srs_b0_2
+        .word   .Lxor_pow2, 160, .+4
+        .word   12, 12, .Lxor_sra_b0_2
+.Lxor_srs_b0_2:
+        .word   .Lxor_npow2, 100, .+4
+.Lxor_sra_b0_2:
+        .word   .Lxor_pow1, 100, .Lxor_srs_b0_1
+        .word   .Lxor_pow1, 160, .+4
+        .word   12, 12, .Lxor_sra_b0_1
+.Lxor_srs_b0_1:
+        .word   .Lxor_npow1, 100, .+4
+.Lxor_sra_b0_1:
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b0_PP
+.Lxor_split_b0_r21_le0:
+        .word   168, 168, .+4
+        .word   100, 168, .+4
+        .word   144, 168, .Lxor_split_b0_r21_ambig
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b0_strip
+.Lxor_split_b0_r21_ambig:
+        .word   .Lxor_one, 168, .+4
+        .word   144, 168, .Lxor_split_b0_r21_zero
+        .word   .Lxor_c80, 100, .+4
+        .word   .Lxor_c80, 160, .+4
+        .word   .Lxor_n1, 100, .+4
+        .word   12, 12, .Lxor_split_b0_strip
+.Lxor_split_b0_r21_zero:
+        .word   .Lxor_n1, 100, .+4
+        .word   .Lxor_n1, 104, .+4
+        .word   12, 12, .Lxor_b0_PP
 .Lxor_Bit31:
         .word   144, 100, .Lxor_b31_r21_neg
         .word   12, 12, .Lxor_b31_chk_r22

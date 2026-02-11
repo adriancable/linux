@@ -943,73 +943,6 @@ static int do_mmap_shared_file(struct vm_area_struct *vma)
 	return -ENODEV;
 }
 
-/*
- * Subleq-optimized: allocate pages using power-of-2 compound allocations.
- *
- * Instead of alloc_pages_exact() which allocates a large block then SPLITS
- * it into individual pages (requiring O(n) frees), we allocate using binary
- * decomposition with compound pages.
- *
- * Example: 37 pages = 32 (order 5) + 4 (order 2) + 1 (order 0) = 3 allocations
- * On free, each compound page is freed with one __free_pages() call.
- *
- * Returns base address on success, NULL on failure.
- */
-static void *alloc_pages_compound_decompose(unsigned long total_pages, gfp_t gfp)
-{
-	unsigned long pages_remaining = total_pages;
-	unsigned long base_addr = 0;
-	unsigned long current_addr;
-	int first_alloc = 1;
-
-	while (pages_remaining > 0) {
-		unsigned int order = ilog2(pages_remaining);
-		unsigned long chunk_pages = 1UL << order;
-		struct page *page;
-
-		/* Ensure order doesn't exceed MAX_PAGE_ORDER */
-		if (order > MAX_PAGE_ORDER)
-			order = MAX_PAGE_ORDER;
-		chunk_pages = 1UL << order;
-
-		/* Allocate compound pages with __GFP_COMP */
-		page = alloc_pages(gfp | __GFP_COMP, order);
-		if (!page)
-			goto alloc_failed;
-
-		current_addr = (unsigned long)page_address(page);
-
-		if (first_alloc) {
-			base_addr = current_addr;
-			first_alloc = 0;
-		} else {
-			/*
-			 * Verify contiguity. The buddy allocator should give us
-			 * contiguous memory for sequential order-N requests from
-			 * the same high-order block, but if not, we need to fail.
-			 */
-			unsigned long expected = base_addr + 
-				((total_pages - pages_remaining) << PAGE_SHIFT);
-			if (current_addr != expected) {
-				/* Not contiguous - free and fall back */
-				__free_pages(page, order);
-				goto alloc_failed;
-			}
-		}
-
-		pages_remaining -= chunk_pages;
-	}
-
-	return (void *)base_addr;
-
-alloc_failed:
-	/* Free any pages we already allocated */
-	if (base_addr) {
-		unsigned long allocated = total_pages - pages_remaining;
-		free_page_series(base_addr, base_addr + (allocated << PAGE_SHIFT));
-	}
-	return NULL;
-}
 
 /*
  * set up a private mapping or an anonymous shared mapping
@@ -1073,8 +1006,13 @@ static int do_mmap_private(struct vm_area_struct *vma,
 		}
 	}
 
-	/* Fall back to decomposed allocation for exact page count */
-	base = alloc_pages_compound_decompose(total_pages, GFP_KERNEL);
+	/* Fall back to exact allocation (upstream approach).
+	 * alloc_pages_exact() allocates a power-of-2 block and frees the
+	 * unused tail pages. Guaranteed contiguous, but pages are individual
+	 * (not compound), so freeing is O(n) instead of O(log n).
+	 * This is acceptable since this path only fires under memory pressure.
+	 */
+	base = alloc_pages_exact(total_pages << PAGE_SHIFT, GFP_KERNEL);
 	if (!base)
 		goto enomem;
 

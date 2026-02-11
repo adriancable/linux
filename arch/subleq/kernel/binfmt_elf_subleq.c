@@ -1129,6 +1129,13 @@ static int process_relocations_and_symbols(struct libsrt_state *state, struct fi
 								nsyms *
 									sizeof(unsigned long),
 								GFP_KERNEL);
+							if (!sym_cache) {
+								kfree(syms);
+								kfree(strtab);
+								if (own_shdrs)
+									kfree(shdrs);
+								return -ENOMEM;
+							}
 						}
 					}
 				}
@@ -1355,8 +1362,16 @@ static int process_relocations_and_symbols(struct libsrt_state *state, struct fi
 
 		/* Allocate buffer for RELR data */
 		relr_buf = kmalloc(shdr->sh_size, GFP_KERNEL);
-		if (!relr_buf)
-			continue;  /* Skip this section on alloc failure */
+		if (!relr_buf) {
+			pr_err("Failed to allocate %u bytes for RELR relocations\n",
+			       shdr->sh_size);
+			kfree(sym_cache);
+			kfree(syms);
+			kfree(strtab);
+			if (own_shdrs)
+				kfree(shdrs);
+			return -ENOMEM;
+		}
 
 		pos = shdr->sh_offset;
 		ret = kernel_read(file, relr_buf, shdr->sh_size, &pos);
@@ -1804,6 +1819,7 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 	 */
 	if (hdr->e_entry == 0) {
 		subleq_elf_debug("Rejecting: entry point is 0 (shared library?)");
+		kfree(state);
 		return -ENOEXEC;
 	}
 
@@ -1895,14 +1911,17 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 				subleq_elf_debug("Failed deferred relocs for %s: %d\n",
 				       state->loaded_libs[i].name, (int)ret);
 				/* Close all open files and free cached data before returning */
-				for (i = 0; i < state->loaded_lib_count; i++) {
-					if (state->loaded_libs[i].file) {
-						fput(state->loaded_libs[i].file);
-						state->loaded_libs[i].file = NULL;
-					}
-					if (state->loaded_libs[i].shdrs) {
-						kfree(state->loaded_libs[i].shdrs);
-						state->loaded_libs[i].shdrs = NULL;
+				{
+					int j;
+					for (j = 0; j < state->loaded_lib_count; j++) {
+						if (state->loaded_libs[j].file) {
+							fput(state->loaded_libs[j].file);
+							state->loaded_libs[j].file = NULL;
+						}
+						if (state->loaded_libs[j].shdrs) {
+							kfree(state->loaded_libs[j].shdrs);
+							state->loaded_libs[j].shdrs = NULL;
+						}
 					}
 				}
 				goto out; /* Deferred relocs cleanup handles itself */
@@ -1964,10 +1983,10 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 	heap_base = vm_mmap(NULL, 0, heap_size, PROT_READ | PROT_WRITE,
 			    MAP_PRIVATE | MAP_ANONYMOUS, 0);
 	if (IS_ERR_VALUE(heap_base)) {
-		subleq_elf_debug("Failed to allocate heap, using minimal");
-		/* Fallback: use a minimal heap at end of loaded binary */
-		heap_base = exec_info.load_addr + exec_info.total_size;
-		heap_size = PAGE_SIZE; /* Minimal, will likely fail */
+		pr_err("Failed to allocate %lu byte heap for %s\n",
+		       heap_size, bprm->filename);
+		ret = heap_base;
+		goto out;
 	}
 
 	/* Set up stack */

@@ -14,21 +14,14 @@ KBUILD_CFLAGS += -fno-stack-protector
 # No PIC/PIE - we run at fixed addresses
 KBUILD_CFLAGS += -fno-pic -fno-pie
 
-# Wrap signed integer overflow (important for Subleq runtime)
-KBUILD_CFLAGS += -fwrapv
-
 # Suppress false positive array-bounds warnings from signal.h macros
 # (switch-based code with compile-time constant _NSIG_WORDS=2)
 KBUILD_CFLAGS += -Wno-array-bounds
 
-# Stack size for the kernel (near top of 1GB address space)
-# 0x3F000000 = 1008MB, leaving ~16MB for stack
-SUBLEQ_STACK_SIZE := 0x3F000000
-
 # Text start address (after boot area)
 SUBLEQ_TEXT_START := 0x1000
 
-export SUBLEQ_STACK_SIZE SUBLEQ_TEXT_START
+export SUBLEQ_TEXT_START
 
 # Head object comes first
 head-y := arch/subleq/kernel/head.o

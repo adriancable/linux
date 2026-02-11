@@ -40,7 +40,7 @@ void show_stack(struct task_struct *task, unsigned long *sp, const char *loglvl)
 {
 	unsigned long *stack;
 	unsigned long addr;
-	int i, max_entries = 20;
+	int i, found = 0, max_scan = 128;
 
 	if (sp == NULL) {
 		/* Get current SP from memory location 16 (REG_SP) */
@@ -50,7 +50,7 @@ void show_stack(struct task_struct *task, unsigned long *sp, const char *loglvl)
 	printk("%sStack trace from SP=%px:\n", loglvl, sp);
 
 	stack = sp;
-	for (i = 0; i < max_entries; i++) {
+	for (i = 0; i < max_scan && found < 20; i++) {
 		/* Basic bounds check - stack should be above 0x1000 */
 		if ((unsigned long)stack < 0x1000)
 			break;
@@ -60,21 +60,32 @@ void show_stack(struct task_struct *task, unsigned long *sp, const char *loglvl)
 		/* Check if this looks like a kernel text address */
 		if (addr >= (unsigned long)_stext &&
 		    addr <= (unsigned long)_etext) {
-			printk("%s [<%08lx>] (possible return address)\n",
-			       loglvl, addr);
+			printk("%s [<%08lx>] %pS\n", loglvl, addr,
+			       (void *)addr);
+			found++;
 		}
 	}
+
+	if (found == 0)
+		printk("%s (no return addresses found on stack)\n", loglvl);
 }
 
 /*
- * Register dump - minimal implementation
+ * Register dump
  */
 void show_regs(struct pt_regs *regs)
 {
 	pr_info("Registers:\n");
 	if (regs) {
-		pr_info("  PC: %08lx  SP: %08lx\n", regs->pc, regs->sp);
-		pr_info("  R20: %08lx  R21: %08lx\n", regs->r20, regs->r21);
+		unsigned long pc = PT_REG_GET(regs, pc);
+		unsigned long sp = PT_REG_GET(regs, sp);
+		unsigned long ra = PT_REG_GET(regs, ra);
+
+		pr_info("  PC: %08lx (%pS)\n", pc, (void *)pc);
+		pr_info("  SP: %08lx  RA: %08lx (%pS)\n", sp, ra,
+			(void *)ra);
+		pr_info("  R20: %08lx  R21: %08lx\n",
+			PT_REG_GET(regs, r20), PT_REG_GET(regs, r21));
 	}
 }
 

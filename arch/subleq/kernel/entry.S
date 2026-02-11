@@ -14,57 +14,7 @@
 .set INT_SAVED_PC, 4
 .set INT_SAVED_HANDLER, 8
 
-/* Source register addresses */
-.set REG_Z, 12
-.set REG_SP, 16
-.set REG_RA, 20
-.set ZERO, 144             /* Read-only zero constant at word 36 */
-.set REG_R3, 28
-.set REG_R4, 32
-.set REG_R5, 36
-.set REG_R6, 40
-.set REG_R7, 44
-.set REG_R8, 48
-.set REG_R9, 52
-.set REG_R10, 56
-.set REG_R11, 60
-.set REG_R12, 64
-.set REG_R13, 68
-.set REG_R14, 72
-.set REG_R15, 76
-.set REG_R16, 80
-.set REG_R17, 84
-.set REG_R18, 88
-.set REG_R19, 92
-.set REG_R20, 96
-.set REG_R21, 100
-.set REG_R22, 104
-.set REG_R23, 108
-.set REG_R24, 112
-.set REG_R25, 116
-.set REG_R26, 120
-.set REG_R27, 124
-.set REG_R28, 128
-.set REG_R29, 132
-.set REG_R30, 136
-.set REG_R31, 140
-.set REG_FP, 148         /* Frame pointer at word 37 */
-.set REG_T0, 160
-.set REG_T1, 164
-.set REG_T2, 168
-.set REG_T3, 172
-.set REG_T4, 176
-.set REG_T5, 180
-.set REG_T6, 184
-.set REG_T7, 188
-.set REG_T8, 192
-.set REG_T9, 196
-.set REG_T10, 200
-.set REG_T11, 204
-.set REG_T12, 208
-.set REG_T13, 212
-.set REG_T14, 216
-.set REG_T15, 220
+#include <asm/subleq-regs.h>
 
 .set INT_Z, 224
 
@@ -168,11 +118,11 @@ subleq_irq_entry:
          * INT_Z2 = SP - kernel_sp
          * If INT_Z2 < 0 (SP < kernel_sp): passes check 1
          * If INT_Z2 >= 0 (SP >= kernel_sp): user mode (fail)
+         *
+         * OPT-9: SAVE_SP = -SP (from Phase 0c), reuse it.
          */
         .word   INT_Z2, INT_Z2, .+4              /* INT_Z2 = 0 */
-        .word   INT_Z, INT_Z, .+4                /* INT_Z = 0 */
-        .word   REG_SP, INT_Z, .+4               /* INT_Z = -SP */
-        .word   INT_Z, INT_Z2, .+4               /* INT_Z2 = SP */
+        .word   SAVE_SP, INT_Z2, .+4             /* INT_Z2 = SP */
         .word   subleq_kernel_sp, INT_Z2, .+4    /* INT_Z2 = SP - kernel_sp */
         /* If SP - kernel_sp > 0 (SP > kernel_sp), it's user mode */
         /* subleq ZERO, INT_Z2, next: INT_Z2 -= 0, jump if INT_Z2 <= 0 */
@@ -306,7 +256,7 @@ subleq_irq_entry:
          *   [INT_Z2] -= REG     (store -REG)
          */
 
-        /* Initialize running pointer: INT_Z2 = SP */
+        /* Initialize running pointer: INT_Z2 = SP (current, post-switch SP) */
         .word   INT_Z2, INT_Z2, .+4              /* INT_Z2 = 0 */
         .word   INT_Z, INT_Z, .+4                /* INT_Z = 0 */
         .word   REG_SP, INT_Z, .+4               /* INT_Z = -SP */
@@ -693,13 +643,6 @@ subleq_irq_entry:
         .word   INT_Z2 | INDIRECT, SAVE_JMPTGT, .+4      /* SAVE_JMPTGT = +pc */
 
 
-
-
-        /* Read pt_regs->r21 (offset 72) - will be loaded after POP sequence */
-        /* Read pt_regs->r22 (offset 76) - will be loaded after POP sequence */
-        /* Read pt_regs->r23 (offset 80) - will be loaded after POP sequence */
-        /* Read pt_regs->ra (offset 124) - will be loaded after POP sequence */
-
         /*
          * PHASE 3a: RESTORE ALL GPRs FROM pt_regs
          *
@@ -710,14 +653,10 @@ subleq_irq_entry:
          * NEGATED STORAGE: pt_regs values are stored as -value.
          * To restore: reg = 0; reg -= [ptr] = -(-value) = value
          *
-         * Use running pointer starting at offset 0 (r3).
+         * OPT-1: INT_Z2 is currently at SP+128 (after reading PC).
+         * Rewind to SP+0 by subtracting 128 (1 insn vs 4).
          */
-
-        /* Initialize running pointer: INT_Z2 = SP (pt_regs base) */
-        .word   INT_Z2, INT_Z2, .+4
-        .word   INT_Z, INT_Z, .+4
-        .word   REG_SP, INT_Z, .+4
-        .word   INT_Z, INT_Z2, .+4
+        .word   .Lconst_128, INT_Z2, .+4         /* INT_Z2 = SP+128 - 128 = SP */
 
         /* Load R3 from pt_regs->r3 (offset 0) - from NEGATED storage */
         .word   REG_R3, REG_R3, .+4                /* reg = 0 */
@@ -1041,8 +980,6 @@ subleq_irq_entry:
 .Lconst_char_W:
         .word   87              /* 'W' for Work loop debug */
 
-/* Subleq+ indirect addressing flag */
-.set INDIRECT, 2
 
 .globl subleq_irq_entry_end
 subleq_irq_entry_end:
@@ -1115,8 +1052,6 @@ subleq_dummy_irq_handler:
  * (e.g., CONFIG_PREEMPT=y adds fields to task_struct, shifting thread).
  */
 
-/* Subleq+ indirect addressing flag (bit 1) */
-.set INDIRECT, 2
 
 .globl __switch_to
 .type __switch_to, @function
@@ -1290,37 +1225,34 @@ __switch_to:
         /* Save R31 at [SP + 96] */
         .word   .Lconst_neg4, SW_Z2, .+4
         .word   SW_Z2 | INDIRECT, SW_Z2 | INDIRECT, .+4
-        .word   REG_R31, SW_Z2 | INDIRECT, .Lsw_save_sp
+        .word   REG_R31, SW_Z2 | INDIRECT, .Lsw_save_sp_fp
 
         /*
-         * STEP 3: Save SP to prev->thread.sp
+         * STEP 3: Save SP and FP to prev->thread (SW-1: fused)
+         *
+         * thread.sp and thread.fp are adjacent (offsets 0 and 4 within
+         * thread_struct). Compute &prev->thread.sp once, then advance
+         * by 4 for fp. Saves 4 instructions vs independent calculations.
          */
-.Lsw_save_sp:
+.Lsw_save_sp_fp:
         /* Calculate &prev->thread.sp into SW_Z2 */
         .word   SW_Z, SW_Z, .+4
         .word   REG_R21, SW_Z, .+4
         .word   SW_Z2, SW_Z2, .+4
         .word   SW_Z, SW_Z2, .+4              /* SW_Z2 = prev */
         .word   .Lconst_neg_task_thread_sp, SW_Z2, .+4       /* SW_Z2 = &prev->thread.sp */
-        /* Clear and store SP */
-        .word   SW_Z2 | INDIRECT, SW_Z2 | INDIRECT, .+4
+        /* Store SP */
+        .word   SW_Z2 | INDIRECT, SW_Z2 | INDIRECT, .+4      /* [dest] = 0 */
         .word   SW_Z, SW_Z, .+4
-        .word   REG_SP, SW_Z, .+4
-        .word   SW_Z, SW_Z2 | INDIRECT, .Lsw_save_fp
-
-        /*
-         * STEP 3b: Save FP to prev->thread.fp
-         */
-.Lsw_save_fp:
+        .word   REG_SP, SW_Z, .+4                            /* SW_Z = -SP */
+        .word   SW_Z, SW_Z2 | INDIRECT, .+4                  /* [dest] = SP */
+        /* Advance to &prev->thread.fp */
+        .word   .Lconst_neg4, SW_Z2, .+4                     /* SW_Z2 += 4 */
+        /* Store FP */
+        .word   SW_Z2 | INDIRECT, SW_Z2 | INDIRECT, .+4      /* [dest] = 0 */
         .word   SW_Z, SW_Z, .+4
-        .word   REG_R21, SW_Z, .+4
-        .word   SW_Z2, SW_Z2, .+4
-        .word   SW_Z, SW_Z2, .+4
-        .word   .Lconst_neg_task_thread_fp, SW_Z2, .+4    /* SW_Z2 = &prev->thread.fp */
-        .word   SW_Z2 | INDIRECT, SW_Z2 | INDIRECT, .+4
-        .word   SW_Z, SW_Z, .+4
-        .word   REG_FP, SW_Z, .+4
-        .word   SW_Z, SW_Z2 | INDIRECT, .Lsw_update_current
+        .word   REG_FP, SW_Z, .+4                            /* SW_Z = -FP */
+        .word   SW_Z, SW_Z2 | INDIRECT, .Lsw_update_current  /* [dest] = FP */
 
         /*
          * STEP 4: Update subleq_current_task = next
@@ -1339,11 +1271,12 @@ __switch_to:
          *
          * Formula: subleq_kernel_sp = next->stack + KERNEL_SP_OFFSET
          * where KERNEL_SP_OFFSET = THREAD_SIZE - sizeof(pt_regs) - 1024
+         *
+         * SW-3: SW_Z still = -R22 = -next from Step 4 (subleq_current_task
+         * store only reads SW_Z, doesn't modify it). Reuse directly.
          */
 .Lsw_update_kernel_sp:
-        /* Load next->stack into SW_Z2 */
-        .word   SW_Z, SW_Z, .+4
-        .word   REG_R22, SW_Z, .+4                            /* SW_Z = -next */
+        /* Load next->stack into SW_Z2. SW_Z = -next (cached from Step 4) */
         .word   SW_Z2, SW_Z2, .+4
         .word   SW_Z, SW_Z2, .+4                              /* SW_Z2 = next */
         .word   .Lconst_neg_task_stack, SW_Z2, .+4            /* SW_Z2 = &next->stack */
@@ -1358,12 +1291,16 @@ __switch_to:
         .word   SW_Z, SW_Z, .+4
         .word   SW_Z2, SW_Z, .+4                              /* SW_Z = -kernel_sp */
         .word   subleq_kernel_sp, subleq_kernel_sp, .+4       /* clear */
-        .word   SW_Z, subleq_kernel_sp, .Lsw_load_sp          /* store */
+        .word   SW_Z, subleq_kernel_sp, .Lsw_load_sp_fp      /* store */
 
         /*
-         * STEP 5: Load SP from next->thread.sp
+         * STEP 5: Load SP and FP from next->thread (SW-2: fused)
+         *
+         * Like SW-1, thread.sp and thread.fp are adjacent. Compute
+         * &next->thread.sp once, load SP, advance by 4, load FP.
+         * Saves 5 instructions vs independent calculations.
          */
-.Lsw_load_sp:
+.Lsw_load_sp_fp:
         .word   SW_Z, SW_Z, .+4
         .word   REG_R22, SW_Z, .+4
         .word   SW_Z2, SW_Z2, .+4
@@ -1373,17 +1310,10 @@ __switch_to:
         .word   SW_Z, SW_Z, .+4
         .word   SW_Z2 | INDIRECT, SW_Z, .+4
         .word   REG_SP, REG_SP, .+4
-        .word   SW_Z, REG_SP, .Lsw_load_fp
-
-        /*
-         * STEP 5b: Load FP from next->thread.fp
-         */
-.Lsw_load_fp:
-        .word   SW_Z, SW_Z, .+4
-        .word   REG_R22, SW_Z, .+4
-        .word   SW_Z2, SW_Z2, .+4
-        .word   SW_Z, SW_Z2, .+4
-        .word   .Lconst_neg_task_thread_fp, SW_Z2, .+4    /* SW_Z2 = &next->thread.fp */
+        .word   SW_Z, REG_SP, .+4                            /* SP = next->thread.sp */
+        /* Advance to &next->thread.fp */
+        .word   .Lconst_neg4, SW_Z2, .+4                     /* SW_Z2 += 4 */
+        /* Load [SW_Z2] into FP */
         .word   SW_Z, SW_Z, .+4
         .word   SW_Z2 | INDIRECT, SW_Z, .+4
         .word   REG_FP, REG_FP, .+4
@@ -2958,6 +2888,8 @@ __subleq_syscall:
         .word   -12
 .Lconst_32:
         .word   32              /* Go back from offset 224 to 192 */
+.Lconst_128:
+        .word   128             /* OPT-1: Rewind pointer from SP+128 to SP+0 */
 .Lconst_neg32:
         .word   -32             /* For SYSCALL_SCRATCH address adjustment */
 .Lconst_neg40:
@@ -3020,8 +2952,6 @@ __subleq_syscall:
 /* task_struct offsets - computed from asm-offsets.h */
 .Lconst_neg_task_thread_sp:
         .word   -(TASK_THREAD_SP)       /* -offsetof(task_struct, thread.sp) */
-.Lconst_neg_task_thread_fp:
-        .word   -(TASK_THREAD_FP)       /* -offsetof(task_struct, thread.fp) */
 .Lconst_neg_task_stack:
         .word   -(TASK_STACK)           /* -offsetof(task_struct, stack) */
 .Lconst_neg_kernel_sp_offset:

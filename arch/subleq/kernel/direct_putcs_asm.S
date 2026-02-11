@@ -38,24 +38,7 @@
         .balign 4
 subleq_direct_putcs:
 
-/* Register offsets */
-.set REG_Z, 12
-.set REG_SP, 16
-.set REG_R20, 96
-.set REG_R21, 100
-.set REG_R22, 104
-.set REG_R23, 108
-.set REG_R24, 112
-.set REG_T4, 176
-.set REG_T8, 192
-.set REG_T9, 196
-.set REG_T10, 200
-.set REG_T11, 204
-.set REG_T12, 208
-.set REG_T13, 212
-.set REG_T14, 216
-.set REG_T15, 220
-.set INDIRECT, 2
+#include <asm/subleq-regs.h>
 
 /*===========================================================================
  * PROLOGUE: Load arguments

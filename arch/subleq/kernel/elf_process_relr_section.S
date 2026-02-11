@@ -21,25 +21,12 @@
 .globl elf_process_relr_section
 .type elf_process_relr_section, @function
 
-.set REG_Z, 12
-.set REG_SP, 16
-.set ZERO, 144
-.set REG_R20, 96
-.set REG_R21, 100
-.set REG_R22, 104
-.set REG_R23, 108
-.set REG_R24, 112
-.set REG_T0, 160      /* addr_adj */
-.set REG_T1, 164      /* load_offset */
-.set REG_T2, 168      /* bytes_remaining (counts down by 4) */
-.set REG_T3, 172      /* ptr to current entry */
-.set REG_T4, 176      /* base for bitmaps */
-.set REG_T5, 180      /* entry value / working copy */
-.set REG_T6, 184      /* original entry (preserved) */
-.set REG_T7, 188      /* scratch / base_ptr */
-.set REG_T8, 192      /* bit table pointer */
-.set REG_T9, 196      /* patch address */
-.set INDIRECT, 2
+#include <asm/subleq-regs.h>
+/* Register allocation for this function:
+ * T0 = addr_adj, T1 = load_offset, T2 = bytes_remaining,
+ * T3 = ptr to current entry, T4 = base for bitmaps,
+ * T5 = entry value, T6 = original entry, T7 = scratch,
+ * T8 = bit table pointer, T9 = patch address */
 
 elf_process_relr_section:
         /* T0 = addr_adj = load_addr - base_vaddr */

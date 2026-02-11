@@ -15,12 +15,7 @@
 	.global _start
 	.type _start, @function
 
-/* Register addresses */
-.set REG_Z, 12
-.set REG_SP, 16
-
-/* Thread size = PAGE_SIZE (must match asm/page.h PAGE_SHIFT=14 -> 16KB) */
-.set THREAD_SIZE, 16384
+#include <asm/subleq-regs.h>
 
 _start:
 	/*

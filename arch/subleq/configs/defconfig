@@ -125,7 +125,9 @@ CONFIG_CMDLINE_FORCE=y
 
 # Disable unused subsystems
 # CONFIG_FW_LOADER is not set
-# CONFIG_INPUT is not set
+# Input subsystem for keyboard scancode handling
+CONFIG_INPUT=y
+CONFIG_INPUT_KEYBOARD=y
 # CONFIG_SERIO is not set
 # CONFIG_HID_SUPPORT is not set
 # CONFIG_USB_SUPPORT is not set

@@ -2,7 +2,7 @@
 /*
  * Subleq interrupt handling
  *
- * The VM fires a timer interrupt every 10000 instruction cycles:
+ * The VM fires a timer interrupt every 500000 instruction cycles:
  * - Saves current PC to m[1] (byte address 4)
  * - Jumps to handler address in m[0]
  *
@@ -30,10 +30,23 @@
 #define INT_SAVED_PC_ADDR ((volatile unsigned long *)4)
 #define INT_SAVED_HANDLER ((volatile unsigned long *)8)
 
+/* Subleq Clock Registers */
+#define SUBLEQ_CLOCK_S_LO	256
+#define SUBLEQ_CLOCK_S_HI	260
+#define SUBLEQ_CLOCK_NS		264
+
 /* subleq_irq_entry declared in asm/ptrace.h as char[] for address range checking */
 
 /* do_notify_resume is defined in signal.c */
 extern asmlinkage void do_notify_resume(struct pt_regs *regs);
+
+static inline u64 subleq_get_time_ns(void)
+{
+	u32 lo = readl((void __iomem *)SUBLEQ_CLOCK_S_LO);
+	u32 hi = readl((void __iomem *)SUBLEQ_CLOCK_S_HI);
+	u32 ns = readl((void __iomem *)SUBLEQ_CLOCK_NS);
+	return ((u64)hi << 32 | lo) * NSEC_PER_SEC + ns;
+}
 
 /*
  * C-level interrupt handler - called from assembly entry.S
@@ -58,7 +71,33 @@ void subleq_do_IRQ(struct pt_regs *regs)
 	irq_enter();
 
 	/* Handle the timer interrupt (the only interrupt we have) */
-	legacy_timer_tick(1);
+	/*
+	 * Advance jiffies based on real wall-clock time.
+	 *
+	 * Timer interrupts fire by instruction count, not real time.
+	 * Read the VM's nanosecond-resolution clock and compute how
+	 * many ticks (at HZ rate) should have elapsed since the last
+	 * update, then advance jiffies by that amount.
+	 *
+	 * If less than one tick has elapsed, skip — do not force a
+	 * minimum, as that would cause last_ns to drift ahead of
+	 * now_ns and eventually wrap the unsigned subtraction.
+	 */
+	{
+		unsigned int ticks;
+		u64 now_ns = subleq_get_time_ns();
+		static u64 last_ns;
+
+		if (last_ns == 0)
+			last_ns = now_ns;
+
+		ticks = (unsigned int)((now_ns - last_ns) /
+				       (NSEC_PER_SEC / HZ));
+		if (ticks > 0) {
+			last_ns += (u64)ticks * (NSEC_PER_SEC / HZ);
+			legacy_timer_tick(ticks);
+		}
+	}
 
 	/* Exit IRQ context - may trigger softirqs */
 	irq_exit();

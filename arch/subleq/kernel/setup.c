@@ -126,7 +126,7 @@ void __init setup_arch(char **cmdline_p)
 	/* Register early console */
 	register_console(&subleq_early_console);
 
-	pr_info("Subleq Linux %s\n", UTS_RELEASE);
+	pr_info("Eternal Software Initiative Linux %s (https://eternal-software.org)\n", UTS_RELEASE);
 	pr_info("Memory: 0x%08lx - 0x%08lx (%lu MB)\n", subleq_memory_start,
 		subleq_memory_end,
 		(subleq_memory_end - subleq_memory_start) >> 20);

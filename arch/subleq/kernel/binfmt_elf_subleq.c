@@ -784,8 +784,8 @@ static int get_elf_needed_libs(struct file *file, struct elfhdr *hdr,
 	}
 
 	/* Read dynamic section */
-	if (dyn_size > 4096) /* Sanity check */
-		dyn_size = 4096;
+	if (dyn_size > 1048576) /* Sanity: reject corrupt ELF */
+		return 0;
 
 	dyns = kmalloc(dyn_size, GFP_KERNEL);
 	if (!dyns)
@@ -810,7 +810,7 @@ static int get_elf_needed_libs(struct file *file, struct elfhdr *hdr,
 			strtab_size = dyn->d_un.d_val;
 	}
 
-	if (strtab_size == 0 || strtab_size > 4096) {
+	if (strtab_size == 0 || strtab_size > 1048576) {
 		kfree(dyns);
 		subleq_elf_debug("No DT_STRTAB or invalid size");
 		return 0;
@@ -1285,7 +1285,7 @@ static int process_relocations_and_symbols(struct libsrt_state *state, struct fi
 					if (bind == 2) { /* STB_WEAK */
 						*patch_addr = 0;
 					} else {
-						subleq_elf_debug("unresolved symbol: %s\n",
+						subleq_elf_debug("unresolved symbol: %s",
 							strtab + syms[sym_idx].st_name);
 					}
 				} else if (cache_val >= 2) {
@@ -1312,7 +1312,7 @@ static int process_relocations_and_symbols(struct libsrt_state *state, struct fi
 						if (bind == 2) { /* STB_WEAK */
 							*patch_addr = 0;
 						} else {
-							subleq_elf_debug("unresolved symbol: %s\n",
+							subleq_elf_debug("unresolved symbol: %s",
 								strtab + syms[sym_idx].st_name);
 						}
 					}
@@ -1499,9 +1499,8 @@ static int load_libsrt(struct libsrt_state *state, const char *lib_path, struct 
 
 	lib_file = filp_open(lib_path, O_RDONLY, 0);
 	if (IS_ERR(lib_file)) {
-		/* Library not found - this is OK, binary might not need it */
-		subleq_elf_debug("Shared library not found: %s", lib_path);
-		return 0;
+		pr_warn("SUBLEQ_ELF: cannot open needed library: %s\n", lib_path);
+		return -ELIBACC;
 	}
 
 	/* Read ELF header */
@@ -1513,7 +1512,7 @@ static int load_libsrt(struct libsrt_state *state, const char *lib_path, struct 
 
 	if (!is_subleq_elf(&lib_hdr, lib_file)) {
 		fput(lib_file);
-		subleq_elf_debug("%s is not a valid Subleq ELF\n", lib_path);
+		subleq_elf_debug("%s is not a valid Subleq ELF", lib_path);
 		return -ENOEXEC;
 	}
 
@@ -1522,7 +1521,7 @@ static int load_libsrt(struct libsrt_state *state, const char *lib_path, struct 
 	ret = load_elf_segments(lib_file, &lib_hdr, lib_info, NULL, 0);
 	if (ret < 0) {
 		fput(lib_file);
-		subleq_elf_debug("Failed to load %s: %d\n", lib_path,
+		subleq_elf_debug("Failed to load %s: %d", lib_path,
 		       (int)ret);
 		return ret;
 	}
@@ -1550,7 +1549,7 @@ static int load_libsrt(struct libsrt_state *state, const char *lib_path, struct 
 					      NULL,  /* No cached shdrs yet */
 					      &state->loaded_libs[state->loaded_lib_count - 1].shdrs);
 	if (ret < 0) {
-		subleq_elf_debug("Failed to build symtab for %s: %d\n",
+		subleq_elf_debug("Failed to build symtab for %s: %d",
 		       lib_path, (int)ret);
 		return ret;
 	}
@@ -1914,7 +1913,7 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 				state->loaded_libs[i].shdrs,  /* Use cached shdrs */
 				NULL);  /* No need to cache again */
 			if (ret < 0) {
-				subleq_elf_debug("Failed deferred relocs for %s: %d\n",
+				subleq_elf_debug("Failed deferred relocs for %s: %d",
 				       state->loaded_libs[i].name, (int)ret);
 				/* Close all open files and free cached data before returning */
 				{
@@ -1970,7 +1969,7 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 					      1,  /* is_main_exec=1: main executable */
 					      NULL, NULL);
 	if (ret < 0) {
-		subleq_elf_debug("Failed to process relocations/symbols: %d\n",
+		subleq_elf_debug("Failed to process relocations/symbols: %d",
 		       ret);
 		goto out;
 	}

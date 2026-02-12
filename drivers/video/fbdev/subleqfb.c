@@ -29,7 +29,7 @@ extern void subleq_blit_row8(u32 *dst, u32 byte, u32 fg, u32 bg);
 #define SUBLEQFB_HEIGHT      512
 #define SUBLEQFB_BPP         32      /* XRGB8888 - 32-bit aligned for fast word access */
 #define SUBLEQFB_FB_SIZE     (SUBLEQFB_WIDTH * SUBLEQFB_HEIGHT * 4)
-#define SUBLEQFB_FB_ADDR     (0x40000000UL - SUBLEQFB_FB_SIZE)
+#define SUBLEQFB_FB_ADDR     (0x60000000UL - SUBLEQFB_FB_SIZE)
 
 static struct fb_var_screeninfo subleqfb_var = {
 	.xres           = SUBLEQFB_WIDTH,

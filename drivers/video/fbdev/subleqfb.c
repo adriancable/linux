@@ -263,10 +263,23 @@ static void subleqfb_imageblit(struct fb_info *info, const struct fb_image *imag
 	}
 }
 
+/*
+ * NOMMU mmap support.
+ *
+ * On NOMMU, get_fb_unmapped_area() (enabled by CONFIG_FB_PROVIDE_GET_FB_UNMAPPED_AREA)
+ * tells the NOMMU mmap code to use screen_base directly.  The fb_mmap callback
+ * just needs to succeed so the fb core doesn't reject the mmap call.
+ */
+static int subleqfb_mmap(struct fb_info *info, struct vm_area_struct *vma)
+{
+	return 0;
+}
+
 static const struct fb_ops subleqfb_ops = {
 	.owner          = THIS_MODULE,
 	__FB_DEFAULT_SYSMEM_OPS_RDWR,
 	.fb_setcolreg   = subleqfb_setcolreg,
+	.fb_mmap        = subleqfb_mmap,
 	/* Custom word-only drawing operations */
 	.fb_fillrect    = subleqfb_fillrect,
 	.fb_copyarea    = subleqfb_copyarea,

@@ -1825,6 +1825,7 @@ config FB_SUBLEQ
 	depends on FB && SUBLEQ
 	select FB_SYSMEM_HELPERS
 	select FB_CFB_IMAGEBLIT
+	select FB_PROVIDE_GET_FB_UNMAPPED_AREA
 	select FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION
 	help
 	  Framebuffer driver for the Subleq virtual machine. Maps a

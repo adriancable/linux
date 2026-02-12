@@ -498,7 +498,7 @@ static const struct {
 #define MAX_LOADED_LIBS 16
 
 struct libsrt_hash_entry {
-	char name[64];
+	char name[256];  /* C++ mangled names can be very long */
 	unsigned long addr;
 	int occupied;  /* 0 = empty, 1 = used */
 };
@@ -1284,6 +1284,9 @@ static int process_relocations_and_symbols(struct libsrt_state *state, struct fi
 					unsigned char bind = syms[sym_idx].st_info >> 4;
 					if (bind == 2) { /* STB_WEAK */
 						*patch_addr = 0;
+					} else {
+						subleq_elf_debug("unresolved symbol: %s\n",
+							strtab + syms[sym_idx].st_name);
 					}
 				} else if (cache_val >= 2) {
 					/* Symbol needs external resolution */
@@ -1308,6 +1311,9 @@ static int process_relocations_and_symbols(struct libsrt_state *state, struct fi
 						unsigned char bind = syms[sym_idx].st_info >> 4;
 						if (bind == 2) { /* STB_WEAK */
 							*patch_addr = 0;
+						} else {
+							subleq_elf_debug("unresolved symbol: %s\n",
+								strtab + syms[sym_idx].st_name);
 						}
 					}
 				} else {

@@ -267,13 +267,8 @@ static void bit_putcs(struct vc_data *vc, struct fb_info *info,
 		      int fg, int bg)
 {
 	struct fb_image image;
-	u32 width = DIV_ROUND_UP(vc->vc_font.width, 8);
-	u32 cellsize = width * vc->vc_font.height;
-	u32 maxcnt = info->pixmap.size / cellsize;
-	u32 scan_align = info->pixmap.scan_align - 1;
-	u32 buf_align = info->pixmap.buf_align - 1;
-	u32 mod = vc->vc_font.width % 8, cnt, pitch, size;
-	u32 attribute = get_attribute(info, scr_readw(s));
+	u32 width, cellsize, maxcnt, scan_align, buf_align;
+	u32 mod, cnt, pitch, size, attribute;
 	u8 *dst, *buf = NULL;
 
 	image.fg_color = fg;
@@ -324,6 +319,15 @@ static void bit_putcs(struct vc_data *vc, struct fb_info *info,
 				    s_off, fb_fg, fb_bg);
 		return;
 	}
+
+	/* Slow path: compute values only needed for pixmap rendering */
+	width = DIV_ROUND_UP(vc->vc_font.width, 8);
+	cellsize = width * vc->vc_font.height;
+	maxcnt = info->pixmap.size / cellsize;
+	scan_align = info->pixmap.scan_align - 1;
+	buf_align = info->pixmap.buf_align - 1;
+	mod = vc->vc_font.width % 8;
+	attribute = get_attribute(info, scr_readw(s));
 
 	if (attribute) {
 		buf = kmalloc(cellsize, GFP_ATOMIC);

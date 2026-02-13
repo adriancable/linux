@@ -17,7 +17,7 @@
  *   [SP+20] = font      - Expanded font array (word per row)
  *   [SP+24] = s         - Screen buffer (u16 per char)
  *   [SP+28] = cnt       - Number of characters
- *   [SP+32] = s_pitch   - Bytes per screen char (usually 2)
+ *   [SP+32] = s_off    - Byte offset of s within word (0=aligned, 2=misaligned)
  *   [SP+36] = fg        - Foreground color (32-bit XRGB)
  *   [SP+40] = bg        - Background color (32-bit XRGB)
  *
@@ -29,7 +29,7 @@
  *   T12 = fb_pitch
  *   T13 = fg color
  *   T14 = bg color
- *   T15 = scratch / loop counter
+ *   T7  = alignment offset (0 or 2), cleared after first iteration
  */
 
         .text
@@ -85,7 +85,7 @@ subleq_direct_putcs:
          * [SP+4]  = font (arg 5, pushed last)
          * [SP+8]  = s (arg 6)
          * [SP+12] = cnt (arg 7)
-         * [SP+16] = s_pitch (arg 8, hardcoded to 2)
+         * [SP+16] = s_off (arg 8, 0=aligned, 2=misaligned)
          * [SP+20] = fg (arg 9)
          * [SP+24] = bg (arg 10, pushed first)
          */
@@ -121,8 +121,13 @@ subleq_direct_putcs:
         .word   REG_Z, REG_T11, .+4
         .word   REG_Z, REG_Z, .+4
 
-        /* Skip s_pitch [SP+16] - we hardcode 2 */
+        /* T7 = s_pitch/alignment offset = [SP+16] (0=aligned, 2=misaligned) */
         .word   .Lconst_n4, REG_T15, .+4  /* T15 = SP + 16 */
+        .word   REG_T7, REG_T7, .+4
+        .word   REG_Z, REG_Z, .+4
+        .word   REG_T15 | INDIRECT, REG_Z, .+4
+        .word   REG_Z, REG_T7, .+4
+        .word   REG_Z, REG_Z, .+4
 
         /* T13 = -fg (negated for 2-op pixel writes) */
         .word   .Lconst_n4, REG_T15, .+4  /* T15 = SP + 20 */
@@ -187,35 +192,65 @@ subleq_direct_putcs:
         .word   REG_Z, REG_Z, .+4
 
 /*===========================================================================
- * MAIN CHARACTER LOOP
+ * MAIN CHARACTER PAIR LOOP
+ *
+ * OPTIMIZATION: Read one u32 word from the screen buffer containing two
+ * packed u16 characters. Use an inline biased non-restoring lattice to
+ * extract all 4 bytes (char0, attr0, char1, attr1) into T0-T4.
+ * This eliminates __subleq_lb calls (~500 insn/char), replacing them
+ * with ~70 insn for 2 chars (~35 insn/char).
+ *
+ * Word layout (little-endian):
+ *   Bits 0-7:   char0 (1st character code)
+ *   Bits 8-15:  attr0 (1st attribute)
+ *   Bits 16-23: char1 (2nd character code)
+ *   Bits 24-31: attr1 (2nd attribute)
+ *
+ * Extraction outputs:
+ *   T0 = char0, T1 = attr0, T2 = char1, T4 = attr1
+ *   T3 = working register (destroyed)
+ *
+ * NOTE: T9 must be word-aligned (byte address divisible by 4).
+ * This is guaranteed when the screen buffer column count is even
+ * and rendering starts at column 0 (the common case).
  *===========================================================================*/
-.Lchar_loop:
+.Lpair_loop:
         /* if T11 (cnt) <= 0, done */
         .word   REG_Z, REG_T11, .Ldone
 
-        /* Read character code using __subleq_lb from T9 */
-        .word   REG_R21, REG_R21, .+4
-        .word   REG_T9, REG_Z, .+4
-        .word   REG_Z, REG_R21, .+4
+        /* === Read u32 word from screen buffer [T9] === */
+        .word   REG_T3, REG_T3, .+4
+        .word   REG_Z, REG_Z, .+4
+        .word   REG_T9 | INDIRECT, REG_Z, .+4
+        .word   REG_Z, REG_T3, .+4
         .word   REG_Z, REG_Z, .+4
 
-        .word   .Lconst_4, REG_SP, .+4
-        .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   .Llb_ret_const, REG_Z, .+4
-        .word   REG_Z, REG_SP | INDIRECT, .+4
-        .word   REG_Z, REG_Z, __subleq_lb
+        /* === Clear output accumulators === */
+        .word   REG_T0, REG_T0, .+4      /* T0 = char0 = 0 */
+        .word   REG_T1, REG_T1, .+4      /* T1 = attr0 = 0 */
+        .word   REG_T2, REG_T2, .+4      /* T2 = char1 = 0 */
+        .word   REG_T4, REG_T4, .+4      /* T4 = attr1 = 0 */
 
-.Llb_ret:
-        /* __subleq_lb already popped return address, no extra pop needed */
+        /* === Jump to inline extraction lattice === */
+        .word   REG_Z, REG_Z, .Lext_sign
 
-        /* R20 = char code. Compute font_ptr = font + char * 64 */
+        /* === Return from lattice: T0=char0, T1=attr0, T2=char1, T4=attr1 === */
+.Lext_ret:
+
+        /* Check alignment: T7=0 (aligned) → render char0, T7>0 → skip to char1 */
+        .word   .Lconst_0, REG_T7, .Lrender_char0
+        /* T7 > 0: misaligned start, skip char0, clear T7 for future iterations */
+        .word   REG_T7, REG_T7, .+4
+        .word   REG_Z, REG_Z, .Lskip_to_char1
+
+.Lrender_char0:
+        /* ===== RENDER CHAR 0 ===== */
+        /* T15 = T0 (char0) * 64 then + T10 (font base) = font_ptr */
         .word   REG_T15, REG_T15, .+4
-        .word   REG_R20, REG_Z, .+4
+        .word   REG_T0, REG_Z, .+4
         .word   REG_Z, REG_T15, .+4
         .word   REG_Z, REG_Z, .+4
-
-        /* T15 = ch * 64 via 6 doublings */
+        /* T15 *= 64 via 6 doublings */
         .word   REG_T15, REG_Z, .+4
         .word   REG_Z, REG_T15, .+4
         .word   REG_Z, REG_Z, .+4
@@ -234,12 +269,88 @@ subleq_direct_putcs:
         .word   REG_T15, REG_Z, .+4
         .word   REG_Z, REG_T15, .+4
         .word   REG_Z, REG_Z, .+4
-
-        /* T15 += T10 => T15 = font + ch*64 (font_ptr) */
+        /* T15 += T10 => font_ptr */
         .word   REG_T10, REG_Z, .+4
         .word   REG_Z, REG_T15, .+4
         .word   REG_Z, REG_Z, .+4
 
+        /* Set render return to .Lrender0_ret */
+        .word   REG_T5, REG_T5, .+4
+        .word   REG_Z, REG_Z, .+4
+        .word   .Lrender0_ret_c, REG_Z, .+4
+        .word   REG_Z, REG_T5, .+4
+        .word   REG_Z, REG_Z, .Lrender_char
+
+.Lrender0_ret:
+        /* Advance T8 by 32 (8 pixels * 4 bytes) for next column */
+        .word   .Lconst_n32, REG_T8, .+4
+
+        /* T11 -= 1 (one char rendered) */
+        .word   .Lconst_1, REG_T11, .+4
+
+        /* if T11 <= 0, skip char1 (handles odd count) */
+        .word   REG_Z, REG_T11, .Lpair_advance
+
+.Lskip_to_char1:
+        /* ===== RENDER CHAR 1 ===== */
+        .word   REG_T15, REG_T15, .+4
+        .word   REG_T2, REG_Z, .+4
+        .word   REG_Z, REG_T15, .+4
+        .word   REG_Z, REG_Z, .+4
+        /* T15 *= 64 via 6 doublings */
+        .word   REG_T15, REG_Z, .+4
+        .word   REG_Z, REG_T15, .+4
+        .word   REG_Z, REG_Z, .+4
+        .word   REG_T15, REG_Z, .+4
+        .word   REG_Z, REG_T15, .+4
+        .word   REG_Z, REG_Z, .+4
+        .word   REG_T15, REG_Z, .+4
+        .word   REG_Z, REG_T15, .+4
+        .word   REG_Z, REG_Z, .+4
+        .word   REG_T15, REG_Z, .+4
+        .word   REG_Z, REG_T15, .+4
+        .word   REG_Z, REG_Z, .+4
+        .word   REG_T15, REG_Z, .+4
+        .word   REG_Z, REG_T15, .+4
+        .word   REG_Z, REG_Z, .+4
+        .word   REG_T15, REG_Z, .+4
+        .word   REG_Z, REG_T15, .+4
+        .word   REG_Z, REG_Z, .+4
+        /* T15 += T10 => font_ptr */
+        .word   REG_T10, REG_Z, .+4
+        .word   REG_Z, REG_T15, .+4
+        .word   REG_Z, REG_Z, .+4
+
+        /* Set render return to .Lrender1_ret */
+        .word   REG_T5, REG_T5, .+4
+        .word   REG_Z, REG_Z, .+4
+        .word   .Lrender1_ret_c, REG_Z, .+4
+        .word   REG_Z, REG_T5, .+4
+        .word   REG_Z, REG_Z, .Lrender_char
+
+.Lrender1_ret:
+        /* Advance T8 by 32 for char1's column */
+        .word   .Lconst_n32, REG_T8, .+4
+
+        /* T11 -= 1 */
+        .word   .Lconst_1, REG_T11, .+4
+
+.Lpair_advance:
+        /* Advance T9 by 4 (skip one u32 = two u16 characters) */
+        .word   .Lconst_n4, REG_T9, .+4
+
+        .word   REG_Z, REG_Z, .Lpair_loop
+
+/*===========================================================================
+ * RENDER CHARACTER SUB-PROCEDURE
+ *
+ * Renders one 8x16 character glyph to the framebuffer.
+ * Expects:  T15 = font_ptr, T8 = column pixel pointer,
+ *           T13 = -fg, T14 = -bg, T12 = fb_pitch
+ * Returns via: indirect jump through T5
+ * Clobbers: R20, R21, R22, R23
+ *===========================================================================*/
+.Lrender_char:
         /* Save pixel row pointer = T8 to R22 */
         .word   REG_R22, REG_R22, .+4
         .word   REG_T8, REG_Z, .+4
@@ -265,7 +376,6 @@ subleq_direct_putcs:
         .word   REG_Z, REG_Z, .+4
 
         /* CRITICAL: Bias font byte by +1 for correct bit testing */
-        /* Without this, byte=0x80 - 0x80 = 0 branches to bg incorrectly */
         .word   .Lconst_n1, REG_R20, .+4
 
         /* R21 = pixel pointer for this row */
@@ -274,60 +384,47 @@ subleq_direct_putcs:
         .word   REG_R22, REG_Z, .+4
         .word   REG_Z, REG_R21, .+4
 
-
-        /* Process 8 pixels using 2-op writes (T13=-fg, T14=-bg) */
-        /* FG inline: test, clear [R21], write via subleq(-fg,[R21]), advance */
-        /* BG cold trampolines at end: restore, clear, write, advance, jump back */
-
-        /* Pixel 7 (bit 7, MSB) */
+        /* Process 8 pixels (T13=-fg, T14=-bg) */
 .Lpix7: .word   .Lconst_128, REG_R20, .Lpix7_bg
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
         .word   REG_T13, REG_R21 | INDIRECT, .+4
         .word   .Lconst_n4, REG_R21, .+4
 
-        /* Pixel 6 */
 .Lpix6: .word   .Lconst_64, REG_R20, .Lpix6_bg
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
         .word   REG_T13, REG_R21 | INDIRECT, .+4
         .word   .Lconst_n4, REG_R21, .+4
 
-        /* Pixel 5 */
 .Lpix5: .word   .Lconst_32, REG_R20, .Lpix5_bg
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
         .word   REG_T13, REG_R21 | INDIRECT, .+4
         .word   .Lconst_n4, REG_R21, .+4
 
-        /* Pixel 4 */
 .Lpix4: .word   .Lconst_16, REG_R20, .Lpix4_bg
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
         .word   REG_T13, REG_R21 | INDIRECT, .+4
         .word   .Lconst_n4, REG_R21, .+4
 
-        /* Pixel 3 */
 .Lpix3: .word   .Lconst_8, REG_R20, .Lpix3_bg
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
         .word   REG_T13, REG_R21 | INDIRECT, .+4
         .word   .Lconst_n4, REG_R21, .+4
 
-        /* Pixel 2 */
 .Lpix2: .word   .Lconst_4, REG_R20, .Lpix2_bg
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
         .word   REG_T13, REG_R21 | INDIRECT, .+4
         .word   .Lconst_n4, REG_R21, .+4
 
-        /* Pixel 1 */
 .Lpix1: .word   .Lconst_2, REG_R20, .Lpix1_bg
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
         .word   REG_T13, REG_R21 | INDIRECT, .+4
         .word   .Lconst_n4, REG_R21, .+4
 
-        /* Pixel 0 (LSB, no advance needed) */
 .Lpix0: .word   .Lconst_1, REG_R20, .Lpix0_bg
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
         .word   REG_T13, REG_R21 | INDIRECT, .+4
 
 .Lpix_all_done:
-        /* Clean Z before row advance (pixel writes don't touch Z) */
         .word   REG_Z, REG_Z, .+4
 
         /* Advance font_ptr by 4 bytes */
@@ -344,16 +441,8 @@ subleq_direct_putcs:
         .word   REG_Z, REG_Z, .Lrow_loop
 
 .Lrow_done:
-        /* Advance T8 by 32 (8 pixels * 4 bytes) for next character column */
-        .word   .Lconst_n32, REG_T8, .+4
-
-        /* Advance T9 by 2 (next u16 in screen buffer) */
-        .word   .Lconst_n2, REG_T9, .+4
-
-        /* T11 -= 1 */
-        .word   .Lconst_1, REG_T11, .+4
-
-        .word   REG_Z, REG_Z, .Lchar_loop
+        /* Return to caller via T5 */
+        .word   REG_Z, REG_Z, REG_T5 | INDIRECT
 
 /*===========================================================================
  * BG COLD TRAMPOLINES (out-of-line to keep FG path tight)
@@ -407,6 +496,7 @@ subleq_direct_putcs:
         .word   REG_T14, REG_R21 | INDIRECT, .+4
         .word   REG_Z, REG_Z, .Lpix_all_done
 
+
 .Ldone:
         /* Return: Load RA from [SP] and jump to it */
         .word   REG_T4, REG_T4, .+4
@@ -415,7 +505,521 @@ subleq_direct_putcs:
         .word   REG_Z, REG_T4, .+4              /* T4 = return_addr */
         .word   REG_Z, REG_Z, REG_T4 | INDIRECT /* Jump to [T4] */
 
-/* Constants */
+/*===========================================================================
+ * INLINE EXTRACTION LATTICE
+ *
+ * Biased non-restoring lattice that extracts 4 bytes from a u32 word in T3.
+ * Outputs: T0=char0 (bits 0-7), T1=attr0 (bits 8-15),
+ *          T2=char1 (bits 16-23), T4=attr1 (bits 24-31)
+ *
+ * Follows the same pattern as emit_lb_o1.py:
+ *   1. Sign bit (bit 31) check
+ *   2. Bias T3 += 1
+ *   3. For bits 30..0: P/N state lattice with accumulation
+ *
+ * Each accumulating bit k adds 2^(k%8) to the target register:
+ *   bits 0-7 -> T0 (char0), bits 8-15 -> T1 (attr0),
+ *   bits 16-23 -> T2 (char1), bits 24-30 -> T4 (attr1)
+ *
+ * Cost: ~70 executed instructions (2-3 per bit on average)
+ *===========================================================================*/
+
+/* === Sign bit (bit 31) handling === */
+.Lext_sign:
+        .word   .Lconst_0, REG_T3, .Lext_le0  /* if T3 <= 0, cold path */
+        /* T3 > 0: bit 31 clear, fall through to bias (HOT PATH) */
+
+.Lext_bias:
+        .word   .Lconst_n1, REG_T3, .+4       /* T3 += 1 (bias) */
+
+/* === Bit 30 (attr1 bit 6, accumulates 64 to T4) === */
+.Lext_b30_P:
+        .word   .Lxc1073741824, REG_T3, .Lext_b30_PN
+        .word   .Lconst_n64, REG_T4, .+4
+        .word   REG_Z, REG_Z, .Lext_b29_P
+.Lext_b30_PN:
+        .word   REG_Z, REG_Z, .Lext_b29_N
+
+.Lext_b30_N:
+        .word   .Lxn1073741824, REG_T3, .Lext_b30_NN
+        .word   .Lconst_n64, REG_T4, .+4
+        .word   REG_Z, REG_Z, .Lext_b29_P
+.Lext_b30_NN:
+        .word   REG_Z, REG_Z, .Lext_b29_N
+
+/* === Bit 29 (attr1 bit 5, accumulates 32 to T4) === */
+.Lext_b29_P:
+        .word   .Lxc536870912, REG_T3, .Lext_b29_PN
+        .word   .Lconst_n32, REG_T4, .+4
+        .word   REG_Z, REG_Z, .Lext_b28_P
+.Lext_b29_PN:
+        .word   REG_Z, REG_Z, .Lext_b28_N
+
+.Lext_b29_N:
+        .word   .Lxn536870912, REG_T3, .Lext_b29_NN
+        .word   .Lconst_n32, REG_T4, .+4
+        .word   REG_Z, REG_Z, .Lext_b28_P
+.Lext_b29_NN:
+        .word   REG_Z, REG_Z, .Lext_b28_N
+
+/* === Bit 28 (attr1 bit 4, accumulates 16 to T4) === */
+.Lext_b28_P:
+        .word   .Lxc268435456, REG_T3, .Lext_b28_PN
+        .word   .Lconst_n16, REG_T4, .+4
+        .word   REG_Z, REG_Z, .Lext_b27_P
+.Lext_b28_PN:
+        .word   REG_Z, REG_Z, .Lext_b27_N
+
+.Lext_b28_N:
+        .word   .Lxn268435456, REG_T3, .Lext_b28_NN
+        .word   .Lconst_n16, REG_T4, .+4
+        .word   REG_Z, REG_Z, .Lext_b27_P
+.Lext_b28_NN:
+        .word   REG_Z, REG_Z, .Lext_b27_N
+
+/* === Bit 27 (attr1 bit 3, accumulates 8 to T4) === */
+.Lext_b27_P:
+        .word   .Lxc134217728, REG_T3, .Lext_b27_PN
+        .word   .Lconst_n8, REG_T4, .+4
+        .word   REG_Z, REG_Z, .Lext_b26_P
+.Lext_b27_PN:
+        .word   REG_Z, REG_Z, .Lext_b26_N
+
+.Lext_b27_N:
+        .word   .Lxn134217728, REG_T3, .Lext_b27_NN
+        .word   .Lconst_n8, REG_T4, .+4
+        .word   REG_Z, REG_Z, .Lext_b26_P
+.Lext_b27_NN:
+        .word   REG_Z, REG_Z, .Lext_b26_N
+
+/* === Bit 26 (attr1 bit 2, accumulates 4 to T4) === */
+.Lext_b26_P:
+        .word   .Lxc67108864, REG_T3, .Lext_b26_PN
+        .word   .Lconst_n4, REG_T4, .+4
+        .word   REG_Z, REG_Z, .Lext_b25_P
+.Lext_b26_PN:
+        .word   REG_Z, REG_Z, .Lext_b25_N
+
+.Lext_b26_N:
+        .word   .Lxn67108864, REG_T3, .Lext_b26_NN
+        .word   .Lconst_n4, REG_T4, .+4
+        .word   REG_Z, REG_Z, .Lext_b25_P
+.Lext_b26_NN:
+        .word   REG_Z, REG_Z, .Lext_b25_N
+
+/* === Bit 25 (attr1 bit 1, accumulates 2 to T4) === */
+.Lext_b25_P:
+        .word   .Lxc33554432, REG_T3, .Lext_b25_PN
+        .word   .Lconst_n2, REG_T4, .+4
+        .word   REG_Z, REG_Z, .Lext_b24_P
+.Lext_b25_PN:
+        .word   REG_Z, REG_Z, .Lext_b24_N
+
+.Lext_b25_N:
+        .word   .Lxn33554432, REG_T3, .Lext_b25_NN
+        .word   .Lconst_n2, REG_T4, .+4
+        .word   REG_Z, REG_Z, .Lext_b24_P
+.Lext_b25_NN:
+        .word   REG_Z, REG_Z, .Lext_b24_N
+
+/* === Bit 24 (attr1 bit 0, accumulates 1 to T4) === */
+.Lext_b24_P:
+        .word   .Lxc16777216, REG_T3, .Lext_b24_PN
+        .word   .Lconst_n1, REG_T4, .+4
+        .word   REG_Z, REG_Z, .Lext_b23_P
+.Lext_b24_PN:
+        .word   REG_Z, REG_Z, .Lext_b23_N
+
+.Lext_b24_N:
+        .word   .Lxn16777216, REG_T3, .Lext_b24_NN
+        .word   .Lconst_n1, REG_T4, .+4
+        .word   REG_Z, REG_Z, .Lext_b23_P
+.Lext_b24_NN:
+        .word   REG_Z, REG_Z, .Lext_b23_N
+
+/* === Bit 23 (char1 bit 7, accumulates 128 to T2) === */
+.Lext_b23_P:
+        .word   .Lxc8388608, REG_T3, .Lext_b23_PN
+        .word   .Lconst_n128, REG_T2, .+4
+        .word   REG_Z, REG_Z, .Lext_b22_P
+.Lext_b23_PN:
+        .word   REG_Z, REG_Z, .Lext_b22_N
+
+.Lext_b23_N:
+        .word   .Lxn8388608, REG_T3, .Lext_b23_NN
+        .word   .Lconst_n128, REG_T2, .+4
+        .word   REG_Z, REG_Z, .Lext_b22_P
+.Lext_b23_NN:
+        .word   REG_Z, REG_Z, .Lext_b22_N
+
+/* === Bit 22 (char1 bit 6, accumulates 64 to T2) === */
+.Lext_b22_P:
+        .word   .Lxc4194304, REG_T3, .Lext_b22_PN
+        .word   .Lconst_n64, REG_T2, .+4
+        .word   REG_Z, REG_Z, .Lext_b21_P
+.Lext_b22_PN:
+        .word   REG_Z, REG_Z, .Lext_b21_N
+
+.Lext_b22_N:
+        .word   .Lxn4194304, REG_T3, .Lext_b22_NN
+        .word   .Lconst_n64, REG_T2, .+4
+        .word   REG_Z, REG_Z, .Lext_b21_P
+.Lext_b22_NN:
+        .word   REG_Z, REG_Z, .Lext_b21_N
+
+/* === Bit 21 (char1 bit 5, accumulates 32 to T2) === */
+.Lext_b21_P:
+        .word   .Lxc2097152, REG_T3, .Lext_b21_PN
+        .word   .Lconst_n32, REG_T2, .+4
+        .word   REG_Z, REG_Z, .Lext_b20_P
+.Lext_b21_PN:
+        .word   REG_Z, REG_Z, .Lext_b20_N
+
+.Lext_b21_N:
+        .word   .Lxn2097152, REG_T3, .Lext_b21_NN
+        .word   .Lconst_n32, REG_T2, .+4
+        .word   REG_Z, REG_Z, .Lext_b20_P
+.Lext_b21_NN:
+        .word   REG_Z, REG_Z, .Lext_b20_N
+
+/* === Bit 20 (char1 bit 4, accumulates 16 to T2) === */
+.Lext_b20_P:
+        .word   .Lxc1048576, REG_T3, .Lext_b20_PN
+        .word   .Lconst_n16, REG_T2, .+4
+        .word   REG_Z, REG_Z, .Lext_b19_P
+.Lext_b20_PN:
+        .word   REG_Z, REG_Z, .Lext_b19_N
+
+.Lext_b20_N:
+        .word   .Lxn1048576, REG_T3, .Lext_b20_NN
+        .word   .Lconst_n16, REG_T2, .+4
+        .word   REG_Z, REG_Z, .Lext_b19_P
+.Lext_b20_NN:
+        .word   REG_Z, REG_Z, .Lext_b19_N
+
+/* === Bit 19 (char1 bit 3, accumulates 8 to T2) === */
+.Lext_b19_P:
+        .word   .Lxc524288, REG_T3, .Lext_b19_PN
+        .word   .Lconst_n8, REG_T2, .+4
+        .word   REG_Z, REG_Z, .Lext_b18_P
+.Lext_b19_PN:
+        .word   REG_Z, REG_Z, .Lext_b18_N
+
+.Lext_b19_N:
+        .word   .Lxn524288, REG_T3, .Lext_b19_NN
+        .word   .Lconst_n8, REG_T2, .+4
+        .word   REG_Z, REG_Z, .Lext_b18_P
+.Lext_b19_NN:
+        .word   REG_Z, REG_Z, .Lext_b18_N
+
+/* === Bit 18 (char1 bit 2, accumulates 4 to T2) === */
+.Lext_b18_P:
+        .word   .Lxc262144, REG_T3, .Lext_b18_PN
+        .word   .Lconst_n4, REG_T2, .+4
+        .word   REG_Z, REG_Z, .Lext_b17_P
+.Lext_b18_PN:
+        .word   REG_Z, REG_Z, .Lext_b17_N
+
+.Lext_b18_N:
+        .word   .Lxn262144, REG_T3, .Lext_b18_NN
+        .word   .Lconst_n4, REG_T2, .+4
+        .word   REG_Z, REG_Z, .Lext_b17_P
+.Lext_b18_NN:
+        .word   REG_Z, REG_Z, .Lext_b17_N
+
+/* === Bit 17 (char1 bit 1, accumulates 2 to T2) === */
+.Lext_b17_P:
+        .word   .Lxc131072, REG_T3, .Lext_b17_PN
+        .word   .Lconst_n2, REG_T2, .+4
+        .word   REG_Z, REG_Z, .Lext_b16_P
+.Lext_b17_PN:
+        .word   REG_Z, REG_Z, .Lext_b16_N
+
+.Lext_b17_N:
+        .word   .Lxn131072, REG_T3, .Lext_b17_NN
+        .word   .Lconst_n2, REG_T2, .+4
+        .word   REG_Z, REG_Z, .Lext_b16_P
+.Lext_b17_NN:
+        .word   REG_Z, REG_Z, .Lext_b16_N
+
+/* === Bit 16 (char1 bit 0, accumulates 1 to T2) === */
+.Lext_b16_P:
+        .word   .Lxc65536, REG_T3, .Lext_b16_PN
+        .word   .Lconst_n1, REG_T2, .+4
+        .word   REG_Z, REG_Z, .Lext_b15_P
+.Lext_b16_PN:
+        .word   REG_Z, REG_Z, .Lext_b15_N
+
+.Lext_b16_N:
+        .word   .Lxn65536, REG_T3, .Lext_b16_NN
+        .word   .Lconst_n1, REG_T2, .+4
+        .word   REG_Z, REG_Z, .Lext_b15_P
+.Lext_b16_NN:
+        .word   REG_Z, REG_Z, .Lext_b15_N
+
+/* === Bit 15 (attr0 bit 7, accumulates 128 to T1) === */
+.Lext_b15_P:
+        .word   .Lxc32768, REG_T3, .Lext_b15_PN
+        .word   .Lconst_n128, REG_T1, .+4
+        .word   REG_Z, REG_Z, .Lext_b14_P
+.Lext_b15_PN:
+        .word   REG_Z, REG_Z, .Lext_b14_N
+
+.Lext_b15_N:
+        .word   .Lxn32768, REG_T3, .Lext_b15_NN
+        .word   .Lconst_n128, REG_T1, .+4
+        .word   REG_Z, REG_Z, .Lext_b14_P
+.Lext_b15_NN:
+        .word   REG_Z, REG_Z, .Lext_b14_N
+
+/* === Bit 14 (attr0 bit 6, accumulates 64 to T1) === */
+.Lext_b14_P:
+        .word   .Lxc16384, REG_T3, .Lext_b14_PN
+        .word   .Lconst_n64, REG_T1, .+4
+        .word   REG_Z, REG_Z, .Lext_b13_P
+.Lext_b14_PN:
+        .word   REG_Z, REG_Z, .Lext_b13_N
+
+.Lext_b14_N:
+        .word   .Lxn16384, REG_T3, .Lext_b14_NN
+        .word   .Lconst_n64, REG_T1, .+4
+        .word   REG_Z, REG_Z, .Lext_b13_P
+.Lext_b14_NN:
+        .word   REG_Z, REG_Z, .Lext_b13_N
+
+/* === Bit 13 (attr0 bit 5, accumulates 32 to T1) === */
+.Lext_b13_P:
+        .word   .Lxc8192, REG_T3, .Lext_b13_PN
+        .word   .Lconst_n32, REG_T1, .+4
+        .word   REG_Z, REG_Z, .Lext_b12_P
+.Lext_b13_PN:
+        .word   REG_Z, REG_Z, .Lext_b12_N
+
+.Lext_b13_N:
+        .word   .Lxn8192, REG_T3, .Lext_b13_NN
+        .word   .Lconst_n32, REG_T1, .+4
+        .word   REG_Z, REG_Z, .Lext_b12_P
+.Lext_b13_NN:
+        .word   REG_Z, REG_Z, .Lext_b12_N
+
+/* === Bit 12 (attr0 bit 4, accumulates 16 to T1) === */
+.Lext_b12_P:
+        .word   .Lxc4096, REG_T3, .Lext_b12_PN
+        .word   .Lconst_n16, REG_T1, .+4
+        .word   REG_Z, REG_Z, .Lext_b11_P
+.Lext_b12_PN:
+        .word   REG_Z, REG_Z, .Lext_b11_N
+
+.Lext_b12_N:
+        .word   .Lxn4096, REG_T3, .Lext_b12_NN
+        .word   .Lconst_n16, REG_T1, .+4
+        .word   REG_Z, REG_Z, .Lext_b11_P
+.Lext_b12_NN:
+        .word   REG_Z, REG_Z, .Lext_b11_N
+
+/* === Bit 11 (attr0 bit 3, accumulates 8 to T1) === */
+.Lext_b11_P:
+        .word   .Lxc2048, REG_T3, .Lext_b11_PN
+        .word   .Lconst_n8, REG_T1, .+4
+        .word   REG_Z, REG_Z, .Lext_b10_P
+.Lext_b11_PN:
+        .word   REG_Z, REG_Z, .Lext_b10_N
+
+.Lext_b11_N:
+        .word   .Lxn2048, REG_T3, .Lext_b11_NN
+        .word   .Lconst_n8, REG_T1, .+4
+        .word   REG_Z, REG_Z, .Lext_b10_P
+.Lext_b11_NN:
+        .word   REG_Z, REG_Z, .Lext_b10_N
+
+/* === Bit 10 (attr0 bit 2, accumulates 4 to T1) === */
+.Lext_b10_P:
+        .word   .Lxc1024, REG_T3, .Lext_b10_PN
+        .word   .Lconst_n4, REG_T1, .+4
+        .word   REG_Z, REG_Z, .Lext_b9_P
+.Lext_b10_PN:
+        .word   REG_Z, REG_Z, .Lext_b9_N
+
+.Lext_b10_N:
+        .word   .Lxn1024, REG_T3, .Lext_b10_NN
+        .word   .Lconst_n4, REG_T1, .+4
+        .word   REG_Z, REG_Z, .Lext_b9_P
+.Lext_b10_NN:
+        .word   REG_Z, REG_Z, .Lext_b9_N
+
+/* === Bit 9 (attr0 bit 1, accumulates 2 to T1) === */
+.Lext_b9_P:
+        .word   .Lxc512, REG_T3, .Lext_b9_PN
+        .word   .Lconst_n2, REG_T1, .+4
+        .word   REG_Z, REG_Z, .Lext_b8_P
+.Lext_b9_PN:
+        .word   REG_Z, REG_Z, .Lext_b8_N
+
+.Lext_b9_N:
+        .word   .Lxn512, REG_T3, .Lext_b9_NN
+        .word   .Lconst_n2, REG_T1, .+4
+        .word   REG_Z, REG_Z, .Lext_b8_P
+.Lext_b9_NN:
+        .word   REG_Z, REG_Z, .Lext_b8_N
+
+/* === Bit 8 (attr0 bit 0, accumulates 1 to T1) === */
+.Lext_b8_P:
+        .word   .Lxc256, REG_T3, .Lext_b8_PN
+        .word   .Lconst_n1, REG_T1, .+4
+        .word   REG_Z, REG_Z, .Lext_b7_P
+.Lext_b8_PN:
+        .word   REG_Z, REG_Z, .Lext_b7_N
+
+.Lext_b8_N:
+        .word   .Lxn256, REG_T3, .Lext_b8_NN
+        .word   .Lconst_n1, REG_T1, .+4
+        .word   REG_Z, REG_Z, .Lext_b7_P
+.Lext_b8_NN:
+        .word   REG_Z, REG_Z, .Lext_b7_N
+
+/* === Bit 7 (char0 bit 7, accumulates 128 to T0) === */
+.Lext_b7_P:
+        .word   .Lconst_128, REG_T3, .Lext_b7_PN
+        .word   .Lconst_n128, REG_T0, .+4
+        .word   REG_Z, REG_Z, .Lext_b6_P
+.Lext_b7_PN:
+        .word   REG_Z, REG_Z, .Lext_b6_N
+
+.Lext_b7_N:
+        .word   .Lconst_n128, REG_T3, .Lext_b7_NN
+        .word   .Lconst_n128, REG_T0, .+4
+        .word   REG_Z, REG_Z, .Lext_b6_P
+.Lext_b7_NN:
+        .word   REG_Z, REG_Z, .Lext_b6_N
+
+/* === Bit 6 (char0 bit 6, accumulates 64 to T0) === */
+.Lext_b6_P:
+        .word   .Lconst_64, REG_T3, .Lext_b6_PN
+        .word   .Lconst_n64, REG_T0, .+4
+        .word   REG_Z, REG_Z, .Lext_b5_P
+.Lext_b6_PN:
+        .word   REG_Z, REG_Z, .Lext_b5_N
+
+.Lext_b6_N:
+        .word   .Lconst_n64, REG_T3, .Lext_b6_NN
+        .word   .Lconst_n64, REG_T0, .+4
+        .word   REG_Z, REG_Z, .Lext_b5_P
+.Lext_b6_NN:
+        .word   REG_Z, REG_Z, .Lext_b5_N
+
+/* === Bit 5 (char0 bit 5, accumulates 32 to T0) === */
+.Lext_b5_P:
+        .word   .Lconst_32, REG_T3, .Lext_b5_PN
+        .word   .Lconst_n32, REG_T0, .+4
+        .word   REG_Z, REG_Z, .Lext_b4_P
+.Lext_b5_PN:
+        .word   REG_Z, REG_Z, .Lext_b4_N
+
+.Lext_b5_N:
+        .word   .Lconst_n32, REG_T3, .Lext_b5_NN
+        .word   .Lconst_n32, REG_T0, .+4
+        .word   REG_Z, REG_Z, .Lext_b4_P
+.Lext_b5_NN:
+        .word   REG_Z, REG_Z, .Lext_b4_N
+
+/* === Bit 4 (char0 bit 4, accumulates 16 to T0) === */
+.Lext_b4_P:
+        .word   .Lconst_16, REG_T3, .Lext_b4_PN
+        .word   .Lconst_n16, REG_T0, .+4
+        .word   REG_Z, REG_Z, .Lext_b3_P
+.Lext_b4_PN:
+        .word   REG_Z, REG_Z, .Lext_b3_N
+
+.Lext_b4_N:
+        .word   .Lconst_n16, REG_T3, .Lext_b4_NN
+        .word   .Lconst_n16, REG_T0, .+4
+        .word   REG_Z, REG_Z, .Lext_b3_P
+.Lext_b4_NN:
+        .word   REG_Z, REG_Z, .Lext_b3_N
+
+/* === Bit 3 (char0 bit 3, accumulates 8 to T0) === */
+.Lext_b3_P:
+        .word   .Lconst_8, REG_T3, .Lext_b3_PN
+        .word   .Lconst_n8, REG_T0, .+4
+        .word   REG_Z, REG_Z, .Lext_b2_P
+.Lext_b3_PN:
+        .word   REG_Z, REG_Z, .Lext_b2_N
+
+.Lext_b3_N:
+        .word   .Lconst_n8, REG_T3, .Lext_b3_NN
+        .word   .Lconst_n8, REG_T0, .+4
+        .word   REG_Z, REG_Z, .Lext_b2_P
+.Lext_b3_NN:
+        .word   REG_Z, REG_Z, .Lext_b2_N
+
+/* === Bit 2 (char0 bit 2, accumulates 4 to T0) === */
+.Lext_b2_P:
+        .word   .Lconst_4, REG_T3, .Lext_b2_PN
+        .word   .Lconst_n4, REG_T0, .+4
+        .word   REG_Z, REG_Z, .Lext_b1_P
+.Lext_b2_PN:
+        .word   REG_Z, REG_Z, .Lext_b1_N
+
+.Lext_b2_N:
+        .word   .Lconst_n4, REG_T3, .Lext_b2_NN
+        .word   .Lconst_n4, REG_T0, .+4
+        .word   REG_Z, REG_Z, .Lext_b1_P
+.Lext_b2_NN:
+        .word   REG_Z, REG_Z, .Lext_b1_N
+
+/* === Bit 1 (char0 bit 1, accumulates 2 to T0) === */
+.Lext_b1_P:
+        .word   .Lconst_2, REG_T3, .Lext_b1_PN
+        .word   .Lconst_n2, REG_T0, .+4
+        .word   REG_Z, REG_Z, .Lext_b0_P
+.Lext_b1_PN:
+        .word   REG_Z, REG_Z, .Lext_b0_N
+
+.Lext_b1_N:
+        .word   .Lconst_n2, REG_T3, .Lext_b1_NN
+        .word   .Lconst_n2, REG_T0, .+4
+        .word   REG_Z, REG_Z, .Lext_b0_P
+.Lext_b1_NN:
+        .word   REG_Z, REG_Z, .Lext_b0_N
+
+/* === Bit 0 (char0 bit 0, accumulates 1 to T0) === */
+.Lext_b0_P:
+        .word   .Lconst_1, REG_T3, .Lext_b0_PN
+        .word   .Lconst_n1, REG_T0, .+4
+        .word   REG_Z, REG_Z, .Lext_ret
+.Lext_b0_PN:
+        .word   REG_Z, REG_Z, .Lext_ret
+
+.Lext_b0_N:
+        .word   .Lconst_n1, REG_T3, .Lext_b0_NN
+        .word   .Lconst_n1, REG_T0, .+4
+        .word   REG_Z, REG_Z, .Lext_ret
+.Lext_b0_NN:
+        .word   REG_Z, REG_Z, .Lext_ret
+
+/* === Cold path: T3 <= 0 (sign bit handling) === */
+.Lext_le0:
+        /* Distinguish T3 = 0 from T3 < 0 */
+        .word   REG_T6, REG_T6, .+4           /* T6 = 0 */
+        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
+        .word   REG_T3, REG_Z, .+4            /* Z = -T3 */
+        .word   REG_Z, REG_T6, .+4            /* T6 = T3 */
+        .word   .Lconst_n1, REG_T6, .+4       /* T6 = T3 + 1 */
+        .word   .Lconst_0, REG_T6, .Lext_neg  /* if T6 <= 0 → T3 < 0 */
+        /* T3 = 0: bit 31 not set, go to bias */
+        .word   REG_Z, REG_Z, .Lext_bias
+
+.Lext_neg:
+        /* T3 < 0 (bit 31 set): accumulate 128 to attr1, clear bit 31 */
+        .word   .Lconst_n128, REG_T4, .+4     /* T4 += 128 (attr1 bit 7) */
+        .word   .Lext_min, REG_T3, .+4        /* T3 -= INT_MIN = clear bit 31 */
+        .word   REG_Z, REG_Z, .Lext_bias      /* goto bias */
+
+/*===========================================================================
+ * CONSTANTS
+ *===========================================================================*/
+
+/* Existing small constants */
 .Lconst_n128:   .word   -128
 .Lconst_n64:    .word   -64
 .Lconst_n32:    .word   -32
@@ -425,6 +1029,7 @@ subleq_direct_putcs:
 .Lconst_n4:     .word   -4
 .Lconst_n2:     .word   -2
 .Lconst_n1:     .word   -1
+.Lconst_0:      .word   0
 .Lconst_1:      .word   1
 .Lconst_2:      .word   2
 .Lconst_4:      .word   4
@@ -436,8 +1041,62 @@ subleq_direct_putcs:
 .Lconst_64:     .word   64
 .Lconst_128:    .word   128
 
+/* Lattice test constants: positive powers of 2 (for P-state subtraction) */
+.Lxc256:          .word   256
+.Lxc512:          .word   512
+.Lxc1024:         .word   1024
+.Lxc2048:         .word   2048
+.Lxc4096:         .word   4096
+.Lxc8192:         .word   8192
+.Lxc16384:        .word   16384
+.Lxc32768:        .word   32768
+.Lxc65536:        .word   65536
+.Lxc131072:       .word   131072
+.Lxc262144:       .word   262144
+.Lxc524288:       .word   524288
+.Lxc1048576:      .word   1048576
+.Lxc2097152:      .word   2097152
+.Lxc4194304:      .word   4194304
+.Lxc8388608:      .word   8388608
+.Lxc16777216:     .word   16777216
+.Lxc33554432:     .word   33554432
+.Lxc67108864:     .word   67108864
+.Lxc134217728:    .word   134217728
+.Lxc268435456:    .word   268435456
+.Lxc536870912:    .word   536870912
+.Lxc1073741824:   .word   1073741824
+
+/* Lattice test constants: negative powers (for N-state addition) */
+.Lxn256:          .word   -256
+.Lxn512:          .word   -512
+.Lxn1024:         .word   -1024
+.Lxn2048:         .word   -2048
+.Lxn4096:         .word   -4096
+.Lxn8192:         .word   -8192
+.Lxn16384:        .word   -16384
+.Lxn32768:        .word   -32768
+.Lxn65536:        .word   -65536
+.Lxn131072:       .word   -131072
+.Lxn262144:       .word   -262144
+.Lxn524288:       .word   -524288
+.Lxn1048576:      .word   -1048576
+.Lxn2097152:      .word   -2097152
+.Lxn4194304:      .word   -4194304
+.Lxn8388608:      .word   -8388608
+.Lxn16777216:     .word   -16777216
+.Lxn33554432:     .word   -33554432
+.Lxn67108864:     .word   -67108864
+.Lxn134217728:    .word   -134217728
+.Lxn268435456:    .word   -268435456
+.Lxn536870912:    .word   -536870912
+.Lxn1073741824:   .word   -1073741824
+
+/* INT_MIN for sign bit clearing */
+.Lext_min:        .word   -2147483648
+
 /* Return address constants */
-.Lmul_ret_const: .word  .Lmul_ret
-.Llb_ret_const:  .word  .Llb_ret
+.Lmul_ret_const:  .word   .Lmul_ret
+.Lrender0_ret_c:  .word   .Lrender0_ret
+.Lrender1_ret_c:  .word   .Lrender1_ret
 
 .size subleq_direct_putcs, . - subleq_direct_putcs

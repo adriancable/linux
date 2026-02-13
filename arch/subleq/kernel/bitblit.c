@@ -294,9 +294,10 @@ static void bit_putcs(struct vc_data *vc, struct fb_info *info,
 	 * bypassing the intermediate pixmap buffer entirely.
 	 */
 	if (likely(vc->vc_font.width == 8 && vc->vc_font.height == 16 &&
-		   !attribute && info->var.bits_per_pixel == 32)) {
+		   info->var.bits_per_pixel == 32)) {
 		const u8 *fontdata = vc->vc_font.data;
 		u32 fb_fg, fb_bg;
+		int s_off = ((uintptr_t)s) & 2;
 
 		/* Expand font on first use or if font changed */
 		if (!font_expanded || current_font_data != fontdata) {
@@ -309,12 +310,18 @@ static void bit_putcs(struct vc_data *vc, struct fb_info *info,
 		fb_fg = fg < 16 ? ((u32 *)info->pseudo_palette)[fg] : fg;
 		fb_bg = bg < 16 ? ((u32 *)info->pseudo_palette)[bg] : bg;
 
-		/* Render directly to framebuffer */
+		/* Render directly to framebuffer.
+		 * Word-align s for pair processing; pass byte offset
+		 * (0 or 2) via s_pitch so assembly can skip char0
+		 * on the first iteration when misaligned.
+		 */
 		subleq_direct_putcs((u32 *)info->screen_base,
 				    info->fix.line_length,
 				    image.dx, image.dy,
-				    expanded_font, s, count,
-				    2, fb_fg, fb_bg);
+				    expanded_font,
+				    (const u16 *)((uintptr_t)s & ~3),
+				    count,
+				    s_off, fb_fg, fb_bg);
 		return;
 	}
 

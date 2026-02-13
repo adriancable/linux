@@ -6,10 +6,10 @@
  * into the Linux input subsystem. The VT keyboard layer handles
  * keymap translation, shift states, Ctrl combos, F-keys, etc.
  *
- * Protocol from VM: two bytes per key event
- *   byte 1: SDL_scancode + 1  (1-232, never 0)
- *   byte 2: state + 1         (2=down, 1=up, never 0)
- * The +1 offset avoids the getchar 0 sentinel (0 = no key pending).
+ * Protocol from VM: one int per key event
+ *   positive = SDL scancode (key down)
+ *   negative = -SDL scancode (key up)
+ *   0 = no key pending
  *
  * SDL scancodes are USB HID usage page 0x07 codes. The mapping
  * table from HID usage to Linux KEY_* is copied from
@@ -99,19 +99,14 @@ static void subleq_kbd_poll(struct timer_list *t)
 
 	if (subleq_fbcon_active() && subleq_kbd_dev) {
 		/*
-		 * Framebuffer mode: read two-byte scancode pairs.
-		 * Byte 1: SDL_scancode + 1
-		 * Byte 2: state + 1 (2=down, 1=up)
+		 * Framebuffer mode: read single-int scancode events.
+		 * Positive = key down, negative = key up.
 		 */
 		while ((c = __subleq_getchar()) != 0) {
-			int scancode = c - 1;
-			int state_byte = __subleq_getchar();
+			int scancode = c > 0 ? c : -c;
 			int keycode;
 
-			if (state_byte == 0)
-				break; /* shouldn't happen, but be safe */
-
-			if (scancode < 0 || scancode > 255)
+			if (scancode > 255)
 				continue;
 
 			keycode = hid_to_keycode[scancode];
@@ -119,7 +114,7 @@ static void subleq_kbd_poll(struct timer_list *t)
 				continue; /* unmapped key */
 
 			input_report_key(subleq_kbd_dev, keycode,
-					 state_byte - 1);
+					 c > 0 ? 1 : 0);
 			input_sync(subleq_kbd_dev);
 		}
 	} else {

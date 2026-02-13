@@ -1335,6 +1335,10 @@ COMPILER_RT_ABI float __truncdfsf2(double a) {
 // ============================================================================
 // Returns: a ^ b (float/double raised to integer power)
 
+// Forward declarations
+COMPILER_RT_ABI float __powisf2(float a, int b);
+COMPILER_RT_ABI double __powidf2(double a, int b);
+
 COMPILER_RT_ABI float __powisf2(float a, int b) {
   const int recip = b < 0;
   float r = 1;

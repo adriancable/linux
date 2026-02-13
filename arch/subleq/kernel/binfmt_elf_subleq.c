@@ -49,6 +49,9 @@
 #ifndef R_386_RELATIVE
 #define R_386_RELATIVE 8 /* Adjust by load base (for shared libs) */
 #endif
+#ifndef R_SUBLEQ_NEG32
+#define R_SUBLEQ_NEG32 200 /* Negated absolute: -(S + A) */
+#endif
 
 /*
  * RELR - Packed Relative Relocations (ELF gABI extension)
@@ -104,6 +107,10 @@ struct elf_load_info {
 	unsigned long entry_addr; /* Entry point address */
 	unsigned long stack_size; /* Requested stack size */
 	unsigned long total_size; /* Total memory size needed */
+	unsigned long start_code; /* Start of executable segments */
+	unsigned long end_code;   /* End of executable segments */
+	unsigned long start_data; /* Start of non-executable segments */
+	unsigned long end_data;   /* End of non-executable segments */
 };
 
 /*
@@ -945,13 +952,21 @@ static long load_elf_segments(struct file *file, struct elfhdr *hdr,
 
 	subleq_elf_debug("Allocated at 0x%lx", load_addr);
 
-	/* Load each PT_LOAD segment */
+	/* Load each PT_LOAD segment and classify code vs data */
+	info->start_code = 0;
+	info->end_code = 0;
+	info->start_data = 0;
+	info->end_data = 0;
+
 	for (i = 0, phdr = phdrs; i < phnum; i++, phdr++) {
+		unsigned long seg_addr, seg_end;
+
 		subleq_elf_debug("Segment loop i=%d, p_type=%d", i, phdr->p_type);
 		if (phdr->p_type != PT_LOAD)
 			continue;
 
-		unsigned long seg_addr = load_addr + (phdr->p_vaddr - min_addr);
+		seg_addr = load_addr + (phdr->p_vaddr - min_addr);
+		seg_end = seg_addr + phdr->p_memsz;
 
 		subleq_elf_debug(
 			"  Segment %d: vaddr=0x%lx filesz=%lu memsz=%lu -> 0x%lx",
@@ -978,6 +993,17 @@ static long load_elf_segments(struct file *file, struct elfhdr *hdr,
 		if (phdr->p_memsz > phdr->p_filesz) {
 			memset((void *)(seg_addr + phdr->p_filesz), 0,
 			       phdr->p_memsz - phdr->p_filesz);
+		}
+
+		/* Classify segments following binfmt_elf_fdpic pattern */
+		if (phdr->p_flags & PF_X) {
+			if (!info->start_code) {
+				info->start_code = seg_addr;
+				info->end_code = seg_end;
+			}
+		} else if (!info->start_data) {
+			info->start_data = seg_addr;
+			info->end_data = seg_end;
 		}
 	}
 
@@ -1244,7 +1270,7 @@ static int process_relocations_and_symbols(struct libsrt_state *state, struct fi
 		 * (defined symbols) and just need load_offset added.
 		 */
 #if SUBLEQ_ELF_DEBUG
-		int rel_relative_count = 0, rel_32_count = 0, rel_unknown_count = 0;
+		int rel_relative_count = 0, rel_32_count = 0, rel_neg32_count = 0, rel_unknown_count = 0;
 #endif
 		for (j = 0, rel = rels_buf; j < nrels; j++, rel++) {
 			u32 *patch_addr;
@@ -1328,6 +1354,68 @@ static int process_relocations_and_symbols(struct libsrt_state *state, struct fi
 				break;
 			}
 
+			case R_SUBLEQ_NEG32: {
+				/*
+				 * R_SUBLEQ_NEG32: -(S + A)
+				 * The linker wrote -(S + A) at link time.
+				 * At load time, we need -(S + A + load_offset)
+				 * for defined symbols, which means subtracting
+				 * load_offset from the stored value.
+				 * For undefined symbols, we compute -(sym_addr + addend).
+				 */
+				unsigned int sym_idx = rel->r_info >> 8;
+				unsigned long cache_val = sym_cache[sym_idx];
+
+				if (cache_val == 1) {
+					/* Already looked up, not found */
+					unsigned char bind = syms[sym_idx].st_info >> 4;
+					if (bind == 2) /* STB_WEAK */
+						*patch_addr = 0;
+					else
+						subleq_elf_debug("unresolved symbol: %s",
+							strtab + syms[sym_idx].st_name);
+				} else if (cache_val >= 2) {
+					/* External symbol resolution */
+					unsigned long sym_addr;
+
+					if (cache_val > 2) {
+						sym_addr = cache_val;
+					} else {
+						sym_addr = lookup_libsrt_symbol(state,
+							strtab + syms[sym_idx].st_name);
+						sym_cache[sym_idx] = sym_addr ? sym_addr : 1;
+					}
+
+					if (sym_addr) {
+						/*
+					 * -(sym_addr + addend).
+					 * File already contains -(addend) from lld,
+					 * so just subtract sym_addr.
+					 */
+					*patch_addr -= sym_addr;
+						symbols_resolved++;
+					} else {
+						unsigned char bind = syms[sym_idx].st_info >> 4;
+						if (bind == 2) /* STB_WEAK */
+							*patch_addr = 0;
+						else
+							subleq_elf_debug("unresolved symbol: %s",
+								strtab + syms[sym_idx].st_name);
+					}
+				} else {
+					/*
+					 * Defined symbol (cache_val == 0):
+					 * Linker wrote -(S + A). We need -(S + A + load_offset).
+					 * So: *patch_addr -= load_offset.
+					 */
+					*patch_addr -= load_offset;
+				}
+#if SUBLEQ_ELF_DEBUG
+				rel_neg32_count++;
+#endif
+				break;
+			}
+
 			default:
 				/* Unknown relocation type - skip */
 #if SUBLEQ_ELF_DEBUG
@@ -1337,8 +1425,8 @@ static int process_relocations_and_symbols(struct libsrt_state *state, struct fi
 			}
 		}
 #if SUBLEQ_ELF_DEBUG
-		subleq_elf_debug("  Reloc breakdown: %d RELATIVE, %d R_386_32, %d unknown",
-			rel_relative_count, rel_32_count, rel_unknown_count);
+		subleq_elf_debug("  Reloc breakdown: %d RELATIVE, %d R_386_32, %d R_SUBLEQ_NEG32, %d unknown",
+			rel_relative_count, rel_32_count, rel_neg32_count, rel_unknown_count);
 #endif
 
 		relocs_applied += nrels;  /* Count total after processing */
@@ -2011,13 +2099,34 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 	current->mm->start_brk = heap_base;
 	current->mm->brk = heap_base;
 	current->mm->context.end_brk = heap_base + heap_size;
+
+	/*
+	 * Set start_stack contiguously after brk, matching the
+	 * binfmt_elf_fdpic NOMMU pattern. task_statm() computes
+	 * data size as (start_stack - start_data), so these must
+	 * be in a sensible relationship.
+	 */
 	current->mm->start_stack = stack_base + stack_size;
 
-	/* Set up memory ranges */
-	current->mm->start_code = exec_info.load_addr;
-	current->mm->end_code = exec_info.load_addr + exec_info.total_size;
-	current->mm->start_data = exec_info.load_addr;
-	current->mm->end_data = exec_info.load_addr + exec_info.total_size;
+	/* Set up memory ranges from actual ELF segment boundaries */
+	current->mm->start_code = exec_info.start_code;
+	current->mm->end_code = exec_info.end_code;
+
+	/*
+	 * start_data must be <= start_stack because the upstream NOMMU
+	 * task_statm() computes data pages as:
+	 *   (PAGE_ALIGN(start_stack) - (start_data & PAGE_MASK)) >> PAGE_SHIFT
+	 * using unsigned arithmetic.  If start_data > start_stack, the
+	 * subtraction wraps around to ~4GB.
+	 *
+	 * The NOMMU allocator uses best-fit placement, so neither the
+	 * executable load address nor the heap address is guaranteed to
+	 * be below the stack.  The only safe choice is stack_base itself,
+	 * which is always <= start_stack (create_elf_tables only moves
+	 * start_stack downward within the stack region).
+	 */
+	current->mm->start_data = stack_base;
+	current->mm->end_data = stack_base + stack_size;
 
 	/* Create argument tables */
 	ret = create_elf_tables(bprm, current->mm, &exec_info);

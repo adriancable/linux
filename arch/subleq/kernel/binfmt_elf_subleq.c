@@ -1327,7 +1327,7 @@ static int process_relocations_and_symbols(struct libsrt_state *state, struct fi
 					}
 
 					if (sym_addr) {
-						*patch_addr = sym_addr + *patch_addr;
+						*patch_addr += sym_addr;
 						symbols_resolved++;
 					} else {
 						/*
@@ -1388,11 +1388,11 @@ static int process_relocations_and_symbols(struct libsrt_state *state, struct fi
 
 					if (sym_addr) {
 						/*
-					 * -(sym_addr + addend).
-					 * File already contains -(addend) from lld,
-					 * so just subtract sym_addr.
-					 */
-					*patch_addr -= sym_addr;
+						 * -(sym_addr + addend).
+						 * File already contains -(addend) from lld,
+						 * so just subtract sym_addr.
+						 */
+						*patch_addr -= sym_addr;
 						symbols_resolved++;
 					} else {
 						unsigned char bind = syms[sym_idx].st_info >> 4;
@@ -1425,7 +1425,7 @@ static int process_relocations_and_symbols(struct libsrt_state *state, struct fi
 			}
 		}
 #if SUBLEQ_ELF_DEBUG
-		subleq_elf_debug("  Reloc breakdown: %d RELATIVE, %d R_386_32, %d R_SUBLEQ_NEG32, %d unknown",
+		subleq_elf_debug("  Reloc breakdown: %d R_386_RELATIVE, %d R_386_32, %d R_SUBLEQ_NEG32, %d unknown",
 			rel_relative_count, rel_32_count, rel_neg32_count, rel_unknown_count);
 #endif
 

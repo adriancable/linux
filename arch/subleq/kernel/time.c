@@ -163,19 +163,12 @@ void read_persistent_clock64(struct timespec64 *ts)
 }
 
 /*
- * Delay loop calibration
- */
-void calibrate_delay(void)
-{
-	/* Subleq is slow - just set a reasonable value */
-	loops_per_jiffy = 1000;
-	pr_info("Calibrating delay loop... %lu.%02lu BogoMIPS\n",
-		loops_per_jiffy / (500000 / HZ),
-		(loops_per_jiffy / (5000 / HZ)) % 100);
-}
-
-/*
  * Delay functions
+ *
+ * These follow the standard kernel delay pattern used by most architectures.
+ * __const_udelay uses fixed-point arithmetic to convert time to loop counts
+ * without overflow: xloops is pre-multiplied by 2^32/time_unit, so
+ * (xloops * loops_per_jiffy * HZ) >> 32 gives the number of __delay loops.
  */
 void __delay(unsigned long loops)
 {
@@ -185,12 +178,20 @@ void __delay(unsigned long loops)
 		barrier();
 }
 
+void __const_udelay(unsigned long xloops)
+{
+	u64 loops;
+
+	loops = (u64)xloops * loops_per_jiffy * HZ;
+	__delay(loops >> 32);
+}
+
 void __udelay(unsigned long usecs)
 {
-	__delay(usecs * loops_per_jiffy / (1000000 / HZ));
+	__const_udelay(usecs * 0x10C7UL); /* 2**32 / 1000000 (rounded up) */
 }
 
 void __ndelay(unsigned long nsecs)
 {
-	__delay(nsecs * loops_per_jiffy / (1000000000 / HZ));
+	__const_udelay(nsecs * 0x5UL); /* 2**32 / 1000000000 (rounded up) */
 }

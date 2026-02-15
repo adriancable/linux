@@ -11,6 +11,7 @@
 #include <linux/screen_info.h>
 #include <linux/root_dev.h>
 #include <linux/seq_file.h>
+#include <linux/delay.h>
 #include <linux/sched/task.h>
 #include <generated/utsrelease.h>
 
@@ -195,7 +196,9 @@ static int show_cpuinfo(struct seq_file *m, void *v)
 {
 	seq_printf(m, "processor\t: 0\n");
 	seq_printf(m, "model name\t: Subleq OISC Virtual Machine\n");
-	seq_printf(m, "BogoMIPS\t: 0.00\n");
+	seq_printf(m, "BogoMips\t: %lu.%02lu\n",
+		   (loops_per_jiffy * HZ) / 500000,
+		   ((loops_per_jiffy * HZ) / 5000) % 100);
 	seq_printf(m, "\n");
 	return 0;
 }

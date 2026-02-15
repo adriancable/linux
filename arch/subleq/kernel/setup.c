@@ -46,8 +46,7 @@ static void subleq_early_write(struct console *con, const char *s, unsigned n)
 	while (n--) {
 		if (*s == '\n')
 			__subleq_putchar('\r');
-		__subleq_putchar(*s);
-		s++;
+		__subleq_putchar(*s++);
 	}
 }
 
@@ -128,6 +127,7 @@ void __init setup_arch(char **cmdline_p)
 	register_console(&subleq_early_console);
 
 	pr_info("Eternal Software Initiative Linux %s (https://eternal-software.org)\n", UTS_RELEASE);
+	pr_info("CPU: ESI Subleq+ OISC\n");
 	pr_info("Memory: 0x%08lx - 0x%08lx (%lu MB)\n", subleq_memory_start,
 		subleq_memory_end,
 		(subleq_memory_end - subleq_memory_start) >> 20);
@@ -170,8 +170,6 @@ void __init setup_arch(char **cmdline_p)
 	 * so the zone allocator knows about available memory.
 	 */
 	paging_init();
-
-	pr_info("setup_arch complete\n");
 }
 
 /*

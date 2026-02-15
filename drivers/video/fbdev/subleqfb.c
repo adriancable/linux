@@ -291,7 +291,7 @@ static int subleqfb_probe(struct platform_device *pdev)
 	struct fb_info *info;
 	int ret;
 
-	pr_info("subleqfb: probing device\n");
+	pr_info("subleq_fb: probing device\n");
 
 	info = framebuffer_alloc(0, &pdev->dev);
 	if (!info)
@@ -311,7 +311,6 @@ static int subleqfb_probe(struct platform_device *pdev)
 	info->screen_size = SUBLEQFB_FB_SIZE;
 
 
-
 	ret = fb_alloc_cmap(&info->cmap, 256, 0);
 	if (ret < 0) {
 		framebuffer_release(info);
@@ -327,7 +326,7 @@ static int subleqfb_probe(struct platform_device *pdev)
 
 	platform_set_drvdata(pdev, info);
 
-	fb_info(info, "Subleq framebuffer at 0x%08lx, %dx%d %dbpp\n",
+	fb_info(info, "registered framebuffer at 0x%08lx, %dx%d %dbpp\n",
 		SUBLEQFB_FB_ADDR, SUBLEQFB_WIDTH, SUBLEQFB_HEIGHT, SUBLEQFB_BPP);
 
 	return 0;
@@ -358,7 +357,7 @@ static int __init subleqfb_init(void)
 {
 	int ret;
 
-	pr_info("subleqfb: initializing\n");
+	pr_info("subleq_fb: initializing\n");
 
 	ret = platform_driver_register(&subleqfb_driver);
 	if (ret)

@@ -26,6 +26,7 @@
 #include <linux/restart_block.h>
 #include <asm/unistd.h>
 #include <asm/ptrace.h>
+#include <linux/resume_user_mode.h>
 
 /* Import the syscall table */
 extern void *sys_call_table[];
@@ -251,7 +252,20 @@ out:
 	/* Mark that we're no longer in a syscall */
 	syscall_wont_restart(regs);
 
-
+	/*
+	 * Process TIF_NOTIFY_RESUME task_work before returning to userspace.
+	 *
+	 * CRITICAL: fput() defers file close via task_work_add(), which sets
+	 * TIF_NOTIFY_RESUME. Without draining these callbacks here, files
+	 * opened during exec (e.g., the executable itself) are never properly
+	 * closed, leaking their f_cred reference and causing struct cred to
+	 * accumulate indefinitely.
+	 *
+	 * This matches what other architectures do in their syscall exit path
+	 * via exit_to_user_mode_loop() -> resume_user_mode_work().
+	 */
+	if (test_thread_flag(TIF_NOTIFY_RESUME))
+		resume_user_mode_work(regs);
 
 	/* Return the final value */
 	return PT_REG_GET_SIGNED(regs, r20);

@@ -86,8 +86,9 @@ asmlinkage long __subleq_syscall_c(long nr, long a1, long a2, long a3, long a4, 
 	 * - If the syscall is interrupted and needs restart, we need these
 	 * - Signal handling uses these to restart syscalls after handler returns
 	 *
-	 * fn(a1, a2, a3, a4, a5, a6) - we save a1-a4 (register args)
-	 * a5-a6 are on stack and will be restored from the signal frame's SP
+	 * fn(a1, a2, a3, a4, a5, a6) - we save all 6 args for restart.
+	 * Previously only a1-a4 were saved, which broke restart of 5/6-arg
+	 * syscalls (e.g. mmap) interrupted by signals.
 	 */
 	PT_REG_SET_SIGNED(regs, syscall_nr, nr);
 	PT_REG_SET(regs, orig_r21, nr);  /* Syscall number (for lookup) */
@@ -95,6 +96,8 @@ asmlinkage long __subleq_syscall_c(long nr, long a1, long a2, long a3, long a4, 
 	PT_REG_SET(regs, orig_a2, a2);   /* Second arg */
 	PT_REG_SET(regs, orig_a3, a3);   /* Third arg */
 	PT_REG_SET(regs, orig_a4, a4);   /* Fourth arg */
+	PT_REG_SET(regs, orig_a5, a5);   /* Fifth arg */
+	PT_REG_SET(regs, orig_a6, a6);   /* Sixth arg */
 
 	/* Dispatch the syscall */
 	if (nr < 0 || nr >= __NR_syscalls) {

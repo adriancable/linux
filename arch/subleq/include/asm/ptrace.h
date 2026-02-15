@@ -83,6 +83,9 @@ struct pt_regs {
 	unsigned long t14;
 	unsigned long t15;
 	unsigned long z;
+	/* Placed after T-regs/Z to avoid shifting assembly offsets */
+	unsigned long orig_a5;  /* Original arg5 for syscall restart */
+	unsigned long orig_a6;  /* Original arg6 for syscall restart */
 };
 
 /*
@@ -125,9 +128,6 @@ struct pt_regs {
  * - User code uses userspace stack (regardless of PC location)
  * - Kernel code (syscalls) switches to the task's kernel stack
  * - If interrupted SP is NOT on kernel stack, we were in user mode
- *
- * We access task_struct->stack at fixed offset 8 (TASK_STACK) to avoid
- * circular header dependencies.
  */
 extern struct task_struct *subleq_current_task;
 
@@ -162,9 +162,10 @@ static inline int __subleq_user_mode(struct pt_regs *regs)
 	    pc < (unsigned long)subleq_irq_entry_end)
 		return 0;  /* kernel mode */
 
-	/* Get kernel stack base from current task (offset 8 = stack field) */
+	/* Get kernel stack base from current task.
+	 * task_struct::stack is at offset 8; verified by static_assert in setup.c */
 	unsigned long kstack_base = (unsigned long)*(void **)((char *)subleq_current_task + 8);
-	unsigned long kstack_top = kstack_base + 16384; /* THREAD_SIZE */
+	unsigned long kstack_top = kstack_base + 16384; /* THREAD_SIZE; verified in setup.c */
 	
 	/* If SP is outside kernel stack range, we were in user mode */
 	return (sp < kstack_base || sp >= kstack_top);
@@ -177,7 +178,7 @@ static inline int __subleq_user_mode(struct pt_regs *regs)
 #define user_stack_pointer(regs) PT_REG_GET(regs, sp)
 #define profile_pc(regs) instruction_pointer(regs)
 
-#define MAX_REG_OFFSET (offsetof(struct pt_regs, orig_a4) + sizeof(unsigned long))
+#define MAX_REG_OFFSET (offsetof(struct pt_regs, orig_a6) + sizeof(unsigned long))
 
 #endif /* !__ASSEMBLY__ */
 

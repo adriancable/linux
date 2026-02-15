@@ -157,11 +157,11 @@ subleq_irq_entry:
         /* User mode: Switch to kernel stack */
         /*
          * CRITICAL FIX: Set SP so that after SYSCALL_JMPTGT/SCRATCH pushes (-8)
-         * and pt_regs allocation (-PT_SIZE=228), pt_regs ends up at kernel_sp + 1024.
+         * and pt_regs allocation (-PT_SIZE=236), pt_regs ends up at kernel_sp + 1024.
          * This matches task_pt_regs(current), ensuring signal delivery and sigreturn
          * use the same pt_regs location.
          *
-         * Formula: SP = kernel_sp + 1024 + PT_SIZE + 8 = kernel_sp + 1260
+         * Formula: SP = kernel_sp + 1024 + PT_SIZE + 8 = kernel_sp + 1268
          * After pushes: SP = kernel_sp + 1252
          * After SP -= PT_SIZE: SP = kernel_sp + 1024 = pt_regs = task_pt_regs!
          */
@@ -169,8 +169,8 @@ subleq_irq_entry:
         .word   REG_SP, REG_SP, .+4              /* SP = 0 */
         .word   INT_Z, INT_Z, .+4                /* INT_Z = 0 */
         .word   subleq_kernel_sp, INT_Z, .+4     /* INT_Z = -kernel_sp */
-        .word   .Lconst_neg1260, INT_Z, .+4      /* INT_Z = -(kernel_sp + 1260) */
-        .word   INT_Z, REG_SP, .Lsave_done       /* SP = kernel_sp + 1260, goto save */
+        .word   .Lconst_neg1268, INT_Z, .+4      /* INT_Z = -(kernel_sp + 1268) */
+        .word   INT_Z, REG_SP, .Lsave_done       /* SP = kernel_sp + 1268, goto save */
 
 .Lon_kernel_stack:
         /* Already on kernel stack: keep using current SP (already in REG_SP) */
@@ -197,7 +197,7 @@ subleq_irq_entry:
         /*
          * PHASE 2: BUILD pt_regs ON KERNEL STACK
          *
-         * We allocate PT_SIZE (228) bytes on the kernel stack and build a
+         * We allocate PT_SIZE (236) bytes on the kernel stack and build a
          * pt_regs structure that C code can read and modify.
          * Now includes T-registers and Z for proper signal handling.
          *
@@ -210,7 +210,7 @@ subleq_irq_entry:
          * This enables proper preemption via preempt_schedule_irq().
          */
 
-        /* Allocate pt_regs: SP -= PT_SIZE (228 bytes) */
+        /* Allocate pt_regs: SP -= PT_SIZE (236 bytes) */
         .word   .Lconst_pt_size, REG_SP, .+4
         /* NOTE: SP now points to pt_regs base. C calling convention preserves SP,
          * so after C calls return, SP still points to pt_regs. */
@@ -225,17 +225,22 @@ subleq_irq_entry:
          * If we only populate a subset, the signal frame will contain garbage
          * for the unpopulated registers, corrupting the interrupted context.
          *
-         * pt_regs layout:
-         *   r3-r19:     offsets 0-64
-         *   r20:        offset 68
-         *   r21-r24:    offsets 72-84
-         *   r25-r31:    offsets 88-112
-         *   fp:         offset 116
-         *   sp:         offset 120
-         *   ra:         offset 124
-         *   pc:         offset 128
-         *   orig_r20:   offset 132 (not needed for interrupts)
-         *   syscall_nr: offset 136 (set to -1 for interrupts)
+         * pt_regs layout (236 bytes total):
+         *   r3-r19:      offsets 0-64
+         *   r20:         offset 68
+         *   r21-r24:     offsets 72-84
+         *   r25-r31:     offsets 88-112
+         *   fp:          offset 116
+         *   sp:          offset 120
+         *   ra:          offset 124
+         *   pc:          offset 128
+         *   orig_r20:    offset 132 (not needed for interrupts)
+         *   syscall_nr:  offset 136 (set to -1 for interrupts)
+         *   orig_r21:    offset 140 (not needed for interrupts)
+         *   orig_a1-a4:  offsets 144-156 (not needed for interrupts)
+         *   t0-t15:      offsets 160-220
+         *   z:           offset 224
+         *   orig_a5-a6:  offsets 228-232 (not needed for interrupts)
          *
          * NOTE: After PUSH_IRQ_REG, the hardware registers still contain their
          * original values (subleq reads but doesn't modify the A operand).
@@ -447,7 +452,8 @@ subleq_irq_entry:
         .word   INT_Z2 | INDIRECT, INT_Z2 | INDIRECT, .+4
         .word   .Lconst_neg1, INT_Z2 | INDIRECT, .+4  /* [addr] = 0 - (-1) = +1 */
 
-        /* Skip orig_r21, orig_a1-4 (offsets 140-156) - not used for interrupts */
+        /* Skip orig_r21, orig_a1-4 (offsets 140-156) - not used for interrupts
+         * (orig_a5/a6 at offsets 228-232 are also skipped, past Z at 224) */
         /* Advance to T0 at offset 160: 136 -> 160 = +24 */
         .word   .Lconst_neg24, INT_Z2, .+4
 
@@ -2909,9 +2915,9 @@ __subleq_syscall:
 
 /* pt_regs size for allocation/deallocation */
 .Lconst_pt_size:
-        .word   228             /* PT_SIZE = sizeof(struct pt_regs) - includes T-regs and Z */
+        .word   236             /* PT_SIZE = sizeof(struct pt_regs) - includes T-regs, Z, and orig_a5/a6 */
 .Lconst_neg_pt_size:
-        .word   -228            /* Negative for deallocation */
+        .word   -236            /* Negative for deallocation */
 
 /* Miscellaneous constants */
 .Lconst_1:
@@ -2936,8 +2942,8 @@ __subleq_syscall:
         .word   -38
 .Lconst_neg1024:
         .word   -1024
-.Lconst_neg1260:
-        .word   -1260           /* kernel_sp + 1260 = pt_regs after pushes and allocation */
+.Lconst_neg1268:
+        .word   -1268           /* kernel_sp + 1268 = pt_regs after pushes and allocation */
 .Lconst_neg1036:
         .word   -1036           /* SP + 1036 = pt_regs (C popped ret addr, so SP = kernel_sp - 12) */
 

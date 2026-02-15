@@ -596,7 +596,6 @@ static unsigned long libsrt_hash_lookup(struct libsrt_state *state, const char *
 
 /* Track which libraries have been loaded to avoid duplicates.
  * Also stores file/header info for deferred relocation processing (two-pass). */
-#define MAX_LOADED_LIBS 16
 /* Check if a library has already been loaded. Returns load_addr or 0 if not. */
 static unsigned long find_loaded_lib(struct libsrt_state *state, const char *name)
 {
@@ -1614,10 +1613,6 @@ static int load_libsrt(struct libsrt_state *state, const char *lib_path, struct 
 		return ret;
 	}
 
-	/* Record this library as loaded BEFORE processing dependencies.
-	 * Store file handle and header for deferred relocation processing.
-	 * File will be closed after all libraries are loaded and relocated.
-	 */
 	/* Record this library as loaded BEFORE processing dependencies.
 	 * Store file handle and header for deferred relocation processing.
 	 * File will be closed after all libraries are loaded and relocated.

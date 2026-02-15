@@ -47,10 +47,11 @@ struct thread_struct {
 	((struct pt_regs *)(task_stack_page(task) + THREAD_SIZE) - 1)
 
 /*
- * Saved instruction pointer and stack pointer
+ * Saved instruction pointer and stack pointer.
+ * pt_regs stores values negated, so use PT_REG_GET to get logical values.
  */
-#define KSTK_EIP(tsk) (task_pt_regs(tsk)->pc)
-#define KSTK_ESP(tsk) (task_pt_regs(tsk)->sp)
+#define KSTK_EIP(tsk) PT_REG_GET(task_pt_regs(tsk), pc)
+#define KSTK_ESP(tsk) PT_REG_GET(task_pt_regs(tsk), sp)
 
 /*
  * Get wait channel for sleeping task

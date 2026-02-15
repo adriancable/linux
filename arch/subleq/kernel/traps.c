@@ -94,7 +94,7 @@ void show_regs(struct pt_regs *regs)
  */
 int is_valid_bugaddr(unsigned long addr)
 {
-	return 1; /* All addresses are potentially valid */
+	return addr >= (unsigned long)_stext && addr < (unsigned long)_etext;
 }
 
 /*

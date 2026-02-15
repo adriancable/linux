@@ -17,6 +17,17 @@
 
 #include <asm/setup.h>
 #include <asm/sections.h>
+#include <asm/irqflags.h>
+
+/* Verify that the local SUBLEQ_THREAD_SIZE in irqflags.h (which can't
+ * include asm/page.h due to header ordering) matches the real THREAD_SIZE. */
+static_assert(SUBLEQ_THREAD_SIZE == THREAD_SIZE,
+	      "SUBLEQ_THREAD_SIZE out of sync with THREAD_SIZE");
+
+/* Verify that user_mode()'s hardcoded offset 8 for task_struct::stack
+ * (ptrace.h can't include sched.h) is still correct. */
+static_assert(offsetof(struct task_struct, stack) == 8,
+	      "task_struct::stack offset changed, update ptrace.h user_mode()");
 
 /* Memory layout */
 unsigned long subleq_memory_start = 0;
@@ -152,7 +163,7 @@ void __init setup_arch(char **cmdline_p)
 	/*
 	 * Reserve framebuffer region at top of memory.
 	 * Must match FB_ADDR in vm_reference_framebuffer.c and subleqfb.c
-	 * Size: 1280 * 1024 * 3 = 3932160 bytes (~3.75MB)
+	 * Size: 800 * 512 * 4 = 1638400 bytes (XRGB8888: 32-bit per pixel)
 	 */
 #define SUBLEQ_FB_SIZE   (800 * 512 * 4)  /* XRGB8888: 32-bit per pixel */
 #define SUBLEQ_FB_ADDR   (0x60000000UL - SUBLEQ_FB_SIZE)

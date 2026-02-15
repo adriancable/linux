@@ -17,6 +17,8 @@ struct sigcontext {
 	unsigned long sc_orig_a2;   /* Original arg2 */
 	unsigned long sc_orig_a3;   /* Original arg3 */
 	unsigned long sc_orig_a4;   /* Original arg4 */
+	unsigned long sc_orig_a5;   /* Original arg5 */
+	unsigned long sc_orig_a6;   /* Original arg6 */
 	long sc_syscall_nr;         /* Syscall number (-1 if not in syscall) */
 	/* Debug: checksums for detecting signal corruption */
 	unsigned long sc_dbg_gprs_checksum;

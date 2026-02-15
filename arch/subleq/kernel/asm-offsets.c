@@ -52,6 +52,8 @@ int main(void)
 	OFFSET(PT_ORIG_A2, pt_regs, orig_a2);
 	OFFSET(PT_ORIG_A3, pt_regs, orig_a3);
 	OFFSET(PT_ORIG_A4, pt_regs, orig_a4);
+	OFFSET(PT_ORIG_A5, pt_regs, orig_a5);
+	OFFSET(PT_ORIG_A6, pt_regs, orig_a6);
 	DEFINE(PT_SIZE, sizeof(struct pt_regs));
 	BLANK();
 

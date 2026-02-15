@@ -132,6 +132,8 @@ static int save_sigcontext(struct sigcontext __user *sc, struct pt_regs *regs)
 	err |= __put_user(PT_REG_GET(regs, orig_a2), &sc->sc_orig_a2);
 	err |= __put_user(PT_REG_GET(regs, orig_a3), &sc->sc_orig_a3);
 	err |= __put_user(PT_REG_GET(regs, orig_a4), &sc->sc_orig_a4);
+	err |= __put_user(PT_REG_GET(regs, orig_a5), &sc->sc_orig_a5);
+	err |= __put_user(PT_REG_GET(regs, orig_a6), &sc->sc_orig_a6);
 	err |= __put_user(PT_REG_GET_SIGNED(regs, syscall_nr), &sc->sc_syscall_nr);
 
 	return err;
@@ -209,6 +211,8 @@ static int restore_sigcontext(struct pt_regs *regs, struct sigcontext __user *sc
 	err |= __get_user(val, &sc->sc_orig_a2); PT_REG_SET(regs, orig_a2, val);
 	err |= __get_user(val, &sc->sc_orig_a3); PT_REG_SET(regs, orig_a3, val);
 	err |= __get_user(val, &sc->sc_orig_a4); PT_REG_SET(regs, orig_a4, val);
+	err |= __get_user(val, &sc->sc_orig_a5); PT_REG_SET(regs, orig_a5, val);
+	err |= __get_user(val, &sc->sc_orig_a6); PT_REG_SET(regs, orig_a6, val);
 	err |= __get_user(sval, &sc->sc_syscall_nr); PT_REG_SET_SIGNED(regs, syscall_nr, sval);
 
 	return err;
@@ -582,7 +586,9 @@ asmlinkage long sys_rt_sigreturn(void)
 					ret = fn(PT_REG_GET(regs, orig_a1),
 						 PT_REG_GET(regs, orig_a2),
 						 PT_REG_GET(regs, orig_a3),
-						 PT_REG_GET(regs, orig_a4), 0, 0);
+						 PT_REG_GET(regs, orig_a4),
+						 PT_REG_GET(regs, orig_a5),
+						 PT_REG_GET(regs, orig_a6));
 					PT_REG_SET_SIGNED(regs, r20, ret);
 
 					/*

@@ -14,7 +14,7 @@
 #include <linux/kernel.h>
 #include <linux/sched.h>
 #include <linux/sched/clock.h>
-#include <linux/interrupt.h>
+
 #include <linux/clocksource.h>
 #include <linux/clockchips.h>
 #include <linux/delay.h>
@@ -22,7 +22,7 @@
 #include <linux/time.h>
 #include <linux/random.h>
 
-#include <asm/irq.h>
+
 #include <asm/io.h>
 
 /*
@@ -140,19 +140,6 @@ void __init time_init(void)
 
 
 /*
- * Dummy interrupt handler (defined in entry.S)
- * This handler just re-enables interrupts and returns immediately,
- * without invoking any kernel code.
- */
-extern void subleq_dummy_irq_handler(void);
-
-/*
- * Interrupt control registers (low memory)
- */
-#define INT_HANDLER_ADDR	((volatile unsigned long *)0)
-#define INT_SAVED_HANDLER_ADDR	((volatile unsigned long *)8)
-
-/*
  * Read time from the persistent clock.
  *
  * The Subleq VM provides nanosecond-resolution time at words 64-66:
@@ -161,58 +148,15 @@ extern void subleq_dummy_irq_handler(void);
  *
  * This function is called by the kernel's timekeeping subsystem during
  * boot to initialize wall-clock time, and during suspend/resume cycles.
- *
- * IMPORTANT: The VM only populates clock registers during timer interrupt
- * checks, which only happen when interrupts are enabled. If called very
- * early during boot (before any checks have occurred), the clock will
- * be zero. In this case, we install a minimal dummy interrupt handler
- * and enable interrupts to trigger the VM's timer check.
+ * The VM populates clock registers immediately, so they are always valid.
  */
 void read_persistent_clock64(struct timespec64 *ts)
 {
 	u32 lo, hi, ns;
-	unsigned long saved_handler;
-	int i;
 
-	/* First read - check if clock is already valid */
 	lo = readl((void __iomem *)SUBLEQ_CLOCK_S_LO);
 	hi = readl((void __iomem *)SUBLEQ_CLOCK_S_HI);
 	ns = readl((void __iomem *)SUBLEQ_CLOCK_NS);
-
-	/*
-	 * If clock is zero, the VM hasn't populated it yet.
-	 * This happens during early boot when interrupts are disabled.
-	 *
-	 * Install a dummy interrupt handler that just returns immediately,
-	 * then enable interrupts to trigger the VM's timer check.
-	 */
-	if (lo == 0 && hi == 0 && ns == 0) {
-		/*
-		 * Save the current handler (might be 0 or the real handler)
-		 * and install our dummy handler.
-		 */
-		saved_handler = *INT_SAVED_HANDLER_ADDR;
-		*INT_SAVED_HANDLER_ADDR = (unsigned long)subleq_dummy_irq_handler;
-
-		/* Enable interrupts by setting m[0] to the dummy handler */
-		*INT_HANDLER_ADDR = (unsigned long)subleq_dummy_irq_handler;
-
-		/* Spin until the clock is valid */
-		for (i = 0; i < 100000; i++) {
-			lo = readl((void __iomem *)SUBLEQ_CLOCK_S_LO);
-			hi = readl((void __iomem *)SUBLEQ_CLOCK_S_HI);
-			ns = readl((void __iomem *)SUBLEQ_CLOCK_NS);
-
-			if (lo != 0 || hi != 0 || ns != 0)
-				break;
-
-			barrier();
-		}
-
-		/* Disable interrupts and restore original handler */
-		*INT_HANDLER_ADDR = 0;
-		*INT_SAVED_HANDLER_ADDR = saved_handler;
-	}
 
 	ts->tv_sec = ((s64)hi << 32) | lo;
 	ts->tv_nsec = ns;

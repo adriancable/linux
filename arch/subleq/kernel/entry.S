@@ -986,34 +986,6 @@ subleq_irq_entry_end:
 .size subleq_irq_entry, .-subleq_irq_entry
 
 
-/*
- * ===========================================================================
- * Dummy Interrupt Handler for Early Boot Clock Initialization
- * ===========================================================================
- *
- * This minimal handler is used during early boot when we need to trigger
- * the VM's timer check to populate the clock registers, but before the
- * kernel is ready to handle real interrupts.
- *
- * It simply returns to the interrupted code (jumps to m[4]).
- *
- * No registers are saved or restored - the interrupted code is resumed
- * exactly as it was.
- */
-.text
-.globl subleq_dummy_irq_handler
-.type subleq_dummy_irq_handler, @function
-
-subleq_dummy_irq_handler:
-        /*
-         * Return to interrupted code: jump to address stored at m[4]
-         * Using indirect jump: the jump target is read from INT_SAVED_PC
-         */
-        .word   INT_Z, INT_Z, INT_SAVED_PC | INDIRECT
-
-.size subleq_dummy_irq_handler, .-subleq_dummy_irq_handler
-
-
 
 /*
  * ===========================================================================

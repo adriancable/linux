@@ -60,6 +60,11 @@ CONFIG_DEFAULT_TCP_CONG="cubic"
 # CONFIG_NETWORK_SECMARK is not set
 # CONFIG_NETFILTER is not set
 
+# Per-process I/O accounting (for htop DISK R/W columns via /proc/<pid>/io)
+CONFIG_TASKSTATS=y
+CONFIG_TASK_XACCT=y
+CONFIG_TASK_IO_ACCOUNTING=y
+
 # Loopback device (required for 127.0.0.1)
 CONFIG_NETDEVICES=y
 CONFIG_NET_CORE=y

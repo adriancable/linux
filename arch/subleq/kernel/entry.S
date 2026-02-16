@@ -43,10 +43,44 @@
  */
 subleq_irq_entry:
         /*
-         * PHASE 0a: DISABLE INTERRUPTS IMMEDIATELY
+         * PHASE -1: SELF-INTERRUPT DETECTION
          *
-         * This MUST be first! Otherwise another interrupt could fire
-         * before we've finished saving state, corrupting everything.
+         * Check if we interrupted our own handler code. This happens when
+         * Phase 4 re-enables interrupts and the timer fires before the
+         * final jump to SAVE_JMPTGT completes.
+         *
+         * If INT_SAVED_PC (m[1]) is within [subleq_irq_entry, subleq_irq_entry_end),
+         * skip this interrupt entirely and return to the interrupted handler code.
+         *
+         * Safe because:
+         *   - INT_Z is IRQ-only scratch, safe to clobber without restore
+         *   - Timer counter just reset (~300K instructions of headroom)
+         *   - The interrupted handler resumes unaware anything happened
+         *   - Lost timer tick is harmless; another fires in ~300K cycles
+         */
+
+        /* .Lhazard_scratch = INT_SAVED_PC (using INT_Z as intermediary) */
+        .word   .Lhazard_scratch, .Lhazard_scratch, .+4  /* scratch = 0 */
+        .word   INT_Z, INT_Z, .+4                         /* INT_Z = 0 */
+        .word   INT_SAVED_PC, INT_Z, .+4                  /* INT_Z = -PC */
+        .word   INT_Z, .Lhazard_scratch, .+4              /* scratch = PC */
+
+        /* Check lower bound: scratch -= (start - 1); jump if <= 0 → PC < start */
+        .word   .Lconst_entry_start_m1, .Lhazard_scratch, .Lphase0a_start
+
+        /* Check upper bound: scratch -= (end - start); jump if <= 0 → PC < end = IN HAZARD */
+        .word   .Lconst_entry_size, .Lhazard_scratch, .Lin_hazard
+
+        /* PC >= end → not self-interrupt, continue normally */
+        .word   INT_Z, INT_Z, .Lphase0a_start
+
+.Lin_hazard:
+        /* Self-interrupt detected! Return to interrupted handler code. */
+        .word   INT_Z, INT_Z, INT_SAVED_PC | INDIRECT
+
+.Lphase0a_start:
+        /*
+         * PHASE 0a: DISABLE INTERRUPTS IMMEDIATELY
          *
          * Save m[0] to m[8] (INT_SAVED_HANDLER), then clear m[0].
          * Uses only INT_Z as scratch (address 224).
@@ -598,8 +632,14 @@ subleq_irq_entry:
         .word   INT_Z, INT_Z, subleq_do_work
 
 .Lwork_returned:
-        /* Check R20: if <= 0, done. Otherwise reload R21 and loop. */
-        .word   REG_Z, REG_R20, .Lno_more_work   /* If R20 <= 0, done */
+        /* Check R20: if <= 0, done. Otherwise reload R21 and loop.
+         * CRITICAL: Must use ZERO (constant 0 at address 144), NOT REG_Z
+         * (scratch at address 12). REG_Z is clobbered by C functions.
+         * If REG_Z happened to be negative, R20 -= Z would make R20
+         * positive even when subleq_do_work() returned 0, causing an
+         * infinite work loop (system hang).
+         */
+        .word   ZERO, REG_R20, .Lno_more_work    /* If R20 <= 0, done */
 
         /* R20 > 0: more work. Reload R21 from SP (C calling convention preserves SP) */
         .word   REG_R21, REG_R21, .+4
@@ -950,7 +990,13 @@ subleq_irq_entry:
 
 
 .Lrestore_done:
-        /* PHASE 4: RE-ENABLE INTERRUPTS AND RETURN */
+        /* PHASE 4: RE-ENABLE INTERRUPTS AND RETURN
+         *
+         * After re-enabling (m[0] = handler), there is a hazard window until
+         * the final jump to SAVE_JMPTGT executes. If a timer interrupt fires
+         * during this window, the Phase -1 self-interrupt detection at handler
+         * entry will detect it and return immediately.
+         */
 
         /* SAVE_JMPTGT now contains the (potentially modified) return PC */
 .Ldo_jump:
@@ -2918,6 +2964,14 @@ __subleq_syscall:
         .word   236             /* PT_SIZE = sizeof(struct pt_regs) - includes T-regs, Z, and orig_a5/a6 */
 .Lconst_neg_pt_size:
         .word   -236            /* Negative for deallocation */
+
+/* Phase -1 self-interrupt detection constants */
+.Lhazard_scratch:
+        .word   0               /* Dedicated scratch for hazard range check */
+.Lconst_entry_start_m1:
+        .word   subleq_irq_entry - 1   /* Lower bound (exclusive) for range check */
+.Lconst_entry_size:
+        .word   subleq_irq_entry_end - subleq_irq_entry  /* Handler size */
 
 /* Miscellaneous constants */
 .Lconst_1:

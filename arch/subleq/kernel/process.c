@@ -36,7 +36,7 @@ void __cpuidle arch_cpu_idle(void)
 /*
  * ret_from_fork is in entry.S - it's the return address for new threads
  */
-extern void ret_from_fork(void);
+extern char ret_from_fork[];
 
 /*
  * kernel_thread_helper - Called by ret_from_fork for new kernel threads

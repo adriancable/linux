@@ -137,6 +137,8 @@ extern char __subleq_syscall_end[];
 /* Symbols for IRQ handler range check */
 extern char subleq_irq_entry[];
 extern char subleq_irq_entry_end[];
+/* Symbols for ret_from_fork / jump_to_userspace range check */
+extern char ret_from_fork[];
 
 static inline int __subleq_user_mode(struct pt_regs *regs)
 {
@@ -144,8 +146,9 @@ static inline int __subleq_user_mode(struct pt_regs *regs)
 	unsigned long sp = PT_REG_GET(regs, sp);
 	
 	/*
-	 * CRITICAL: If PC is within syscall or IRQ handler code, we're
-	 * definitely in kernel mode even if SP looks like userspace.
+	 * CRITICAL: If PC is within syscall, IRQ handler, or new-thread
+	 * setup code, we're definitely in kernel mode even if SP looks
+	 * like userspace.
 	 * 
 	 * This handles the race condition where SP has been restored to
 	 * userspace value but we haven't jumped yet. The PC is still in
@@ -161,6 +164,15 @@ static inline int __subleq_user_mode(struct pt_regs *regs)
 	if (pc >= (unsigned long)subleq_irq_entry && 
 	    pc < (unsigned long)subleq_irq_entry_end)
 		return 0;  /* kernel mode */
+	/*
+	 * ret_from_fork and jump_to_userspace are sequential in entry.S,
+	 * between subleq_irq_entry_end and __subleq_syscall.  Both restore
+	 * SP to userspace before the final jump; without this check an
+	 * interrupt in that window would be misclassified as user mode.
+	 */
+	if (pc >= (unsigned long)ret_from_fork &&
+	    pc < (unsigned long)__subleq_syscall)
+		return 0;  /* kernel mode - new thread setup */
 
 	/* Get kernel stack base from current task.
 	 * task_struct::stack is at offset 8; verified by static_assert in setup.c */

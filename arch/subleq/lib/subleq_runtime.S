@@ -50474,6 +50474,8 @@ __subleq_srl:
 .Lsrl_zero:
         .word   96, 96, .Lsrl_done
 
+        .globl  __subleq_srl_1
+__subleq_srl_1:
 .Lsrl_shift_1:
         .word   168, 168, .+4
         .word   144, 100, .Lsrl1_b31_chk
@@ -50733,6 +50735,8 @@ __subleq_srl:
         .word   12, 96, .+4
         .word   144, 144, .Lsrl_done
 
+        .globl  __subleq_srl_2
+__subleq_srl_2:
 .Lsrl_shift_2:
         .word   168, 168, .+4
         .word   144, 100, .Lsrl2_b31_chk
@@ -50984,6 +50988,8 @@ __subleq_srl:
         .word   12, 96, .+4
         .word   144, 144, .Lsrl_done
 
+        .globl  __subleq_srl_3
+__subleq_srl_3:
 .Lsrl_shift_3:
         .word   168, 168, .+4
         .word   144, 100, .Lsrl3_b31_chk
@@ -51227,6 +51233,8 @@ __subleq_srl:
         .word   12, 96, .+4
         .word   144, 144, .Lsrl_done
 
+        .globl  __subleq_srl_4
+__subleq_srl_4:
 .Lsrl_shift_4:
         .word   168, 168, .+4
         .word   144, 100, .Lsrl4_b31_chk
@@ -51462,6 +51470,8 @@ __subleq_srl:
         .word   12, 96, .+4
         .word   144, 144, .Lsrl_done
 
+        .globl  __subleq_srl_5
+__subleq_srl_5:
 .Lsrl_shift_5:
         .word   168, 168, .+4
         .word   144, 100, .Lsrl5_b31_chk
@@ -51689,6 +51699,8 @@ __subleq_srl:
         .word   12, 96, .+4
         .word   144, 144, .Lsrl_done
 
+        .globl  __subleq_srl_6
+__subleq_srl_6:
 .Lsrl_shift_6:
         .word   168, 168, .+4
         .word   144, 100, .Lsrl6_b31_chk
@@ -51908,6 +51920,8 @@ __subleq_srl:
         .word   12, 96, .+4
         .word   144, 144, .Lsrl_done
 
+        .globl  __subleq_srl_7
+__subleq_srl_7:
 .Lsrl_shift_7:
         .word   168, 168, .+4
         .word   144, 100, .Lsrl7_b31_chk
@@ -52119,6 +52133,8 @@ __subleq_srl:
         .word   12, 96, .+4
         .word   144, 144, .Lsrl_done
 
+        .globl  __subleq_srl_8
+__subleq_srl_8:
 .Lsrl_shift_8:
         .word   168, 168, .+4
         .word   144, 100, .Lsrl8_b31_chk
@@ -52322,6 +52338,8 @@ __subleq_srl:
         .word   12, 96, .+4
         .word   144, 144, .Lsrl_done
 
+        .globl  __subleq_srl_9
+__subleq_srl_9:
 .Lsrl_shift_9:
         .word   168, 168, .+4
         .word   144, 100, .Lsrl9_b31_chk
@@ -52517,6 +52535,8 @@ __subleq_srl:
         .word   12, 96, .+4
         .word   144, 144, .Lsrl_done
 
+        .globl  __subleq_srl_10
+__subleq_srl_10:
 .Lsrl_shift_10:
         .word   168, 168, .+4
         .word   144, 100, .Lsrl10_b31_chk
@@ -52704,6 +52724,8 @@ __subleq_srl:
         .word   12, 96, .+4
         .word   144, 144, .Lsrl_done
 
+        .globl  __subleq_srl_11
+__subleq_srl_11:
 .Lsrl_shift_11:
         .word   168, 168, .+4
         .word   144, 100, .Lsrl11_b31_chk
@@ -52883,6 +52905,8 @@ __subleq_srl:
         .word   12, 96, .+4
         .word   144, 144, .Lsrl_done
 
+        .globl  __subleq_srl_12
+__subleq_srl_12:
 .Lsrl_shift_12:
         .word   168, 168, .+4
         .word   144, 100, .Lsrl12_b31_chk
@@ -53054,6 +53078,8 @@ __subleq_srl:
         .word   12, 96, .+4
         .word   144, 144, .Lsrl_done
 
+        .globl  __subleq_srl_13
+__subleq_srl_13:
 .Lsrl_shift_13:
         .word   168, 168, .+4
         .word   144, 100, .Lsrl13_b31_chk
@@ -53217,6 +53243,8 @@ __subleq_srl:
         .word   12, 96, .+4
         .word   144, 144, .Lsrl_done
 
+        .globl  __subleq_srl_14
+__subleq_srl_14:
 .Lsrl_shift_14:
         .word   168, 168, .+4
         .word   144, 100, .Lsrl14_b31_chk
@@ -53372,6 +53400,8 @@ __subleq_srl:
         .word   12, 96, .+4
         .word   144, 144, .Lsrl_done
 
+        .globl  __subleq_srl_15
+__subleq_srl_15:
 .Lsrl_shift_15:
         .word   168, 168, .+4
         .word   144, 100, .Lsrl15_b31_chk
@@ -53519,6 +53549,8 @@ __subleq_srl:
         .word   12, 96, .+4
         .word   144, 144, .Lsrl_done
 
+        .globl  __subleq_srl_16
+__subleq_srl_16:
 .Lsrl_shift_16:
         .word   168, 168, .+4
         .word   144, 100, .Lsrl16_b31_chk
@@ -53658,6 +53690,8 @@ __subleq_srl:
         .word   12, 96, .+4
         .word   144, 144, .Lsrl_done
 
+        .globl  __subleq_srl_17
+__subleq_srl_17:
 .Lsrl_shift_17:
         .word   168, 168, .+4
         .word   144, 100, .Lsrl17_b31_chk
@@ -53789,6 +53823,8 @@ __subleq_srl:
         .word   12, 96, .+4
         .word   144, 144, .Lsrl_done
 
+        .globl  __subleq_srl_18
+__subleq_srl_18:
 .Lsrl_shift_18:
         .word   168, 168, .+4
         .word   144, 100, .Lsrl18_b31_chk
@@ -53912,6 +53948,8 @@ __subleq_srl:
         .word   12, 96, .+4
         .word   144, 144, .Lsrl_done
 
+        .globl  __subleq_srl_19
+__subleq_srl_19:
 .Lsrl_shift_19:
         .word   168, 168, .+4
         .word   144, 100, .Lsrl19_b31_chk
@@ -54027,6 +54065,8 @@ __subleq_srl:
         .word   12, 96, .+4
         .word   144, 144, .Lsrl_done
 
+        .globl  __subleq_srl_20
+__subleq_srl_20:
 .Lsrl_shift_20:
         .word   168, 168, .+4
         .word   144, 100, .Lsrl20_b31_chk
@@ -54134,6 +54174,8 @@ __subleq_srl:
         .word   12, 96, .+4
         .word   144, 144, .Lsrl_done
 
+        .globl  __subleq_srl_21
+__subleq_srl_21:
 .Lsrl_shift_21:
         .word   168, 168, .+4
         .word   144, 100, .Lsrl21_b31_chk
@@ -54233,6 +54275,8 @@ __subleq_srl:
         .word   12, 96, .+4
         .word   144, 144, .Lsrl_done
 
+        .globl  __subleq_srl_22
+__subleq_srl_22:
 .Lsrl_shift_22:
         .word   168, 168, .+4
         .word   144, 100, .Lsrl22_b31_chk
@@ -54324,6 +54368,8 @@ __subleq_srl:
         .word   12, 96, .+4
         .word   144, 144, .Lsrl_done
 
+        .globl  __subleq_srl_23
+__subleq_srl_23:
 .Lsrl_shift_23:
         .word   168, 168, .+4
         .word   144, 100, .Lsrl23_b31_chk
@@ -54407,6 +54453,8 @@ __subleq_srl:
         .word   12, 96, .+4
         .word   144, 144, .Lsrl_done
 
+        .globl  __subleq_srl_24
+__subleq_srl_24:
 .Lsrl_shift_24:
         .word   168, 168, .+4
         .word   144, 100, .Lsrl24_b31_chk
@@ -54482,6 +54530,8 @@ __subleq_srl:
         .word   12, 96, .+4
         .word   144, 144, .Lsrl_done
 
+        .globl  __subleq_srl_25
+__subleq_srl_25:
 .Lsrl_shift_25:
         .word   168, 168, .+4
         .word   144, 100, .Lsrl25_b31_chk
@@ -54549,6 +54599,8 @@ __subleq_srl:
         .word   12, 96, .+4
         .word   144, 144, .Lsrl_done
 
+        .globl  __subleq_srl_26
+__subleq_srl_26:
 .Lsrl_shift_26:
         .word   168, 168, .+4
         .word   144, 100, .Lsrl26_b31_chk
@@ -54608,6 +54660,8 @@ __subleq_srl:
         .word   12, 96, .+4
         .word   144, 144, .Lsrl_done
 
+        .globl  __subleq_srl_27
+__subleq_srl_27:
 .Lsrl_shift_27:
         .word   168, 168, .+4
         .word   144, 100, .Lsrl27_b31_chk
@@ -54659,6 +54713,8 @@ __subleq_srl:
         .word   12, 96, .+4
         .word   144, 144, .Lsrl_done
 
+        .globl  __subleq_srl_28
+__subleq_srl_28:
 .Lsrl_shift_28:
         .word   168, 168, .+4
         .word   144, 100, .Lsrl28_b31_chk
@@ -54702,6 +54758,8 @@ __subleq_srl:
         .word   12, 96, .+4
         .word   144, 144, .Lsrl_done
 
+        .globl  __subleq_srl_29
+__subleq_srl_29:
 .Lsrl_shift_29:
         .word   168, 168, .+4
         .word   144, 100, .Lsrl29_b31_chk
@@ -54737,6 +54795,8 @@ __subleq_srl:
         .word   12, 96, .+4
         .word   144, 144, .Lsrl_done
 
+        .globl  __subleq_srl_30
+__subleq_srl_30:
 .Lsrl_shift_30:
         .word   168, 168, .+4
         .word   144, 100, .Lsrl30_b31_chk
@@ -54764,6 +54824,8 @@ __subleq_srl:
         .word   12, 96, .+4
         .word   144, 144, .Lsrl_done
 
+        .globl  __subleq_srl_31
+__subleq_srl_31:
 .Lsrl_shift_31:
         .word   168, 168, .+4
         .word   144, 100, .Lsrl31_b31_chk
@@ -54968,6 +55030,8 @@ __subleq_sra:
         .word   96, 96, .+4
         .word   .Lsra_one, 96, .Lsra_done
 
+        .globl  __subleq_sra_1
+__subleq_sra_1:
 .Lsra_shift_1:
         .word   180, 180, .Lsra1_chksign
 .Lsra1_chksign:
@@ -55250,6 +55314,8 @@ __subleq_sra:
         .word   12, 96, .+4
         .word   144, 144, .Lsra_done
 
+        .globl  __subleq_sra_2
+__subleq_sra_2:
 .Lsra_shift_2:
         .word   180, 180, .Lsra2_chksign
 .Lsra2_chksign:
@@ -55524,6 +55590,8 @@ __subleq_sra:
         .word   12, 96, .+4
         .word   144, 144, .Lsra_done
 
+        .globl  __subleq_sra_3
+__subleq_sra_3:
 .Lsra_shift_3:
         .word   180, 180, .Lsra3_chksign
 .Lsra3_chksign:
@@ -55790,6 +55858,8 @@ __subleq_sra:
         .word   12, 96, .+4
         .word   144, 144, .Lsra_done
 
+        .globl  __subleq_sra_4
+__subleq_sra_4:
 .Lsra_shift_4:
         .word   180, 180, .Lsra4_chksign
 .Lsra4_chksign:
@@ -56048,6 +56118,8 @@ __subleq_sra:
         .word   12, 96, .+4
         .word   144, 144, .Lsra_done
 
+        .globl  __subleq_sra_5
+__subleq_sra_5:
 .Lsra_shift_5:
         .word   180, 180, .Lsra5_chksign
 .Lsra5_chksign:
@@ -56298,6 +56370,8 @@ __subleq_sra:
         .word   12, 96, .+4
         .word   144, 144, .Lsra_done
 
+        .globl  __subleq_sra_6
+__subleq_sra_6:
 .Lsra_shift_6:
         .word   180, 180, .Lsra6_chksign
 .Lsra6_chksign:
@@ -56540,6 +56614,8 @@ __subleq_sra:
         .word   12, 96, .+4
         .word   144, 144, .Lsra_done
 
+        .globl  __subleq_sra_7
+__subleq_sra_7:
 .Lsra_shift_7:
         .word   180, 180, .Lsra7_chksign
 .Lsra7_chksign:
@@ -56774,6 +56850,8 @@ __subleq_sra:
         .word   12, 96, .+4
         .word   144, 144, .Lsra_done
 
+        .globl  __subleq_sra_8
+__subleq_sra_8:
 .Lsra_shift_8:
         .word   180, 180, .Lsra8_chksign
 .Lsra8_chksign:
@@ -57000,6 +57078,8 @@ __subleq_sra:
         .word   12, 96, .+4
         .word   144, 144, .Lsra_done
 
+        .globl  __subleq_sra_9
+__subleq_sra_9:
 .Lsra_shift_9:
         .word   180, 180, .Lsra9_chksign
 .Lsra9_chksign:
@@ -57218,6 +57298,8 @@ __subleq_sra:
         .word   12, 96, .+4
         .word   144, 144, .Lsra_done
 
+        .globl  __subleq_sra_10
+__subleq_sra_10:
 .Lsra_shift_10:
         .word   180, 180, .Lsra10_chksign
 .Lsra10_chksign:
@@ -57428,6 +57510,8 @@ __subleq_sra:
         .word   12, 96, .+4
         .word   144, 144, .Lsra_done
 
+        .globl  __subleq_sra_11
+__subleq_sra_11:
 .Lsra_shift_11:
         .word   180, 180, .Lsra11_chksign
 .Lsra11_chksign:
@@ -57630,6 +57714,8 @@ __subleq_sra:
         .word   12, 96, .+4
         .word   144, 144, .Lsra_done
 
+        .globl  __subleq_sra_12
+__subleq_sra_12:
 .Lsra_shift_12:
         .word   180, 180, .Lsra12_chksign
 .Lsra12_chksign:
@@ -57824,6 +57910,8 @@ __subleq_sra:
         .word   12, 96, .+4
         .word   144, 144, .Lsra_done
 
+        .globl  __subleq_sra_13
+__subleq_sra_13:
 .Lsra_shift_13:
         .word   180, 180, .Lsra13_chksign
 .Lsra13_chksign:
@@ -58010,6 +58098,8 @@ __subleq_sra:
         .word   12, 96, .+4
         .word   144, 144, .Lsra_done
 
+        .globl  __subleq_sra_14
+__subleq_sra_14:
 .Lsra_shift_14:
         .word   180, 180, .Lsra14_chksign
 .Lsra14_chksign:
@@ -58188,6 +58278,8 @@ __subleq_sra:
         .word   12, 96, .+4
         .word   144, 144, .Lsra_done
 
+        .globl  __subleq_sra_15
+__subleq_sra_15:
 .Lsra_shift_15:
         .word   180, 180, .Lsra15_chksign
 .Lsra15_chksign:
@@ -58358,6 +58450,8 @@ __subleq_sra:
         .word   12, 96, .+4
         .word   144, 144, .Lsra_done
 
+        .globl  __subleq_sra_16
+__subleq_sra_16:
 .Lsra_shift_16:
         .word   180, 180, .Lsra16_chksign
 .Lsra16_chksign:
@@ -58520,6 +58614,8 @@ __subleq_sra:
         .word   12, 96, .+4
         .word   144, 144, .Lsra_done
 
+        .globl  __subleq_sra_17
+__subleq_sra_17:
 .Lsra_shift_17:
         .word   180, 180, .Lsra17_chksign
 .Lsra17_chksign:
@@ -58674,6 +58770,8 @@ __subleq_sra:
         .word   12, 96, .+4
         .word   144, 144, .Lsra_done
 
+        .globl  __subleq_sra_18
+__subleq_sra_18:
 .Lsra_shift_18:
         .word   180, 180, .Lsra18_chksign
 .Lsra18_chksign:
@@ -58820,6 +58918,8 @@ __subleq_sra:
         .word   12, 96, .+4
         .word   144, 144, .Lsra_done
 
+        .globl  __subleq_sra_19
+__subleq_sra_19:
 .Lsra_shift_19:
         .word   180, 180, .Lsra19_chksign
 .Lsra19_chksign:
@@ -58958,6 +59058,8 @@ __subleq_sra:
         .word   12, 96, .+4
         .word   144, 144, .Lsra_done
 
+        .globl  __subleq_sra_20
+__subleq_sra_20:
 .Lsra_shift_20:
         .word   180, 180, .Lsra20_chksign
 .Lsra20_chksign:
@@ -59088,6 +59190,8 @@ __subleq_sra:
         .word   12, 96, .+4
         .word   144, 144, .Lsra_done
 
+        .globl  __subleq_sra_21
+__subleq_sra_21:
 .Lsra_shift_21:
         .word   180, 180, .Lsra21_chksign
 .Lsra21_chksign:
@@ -59210,6 +59314,8 @@ __subleq_sra:
         .word   12, 96, .+4
         .word   144, 144, .Lsra_done
 
+        .globl  __subleq_sra_22
+__subleq_sra_22:
 .Lsra_shift_22:
         .word   180, 180, .Lsra22_chksign
 .Lsra22_chksign:
@@ -59324,6 +59430,8 @@ __subleq_sra:
         .word   12, 96, .+4
         .word   144, 144, .Lsra_done
 
+        .globl  __subleq_sra_23
+__subleq_sra_23:
 .Lsra_shift_23:
         .word   180, 180, .Lsra23_chksign
 .Lsra23_chksign:
@@ -59430,6 +59538,8 @@ __subleq_sra:
         .word   12, 96, .+4
         .word   144, 144, .Lsra_done
 
+        .globl  __subleq_sra_24
+__subleq_sra_24:
 .Lsra_shift_24:
         .word   180, 180, .Lsra24_chksign
 .Lsra24_chksign:
@@ -59528,6 +59638,8 @@ __subleq_sra:
         .word   12, 96, .+4
         .word   144, 144, .Lsra_done
 
+        .globl  __subleq_sra_25
+__subleq_sra_25:
 .Lsra_shift_25:
         .word   180, 180, .Lsra25_chksign
 .Lsra25_chksign:
@@ -59618,6 +59730,8 @@ __subleq_sra:
         .word   12, 96, .+4
         .word   144, 144, .Lsra_done
 
+        .globl  __subleq_sra_26
+__subleq_sra_26:
 .Lsra_shift_26:
         .word   180, 180, .Lsra26_chksign
 .Lsra26_chksign:
@@ -59700,6 +59814,8 @@ __subleq_sra:
         .word   12, 96, .+4
         .word   144, 144, .Lsra_done
 
+        .globl  __subleq_sra_27
+__subleq_sra_27:
 .Lsra_shift_27:
         .word   180, 180, .Lsra27_chksign
 .Lsra27_chksign:
@@ -59774,6 +59890,8 @@ __subleq_sra:
         .word   12, 96, .+4
         .word   144, 144, .Lsra_done
 
+        .globl  __subleq_sra_28
+__subleq_sra_28:
 .Lsra_shift_28:
         .word   180, 180, .Lsra28_chksign
 .Lsra28_chksign:
@@ -59840,6 +59958,8 @@ __subleq_sra:
         .word   12, 96, .+4
         .word   144, 144, .Lsra_done
 
+        .globl  __subleq_sra_29
+__subleq_sra_29:
 .Lsra_shift_29:
         .word   180, 180, .Lsra29_chksign
 .Lsra29_chksign:
@@ -59898,6 +60018,8 @@ __subleq_sra:
         .word   12, 96, .+4
         .word   144, 144, .Lsra_done
 
+        .globl  __subleq_sra_30
+__subleq_sra_30:
 .Lsra_shift_30:
         .word   180, 180, .Lsra30_chksign
 .Lsra30_chksign:
@@ -59948,6 +60070,8 @@ __subleq_sra:
         .word   12, 96, .+4
         .word   144, 144, .Lsra_done
 
+        .globl  __subleq_sra_31
+__subleq_sra_31:
 .Lsra_shift_31:
         .word   180, 180, .Lsra31_chksign
 .Lsra31_chksign:
@@ -62175,6 +62299,7 @@ __subleq_sb_b3:
         .word   .Lsb_min, 172, .+4
         .word   12, 12, .Lsb_b0_bias
 .Lsb_b0_shift:
+        .word   144, 104, .Lsb_b0_done
         .word   12, 12, .+4
         .word   104, 12, .+4
         .word   12, 176, .Lsb_b0_done
@@ -62547,6 +62672,7 @@ __subleq_sb_b3:
         .word   .Lsb_min, 172, .+4
         .word   12, 12, .Lsb_b1_bias
 .Lsb_b1_shift:
+        .word   144, 104, .Lsb_b1_done
         .word   180, 180, .Lsb_b1_sh1
 .Lsb_b1_sh1:
         .word   12, 12, .+4
@@ -62957,6 +63083,7 @@ __subleq_sb_b3:
         .word   .Lsb_min, 172, .+4
         .word   12, 12, .Lsb_b2_bias
 .Lsb_b2_shift:
+        .word   144, 104, .Lsb_b2_done
         .word   180, 180, .Lsb_b2_sh1
 .Lsb_b2_sh1:
         .word   12, 12, .+4
@@ -63385,6 +63512,7 @@ __subleq_sb_b3:
         .word   .Lsb_min, 172, .+4
         .word   12, 12, .Lsb_b3_bias
 .Lsb_b3_shift:
+        .word   144, 104, .Lsb_b3_done
         .word   180, 180, .Lsb_b3_sh1
 .Lsb_b3_sh1:
         .word   12, 12, .+4

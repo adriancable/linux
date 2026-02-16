@@ -207,7 +207,69 @@ extern void __subleq_sh_h0(void);
 extern void __subleq_sh_h1(void);
 extern void __subleq_shl(void);
 extern void __subleq_sra(void);
+extern void __subleq_sra_1(void);
+extern void __subleq_sra_10(void);
+extern void __subleq_sra_11(void);
+extern void __subleq_sra_12(void);
+extern void __subleq_sra_13(void);
+extern void __subleq_sra_14(void);
+extern void __subleq_sra_15(void);
+extern void __subleq_sra_16(void);
+extern void __subleq_sra_17(void);
+extern void __subleq_sra_18(void);
+extern void __subleq_sra_19(void);
+extern void __subleq_sra_2(void);
+extern void __subleq_sra_20(void);
+extern void __subleq_sra_21(void);
+extern void __subleq_sra_22(void);
+extern void __subleq_sra_23(void);
+extern void __subleq_sra_24(void);
+extern void __subleq_sra_25(void);
+extern void __subleq_sra_26(void);
+extern void __subleq_sra_27(void);
+extern void __subleq_sra_28(void);
+extern void __subleq_sra_29(void);
+extern void __subleq_sra_3(void);
+extern void __subleq_sra_30(void);
+extern void __subleq_sra_31(void);
+extern void __subleq_sra_4(void);
+extern void __subleq_sra_5(void);
+extern void __subleq_sra_6(void);
+extern void __subleq_sra_7(void);
+extern void __subleq_sra_8(void);
+extern void __subleq_sra_9(void);
 extern void __subleq_srl(void);
+extern void __subleq_srl_1(void);
+extern void __subleq_srl_10(void);
+extern void __subleq_srl_11(void);
+extern void __subleq_srl_12(void);
+extern void __subleq_srl_13(void);
+extern void __subleq_srl_14(void);
+extern void __subleq_srl_15(void);
+extern void __subleq_srl_16(void);
+extern void __subleq_srl_17(void);
+extern void __subleq_srl_18(void);
+extern void __subleq_srl_19(void);
+extern void __subleq_srl_2(void);
+extern void __subleq_srl_20(void);
+extern void __subleq_srl_21(void);
+extern void __subleq_srl_22(void);
+extern void __subleq_srl_23(void);
+extern void __subleq_srl_24(void);
+extern void __subleq_srl_25(void);
+extern void __subleq_srl_26(void);
+extern void __subleq_srl_27(void);
+extern void __subleq_srl_28(void);
+extern void __subleq_srl_29(void);
+extern void __subleq_srl_3(void);
+extern void __subleq_srl_30(void);
+extern void __subleq_srl_31(void);
+extern void __subleq_srl_4(void);
+extern void __subleq_srl_5(void);
+extern void __subleq_srl_6(void);
+extern void __subleq_srl_7(void);
+extern void __subleq_srl_8(void);
+extern void __subleq_srl_9(void);
 extern void __subleq_udivrem(void);
 extern void __subleq_udivrem64(void);
 extern void __subleq_xor(void);
@@ -448,7 +510,69 @@ static const struct {
 	{ "__subleq_sh_h1", &__subleq_sh_h1 },
 	{ "__subleq_shl", &__subleq_shl },
 	{ "__subleq_sra", &__subleq_sra },
+	{ "__subleq_sra_1", &__subleq_sra_1 },
+	{ "__subleq_sra_10", &__subleq_sra_10 },
+	{ "__subleq_sra_11", &__subleq_sra_11 },
+	{ "__subleq_sra_12", &__subleq_sra_12 },
+	{ "__subleq_sra_13", &__subleq_sra_13 },
+	{ "__subleq_sra_14", &__subleq_sra_14 },
+	{ "__subleq_sra_15", &__subleq_sra_15 },
+	{ "__subleq_sra_16", &__subleq_sra_16 },
+	{ "__subleq_sra_17", &__subleq_sra_17 },
+	{ "__subleq_sra_18", &__subleq_sra_18 },
+	{ "__subleq_sra_19", &__subleq_sra_19 },
+	{ "__subleq_sra_2", &__subleq_sra_2 },
+	{ "__subleq_sra_20", &__subleq_sra_20 },
+	{ "__subleq_sra_21", &__subleq_sra_21 },
+	{ "__subleq_sra_22", &__subleq_sra_22 },
+	{ "__subleq_sra_23", &__subleq_sra_23 },
+	{ "__subleq_sra_24", &__subleq_sra_24 },
+	{ "__subleq_sra_25", &__subleq_sra_25 },
+	{ "__subleq_sra_26", &__subleq_sra_26 },
+	{ "__subleq_sra_27", &__subleq_sra_27 },
+	{ "__subleq_sra_28", &__subleq_sra_28 },
+	{ "__subleq_sra_29", &__subleq_sra_29 },
+	{ "__subleq_sra_3", &__subleq_sra_3 },
+	{ "__subleq_sra_30", &__subleq_sra_30 },
+	{ "__subleq_sra_31", &__subleq_sra_31 },
+	{ "__subleq_sra_4", &__subleq_sra_4 },
+	{ "__subleq_sra_5", &__subleq_sra_5 },
+	{ "__subleq_sra_6", &__subleq_sra_6 },
+	{ "__subleq_sra_7", &__subleq_sra_7 },
+	{ "__subleq_sra_8", &__subleq_sra_8 },
+	{ "__subleq_sra_9", &__subleq_sra_9 },
 	{ "__subleq_srl", &__subleq_srl },
+	{ "__subleq_srl_1", &__subleq_srl_1 },
+	{ "__subleq_srl_10", &__subleq_srl_10 },
+	{ "__subleq_srl_11", &__subleq_srl_11 },
+	{ "__subleq_srl_12", &__subleq_srl_12 },
+	{ "__subleq_srl_13", &__subleq_srl_13 },
+	{ "__subleq_srl_14", &__subleq_srl_14 },
+	{ "__subleq_srl_15", &__subleq_srl_15 },
+	{ "__subleq_srl_16", &__subleq_srl_16 },
+	{ "__subleq_srl_17", &__subleq_srl_17 },
+	{ "__subleq_srl_18", &__subleq_srl_18 },
+	{ "__subleq_srl_19", &__subleq_srl_19 },
+	{ "__subleq_srl_2", &__subleq_srl_2 },
+	{ "__subleq_srl_20", &__subleq_srl_20 },
+	{ "__subleq_srl_21", &__subleq_srl_21 },
+	{ "__subleq_srl_22", &__subleq_srl_22 },
+	{ "__subleq_srl_23", &__subleq_srl_23 },
+	{ "__subleq_srl_24", &__subleq_srl_24 },
+	{ "__subleq_srl_25", &__subleq_srl_25 },
+	{ "__subleq_srl_26", &__subleq_srl_26 },
+	{ "__subleq_srl_27", &__subleq_srl_27 },
+	{ "__subleq_srl_28", &__subleq_srl_28 },
+	{ "__subleq_srl_29", &__subleq_srl_29 },
+	{ "__subleq_srl_3", &__subleq_srl_3 },
+	{ "__subleq_srl_30", &__subleq_srl_30 },
+	{ "__subleq_srl_31", &__subleq_srl_31 },
+	{ "__subleq_srl_4", &__subleq_srl_4 },
+	{ "__subleq_srl_5", &__subleq_srl_5 },
+	{ "__subleq_srl_6", &__subleq_srl_6 },
+	{ "__subleq_srl_7", &__subleq_srl_7 },
+	{ "__subleq_srl_8", &__subleq_srl_8 },
+	{ "__subleq_srl_9", &__subleq_srl_9 },
 	{ "__subleq_syscall", &__subleq_syscall },
 	{ "__subleq_udivrem", &__subleq_udivrem },
 	{ "__subleq_udivrem64", &__subleq_udivrem64 },

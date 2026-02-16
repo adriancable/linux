@@ -86,8 +86,11 @@
  */
 static inline int symbol_needs_resolution(const struct elf32_sym *sym)
 {
-	/* STT_FILE = 4, stored in low nibble of st_info */
-	if ((sym->st_info & 0xf) == 4)
+	/*
+	 * STT_FILE (type=4) + STB_LOCAL (bind=0) always encodes as st_info==4.
+	 * Compare the full byte to avoid expensive & 0xf on Subleq.
+	 */
+	if (sym->st_info == 4)  /* STT_FILE */
 		return 0;
 	/* SHN_UNDEF = 0: undefined symbols needing kernel/library resolution */
 	return sym->st_shndx == SHN_UNDEF && sym->st_name != 0;
@@ -629,9 +632,9 @@ static const struct {
 #define MAX_LOADED_LIBS 16
 
 struct libsrt_hash_entry {
-	char name[256];  /* C++ mangled names can be very long */
+	const char *name;    /* Pointer into strtab (avoids 256-byte copy) */
 	unsigned long addr;
-	int occupied;  /* 0 = empty, 1 = used */
+	int occupied;        /* 0 = empty, 1 = used */
 };
 
 /*
@@ -650,21 +653,23 @@ struct libsrt_state {
 		struct file *file;       /* For deferred relocation processing */
 		struct elfhdr hdr;       /* For deferred relocation processing */
 		struct elf_shdr *shdrs;  /* Cached section headers */
+		char *strtab;            /* Kept alive for pointer-based hash entries */
 		int relocs_applied;
 	} loaded_libs[MAX_LOADED_LIBS];
 	int loaded_lib_count;
 };
 
 /*
- * FNV-1a hash function - fast and good distribution for strings.
+ * DJB2 hash function - uses shifts instead of multiply.
+ * On Subleq, (hash << 5) + hash is ~17 ops vs ~200 ops for multiply.
+ * That's 12x faster per character than FNV-1a.
  */
-static inline unsigned int fnv1a_hash(const char *str)
+static inline unsigned int djb2_hash(const char *str)
 {
-	unsigned int hash = 2166136261u;  /* FNV offset basis */
-	while (*str) {
-		hash ^= (unsigned char)*str++;
-		hash *= 16777619u;  /* FNV prime */
-	}
+	unsigned int hash = 5381;
+	int c;
+	while ((c = (unsigned char)*str++))
+		hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
 	return hash;
 }
 
@@ -673,15 +678,14 @@ static inline unsigned int fnv1a_hash(const char *str)
  */
 static int libsrt_hash_insert(struct libsrt_state *state, const char *name, unsigned long addr)
 {
-	unsigned int hash = fnv1a_hash(name);
+	unsigned int hash = djb2_hash(name);
 	unsigned int idx = hash & LIBSRT_HASH_MASK;
 	int probes = 0;
 
 	while (probes < LIBSRT_HASH_SIZE) {
 		if (!state->hash[idx].occupied) {
-			/* Empty slot - insert here */
-			strscpy(state->hash[idx].name, name,
-				sizeof(state->hash[idx].name));
+			/* Empty slot - store pointer (no copy!) */
+			state->hash[idx].name = name;
 			state->hash[idx].addr = addr;
 			state->hash[idx].occupied = 1;
 			state->symbol_count++;
@@ -705,7 +709,7 @@ static int libsrt_hash_insert(struct libsrt_state *state, const char *name, unsi
  */
 static unsigned long libsrt_hash_lookup(struct libsrt_state *state, const char *name)
 {
-	unsigned int hash = fnv1a_hash(name);
+	unsigned int hash = djb2_hash(name);
 	unsigned int idx = hash & LIBSRT_HASH_MASK;
 	int probes = 0;
 
@@ -744,6 +748,7 @@ static void record_loaded_lib(struct libsrt_state *state, const char *name, unsi
 		state->loaded_libs[state->loaded_lib_count].file = file;
 		state->loaded_libs[state->loaded_lib_count].hdr = *hdr;
 		state->loaded_libs[state->loaded_lib_count].shdrs = NULL;  /* Will be populated by process_relocations_and_symbols */
+		state->loaded_libs[state->loaded_lib_count].strtab = NULL;  /* Set if hash table uses pointers into it */
 		state->loaded_libs[state->loaded_lib_count].relocs_applied = 0;
 		state->loaded_lib_count++;
 	}
@@ -1293,15 +1298,15 @@ static int process_relocations_and_symbols(struct libsrt_state *state, struct fi
 	}
 
 	/*
-	 * OPTIMIZATION: Pre-scan symbol table and populate cache.
+	 * OPTIMIZATION: Pre-scan symbol table and EAGERLY RESOLVE all symbols.
 	 * Cache values:
-	 *   0 = not checked yet (normal defined symbol - just add load_offset)
-	 *   1 = checked, not found (resolution failed)
-	 *   2 = needs resolution (SHN_UNDEF or SHN_ABS with value 0)
-	 *   >2 = resolved address
+	 *   0 = defined symbol (just add load_offset in reloc loop)
+	 *   1 = undefined, resolution failed (weak: use 0)
+	 *   >1 = resolved address
 	 *
-	 * This eliminates symbol_needs_resolution() calls in the hot loop.
-	 * Only do this if we're processing relocations - skip for symtab-only pass.
+	 * By resolving ALL undefined symbols here, the reloc loop never needs
+	 * to call lookup_libsrt_symbol() — it just reads cache values.
+	 * This moves hash lookups out of the 42K-iteration hot loop.
 	 */
 	int undef_count = 0;
 	if (!skip_relocs && have_symtab && strtab_shdr && sym_cache) {
@@ -1309,7 +1314,10 @@ static int process_relocations_and_symbols(struct libsrt_state *state, struct fi
 			if (symbol_needs_resolution(&syms[i]) &&
 			    syms[i].st_name < strtab_shdr->sh_size &&
 			    syms[i].st_name != 0) {
-				sym_cache[i] = 2;  /* Mark as needing resolution */
+				/* Resolve immediately instead of deferring */
+				unsigned long addr = lookup_libsrt_symbol(state,
+					strtab + syms[i].st_name);
+				sym_cache[i] = addr ? addr : 1;
 				undef_count++;
 			}
 			/* Symbols with cache[i] == 0 just need load_offset */
@@ -1386,165 +1394,85 @@ static int process_relocations_and_symbols(struct libsrt_state *state, struct fi
 
 		/*
 		 * Process each relocation.
-		 * All binaries are now ET_DYN - handle R_386_RELATIVE and R_386_32.
 		 *
-		 * Optimized structure: check sym_cache FIRST since that's
-		 * the main decision point. Most relocations have cache=0
-		 * (defined symbols) and just need load_offset added.
+		 * OPTIMIZED STRUCTURE:
+		 * - Compute sym_idx FIRST (one SRL, always needed)
+		 * - Check cache_val to fast-path the common case (cache_val==0)
+		 * - Defer rel_type computation (AND 0xFF) until we need ±sign
+		 * - All symbols pre-resolved in pre-scan: cache_val is never 2
+		 * - Pre-compute neg_load_offset to unify +/- paths
 		 */
+		unsigned long neg_load_offset = -load_offset;
 #if SUBLEQ_ELF_DEBUG
 		int rel_relative_count = 0, rel_32_count = 0, rel_neg32_count = 0, rel_unknown_count = 0;
 #endif
 		for (j = 0, rel = rels_buf; j < nrels; j++, rel++) {
 			u32 *patch_addr;
-			unsigned int rel_type = rel->r_info & 0xFF;
+			unsigned int sym_idx = rel->r_info >> 8;
+			unsigned long cache_val = sym_cache[sym_idx];
 
 			patch_addr = (u32 *)(load_addr +
 					     (rel->r_offset - base_vaddr));
 
-			switch (rel_type) {
-			case R_386_RELATIVE:
-				/* Most common: add load_offset (no-op if 0) */
-				*patch_addr += load_offset;
-#if SUBLEQ_ELF_DEBUG
-				rel_relative_count++;
-#endif
-				break;
-
-			case R_386_32: {
+			if (cache_val == 0) {
 				/*
-				 * R_386_32: S + A (symbol value + addend)
+				 * FAST PATH: Defined symbol (most common).
+				 * R_386_32: *patch_addr += load_offset
+				 * R_SUBLEQ_NEG32: *patch_addr -= load_offset
 				 *
-				 * Cache values:
-				 *   0 = defined symbol, just add load_offset
-				 *   1 = undefined, lookup failed (weak: use 0)
-				 *   2 = needs first lookup
-				 *   >2 = resolved address
+				 * Determine sign from rel_type.
+				 * R_386_32 = 1, R_SUBLEQ_NEG32 = 200.
 				 */
-				unsigned int sym_idx = rel->r_info >> 8;
-				unsigned long cache_val = sym_cache[sym_idx];
-
-				if (cache_val == 1) {
-					/*
-					 * Already looked up, not found.
-					 * For weak symbols, set to 0.
-					 * For strong symbols, leave as-is.
-					 */
-					unsigned char bind = syms[sym_idx].st_info >> 4;
-					if (bind == 2) { /* STB_WEAK */
-						*patch_addr = 0;
-					} else {
-						subleq_elf_debug("unresolved symbol: %s",
-							strtab + syms[sym_idx].st_name);
-					}
-				} else if (cache_val >= 2) {
-					/* Symbol needs external resolution */
-					unsigned long sym_addr;
-
-					if (cache_val > 2) {
-						sym_addr = cache_val;
-					} else {
-						sym_addr = lookup_libsrt_symbol(state,
-							strtab + syms[sym_idx].st_name);
-						sym_cache[sym_idx] = sym_addr ? sym_addr : 1;
-					}
-
-					if (sym_addr) {
-						*patch_addr += sym_addr;
-						symbols_resolved++;
-					} else {
-						/*
-						 * First lookup failed. For weak undefined,
-						 * set to 0. STB_WEAK = 2.
-						 */
-						unsigned char bind = syms[sym_idx].st_info >> 4;
-						if (bind == 2) { /* STB_WEAK */
-							*patch_addr = 0;
-						} else {
-							subleq_elf_debug("unresolved symbol: %s",
-								strtab + syms[sym_idx].st_name);
-						}
-					}
-				} else {
-					/*
-					 * Defined symbol (cache_val == 0): add load_offset.
-					 */
+				unsigned int rel_type = rel->r_info & 0xFF;
+				if (rel_type == R_386_32) {
 					*patch_addr += load_offset;
-				}
 #if SUBLEQ_ELF_DEBUG
-				rel_32_count++;
+					rel_32_count++;
 #endif
-				break;
+				} else if (rel_type == R_SUBLEQ_NEG32) {
+					*patch_addr += neg_load_offset;
+#if SUBLEQ_ELF_DEBUG
+					rel_neg32_count++;
+#endif
+				} else if (rel_type == R_386_RELATIVE) {
+					*patch_addr += load_offset;
+#if SUBLEQ_ELF_DEBUG
+					rel_relative_count++;
+#endif
+				}
+				continue;
 			}
 
-			case R_SUBLEQ_NEG32: {
+			if (cache_val > 1) {
 				/*
-				 * R_SUBLEQ_NEG32: -(S + A)
-				 * The linker wrote -(S + A) at link time.
-				 * At load time, we need -(S + A + load_offset)
-				 * for defined symbols, which means subtracting
-				 * load_offset from the stored value.
-				 * For undefined symbols, we compute -(sym_addr + addend).
+				 * Resolved external symbol (pre-resolved in pre-scan).
+				 * R_386_32: *patch_addr += sym_addr
+				 * R_SUBLEQ_NEG32: *patch_addr -= sym_addr
 				 */
-				unsigned int sym_idx = rel->r_info >> 8;
-				unsigned long cache_val = sym_cache[sym_idx];
-
-				if (cache_val == 1) {
-					/* Already looked up, not found */
-					unsigned char bind = syms[sym_idx].st_info >> 4;
-					if (bind == 2) /* STB_WEAK */
-						*patch_addr = 0;
-					else
-						subleq_elf_debug("unresolved symbol: %s",
-							strtab + syms[sym_idx].st_name);
-				} else if (cache_val >= 2) {
-					/* External symbol resolution */
-					unsigned long sym_addr;
-
-					if (cache_val > 2) {
-						sym_addr = cache_val;
-					} else {
-						sym_addr = lookup_libsrt_symbol(state,
-							strtab + syms[sym_idx].st_name);
-						sym_cache[sym_idx] = sym_addr ? sym_addr : 1;
-					}
-
-					if (sym_addr) {
-						/*
-						 * -(sym_addr + addend).
-						 * File already contains -(addend) from lld,
-						 * so just subtract sym_addr.
-						 */
-						*patch_addr -= sym_addr;
-						symbols_resolved++;
-					} else {
-						unsigned char bind = syms[sym_idx].st_info >> 4;
-						if (bind == 2) /* STB_WEAK */
-							*patch_addr = 0;
-						else
-							subleq_elf_debug("unresolved symbol: %s",
-								strtab + syms[sym_idx].st_name);
-					}
-				} else {
-					/*
-					 * Defined symbol (cache_val == 0):
-					 * Linker wrote -(S + A). We need -(S + A + load_offset).
-					 * So: *patch_addr -= load_offset.
-					 */
-					*patch_addr -= load_offset;
-				}
+				unsigned int rel_type = rel->r_info & 0xFF;
+				if (rel_type == R_386_32) {
+					*patch_addr += cache_val;
 #if SUBLEQ_ELF_DEBUG
-				rel_neg32_count++;
+					rel_32_count++;
 #endif
-				break;
+				} else {
+					*patch_addr -= cache_val;
+#if SUBLEQ_ELF_DEBUG
+					rel_neg32_count++;
+#endif
+				}
+				symbols_resolved++;
+				continue;
 			}
 
-			default:
-				/* Unknown relocation type - skip */
-#if SUBLEQ_ELF_DEBUG
-				rel_unknown_count++;
-#endif
-				break;
+			/* cache_val == 1: lookup failed (unresolved) */
+			{
+				unsigned char bind = syms[sym_idx].st_info >> 4;
+				if (bind == 2) /* STB_WEAK */
+					*patch_addr = 0;
+				else
+					subleq_elf_debug("unresolved symbol: %s",
+						strtab + syms[sym_idx].st_name);
 			}
 		}
 #if SUBLEQ_ELF_DEBUG
@@ -1656,7 +1584,17 @@ build_symtab_only:
 
 	kfree(sym_cache);
 	kfree(syms);
-	kfree(strtab);
+	/*
+	 * If we built the symbol table, keep strtab alive for pointer-based
+	 * hash entries. Store it in loaded_libs for later cleanup.
+	 * Otherwise free it now.
+	 */
+	if (build_symtab && have_symtab && strtab_shdr &&
+	    state->loaded_lib_count > 0) {
+		state->loaded_libs[state->loaded_lib_count - 1].strtab = strtab;
+	} else {
+		kfree(strtab);
+	}
 	/* Return shdrs to caller for caching, or free if we own them */
 	if (shdrs_out && own_shdrs) {
 		*shdrs_out = shdrs;  /* Transfer ownership to caller */
@@ -2064,18 +2002,16 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 	/* Allocate hash table dynamically to avoid permanent BSS usage */
 	/* Re-entrant: store in state struct */
 	{
+		/*
+		 * With pointer-based entries (12 bytes each), table is only ~96KB.
+		 * Use kvzalloc instead of vm_mmap — much cheaper, no VMA overhead.
+		 */
 		unsigned long table_size = LIBSRT_HASH_SIZE * sizeof(struct libsrt_hash_entry);
-		unsigned long table_addr;
-		
-		table_size = PAGE_ALIGN(table_size);
-		table_addr = vm_mmap(NULL, 0, table_size, PROT_READ | PROT_WRITE,
-				     MAP_PRIVATE | MAP_ANONYMOUS, 0);
-		if (IS_ERR_VALUE(table_addr)) {
-			ret = table_addr;
+		state->hash = kvzalloc(table_size, GFP_KERNEL);
+		if (!state->hash) {
+			ret = -ENOMEM;
 			goto out_free_state;
 		}
-			
-		state->hash = (struct libsrt_hash_entry *)table_addr;
 	}
 	
 	state->symbol_count = 0;
@@ -2263,11 +2199,14 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 
 out:
 	if (state) {
+		int i;
 		if (state->hash) {
-			unsigned long table_size = LIBSRT_HASH_SIZE * sizeof(struct libsrt_hash_entry);
-			table_size = PAGE_ALIGN(table_size);
-			vm_munmap((unsigned long)state->hash, table_size);
+			kvfree(state->hash);
 			state->hash = NULL;
+		}
+		/* Free strtabs kept alive for pointer-based hash entries */
+		for (i = 0; i < state->loaded_lib_count; i++) {
+			kfree(state->loaded_libs[i].strtab);
 		}
 		kfree(state);
 		state = NULL;

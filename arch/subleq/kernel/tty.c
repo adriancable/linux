@@ -27,23 +27,33 @@
 extern void __subleq_putchar(int c);
 extern int __subleq_getchar(void);
 
-/* Forward declaration */
+/* Forward declarations */
 void subleq_tty_inject_char(unsigned char c);
+void subleq_tty_push(void);
 
 static struct tty_driver *subleq_tty_driver;
 static struct tty_port subleq_tty_port;
 static struct tty_struct *subleq_tty_current;
 
 /*
- * Inject a character from keyboard.c into the TTY layer
- * This allows both fbcon (via input subsystem) and ttyS0 to receive input
+ * Inject a character from keyboard.c into the TTY layer.
+ * Does NOT push the flip buffer — caller must call subleq_tty_push()
+ * once after injecting a batch of characters.
  */
 void subleq_tty_inject_char(unsigned char c)
 {
-	if (subleq_tty_current) {
+	if (subleq_tty_current)
 		tty_insert_flip_char(&subleq_tty_port, c, TTY_NORMAL);
+}
+
+/*
+ * Flush the TTY flip buffer after a batch of injected characters.
+ * Called once per keyboard poll cycle, not per character.
+ */
+void subleq_tty_push(void)
+{
+	if (subleq_tty_current)
 		tty_flip_buffer_push(&subleq_tty_port);
-	}
 }
 
 
@@ -64,11 +74,13 @@ static void subleq_tty_close(struct tty_struct *tty, struct file *filp)
 static ssize_t subleq_tty_write(struct tty_struct *tty, const u8 *buf,
 				size_t count)
 {
-	for (size_t i = 0; i < count; i++) {
-		if (buf[i] == '\n')
-			__subleq_putchar('\r');
+	/*
+	 * No \r\n expansion here — the TTY line discipline (n_tty)
+	 * already handles OPOST/ONLCR before calling .write().
+	 * Doing it again would produce \r\r\n.
+	 */
+	for (size_t i = 0; i < count; i++)
 		__subleq_putchar(buf[i]);
-	}
 
 	return count;
 }

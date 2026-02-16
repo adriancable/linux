@@ -36,6 +36,7 @@ extern int __subleq_getchar(void);
 
 /* External function to inject to ttyS0 (serial fallback) */
 extern void subleq_tty_inject_char(unsigned char c);
+extern void subleq_tty_push(void);
 
 static struct timer_list subleq_kbd_timer;
 static struct input_dev *subleq_kbd_dev;
@@ -66,16 +67,18 @@ static const unsigned char hid_to_keycode[256] = {
 
 /*
  * Detect whether framebuffer console is active at runtime.
- * Both VMs use the same kernel binary. The serial VM boots with
- * console=ttyS0, while the framebuffer VM uses console=tty0 (or default).
+ * Result is cached during init — see subleq_kbd_init().
  */
+static bool fb_mode;
+
 static bool subleq_fbcon_active(void)
 {
 	return !strstr(saved_command_line, "console=ttyS");
 }
 
 /*
- * Serial console fallback: inject ASCII into VT and ttyS0
+ * Serial console fallback: inject ASCII into VT.
+ * Does NOT push the flip buffer — caller pushes once after the batch.
  */
 static void subleq_kbd_inject_to_vt(unsigned char c)
 {
@@ -84,10 +87,22 @@ static void subleq_kbd_inject_to_vt(unsigned char c)
 
 	fg_console_num = fg_console;
 	tty = vc_cons[fg_console_num].d->port.tty;
-	if (tty) {
+	if (tty)
 		tty_insert_flip_char(tty->port, c, TTY_NORMAL);
+}
+
+/*
+ * Push the VT flip buffer after a batch of injected characters.
+ */
+static void subleq_kbd_push_vt(void)
+{
+	struct tty_struct *tty;
+	int fg_console_num;
+
+	fg_console_num = fg_console;
+	tty = vc_cons[fg_console_num].d->port.tty;
+	if (tty)
 		tty_flip_buffer_push(tty->port);
-	}
 }
 
 /*
@@ -97,7 +112,7 @@ static void subleq_kbd_poll(struct timer_list *t)
 {
 	int c;
 
-	if (subleq_fbcon_active() && subleq_kbd_dev) {
+	if (fb_mode && subleq_kbd_dev) {
 		/*
 		 * Framebuffer mode: read single-int scancode events.
 		 * Positive = key down, negative = key up.
@@ -121,12 +136,15 @@ static void subleq_kbd_poll(struct timer_list *t)
 		/*
 		 * Serial mode: inject raw ASCII into VT + ttyS0
 		 * (legacy path for vm.c without framebuffer)
+		 * Push flip buffers once after draining the entire batch.
 		 */
 		while ((c = __subleq_getchar()) != 0) {
 			unsigned char ch = (unsigned char)c;
 			subleq_kbd_inject_to_vt(ch);
 			subleq_tty_inject_char(ch);
 		}
+		subleq_kbd_push_vt();
+		subleq_tty_push();
 	}
 
 	/* Re-arm timer */
@@ -142,7 +160,10 @@ static int __init subleq_kbd_init(void)
 
 	pr_info("subleq_kbd: initializing keyboard driver\n");
 
-	if (subleq_fbcon_active()) {
+	/* Cache fbcon detection at init time (Fix #5) */
+	fb_mode = subleq_fbcon_active();
+
+	if (fb_mode) {
 		/* Allocate and register input device */
 		subleq_kbd_dev = input_allocate_device();
 		if (!subleq_kbd_dev) {

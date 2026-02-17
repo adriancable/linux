@@ -256,6 +256,26 @@ out:
 	syscall_wont_restart(regs);
 
 	/*
+	 * Process pending work before returning to userspace.
+	 *
+	 * This matches the pattern used by ColdFire/nios2 where syscall
+	 * returns go through ret_from_exception, which checks all TIF flags
+	 * in a loop. Without this, a timer tick during syscall execution
+	 * would not cause a reschedule until the next interrupt, increasing
+	 * worst-case scheduling latency by up to one full timer tick.
+	 */
+	if (need_resched())
+		schedule();
+
+	/*
+	 * Re-check signals after schedule() - a higher-priority task may
+	 * have sent us a signal, or schedule() itself may have set flags.
+	 */
+	if (test_thread_flag(TIF_SIGPENDING) ||
+	    test_thread_flag(TIF_NOTIFY_SIGNAL))
+		do_signal(regs);
+
+	/*
 	 * Process TIF_NOTIFY_RESUME task_work before returning to userspace.
 	 *
 	 * CRITICAL: fput() defers file close via task_work_add(), which sets
@@ -263,9 +283,6 @@ out:
 	 * opened during exec (e.g., the executable itself) are never properly
 	 * closed, leaking their f_cred reference and causing struct cred to
 	 * accumulate indefinitely.
-	 *
-	 * This matches what other architectures do in their syscall exit path
-	 * via exit_to_user_mode_loop() -> resume_user_mode_work().
 	 */
 	if (test_thread_flag(TIF_NOTIFY_RESUME))
 		resume_user_mode_work(regs);

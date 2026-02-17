@@ -11,11 +11,15 @@
 #include <linux/sched/task_stack.h>
 #include <linux/ptrace.h>
 #include <linux/cpu.h>
+#include <linux/resume_user_mode.h>
 
 #include <asm/processor.h>
 #include <asm/ptrace.h>
 #include <asm/current.h>
 #include <asm/switch_context.h>
+
+/* Signal handling - for ret_to_user_prep work checks */
+extern bool do_signal(struct pt_regs *regs);
 
 /*
  * The idle thread - just spin
@@ -135,7 +139,25 @@ struct pt_regs *ret_to_user_prep(struct task_struct *prev)
 
 	/* Return pointer to pt_regs for assembly to use */
 	regs = task_pt_regs(current);
-	
+
+	/*
+	 * Process pending work before returning to userspace.
+	 *
+	 * Like ColdFire/nios2's ret_from_fork -> ret_from_exception path,
+	 * we must check all TIF work flags. A signal sent to the child
+	 * between fork() and first schedule would otherwise be delayed
+	 * until the next interrupt.
+	 */
+	if (need_resched())
+		schedule();
+
+	if (test_thread_flag(TIF_SIGPENDING) ||
+	    test_thread_flag(TIF_NOTIFY_SIGNAL))
+		do_signal(regs);
+
+	if (test_thread_flag(TIF_NOTIFY_RESUME))
+		resume_user_mode_work(regs);
+
 	return regs;
 }
 

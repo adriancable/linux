@@ -150,23 +150,36 @@ int subleq_do_work(struct pt_regs *regs)
 		return 0;
 
 	/*
-	 * Check preempt_count - must be 0 to safely reschedule or deliver signals.
-	 * If it's non-zero, we're in an atomic context.
+	 * KERNEL-MODE PREEMPTION (CONFIG_PREEMPTION)
+	 *
+	 * If we interrupted kernel code and preemption is safe, allow
+	 * the scheduler to preempt. This follows the ColdFire/nios2
+	 * pattern where preempt_schedule_irq() is called ONLY for
+	 * kernel-mode returns, with IRQs disabled.
+	 *
+	 * preempt_schedule_irq() requires: preempt_count() == 0 &&
+	 * irqs_disabled(). It enables IRQs internally for schedule().
 	 */
-	if (preempt_count() != 0)
+	if (!user_mode(regs)) {
+#ifdef CONFIG_PREEMPTION
+		if (preempt_count() == 0 && need_resched()) {
+			preempt_schedule_irq();
+			return 1;
+		}
+#endif
 		return 0;
+	}
 
 	/*
-	 * CRITICAL: Only deliver signals when returning to USERSPACE.
-	 * If we're returning to kernel code (e.g., interrupted syscall),
-	 * skip signal delivery. Signals will be delivered when that
-	 * kernel code eventually returns to userspace via the syscall path.
+	 * USER-MODE RETURN PATH
 	 *
-	 * This follows the ColdFire pattern in coldfire/entry.S:
-	 *   btst #5,%sp@(PT_OFF_SR)  ; check if returning to kernel
-	 *   jeq  Luser_return        ; if user mode, check for work
+	 * We're returning to userspace. Check for pending work.
+	 * Following the standard pattern (ColdFire, nios2, generic entry):
+	 * enable IRQs, call schedule()/do_notify_resume(), disable IRQs.
 	 */
-	if (!user_mode(regs))
+
+	/* Check preempt_count - must be 0 to safely reschedule or deliver signals */
+	if (preempt_count() != 0)
 		return 0;
 
 	/*
@@ -176,13 +189,8 @@ int subleq_do_work(struct pt_regs *regs)
 	 * being set to the new value. If an interrupt fires between these
 	 * operations, SP will be 0 or garbage.
 	 *
-	 * If SP is invalid (0 or in low memory), skip signal delivery.
-	 * The signal will be delivered on the next interrupt when SP is valid.
-	 * This is safe because signals are edge-triggered - they'll still
-	 * be pending on the next check.
-	 *
-	 * We consider SP invalid if it's below 4KB (0x1000), as valid user
-	 * stacks are in higher memory.
+	 * If SP is invalid (0 or in low memory), skip work.
+	 * The signal/resched will be handled on the next interrupt.
 	 */
 	if (PT_REG_GET(regs, sp) < 0x1000)
 		return 0;
@@ -195,12 +203,15 @@ int subleq_do_work(struct pt_regs *regs)
 		return 0;
 
 	/*
-	 * Handle rescheduling first.
-	 * preempt_schedule_irq() requires IRQs disabled, handles that internally.
+	 * Handle rescheduling.
+	 * For user-mode returns: enable IRQs, call schedule(), disable IRQs.
+	 * This is the standard pattern used by ColdFire, nios2, and the
+	 * generic kernel entry code (kernel/entry/common.c).
 	 */
 	if (work_flags & _TIF_NEED_RESCHED) {
-		preempt_schedule_irq();
-		/* Return 1 to recheck flags - reschedule may have cleared flag */
+		local_irq_enable();
+		schedule();
+		local_irq_disable();
 		return 1;
 	}
 
@@ -212,15 +223,9 @@ int subleq_do_work(struct pt_regs *regs)
 	 * This is what makes Ctrl+C work for busy-looping processes!
 	 */
 	if (work_flags & (_TIF_SIGPENDING | _TIF_NOTIFY_RESUME | _TIF_NOTIFY_SIGNAL)) {
-		/*
-		 * IRQ entry assembly already sets syscall_nr = -1, so
-		 * do_signal() won't attempt syscall restart. Just deliver
-		 * the signal. This may modify regs to redirect execution
-		 * to a signal handler.
-		 */
+		local_irq_enable();
 		do_notify_resume(regs);
-
-		/* Return 1 to recheck flags - new signals may have been queued */
+		local_irq_disable();
 		return 1;
 	}
 

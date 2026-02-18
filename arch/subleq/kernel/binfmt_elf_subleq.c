@@ -312,6 +312,9 @@ extern void __umoddi3(void);
 // extern void __subleq_memcpy(void);
 // extern void __subleq_memset(void);
 // extern void __subleq_memmove(void);
+extern void __subleq_memcpy_aligned(void);
+extern void __subleq_memmove_aligned(void);
+extern void __subleq_memset_aligned(void);
 /* __subleq_syscall declared in asm/ptrace.h as char[] for address range checking */
 
 /* Soft float functions (from subleq_runtime_softfloat.c) */
@@ -466,8 +469,11 @@ static const struct {
 	{ "__subleq_lh_h0", &__subleq_lh_h0 },
 	{ "__subleq_lh_h1", &__subleq_lh_h1 },
 	{ "__subleq_memcpy", &__subleq_memcpy },
+	{ "__subleq_memcpy_aligned", &__subleq_memcpy_aligned },
 	{ "__subleq_memmove", &__subleq_memmove },
+	{ "__subleq_memmove_aligned", &__subleq_memmove_aligned },
 	{ "__subleq_memset", &__subleq_memset },
+	{ "__subleq_memset_aligned", &__subleq_memset_aligned },
 	{ "__subleq_mul", &__subleq_mul },
 	{ "__subleq_or", &__subleq_or },
 	{ "__subleq_or_b0", &__subleq_or_b0 },

@@ -21,6 +21,10 @@
 #include <linux/init.h>
 #include <linux/platform_device.h>
 
+/* Subleq runtime functions */
+extern void *__subleq_memmove_aligned(void *dest, const void *src, size_t n);
+extern void *__subleq_memset32(void *s, unsigned int v, size_t n);
+
 /* Assembly-optimized row blitter (subleq_blit_row.S) */
 extern void subleq_blit_row8(u32 *dst, u32 byte, u32 fg, u32 bg);
 
@@ -91,7 +95,6 @@ static int subleqfb_setcolreg(u_int regno, u_int red, u_int green, u_int blue,
 /* Fill rectangle with solid color */
 static void subleqfb_fillrect(struct fb_info *info, const struct fb_fillrect *rect)
 {
-	u32 *dst;
 	u32 color;
 	u32 x, y, width, height;
 	u32 line_bytes = info->fix.line_length;
@@ -116,38 +119,23 @@ static void subleqfb_fillrect(struct fb_info *info, const struct fb_fillrect *re
 		height = info->var.yres - y;
 
 	/*
-	 * Fast path: full-width fill with black (color=0).
-	 * Common case after scrolling — single memset instead of
-	 * fill-first-row + per-row-memmove loop.
+	 * Fast path: full-width fill — contiguous rows, single memset32 call.
 	 */
-	if (width == info->var.xres && color == 0) {
-		u8 *p = (u8 *)info->screen_buffer + y * line_bytes;
-		memset(p, 0, (u32)height * line_bytes);
+	if (width == info->var.xres) {
+		u32 *p = (u32 *)((u8 *)info->screen_buffer + y * line_bytes);
+		__subleq_memset32(p, color, (u32)height * width);
 		return;
 	}
 
-	/* 
-	 * Fill first row, then use memmove to replicate to other rows.
-	 * This is faster than per-pixel loops.
+	/*
+	 * Generic path: per-row memset32.
 	 */
-	dst = (u32 *)((u8 *)info->screen_buffer + y * line_bytes) + x;
-	
-	/* Fill first row */
 	{
-		u32 *p = dst;
-		u32 w;
-		for (w = 0; w < width; w++)
-			*p++ = color;
-	}
-	
-	/* Copy first row to remaining rows using memmove */
-	if (height > 1) {
-		u32 row_size = width * 4;
+		u32 *dst = (u32 *)((u8 *)info->screen_buffer + y * line_bytes) + x;
 		u32 h;
-		u8 *row_dst = (u8 *)dst + line_bytes;
-		for (h = 1; h < height; h++) {
-			memmove(row_dst, dst, row_size);
-			row_dst += line_bytes;
+		for (h = 0; h < height; h++) {
+			__subleq_memset32(dst, color, width);
+			dst = (u32 *)((u8 *)dst + line_bytes);
 		}
 	}
 }
@@ -177,7 +165,7 @@ static void subleqfb_copyarea(struct fb_info *info, const struct fb_copyarea *ar
 	if (sx == dx && row_bytes == line_bytes) {
 		u8 *src = base + sy * line_bytes;
 		u8 *dst = base + dy * line_bytes;
-		memmove(dst, src, (u32)height * line_bytes);
+		__subleq_memmove_aligned(dst, src, (u32)height * line_bytes);
 		return;
 	}
 
@@ -188,7 +176,7 @@ static void subleqfb_copyarea(struct fb_info *info, const struct fb_copyarea *ar
 		for (h = 0; h < height; h++) {
 			u8 *src_row = base + (sy + h) * line_bytes + sx * 4;
 			u8 *dst_row = base + (dy + h) * line_bytes + dx * 4;
-			memmove(dst_row, src_row, row_bytes);
+			__subleq_memmove_aligned(dst_row, src_row, row_bytes);
 		}
 	} else {
 		/* Copy bottom-to-top for overlapping regions */
@@ -196,7 +184,7 @@ static void subleqfb_copyarea(struct fb_info *info, const struct fb_copyarea *ar
 		for (h = height; h > 0; h--) {
 			u8 *src_row = base + (sy + h - 1) * line_bytes + sx * 4;
 			u8 *dst_row = base + (dy + h - 1) * line_bytes + dx * 4;
-			memmove(dst_row, src_row, row_bytes);
+			__subleq_memmove_aligned(dst_row, src_row, row_bytes);
 		}
 	}
 }

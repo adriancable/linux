@@ -5,7 +5,7 @@
  * Simple fbdev driver that maps a fixed memory region as the display buffer.
  * The framebuffer is located at the top of the 1GB address space.
  *
- * Resolution: 800x600, XRGB8888 (32-bit for word-aligned access)
+ * Resolution: 800x512, XRGB8888 (32-bit for word-aligned access)
  *
  * Uses hand-optimized Subleq assembly for font blitting performance.
  */

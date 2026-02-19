@@ -61,9 +61,9 @@ CONFIG_DEFAULT_TCP_CONG="cubic"
 # CONFIG_NETFILTER is not set
 
 # Per-process I/O accounting (for htop DISK R/W columns via /proc/<pid>/io)
-CONFIG_TASKSTATS=y
-CONFIG_TASK_XACCT=y
-CONFIG_TASK_IO_ACCOUNTING=y
+# CONFIG_TASKSTATS is not set
+# CONFIG_TASK_XACCT is not set
+# CONFIG_TASK_IO_ACCOUNTING is not set
 
 # Loopback device (required for 127.0.0.1)
 CONFIG_NETDEVICES=y

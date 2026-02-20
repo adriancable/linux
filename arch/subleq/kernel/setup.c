@@ -33,9 +33,7 @@ static_assert(offsetof(struct task_struct, stack) == 8,
 unsigned long subleq_memory_start = 0;
 unsigned long subleq_memory_end = 0x60000000; /* 1.5GB */
 
-/* Current task pointer for non-SMP - must be initialized to init_task */
-struct task_struct *subleq_current_task = &init_task;
-EXPORT_SYMBOL(subleq_current_task);
+
 
 /* Command line */
 static char __initdata builtin_cmdline[COMMAND_LINE_SIZE] = CONFIG_CMDLINE;

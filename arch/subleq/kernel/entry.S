@@ -1279,13 +1279,13 @@ __switch_to:
         .word   SW_Z, SW_Z2 | INDIRECT, .Lsw_update_current  /* [dest] = FP */
 
         /*
-         * STEP 4: Update subleq_current_task = next
+         * STEP 4: (Removed) subleq_current_task is no longer used.
+         * We derive current from SP instead.
+         * However, step 4b below relies on SW_Z = -R22 = -next.
          */
 .Lsw_update_current:
         .word   SW_Z, SW_Z, .+4
-        .word   REG_R22, SW_Z, .+4
-        .word   subleq_current_task, subleq_current_task, .+4
-        .word   SW_Z, subleq_current_task, .Lsw_update_kernel_sp
+        .word   REG_R22, SW_Z, .Lsw_update_kernel_sp
 
         /*
          * STEP 4b: Update subleq_kernel_sp for next task

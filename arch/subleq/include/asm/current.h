@@ -8,17 +8,15 @@
 
 #include <linux/thread_info.h>
 
-struct task_struct;
-
 /*
- * Get current task - stored in a global variable (no per-CPU for uniprocessor)
+ * Get current task
+ *
+ * We derive the current task from the stack pointer instead of using a
+ * global variable. This is immune to compiler caching across context
+ * switches, fixing elusive Heisenbugs where 'current' points to the wrong
+ * task.
  */
-extern struct task_struct *subleq_current_task;
-
-static inline struct task_struct *get_current(void)
-{
-	return subleq_current_task;
-}
+#define get_current() (current_thread_info()->task)
 
 #define current get_current()
 

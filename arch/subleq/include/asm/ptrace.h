@@ -129,7 +129,7 @@ struct pt_regs {
  * - Kernel code (syscalls) switches to the task's kernel stack
  * - If interrupted SP is NOT on kernel stack, we were in user mode
  */
-extern struct task_struct *subleq_current_task;
+
 
 /* Symbols for syscall handler range check */
 extern char __subleq_syscall[];
@@ -174,10 +174,13 @@ static inline int __subleq_user_mode(struct pt_regs *regs)
 	    pc < (unsigned long)__subleq_syscall)
 		return 0;  /* kernel mode - new thread setup */
 
-	/* Get kernel stack base from current task.
-	 * task_struct::stack is at offset 8; verified by static_assert in setup.c */
-	unsigned long kstack_base = (unsigned long)*(void **)((char *)subleq_current_task + 8);
-	unsigned long kstack_top = kstack_base + 16384; /* THREAD_SIZE; verified in setup.c */
+	/* 
+	 * Get kernel stack base from the SP itself.
+	 * In Subleq, kernel stacks are THREAD_SIZE (16KB) aligned and sized.
+	 * The base of the stack is just SP masked with ~(THREAD_SIZE - 1).
+	 */
+	unsigned long kstack_base = sp & ~(16384 - 1);
+	unsigned long kstack_top = kstack_base + 16384; 
 	
 	/* If SP is outside kernel stack range, we were in user mode */
 	return (sp < kstack_base || sp >= kstack_top);

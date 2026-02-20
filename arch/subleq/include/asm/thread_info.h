@@ -37,6 +37,7 @@ struct thread_info {
 		.flags = 0,                          \
 		.preempt_count = INIT_PREEMPT_COUNT, \
 		.cpu = 0,                            \
+		.task = &tsk,                        \
 	}
 
 /*

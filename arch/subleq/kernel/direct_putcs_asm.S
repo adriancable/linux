@@ -159,9 +159,7 @@ subleq_direct_putcs:
         /* Push return address and call mul */
         .word   .Lconst_4, REG_SP, .+4
         .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   .Lmul_ret_const, REG_Z, .+4
-        .word   REG_Z, REG_SP | INDIRECT, .+4
+        .word   .Lmul_ret_neg, REG_SP | INDIRECT, .+4
         .word   REG_Z, REG_Z, __subleq_mul
 
 .Lmul_ret:
@@ -191,45 +189,36 @@ subleq_direct_putcs:
         .word   REG_Z, REG_T8, .+4
         .word   REG_Z, REG_Z, .+4
 
-/*===========================================================================
- * MAIN CHARACTER PAIR LOOP
- *
- * OPTIMIZATION: Read one u32 word from the screen buffer containing two
- * packed u16 characters. Use an inline biased non-restoring lattice to
- * extract all 4 bytes (char0, attr0, char1, attr1) into T0-T4.
- * This eliminates __subleq_lb calls (~500 insn/char), replacing them
- * with ~70 insn for 2 chars (~35 insn/char).
- *
- * Word layout (little-endian):
- *   Bits 0-7:   char0 (1st character code)
- *   Bits 8-15:  attr0 (1st attribute)
- *   Bits 16-23: char1 (2nd character code)
- *   Bits 24-31: attr1 (2nd attribute)
- *
- * Extraction outputs:
- *   T0 = char0, T1 = attr0, T2 = char1, T4 = attr1
- *   T3 = working register (destroyed)
- *
- * NOTE: T9 must be word-aligned (byte address divisible by 4).
- * This is guaranteed when the screen buffer column count is even
- * and rendering starts at column 0 (the common case).
- *===========================================================================*/
+        /* R22 = -(pitch - 28): row-advance constant for render_char.
+         * Computed once; R22 is free after prologue and not touched by lattice.
+         * After 8 pixels, R21 advances by 28 bytes (7 x 4), so the
+         * row stride correction is pitch - 28. */
+        .word   REG_R22, REG_R22, .+4          /* R22 = 0 */
+        .word   REG_T12, REG_R22, .+4          /* R22 = -pitch */
+        .word   .Lconst_n28, REG_R22, .+4      /* R22 = -(pitch-28) */
+
+        /* R23 = -T10 (pre-negated font base for faster font ptr setup).
+         * Allows computing T15 = charN*64 + T10 in 4 insn instead of 6.
+         * R23 is free after prologue and not touched by lattice. */
+        .word   REG_R23, REG_R23, .+4          /* R23 = 0 */
+        .word   REG_T10, REG_R23, .+4          /* R23 = -T10 */
+        .word   REG_Z, REG_Z, .+4              /* Z = 0 */
+
 .Lpair_loop:
         /* if T11 (cnt) <= 0, done */
         .word   REG_Z, REG_T11, .Ldone
 
         /* === Read u32 word from screen buffer [T9] === */
+        /* Z is clean here: prologue ends with Z,Z or loop-back is Z,Z,.Lpair_loop */
         .word   REG_T3, REG_T3, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T9 | INDIRECT, REG_Z, .+4
-        .word   REG_Z, REG_T3, .+4
-        .word   REG_Z, REG_Z, .+4
+        .word   REG_T9 | INDIRECT, REG_Z, .+4       /* Z = -[T9] */
+        .word   REG_Z, REG_T3, .+4                  /* T3 = [T9] */
 
-        /* === Clear char accumulators (attrs not accumulated) === */
-        .word   REG_T0, REG_T0, .+4      /* T0 = char0*64 = 0 */
-        .word   REG_T2, REG_T2, .+4      /* T2 = char1*64 = 0 */
+        /* === Clear char accumulators === */
+        .word   REG_T0, REG_T0, .+4      /* T0 = 0 */
+        .word   REG_T2, REG_T2, .+4      /* T2 = 0 */
 
-        /* === Jump to inline extraction lattice === */
+        /* === Jump to extraction lattice (Z,Z also clears Z; lattice doesn't need it) === */
         .word   REG_Z, REG_Z, .Lext_sign
 
         /* === Return from lattice: T0=char0*64, T2=char1*64 === */
@@ -243,20 +232,17 @@ subleq_direct_putcs:
 
 .Lrender_char0:
         /* ===== RENDER CHAR 0 ===== */
-        /* T0 = char0 * 64 (pre-multiplied by lattice). T15 = T0 + T10 */
-        .word   REG_T0, REG_Z, .+4            /* Z = -T0 (Z was 0) */
+        /* T15 = T0 + T10, using R23 = -T10 (pre-negated, 4 insn) */
         .word   REG_T15, REG_T15, .+4          /* T15 = 0 */
-        .word   REG_Z, REG_T15, .+4            /* T15 = T0 (Z dirty) */
-        .word   REG_Z, REG_Z, .+4              /* Z = 0 */
-        .word   REG_T10, REG_Z, .+4            /* Z = -T10 */
-        .word   REG_Z, REG_T15, .+4            /* T15 = T0 + T10 = font_ptr */
+        .word   REG_T0, REG_Z, .+4             /* Z = -T0 */
+        .word   REG_Z, REG_T15, .+4            /* T15 = T0 */
+        .word   REG_R23, REG_T15, .+4          /* T15 -= (-T10) = T0 + T10 */
 
-        /* Set render return to .Lrender0_ret */
-        .word   REG_Z, REG_Z, .+4              /* Z = 0 */
-        .word   .Lrender0_ret_c, REG_Z, .+4    /* Z = -ret_addr */
+        /* Set render return to .Lrender0_ret (4 insn using neg constant) */
         .word   REG_T5, REG_T5, .+4            /* T5 = 0 */
-        .word   REG_Z, REG_T5, .+4             /* T5 = ret_addr */
-        .word   REG_Z, REG_Z, .Lrender_char    /* Z = 0, jump */
+        .word   .Lrender0_ret_neg, REG_T5, .+4 /* T5 -= (-ret) = ret_addr */
+        .word   REG_Z, REG_Z, .+4              /* Z = 0 (needed for render_char entry) */
+        .word   REG_Z, REG_Z, .Lrender_char    /* jump */
 
 .Lrender0_ret:
         /* Advance T8 by 32 (8 pixels * 4 bytes) for next column */
@@ -270,20 +256,17 @@ subleq_direct_putcs:
 
 .Lskip_to_char1:
         /* ===== RENDER CHAR 1 ===== */
-        /* T2 = char1 * 64 (pre-multiplied by lattice). T15 = T2 + T10 */
-        .word   REG_T2, REG_Z, .+4            /* Z = -T2 (Z was 0) */
-        .word   REG_T15, REG_T15, .+4
+        /* T15 = T2 + T10, using R23 = -T10 (pre-negated, 4 insn) */
+        .word   REG_T15, REG_T15, .+4          /* T15 = 0 */
+        .word   REG_T2, REG_Z, .+4             /* Z = -T2 */
         .word   REG_Z, REG_T15, .+4            /* T15 = T2 */
-        .word   REG_Z, REG_Z, .+4              /* Z = 0 */
-        .word   REG_T10, REG_Z, .+4            /* Z = -T10 */
-        .word   REG_Z, REG_T15, .+4            /* T15 = T2 + T10 = font_ptr */
+        .word   REG_R23, REG_T15, .+4          /* T15 -= (-T10) = T2 + T10 */
 
-        /* Set render return to .Lrender1_ret */
-        .word   REG_Z, REG_Z, .+4              /* Z = 0 */
-        .word   .Lrender1_ret_c, REG_Z, .+4    /* Z = -ret_addr */
+        /* Set render return to .Lrender1_ret (4 insn using neg constant) */
         .word   REG_T5, REG_T5, .+4            /* T5 = 0 */
-        .word   REG_Z, REG_T5, .+4             /* T5 = ret_addr */
-        .word   REG_Z, REG_Z, .Lrender_char    /* Z = 0, jump */
+        .word   .Lrender1_ret_neg, REG_T5, .+4 /* T5 -= (-ret) = ret_addr */
+        .word   REG_Z, REG_Z, .+4              /* Z = 0 (needed for render_char entry) */
+        .word   REG_Z, REG_Z, .Lrender_char    /* jump */
 
 .Lrender1_ret:
         /* Advance T8 by 32 for char1's column */
@@ -305,98 +288,874 @@ subleq_direct_putcs:
  * Expects:  T15 = font_ptr, T8 = column pixel pointer,
  *           T13 = -fg, T14 = -bg, T12 = fb_pitch, Z = 0
  * Returns via: indirect jump through T5
- * Clobbers: R20, R21, R22, R23
+ * Clobbers: R20, R21, R23, T4
+ *
+ * OPTIMIZATIONS (R1+R2+R3+R4+R6):
+ *   R1+R2+R3: Rolling R21 pointer, pitch-32 advance, no Z clear.
+ *   R4: Full 16-row unroll — no loop counter, no branch overhead.
+ *        Saves 3 insn * 16 rows = 48 insn/char.
+ *   R6: T15 and R21 advances are adjacent, improving locality.
  *===========================================================================*/
 .Lrender_char:
-        /* R22 = T8 (Z-scratch: Z=0 on entry, 3 insn) */
+        /* R21 = T8 (Z-scratch: Z=0 on entry) */
         .word   REG_T8, REG_Z, .+4            /* Z = -T8 */
-        .word   REG_R22, REG_R22, .+4          /* R22 = 0 */
-        .word   REG_Z, REG_R22, .+4            /* R22 = T8 (Z still dirty) */
+        .word   REG_R21, REG_R21, .+4          /* R21 = 0 */
+        .word   REG_Z, REG_R21, .+4            /* R21 = T8 */
 
-        /* R23 = 16 (2 insn, no Z dependency) */
-        .word   REG_R23, REG_R23, .+4          /* R23 = 0 */
-        .word   .Lconst_n16, REG_R23, .+4      /* R23 -= (-16) = 16 */
+        /* R22 = -(pitch-28) is pre-computed in the prologue */
 
-/*=== ROW LOOP (16 rows) ===*/
-/* Z state: dirty on first entry from R22 setup, but Z,Z always self-clears */
-.Lrow_loop:
-        .word   REG_Z, REG_Z, .+4             /* Z = 0 (handles dirty Z) */
-        .word   REG_Z, REG_R23, .Lrow_done    /* if R23 <= 0, done */
-
-        /* Read font byte from [T15] (Z-scratch, 3 insn) */
-        .word   REG_T15 | INDIRECT, REG_Z, .+4  /* Z = -font[T15] */
-        .word   REG_R20, REG_R20, .+4            /* R20 = 0 */
-        .word   REG_Z, REG_R20, .+4              /* R20 = font[T15] */
-
-        /* Bias font byte by +1 for correct bit testing */
-        .word   .Lconst_n1, REG_R20, .+4
-
-        /* R21 = R22 (pixel pointer for this row, Z dirty, 4 insn) */
-        .word   REG_R21, REG_R21, .+4
-        .word   REG_Z, REG_Z, .+4               /* Z = 0 */
-        .word   REG_R22, REG_Z, .+4              /* Z = -R22 */
-        .word   REG_Z, REG_R21, .+4              /* R21 = R22 */
-
-        /* Process 8 pixels (T13=-fg, T14=-bg) */
-.Lpix7: .word   .Lconst_128, REG_R20, .Lpix7_bg
-        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_T13, REG_R21 | INDIRECT, .+4
-        .word   .Lconst_n4, REG_R21, .+4
-
-.Lpix6: .word   .Lconst_64, REG_R20, .Lpix6_bg
-        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_T13, REG_R21 | INDIRECT, .+4
-        .word   .Lconst_n4, REG_R21, .+4
-
-.Lpix5: .word   .Lconst_32, REG_R20, .Lpix5_bg
-        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_T13, REG_R21 | INDIRECT, .+4
-        .word   .Lconst_n4, REG_R21, .+4
-
-.Lpix4: .word   .Lconst_16, REG_R20, .Lpix4_bg
-        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_T13, REG_R21 | INDIRECT, .+4
-        .word   .Lconst_n4, REG_R21, .+4
-
-.Lpix3: .word   .Lconst_8, REG_R20, .Lpix3_bg
-        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_T13, REG_R21 | INDIRECT, .+4
-        .word   .Lconst_n4, REG_R21, .+4
-
-.Lpix2: .word   .Lconst_4, REG_R20, .Lpix2_bg
-        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_T13, REG_R21 | INDIRECT, .+4
-        .word   .Lconst_n4, REG_R21, .+4
-
-.Lpix1: .word   .Lconst_2, REG_R20, .Lpix1_bg
-        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_T13, REG_R21 | INDIRECT, .+4
-        .word   .Lconst_n4, REG_R21, .+4
-
-.Lpix0: .word   .Lconst_1, REG_R20, .Lpix0_bg
-        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
-        .word   REG_T13, REG_R21 | INDIRECT, .+4
-
-.Lpix_all_done:
-        /* Z may be dirty from row ptr copy (Z = -R22) when all pixels are FG.
-         * BG trampolines clear Z, but FG-only rows do not. Must clear here
-         * to avoid corrupting R22 in the row advance below. */
+        /* Z = 0 for first font load */
         .word   REG_Z, REG_Z, .+4
 
-        /* Advance font_ptr by 4 bytes */
+/*=== ROW 0 ===*/
+.Lrow_0:
+        /* Read font byte (Z clean here) */
+        .word   REG_T15 | INDIRECT, REG_Z, .+4  /* Z = -font[T15] */
+        .word   REG_R20, REG_R20, .+4            /* R20 = 0 */
+        .word   REG_Z, REG_R20, .+4              /* R20 = font byte */
+        .word   .Lconst_n1, REG_R20, .+4         /* bias +1 */
+
+.Lr0_pix7:
+        .word   .Lconst_128, REG_R20, .Lr0_pix7_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr0_pix6:
+        .word   .Lconst_64, REG_R20, .Lr0_pix6_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr0_pix5:
+        .word   .Lconst_32, REG_R20, .Lr0_pix5_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr0_pix4:
+        .word   .Lconst_16, REG_R20, .Lr0_pix4_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr0_pix3:
+        .word   .Lconst_8, REG_R20, .Lr0_pix3_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr0_pix2:
+        .word   .Lconst_4, REG_R20, .Lr0_pix2_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr0_pix1:
+        .word   .Lconst_2, REG_R20, .Lr0_pix1_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr0_pix0:
+        .word   .Lconst_1, REG_R20, .Lr0_pix0_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        /* Advance font_ptr and row pointer (R6) */
+        .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
+        .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
+        /* Z = 0 from T4 advance? No: subleq doesn't clear Z. */
+        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
+
+/*=== ROW 1 ===*/
+.Lrow_1:
+        /* Read font byte (Z clean here) */
+        .word   REG_T15 | INDIRECT, REG_Z, .+4  /* Z = -font[T15] */
+        .word   REG_R20, REG_R20, .+4            /* R20 = 0 */
+        .word   REG_Z, REG_R20, .+4              /* R20 = font byte */
+        .word   .Lconst_n1, REG_R20, .+4         /* bias +1 */
+
+.Lr1_pix7:
+        .word   .Lconst_128, REG_R20, .Lr1_pix7_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr1_pix6:
+        .word   .Lconst_64, REG_R20, .Lr1_pix6_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr1_pix5:
+        .word   .Lconst_32, REG_R20, .Lr1_pix5_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr1_pix4:
+        .word   .Lconst_16, REG_R20, .Lr1_pix4_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr1_pix3:
+        .word   .Lconst_8, REG_R20, .Lr1_pix3_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr1_pix2:
+        .word   .Lconst_4, REG_R20, .Lr1_pix2_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr1_pix1:
+        .word   .Lconst_2, REG_R20, .Lr1_pix1_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr1_pix0:
+        .word   .Lconst_1, REG_R20, .Lr1_pix0_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        /* Advance font_ptr and row pointer (R6) */
+        .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
+        .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
+        /* Z = 0 from T4 advance? No: subleq doesn't clear Z. */
+        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
+
+/*=== ROW 2 ===*/
+.Lrow_2:
+        /* Read font byte (Z clean here) */
+        .word   REG_T15 | INDIRECT, REG_Z, .+4  /* Z = -font[T15] */
+        .word   REG_R20, REG_R20, .+4            /* R20 = 0 */
+        .word   REG_Z, REG_R20, .+4              /* R20 = font byte */
+        .word   .Lconst_n1, REG_R20, .+4         /* bias +1 */
+
+.Lr2_pix7:
+        .word   .Lconst_128, REG_R20, .Lr2_pix7_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr2_pix6:
+        .word   .Lconst_64, REG_R20, .Lr2_pix6_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr2_pix5:
+        .word   .Lconst_32, REG_R20, .Lr2_pix5_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr2_pix4:
+        .word   .Lconst_16, REG_R20, .Lr2_pix4_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr2_pix3:
+        .word   .Lconst_8, REG_R20, .Lr2_pix3_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr2_pix2:
+        .word   .Lconst_4, REG_R20, .Lr2_pix2_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr2_pix1:
+        .word   .Lconst_2, REG_R20, .Lr2_pix1_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr2_pix0:
+        .word   .Lconst_1, REG_R20, .Lr2_pix0_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        /* Advance font_ptr and row pointer (R6) */
+        .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
+        .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
+        /* Z = 0 from T4 advance? No: subleq doesn't clear Z. */
+        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
+
+/*=== ROW 3 ===*/
+.Lrow_3:
+        /* Read font byte (Z clean here) */
+        .word   REG_T15 | INDIRECT, REG_Z, .+4  /* Z = -font[T15] */
+        .word   REG_R20, REG_R20, .+4            /* R20 = 0 */
+        .word   REG_Z, REG_R20, .+4              /* R20 = font byte */
+        .word   .Lconst_n1, REG_R20, .+4         /* bias +1 */
+
+.Lr3_pix7:
+        .word   .Lconst_128, REG_R20, .Lr3_pix7_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr3_pix6:
+        .word   .Lconst_64, REG_R20, .Lr3_pix6_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr3_pix5:
+        .word   .Lconst_32, REG_R20, .Lr3_pix5_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr3_pix4:
+        .word   .Lconst_16, REG_R20, .Lr3_pix4_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr3_pix3:
+        .word   .Lconst_8, REG_R20, .Lr3_pix3_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr3_pix2:
+        .word   .Lconst_4, REG_R20, .Lr3_pix2_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr3_pix1:
+        .word   .Lconst_2, REG_R20, .Lr3_pix1_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr3_pix0:
+        .word   .Lconst_1, REG_R20, .Lr3_pix0_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        /* Advance font_ptr and row pointer (R6) */
+        .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
+        .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
+        /* Z = 0 from T4 advance? No: subleq doesn't clear Z. */
+        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
+
+/*=== ROW 4 ===*/
+.Lrow_4:
+        /* Read font byte (Z clean here) */
+        .word   REG_T15 | INDIRECT, REG_Z, .+4  /* Z = -font[T15] */
+        .word   REG_R20, REG_R20, .+4            /* R20 = 0 */
+        .word   REG_Z, REG_R20, .+4              /* R20 = font byte */
+        .word   .Lconst_n1, REG_R20, .+4         /* bias +1 */
+
+.Lr4_pix7:
+        .word   .Lconst_128, REG_R20, .Lr4_pix7_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr4_pix6:
+        .word   .Lconst_64, REG_R20, .Lr4_pix6_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr4_pix5:
+        .word   .Lconst_32, REG_R20, .Lr4_pix5_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr4_pix4:
+        .word   .Lconst_16, REG_R20, .Lr4_pix4_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr4_pix3:
+        .word   .Lconst_8, REG_R20, .Lr4_pix3_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr4_pix2:
+        .word   .Lconst_4, REG_R20, .Lr4_pix2_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr4_pix1:
+        .word   .Lconst_2, REG_R20, .Lr4_pix1_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr4_pix0:
+        .word   .Lconst_1, REG_R20, .Lr4_pix0_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        /* Advance font_ptr and row pointer (R6) */
+        .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
+        .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
+        /* Z = 0 from T4 advance? No: subleq doesn't clear Z. */
+        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
+
+/*=== ROW 5 ===*/
+.Lrow_5:
+        /* Read font byte (Z clean here) */
+        .word   REG_T15 | INDIRECT, REG_Z, .+4  /* Z = -font[T15] */
+        .word   REG_R20, REG_R20, .+4            /* R20 = 0 */
+        .word   REG_Z, REG_R20, .+4              /* R20 = font byte */
+        .word   .Lconst_n1, REG_R20, .+4         /* bias +1 */
+
+.Lr5_pix7:
+        .word   .Lconst_128, REG_R20, .Lr5_pix7_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr5_pix6:
+        .word   .Lconst_64, REG_R20, .Lr5_pix6_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr5_pix5:
+        .word   .Lconst_32, REG_R20, .Lr5_pix5_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr5_pix4:
+        .word   .Lconst_16, REG_R20, .Lr5_pix4_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr5_pix3:
+        .word   .Lconst_8, REG_R20, .Lr5_pix3_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr5_pix2:
+        .word   .Lconst_4, REG_R20, .Lr5_pix2_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr5_pix1:
+        .word   .Lconst_2, REG_R20, .Lr5_pix1_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr5_pix0:
+        .word   .Lconst_1, REG_R20, .Lr5_pix0_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        /* Advance font_ptr and row pointer (R6) */
+        .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
+        .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
+        /* Z = 0 from T4 advance? No: subleq doesn't clear Z. */
+        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
+
+/*=== ROW 6 ===*/
+.Lrow_6:
+        /* Read font byte (Z clean here) */
+        .word   REG_T15 | INDIRECT, REG_Z, .+4  /* Z = -font[T15] */
+        .word   REG_R20, REG_R20, .+4            /* R20 = 0 */
+        .word   REG_Z, REG_R20, .+4              /* R20 = font byte */
+        .word   .Lconst_n1, REG_R20, .+4         /* bias +1 */
+
+.Lr6_pix7:
+        .word   .Lconst_128, REG_R20, .Lr6_pix7_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr6_pix6:
+        .word   .Lconst_64, REG_R20, .Lr6_pix6_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr6_pix5:
+        .word   .Lconst_32, REG_R20, .Lr6_pix5_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr6_pix4:
+        .word   .Lconst_16, REG_R20, .Lr6_pix4_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr6_pix3:
+        .word   .Lconst_8, REG_R20, .Lr6_pix3_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr6_pix2:
+        .word   .Lconst_4, REG_R20, .Lr6_pix2_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr6_pix1:
+        .word   .Lconst_2, REG_R20, .Lr6_pix1_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr6_pix0:
+        .word   .Lconst_1, REG_R20, .Lr6_pix0_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        /* Advance font_ptr and row pointer (R6) */
+        .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
+        .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
+        /* Z = 0 from T4 advance? No: subleq doesn't clear Z. */
+        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
+
+/*=== ROW 7 ===*/
+.Lrow_7:
+        /* Read font byte (Z clean here) */
+        .word   REG_T15 | INDIRECT, REG_Z, .+4  /* Z = -font[T15] */
+        .word   REG_R20, REG_R20, .+4            /* R20 = 0 */
+        .word   REG_Z, REG_R20, .+4              /* R20 = font byte */
+        .word   .Lconst_n1, REG_R20, .+4         /* bias +1 */
+
+.Lr7_pix7:
+        .word   .Lconst_128, REG_R20, .Lr7_pix7_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr7_pix6:
+        .word   .Lconst_64, REG_R20, .Lr7_pix6_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr7_pix5:
+        .word   .Lconst_32, REG_R20, .Lr7_pix5_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr7_pix4:
+        .word   .Lconst_16, REG_R20, .Lr7_pix4_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr7_pix3:
+        .word   .Lconst_8, REG_R20, .Lr7_pix3_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr7_pix2:
+        .word   .Lconst_4, REG_R20, .Lr7_pix2_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr7_pix1:
+        .word   .Lconst_2, REG_R20, .Lr7_pix1_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr7_pix0:
+        .word   .Lconst_1, REG_R20, .Lr7_pix0_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        /* Advance font_ptr and row pointer (R6) */
+        .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
+        .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
+        /* Z = 0 from T4 advance? No: subleq doesn't clear Z. */
+        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
+
+/*=== ROW 8 ===*/
+.Lrow_8:
+        /* Read font byte (Z clean here) */
+        .word   REG_T15 | INDIRECT, REG_Z, .+4  /* Z = -font[T15] */
+        .word   REG_R20, REG_R20, .+4            /* R20 = 0 */
+        .word   REG_Z, REG_R20, .+4              /* R20 = font byte */
+        .word   .Lconst_n1, REG_R20, .+4         /* bias +1 */
+
+.Lr8_pix7:
+        .word   .Lconst_128, REG_R20, .Lr8_pix7_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr8_pix6:
+        .word   .Lconst_64, REG_R20, .Lr8_pix6_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr8_pix5:
+        .word   .Lconst_32, REG_R20, .Lr8_pix5_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr8_pix4:
+        .word   .Lconst_16, REG_R20, .Lr8_pix4_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr8_pix3:
+        .word   .Lconst_8, REG_R20, .Lr8_pix3_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr8_pix2:
+        .word   .Lconst_4, REG_R20, .Lr8_pix2_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr8_pix1:
+        .word   .Lconst_2, REG_R20, .Lr8_pix1_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr8_pix0:
+        .word   .Lconst_1, REG_R20, .Lr8_pix0_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        /* Advance font_ptr and row pointer (R6) */
+        .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
+        .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
+        /* Z = 0 from T4 advance? No: subleq doesn't clear Z. */
+        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
+
+/*=== ROW 9 ===*/
+.Lrow_9:
+        /* Read font byte (Z clean here) */
+        .word   REG_T15 | INDIRECT, REG_Z, .+4  /* Z = -font[T15] */
+        .word   REG_R20, REG_R20, .+4            /* R20 = 0 */
+        .word   REG_Z, REG_R20, .+4              /* R20 = font byte */
+        .word   .Lconst_n1, REG_R20, .+4         /* bias +1 */
+
+.Lr9_pix7:
+        .word   .Lconst_128, REG_R20, .Lr9_pix7_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr9_pix6:
+        .word   .Lconst_64, REG_R20, .Lr9_pix6_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr9_pix5:
+        .word   .Lconst_32, REG_R20, .Lr9_pix5_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr9_pix4:
+        .word   .Lconst_16, REG_R20, .Lr9_pix4_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr9_pix3:
+        .word   .Lconst_8, REG_R20, .Lr9_pix3_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr9_pix2:
+        .word   .Lconst_4, REG_R20, .Lr9_pix2_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr9_pix1:
+        .word   .Lconst_2, REG_R20, .Lr9_pix1_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr9_pix0:
+        .word   .Lconst_1, REG_R20, .Lr9_pix0_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        /* Advance font_ptr and row pointer (R6) */
+        .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
+        .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
+        /* Z = 0 from T4 advance? No: subleq doesn't clear Z. */
+        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
+
+/*=== ROW 10 ===*/
+.Lrow_10:
+        /* Read font byte (Z clean here) */
+        .word   REG_T15 | INDIRECT, REG_Z, .+4  /* Z = -font[T15] */
+        .word   REG_R20, REG_R20, .+4            /* R20 = 0 */
+        .word   REG_Z, REG_R20, .+4              /* R20 = font byte */
+        .word   .Lconst_n1, REG_R20, .+4         /* bias +1 */
+
+.Lr10_pix7:
+        .word   .Lconst_128, REG_R20, .Lr10_pix7_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr10_pix6:
+        .word   .Lconst_64, REG_R20, .Lr10_pix6_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr10_pix5:
+        .word   .Lconst_32, REG_R20, .Lr10_pix5_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr10_pix4:
+        .word   .Lconst_16, REG_R20, .Lr10_pix4_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr10_pix3:
+        .word   .Lconst_8, REG_R20, .Lr10_pix3_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr10_pix2:
+        .word   .Lconst_4, REG_R20, .Lr10_pix2_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr10_pix1:
+        .word   .Lconst_2, REG_R20, .Lr10_pix1_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr10_pix0:
+        .word   .Lconst_1, REG_R20, .Lr10_pix0_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        /* Advance font_ptr and row pointer (R6) */
+        .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
+        .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
+        /* Z = 0 from T4 advance? No: subleq doesn't clear Z. */
+        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
+
+/*=== ROW 11 ===*/
+.Lrow_11:
+        /* Read font byte (Z clean here) */
+        .word   REG_T15 | INDIRECT, REG_Z, .+4  /* Z = -font[T15] */
+        .word   REG_R20, REG_R20, .+4            /* R20 = 0 */
+        .word   REG_Z, REG_R20, .+4              /* R20 = font byte */
+        .word   .Lconst_n1, REG_R20, .+4         /* bias +1 */
+
+.Lr11_pix7:
+        .word   .Lconst_128, REG_R20, .Lr11_pix7_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr11_pix6:
+        .word   .Lconst_64, REG_R20, .Lr11_pix6_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr11_pix5:
+        .word   .Lconst_32, REG_R20, .Lr11_pix5_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr11_pix4:
+        .word   .Lconst_16, REG_R20, .Lr11_pix4_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr11_pix3:
+        .word   .Lconst_8, REG_R20, .Lr11_pix3_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr11_pix2:
+        .word   .Lconst_4, REG_R20, .Lr11_pix2_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr11_pix1:
+        .word   .Lconst_2, REG_R20, .Lr11_pix1_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr11_pix0:
+        .word   .Lconst_1, REG_R20, .Lr11_pix0_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        /* Advance font_ptr and row pointer (R6) */
+        .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
+        .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
+        /* Z = 0 from T4 advance? No: subleq doesn't clear Z. */
+        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
+
+/*=== ROW 12 ===*/
+.Lrow_12:
+        /* Read font byte (Z clean here) */
+        .word   REG_T15 | INDIRECT, REG_Z, .+4  /* Z = -font[T15] */
+        .word   REG_R20, REG_R20, .+4            /* R20 = 0 */
+        .word   REG_Z, REG_R20, .+4              /* R20 = font byte */
+        .word   .Lconst_n1, REG_R20, .+4         /* bias +1 */
+
+.Lr12_pix7:
+        .word   .Lconst_128, REG_R20, .Lr12_pix7_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr12_pix6:
+        .word   .Lconst_64, REG_R20, .Lr12_pix6_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr12_pix5:
+        .word   .Lconst_32, REG_R20, .Lr12_pix5_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr12_pix4:
+        .word   .Lconst_16, REG_R20, .Lr12_pix4_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr12_pix3:
+        .word   .Lconst_8, REG_R20, .Lr12_pix3_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr12_pix2:
+        .word   .Lconst_4, REG_R20, .Lr12_pix2_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr12_pix1:
+        .word   .Lconst_2, REG_R20, .Lr12_pix1_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr12_pix0:
+        .word   .Lconst_1, REG_R20, .Lr12_pix0_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        /* Advance font_ptr and row pointer (R6) */
+        .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
+        .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
+        /* Z = 0 from T4 advance? No: subleq doesn't clear Z. */
+        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
+
+/*=== ROW 13 ===*/
+.Lrow_13:
+        /* Read font byte (Z clean here) */
+        .word   REG_T15 | INDIRECT, REG_Z, .+4  /* Z = -font[T15] */
+        .word   REG_R20, REG_R20, .+4            /* R20 = 0 */
+        .word   REG_Z, REG_R20, .+4              /* R20 = font byte */
+        .word   .Lconst_n1, REG_R20, .+4         /* bias +1 */
+
+.Lr13_pix7:
+        .word   .Lconst_128, REG_R20, .Lr13_pix7_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr13_pix6:
+        .word   .Lconst_64, REG_R20, .Lr13_pix6_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr13_pix5:
+        .word   .Lconst_32, REG_R20, .Lr13_pix5_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr13_pix4:
+        .word   .Lconst_16, REG_R20, .Lr13_pix4_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr13_pix3:
+        .word   .Lconst_8, REG_R20, .Lr13_pix3_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr13_pix2:
+        .word   .Lconst_4, REG_R20, .Lr13_pix2_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr13_pix1:
+        .word   .Lconst_2, REG_R20, .Lr13_pix1_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr13_pix0:
+        .word   .Lconst_1, REG_R20, .Lr13_pix0_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        /* Advance font_ptr and row pointer (R6) */
+        .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
+        .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
+        /* Z = 0 from T4 advance? No: subleq doesn't clear Z. */
+        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
+
+/*=== ROW 14 ===*/
+.Lrow_14:
+        /* Read font byte (Z clean here) */
+        .word   REG_T15 | INDIRECT, REG_Z, .+4  /* Z = -font[T15] */
+        .word   REG_R20, REG_R20, .+4            /* R20 = 0 */
+        .word   REG_Z, REG_R20, .+4              /* R20 = font byte */
+        .word   .Lconst_n1, REG_R20, .+4         /* bias +1 */
+
+.Lr14_pix7:
+        .word   .Lconst_128, REG_R20, .Lr14_pix7_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr14_pix6:
+        .word   .Lconst_64, REG_R20, .Lr14_pix6_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr14_pix5:
+        .word   .Lconst_32, REG_R20, .Lr14_pix5_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr14_pix4:
+        .word   .Lconst_16, REG_R20, .Lr14_pix4_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr14_pix3:
+        .word   .Lconst_8, REG_R20, .Lr14_pix3_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr14_pix2:
+        .word   .Lconst_4, REG_R20, .Lr14_pix2_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr14_pix1:
+        .word   .Lconst_2, REG_R20, .Lr14_pix1_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr14_pix0:
+        .word   .Lconst_1, REG_R20, .Lr14_pix0_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        /* Advance font_ptr and row pointer (R6) */
+        .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
+        .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
+        /* Z = 0 from T4 advance? No: subleq doesn't clear Z. */
+        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
+
+/*=== ROW 15 ===*/
+.Lrow_15:
+        /* Read font byte (Z clean here) */
+        .word   REG_T15 | INDIRECT, REG_Z, .+4  /* Z = -font[T15] */
+        .word   REG_R20, REG_R20, .+4            /* R20 = 0 */
+        .word   REG_Z, REG_R20, .+4              /* R20 = font byte */
+        .word   .Lconst_n1, REG_R20, .+4         /* bias +1 */
+
+.Lr15_pix7:
+        .word   .Lconst_128, REG_R20, .Lr15_pix7_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr15_pix6:
+        .word   .Lconst_64, REG_R20, .Lr15_pix6_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr15_pix5:
+        .word   .Lconst_32, REG_R20, .Lr15_pix5_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr15_pix4:
+        .word   .Lconst_16, REG_R20, .Lr15_pix4_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr15_pix3:
+        .word   .Lconst_8, REG_R20, .Lr15_pix3_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr15_pix2:
+        .word   .Lconst_4, REG_R20, .Lr15_pix2_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr15_pix1:
+        .word   .Lconst_2, REG_R20, .Lr15_pix1_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+.Lr15_pix0:
+        .word   .Lconst_1, REG_R20, .Lr15_pix0_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T13, REG_R21 | INDIRECT, .+4
+        /* Last row done - advance font_ptr and return */
+
+        /* Advance font_ptr past last row (for final char) */
         .word   .Lconst_n4, REG_T15, .+4
+        /* fall through to return */
 
-        /* Advance row pointer by fb_pitch (Z-scratch) */
-        .word   REG_T12, REG_Z, .+4           /* Z = -pitch */
-        .word   REG_Z, REG_R22, .+4           /* R22 += pitch */
-
-        /* R23 -= 1 */
-        .word   .Lconst_1, REG_R23, .+4
-
-        /* Z is dirty (-pitch), but Z,Z self-clears at .Lrow_loop */
-        .word   REG_Z, REG_Z, .Lrow_loop
-
-.Lrow_done:
+.Lrow_done_fg:
         /* Return to caller via T5 */
         .word   REG_Z, REG_Z, REG_T5 | INDIRECT
 
@@ -404,53 +1163,982 @@ subleq_direct_putcs:
  * BG COLD TRAMPOLINES (out-of-line to keep FG path tight)
  * Each: restore R20, clear pixel, write bg, advance R21, jump back
  *===========================================================================*/
-.Lpix7_bg:
+.Lr0_pix7_bg:
         .word   .Lconst_n128, REG_R20, .+4
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
         .word   REG_T14, REG_R21 | INDIRECT, .+4
         .word   .Lconst_n4, REG_R21, .+4
-        .word   REG_Z, REG_Z, .Lpix6
-.Lpix6_bg:
+        .word   REG_Z, REG_Z, .Lr0_pix6
+
+.Lr0_pix6_bg:
         .word   .Lconst_n64, REG_R20, .+4
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
         .word   REG_T14, REG_R21 | INDIRECT, .+4
         .word   .Lconst_n4, REG_R21, .+4
-        .word   REG_Z, REG_Z, .Lpix5
-.Lpix5_bg:
+        .word   REG_Z, REG_Z, .Lr0_pix5
+
+.Lr0_pix5_bg:
         .word   .Lconst_n32, REG_R20, .+4
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
         .word   REG_T14, REG_R21 | INDIRECT, .+4
         .word   .Lconst_n4, REG_R21, .+4
-        .word   REG_Z, REG_Z, .Lpix4
-.Lpix4_bg:
+        .word   REG_Z, REG_Z, .Lr0_pix4
+
+.Lr0_pix4_bg:
         .word   .Lconst_n16, REG_R20, .+4
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
         .word   REG_T14, REG_R21 | INDIRECT, .+4
         .word   .Lconst_n4, REG_R21, .+4
-        .word   REG_Z, REG_Z, .Lpix3
-.Lpix3_bg:
+        .word   REG_Z, REG_Z, .Lr0_pix3
+
+.Lr0_pix3_bg:
         .word   .Lconst_n8, REG_R20, .+4
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
         .word   REG_T14, REG_R21 | INDIRECT, .+4
         .word   .Lconst_n4, REG_R21, .+4
-        .word   REG_Z, REG_Z, .Lpix2
-.Lpix2_bg:
+        .word   REG_Z, REG_Z, .Lr0_pix2
+
+.Lr0_pix2_bg:
         .word   .Lconst_n4, REG_R20, .+4
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
         .word   REG_T14, REG_R21 | INDIRECT, .+4
         .word   .Lconst_n4, REG_R21, .+4
-        .word   REG_Z, REG_Z, .Lpix1
-.Lpix1_bg:
+        .word   REG_Z, REG_Z, .Lr0_pix1
+
+.Lr0_pix1_bg:
         .word   .Lconst_n2, REG_R20, .+4
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
         .word   REG_T14, REG_R21 | INDIRECT, .+4
         .word   .Lconst_n4, REG_R21, .+4
-        .word   REG_Z, REG_Z, .Lpix0
-.Lpix0_bg:
+        .word   REG_Z, REG_Z, .Lr0_pix0
+
+.Lr0_pix0_bg:
         .word   .Lconst_n1, REG_R20, .+4
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
         .word   REG_T14, REG_R21 | INDIRECT, .+4
-        .word   REG_Z, REG_Z, .Lpix_all_done
+        .word   REG_Z, REG_Z, .Lr0_bg_advance
+
+.Lr0_bg_advance:
+        .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
+        .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
+        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
+        .word   REG_Z, REG_Z, .Lrow_1
+
+.Lr1_pix7_bg:
+        .word   .Lconst_n128, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr1_pix6
+
+.Lr1_pix6_bg:
+        .word   .Lconst_n64, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr1_pix5
+
+.Lr1_pix5_bg:
+        .word   .Lconst_n32, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr1_pix4
+
+.Lr1_pix4_bg:
+        .word   .Lconst_n16, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr1_pix3
+
+.Lr1_pix3_bg:
+        .word   .Lconst_n8, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr1_pix2
+
+.Lr1_pix2_bg:
+        .word   .Lconst_n4, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr1_pix1
+
+.Lr1_pix1_bg:
+        .word   .Lconst_n2, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr1_pix0
+
+.Lr1_pix0_bg:
+        .word   .Lconst_n1, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   REG_Z, REG_Z, .Lr1_bg_advance
+
+.Lr1_bg_advance:
+        .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
+        .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
+        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
+        .word   REG_Z, REG_Z, .Lrow_2
+
+.Lr2_pix7_bg:
+        .word   .Lconst_n128, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr2_pix6
+
+.Lr2_pix6_bg:
+        .word   .Lconst_n64, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr2_pix5
+
+.Lr2_pix5_bg:
+        .word   .Lconst_n32, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr2_pix4
+
+.Lr2_pix4_bg:
+        .word   .Lconst_n16, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr2_pix3
+
+.Lr2_pix3_bg:
+        .word   .Lconst_n8, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr2_pix2
+
+.Lr2_pix2_bg:
+        .word   .Lconst_n4, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr2_pix1
+
+.Lr2_pix1_bg:
+        .word   .Lconst_n2, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr2_pix0
+
+.Lr2_pix0_bg:
+        .word   .Lconst_n1, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   REG_Z, REG_Z, .Lr2_bg_advance
+
+.Lr2_bg_advance:
+        .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
+        .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
+        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
+        .word   REG_Z, REG_Z, .Lrow_3
+
+.Lr3_pix7_bg:
+        .word   .Lconst_n128, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr3_pix6
+
+.Lr3_pix6_bg:
+        .word   .Lconst_n64, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr3_pix5
+
+.Lr3_pix5_bg:
+        .word   .Lconst_n32, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr3_pix4
+
+.Lr3_pix4_bg:
+        .word   .Lconst_n16, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr3_pix3
+
+.Lr3_pix3_bg:
+        .word   .Lconst_n8, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr3_pix2
+
+.Lr3_pix2_bg:
+        .word   .Lconst_n4, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr3_pix1
+
+.Lr3_pix1_bg:
+        .word   .Lconst_n2, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr3_pix0
+
+.Lr3_pix0_bg:
+        .word   .Lconst_n1, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   REG_Z, REG_Z, .Lr3_bg_advance
+
+.Lr3_bg_advance:
+        .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
+        .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
+        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
+        .word   REG_Z, REG_Z, .Lrow_4
+
+.Lr4_pix7_bg:
+        .word   .Lconst_n128, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr4_pix6
+
+.Lr4_pix6_bg:
+        .word   .Lconst_n64, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr4_pix5
+
+.Lr4_pix5_bg:
+        .word   .Lconst_n32, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr4_pix4
+
+.Lr4_pix4_bg:
+        .word   .Lconst_n16, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr4_pix3
+
+.Lr4_pix3_bg:
+        .word   .Lconst_n8, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr4_pix2
+
+.Lr4_pix2_bg:
+        .word   .Lconst_n4, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr4_pix1
+
+.Lr4_pix1_bg:
+        .word   .Lconst_n2, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr4_pix0
+
+.Lr4_pix0_bg:
+        .word   .Lconst_n1, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   REG_Z, REG_Z, .Lr4_bg_advance
+
+.Lr4_bg_advance:
+        .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
+        .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
+        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
+        .word   REG_Z, REG_Z, .Lrow_5
+
+.Lr5_pix7_bg:
+        .word   .Lconst_n128, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr5_pix6
+
+.Lr5_pix6_bg:
+        .word   .Lconst_n64, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr5_pix5
+
+.Lr5_pix5_bg:
+        .word   .Lconst_n32, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr5_pix4
+
+.Lr5_pix4_bg:
+        .word   .Lconst_n16, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr5_pix3
+
+.Lr5_pix3_bg:
+        .word   .Lconst_n8, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr5_pix2
+
+.Lr5_pix2_bg:
+        .word   .Lconst_n4, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr5_pix1
+
+.Lr5_pix1_bg:
+        .word   .Lconst_n2, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr5_pix0
+
+.Lr5_pix0_bg:
+        .word   .Lconst_n1, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   REG_Z, REG_Z, .Lr5_bg_advance
+
+.Lr5_bg_advance:
+        .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
+        .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
+        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
+        .word   REG_Z, REG_Z, .Lrow_6
+
+.Lr6_pix7_bg:
+        .word   .Lconst_n128, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr6_pix6
+
+.Lr6_pix6_bg:
+        .word   .Lconst_n64, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr6_pix5
+
+.Lr6_pix5_bg:
+        .word   .Lconst_n32, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr6_pix4
+
+.Lr6_pix4_bg:
+        .word   .Lconst_n16, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr6_pix3
+
+.Lr6_pix3_bg:
+        .word   .Lconst_n8, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr6_pix2
+
+.Lr6_pix2_bg:
+        .word   .Lconst_n4, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr6_pix1
+
+.Lr6_pix1_bg:
+        .word   .Lconst_n2, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr6_pix0
+
+.Lr6_pix0_bg:
+        .word   .Lconst_n1, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   REG_Z, REG_Z, .Lr6_bg_advance
+
+.Lr6_bg_advance:
+        .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
+        .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
+        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
+        .word   REG_Z, REG_Z, .Lrow_7
+
+.Lr7_pix7_bg:
+        .word   .Lconst_n128, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr7_pix6
+
+.Lr7_pix6_bg:
+        .word   .Lconst_n64, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr7_pix5
+
+.Lr7_pix5_bg:
+        .word   .Lconst_n32, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr7_pix4
+
+.Lr7_pix4_bg:
+        .word   .Lconst_n16, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr7_pix3
+
+.Lr7_pix3_bg:
+        .word   .Lconst_n8, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr7_pix2
+
+.Lr7_pix2_bg:
+        .word   .Lconst_n4, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr7_pix1
+
+.Lr7_pix1_bg:
+        .word   .Lconst_n2, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr7_pix0
+
+.Lr7_pix0_bg:
+        .word   .Lconst_n1, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   REG_Z, REG_Z, .Lr7_bg_advance
+
+.Lr7_bg_advance:
+        .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
+        .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
+        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
+        .word   REG_Z, REG_Z, .Lrow_8
+
+.Lr8_pix7_bg:
+        .word   .Lconst_n128, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr8_pix6
+
+.Lr8_pix6_bg:
+        .word   .Lconst_n64, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr8_pix5
+
+.Lr8_pix5_bg:
+        .word   .Lconst_n32, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr8_pix4
+
+.Lr8_pix4_bg:
+        .word   .Lconst_n16, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr8_pix3
+
+.Lr8_pix3_bg:
+        .word   .Lconst_n8, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr8_pix2
+
+.Lr8_pix2_bg:
+        .word   .Lconst_n4, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr8_pix1
+
+.Lr8_pix1_bg:
+        .word   .Lconst_n2, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr8_pix0
+
+.Lr8_pix0_bg:
+        .word   .Lconst_n1, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   REG_Z, REG_Z, .Lr8_bg_advance
+
+.Lr8_bg_advance:
+        .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
+        .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
+        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
+        .word   REG_Z, REG_Z, .Lrow_9
+
+.Lr9_pix7_bg:
+        .word   .Lconst_n128, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr9_pix6
+
+.Lr9_pix6_bg:
+        .word   .Lconst_n64, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr9_pix5
+
+.Lr9_pix5_bg:
+        .word   .Lconst_n32, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr9_pix4
+
+.Lr9_pix4_bg:
+        .word   .Lconst_n16, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr9_pix3
+
+.Lr9_pix3_bg:
+        .word   .Lconst_n8, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr9_pix2
+
+.Lr9_pix2_bg:
+        .word   .Lconst_n4, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr9_pix1
+
+.Lr9_pix1_bg:
+        .word   .Lconst_n2, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr9_pix0
+
+.Lr9_pix0_bg:
+        .word   .Lconst_n1, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   REG_Z, REG_Z, .Lr9_bg_advance
+
+.Lr9_bg_advance:
+        .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
+        .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
+        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
+        .word   REG_Z, REG_Z, .Lrow_10
+
+.Lr10_pix7_bg:
+        .word   .Lconst_n128, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr10_pix6
+
+.Lr10_pix6_bg:
+        .word   .Lconst_n64, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr10_pix5
+
+.Lr10_pix5_bg:
+        .word   .Lconst_n32, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr10_pix4
+
+.Lr10_pix4_bg:
+        .word   .Lconst_n16, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr10_pix3
+
+.Lr10_pix3_bg:
+        .word   .Lconst_n8, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr10_pix2
+
+.Lr10_pix2_bg:
+        .word   .Lconst_n4, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr10_pix1
+
+.Lr10_pix1_bg:
+        .word   .Lconst_n2, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr10_pix0
+
+.Lr10_pix0_bg:
+        .word   .Lconst_n1, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   REG_Z, REG_Z, .Lr10_bg_advance
+
+.Lr10_bg_advance:
+        .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
+        .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
+        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
+        .word   REG_Z, REG_Z, .Lrow_11
+
+.Lr11_pix7_bg:
+        .word   .Lconst_n128, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr11_pix6
+
+.Lr11_pix6_bg:
+        .word   .Lconst_n64, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr11_pix5
+
+.Lr11_pix5_bg:
+        .word   .Lconst_n32, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr11_pix4
+
+.Lr11_pix4_bg:
+        .word   .Lconst_n16, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr11_pix3
+
+.Lr11_pix3_bg:
+        .word   .Lconst_n8, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr11_pix2
+
+.Lr11_pix2_bg:
+        .word   .Lconst_n4, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr11_pix1
+
+.Lr11_pix1_bg:
+        .word   .Lconst_n2, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr11_pix0
+
+.Lr11_pix0_bg:
+        .word   .Lconst_n1, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   REG_Z, REG_Z, .Lr11_bg_advance
+
+.Lr11_bg_advance:
+        .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
+        .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
+        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
+        .word   REG_Z, REG_Z, .Lrow_12
+
+.Lr12_pix7_bg:
+        .word   .Lconst_n128, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr12_pix6
+
+.Lr12_pix6_bg:
+        .word   .Lconst_n64, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr12_pix5
+
+.Lr12_pix5_bg:
+        .word   .Lconst_n32, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr12_pix4
+
+.Lr12_pix4_bg:
+        .word   .Lconst_n16, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr12_pix3
+
+.Lr12_pix3_bg:
+        .word   .Lconst_n8, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr12_pix2
+
+.Lr12_pix2_bg:
+        .word   .Lconst_n4, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr12_pix1
+
+.Lr12_pix1_bg:
+        .word   .Lconst_n2, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr12_pix0
+
+.Lr12_pix0_bg:
+        .word   .Lconst_n1, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   REG_Z, REG_Z, .Lr12_bg_advance
+
+.Lr12_bg_advance:
+        .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
+        .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
+        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
+        .word   REG_Z, REG_Z, .Lrow_13
+
+.Lr13_pix7_bg:
+        .word   .Lconst_n128, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr13_pix6
+
+.Lr13_pix6_bg:
+        .word   .Lconst_n64, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr13_pix5
+
+.Lr13_pix5_bg:
+        .word   .Lconst_n32, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr13_pix4
+
+.Lr13_pix4_bg:
+        .word   .Lconst_n16, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr13_pix3
+
+.Lr13_pix3_bg:
+        .word   .Lconst_n8, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr13_pix2
+
+.Lr13_pix2_bg:
+        .word   .Lconst_n4, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr13_pix1
+
+.Lr13_pix1_bg:
+        .word   .Lconst_n2, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr13_pix0
+
+.Lr13_pix0_bg:
+        .word   .Lconst_n1, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   REG_Z, REG_Z, .Lr13_bg_advance
+
+.Lr13_bg_advance:
+        .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
+        .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
+        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
+        .word   REG_Z, REG_Z, .Lrow_14
+
+.Lr14_pix7_bg:
+        .word   .Lconst_n128, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr14_pix6
+
+.Lr14_pix6_bg:
+        .word   .Lconst_n64, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr14_pix5
+
+.Lr14_pix5_bg:
+        .word   .Lconst_n32, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr14_pix4
+
+.Lr14_pix4_bg:
+        .word   .Lconst_n16, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr14_pix3
+
+.Lr14_pix3_bg:
+        .word   .Lconst_n8, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr14_pix2
+
+.Lr14_pix2_bg:
+        .word   .Lconst_n4, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr14_pix1
+
+.Lr14_pix1_bg:
+        .word   .Lconst_n2, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr14_pix0
+
+.Lr14_pix0_bg:
+        .word   .Lconst_n1, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   REG_Z, REG_Z, .Lr14_bg_advance
+
+.Lr14_bg_advance:
+        .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
+        .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
+        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
+        .word   REG_Z, REG_Z, .Lrow_15
+
+.Lr15_pix7_bg:
+        .word   .Lconst_n128, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr15_pix6
+
+.Lr15_pix6_bg:
+        .word   .Lconst_n64, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr15_pix5
+
+.Lr15_pix5_bg:
+        .word   .Lconst_n32, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr15_pix4
+
+.Lr15_pix4_bg:
+        .word   .Lconst_n16, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr15_pix3
+
+.Lr15_pix3_bg:
+        .word   .Lconst_n8, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr15_pix2
+
+.Lr15_pix2_bg:
+        .word   .Lconst_n4, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr15_pix1
+
+.Lr15_pix1_bg:
+        .word   .Lconst_n2, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lr15_pix0
+
+.Lr15_pix0_bg:
+        .word   .Lconst_n1, REG_R20, .+4
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T14, REG_R21 | INDIRECT, .+4
+        .word   REG_Z, REG_Z, .Lrow_done_final
+
+.Lrow_done_final:
+        .word   .Lconst_n4, REG_T15, .+4
+        /* fall through into .Lrow_done */
+.Lrow_done:
+        /* Return to caller via T5 */
+        .word   REG_Z, REG_Z, REG_T5 | INDIRECT
 
 
 .Ldone:
@@ -954,6 +2642,7 @@ subleq_direct_putcs:
 .Lconst_n128:   .word   -128
 .Lconst_n64:    .word   -64
 .Lconst_n32:    .word   -32
+.Lconst_n28:    .word   -28
 .Lconst_n24:    .word   -24
 .Lconst_n16:    .word   -16
 .Lconst_n8:     .word   -8
@@ -1026,8 +2715,12 @@ subleq_direct_putcs:
 .Lext_min:        .word   -2147483648
 
 /* Return address constants */
-.Lmul_ret_const:  .word   .Lmul_ret
-.Lrender0_ret_c:  .word   .Lrender0_ret
-.Lrender1_ret_c:  .word   .Lrender1_ret
+.Lmul_ret_const:    .word   .Lmul_ret
+.Lmul_ret_neg:      .word   -.Lmul_ret
+.Lrender0_ret_c:    .word   .Lrender0_ret
+.Lrender1_ret_c:    .word   .Lrender1_ret
+/* Negated return address constants for 4-insn T5 load */
+.Lrender0_ret_neg:  .word   -.Lrender0_ret
+.Lrender1_ret_neg:  .word   -.Lrender1_ret
 
 .size subleq_direct_putcs, . - subleq_direct_putcs

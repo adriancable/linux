@@ -591,17 +591,8 @@ subleq_irq_entry:
         .word   .Lconst_4, REG_SP, .Lcall_push1
 
 .Lcall_push1:
-        .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .Lcall_push2
-
-.Lcall_push2:
-        .word   INT_Z, INT_Z, .Lcall_push3
-.Lcall_push3:
-        .word   .Lirq_return_addr, INT_Z, .Lcall_push4
-
-.Lcall_push4:
-        .word   INT_Z, REG_SP | INDIRECT, .Lcall_jump
-
-.Lcall_jump:
+        .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .+4  /* [SP] = 0 */
+        .word   .Lirq_return_neg, REG_SP | INDIRECT, .+4    /* [SP] = .Lirq_returned */
         .word   INT_Z, INT_Z, subleq_do_IRQ
 
         /*
@@ -626,9 +617,7 @@ subleq_irq_entry:
         /* STACK-BASED CALL to subleq_do_work(regs) */
         .word   .Lconst_4, REG_SP, .+4           /* SP -= 4 */
         .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .+4  /* [SP] = 0 */
-        .word   INT_Z, INT_Z, .+4
-        .word   .Lwork_return_addr, INT_Z, .+4
-        .word   INT_Z, REG_SP | INDIRECT, .+4    /* [SP] = return addr */
+        .word   .Lwork_return_neg, REG_SP | INDIRECT, .+4    /* [SP] = .Lwork_returned */
         .word   INT_Z, INT_Z, subleq_do_work
 
 .Lwork_returned:
@@ -1025,9 +1014,13 @@ subleq_irq_entry:
 
 .Lirq_return_addr:
         .word   .Lirq_returned
+.Lirq_return_neg:
+        .word   -.Lirq_returned
 
 .Lwork_return_addr:
         .word   .Lwork_returned
+.Lwork_return_neg:
+        .word   -.Lwork_returned
 
 .Lconst_char_W:
         .word   87              /* 'W' for Work loop debug */
@@ -1622,12 +1615,7 @@ ret_from_fork:
 
 .Lrff_kpush2:
         /* Store loop address to [SP] (kernel threads should never return) */
-        .word   SW_Z, SW_Z, .Lrff_kpush3
-.Lrff_kpush3:
-        .word   .Lrff_loop_addr, SW_Z, .Lrff_kpush4  /* SW_Z = -loop_addr */
-.Lrff_kpush4:
-        /* [SP] -= SW_Z => [SP] = loop_addr */
-        .word   SW_Z, REG_SP | INDIRECT, .Lrff_kjump
+        .word   .Lrff_loop_neg, REG_SP | INDIRECT, .Lrff_kjump  /* [SP] = .Lrff_loop */
 
 .Lrff_kjump:
         /* Jump to kernel_thread_helper */
@@ -1657,12 +1645,7 @@ ret_from_fork:
 
 .Lrff_upush2:
         /* Store .Lrff_user_return to [SP] */
-        .word   SW_Z, SW_Z, .Lrff_upush3
-.Lrff_upush3:
-        .word   .Lrff_user_ret_addr, SW_Z, .Lrff_upush4  /* SW_Z = -return_addr */
-.Lrff_upush4:
-        /* [SP] -= SW_Z => [SP] = return_addr */
-        .word   SW_Z, REG_SP | INDIRECT, .Lrff_ujump
+        .word   .Lrff_user_ret_neg, REG_SP | INDIRECT, .Lrff_ujump  /* [SP] = .Lrff_user_return */
 
 .Lrff_ujump:
         /* Jump to ret_to_user_prep */
@@ -1972,8 +1955,12 @@ ret_from_fork:
 
 .Lrff_loop_addr:
         .word   .Lrff_loop
+.Lrff_loop_neg:
+        .word   -.Lrff_loop
 .Lrff_user_ret_addr:
         .word   .Lrff_user_return
+.Lrff_user_ret_neg:
+        .word   -.Lrff_user_return
 
 .size ret_from_fork, .-ret_from_fork
 
@@ -2010,11 +1997,7 @@ jump_to_userspace:
 .Ljtu_set_ra:
         .word   REG_RA, REG_RA, .Ljtu_set_ra1
 .Ljtu_set_ra1:
-        .word   SW_Z, SW_Z, .Ljtu_set_ra2
-.Ljtu_set_ra2:
-        .word   .Ljtu_halt_addr, SW_Z, .Ljtu_set_ra3  /* SW_Z = -halt_loop_addr */
-.Ljtu_set_ra3:
-        .word   SW_Z, REG_RA, .Ljtu_set_sp  /* RA = halt_loop_addr */
+        .word   .Ljtu_halt_neg, REG_RA, .Ljtu_set_sp   /* RA = 0 - (-.Ljtu_halt_loop) = halt_loop */
 
         /*
          * Set SP = R22 (the user stack pointer)
@@ -2051,6 +2034,8 @@ jump_to_userspace:
 
 .Ljtu_halt_addr:
         .word   .Ljtu_halt_loop
+.Ljtu_halt_neg:
+        .word   -.Ljtu_halt_loop
 
 .size jump_to_userspace, .-jump_to_userspace
 
@@ -2484,13 +2469,8 @@ __subleq_syscall:
         /* subleq(SP|I, SP|I, next) does: m[m[SP]] -= m[m[SP]] => m[SP] = 0 */
         .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .+4
         
-        /* Step 3: Get -return_addr into REG_T0 */
-        .word   REG_T0, REG_T0, .+4
-        .word   .Lsyscall_c_ret_addr, REG_T0, .+4  /* ZZ = -return_point */
-        
-        /* Step 4: Store return_addr to [SP] using indirect addressing */
-        /* subleq(REG_T0, SP|I, next) does: m[m[SP]] -= REG_T0 => m[SP] = 0 - (-addr) = addr */
-        .word   REG_T0, REG_SP | INDIRECT, .+4
+        /* Steps 3+4: Store return_addr directly using negative constant */
+        .word   .Lsyscall_c_ret_neg, REG_SP | INDIRECT, .+4  /* [SP] = .Lsyscall_c_return */
 
         /* Step 5: Jump to C handler */
         .word   REG_T0, REG_T0, __subleq_syscall_c
@@ -2886,6 +2866,8 @@ __subleq_syscall:
 /* Local data for __subleq_syscall */
 .Lsyscall_c_ret_addr:
         .word   .Lsyscall_c_return
+.Lsyscall_c_ret_neg:
+        .word   -.Lsyscall_c_return
 
 .Lsyscall_tmp_addr:
         .word   0

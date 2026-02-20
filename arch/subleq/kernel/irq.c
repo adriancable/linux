@@ -70,38 +70,63 @@ void subleq_do_IRQ(struct pt_regs *regs)
 	/* Enter IRQ context - increments preempt_count hardirq bits */
 	irq_enter();
 
-	/* Handle the timer interrupt (the only interrupt we have) */
 	/*
 	 * Advance jiffies based on real wall-clock time.
 	 *
 	 * Timer interrupts fire by instruction count, not real time.
-	 * Read the VM's nanosecond-resolution clock and compute how
-	 * many ticks (at HZ rate) should have elapsed since the last
-	 * update, then advance jiffies by that amount.
-	 *
-	 * If less than one tick has elapsed, skip — do not force a
-	 * minimum, as that would cause last_ns to drift ahead of
-	 * now_ns and eventually wrap the unsigned subtraction.
+	 * We must calculate elapsed ticks since the last interrupt.
+	 * 
+	 * PERFORMANCE: On Subleq, 64-bit multiplication and division are
+	 * astronomically expensive. We avoid converting to total nanoseconds
+	 * and instead use a fast 32-bit incremental tracking loop.
 	 */
 	{
-		unsigned int ticks;
-		u64 now_ns = subleq_get_time_ns();
-		/*
-		 * last_ns is safe without locking: subleq_do_IRQ runs in
-		 * hardirq context with interrupts disabled (per
-		 * __ARCH_IRQ_EXIT_IRQS_DISABLED), so no concurrent access.
-		 */
-		static u64 last_ns;
+		unsigned int ticks = 0;
+		u32 lo = readl((void __iomem *)SUBLEQ_CLOCK_S_LO);
+		u32 ns = readl((void __iomem *)SUBLEQ_CLOCK_NS);
+		static u32 last_s;
+		static u32 last_ns;
+		const u32 tick_ns = NSEC_PER_SEC / HZ;
 
-		if (last_ns == 0)
-			last_ns = now_ns;
-
-		ticks = (unsigned int)((now_ns - last_ns) /
-				       (NSEC_PER_SEC / HZ));
-		if (ticks > 0) {
-			last_ns += (u64)ticks * (NSEC_PER_SEC / HZ);
-			legacy_timer_tick(ticks);
+		if (last_s == 0 && last_ns == 0) {
+			last_s = lo;
+			last_ns = ns;
 		}
+
+		/*
+		 * Advance last_s:last_ns by tick_ns for each full tick elapsed.
+		 *
+		 * For each candidate tick, compute the normalized target time
+		 * (next_s, next_ns) BEFORE comparing, to correctly handle the
+		 * case where last_ns + tick_ns crosses a second boundary.
+		 *
+		 * Example: last=5.995s, now=6.001s, tick=0.010s
+		 *   target = 5.995+0.010 = 6.005s → now(6.001) < target → 0 ticks ✓
+		 *
+		 * Typically iterates 0 or 1 times (at most ~2-3 if an IRQ was
+		 * delayed), so the loop is much cheaper than 64-bit division.
+		 */
+		for (;;) {
+			u32 next_ns = last_ns + tick_ns;
+			u32 next_s = last_s;
+
+			if (next_ns >= NSEC_PER_SEC) {
+				next_ns -= NSEC_PER_SEC;
+				next_s++;
+			}
+			/* Proper tuple comparison: (lo,ns) >= (next_s,next_ns) */
+			if (lo > next_s ||
+			    (lo == next_s && ns >= next_ns)) {
+				ticks++;
+				last_s = next_s;
+				last_ns = next_ns;
+			} else {
+				break;
+			}
+		}
+
+		if (ticks > 0)
+			legacy_timer_tick(ticks);
 	}
 
 	/* Exit IRQ context - may trigger softirqs */

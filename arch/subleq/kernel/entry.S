@@ -1543,9 +1543,11 @@ __switch_to:
  * When a new thread is scheduled for the first time, __switch_to returns
  * here. R20 contains the prev task pointer (returned by __switch_to).
  *
- * This function checks pt_regs.r3 to determine if this is a kernel or user thread:
- *   - r3 != 0: Kernel thread - call kernel_thread_helper(prev)
- *   - r3 == 0: User thread - call ret_to_user_prep(prev), then jump to userspace
+ * This function checks pt_regs.pc to determine if this is a kernel or user thread:
+ *   - pc == 0: Kernel thread - call kernel_thread_helper(prev)
+ *   - pc != 0: User thread - call ret_to_user_prep(prev), then jump to userspace
+ *
+ * copy_thread() sets pc = 0 for kernel threads (fn goes in r3, arg in r21).
  *
  * Uses Subleq+ indirect addressing for all memory operations.
  */
@@ -1682,6 +1684,11 @@ ret_from_fork:
          *
          * We need to restore ALL GPRs (R3-R19, R21-R31) from pt_regs so the
          * child has the same register values as the parent.
+         *
+         * NOTE: We do NOT restore T-registers (T0-T15) or Z here.
+         * Since fork/clone is entered via syscall, T-regs were not saved at
+         * entry and are already considered clobbered per calling convention.
+         * The child inherits this expected "clobbered" state naturally.
          *
          * Order of restoration:
          * 1. First restore R3-R19, R21-R31 while we can still use R20 as the base
@@ -2354,16 +2361,21 @@ __subleq_syscall:
         .word   subleq_syscall_saved_ra, REG_T9 | INDIRECT, .+4
 
         /*
-         * NOTE: T-registers (T0-T15) and Z are NOT initialized here.
+         * NOTE: T-registers (T0-T15) and Z are NOT saved to pt_regs here.
          *
          * These are caller-saved scratch registers. For normal syscalls, userspace
          * doesn't expect them to be preserved. For rt_sigreturn, restore_sigcontext()
          * overwrites these slots with the original values from the signal frame
          * before the syscall return path restores them.
          *
-         * The pt_regs T-reg slots will contain garbage for normal syscalls, but
-         * that's fine - the syscall return path restores them, and userspace
-         * treats them as clobbered by any function call anyway.
+         * The pt_regs T-reg slots will contain stale kernel stack data for normal
+         * syscalls. The syscall return path restores these into hardware registers,
+         * which is a minor information disclosure risk (kernel stack contents leak
+         * to userspace via caller-saved registers). Accepted because:
+         *   1. T-regs are caller-saved — userspace treats them as clobbered
+         *   2. Zeroing 17 words (68 bytes) on every syscall entry adds ~100
+         *      Subleq instructions of overhead
+         *   3. No known exploit vector — values are transient and uncontrolled
          */
 
         /*

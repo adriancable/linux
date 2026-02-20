@@ -555,8 +555,13 @@ asmlinkage long sys_rt_sigreturn(void)
 	 * and saves the original syscall number/args. After the signal handler
 	 * returns and we restore that context, we must actually restart the
 	 * syscall instead of returning the internal error code to userspace.
+	 * 
+	 * We must check that the interrupted context was actually in a syscall
+	 * (syscall_nr >= 0) before attempting to restart, otherwise a user program
+	 * that happens to have R20 = -ERESTARTNOINTR will accidentally trigger
+	 * a spurious syscall restart using garbage registers.
 	 */
-	{
+	if (PT_REG_GET_SIGNED(regs, syscall_nr) >= 0) {
 		long ret = PT_REG_GET_SIGNED(regs, r20);
 
 		switch (ret) {

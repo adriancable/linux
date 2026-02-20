@@ -138,7 +138,7 @@ static void subleqfb_fillrect(struct fb_info *info, const struct fb_fillrect *re
 		u32 h;
 		for (h = 0; h < height; h++) {
 			__subleq_memset32(dst, color, width);
-			dst = (u32 *)((u8 *)dst + line_bytes);
+			dst += SUBLEQFB_WIDTH;
 		}
 	}
 }
@@ -165,7 +165,7 @@ static void subleqfb_copyarea(struct fb_info *info, const struct fb_copyarea *ar
 	 * contiguous — collapse into a single memmove instead of
 	 * per-scanline loop (~496 calls → 1 call during scroll).
 	 */
-	if (sx == dx && row_bytes == line_bytes) {
+	if (sx == dx && width == SUBLEQFB_WIDTH) {
 		u8 *src = base + sy * line_bytes;
 		u8 *dst = base + dy * line_bytes;
 		__subleq_memmove_aligned(dst, src, (u32)height * line_bytes);

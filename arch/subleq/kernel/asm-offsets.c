@@ -86,6 +86,7 @@ int main(void)
 	BUILD_BUG_ON(SUBLEQ_TASK_STACK_OFFSET != offsetof(struct task_struct, stack));
 	BUILD_BUG_ON(SUBLEQ_TI_PREEMPT_OFFSET != offsetof(struct thread_info, preempt_count));
 	BUILD_BUG_ON(SUBLEQ_THREAD_SIZE != THREAD_SIZE);
+	BUILD_BUG_ON(sizeof(struct pt_regs) != 236);
 
 	return 0;
 }

@@ -40,12 +40,36 @@
 #define SUBLEQ_CLOCK_NS		264
 
 /*
+ * Cached seconds-to-nanoseconds conversion.
+ *
+ * PERFORMANCE: On Subleq, 64-bit multiplication is extremely expensive
+ * (~16K+ instructions for a 32x32->64 Karatsuba decomposition, more for
+ * full 64x32). The seconds value changes at most once per second, but
+ * the clocksource and sched_clock are called many times per second
+ * (every ktime_get(), printk timestamp, scheduler decision, etc.).
+ *
+ * By caching the product (seconds * NSEC_PER_SEC), we skip the multiply
+ * entirely when seconds hasn't changed. Within a given second, every
+ * read reduces to a 64-bit comparison + 64-bit addition — both trivially
+ * cheap compared to the multiply.
+ */
+static u64 cached_seconds_val;  /* Last seen seconds value */
+static u64 cached_seconds_ns;   /* cached_seconds_val * NSEC_PER_SEC */
+
+static inline u64 subleq_seconds_to_ns(u64 seconds)
+{
+	if (likely(seconds == cached_seconds_val))
+		return cached_seconds_ns;
+	cached_seconds_val = seconds;
+	cached_seconds_ns = seconds * NSEC_PER_SEC;
+	return cached_seconds_ns;
+}
+
+/*
  * Read current time as nanoseconds since boot.
  *
  * The clocksource returns a monotonic nanosecond counter. We compute this
  * from the VM's clock registers which provide wall-clock time.
- *
- * For simplicity, we use the seconds * 1e9 + nanoseconds directly.
  * This gives us a 64-bit nanosecond counter that won't wrap for ~584 years.
  */
 static u64 subleq_read_clock(struct clocksource *cs)
@@ -58,7 +82,7 @@ static u64 subleq_read_clock(struct clocksource *cs)
 	ns = readl((void __iomem *)SUBLEQ_CLOCK_NS);
 
 	seconds = ((u64)hi << 32) | lo;
-	return seconds * NSEC_PER_SEC + ns;
+	return subleq_seconds_to_ns(seconds) + ns;
 }
 
 static struct clocksource subleq_clocksource = {
@@ -83,13 +107,14 @@ static u64 boot_ns;
 unsigned long long notrace sched_clock(void)
 {
 	u32 lo, hi, ns;
-	u64 now_ns;
+	u64 seconds, now_ns;
 
 	lo = readl((void __iomem *)SUBLEQ_CLOCK_S_LO);
 	hi = readl((void __iomem *)SUBLEQ_CLOCK_S_HI);
 	ns = readl((void __iomem *)SUBLEQ_CLOCK_NS);
 
-	now_ns = ((u64)hi << 32 | lo) * NSEC_PER_SEC + ns;
+	seconds = ((u64)hi << 32) | lo;
+	now_ns = subleq_seconds_to_ns(seconds) + ns;
 
 	/* Return monotonic nanoseconds since boot */
 	if (boot_ns == 0)

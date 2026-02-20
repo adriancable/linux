@@ -583,14 +583,12 @@ subleq_irq_entry:
         .word   REG_R21, REG_R21, .+4
         .word   INT_Z, INT_Z, .+4
         .word   REG_SP, INT_Z, .+4
-        .word   INT_Z, REG_R21, .Lirq_call
+        .word   INT_Z, REG_R21, .+4
 
 
-.Lirq_call:
         /* STACK-BASED CALL to subleq_do_IRQ */
-        .word   .Lconst_4, REG_SP, .Lcall_push1
+        .word   .Lconst_4, REG_SP, .+4
 
-.Lcall_push1:
         .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .+4  /* [SP] = 0 */
         .word   .Lirq_return_neg, REG_SP | INDIRECT, .+4    /* [SP] = .Lirq_returned */
         .word   INT_Z, INT_Z, subleq_do_IRQ
@@ -990,19 +988,14 @@ subleq_irq_entry:
         /* SAVE_JMPTGT now contains the (potentially modified) return PC */
 .Ldo_jump:
 .Lenable_irq:
-        .word   INT_Z, INT_Z, .Lenable1
-.Lenable1:
-        .word   INT_SAVED_HANDLER, INT_Z, .Lenable2
-.Lenable2:
-        .word   INT_HANDLER, INT_HANDLER, .Lenable3
-.Lenable3:
-        .word   INT_Z, INT_HANDLER, .Ldo_return
+        .word   INT_Z, INT_Z, .+4
+        .word   INT_SAVED_HANDLER, INT_Z, .+4
+        .word   INT_HANDLER, INT_HANDLER, .+4
+        .word   INT_Z, INT_HANDLER, .+4
 
 
 
-.Ldo_return:
-        .word   INT_Z, INT_Z, .Ldo_return2
-.Ldo_return2:
+        .word   INT_Z, INT_Z, .+4
         .word   INT_Z
         .word   INT_Z
         .word   SAVE_JMPTGT | INDIRECT
@@ -1481,9 +1474,8 @@ __switch_to:
         /* Restore R31 from [SP + 96] */
         .word   .Lconst_neg4, SW_Z2, .+4
         .word   REG_R31, REG_R31, .+4
-        .word   SW_Z2 | INDIRECT, REG_R31, .Lsw_restore_done
+        .word   SW_Z2 | INDIRECT, REG_R31, .+4
 
-.Lsw_restore_done:
 
         /*
          * STEP 7: Deallocate switch_stack: SP += 100
@@ -1561,12 +1553,9 @@ ret_from_fork:
          */
 
         /* Copy R20 to R21: R21 = R20 (will be used as argument to either function) */
-        .word   REG_R21, REG_R21, .Lrff_copy1   /* R21 = 0 */
-.Lrff_copy1:
-        .word   SW_Z, SW_Z, .Lrff_copy2
-.Lrff_copy2:
-        .word   REG_R20, SW_Z, .Lrff_copy3     /* SW_Z = -R20 */
-.Lrff_copy3:
+        .word   REG_R21, REG_R21, .+4   /* R21 = 0 */
+        .word   SW_Z, SW_Z, .+4
+        .word   REG_R20, SW_Z, .+4     /* SW_Z = -R20 */
         .word   SW_Z, REG_R21, .Lrff_check_pc  /* R21 = R20 = prev */
 
         /*
@@ -1607,17 +1596,14 @@ ret_from_fork:
          * Call kernel_thread_helper(prev) - R21 already contains prev
          */
         /* Push return address onto stack using indirect addressing */
-        .word   .Lconst_4, REG_SP, .Lrff_kpush1  /* SP -= 4 */
+        .word   .Lconst_4, REG_SP, .+4  /* SP -= 4 */
 
-.Lrff_kpush1:
         /* Clear [SP] using indirect addressing */
-        .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .Lrff_kpush2
+        .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .+4
 
-.Lrff_kpush2:
         /* Store loop address to [SP] (kernel threads should never return) */
-        .word   .Lrff_loop_neg, REG_SP | INDIRECT, .Lrff_kjump  /* [SP] = .Lrff_loop */
+        .word   .Lrff_loop_neg, REG_SP | INDIRECT, .+4  /* [SP] = .Lrff_loop */
 
-.Lrff_kjump:
         /* Jump to kernel_thread_helper */
         .word   SW_Z, SW_Z, kernel_thread_helper
 
@@ -1637,17 +1623,14 @@ ret_from_fork:
          * This ensures no C code can clobber these critical values.
          */
         /* Push return address for ret_to_user_prep */
-        .word   .Lconst_4, REG_SP, .Lrff_upush1  /* SP -= 4 */
+        .word   .Lconst_4, REG_SP, .+4  /* SP -= 4 */
 
-.Lrff_upush1:
         /* Clear [SP] using indirect addressing */
-        .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .Lrff_upush2
+        .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .+4
 
-.Lrff_upush2:
         /* Store .Lrff_user_return to [SP] */
-        .word   .Lrff_user_ret_neg, REG_SP | INDIRECT, .Lrff_ujump  /* [SP] = .Lrff_user_return */
+        .word   .Lrff_user_ret_neg, REG_SP | INDIRECT, .+4  /* [SP] = .Lrff_user_return */
 
-.Lrff_ujump:
         /* Jump to ret_to_user_prep */
         .word   SW_Z, SW_Z, ret_to_user_prep
 
@@ -1861,39 +1844,27 @@ ret_from_fork:
          * NEGATED STORAGE: pt_regs stores -value.
          * Use RA as address holder, then: T15 = 0; T15 -= [RA] = -(-pc) = pc
          */
-        .word   SW_Z, SW_Z, .Lrff_load_pc1
-.Lrff_load_pc1:
-        .word   REG_R20, SW_Z, .Lrff_load_pc2        /* SW_Z = -R20 */
-.Lrff_load_pc2:
-        .word   REG_RA, REG_RA, .Lrff_load_pc3       /* RA = 0 */
-.Lrff_load_pc3:
-        .word   SW_Z, REG_RA, .Lrff_load_pc4         /* RA = R20 (pt_regs base) */
-.Lrff_load_pc4:
-        .word   .Lconst_neg128, REG_RA, .Lrff_load_pc5  /* RA = R20 + 128 = &pt_regs->pc */
-.Lrff_load_pc5:
+        .word   SW_Z, SW_Z, .+4
+        .word   REG_R20, SW_Z, .+4        /* SW_Z = -R20 */
+        .word   REG_RA, REG_RA, .+4       /* RA = 0 */
+        .word   SW_Z, REG_RA, .+4         /* RA = R20 (pt_regs base) */
+        .word   .Lconst_neg128, REG_RA, .+4  /* RA = R20 + 128 = &pt_regs->pc */
         /* Load PC - simplified for negated storage */
-        .word   REG_T15, REG_T15, .Lrff_load_pc6     /* T15 = 0 */
-.Lrff_load_pc6:
+        .word   REG_T15, REG_T15, .+4     /* T15 = 0 */
         .word   REG_RA | INDIRECT, REG_T15, .Lrff_load_sp  /* T15 = -(-pc) = pc */
 
         /*
          * Step 2: Load pt_regs->sp (R20 + 120) into hardware SP - from NEGATED storage
          */
 .Lrff_load_sp:
-        .word   SW_Z, SW_Z, .Lrff_load_sp1
-.Lrff_load_sp1:
-        .word   REG_R20, SW_Z, .Lrff_load_sp2        /* SW_Z = -R20 */
-.Lrff_load_sp2:
+        .word   SW_Z, SW_Z, .+4
+        .word   REG_R20, SW_Z, .+4        /* SW_Z = -R20 */
         /* Calculate R20 + 120 into RA */
-        .word   REG_RA, REG_RA, .Lrff_load_sp3
-.Lrff_load_sp3:
-        .word   SW_Z, REG_RA, .Lrff_load_sp4         /* RA = R20 */
-.Lrff_load_sp4:
-        .word   .Lconst_neg120, REG_RA, .Lrff_load_sp5   /* RA = R20 + 120 = &pt_regs->sp */
-.Lrff_load_sp5:
+        .word   REG_RA, REG_RA, .+4
+        .word   SW_Z, REG_RA, .+4         /* RA = R20 */
+        .word   .Lconst_neg120, REG_RA, .+4   /* RA = R20 + 120 = &pt_regs->sp */
         /* Load SP - simplified for negated storage */
-        .word   REG_SP, REG_SP, .Lrff_load_sp6       /* SP = 0 */
-.Lrff_load_sp6:
+        .word   REG_SP, REG_SP, .+4       /* SP = 0 */
         .word   REG_RA | INDIRECT, REG_SP, .Lrff_load_fp  /* SP = -(-sp) = sp */
 
         /*
@@ -1901,19 +1872,13 @@ ret_from_fork:
          * This is CRITICAL - the child needs the parent's frame pointer!
          */
 .Lrff_load_fp:
-        .word   SW_Z, SW_Z, .Lrff_load_fp1
-.Lrff_load_fp1:
-        .word   REG_R20, SW_Z, .Lrff_load_fp2        /* SW_Z = -R20 */
-.Lrff_load_fp2:
-        .word   REG_RA, REG_RA, .Lrff_load_fp3
-.Lrff_load_fp3:
-        .word   SW_Z, REG_RA, .Lrff_load_fp4         /* RA = R20 */
-.Lrff_load_fp4:
-        .word   .Lconst_neg116, REG_RA, .Lrff_load_fp5   /* RA = R20 + 116 = &pt_regs->fp */
-.Lrff_load_fp5:
+        .word   SW_Z, SW_Z, .+4
+        .word   REG_R20, SW_Z, .+4        /* SW_Z = -R20 */
+        .word   REG_RA, REG_RA, .+4
+        .word   SW_Z, REG_RA, .+4         /* RA = R20 */
+        .word   .Lconst_neg116, REG_RA, .+4   /* RA = R20 + 116 = &pt_regs->fp */
         /* Load FP - simplified for negated storage */
-        .word   REG_FP, REG_FP, .Lrff_load_fp6       /* FP = 0 */
-.Lrff_load_fp6:
+        .word   REG_FP, REG_FP, .+4       /* FP = 0 */
         .word   REG_RA | INDIRECT, REG_FP, .Lrff_load_r20  /* FP = -(-fp) = fp */
 
         /*
@@ -1922,20 +1887,14 @@ ret_from_fork:
          */
 .Lrff_load_r20:
         /* First save the current R20 (pt_regs pointer) to SW_Z temporarily */
-        .word   SW_Z, SW_Z, .Lrff_load_r20_1
-.Lrff_load_r20_1:
-        .word   REG_R20, SW_Z, .Lrff_load_r20_2      /* SW_Z = -R20 (save pt_regs ptr) */
-.Lrff_load_r20_2:
+        .word   SW_Z, SW_Z, .+4
+        .word   REG_R20, SW_Z, .+4      /* SW_Z = -R20 (save pt_regs ptr) */
         /* Calculate &pt_regs->r20 using RA as scratch */
-        .word   REG_RA, REG_RA, .Lrff_load_r20_3
-.Lrff_load_r20_3:
-        .word   SW_Z, REG_RA, .Lrff_load_r20_4       /* RA = R20 (pt_regs base) */
-.Lrff_load_r20_4:
-        .word   .Lconst_neg68, REG_RA, .Lrff_load_r20_5 /* RA = R20 + 68 = &pt_regs->r20 */
-.Lrff_load_r20_5:
+        .word   REG_RA, REG_RA, .+4
+        .word   SW_Z, REG_RA, .+4       /* RA = R20 (pt_regs base) */
+        .word   .Lconst_neg68, REG_RA, .+4 /* RA = R20 + 68 = &pt_regs->r20 */
         /* Load R20 - simplified for negated storage */
-        .word   REG_R20, REG_R20, .Lrff_load_r20_6   /* R20 = 0 */
-.Lrff_load_r20_6:
+        .word   REG_R20, REG_R20, .+4   /* R20 = 0 */
         .word   REG_RA | INDIRECT, REG_R20, .Lrff_jump_user  /* R20 = -(-r20) = r20 (0 for child) */
 
         /*
@@ -1995,8 +1954,7 @@ jump_to_userspace:
          * jump to this loop instead of crashing on RA=0.
          */
 .Ljtu_set_ra:
-        .word   REG_RA, REG_RA, .Ljtu_set_ra1
-.Ljtu_set_ra1:
+        .word   REG_RA, REG_RA, .+4
         .word   .Ljtu_halt_neg, REG_RA, .Ljtu_set_sp   /* RA = 0 - (-.Ljtu_halt_loop) = halt_loop */
 
         /*
@@ -2004,13 +1962,10 @@ jump_to_userspace:
          */
 .Ljtu_set_sp:
         /* Clear SP */
-        .word   REG_SP, REG_SP, .Ljtu_set_sp1
-.Ljtu_set_sp1:
+        .word   REG_SP, REG_SP, .+4
         /* Get -R22 into SW_Z */
-        .word   SW_Z, SW_Z, .Ljtu_set_sp2
-.Ljtu_set_sp2:
-        .word   REG_R22, SW_Z, .Ljtu_set_sp3  /* SW_Z = -R22 */
-.Ljtu_set_sp3:
+        .word   SW_Z, SW_Z, .+4
+        .word   REG_R22, SW_Z, .+4  /* SW_Z = -R22 */
         /* SP -= SW_Z => SP = R22 */
         .word   SW_Z, REG_SP, .Ljtu_jump
 
@@ -2019,8 +1974,7 @@ jump_to_userspace:
          * This is a RAW JUMP - no return address is pushed!
          */
 .Ljtu_jump:
-        .word   SW_Z, SW_Z, .Ljtu_jump2
-.Ljtu_jump2:
+        .word   SW_Z, SW_Z, .+4
         /* Indirect jump: subleq(Z, Z, R21|I) jumps to m[R21] */
         .word   SW_Z
         .word   SW_Z

@@ -43,12 +43,9 @@ _start:
 	 *   SP = 0
 	 *   SP = SP - Z = init_stack_top
 	 */
-	.word   REG_Z, REG_Z, .Lsetup_sp1	/* Z = 0 */
-.Lsetup_sp1:
-	.word   .Linit_stack_top, REG_Z, .Lsetup_sp2	/* Z = -(init_stack_top) */
-.Lsetup_sp2:
-	.word   REG_SP, REG_SP, .Lsetup_sp3	/* SP = 0 */
-.Lsetup_sp3:
+	.word   REG_Z, REG_Z, .+4	/* Z = 0 */
+	.word   .Linit_stack_top, REG_Z, .+4	/* Z = -(init_stack_top) */
+	.word   REG_SP, REG_SP, .+4	/* SP = 0 */
 	.word   REG_Z, REG_SP, .Ljump_start	/* SP = 0 - (-init_stack_top) = init_stack_top */
 
 	/*

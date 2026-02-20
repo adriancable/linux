@@ -130,6 +130,17 @@ struct pt_regs {
  * - If interrupted SP is NOT on kernel stack, we were in user mode
  */
 
+/*
+ * Hardcoded offset of task_struct::stack, for use by user_mode().
+ * We can't #include <linux/sched.h> here due to circular dependencies.
+ * With CONFIG_THREAD_INFO_IN_TASK:
+ *   thread_info (8 bytes) + __state (4) + saved_state (4) = 16
+ *
+ * NOTE: 'stack' is within randomized_struct_fields. If CONFIG_RANDSTRUCT
+ * were enabled, this offset could change. The BUILD_BUG_ON in asm-offsets.c
+ * will catch any mismatch at build time.
+ */
+#define SUBLEQ_TASK_STACK_OFFSET 16
 
 /* Symbols for syscall handler range check */
 extern char __subleq_syscall[];
@@ -174,16 +185,30 @@ static inline int __subleq_user_mode(struct pt_regs *regs)
 	    pc < (unsigned long)__subleq_syscall)
 		return 0;  /* kernel mode - new thread setup */
 
-	/* 
-	 * Get kernel stack base from the SP itself.
-	 * In Subleq, kernel stacks are THREAD_SIZE (16KB) aligned and sized.
-	 * The base of the stack is just SP masked with ~(THREAD_SIZE - 1).
+	/*
+	 * Get kernel stack base from current task's stack pointer.
+	 *
+	 * With CONFIG_THREAD_INFO_IN_TASK and __current_task available,
+	 * we can directly read current->stack to find the kernel stack.
+	 *
+	 * NOTE: We cannot #include <linux/sched.h> from ptrace.h due to
+	 * circular header dependencies, so we access the stack field
+	 * via a hardcoded offset. The offset is verified by a static_assert
+	 * in asm-offsets.c.
+	 *
+	 * CRITICAL: The old SP-masking approach (sp & ~(THREAD_SIZE-1)) was
+	 * tautologically broken: it always found SP within its own aligned
+	 * range, so user_mode() always returned 0 (kernel mode), breaking
+	 * signal delivery entirely.
 	 */
-	unsigned long kstack_base = sp & ~(16384 - 1);
-	unsigned long kstack_top = kstack_base + 16384; 
-	
-	/* If SP is outside kernel stack range, we were in user mode */
-	return (sp < kstack_base || sp >= kstack_top);
+	{
+		extern struct task_struct *volatile __current_task;
+		unsigned long kstack_base = *(unsigned long *)((char *)__current_task + SUBLEQ_TASK_STACK_OFFSET);
+		unsigned long kstack_top = kstack_base + 16384; /* THREAD_SIZE */
+
+		/* If SP is outside kernel stack range, we were in user mode */
+		return (sp < kstack_base || sp >= kstack_top);
+	}
 }
 
 #define user_mode(regs) __subleq_user_mode(regs)

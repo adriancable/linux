@@ -1,23 +1,29 @@
 /* SPDX-License-Identifier: GPL-2.0 */
 /*
  * Current task pointer for Subleq
+ *
+ * With CONFIG_THREAD_INFO_IN_TASK, we use a simple global volatile
+ * variable to track the current task. This is updated by __switch_to
+ * in entry.S on every context switch.
+ *
+ * This replaces the old SP-masking approach (current_thread_info()->task)
+ * which required an expensive __subleq_and (~200 instructions) on every
+ * access. A direct memory load is ~3 instructions.
  */
 
 #ifndef _ASM_SUBLEQ_CURRENT_H
 #define _ASM_SUBLEQ_CURRENT_H
 
-#include <linux/thread_info.h>
+#ifndef __ASSEMBLY__
 
-/*
- * Get current task
- *
- * We derive the current task from the stack pointer instead of using a
- * global variable. This is immune to compiler caching across context
- * switches, fixing elusive Heisenbugs where 'current' points to the wrong
- * task.
- */
-#define get_current() (current_thread_info()->task)
+#include <linux/compiler.h>
 
-#define current get_current()
+struct task_struct;
+
+extern struct task_struct *volatile __current_task;
+
+#define current __current_task
+
+#endif /* !__ASSEMBLY__ */
 
 #endif /* _ASM_SUBLEQ_CURRENT_H */

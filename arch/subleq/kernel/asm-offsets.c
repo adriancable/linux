@@ -8,6 +8,7 @@
 #include <asm/ptrace.h>
 #include <asm/processor.h>
 #include <asm/thread_info.h>
+#include <asm/irqflags.h>
 
 int main(void)
 {
@@ -77,6 +78,13 @@ int main(void)
 	 */
 	DEFINE(KERNEL_SP_OFFSET, THREAD_SIZE - sizeof(struct pt_regs) - 1024);
 	BLANK();
+
+	/*
+	 * Verify that SUBLEQ_TASK_STACK_OFFSET in ptrace.h matches reality.
+	 * ptrace.h can't include sched.h, so it hardcodes this offset.
+	 */
+	BUILD_BUG_ON(SUBLEQ_TASK_STACK_OFFSET != offsetof(struct task_struct, stack));
+	BUILD_BUG_ON(SUBLEQ_TI_PREEMPT_OFFSET != offsetof(struct thread_info, preempt_count));
 
 	return 0;
 }

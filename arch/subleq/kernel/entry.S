@@ -1279,13 +1279,19 @@ __switch_to:
         .word   SW_Z, SW_Z2 | INDIRECT, .Lsw_update_current  /* [dest] = FP */
 
         /*
-         * STEP 4: (Removed) subleq_current_task is no longer used.
-         * We derive current from SP instead.
-         * However, step 4b below relies on SW_Z = -R22 = -next.
+         * STEP 4: Update __current_task = next
+         *
+         * With CONFIG_THREAD_INFO_IN_TASK, 'current' is a global volatile
+         * pointer (__current_task) rather than being derived from SP.
+         * We must update it here before loading next's stack.
+         *
+         * SW_Z = -R22 = -next is also reused by STEP 4b below.
          */
 .Lsw_update_current:
         .word   SW_Z, SW_Z, .+4
-        .word   REG_R22, SW_Z, .Lsw_update_kernel_sp
+        .word   REG_R22, SW_Z, .+4                            /* SW_Z = -next */
+        .word   __current_task, __current_task, .+4            /* __current_task = 0 */
+        .word   SW_Z, __current_task, .Lsw_update_kernel_sp   /* __current_task = next */
 
         /*
          * STEP 4b: Update subleq_kernel_sp for next task
@@ -1296,8 +1302,7 @@ __switch_to:
          * Formula: subleq_kernel_sp = next->stack + KERNEL_SP_OFFSET
          * where KERNEL_SP_OFFSET = THREAD_SIZE - sizeof(pt_regs) - 1024
          *
-         * SW-3: SW_Z still = -R22 = -next from Step 4 (subleq_current_task
-         * store only reads SW_Z, doesn't modify it). Reuse directly.
+         * SW_Z still = -R22 = -next from Step 4. Reuse directly.
          */
 .Lsw_update_kernel_sp:
         /* Load next->stack into SW_Z2. SW_Z = -next (cached from Step 4) */

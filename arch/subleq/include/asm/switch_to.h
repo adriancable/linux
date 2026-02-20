@@ -13,14 +13,13 @@ extern struct task_struct *__switch_to(struct task_struct *prev,
 				       struct task_struct *next);
 
 /*
- * Initialize the kernel stack pointer for syscall entry.
- * Called before switching to set up subleq_kernel_sp for the new task.
+ * switch_to - context switch macro
+ *
+ * Note: subleq_kernel_sp is updated by __switch_to in entry.S (STEP 4b),
+ * so we don't need to call subleq_init_kernel_sp() here.
  */
-extern void subleq_init_kernel_sp(struct task_struct *tsk);
-
 #define switch_to(prev, next, last)                   \
 	do {                                          \
-		subleq_init_kernel_sp(next);          \
 		(last) = __switch_to((prev), (next)); \
 	} while (0)
 

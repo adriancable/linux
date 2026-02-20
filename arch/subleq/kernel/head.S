@@ -89,6 +89,10 @@ _start:
  *
  * By defining strong symbols in the .data..init_thread_info section,
  * we ensure they get the correct address in the .data section.
+ *
+ * With CONFIG_THREAD_INFO_IN_TASK, thread_info is embedded in init_task
+ * (not at the stack base). This section is purely the init task's
+ * kernel stack.
  */
 	.section ".data..init_thread_info", "aw"
 	.align 4
@@ -103,7 +107,6 @@ __start_init_stack:
 init_stack:
 init_thread_union:
 	/* 
-	 * The init_thread_info structure (16 bytes) from init_task.c 
-	 * follows here - it's also placed in .data..init_thread_info.
-	 * The linker will concatenate our empty definition with init_task.c's data.
+	 * This is the init task's kernel stack.
+	 * The RW_DATA macro in the linker script sizes this to THREAD_SIZE.
 	 */

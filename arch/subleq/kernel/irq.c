@@ -21,7 +21,7 @@
 #include <asm/irq.h>
 #include <asm/irq_regs.h>
 #include <asm/ptrace.h>
-#include <asm/thread_info.h>
+#include <asm/current.h>
 
 /*
  * Memory-mapped interrupt registers

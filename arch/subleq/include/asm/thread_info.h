@@ -1,6 +1,13 @@
 /* SPDX-License-Identifier: GPL-2.0 */
 /*
  * Thread info for Subleq architecture
+ *
+ * With CONFIG_THREAD_INFO_IN_TASK, thread_info is embedded as the first
+ * member of task_struct. The generic kernel provides current_thread_info()
+ * as ((struct thread_info *)current).
+ *
+ * We keep preempt_count here because asm-generic/preempt.h accesses it
+ * via current_thread_info()->preempt_count.
  */
 
 #ifndef _ASM_SUBLEQ_THREAD_INFO_H
@@ -21,51 +28,21 @@
 
 /*
  * Low level thread information structure
- * Located at the bottom of the kernel stack
+ *
+ * With THREAD_INFO_IN_TASK, this is embedded at offset 0 of task_struct.
+ * Only flags and preempt_count remain; the old .task and .cpu fields
+ * are no longer needed.
  */
-struct task_struct; /* forward declaration */
-
 struct thread_info {
 	unsigned long flags; /* thread flags */
 	int preempt_count; /* preemption counter */
-	__u32 cpu; /* current CPU */
-	struct task_struct *task; /* pointer to owning task */
 };
 
 #define INIT_THREAD_INFO(tsk)                        \
 	{                                            \
 		.flags = 0,                          \
 		.preempt_count = INIT_PREEMPT_COUNT, \
-		.cpu = 0,                            \
-		.task = &tsk,                        \
 	}
-
-/*
- * Get current thread info - stored at bottom of kernel stack.
- * We use the stack pointer to find it by masking off the stack offset.
- * The stack pointer is stored at memory location 16 (word 4) in Subleq.
- *
- * WARNING: If this is called while SP is being reloaded (SP=0 mid-transition),
- * the result will be garbage. The interrupt handler checks for this and skips
- * processing if SP is invalid.
- *
- * With the elimination of the separate IRQ stack, interrupts now run on the
- * kernel stack directly, so masking SP always gives the correct thread_info.
- */
-
-static inline struct thread_info *current_thread_info(void)
-{
-	/* Read current stack pointer from the well-known location */
-	unsigned long sp = *(volatile unsigned long *)16;
-	
-	/*
-	 * Simple case: mask SP to get thread_info base.
-	 * thread_info is at the base of every kernel stack.
-	 * This works because interrupts now use the kernel stack
-	 * directly, not a separate IRQ stack.
-	 */
-	return (struct thread_info *)(sp & ~(THREAD_SIZE - 1));
-}
 
 #endif /* !__ASSEMBLY__ */
 

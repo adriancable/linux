@@ -18,7 +18,7 @@
  *
  * NOTE: We cannot include <linux/preempt.h> here because it creates a circular
  * dependency: irqflags.h <- cmpxchg.h <- atomic.h <- bitops.h <- ... <- preempt.h
- * So we access the preempt_count directly from thread_info at the stack base.
+ * So we access the preempt_count directly from __current_task.
  */
 
 #ifndef _ASM_SUBLEQ_IRQFLAGS_H
@@ -39,9 +39,10 @@ extern void __subleq_putchar(int c);
  * Get interrupt context status directly from thread_info without including preempt.h
  * This avoids a circular include dependency.
  *
- * The thread_info is at the bottom of the kernel stack. We read SP from
- * memory location 16 and mask off the stack offset. The preempt_count
- * is at offset 4 (after the flags field) in struct thread_info.
+ * With CONFIG_THREAD_INFO_IN_TASK, thread_info is the first member of
+ * task_struct. We access preempt_count at offset 4 (after the flags field)
+ * from __current_task directly. This is much cheaper than the old
+ * SP-masking approach (~3 instructions vs ~200 for __subleq_and).
  *
  * We need to check BOTH hardirq AND softirq context:
  *   in_interrupt() = (preempt_count & (HARDIRQ_MASK | SOFTIRQ_MASK))
@@ -56,17 +57,19 @@ extern void __subleq_putchar(int c);
  *   Bits 16-19: hardirq count (HARDIRQ_MASK = 0x000f0000)
  *   Bits 20+:   NMI, etc
  */
-#define SUBLEQ_THREAD_SIZE 16384 /* Must match THREAD_SIZE from asm/page.h */
 #define SUBLEQ_HARDIRQ_MASK 0x000f0000
 #define SUBLEQ_SOFTIRQ_MASK 0x0000ff00
 #define SUBLEQ_IRQMASK (SUBLEQ_HARDIRQ_MASK | SUBLEQ_SOFTIRQ_MASK)
 
+/* Offset of preempt_count within task_struct (thread_info is at offset 0) */
+#define SUBLEQ_TI_PREEMPT_OFFSET 4
+
 static inline int __subleq_in_interrupt(void)
 {
-	unsigned long sp = *(volatile unsigned long *)16;
-	
-	/* thread_info is at stack base; preempt_count is at offset 4 */
-	int *preempt_ptr = (int *)((sp & ~(SUBLEQ_THREAD_SIZE - 1)) + 4);
+	extern struct task_struct *volatile __current_task;
+
+	/* thread_info is at offset 0 of task_struct; preempt_count at offset 4 */
+	int *preempt_ptr = (int *)((unsigned long)__current_task + SUBLEQ_TI_PREEMPT_OFFSET);
 	return (*preempt_ptr) & SUBLEQ_IRQMASK;
 }
 

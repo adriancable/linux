@@ -6,20 +6,27 @@
 #ifndef _ASM_SUBLEQ_SYSCALL_H
 #define _ASM_SUBLEQ_SYSCALL_H
 
-struct task_struct;
-struct pt_regs;
+#include <asm/ptrace.h>
 
-/* Get syscall number from saved registers */
+struct task_struct;
+
+/*
+ * Get syscall number from saved registers.
+ *
+ * NOTE: pt_regs values are stored NEGATED. Must use PT_REG_GET macros.
+ * The syscall number is stored in the dedicated syscall_nr field,
+ * NOT in r20 (which is the return value register).
+ */
 static inline int syscall_get_nr(struct task_struct *task, struct pt_regs *regs)
 {
-	return regs->r20; /* Syscall number in R20 (first arg register) */
+	return PT_REG_GET_SIGNED(regs, syscall_nr);
 }
 
-/* Get syscall return value */
+/* Get syscall return value (in R20) */
 static inline long syscall_get_return_value(struct task_struct *task,
 					    struct pt_regs *regs)
 {
-	return regs->r20;
+	return PT_REG_GET_SIGNED(regs, r20);
 }
 
 /* Get architecture for seccomp/audit - return 0 for generic/unknown */

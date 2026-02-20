@@ -58,7 +58,7 @@ struct pt_regs {
 	unsigned long sp;  /* Stack pointer */
 	unsigned long ra;  /* Return address (link register) */
 	unsigned long pc;  /* Program counter */
-	unsigned long orig_r20; /* Original R20 for syscall restart */
+	unsigned long orig_r20; /* Unused */
 	long syscall_nr;        /* Syscall number, -1 if not in syscall */
 	unsigned long orig_r21; /* Original R21 (syscall nr) for restart */
 	unsigned long orig_a1;  /* Original arg1 for syscall restart */
@@ -142,6 +142,12 @@ struct pt_regs {
  */
 #define SUBLEQ_TASK_STACK_OFFSET 16
 
+/*
+ * Hardcoded THREAD_SIZE for user_mode() — same rationale as above.
+ * Verified at build time by BUILD_BUG_ON in asm-offsets.c.
+ */
+#define SUBLEQ_THREAD_SIZE 16384
+
 /* Symbols for syscall handler range check */
 extern char __subleq_syscall[];
 extern char __subleq_syscall_end[];
@@ -204,7 +210,7 @@ static inline int __subleq_user_mode(struct pt_regs *regs)
 	{
 		extern struct task_struct *volatile __current_task;
 		unsigned long kstack_base = *(unsigned long *)((char *)__current_task + SUBLEQ_TASK_STACK_OFFSET);
-		unsigned long kstack_top = kstack_base + 16384; /* THREAD_SIZE */
+		unsigned long kstack_top = kstack_base + SUBLEQ_THREAD_SIZE;
 
 		/* If SP is outside kernel stack range, we were in user mode */
 		return (sp < kstack_base || sp >= kstack_top);

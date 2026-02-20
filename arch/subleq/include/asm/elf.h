@@ -53,8 +53,25 @@ typedef unsigned long elf_fpregset_t;
 
 #define ELF_ET_DYN_BASE (TASK_SIZE / 3 * 2)
 
-/* We don't really support core dumps yet */
+/*
+ * Core dump register copy - de-negate pt_regs values for userspace tools.
+ *
+ * pt_regs stores values NEGATED for efficient Subleq assembly. When writing
+ * a core dump, we must negate each word so GDB sees correct values.
+ *
+ * NOTE: elfcore.h calls this WITHOUT a trailing semicolon, so we use
+ * an inline helper called as an expression statement with its own ';'.
+ */
+static inline void __elf_core_copy_regs(void *dest, const void *regs)
+{
+	const unsigned long *s = (const unsigned long *)regs;
+	unsigned long *d = (unsigned long *)dest;
+	int i;
+	for (i = 0; i < (int)(sizeof(struct pt_regs)/sizeof(unsigned long)); i++)
+		d[i] = (unsigned long)(-(long)s[i]);
+}
+
 #define ELF_CORE_COPY_REGS(dest, regs) \
-	(void)memcpy(&(dest), (regs), sizeof(struct pt_regs));
+	__elf_core_copy_regs(&(dest), (regs));
 
 #endif /* _ASM_SUBLEQ_ELF_H */

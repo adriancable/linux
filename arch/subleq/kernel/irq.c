@@ -86,6 +86,11 @@ void subleq_do_IRQ(struct pt_regs *regs)
 	{
 		unsigned int ticks;
 		u64 now_ns = subleq_get_time_ns();
+		/*
+		 * last_ns is safe without locking: subleq_do_IRQ runs in
+		 * hardirq context with interrupts disabled (per
+		 * __ARCH_IRQ_EXIT_IRQS_DISABLED), so no concurrent access.
+		 */
 		static u64 last_ns;
 
 		if (last_ns == 0)

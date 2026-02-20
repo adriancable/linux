@@ -28,12 +28,15 @@ extern void *__subleq_memset32(void *s, unsigned int v, size_t n);
 /* Assembly-optimized row blitter (subleq_blit_row.S) */
 extern void subleq_blit_row8(u32 *dst, u32 byte, u32 fg, u32 bg);
 
-/* Framebuffer configuration - must match VM settings */
-#define SUBLEQFB_WIDTH       800
-#define SUBLEQFB_HEIGHT      512
-#define SUBLEQFB_BPP         32      /* XRGB8888 - 32-bit aligned for fast word access */
-#define SUBLEQFB_FB_SIZE     (SUBLEQFB_WIDTH * SUBLEQFB_HEIGHT * 4)
-#define SUBLEQFB_FB_ADDR     (0x60000000UL - SUBLEQFB_FB_SIZE)
+/* Framebuffer configuration - shared with arch/subleq/kernel/setup.c */
+#include <asm/subleq_fb.h>
+
+/* Convenience aliases matching the SUBLEQFB_ prefix convention */
+#define SUBLEQFB_WIDTH       SUBLEQ_FB_WIDTH
+#define SUBLEQFB_HEIGHT      SUBLEQ_FB_HEIGHT
+#define SUBLEQFB_BPP         SUBLEQ_FB_BPP
+#define SUBLEQFB_FB_SIZE     SUBLEQ_FB_SIZE
+#define SUBLEQFB_FB_ADDR     SUBLEQ_FB_ADDR
 
 static struct fb_var_screeninfo subleqfb_var = {
 	.xres           = SUBLEQFB_WIDTH,

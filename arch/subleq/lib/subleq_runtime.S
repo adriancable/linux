@@ -85,17 +85,13 @@ __subleq_sdivrem:
         .word   144, 168, .Lsdivrem_intmin_r21_le0
         .word   12, 12, .+4
         .word   100, 12, .+4
-        .word   12, 164, .Lsdivrem_div_done
+        .word   12, 164, .+4
+        .word   12, 12, .Lsdivrem_div_done
 .Lsdivrem_intmin_r21_le0:
-        .word   176, 176, .+4
-        .word   100, 176, .+4
-        .word   144, 176, .Lsdivrem_intmin_ambig
-        .word   12, 12, .Lsdivrem_intmin_eq
-.Lsdivrem_intmin_ambig:
-        .word   176, 176, .+4
-        .word   100, 176, .+4
-        .word   .Lsdivrem_one, 176, .+4
-        .word   144, 176, .Lsdivrem_intmin_r21_zero
+        .word   .Lsdivrem_n1, 100, .Lsdivrem_intmin_restore
+        .word   .Lsdivrem_one, 100, .Lsdivrem_intmin_r21_zero
+.Lsdivrem_intmin_restore:
+        .word   .Lsdivrem_one, 100, .+4
         .word   12, 12, .Lsdivrem_intmin_eq
 .Lsdivrem_intmin_r21_zero:
         .word   12, 12, .Lsdivrem_div_done
@@ -125,15 +121,10 @@ __subleq_sdivrem:
         .word   144, 168, .Lsdivrem_31_le0
         .word   12, 12, .Lsdivrem_31_cmp
 .Lsdivrem_31_le0:
-        .word   176, 176, .+4
-        .word   168, 176, .+4
-        .word   144, 176, .Lsdivrem_31_ambig
-        .word   12, 12, .Lsdivrem_31_bit_set
-.Lsdivrem_31_ambig:
-        .word   176, 176, .+4
-        .word   168, 176, .+4
-        .word   .Lsdivrem_one, 176, .+4
-        .word   144, 176, .Lsdivrem_31_cmp
+        .word   .Lsdivrem_n1, 168, .Lsdivrem_31_neg_restore
+        .word   .Lsdivrem_one, 168, .Lsdivrem_31_cmp
+.Lsdivrem_31_neg_restore:
+        .word   .Lsdivrem_one, 168, .+4
 .Lsdivrem_31_bit_set:
         .word   .Lsdivrem_n2147483648, 172, .+4
         .word   .Lsdivrem_neg1, 164, .+4
@@ -1026,15 +1017,10 @@ __subleq_udivrem:
         .word   144, 168, .Ludivrem_31_le0
         .word   12, 12, .Ludivrem_31_cmp
 .Ludivrem_31_le0:
-        .word   176, 176, .+4
-        .word   168, 176, .+4
-        .word   144, 176, .Ludivrem_31_ambig
-        .word   12, 12, .Ludivrem_31_set
-.Ludivrem_31_ambig:
-        .word   176, 176, .+4
-        .word   168, 176, .+4
-        .word   .Ludivrem_one, 176, .+4
-        .word   144, 176, .Ludivrem_31_cmp
+        .word   .Ludivrem_n1, 168, .Ludivrem_31_neg_restore
+        .word   .Ludivrem_one, 168, .Ludivrem_31_cmp
+.Ludivrem_31_neg_restore:
+        .word   .Ludivrem_one, 168, .+4
 .Ludivrem_31_set:
         .word   .Ludivrem_n2147483648, 172, .+4
         .word   .Ludivrem_neg1, 164, .+4
@@ -2797,24 +2783,13 @@ __subleq_sdivrem64:
 .Lsd64v_init1:
         .word   200, 200, .Lsd64v_chk_div
 .Lsd64v_chk_div:
-        .word   184, 184, .+4
-        .word   12, 12, .+4
-        .word   104, 12, .+4
-        .word   12, 184, .+4
-        .word   144, 184, .Lsd64v_div_le0
+        .word   144, 104, .Lsd64v_div_le0
         .word   12, 12, .Lsd64v_chk_dsr
 .Lsd64v_div_le0:
-        .word   188, 188, .+4
-        .word   184, 188, .+4
-        .word   144, 188, .Lsd64v_div_ambig
-        .word   12, 12, .Lsd64v_neg_dividend
-.Lsd64v_div_ambig:
-        .word   184, 184, .+4
-        .word   12, 12, .+4
-        .word   104, 12, .+4
-        .word   12, 184, .+4
-        .word   .Lsd64v_one, 184, .+4
-        .word   144, 184, .Lsd64v_chk_dsr
+        .word   .Lsd64v_neg1, 104, .Lsd64v_div_neg_restore
+        .word   .Lsd64v_one, 104, .Lsd64v_chk_dsr
+.Lsd64v_div_neg_restore:
+        .word   .Lsd64v_one, 104, .+4
         .word   12, 12, .Lsd64v_neg_dividend
 .Lsd64v_neg_dividend:
         .word   .Lsd64v_const_neg1, 196, .Lsd64v_nd1
@@ -2851,24 +2826,13 @@ __subleq_sdivrem64:
         .word   188, 12, .+4
         .word   12, 104, .Lsd64v_chk_dsr
 .Lsd64v_chk_dsr:
-        .word   184, 184, .+4
-        .word   12, 12, .+4
-        .word   112, 12, .+4
-        .word   12, 184, .+4
-        .word   144, 184, .Lsd64v_dsr_le0
+        .word   144, 112, .Lsd64v_dsr_le0
         .word   12, 12, .Lsd64v_do_div
 .Lsd64v_dsr_le0:
-        .word   188, 188, .+4
-        .word   184, 188, .+4
-        .word   144, 188, .Lsd64v_dsr_ambig
-        .word   12, 12, .Lsd64v_neg_divisor
-.Lsd64v_dsr_ambig:
-        .word   184, 184, .+4
-        .word   12, 12, .+4
-        .word   112, 12, .+4
-        .word   12, 184, .+4
-        .word   .Lsd64v_one, 184, .+4
-        .word   144, 184, .Lsd64v_do_div
+        .word   .Lsd64v_neg1, 112, .Lsd64v_dsr_neg_restore
+        .word   .Lsd64v_one, 112, .Lsd64v_do_div
+.Lsd64v_dsr_neg_restore:
+        .word   .Lsd64v_one, 112, .+4
         .word   12, 12, .Lsd64v_neg_divisor
 .Lsd64v_neg_divisor:
         .word   184, 184, .+4
@@ -2928,13 +2892,10 @@ __subleq_sdivrem64:
         .word   144, 112, .Lsd64v_r24_le0
         .word   12, 12, .Lsd64v_precheck
 .Lsd64v_r24_le0:
-        .word   184, 184, .+4
-        .word   112, 184, .+4
-        .word   144, 184, .Lsd64v_r24_ambig
-        .word   12, 12, .Lsd64v_intmin_dsr
-.Lsd64v_r24_ambig:
-        .word   .Lsd64v_one, 184, .+4
-        .word   144, 184, .Lsd64v_precheck
+        .word   .Lsd64v_const_neg1, 112, .Lsd64v_r24_neg_restore
+        .word   .Lsd64v_one, 112, .Lsd64v_precheck
+.Lsd64v_r24_neg_restore:
+        .word   .Lsd64v_one, 112, .+4
         .word   12, 12, .Lsd64v_intmin_dsr
 .Lsd64v_intmin_dsr:
         .word   184, 184, .+4
@@ -2971,13 +2932,10 @@ __subleq_sdivrem64:
         .word   144, 184, .Lsd64v_r23_le0
         .word   12, 12, .Lsd64v_chk_small
 .Lsd64v_r23_le0:
-        .word   188, 188, .+4
-        .word   184, 188, .+4
-        .word   144, 188, .Lsd64v_r23_ambig
-        .word   12, 12, .Lsd64v_r23_big
-.Lsd64v_r23_ambig:
-        .word   .Lsd64v_one, 188, .+4
-        .word   144, 188, .Lsd64v_chk_small
+        .word   .Lsd64v_const_neg1, 108, .Lsd64v_r23_neg_restore
+        .word   .Lsd64v_one, 108, .Lsd64v_chk_small
+.Lsd64v_r23_neg_restore:
+        .word   .Lsd64v_one, 108, .+4
 .Lsd64v_r23_big:
         .word   .Lsd64v_const_neg1, 192, .+4
         .word   12, 12, .Lsd64v_chk_small
@@ -3031,15 +2989,10 @@ __subleq_sdivrem64:
         .word   144, 184, .Lsd64v_63_b31_le0
         .word   12, 12, .Lsd64v_63_cmp
 .Lsd64v_63_b31_le0:
-        .word   188, 188, .+4
-        .word   184, 188, .+4
-        .word   144, 188, .Lsd64v_63_b31_ambig
-        .word   12, 12, .Lsd64v_63_b31_set
-.Lsd64v_63_b31_ambig:
-        .word   188, 188, .+4
-        .word   184, 188, .+4
-        .word   .Lsd64v_one, 188, .+4
-        .word   144, 188, .Lsd64v_63_cmp
+        .word   .Lsd64v_const_neg1, 184, .Lsd64v_63_b31_neg_restore
+        .word   .Lsd64v_one, 184, .Lsd64v_63_cmp
+.Lsd64v_63_b31_neg_restore:
+        .word   .Lsd64v_one, 184, .+4
 .Lsd64v_63_b31_set:
         .word   .Lsd64v_n2147483648, 180, .+4
         .word   .Lsd64v_const_neg1, 168, .+4
@@ -7653,15 +7606,10 @@ __subleq_sdivrem64:
         .word   144, 184, .Lsd64v_31_b31_le0
         .word   12, 12, .Lsd64v_31_cmp
 .Lsd64v_31_b31_le0:
-        .word   188, 188, .+4
-        .word   184, 188, .+4
-        .word   144, 188, .Lsd64v_31_b31_ambig
-        .word   12, 12, .Lsd64v_31_b31_set
-.Lsd64v_31_b31_ambig:
-        .word   188, 188, .+4
-        .word   184, 188, .+4
-        .word   .Lsd64v_one, 188, .+4
-        .word   144, 188, .Lsd64v_31_cmp
+        .word   .Lsd64v_const_neg1, 184, .Lsd64v_31_b31_neg_restore
+        .word   .Lsd64v_one, 184, .Lsd64v_31_cmp
+.Lsd64v_31_b31_neg_restore:
+        .word   .Lsd64v_one, 184, .+4
 .Lsd64v_31_b31_set:
         .word   .Lsd64v_n2147483648, 176, .+4
         .word   .Lsd64v_const_neg1, 168, .+4
@@ -12505,14 +12453,10 @@ __subleq_udivrem64:
         .word   144, 112, .Lud64_r24_le0
         .word   12, 12, .Lud64_precheck_r23
 .Lud64_r24_le0:
-        .word   184, 184, .+4
-        .word   112, 184, .+4
-        .word   144, 184, .Lud64_r24_ambig
-        .word   .Lud64_neg1, 192, .+4
-        .word   12, 12, .Lud64_precheck_r23
-.Lud64_r24_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_precheck_r23
+        .word   .Lud64_neg1, 112, .Lud64_r24_neg_restore
+        .word   .Lud64_one, 112, .Lud64_precheck_r23
+.Lud64_r24_neg_restore:
+        .word   .Lud64_one, 112, .+4
         .word   .Lud64_neg1, 192, .+4
         .word   12, 12, .Lud64_precheck_r23
 .Lud64_precheck_r23:
@@ -12520,14 +12464,10 @@ __subleq_udivrem64:
         .word   144, 108, .Lud64_r23_le0
         .word   12, 12, .Lud64_chk_small
 .Lud64_r23_le0:
-        .word   184, 184, .+4
-        .word   108, 184, .+4
-        .word   144, 184, .Lud64_r23_ambig
-        .word   .Lud64_neg1, 196, .+4
-        .word   12, 12, .Lud64_chk_small
-.Lud64_r23_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_chk_small
+        .word   .Lud64_neg1, 108, .Lud64_r23_neg_restore
+        .word   .Lud64_one, 108, .Lud64_chk_small
+.Lud64_r23_neg_restore:
+        .word   .Lud64_one, 108, .+4
         .word   .Lud64_neg1, 196, .+4
         .word   12, 12, .Lud64_chk_small
 .Lud64_chk_small:
@@ -12551,13 +12491,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_63_ex
 .Lud64_63_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_63_t2_ambig
-        .word   12, 12, .Lud64_63_dbl_carry
-.Lud64_63_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_63_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_63_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_63_dbl_nocarry
+.Lud64_63_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_63_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -12744,13 +12681,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_62_ex
 .Lud64_62_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_62_t2_ambig
-        .word   12, 12, .Lud64_62_dbl_carry
-.Lud64_62_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_62_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_62_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_62_dbl_nocarry
+.Lud64_62_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_62_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -12923,13 +12857,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_61_ex
 .Lud64_61_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_61_t2_ambig
-        .word   12, 12, .Lud64_61_dbl_carry
-.Lud64_61_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_61_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_61_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_61_dbl_nocarry
+.Lud64_61_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_61_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -13102,13 +13033,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_60_ex
 .Lud64_60_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_60_t2_ambig
-        .word   12, 12, .Lud64_60_dbl_carry
-.Lud64_60_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_60_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_60_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_60_dbl_nocarry
+.Lud64_60_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_60_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -13281,13 +13209,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_59_ex
 .Lud64_59_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_59_t2_ambig
-        .word   12, 12, .Lud64_59_dbl_carry
-.Lud64_59_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_59_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_59_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_59_dbl_nocarry
+.Lud64_59_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_59_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -13460,13 +13385,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_58_ex
 .Lud64_58_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_58_t2_ambig
-        .word   12, 12, .Lud64_58_dbl_carry
-.Lud64_58_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_58_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_58_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_58_dbl_nocarry
+.Lud64_58_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_58_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -13639,13 +13561,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_57_ex
 .Lud64_57_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_57_t2_ambig
-        .word   12, 12, .Lud64_57_dbl_carry
-.Lud64_57_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_57_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_57_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_57_dbl_nocarry
+.Lud64_57_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_57_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -13818,13 +13737,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_56_ex
 .Lud64_56_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_56_t2_ambig
-        .word   12, 12, .Lud64_56_dbl_carry
-.Lud64_56_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_56_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_56_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_56_dbl_nocarry
+.Lud64_56_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_56_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -13997,13 +13913,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_55_ex
 .Lud64_55_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_55_t2_ambig
-        .word   12, 12, .Lud64_55_dbl_carry
-.Lud64_55_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_55_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_55_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_55_dbl_nocarry
+.Lud64_55_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_55_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -14176,13 +14089,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_54_ex
 .Lud64_54_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_54_t2_ambig
-        .word   12, 12, .Lud64_54_dbl_carry
-.Lud64_54_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_54_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_54_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_54_dbl_nocarry
+.Lud64_54_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_54_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -14355,13 +14265,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_53_ex
 .Lud64_53_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_53_t2_ambig
-        .word   12, 12, .Lud64_53_dbl_carry
-.Lud64_53_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_53_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_53_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_53_dbl_nocarry
+.Lud64_53_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_53_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -14534,13 +14441,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_52_ex
 .Lud64_52_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_52_t2_ambig
-        .word   12, 12, .Lud64_52_dbl_carry
-.Lud64_52_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_52_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_52_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_52_dbl_nocarry
+.Lud64_52_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_52_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -14713,13 +14617,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_51_ex
 .Lud64_51_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_51_t2_ambig
-        .word   12, 12, .Lud64_51_dbl_carry
-.Lud64_51_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_51_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_51_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_51_dbl_nocarry
+.Lud64_51_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_51_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -14892,13 +14793,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_50_ex
 .Lud64_50_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_50_t2_ambig
-        .word   12, 12, .Lud64_50_dbl_carry
-.Lud64_50_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_50_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_50_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_50_dbl_nocarry
+.Lud64_50_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_50_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -15071,13 +14969,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_49_ex
 .Lud64_49_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_49_t2_ambig
-        .word   12, 12, .Lud64_49_dbl_carry
-.Lud64_49_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_49_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_49_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_49_dbl_nocarry
+.Lud64_49_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_49_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -15250,13 +15145,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_48_ex
 .Lud64_48_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_48_t2_ambig
-        .word   12, 12, .Lud64_48_dbl_carry
-.Lud64_48_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_48_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_48_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_48_dbl_nocarry
+.Lud64_48_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_48_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -15429,13 +15321,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_47_ex
 .Lud64_47_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_47_t2_ambig
-        .word   12, 12, .Lud64_47_dbl_carry
-.Lud64_47_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_47_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_47_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_47_dbl_nocarry
+.Lud64_47_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_47_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -15608,13 +15497,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_46_ex
 .Lud64_46_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_46_t2_ambig
-        .word   12, 12, .Lud64_46_dbl_carry
-.Lud64_46_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_46_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_46_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_46_dbl_nocarry
+.Lud64_46_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_46_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -15787,13 +15673,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_45_ex
 .Lud64_45_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_45_t2_ambig
-        .word   12, 12, .Lud64_45_dbl_carry
-.Lud64_45_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_45_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_45_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_45_dbl_nocarry
+.Lud64_45_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_45_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -15966,13 +15849,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_44_ex
 .Lud64_44_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_44_t2_ambig
-        .word   12, 12, .Lud64_44_dbl_carry
-.Lud64_44_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_44_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_44_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_44_dbl_nocarry
+.Lud64_44_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_44_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -16145,13 +16025,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_43_ex
 .Lud64_43_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_43_t2_ambig
-        .word   12, 12, .Lud64_43_dbl_carry
-.Lud64_43_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_43_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_43_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_43_dbl_nocarry
+.Lud64_43_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_43_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -16324,13 +16201,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_42_ex
 .Lud64_42_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_42_t2_ambig
-        .word   12, 12, .Lud64_42_dbl_carry
-.Lud64_42_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_42_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_42_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_42_dbl_nocarry
+.Lud64_42_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_42_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -16503,13 +16377,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_41_ex
 .Lud64_41_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_41_t2_ambig
-        .word   12, 12, .Lud64_41_dbl_carry
-.Lud64_41_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_41_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_41_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_41_dbl_nocarry
+.Lud64_41_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_41_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -16682,13 +16553,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_40_ex
 .Lud64_40_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_40_t2_ambig
-        .word   12, 12, .Lud64_40_dbl_carry
-.Lud64_40_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_40_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_40_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_40_dbl_nocarry
+.Lud64_40_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_40_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -16861,13 +16729,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_39_ex
 .Lud64_39_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_39_t2_ambig
-        .word   12, 12, .Lud64_39_dbl_carry
-.Lud64_39_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_39_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_39_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_39_dbl_nocarry
+.Lud64_39_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_39_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -17040,13 +16905,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_38_ex
 .Lud64_38_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_38_t2_ambig
-        .word   12, 12, .Lud64_38_dbl_carry
-.Lud64_38_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_38_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_38_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_38_dbl_nocarry
+.Lud64_38_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_38_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -17219,13 +17081,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_37_ex
 .Lud64_37_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_37_t2_ambig
-        .word   12, 12, .Lud64_37_dbl_carry
-.Lud64_37_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_37_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_37_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_37_dbl_nocarry
+.Lud64_37_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_37_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -17398,13 +17257,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_36_ex
 .Lud64_36_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_36_t2_ambig
-        .word   12, 12, .Lud64_36_dbl_carry
-.Lud64_36_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_36_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_36_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_36_dbl_nocarry
+.Lud64_36_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_36_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -17577,13 +17433,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_35_ex
 .Lud64_35_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_35_t2_ambig
-        .word   12, 12, .Lud64_35_dbl_carry
-.Lud64_35_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_35_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_35_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_35_dbl_nocarry
+.Lud64_35_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_35_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -17756,13 +17609,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_34_ex
 .Lud64_34_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_34_t2_ambig
-        .word   12, 12, .Lud64_34_dbl_carry
-.Lud64_34_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_34_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_34_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_34_dbl_nocarry
+.Lud64_34_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_34_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -17935,13 +17785,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_33_ex
 .Lud64_33_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_33_t2_ambig
-        .word   12, 12, .Lud64_33_dbl_carry
-.Lud64_33_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_33_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_33_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_33_dbl_nocarry
+.Lud64_33_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_33_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -18114,13 +17961,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_32_ex
 .Lud64_32_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_32_t2_ambig
-        .word   12, 12, .Lud64_32_dbl_carry
-.Lud64_32_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_32_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_32_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_32_dbl_nocarry
+.Lud64_32_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_32_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -18293,13 +18137,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_31_ex
 .Lud64_31_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_31_t2_ambig
-        .word   12, 12, .Lud64_31_dbl_carry
-.Lud64_31_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_31_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_31_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_31_dbl_nocarry
+.Lud64_31_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_31_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -18486,13 +18327,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_30_ex
 .Lud64_30_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_30_t2_ambig
-        .word   12, 12, .Lud64_30_dbl_carry
-.Lud64_30_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_30_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_30_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_30_dbl_nocarry
+.Lud64_30_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_30_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -18665,13 +18503,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_29_ex
 .Lud64_29_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_29_t2_ambig
-        .word   12, 12, .Lud64_29_dbl_carry
-.Lud64_29_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_29_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_29_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_29_dbl_nocarry
+.Lud64_29_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_29_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -18844,13 +18679,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_28_ex
 .Lud64_28_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_28_t2_ambig
-        .word   12, 12, .Lud64_28_dbl_carry
-.Lud64_28_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_28_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_28_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_28_dbl_nocarry
+.Lud64_28_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_28_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -19023,13 +18855,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_27_ex
 .Lud64_27_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_27_t2_ambig
-        .word   12, 12, .Lud64_27_dbl_carry
-.Lud64_27_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_27_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_27_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_27_dbl_nocarry
+.Lud64_27_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_27_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -19202,13 +19031,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_26_ex
 .Lud64_26_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_26_t2_ambig
-        .word   12, 12, .Lud64_26_dbl_carry
-.Lud64_26_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_26_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_26_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_26_dbl_nocarry
+.Lud64_26_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_26_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -19381,13 +19207,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_25_ex
 .Lud64_25_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_25_t2_ambig
-        .word   12, 12, .Lud64_25_dbl_carry
-.Lud64_25_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_25_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_25_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_25_dbl_nocarry
+.Lud64_25_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_25_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -19560,13 +19383,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_24_ex
 .Lud64_24_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_24_t2_ambig
-        .word   12, 12, .Lud64_24_dbl_carry
-.Lud64_24_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_24_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_24_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_24_dbl_nocarry
+.Lud64_24_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_24_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -19739,13 +19559,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_23_ex
 .Lud64_23_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_23_t2_ambig
-        .word   12, 12, .Lud64_23_dbl_carry
-.Lud64_23_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_23_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_23_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_23_dbl_nocarry
+.Lud64_23_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_23_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -19918,13 +19735,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_22_ex
 .Lud64_22_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_22_t2_ambig
-        .word   12, 12, .Lud64_22_dbl_carry
-.Lud64_22_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_22_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_22_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_22_dbl_nocarry
+.Lud64_22_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_22_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -20097,13 +19911,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_21_ex
 .Lud64_21_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_21_t2_ambig
-        .word   12, 12, .Lud64_21_dbl_carry
-.Lud64_21_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_21_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_21_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_21_dbl_nocarry
+.Lud64_21_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_21_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -20276,13 +20087,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_20_ex
 .Lud64_20_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_20_t2_ambig
-        .word   12, 12, .Lud64_20_dbl_carry
-.Lud64_20_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_20_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_20_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_20_dbl_nocarry
+.Lud64_20_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_20_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -20455,13 +20263,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_19_ex
 .Lud64_19_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_19_t2_ambig
-        .word   12, 12, .Lud64_19_dbl_carry
-.Lud64_19_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_19_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_19_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_19_dbl_nocarry
+.Lud64_19_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_19_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -20634,13 +20439,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_18_ex
 .Lud64_18_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_18_t2_ambig
-        .word   12, 12, .Lud64_18_dbl_carry
-.Lud64_18_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_18_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_18_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_18_dbl_nocarry
+.Lud64_18_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_18_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -20813,13 +20615,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_17_ex
 .Lud64_17_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_17_t2_ambig
-        .word   12, 12, .Lud64_17_dbl_carry
-.Lud64_17_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_17_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_17_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_17_dbl_nocarry
+.Lud64_17_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_17_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -20992,13 +20791,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_16_ex
 .Lud64_16_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_16_t2_ambig
-        .word   12, 12, .Lud64_16_dbl_carry
-.Lud64_16_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_16_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_16_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_16_dbl_nocarry
+.Lud64_16_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_16_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -21171,13 +20967,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_15_ex
 .Lud64_15_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_15_t2_ambig
-        .word   12, 12, .Lud64_15_dbl_carry
-.Lud64_15_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_15_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_15_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_15_dbl_nocarry
+.Lud64_15_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_15_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -21350,13 +21143,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_14_ex
 .Lud64_14_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_14_t2_ambig
-        .word   12, 12, .Lud64_14_dbl_carry
-.Lud64_14_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_14_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_14_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_14_dbl_nocarry
+.Lud64_14_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_14_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -21529,13 +21319,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_13_ex
 .Lud64_13_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_13_t2_ambig
-        .word   12, 12, .Lud64_13_dbl_carry
-.Lud64_13_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_13_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_13_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_13_dbl_nocarry
+.Lud64_13_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_13_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -21708,13 +21495,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_12_ex
 .Lud64_12_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_12_t2_ambig
-        .word   12, 12, .Lud64_12_dbl_carry
-.Lud64_12_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_12_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_12_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_12_dbl_nocarry
+.Lud64_12_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_12_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -21887,13 +21671,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_11_ex
 .Lud64_11_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_11_t2_ambig
-        .word   12, 12, .Lud64_11_dbl_carry
-.Lud64_11_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_11_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_11_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_11_dbl_nocarry
+.Lud64_11_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_11_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -22066,13 +21847,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_10_ex
 .Lud64_10_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_10_t2_ambig
-        .word   12, 12, .Lud64_10_dbl_carry
-.Lud64_10_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_10_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_10_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_10_dbl_nocarry
+.Lud64_10_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_10_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -22245,13 +22023,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_9_ex
 .Lud64_9_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_9_t2_ambig
-        .word   12, 12, .Lud64_9_dbl_carry
-.Lud64_9_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_9_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_9_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_9_dbl_nocarry
+.Lud64_9_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_9_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -22424,13 +22199,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_8_ex
 .Lud64_8_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_8_t2_ambig
-        .word   12, 12, .Lud64_8_dbl_carry
-.Lud64_8_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_8_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_8_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_8_dbl_nocarry
+.Lud64_8_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_8_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -22603,13 +22375,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_7_ex
 .Lud64_7_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_7_t2_ambig
-        .word   12, 12, .Lud64_7_dbl_carry
-.Lud64_7_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_7_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_7_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_7_dbl_nocarry
+.Lud64_7_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_7_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -22782,13 +22551,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_6_ex
 .Lud64_6_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_6_t2_ambig
-        .word   12, 12, .Lud64_6_dbl_carry
-.Lud64_6_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_6_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_6_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_6_dbl_nocarry
+.Lud64_6_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_6_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -22961,13 +22727,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_5_ex
 .Lud64_5_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_5_t2_ambig
-        .word   12, 12, .Lud64_5_dbl_carry
-.Lud64_5_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_5_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_5_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_5_dbl_nocarry
+.Lud64_5_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_5_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -23140,13 +22903,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_4_ex
 .Lud64_4_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_4_t2_ambig
-        .word   12, 12, .Lud64_4_dbl_carry
-.Lud64_4_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_4_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_4_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_4_dbl_nocarry
+.Lud64_4_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_4_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -23319,13 +23079,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_3_ex
 .Lud64_3_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_3_t2_ambig
-        .word   12, 12, .Lud64_3_dbl_carry
-.Lud64_3_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_3_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_3_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_3_dbl_nocarry
+.Lud64_3_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_3_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -23498,13 +23255,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_2_ex
 .Lud64_2_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_2_t2_ambig
-        .word   12, 12, .Lud64_2_dbl_carry
-.Lud64_2_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_2_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_2_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_2_dbl_nocarry
+.Lud64_2_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_2_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -23677,13 +23431,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_1_ex
 .Lud64_1_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_1_t2_ambig
-        .word   12, 12, .Lud64_1_dbl_carry
-.Lud64_1_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_1_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_1_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_1_dbl_nocarry
+.Lud64_1_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_1_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -23856,13 +23607,10 @@ __subleq_udivrem64:
         .word   12, 172, .+4
         .word   12, 12, .Lud64_0_ex
 .Lud64_0_t2_le0:
-        .word   184, 184, .+4
-        .word   168, 184, .+4
-        .word   144, 184, .Lud64_0_t2_ambig
-        .word   12, 12, .Lud64_0_dbl_carry
-.Lud64_0_t2_ambig:
-        .word   .Lud64_one, 184, .+4
-        .word   144, 184, .Lud64_0_dbl_nocarry
+        .word   .Lud64_neg1, 168, .Lud64_0_t2_neg_restore
+        .word   .Lud64_one, 168, .Lud64_0_dbl_nocarry
+.Lud64_0_t2_neg_restore:
+        .word   .Lud64_one, 168, .+4
 .Lud64_0_dbl_carry:
         .word   12, 12, .+4
         .word   168, 12, .+4
@@ -24521,25 +24269,19 @@ __subleq_mul:
         .word   144, 104, .Lmul_r22_zchk
         .word   12, 12, .Lmul_begin
 .Lmul_r21_zchk:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lmul_r21_maybe_zero
-        .word   144, 104, .Lmul_r22_zchk
-        .word   12, 12, .Lmul_begin
-.Lmul_r21_maybe_zero:
-        .word   .Lmul_negone, 168, .Lmul_r21_is_intmin
-        .word   96, 96, .+4
-        .word   12, 12, .Lmul_exit
-.Lmul_r21_is_intmin:
+        .word   .Lmul_negone, 100, .Lmul_r21_neg_restore
+        .word   .Lmul_one, 100, .Lmul_ret_zero
+.Lmul_r21_neg_restore:
+        .word   .Lmul_one, 100, .+4
         .word   144, 104, .Lmul_r22_zchk
         .word   12, 12, .Lmul_begin
 .Lmul_r22_zchk:
-        .word   168, 168, .+4
-        .word   104, 168, .+4
-        .word   144, 168, .Lmul_r22_maybe_zero
+        .word   .Lmul_negone, 104, .Lmul_r22_neg_restore
+        .word   .Lmul_one, 104, .Lmul_ret_zero
+.Lmul_r22_neg_restore:
+        .word   .Lmul_one, 104, .+4
         .word   12, 12, .Lmul_begin
-.Lmul_r22_maybe_zero:
-        .word   .Lmul_negone, 168, .Lmul_begin
+.Lmul_ret_zero:
         .word   96, 96, .+4
         .word   12, 12, .Lmul_exit
 .Lmul_begin:
@@ -24548,9 +24290,10 @@ __subleq_mul:
         .word   144, 100, .Lmul_r3_le0
         .word   12, 12, .Lmul_chk_r4_sign
 .Lmul_r3_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lmul_r3_ambig
+        .word   .Lmul_negone, 100, .Lmul_r3_neg_restore
+        .word   .Lmul_one, 100, .Lmul_chk_r4_sign
+.Lmul_r3_neg_restore:
+        .word   .Lmul_one, 100, .+4
 .Lmul_r3_neg:
         .word   .Lmul_negone, 172, .+4
         .word   164, 164, .+4
@@ -24560,16 +24303,14 @@ __subleq_mul:
         .word   164, 12, .+4
         .word   12, 100, .+4
         .word   12, 12, .Lmul_chk_r4_sign
-.Lmul_r3_ambig:
-        .word   .Lmul_one, 168, .Lmul_chk_r4_sign
-        .word   12, 12, .Lmul_r3_neg
 .Lmul_chk_r4_sign:
         .word   144, 104, .Lmul_r4_le0
         .word   12, 12, .Lmul_main_init
 .Lmul_r4_le0:
-        .word   168, 168, .+4
-        .word   104, 168, .+4
-        .word   144, 168, .Lmul_r4_ambig
+        .word   .Lmul_negone, 104, .Lmul_r4_neg_restore
+        .word   .Lmul_one, 104, .Lmul_main_init
+.Lmul_r4_neg_restore:
+        .word   .Lmul_one, 104, .+4
 .Lmul_r4_neg:
         .word   .Lmul_negone, 172, .+4
         .word   164, 164, .+4
@@ -24579,9 +24320,6 @@ __subleq_mul:
         .word   164, 12, .+4
         .word   12, 104, .+4
         .word   12, 12, .Lmul_main_init
-.Lmul_r4_ambig:
-        .word   .Lmul_one, 168, .Lmul_main_init
-        .word   12, 12, .Lmul_r4_neg
 .Lmul_main_init:
         .word   168, 168, .+4
         .word   12, 12, .+4
@@ -25370,15 +25108,14 @@ __subleq_and_b30:
 .Land_split_b30_strip:
         .word   12, 12, .Land_b30_PP
 .Land_split_b30_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Land_split_b30_r21_ambig
-        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .Land_split_b30_r21_neg_restore
+        .word   .Land_one, 100, .Land_done
+.Land_split_b30_r21_neg_restore:
+        .word   .Land_one, 100, .+4
+        .word   .Land_c80, 100, .Land_done
         .word   .Land_n1, 100, .+4
         .word   .Land_n1, 104, .+4
         .word   12, 12, .Land_split_b30_strip
-.Land_split_b30_r21_ambig:
-        .word   12, 12, .Land_done
 
         .globl  __subleq_and_b29
         .type   __subleq_and_b29,@function
@@ -25396,15 +25133,14 @@ __subleq_and_b29:
 .Land_sra_b29_30:
         .word   12, 12, .Land_b29_PP
 .Land_split_b29_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Land_split_b29_r21_ambig
-        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .Land_split_b29_r21_neg_restore
+        .word   .Land_one, 100, .Land_done
+.Land_split_b29_r21_neg_restore:
+        .word   .Land_one, 100, .+4
+        .word   .Land_c80, 100, .Land_done
         .word   .Land_n1, 100, .+4
         .word   .Land_n1, 104, .+4
         .word   12, 12, .Land_split_b29_strip
-.Land_split_b29_r21_ambig:
-        .word   12, 12, .Land_done
 
         .globl  __subleq_and_b28
         .type   __subleq_and_b28,@function
@@ -25427,15 +25163,14 @@ __subleq_and_b28:
 .Land_sra_b28_29:
         .word   12, 12, .Land_b28_PP
 .Land_split_b28_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Land_split_b28_r21_ambig
-        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .Land_split_b28_r21_neg_restore
+        .word   .Land_one, 100, .Land_done
+.Land_split_b28_r21_neg_restore:
+        .word   .Land_one, 100, .+4
+        .word   .Land_c80, 100, .Land_done
         .word   .Land_n1, 100, .+4
         .word   .Land_n1, 104, .+4
         .word   12, 12, .Land_split_b28_strip
-.Land_split_b28_r21_ambig:
-        .word   12, 12, .Land_done
 
         .globl  __subleq_and_b27
         .type   __subleq_and_b27,@function
@@ -25463,15 +25198,14 @@ __subleq_and_b27:
 .Land_sra_b27_28:
         .word   12, 12, .Land_b27_PP
 .Land_split_b27_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Land_split_b27_r21_ambig
-        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .Land_split_b27_r21_neg_restore
+        .word   .Land_one, 100, .Land_done
+.Land_split_b27_r21_neg_restore:
+        .word   .Land_one, 100, .+4
+        .word   .Land_c80, 100, .Land_done
         .word   .Land_n1, 100, .+4
         .word   .Land_n1, 104, .+4
         .word   12, 12, .Land_split_b27_strip
-.Land_split_b27_r21_ambig:
-        .word   12, 12, .Land_done
 
         .globl  __subleq_and_b26
         .type   __subleq_and_b26,@function
@@ -25504,15 +25238,14 @@ __subleq_and_b26:
 .Land_sra_b26_27:
         .word   12, 12, .Land_b26_PP
 .Land_split_b26_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Land_split_b26_r21_ambig
-        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .Land_split_b26_r21_neg_restore
+        .word   .Land_one, 100, .Land_done
+.Land_split_b26_r21_neg_restore:
+        .word   .Land_one, 100, .+4
+        .word   .Land_c80, 100, .Land_done
         .word   .Land_n1, 100, .+4
         .word   .Land_n1, 104, .+4
         .word   12, 12, .Land_split_b26_strip
-.Land_split_b26_r21_ambig:
-        .word   12, 12, .Land_done
 
         .globl  __subleq_and_b25
         .type   __subleq_and_b25,@function
@@ -25550,15 +25283,14 @@ __subleq_and_b25:
 .Land_sra_b25_26:
         .word   12, 12, .Land_b25_PP
 .Land_split_b25_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Land_split_b25_r21_ambig
-        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .Land_split_b25_r21_neg_restore
+        .word   .Land_one, 100, .Land_done
+.Land_split_b25_r21_neg_restore:
+        .word   .Land_one, 100, .+4
+        .word   .Land_c80, 100, .Land_done
         .word   .Land_n1, 100, .+4
         .word   .Land_n1, 104, .+4
         .word   12, 12, .Land_split_b25_strip
-.Land_split_b25_r21_ambig:
-        .word   12, 12, .Land_done
 
         .globl  __subleq_and_b24
         .type   __subleq_and_b24,@function
@@ -25601,15 +25333,14 @@ __subleq_and_b24:
 .Land_sra_b24_25:
         .word   12, 12, .Land_b24_PP
 .Land_split_b24_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Land_split_b24_r21_ambig
-        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .Land_split_b24_r21_neg_restore
+        .word   .Land_one, 100, .Land_done
+.Land_split_b24_r21_neg_restore:
+        .word   .Land_one, 100, .+4
+        .word   .Land_c80, 100, .Land_done
         .word   .Land_n1, 100, .+4
         .word   .Land_n1, 104, .+4
         .word   12, 12, .Land_split_b24_strip
-.Land_split_b24_r21_ambig:
-        .word   12, 12, .Land_done
 
         .globl  __subleq_and_b23
         .type   __subleq_and_b23,@function
@@ -25657,15 +25388,14 @@ __subleq_and_b23:
 .Land_sra_b23_24:
         .word   12, 12, .Land_b23_PP
 .Land_split_b23_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Land_split_b23_r21_ambig
-        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .Land_split_b23_r21_neg_restore
+        .word   .Land_one, 100, .Land_done
+.Land_split_b23_r21_neg_restore:
+        .word   .Land_one, 100, .+4
+        .word   .Land_c80, 100, .Land_done
         .word   .Land_n1, 100, .+4
         .word   .Land_n1, 104, .+4
         .word   12, 12, .Land_split_b23_strip
-.Land_split_b23_r21_ambig:
-        .word   12, 12, .Land_done
 
         .globl  __subleq_and_b22
         .type   __subleq_and_b22,@function
@@ -25718,15 +25448,14 @@ __subleq_and_b22:
 .Land_sra_b22_23:
         .word   12, 12, .Land_b22_PP
 .Land_split_b22_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Land_split_b22_r21_ambig
-        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .Land_split_b22_r21_neg_restore
+        .word   .Land_one, 100, .Land_done
+.Land_split_b22_r21_neg_restore:
+        .word   .Land_one, 100, .+4
+        .word   .Land_c80, 100, .Land_done
         .word   .Land_n1, 100, .+4
         .word   .Land_n1, 104, .+4
         .word   12, 12, .Land_split_b22_strip
-.Land_split_b22_r21_ambig:
-        .word   12, 12, .Land_done
 
         .globl  __subleq_and_b21
         .type   __subleq_and_b21,@function
@@ -25784,15 +25513,14 @@ __subleq_and_b21:
 .Land_sra_b21_22:
         .word   12, 12, .Land_b21_PP
 .Land_split_b21_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Land_split_b21_r21_ambig
-        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .Land_split_b21_r21_neg_restore
+        .word   .Land_one, 100, .Land_done
+.Land_split_b21_r21_neg_restore:
+        .word   .Land_one, 100, .+4
+        .word   .Land_c80, 100, .Land_done
         .word   .Land_n1, 100, .+4
         .word   .Land_n1, 104, .+4
         .word   12, 12, .Land_split_b21_strip
-.Land_split_b21_r21_ambig:
-        .word   12, 12, .Land_done
 
         .globl  __subleq_and_b20
         .type   __subleq_and_b20,@function
@@ -25855,15 +25583,14 @@ __subleq_and_b20:
 .Land_sra_b20_21:
         .word   12, 12, .Land_b20_PP
 .Land_split_b20_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Land_split_b20_r21_ambig
-        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .Land_split_b20_r21_neg_restore
+        .word   .Land_one, 100, .Land_done
+.Land_split_b20_r21_neg_restore:
+        .word   .Land_one, 100, .+4
+        .word   .Land_c80, 100, .Land_done
         .word   .Land_n1, 100, .+4
         .word   .Land_n1, 104, .+4
         .word   12, 12, .Land_split_b20_strip
-.Land_split_b20_r21_ambig:
-        .word   12, 12, .Land_done
 
         .globl  __subleq_and_b19
         .type   __subleq_and_b19,@function
@@ -25931,15 +25658,14 @@ __subleq_and_b19:
 .Land_sra_b19_20:
         .word   12, 12, .Land_b19_PP
 .Land_split_b19_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Land_split_b19_r21_ambig
-        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .Land_split_b19_r21_neg_restore
+        .word   .Land_one, 100, .Land_done
+.Land_split_b19_r21_neg_restore:
+        .word   .Land_one, 100, .+4
+        .word   .Land_c80, 100, .Land_done
         .word   .Land_n1, 100, .+4
         .word   .Land_n1, 104, .+4
         .word   12, 12, .Land_split_b19_strip
-.Land_split_b19_r21_ambig:
-        .word   12, 12, .Land_done
 
         .globl  __subleq_and_b18
         .type   __subleq_and_b18,@function
@@ -26012,15 +25738,14 @@ __subleq_and_b18:
 .Land_sra_b18_19:
         .word   12, 12, .Land_b18_PP
 .Land_split_b18_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Land_split_b18_r21_ambig
-        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .Land_split_b18_r21_neg_restore
+        .word   .Land_one, 100, .Land_done
+.Land_split_b18_r21_neg_restore:
+        .word   .Land_one, 100, .+4
+        .word   .Land_c80, 100, .Land_done
         .word   .Land_n1, 100, .+4
         .word   .Land_n1, 104, .+4
         .word   12, 12, .Land_split_b18_strip
-.Land_split_b18_r21_ambig:
-        .word   12, 12, .Land_done
 
         .globl  __subleq_and_b17
         .type   __subleq_and_b17,@function
@@ -26098,15 +25823,14 @@ __subleq_and_b17:
 .Land_sra_b17_18:
         .word   12, 12, .Land_b17_PP
 .Land_split_b17_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Land_split_b17_r21_ambig
-        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .Land_split_b17_r21_neg_restore
+        .word   .Land_one, 100, .Land_done
+.Land_split_b17_r21_neg_restore:
+        .word   .Land_one, 100, .+4
+        .word   .Land_c80, 100, .Land_done
         .word   .Land_n1, 100, .+4
         .word   .Land_n1, 104, .+4
         .word   12, 12, .Land_split_b17_strip
-.Land_split_b17_r21_ambig:
-        .word   12, 12, .Land_done
 
         .globl  __subleq_and_b16
         .type   __subleq_and_b16,@function
@@ -26189,15 +25913,14 @@ __subleq_and_b16:
 .Land_sra_b16_17:
         .word   12, 12, .Land_b16_PP
 .Land_split_b16_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Land_split_b16_r21_ambig
-        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .Land_split_b16_r21_neg_restore
+        .word   .Land_one, 100, .Land_done
+.Land_split_b16_r21_neg_restore:
+        .word   .Land_one, 100, .+4
+        .word   .Land_c80, 100, .Land_done
         .word   .Land_n1, 100, .+4
         .word   .Land_n1, 104, .+4
         .word   12, 12, .Land_split_b16_strip
-.Land_split_b16_r21_ambig:
-        .word   12, 12, .Land_done
 
         .globl  __subleq_and_b15
         .type   __subleq_and_b15,@function
@@ -26285,15 +26008,14 @@ __subleq_and_b15:
 .Land_sra_b15_16:
         .word   12, 12, .Land_b15_PP
 .Land_split_b15_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Land_split_b15_r21_ambig
-        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .Land_split_b15_r21_neg_restore
+        .word   .Land_one, 100, .Land_done
+.Land_split_b15_r21_neg_restore:
+        .word   .Land_one, 100, .+4
+        .word   .Land_c80, 100, .Land_done
         .word   .Land_n1, 100, .+4
         .word   .Land_n1, 104, .+4
         .word   12, 12, .Land_split_b15_strip
-.Land_split_b15_r21_ambig:
-        .word   12, 12, .Land_done
 
         .globl  __subleq_and_b14
         .type   __subleq_and_b14,@function
@@ -26386,15 +26108,14 @@ __subleq_and_b14:
 .Land_sra_b14_15:
         .word   12, 12, .Land_b14_PP
 .Land_split_b14_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Land_split_b14_r21_ambig
-        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .Land_split_b14_r21_neg_restore
+        .word   .Land_one, 100, .Land_done
+.Land_split_b14_r21_neg_restore:
+        .word   .Land_one, 100, .+4
+        .word   .Land_c80, 100, .Land_done
         .word   .Land_n1, 100, .+4
         .word   .Land_n1, 104, .+4
         .word   12, 12, .Land_split_b14_strip
-.Land_split_b14_r21_ambig:
-        .word   12, 12, .Land_done
 
         .globl  __subleq_and_b13
         .type   __subleq_and_b13,@function
@@ -26492,15 +26213,14 @@ __subleq_and_b13:
 .Land_sra_b13_14:
         .word   12, 12, .Land_b13_PP
 .Land_split_b13_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Land_split_b13_r21_ambig
-        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .Land_split_b13_r21_neg_restore
+        .word   .Land_one, 100, .Land_done
+.Land_split_b13_r21_neg_restore:
+        .word   .Land_one, 100, .+4
+        .word   .Land_c80, 100, .Land_done
         .word   .Land_n1, 100, .+4
         .word   .Land_n1, 104, .+4
         .word   12, 12, .Land_split_b13_strip
-.Land_split_b13_r21_ambig:
-        .word   12, 12, .Land_done
 
         .globl  __subleq_and_b12
         .type   __subleq_and_b12,@function
@@ -26603,15 +26323,14 @@ __subleq_and_b12:
 .Land_sra_b12_13:
         .word   12, 12, .Land_b12_PP
 .Land_split_b12_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Land_split_b12_r21_ambig
-        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .Land_split_b12_r21_neg_restore
+        .word   .Land_one, 100, .Land_done
+.Land_split_b12_r21_neg_restore:
+        .word   .Land_one, 100, .+4
+        .word   .Land_c80, 100, .Land_done
         .word   .Land_n1, 100, .+4
         .word   .Land_n1, 104, .+4
         .word   12, 12, .Land_split_b12_strip
-.Land_split_b12_r21_ambig:
-        .word   12, 12, .Land_done
 
         .globl  __subleq_and_b11
         .type   __subleq_and_b11,@function
@@ -26719,15 +26438,14 @@ __subleq_and_b11:
 .Land_sra_b11_12:
         .word   12, 12, .Land_b11_PP
 .Land_split_b11_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Land_split_b11_r21_ambig
-        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .Land_split_b11_r21_neg_restore
+        .word   .Land_one, 100, .Land_done
+.Land_split_b11_r21_neg_restore:
+        .word   .Land_one, 100, .+4
+        .word   .Land_c80, 100, .Land_done
         .word   .Land_n1, 100, .+4
         .word   .Land_n1, 104, .+4
         .word   12, 12, .Land_split_b11_strip
-.Land_split_b11_r21_ambig:
-        .word   12, 12, .Land_done
 
         .globl  __subleq_and_b10
         .type   __subleq_and_b10,@function
@@ -26840,15 +26558,14 @@ __subleq_and_b10:
 .Land_sra_b10_11:
         .word   12, 12, .Land_b10_PP
 .Land_split_b10_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Land_split_b10_r21_ambig
-        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .Land_split_b10_r21_neg_restore
+        .word   .Land_one, 100, .Land_done
+.Land_split_b10_r21_neg_restore:
+        .word   .Land_one, 100, .+4
+        .word   .Land_c80, 100, .Land_done
         .word   .Land_n1, 100, .+4
         .word   .Land_n1, 104, .+4
         .word   12, 12, .Land_split_b10_strip
-.Land_split_b10_r21_ambig:
-        .word   12, 12, .Land_done
 
         .globl  __subleq_and_b9
         .type   __subleq_and_b9,@function
@@ -26966,15 +26683,14 @@ __subleq_and_b9:
 .Land_sra_b9_10:
         .word   12, 12, .Land_b9_PP
 .Land_split_b9_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Land_split_b9_r21_ambig
-        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .Land_split_b9_r21_neg_restore
+        .word   .Land_one, 100, .Land_done
+.Land_split_b9_r21_neg_restore:
+        .word   .Land_one, 100, .+4
+        .word   .Land_c80, 100, .Land_done
         .word   .Land_n1, 100, .+4
         .word   .Land_n1, 104, .+4
         .word   12, 12, .Land_split_b9_strip
-.Land_split_b9_r21_ambig:
-        .word   12, 12, .Land_done
 
         .globl  __subleq_and_b8
         .type   __subleq_and_b8,@function
@@ -27097,15 +26813,14 @@ __subleq_and_b8:
 .Land_sra_b8_9:
         .word   12, 12, .Land_b8_PP
 .Land_split_b8_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Land_split_b8_r21_ambig
-        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .Land_split_b8_r21_neg_restore
+        .word   .Land_one, 100, .Land_done
+.Land_split_b8_r21_neg_restore:
+        .word   .Land_one, 100, .+4
+        .word   .Land_c80, 100, .Land_done
         .word   .Land_n1, 100, .+4
         .word   .Land_n1, 104, .+4
         .word   12, 12, .Land_split_b8_strip
-.Land_split_b8_r21_ambig:
-        .word   12, 12, .Land_done
 
         .globl  __subleq_and_b7
         .type   __subleq_and_b7,@function
@@ -27233,15 +26948,14 @@ __subleq_and_b7:
 .Land_sra_b7_8:
         .word   12, 12, .Land_b7_PP
 .Land_split_b7_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Land_split_b7_r21_ambig
-        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .Land_split_b7_r21_neg_restore
+        .word   .Land_one, 100, .Land_done
+.Land_split_b7_r21_neg_restore:
+        .word   .Land_one, 100, .+4
+        .word   .Land_c80, 100, .Land_done
         .word   .Land_n1, 100, .+4
         .word   .Land_n1, 104, .+4
         .word   12, 12, .Land_split_b7_strip
-.Land_split_b7_r21_ambig:
-        .word   12, 12, .Land_done
 
         .globl  __subleq_and_b6
         .type   __subleq_and_b6,@function
@@ -27374,15 +27088,14 @@ __subleq_and_b6:
 .Land_sra_b6_7:
         .word   12, 12, .Land_b6_PP
 .Land_split_b6_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Land_split_b6_r21_ambig
-        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .Land_split_b6_r21_neg_restore
+        .word   .Land_one, 100, .Land_done
+.Land_split_b6_r21_neg_restore:
+        .word   .Land_one, 100, .+4
+        .word   .Land_c80, 100, .Land_done
         .word   .Land_n1, 100, .+4
         .word   .Land_n1, 104, .+4
         .word   12, 12, .Land_split_b6_strip
-.Land_split_b6_r21_ambig:
-        .word   12, 12, .Land_done
 
         .globl  __subleq_and_b5
         .type   __subleq_and_b5,@function
@@ -27520,15 +27233,14 @@ __subleq_and_b5:
 .Land_sra_b5_6:
         .word   12, 12, .Land_b5_PP
 .Land_split_b5_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Land_split_b5_r21_ambig
-        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .Land_split_b5_r21_neg_restore
+        .word   .Land_one, 100, .Land_done
+.Land_split_b5_r21_neg_restore:
+        .word   .Land_one, 100, .+4
+        .word   .Land_c80, 100, .Land_done
         .word   .Land_n1, 100, .+4
         .word   .Land_n1, 104, .+4
         .word   12, 12, .Land_split_b5_strip
-.Land_split_b5_r21_ambig:
-        .word   12, 12, .Land_done
 
         .globl  __subleq_and_b4
         .type   __subleq_and_b4,@function
@@ -27671,15 +27383,14 @@ __subleq_and_b4:
 .Land_sra_b4_5:
         .word   12, 12, .Land_b4_PP
 .Land_split_b4_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Land_split_b4_r21_ambig
-        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .Land_split_b4_r21_neg_restore
+        .word   .Land_one, 100, .Land_done
+.Land_split_b4_r21_neg_restore:
+        .word   .Land_one, 100, .+4
+        .word   .Land_c80, 100, .Land_done
         .word   .Land_n1, 100, .+4
         .word   .Land_n1, 104, .+4
         .word   12, 12, .Land_split_b4_strip
-.Land_split_b4_r21_ambig:
-        .word   12, 12, .Land_done
 
         .globl  __subleq_and_b3
         .type   __subleq_and_b3,@function
@@ -27827,15 +27538,14 @@ __subleq_and_b3:
 .Land_sra_b3_4:
         .word   12, 12, .Land_b3_PP
 .Land_split_b3_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Land_split_b3_r21_ambig
-        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .Land_split_b3_r21_neg_restore
+        .word   .Land_one, 100, .Land_done
+.Land_split_b3_r21_neg_restore:
+        .word   .Land_one, 100, .+4
+        .word   .Land_c80, 100, .Land_done
         .word   .Land_n1, 100, .+4
         .word   .Land_n1, 104, .+4
         .word   12, 12, .Land_split_b3_strip
-.Land_split_b3_r21_ambig:
-        .word   12, 12, .Land_done
 
         .globl  __subleq_and_b2
         .type   __subleq_and_b2,@function
@@ -27988,15 +27698,14 @@ __subleq_and_b2:
 .Land_sra_b2_3:
         .word   12, 12, .Land_b2_PP
 .Land_split_b2_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Land_split_b2_r21_ambig
-        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .Land_split_b2_r21_neg_restore
+        .word   .Land_one, 100, .Land_done
+.Land_split_b2_r21_neg_restore:
+        .word   .Land_one, 100, .+4
+        .word   .Land_c80, 100, .Land_done
         .word   .Land_n1, 100, .+4
         .word   .Land_n1, 104, .+4
         .word   12, 12, .Land_split_b2_strip
-.Land_split_b2_r21_ambig:
-        .word   12, 12, .Land_done
 
         .globl  __subleq_and_b1
         .type   __subleq_and_b1,@function
@@ -28154,15 +27863,14 @@ __subleq_and_b1:
 .Land_sra_b1_2:
         .word   12, 12, .Land_b1_PP
 .Land_split_b1_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Land_split_b1_r21_ambig
-        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .Land_split_b1_r21_neg_restore
+        .word   .Land_one, 100, .Land_done
+.Land_split_b1_r21_neg_restore:
+        .word   .Land_one, 100, .+4
+        .word   .Land_c80, 100, .Land_done
         .word   .Land_n1, 100, .+4
         .word   .Land_n1, 104, .+4
         .word   12, 12, .Land_split_b1_strip
-.Land_split_b1_r21_ambig:
-        .word   12, 12, .Land_done
 
         .globl  __subleq_and_b0
         .type   __subleq_and_b0,@function
@@ -28325,15 +28033,14 @@ __subleq_and_b0:
 .Land_sra_b0_1:
         .word   12, 12, .Land_b0_PP
 .Land_split_b0_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Land_split_b0_r21_ambig
-        .word   .Land_c80, 100, .+4
+        .word   .Land_n1, 100, .Land_split_b0_r21_neg_restore
+        .word   .Land_one, 100, .Land_done
+.Land_split_b0_r21_neg_restore:
+        .word   .Land_one, 100, .+4
+        .word   .Land_c80, 100, .Land_done
         .word   .Land_n1, 100, .+4
         .word   .Land_n1, 104, .+4
         .word   12, 12, .Land_split_b0_strip
-.Land_split_b0_r21_ambig:
-        .word   12, 12, .Land_done
 .Land_Bit31:
         .word   160, 160, .+4
         .word   96, 96, .+4
@@ -28341,37 +28048,30 @@ __subleq_and_b0:
         .word   144, 104, .Land_b31_r22_neg_only
         .word   12, 12, .Land_Bit30
 .Land_b31_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Land_b31_r21_ambig
+        .word   .Land_n1, 100, .Land_b31_r21_neg_restore
+        .word   .Land_one, 100, .Land_b31_r21_zero
+.Land_b31_r21_neg_restore:
+        .word   .Land_one, 100, .+4
         .word   .Land_c80, 100, .Land_b31_both_check
         .word   12, 12, .Land_b31_both_check
-.Land_b31_r21_ambig:
-        .word   .Land_one, 168, .Land_b31_r21_zero
-        .word   .Land_c80, 100, .Land_b31_both_check
 .Land_b31_r21_zero:
         .word   144, 104, .Land_b31_r22_neg_only
         .word   12, 12, .Land_Bit30
 .Land_b31_r22_neg_only:
-        .word   168, 168, .+4
-        .word   104, 168, .+4
-        .word   144, 168, .Land_b31_r22_ambig_only
+        .word   .Land_n1, 104, .Land_b31_r22_negonly_restore
+        .word   .Land_one, 104, .Land_Bit30
+.Land_b31_r22_negonly_restore:
+        .word   .Land_one, 104, .+4
         .word   .Land_c80, 104, .Land_Bit30
         .word   12, 12, .Land_Bit30
-.Land_b31_r22_ambig_only:
-        .word   .Land_one, 168, .Land_Bit30
-        .word   .Land_c80, 104, .Land_Bit30
 .Land_b31_both_check:
         .word   144, 104, .Land_b31_r22_neg_both
         .word   12, 12, .Land_Bit30
 .Land_b31_r22_neg_both:
-        .word   168, 168, .+4
-        .word   104, 168, .+4
-        .word   144, 168, .Land_b31_r22_ambig_both
-        .word   .Land_c80, 104, .+4
-        .word   .Land_c80, 96, .Land_Bit30
-.Land_b31_r22_ambig_both:
-        .word   .Land_one, 168, .Land_Bit30
+        .word   .Land_n1, 104, .Land_b31_r22_negboth_restore
+        .word   .Land_one, 104, .Land_Bit30
+.Land_b31_r22_negboth_restore:
+        .word   .Land_one, 104, .+4
         .word   .Land_c80, 104, .+4
         .word   .Land_c80, 96, .Land_Bit30
 .Land_Bit30:
@@ -29211,12 +28911,16 @@ __subleq_and_b0:
 .Land_neg4:
         .word   -4
 .Land_r21_le0_fast:
-        .word   160, 160, .+4
-        .word   100, 160, .+4
-        .word   144, 160, .Land_r21_ambig
+        .word   .Land_n1, 100, .Land_r21_neg_restore
+        .word   .Land_one, 100, .Land_ret_zero
+.Land_r21_neg_restore:
+        .word   .Land_one, 100, .+4
         .word   12, 12, .Land_small_check
-.Land_r21_ambig:
-        .word   .Land_one, 160, .Land_ret_zero
+.Land_r22_le0_fast:
+        .word   .Land_n1, 104, .Land_r22_neg_restore
+        .word   .Land_one, 104, .Land_ret_zero
+.Land_r22_neg_restore:
+        .word   .Land_one, 104, .+4
         .word   12, 12, .Land_small_check
 .Land_ret_zero:
         .word   96, 96, .+4
@@ -29233,14 +28937,6 @@ __subleq_and_b0:
         .word   -1
 .Land_zero_neg4:
         .word   -4
-.Land_r22_le0_fast:
-        .word   160, 160, .+4
-        .word   104, 160, .+4
-        .word   144, 160, .Land_r22_ambig
-        .word   12, 12, .Land_small_check
-.Land_r22_ambig:
-        .word   .Land_one, 160, .Land_ret_zero
-        .word   12, 12, .Land_small_check
 .Land_c80:
         .word   -2147483648
 .Land_one:
@@ -29419,15 +29115,10 @@ __subleq_or_b30:
         .word   .Lor_n1, 104, .+4
         .word   12, 12, .Lor_b30_PP
 .Lor_split_b30_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lor_split_b30_r21_ambig
-        .word   .Lor_c80, 100, .+4
-        .word   .Lor_c80, 160, .+4
-        .word   .Lor_n1, 100, .+4
-        .word   12, 12, .Lor_split_b30_strip
-.Lor_split_b30_r21_ambig:
-        .word   .Lor_one, 168, .Lor_split_b30_r21_zero
+        .word   .Lor_n1, 100, .Lor_split_b30_r21_neg_restore
+        .word   .Lor_one, 100, .Lor_split_b30_r21_zero
+.Lor_split_b30_r21_neg_restore:
+        .word   .Lor_one, 100, .+4
         .word   .Lor_c80, 100, .+4
         .word   .Lor_c80, 160, .+4
         .word   .Lor_n1, 100, .+4
@@ -29453,15 +29144,10 @@ __subleq_or_b29:
         .word   .Lor_n1, 104, .+4
         .word   12, 12, .Lor_b29_PP
 .Lor_split_b29_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lor_split_b29_r21_ambig
-        .word   .Lor_c80, 100, .+4
-        .word   .Lor_c80, 160, .+4
-        .word   .Lor_n1, 100, .+4
-        .word   12, 12, .Lor_split_b29_strip
-.Lor_split_b29_r21_ambig:
-        .word   .Lor_one, 168, .Lor_split_b29_r21_zero
+        .word   .Lor_n1, 100, .Lor_split_b29_r21_neg_restore
+        .word   .Lor_one, 100, .Lor_split_b29_r21_zero
+.Lor_split_b29_r21_neg_restore:
+        .word   .Lor_one, 100, .+4
         .word   .Lor_c80, 100, .+4
         .word   .Lor_c80, 160, .+4
         .word   .Lor_n1, 100, .+4
@@ -29493,15 +29179,10 @@ __subleq_or_b28:
         .word   .Lor_n1, 104, .+4
         .word   12, 12, .Lor_b28_PP
 .Lor_split_b28_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lor_split_b28_r21_ambig
-        .word   .Lor_c80, 100, .+4
-        .word   .Lor_c80, 160, .+4
-        .word   .Lor_n1, 100, .+4
-        .word   12, 12, .Lor_split_b28_strip
-.Lor_split_b28_r21_ambig:
-        .word   .Lor_one, 168, .Lor_split_b28_r21_zero
+        .word   .Lor_n1, 100, .Lor_split_b28_r21_neg_restore
+        .word   .Lor_one, 100, .Lor_split_b28_r21_zero
+.Lor_split_b28_r21_neg_restore:
+        .word   .Lor_one, 100, .+4
         .word   .Lor_c80, 100, .+4
         .word   .Lor_c80, 160, .+4
         .word   .Lor_n1, 100, .+4
@@ -29539,15 +29220,10 @@ __subleq_or_b27:
         .word   .Lor_n1, 104, .+4
         .word   12, 12, .Lor_b27_PP
 .Lor_split_b27_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lor_split_b27_r21_ambig
-        .word   .Lor_c80, 100, .+4
-        .word   .Lor_c80, 160, .+4
-        .word   .Lor_n1, 100, .+4
-        .word   12, 12, .Lor_split_b27_strip
-.Lor_split_b27_r21_ambig:
-        .word   .Lor_one, 168, .Lor_split_b27_r21_zero
+        .word   .Lor_n1, 100, .Lor_split_b27_r21_neg_restore
+        .word   .Lor_one, 100, .Lor_split_b27_r21_zero
+.Lor_split_b27_r21_neg_restore:
+        .word   .Lor_one, 100, .+4
         .word   .Lor_c80, 100, .+4
         .word   .Lor_c80, 160, .+4
         .word   .Lor_n1, 100, .+4
@@ -29591,15 +29267,10 @@ __subleq_or_b26:
         .word   .Lor_n1, 104, .+4
         .word   12, 12, .Lor_b26_PP
 .Lor_split_b26_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lor_split_b26_r21_ambig
-        .word   .Lor_c80, 100, .+4
-        .word   .Lor_c80, 160, .+4
-        .word   .Lor_n1, 100, .+4
-        .word   12, 12, .Lor_split_b26_strip
-.Lor_split_b26_r21_ambig:
-        .word   .Lor_one, 168, .Lor_split_b26_r21_zero
+        .word   .Lor_n1, 100, .Lor_split_b26_r21_neg_restore
+        .word   .Lor_one, 100, .Lor_split_b26_r21_zero
+.Lor_split_b26_r21_neg_restore:
+        .word   .Lor_one, 100, .+4
         .word   .Lor_c80, 100, .+4
         .word   .Lor_c80, 160, .+4
         .word   .Lor_n1, 100, .+4
@@ -29649,15 +29320,10 @@ __subleq_or_b25:
         .word   .Lor_n1, 104, .+4
         .word   12, 12, .Lor_b25_PP
 .Lor_split_b25_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lor_split_b25_r21_ambig
-        .word   .Lor_c80, 100, .+4
-        .word   .Lor_c80, 160, .+4
-        .word   .Lor_n1, 100, .+4
-        .word   12, 12, .Lor_split_b25_strip
-.Lor_split_b25_r21_ambig:
-        .word   .Lor_one, 168, .Lor_split_b25_r21_zero
+        .word   .Lor_n1, 100, .Lor_split_b25_r21_neg_restore
+        .word   .Lor_one, 100, .Lor_split_b25_r21_zero
+.Lor_split_b25_r21_neg_restore:
+        .word   .Lor_one, 100, .+4
         .word   .Lor_c80, 100, .+4
         .word   .Lor_c80, 160, .+4
         .word   .Lor_n1, 100, .+4
@@ -29713,15 +29379,10 @@ __subleq_or_b24:
         .word   .Lor_n1, 104, .+4
         .word   12, 12, .Lor_b24_PP
 .Lor_split_b24_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lor_split_b24_r21_ambig
-        .word   .Lor_c80, 100, .+4
-        .word   .Lor_c80, 160, .+4
-        .word   .Lor_n1, 100, .+4
-        .word   12, 12, .Lor_split_b24_strip
-.Lor_split_b24_r21_ambig:
-        .word   .Lor_one, 168, .Lor_split_b24_r21_zero
+        .word   .Lor_n1, 100, .Lor_split_b24_r21_neg_restore
+        .word   .Lor_one, 100, .Lor_split_b24_r21_zero
+.Lor_split_b24_r21_neg_restore:
+        .word   .Lor_one, 100, .+4
         .word   .Lor_c80, 100, .+4
         .word   .Lor_c80, 160, .+4
         .word   .Lor_n1, 100, .+4
@@ -29783,15 +29444,10 @@ __subleq_or_b23:
         .word   .Lor_n1, 104, .+4
         .word   12, 12, .Lor_b23_PP
 .Lor_split_b23_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lor_split_b23_r21_ambig
-        .word   .Lor_c80, 100, .+4
-        .word   .Lor_c80, 160, .+4
-        .word   .Lor_n1, 100, .+4
-        .word   12, 12, .Lor_split_b23_strip
-.Lor_split_b23_r21_ambig:
-        .word   .Lor_one, 168, .Lor_split_b23_r21_zero
+        .word   .Lor_n1, 100, .Lor_split_b23_r21_neg_restore
+        .word   .Lor_one, 100, .Lor_split_b23_r21_zero
+.Lor_split_b23_r21_neg_restore:
+        .word   .Lor_one, 100, .+4
         .word   .Lor_c80, 100, .+4
         .word   .Lor_c80, 160, .+4
         .word   .Lor_n1, 100, .+4
@@ -29859,15 +29515,10 @@ __subleq_or_b22:
         .word   .Lor_n1, 104, .+4
         .word   12, 12, .Lor_b22_PP
 .Lor_split_b22_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lor_split_b22_r21_ambig
-        .word   .Lor_c80, 100, .+4
-        .word   .Lor_c80, 160, .+4
-        .word   .Lor_n1, 100, .+4
-        .word   12, 12, .Lor_split_b22_strip
-.Lor_split_b22_r21_ambig:
-        .word   .Lor_one, 168, .Lor_split_b22_r21_zero
+        .word   .Lor_n1, 100, .Lor_split_b22_r21_neg_restore
+        .word   .Lor_one, 100, .Lor_split_b22_r21_zero
+.Lor_split_b22_r21_neg_restore:
+        .word   .Lor_one, 100, .+4
         .word   .Lor_c80, 100, .+4
         .word   .Lor_c80, 160, .+4
         .word   .Lor_n1, 100, .+4
@@ -29941,15 +29592,10 @@ __subleq_or_b21:
         .word   .Lor_n1, 104, .+4
         .word   12, 12, .Lor_b21_PP
 .Lor_split_b21_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lor_split_b21_r21_ambig
-        .word   .Lor_c80, 100, .+4
-        .word   .Lor_c80, 160, .+4
-        .word   .Lor_n1, 100, .+4
-        .word   12, 12, .Lor_split_b21_strip
-.Lor_split_b21_r21_ambig:
-        .word   .Lor_one, 168, .Lor_split_b21_r21_zero
+        .word   .Lor_n1, 100, .Lor_split_b21_r21_neg_restore
+        .word   .Lor_one, 100, .Lor_split_b21_r21_zero
+.Lor_split_b21_r21_neg_restore:
+        .word   .Lor_one, 100, .+4
         .word   .Lor_c80, 100, .+4
         .word   .Lor_c80, 160, .+4
         .word   .Lor_n1, 100, .+4
@@ -30029,15 +29675,10 @@ __subleq_or_b20:
         .word   .Lor_n1, 104, .+4
         .word   12, 12, .Lor_b20_PP
 .Lor_split_b20_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lor_split_b20_r21_ambig
-        .word   .Lor_c80, 100, .+4
-        .word   .Lor_c80, 160, .+4
-        .word   .Lor_n1, 100, .+4
-        .word   12, 12, .Lor_split_b20_strip
-.Lor_split_b20_r21_ambig:
-        .word   .Lor_one, 168, .Lor_split_b20_r21_zero
+        .word   .Lor_n1, 100, .Lor_split_b20_r21_neg_restore
+        .word   .Lor_one, 100, .Lor_split_b20_r21_zero
+.Lor_split_b20_r21_neg_restore:
+        .word   .Lor_one, 100, .+4
         .word   .Lor_c80, 100, .+4
         .word   .Lor_c80, 160, .+4
         .word   .Lor_n1, 100, .+4
@@ -30123,15 +29764,10 @@ __subleq_or_b19:
         .word   .Lor_n1, 104, .+4
         .word   12, 12, .Lor_b19_PP
 .Lor_split_b19_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lor_split_b19_r21_ambig
-        .word   .Lor_c80, 100, .+4
-        .word   .Lor_c80, 160, .+4
-        .word   .Lor_n1, 100, .+4
-        .word   12, 12, .Lor_split_b19_strip
-.Lor_split_b19_r21_ambig:
-        .word   .Lor_one, 168, .Lor_split_b19_r21_zero
+        .word   .Lor_n1, 100, .Lor_split_b19_r21_neg_restore
+        .word   .Lor_one, 100, .Lor_split_b19_r21_zero
+.Lor_split_b19_r21_neg_restore:
+        .word   .Lor_one, 100, .+4
         .word   .Lor_c80, 100, .+4
         .word   .Lor_c80, 160, .+4
         .word   .Lor_n1, 100, .+4
@@ -30223,15 +29859,10 @@ __subleq_or_b18:
         .word   .Lor_n1, 104, .+4
         .word   12, 12, .Lor_b18_PP
 .Lor_split_b18_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lor_split_b18_r21_ambig
-        .word   .Lor_c80, 100, .+4
-        .word   .Lor_c80, 160, .+4
-        .word   .Lor_n1, 100, .+4
-        .word   12, 12, .Lor_split_b18_strip
-.Lor_split_b18_r21_ambig:
-        .word   .Lor_one, 168, .Lor_split_b18_r21_zero
+        .word   .Lor_n1, 100, .Lor_split_b18_r21_neg_restore
+        .word   .Lor_one, 100, .Lor_split_b18_r21_zero
+.Lor_split_b18_r21_neg_restore:
+        .word   .Lor_one, 100, .+4
         .word   .Lor_c80, 100, .+4
         .word   .Lor_c80, 160, .+4
         .word   .Lor_n1, 100, .+4
@@ -30329,15 +29960,10 @@ __subleq_or_b17:
         .word   .Lor_n1, 104, .+4
         .word   12, 12, .Lor_b17_PP
 .Lor_split_b17_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lor_split_b17_r21_ambig
-        .word   .Lor_c80, 100, .+4
-        .word   .Lor_c80, 160, .+4
-        .word   .Lor_n1, 100, .+4
-        .word   12, 12, .Lor_split_b17_strip
-.Lor_split_b17_r21_ambig:
-        .word   .Lor_one, 168, .Lor_split_b17_r21_zero
+        .word   .Lor_n1, 100, .Lor_split_b17_r21_neg_restore
+        .word   .Lor_one, 100, .Lor_split_b17_r21_zero
+.Lor_split_b17_r21_neg_restore:
+        .word   .Lor_one, 100, .+4
         .word   .Lor_c80, 100, .+4
         .word   .Lor_c80, 160, .+4
         .word   .Lor_n1, 100, .+4
@@ -30441,15 +30067,10 @@ __subleq_or_b16:
         .word   .Lor_n1, 104, .+4
         .word   12, 12, .Lor_b16_PP
 .Lor_split_b16_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lor_split_b16_r21_ambig
-        .word   .Lor_c80, 100, .+4
-        .word   .Lor_c80, 160, .+4
-        .word   .Lor_n1, 100, .+4
-        .word   12, 12, .Lor_split_b16_strip
-.Lor_split_b16_r21_ambig:
-        .word   .Lor_one, 168, .Lor_split_b16_r21_zero
+        .word   .Lor_n1, 100, .Lor_split_b16_r21_neg_restore
+        .word   .Lor_one, 100, .Lor_split_b16_r21_zero
+.Lor_split_b16_r21_neg_restore:
+        .word   .Lor_one, 100, .+4
         .word   .Lor_c80, 100, .+4
         .word   .Lor_c80, 160, .+4
         .word   .Lor_n1, 100, .+4
@@ -30559,15 +30180,10 @@ __subleq_or_b15:
         .word   .Lor_n1, 104, .+4
         .word   12, 12, .Lor_b15_PP
 .Lor_split_b15_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lor_split_b15_r21_ambig
-        .word   .Lor_c80, 100, .+4
-        .word   .Lor_c80, 160, .+4
-        .word   .Lor_n1, 100, .+4
-        .word   12, 12, .Lor_split_b15_strip
-.Lor_split_b15_r21_ambig:
-        .word   .Lor_one, 168, .Lor_split_b15_r21_zero
+        .word   .Lor_n1, 100, .Lor_split_b15_r21_neg_restore
+        .word   .Lor_one, 100, .Lor_split_b15_r21_zero
+.Lor_split_b15_r21_neg_restore:
+        .word   .Lor_one, 100, .+4
         .word   .Lor_c80, 100, .+4
         .word   .Lor_c80, 160, .+4
         .word   .Lor_n1, 100, .+4
@@ -30683,15 +30299,10 @@ __subleq_or_b14:
         .word   .Lor_n1, 104, .+4
         .word   12, 12, .Lor_b14_PP
 .Lor_split_b14_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lor_split_b14_r21_ambig
-        .word   .Lor_c80, 100, .+4
-        .word   .Lor_c80, 160, .+4
-        .word   .Lor_n1, 100, .+4
-        .word   12, 12, .Lor_split_b14_strip
-.Lor_split_b14_r21_ambig:
-        .word   .Lor_one, 168, .Lor_split_b14_r21_zero
+        .word   .Lor_n1, 100, .Lor_split_b14_r21_neg_restore
+        .word   .Lor_one, 100, .Lor_split_b14_r21_zero
+.Lor_split_b14_r21_neg_restore:
+        .word   .Lor_one, 100, .+4
         .word   .Lor_c80, 100, .+4
         .word   .Lor_c80, 160, .+4
         .word   .Lor_n1, 100, .+4
@@ -30813,15 +30424,10 @@ __subleq_or_b13:
         .word   .Lor_n1, 104, .+4
         .word   12, 12, .Lor_b13_PP
 .Lor_split_b13_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lor_split_b13_r21_ambig
-        .word   .Lor_c80, 100, .+4
-        .word   .Lor_c80, 160, .+4
-        .word   .Lor_n1, 100, .+4
-        .word   12, 12, .Lor_split_b13_strip
-.Lor_split_b13_r21_ambig:
-        .word   .Lor_one, 168, .Lor_split_b13_r21_zero
+        .word   .Lor_n1, 100, .Lor_split_b13_r21_neg_restore
+        .word   .Lor_one, 100, .Lor_split_b13_r21_zero
+.Lor_split_b13_r21_neg_restore:
+        .word   .Lor_one, 100, .+4
         .word   .Lor_c80, 100, .+4
         .word   .Lor_c80, 160, .+4
         .word   .Lor_n1, 100, .+4
@@ -30949,15 +30555,10 @@ __subleq_or_b12:
         .word   .Lor_n1, 104, .+4
         .word   12, 12, .Lor_b12_PP
 .Lor_split_b12_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lor_split_b12_r21_ambig
-        .word   .Lor_c80, 100, .+4
-        .word   .Lor_c80, 160, .+4
-        .word   .Lor_n1, 100, .+4
-        .word   12, 12, .Lor_split_b12_strip
-.Lor_split_b12_r21_ambig:
-        .word   .Lor_one, 168, .Lor_split_b12_r21_zero
+        .word   .Lor_n1, 100, .Lor_split_b12_r21_neg_restore
+        .word   .Lor_one, 100, .Lor_split_b12_r21_zero
+.Lor_split_b12_r21_neg_restore:
+        .word   .Lor_one, 100, .+4
         .word   .Lor_c80, 100, .+4
         .word   .Lor_c80, 160, .+4
         .word   .Lor_n1, 100, .+4
@@ -31091,15 +30692,10 @@ __subleq_or_b11:
         .word   .Lor_n1, 104, .+4
         .word   12, 12, .Lor_b11_PP
 .Lor_split_b11_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lor_split_b11_r21_ambig
-        .word   .Lor_c80, 100, .+4
-        .word   .Lor_c80, 160, .+4
-        .word   .Lor_n1, 100, .+4
-        .word   12, 12, .Lor_split_b11_strip
-.Lor_split_b11_r21_ambig:
-        .word   .Lor_one, 168, .Lor_split_b11_r21_zero
+        .word   .Lor_n1, 100, .Lor_split_b11_r21_neg_restore
+        .word   .Lor_one, 100, .Lor_split_b11_r21_zero
+.Lor_split_b11_r21_neg_restore:
+        .word   .Lor_one, 100, .+4
         .word   .Lor_c80, 100, .+4
         .word   .Lor_c80, 160, .+4
         .word   .Lor_n1, 100, .+4
@@ -31239,15 +30835,10 @@ __subleq_or_b10:
         .word   .Lor_n1, 104, .+4
         .word   12, 12, .Lor_b10_PP
 .Lor_split_b10_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lor_split_b10_r21_ambig
-        .word   .Lor_c80, 100, .+4
-        .word   .Lor_c80, 160, .+4
-        .word   .Lor_n1, 100, .+4
-        .word   12, 12, .Lor_split_b10_strip
-.Lor_split_b10_r21_ambig:
-        .word   .Lor_one, 168, .Lor_split_b10_r21_zero
+        .word   .Lor_n1, 100, .Lor_split_b10_r21_neg_restore
+        .word   .Lor_one, 100, .Lor_split_b10_r21_zero
+.Lor_split_b10_r21_neg_restore:
+        .word   .Lor_one, 100, .+4
         .word   .Lor_c80, 100, .+4
         .word   .Lor_c80, 160, .+4
         .word   .Lor_n1, 100, .+4
@@ -31393,15 +30984,10 @@ __subleq_or_b9:
         .word   .Lor_n1, 104, .+4
         .word   12, 12, .Lor_b9_PP
 .Lor_split_b9_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lor_split_b9_r21_ambig
-        .word   .Lor_c80, 100, .+4
-        .word   .Lor_c80, 160, .+4
-        .word   .Lor_n1, 100, .+4
-        .word   12, 12, .Lor_split_b9_strip
-.Lor_split_b9_r21_ambig:
-        .word   .Lor_one, 168, .Lor_split_b9_r21_zero
+        .word   .Lor_n1, 100, .Lor_split_b9_r21_neg_restore
+        .word   .Lor_one, 100, .Lor_split_b9_r21_zero
+.Lor_split_b9_r21_neg_restore:
+        .word   .Lor_one, 100, .+4
         .word   .Lor_c80, 100, .+4
         .word   .Lor_c80, 160, .+4
         .word   .Lor_n1, 100, .+4
@@ -31553,15 +31139,10 @@ __subleq_or_b8:
         .word   .Lor_n1, 104, .+4
         .word   12, 12, .Lor_b8_PP
 .Lor_split_b8_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lor_split_b8_r21_ambig
-        .word   .Lor_c80, 100, .+4
-        .word   .Lor_c80, 160, .+4
-        .word   .Lor_n1, 100, .+4
-        .word   12, 12, .Lor_split_b8_strip
-.Lor_split_b8_r21_ambig:
-        .word   .Lor_one, 168, .Lor_split_b8_r21_zero
+        .word   .Lor_n1, 100, .Lor_split_b8_r21_neg_restore
+        .word   .Lor_one, 100, .Lor_split_b8_r21_zero
+.Lor_split_b8_r21_neg_restore:
+        .word   .Lor_one, 100, .+4
         .word   .Lor_c80, 100, .+4
         .word   .Lor_c80, 160, .+4
         .word   .Lor_n1, 100, .+4
@@ -31719,15 +31300,10 @@ __subleq_or_b7:
         .word   .Lor_n1, 104, .+4
         .word   12, 12, .Lor_b7_PP
 .Lor_split_b7_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lor_split_b7_r21_ambig
-        .word   .Lor_c80, 100, .+4
-        .word   .Lor_c80, 160, .+4
-        .word   .Lor_n1, 100, .+4
-        .word   12, 12, .Lor_split_b7_strip
-.Lor_split_b7_r21_ambig:
-        .word   .Lor_one, 168, .Lor_split_b7_r21_zero
+        .word   .Lor_n1, 100, .Lor_split_b7_r21_neg_restore
+        .word   .Lor_one, 100, .Lor_split_b7_r21_zero
+.Lor_split_b7_r21_neg_restore:
+        .word   .Lor_one, 100, .+4
         .word   .Lor_c80, 100, .+4
         .word   .Lor_c80, 160, .+4
         .word   .Lor_n1, 100, .+4
@@ -31891,15 +31467,10 @@ __subleq_or_b6:
         .word   .Lor_n1, 104, .+4
         .word   12, 12, .Lor_b6_PP
 .Lor_split_b6_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lor_split_b6_r21_ambig
-        .word   .Lor_c80, 100, .+4
-        .word   .Lor_c80, 160, .+4
-        .word   .Lor_n1, 100, .+4
-        .word   12, 12, .Lor_split_b6_strip
-.Lor_split_b6_r21_ambig:
-        .word   .Lor_one, 168, .Lor_split_b6_r21_zero
+        .word   .Lor_n1, 100, .Lor_split_b6_r21_neg_restore
+        .word   .Lor_one, 100, .Lor_split_b6_r21_zero
+.Lor_split_b6_r21_neg_restore:
+        .word   .Lor_one, 100, .+4
         .word   .Lor_c80, 100, .+4
         .word   .Lor_c80, 160, .+4
         .word   .Lor_n1, 100, .+4
@@ -32069,15 +31640,10 @@ __subleq_or_b5:
         .word   .Lor_n1, 104, .+4
         .word   12, 12, .Lor_b5_PP
 .Lor_split_b5_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lor_split_b5_r21_ambig
-        .word   .Lor_c80, 100, .+4
-        .word   .Lor_c80, 160, .+4
-        .word   .Lor_n1, 100, .+4
-        .word   12, 12, .Lor_split_b5_strip
-.Lor_split_b5_r21_ambig:
-        .word   .Lor_one, 168, .Lor_split_b5_r21_zero
+        .word   .Lor_n1, 100, .Lor_split_b5_r21_neg_restore
+        .word   .Lor_one, 100, .Lor_split_b5_r21_zero
+.Lor_split_b5_r21_neg_restore:
+        .word   .Lor_one, 100, .+4
         .word   .Lor_c80, 100, .+4
         .word   .Lor_c80, 160, .+4
         .word   .Lor_n1, 100, .+4
@@ -32253,15 +31819,10 @@ __subleq_or_b4:
         .word   .Lor_n1, 104, .+4
         .word   12, 12, .Lor_b4_PP
 .Lor_split_b4_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lor_split_b4_r21_ambig
-        .word   .Lor_c80, 100, .+4
-        .word   .Lor_c80, 160, .+4
-        .word   .Lor_n1, 100, .+4
-        .word   12, 12, .Lor_split_b4_strip
-.Lor_split_b4_r21_ambig:
-        .word   .Lor_one, 168, .Lor_split_b4_r21_zero
+        .word   .Lor_n1, 100, .Lor_split_b4_r21_neg_restore
+        .word   .Lor_one, 100, .Lor_split_b4_r21_zero
+.Lor_split_b4_r21_neg_restore:
+        .word   .Lor_one, 100, .+4
         .word   .Lor_c80, 100, .+4
         .word   .Lor_c80, 160, .+4
         .word   .Lor_n1, 100, .+4
@@ -32443,15 +32004,10 @@ __subleq_or_b3:
         .word   .Lor_n1, 104, .+4
         .word   12, 12, .Lor_b3_PP
 .Lor_split_b3_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lor_split_b3_r21_ambig
-        .word   .Lor_c80, 100, .+4
-        .word   .Lor_c80, 160, .+4
-        .word   .Lor_n1, 100, .+4
-        .word   12, 12, .Lor_split_b3_strip
-.Lor_split_b3_r21_ambig:
-        .word   .Lor_one, 168, .Lor_split_b3_r21_zero
+        .word   .Lor_n1, 100, .Lor_split_b3_r21_neg_restore
+        .word   .Lor_one, 100, .Lor_split_b3_r21_zero
+.Lor_split_b3_r21_neg_restore:
+        .word   .Lor_one, 100, .+4
         .word   .Lor_c80, 100, .+4
         .word   .Lor_c80, 160, .+4
         .word   .Lor_n1, 100, .+4
@@ -32639,15 +32195,10 @@ __subleq_or_b2:
         .word   .Lor_n1, 104, .+4
         .word   12, 12, .Lor_b2_PP
 .Lor_split_b2_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lor_split_b2_r21_ambig
-        .word   .Lor_c80, 100, .+4
-        .word   .Lor_c80, 160, .+4
-        .word   .Lor_n1, 100, .+4
-        .word   12, 12, .Lor_split_b2_strip
-.Lor_split_b2_r21_ambig:
-        .word   .Lor_one, 168, .Lor_split_b2_r21_zero
+        .word   .Lor_n1, 100, .Lor_split_b2_r21_neg_restore
+        .word   .Lor_one, 100, .Lor_split_b2_r21_zero
+.Lor_split_b2_r21_neg_restore:
+        .word   .Lor_one, 100, .+4
         .word   .Lor_c80, 100, .+4
         .word   .Lor_c80, 160, .+4
         .word   .Lor_n1, 100, .+4
@@ -32841,15 +32392,10 @@ __subleq_or_b1:
         .word   .Lor_n1, 104, .+4
         .word   12, 12, .Lor_b1_PP
 .Lor_split_b1_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lor_split_b1_r21_ambig
-        .word   .Lor_c80, 100, .+4
-        .word   .Lor_c80, 160, .+4
-        .word   .Lor_n1, 100, .+4
-        .word   12, 12, .Lor_split_b1_strip
-.Lor_split_b1_r21_ambig:
-        .word   .Lor_one, 168, .Lor_split_b1_r21_zero
+        .word   .Lor_n1, 100, .Lor_split_b1_r21_neg_restore
+        .word   .Lor_one, 100, .Lor_split_b1_r21_zero
+.Lor_split_b1_r21_neg_restore:
+        .word   .Lor_one, 100, .+4
         .word   .Lor_c80, 100, .+4
         .word   .Lor_c80, 160, .+4
         .word   .Lor_n1, 100, .+4
@@ -33049,15 +32595,10 @@ __subleq_or_b0:
         .word   .Lor_n1, 104, .+4
         .word   12, 12, .Lor_b0_PP
 .Lor_split_b0_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lor_split_b0_r21_ambig
-        .word   .Lor_c80, 100, .+4
-        .word   .Lor_c80, 160, .+4
-        .word   .Lor_n1, 100, .+4
-        .word   12, 12, .Lor_split_b0_strip
-.Lor_split_b0_r21_ambig:
-        .word   .Lor_one, 168, .Lor_split_b0_r21_zero
+        .word   .Lor_n1, 100, .Lor_split_b0_r21_neg_restore
+        .word   .Lor_one, 100, .Lor_split_b0_r21_zero
+.Lor_split_b0_r21_neg_restore:
+        .word   .Lor_one, 100, .+4
         .word   .Lor_c80, 100, .+4
         .word   .Lor_c80, 160, .+4
         .word   .Lor_n1, 100, .+4
@@ -33070,14 +32611,10 @@ __subleq_or_b0:
         .word   144, 100, .Lor_b31_r21_neg
         .word   12, 12, .Lor_b31_r21_pos
 .Lor_b31_r21_neg:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lor_b31_r21_ambig
-        .word   .Lor_c80, 100, .+4
-        .word   .Lor_c80, 160, .+4
-        .word   12, 12, .Lor_b31_r21_set_chk_r22
-.Lor_b31_r21_ambig:
-        .word   .Lor_one, 168, .Lor_b31_r21_pos
+        .word   .Lor_n1, 100, .Lor_b31_r21_neg_restore
+        .word   .Lor_one, 100, .Lor_b31_r21_pos
+.Lor_b31_r21_neg_restore:
+        .word   .Lor_one, 100, .+4
         .word   .Lor_c80, 100, .+4
         .word   .Lor_c80, 160, .+4
         .word   12, 12, .Lor_b31_r21_set_chk_r22
@@ -33085,28 +32622,22 @@ __subleq_or_b0:
         .word   144, 104, .Lor_b31_r22_neg_add
         .word   12, 12, .Lor_Bit30
 .Lor_b31_r22_neg_add:
-        .word   168, 168, .+4
-        .word   104, 168, .+4
-        .word   144, 168, .Lor_b31_r22_ambig_add
-        .word   .Lor_c80, 104, .+4
-        .word   .Lor_c80, 160, .+4
-        .word   12, 12, .Lor_Bit30
-.Lor_b31_r22_ambig_add:
-        .word   .Lor_one, 168, .Lor_Bit30
+        .word   .Lor_n1, 104, .Lor_b31_r22_negadd_restore
+        .word   .Lor_one, 104, .Lor_Bit30
+.Lor_b31_r22_negadd_restore:
+        .word   .Lor_one, 104, .+4
         .word   .Lor_c80, 104, .+4
         .word   .Lor_c80, 160, .Lor_Bit30
 .Lor_b31_r21_set_chk_r22:
         .word   144, 104, .Lor_b31_r22_neg_clear
         .word   12, 12, .Lor_Bit30
 .Lor_b31_r22_neg_clear:
-        .word   168, 168, .+4
-        .word   104, 168, .+4
-        .word   144, 168, .Lor_b31_r22_ambig_clear
-        .word   .Lor_c80, 104, .+4
-        .word   12, 12, .Lor_Bit30
-.Lor_b31_r22_ambig_clear:
-        .word   .Lor_one, 168, .Lor_Bit30
+        .word   .Lor_n1, 104, .Lor_b31_r22_negclr_restore
+        .word   .Lor_one, 104, .Lor_Bit30
+.Lor_b31_r22_negclr_restore:
+        .word   .Lor_one, 104, .+4
         .word   .Lor_c80, 104, .Lor_Bit30
+        .word   12, 12, .Lor_Bit30
 .Lor_Bit30:
         .word   .Lor_n1, 100, .+4
         .word   .Lor_n1, 104, .+4
@@ -34187,12 +33718,10 @@ __subleq_or_b0:
 .Lor_neg4:
         .word   -4
 .Lor_r21_le0_fast:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lor_r21_ambig_fast
-        .word   12, 12, .Lor_small_check
-.Lor_r21_ambig_fast:
-        .word   .Lor_one, 168, .Lor_ret_r22
+        .word   .Lor_n1, 100, .Lor_r21_neg_fast_restore
+        .word   .Lor_one, 100, .Lor_ret_r22
+.Lor_r21_neg_fast_restore:
+        .word   .Lor_one, 100, .+4
         .word   12, 12, .Lor_small_check
 .Lor_ret_r22:
         .word   104, 12, .+4
@@ -34212,12 +33741,10 @@ __subleq_or_b0:
 .Lor_r22_neg4:
         .word   -4
 .Lor_r22_le0_fast:
-        .word   168, 168, .+4
-        .word   104, 168, .+4
-        .word   144, 168, .Lor_r22_ambig_fast
-        .word   12, 12, .Lor_small_check
-.Lor_r22_ambig_fast:
-        .word   .Lor_one, 168, .Lor_ret_r21
+        .word   .Lor_n1, 104, .Lor_r22_neg_fast_restore
+        .word   .Lor_one, 104, .Lor_ret_r21
+.Lor_r22_neg_fast_restore:
+        .word   .Lor_one, 104, .+4
         .word   12, 12, .Lor_small_check
 .Lor_ret_r21:
         .word   100, 12, .+4
@@ -34414,15 +33941,10 @@ __subleq_xor_b30:
         .word   .Lxor_n1, 104, .+4
         .word   12, 12, .Lxor_b30_PP
 .Lxor_split_b30_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lxor_split_b30_r21_ambig
-        .word   .Lxor_c80, 100, .+4
-        .word   .Lxor_c80, 160, .+4
-        .word   .Lxor_n1, 100, .+4
-        .word   12, 12, .Lxor_split_b30_strip
-.Lxor_split_b30_r21_ambig:
-        .word   .Lxor_one, 168, .Lxor_split_b30_r21_zero
+        .word   .Lxor_n1, 100, .Lxor_split_b30_r21_neg_restore
+        .word   .Lxor_one, 100, .Lxor_split_b30_r21_zero
+.Lxor_split_b30_r21_neg_restore:
+        .word   .Lxor_one, 100, .+4
         .word   .Lxor_c80, 100, .+4
         .word   .Lxor_c80, 160, .+4
         .word   .Lxor_n1, 100, .+4
@@ -34448,15 +33970,10 @@ __subleq_xor_b29:
         .word   .Lxor_n1, 104, .+4
         .word   12, 12, .Lxor_b29_PP
 .Lxor_split_b29_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lxor_split_b29_r21_ambig
-        .word   .Lxor_c80, 100, .+4
-        .word   .Lxor_c80, 160, .+4
-        .word   .Lxor_n1, 100, .+4
-        .word   12, 12, .Lxor_split_b29_strip
-.Lxor_split_b29_r21_ambig:
-        .word   .Lxor_one, 168, .Lxor_split_b29_r21_zero
+        .word   .Lxor_n1, 100, .Lxor_split_b29_r21_neg_restore
+        .word   .Lxor_one, 100, .Lxor_split_b29_r21_zero
+.Lxor_split_b29_r21_neg_restore:
+        .word   .Lxor_one, 100, .+4
         .word   .Lxor_c80, 100, .+4
         .word   .Lxor_c80, 160, .+4
         .word   .Lxor_n1, 100, .+4
@@ -34488,15 +34005,10 @@ __subleq_xor_b28:
         .word   .Lxor_n1, 104, .+4
         .word   12, 12, .Lxor_b28_PP
 .Lxor_split_b28_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lxor_split_b28_r21_ambig
-        .word   .Lxor_c80, 100, .+4
-        .word   .Lxor_c80, 160, .+4
-        .word   .Lxor_n1, 100, .+4
-        .word   12, 12, .Lxor_split_b28_strip
-.Lxor_split_b28_r21_ambig:
-        .word   .Lxor_one, 168, .Lxor_split_b28_r21_zero
+        .word   .Lxor_n1, 100, .Lxor_split_b28_r21_neg_restore
+        .word   .Lxor_one, 100, .Lxor_split_b28_r21_zero
+.Lxor_split_b28_r21_neg_restore:
+        .word   .Lxor_one, 100, .+4
         .word   .Lxor_c80, 100, .+4
         .word   .Lxor_c80, 160, .+4
         .word   .Lxor_n1, 100, .+4
@@ -34534,15 +34046,10 @@ __subleq_xor_b27:
         .word   .Lxor_n1, 104, .+4
         .word   12, 12, .Lxor_b27_PP
 .Lxor_split_b27_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lxor_split_b27_r21_ambig
-        .word   .Lxor_c80, 100, .+4
-        .word   .Lxor_c80, 160, .+4
-        .word   .Lxor_n1, 100, .+4
-        .word   12, 12, .Lxor_split_b27_strip
-.Lxor_split_b27_r21_ambig:
-        .word   .Lxor_one, 168, .Lxor_split_b27_r21_zero
+        .word   .Lxor_n1, 100, .Lxor_split_b27_r21_neg_restore
+        .word   .Lxor_one, 100, .Lxor_split_b27_r21_zero
+.Lxor_split_b27_r21_neg_restore:
+        .word   .Lxor_one, 100, .+4
         .word   .Lxor_c80, 100, .+4
         .word   .Lxor_c80, 160, .+4
         .word   .Lxor_n1, 100, .+4
@@ -34586,15 +34093,10 @@ __subleq_xor_b26:
         .word   .Lxor_n1, 104, .+4
         .word   12, 12, .Lxor_b26_PP
 .Lxor_split_b26_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lxor_split_b26_r21_ambig
-        .word   .Lxor_c80, 100, .+4
-        .word   .Lxor_c80, 160, .+4
-        .word   .Lxor_n1, 100, .+4
-        .word   12, 12, .Lxor_split_b26_strip
-.Lxor_split_b26_r21_ambig:
-        .word   .Lxor_one, 168, .Lxor_split_b26_r21_zero
+        .word   .Lxor_n1, 100, .Lxor_split_b26_r21_neg_restore
+        .word   .Lxor_one, 100, .Lxor_split_b26_r21_zero
+.Lxor_split_b26_r21_neg_restore:
+        .word   .Lxor_one, 100, .+4
         .word   .Lxor_c80, 100, .+4
         .word   .Lxor_c80, 160, .+4
         .word   .Lxor_n1, 100, .+4
@@ -34644,15 +34146,10 @@ __subleq_xor_b25:
         .word   .Lxor_n1, 104, .+4
         .word   12, 12, .Lxor_b25_PP
 .Lxor_split_b25_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lxor_split_b25_r21_ambig
-        .word   .Lxor_c80, 100, .+4
-        .word   .Lxor_c80, 160, .+4
-        .word   .Lxor_n1, 100, .+4
-        .word   12, 12, .Lxor_split_b25_strip
-.Lxor_split_b25_r21_ambig:
-        .word   .Lxor_one, 168, .Lxor_split_b25_r21_zero
+        .word   .Lxor_n1, 100, .Lxor_split_b25_r21_neg_restore
+        .word   .Lxor_one, 100, .Lxor_split_b25_r21_zero
+.Lxor_split_b25_r21_neg_restore:
+        .word   .Lxor_one, 100, .+4
         .word   .Lxor_c80, 100, .+4
         .word   .Lxor_c80, 160, .+4
         .word   .Lxor_n1, 100, .+4
@@ -34708,15 +34205,10 @@ __subleq_xor_b24:
         .word   .Lxor_n1, 104, .+4
         .word   12, 12, .Lxor_b24_PP
 .Lxor_split_b24_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lxor_split_b24_r21_ambig
-        .word   .Lxor_c80, 100, .+4
-        .word   .Lxor_c80, 160, .+4
-        .word   .Lxor_n1, 100, .+4
-        .word   12, 12, .Lxor_split_b24_strip
-.Lxor_split_b24_r21_ambig:
-        .word   .Lxor_one, 168, .Lxor_split_b24_r21_zero
+        .word   .Lxor_n1, 100, .Lxor_split_b24_r21_neg_restore
+        .word   .Lxor_one, 100, .Lxor_split_b24_r21_zero
+.Lxor_split_b24_r21_neg_restore:
+        .word   .Lxor_one, 100, .+4
         .word   .Lxor_c80, 100, .+4
         .word   .Lxor_c80, 160, .+4
         .word   .Lxor_n1, 100, .+4
@@ -34778,15 +34270,10 @@ __subleq_xor_b23:
         .word   .Lxor_n1, 104, .+4
         .word   12, 12, .Lxor_b23_PP
 .Lxor_split_b23_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lxor_split_b23_r21_ambig
-        .word   .Lxor_c80, 100, .+4
-        .word   .Lxor_c80, 160, .+4
-        .word   .Lxor_n1, 100, .+4
-        .word   12, 12, .Lxor_split_b23_strip
-.Lxor_split_b23_r21_ambig:
-        .word   .Lxor_one, 168, .Lxor_split_b23_r21_zero
+        .word   .Lxor_n1, 100, .Lxor_split_b23_r21_neg_restore
+        .word   .Lxor_one, 100, .Lxor_split_b23_r21_zero
+.Lxor_split_b23_r21_neg_restore:
+        .word   .Lxor_one, 100, .+4
         .word   .Lxor_c80, 100, .+4
         .word   .Lxor_c80, 160, .+4
         .word   .Lxor_n1, 100, .+4
@@ -34854,15 +34341,10 @@ __subleq_xor_b22:
         .word   .Lxor_n1, 104, .+4
         .word   12, 12, .Lxor_b22_PP
 .Lxor_split_b22_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lxor_split_b22_r21_ambig
-        .word   .Lxor_c80, 100, .+4
-        .word   .Lxor_c80, 160, .+4
-        .word   .Lxor_n1, 100, .+4
-        .word   12, 12, .Lxor_split_b22_strip
-.Lxor_split_b22_r21_ambig:
-        .word   .Lxor_one, 168, .Lxor_split_b22_r21_zero
+        .word   .Lxor_n1, 100, .Lxor_split_b22_r21_neg_restore
+        .word   .Lxor_one, 100, .Lxor_split_b22_r21_zero
+.Lxor_split_b22_r21_neg_restore:
+        .word   .Lxor_one, 100, .+4
         .word   .Lxor_c80, 100, .+4
         .word   .Lxor_c80, 160, .+4
         .word   .Lxor_n1, 100, .+4
@@ -34936,15 +34418,10 @@ __subleq_xor_b21:
         .word   .Lxor_n1, 104, .+4
         .word   12, 12, .Lxor_b21_PP
 .Lxor_split_b21_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lxor_split_b21_r21_ambig
-        .word   .Lxor_c80, 100, .+4
-        .word   .Lxor_c80, 160, .+4
-        .word   .Lxor_n1, 100, .+4
-        .word   12, 12, .Lxor_split_b21_strip
-.Lxor_split_b21_r21_ambig:
-        .word   .Lxor_one, 168, .Lxor_split_b21_r21_zero
+        .word   .Lxor_n1, 100, .Lxor_split_b21_r21_neg_restore
+        .word   .Lxor_one, 100, .Lxor_split_b21_r21_zero
+.Lxor_split_b21_r21_neg_restore:
+        .word   .Lxor_one, 100, .+4
         .word   .Lxor_c80, 100, .+4
         .word   .Lxor_c80, 160, .+4
         .word   .Lxor_n1, 100, .+4
@@ -35024,15 +34501,10 @@ __subleq_xor_b20:
         .word   .Lxor_n1, 104, .+4
         .word   12, 12, .Lxor_b20_PP
 .Lxor_split_b20_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lxor_split_b20_r21_ambig
-        .word   .Lxor_c80, 100, .+4
-        .word   .Lxor_c80, 160, .+4
-        .word   .Lxor_n1, 100, .+4
-        .word   12, 12, .Lxor_split_b20_strip
-.Lxor_split_b20_r21_ambig:
-        .word   .Lxor_one, 168, .Lxor_split_b20_r21_zero
+        .word   .Lxor_n1, 100, .Lxor_split_b20_r21_neg_restore
+        .word   .Lxor_one, 100, .Lxor_split_b20_r21_zero
+.Lxor_split_b20_r21_neg_restore:
+        .word   .Lxor_one, 100, .+4
         .word   .Lxor_c80, 100, .+4
         .word   .Lxor_c80, 160, .+4
         .word   .Lxor_n1, 100, .+4
@@ -35118,15 +34590,10 @@ __subleq_xor_b19:
         .word   .Lxor_n1, 104, .+4
         .word   12, 12, .Lxor_b19_PP
 .Lxor_split_b19_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lxor_split_b19_r21_ambig
-        .word   .Lxor_c80, 100, .+4
-        .word   .Lxor_c80, 160, .+4
-        .word   .Lxor_n1, 100, .+4
-        .word   12, 12, .Lxor_split_b19_strip
-.Lxor_split_b19_r21_ambig:
-        .word   .Lxor_one, 168, .Lxor_split_b19_r21_zero
+        .word   .Lxor_n1, 100, .Lxor_split_b19_r21_neg_restore
+        .word   .Lxor_one, 100, .Lxor_split_b19_r21_zero
+.Lxor_split_b19_r21_neg_restore:
+        .word   .Lxor_one, 100, .+4
         .word   .Lxor_c80, 100, .+4
         .word   .Lxor_c80, 160, .+4
         .word   .Lxor_n1, 100, .+4
@@ -35218,15 +34685,10 @@ __subleq_xor_b18:
         .word   .Lxor_n1, 104, .+4
         .word   12, 12, .Lxor_b18_PP
 .Lxor_split_b18_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lxor_split_b18_r21_ambig
-        .word   .Lxor_c80, 100, .+4
-        .word   .Lxor_c80, 160, .+4
-        .word   .Lxor_n1, 100, .+4
-        .word   12, 12, .Lxor_split_b18_strip
-.Lxor_split_b18_r21_ambig:
-        .word   .Lxor_one, 168, .Lxor_split_b18_r21_zero
+        .word   .Lxor_n1, 100, .Lxor_split_b18_r21_neg_restore
+        .word   .Lxor_one, 100, .Lxor_split_b18_r21_zero
+.Lxor_split_b18_r21_neg_restore:
+        .word   .Lxor_one, 100, .+4
         .word   .Lxor_c80, 100, .+4
         .word   .Lxor_c80, 160, .+4
         .word   .Lxor_n1, 100, .+4
@@ -35324,15 +34786,10 @@ __subleq_xor_b17:
         .word   .Lxor_n1, 104, .+4
         .word   12, 12, .Lxor_b17_PP
 .Lxor_split_b17_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lxor_split_b17_r21_ambig
-        .word   .Lxor_c80, 100, .+4
-        .word   .Lxor_c80, 160, .+4
-        .word   .Lxor_n1, 100, .+4
-        .word   12, 12, .Lxor_split_b17_strip
-.Lxor_split_b17_r21_ambig:
-        .word   .Lxor_one, 168, .Lxor_split_b17_r21_zero
+        .word   .Lxor_n1, 100, .Lxor_split_b17_r21_neg_restore
+        .word   .Lxor_one, 100, .Lxor_split_b17_r21_zero
+.Lxor_split_b17_r21_neg_restore:
+        .word   .Lxor_one, 100, .+4
         .word   .Lxor_c80, 100, .+4
         .word   .Lxor_c80, 160, .+4
         .word   .Lxor_n1, 100, .+4
@@ -35436,15 +34893,10 @@ __subleq_xor_b16:
         .word   .Lxor_n1, 104, .+4
         .word   12, 12, .Lxor_b16_PP
 .Lxor_split_b16_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lxor_split_b16_r21_ambig
-        .word   .Lxor_c80, 100, .+4
-        .word   .Lxor_c80, 160, .+4
-        .word   .Lxor_n1, 100, .+4
-        .word   12, 12, .Lxor_split_b16_strip
-.Lxor_split_b16_r21_ambig:
-        .word   .Lxor_one, 168, .Lxor_split_b16_r21_zero
+        .word   .Lxor_n1, 100, .Lxor_split_b16_r21_neg_restore
+        .word   .Lxor_one, 100, .Lxor_split_b16_r21_zero
+.Lxor_split_b16_r21_neg_restore:
+        .word   .Lxor_one, 100, .+4
         .word   .Lxor_c80, 100, .+4
         .word   .Lxor_c80, 160, .+4
         .word   .Lxor_n1, 100, .+4
@@ -35554,15 +35006,10 @@ __subleq_xor_b15:
         .word   .Lxor_n1, 104, .+4
         .word   12, 12, .Lxor_b15_PP
 .Lxor_split_b15_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lxor_split_b15_r21_ambig
-        .word   .Lxor_c80, 100, .+4
-        .word   .Lxor_c80, 160, .+4
-        .word   .Lxor_n1, 100, .+4
-        .word   12, 12, .Lxor_split_b15_strip
-.Lxor_split_b15_r21_ambig:
-        .word   .Lxor_one, 168, .Lxor_split_b15_r21_zero
+        .word   .Lxor_n1, 100, .Lxor_split_b15_r21_neg_restore
+        .word   .Lxor_one, 100, .Lxor_split_b15_r21_zero
+.Lxor_split_b15_r21_neg_restore:
+        .word   .Lxor_one, 100, .+4
         .word   .Lxor_c80, 100, .+4
         .word   .Lxor_c80, 160, .+4
         .word   .Lxor_n1, 100, .+4
@@ -35678,15 +35125,10 @@ __subleq_xor_b14:
         .word   .Lxor_n1, 104, .+4
         .word   12, 12, .Lxor_b14_PP
 .Lxor_split_b14_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lxor_split_b14_r21_ambig
-        .word   .Lxor_c80, 100, .+4
-        .word   .Lxor_c80, 160, .+4
-        .word   .Lxor_n1, 100, .+4
-        .word   12, 12, .Lxor_split_b14_strip
-.Lxor_split_b14_r21_ambig:
-        .word   .Lxor_one, 168, .Lxor_split_b14_r21_zero
+        .word   .Lxor_n1, 100, .Lxor_split_b14_r21_neg_restore
+        .word   .Lxor_one, 100, .Lxor_split_b14_r21_zero
+.Lxor_split_b14_r21_neg_restore:
+        .word   .Lxor_one, 100, .+4
         .word   .Lxor_c80, 100, .+4
         .word   .Lxor_c80, 160, .+4
         .word   .Lxor_n1, 100, .+4
@@ -35808,15 +35250,10 @@ __subleq_xor_b13:
         .word   .Lxor_n1, 104, .+4
         .word   12, 12, .Lxor_b13_PP
 .Lxor_split_b13_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lxor_split_b13_r21_ambig
-        .word   .Lxor_c80, 100, .+4
-        .word   .Lxor_c80, 160, .+4
-        .word   .Lxor_n1, 100, .+4
-        .word   12, 12, .Lxor_split_b13_strip
-.Lxor_split_b13_r21_ambig:
-        .word   .Lxor_one, 168, .Lxor_split_b13_r21_zero
+        .word   .Lxor_n1, 100, .Lxor_split_b13_r21_neg_restore
+        .word   .Lxor_one, 100, .Lxor_split_b13_r21_zero
+.Lxor_split_b13_r21_neg_restore:
+        .word   .Lxor_one, 100, .+4
         .word   .Lxor_c80, 100, .+4
         .word   .Lxor_c80, 160, .+4
         .word   .Lxor_n1, 100, .+4
@@ -35944,15 +35381,10 @@ __subleq_xor_b12:
         .word   .Lxor_n1, 104, .+4
         .word   12, 12, .Lxor_b12_PP
 .Lxor_split_b12_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lxor_split_b12_r21_ambig
-        .word   .Lxor_c80, 100, .+4
-        .word   .Lxor_c80, 160, .+4
-        .word   .Lxor_n1, 100, .+4
-        .word   12, 12, .Lxor_split_b12_strip
-.Lxor_split_b12_r21_ambig:
-        .word   .Lxor_one, 168, .Lxor_split_b12_r21_zero
+        .word   .Lxor_n1, 100, .Lxor_split_b12_r21_neg_restore
+        .word   .Lxor_one, 100, .Lxor_split_b12_r21_zero
+.Lxor_split_b12_r21_neg_restore:
+        .word   .Lxor_one, 100, .+4
         .word   .Lxor_c80, 100, .+4
         .word   .Lxor_c80, 160, .+4
         .word   .Lxor_n1, 100, .+4
@@ -36086,15 +35518,10 @@ __subleq_xor_b11:
         .word   .Lxor_n1, 104, .+4
         .word   12, 12, .Lxor_b11_PP
 .Lxor_split_b11_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lxor_split_b11_r21_ambig
-        .word   .Lxor_c80, 100, .+4
-        .word   .Lxor_c80, 160, .+4
-        .word   .Lxor_n1, 100, .+4
-        .word   12, 12, .Lxor_split_b11_strip
-.Lxor_split_b11_r21_ambig:
-        .word   .Lxor_one, 168, .Lxor_split_b11_r21_zero
+        .word   .Lxor_n1, 100, .Lxor_split_b11_r21_neg_restore
+        .word   .Lxor_one, 100, .Lxor_split_b11_r21_zero
+.Lxor_split_b11_r21_neg_restore:
+        .word   .Lxor_one, 100, .+4
         .word   .Lxor_c80, 100, .+4
         .word   .Lxor_c80, 160, .+4
         .word   .Lxor_n1, 100, .+4
@@ -36234,15 +35661,10 @@ __subleq_xor_b10:
         .word   .Lxor_n1, 104, .+4
         .word   12, 12, .Lxor_b10_PP
 .Lxor_split_b10_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lxor_split_b10_r21_ambig
-        .word   .Lxor_c80, 100, .+4
-        .word   .Lxor_c80, 160, .+4
-        .word   .Lxor_n1, 100, .+4
-        .word   12, 12, .Lxor_split_b10_strip
-.Lxor_split_b10_r21_ambig:
-        .word   .Lxor_one, 168, .Lxor_split_b10_r21_zero
+        .word   .Lxor_n1, 100, .Lxor_split_b10_r21_neg_restore
+        .word   .Lxor_one, 100, .Lxor_split_b10_r21_zero
+.Lxor_split_b10_r21_neg_restore:
+        .word   .Lxor_one, 100, .+4
         .word   .Lxor_c80, 100, .+4
         .word   .Lxor_c80, 160, .+4
         .word   .Lxor_n1, 100, .+4
@@ -36388,15 +35810,10 @@ __subleq_xor_b9:
         .word   .Lxor_n1, 104, .+4
         .word   12, 12, .Lxor_b9_PP
 .Lxor_split_b9_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lxor_split_b9_r21_ambig
-        .word   .Lxor_c80, 100, .+4
-        .word   .Lxor_c80, 160, .+4
-        .word   .Lxor_n1, 100, .+4
-        .word   12, 12, .Lxor_split_b9_strip
-.Lxor_split_b9_r21_ambig:
-        .word   .Lxor_one, 168, .Lxor_split_b9_r21_zero
+        .word   .Lxor_n1, 100, .Lxor_split_b9_r21_neg_restore
+        .word   .Lxor_one, 100, .Lxor_split_b9_r21_zero
+.Lxor_split_b9_r21_neg_restore:
+        .word   .Lxor_one, 100, .+4
         .word   .Lxor_c80, 100, .+4
         .word   .Lxor_c80, 160, .+4
         .word   .Lxor_n1, 100, .+4
@@ -36548,15 +35965,10 @@ __subleq_xor_b8:
         .word   .Lxor_n1, 104, .+4
         .word   12, 12, .Lxor_b8_PP
 .Lxor_split_b8_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lxor_split_b8_r21_ambig
-        .word   .Lxor_c80, 100, .+4
-        .word   .Lxor_c80, 160, .+4
-        .word   .Lxor_n1, 100, .+4
-        .word   12, 12, .Lxor_split_b8_strip
-.Lxor_split_b8_r21_ambig:
-        .word   .Lxor_one, 168, .Lxor_split_b8_r21_zero
+        .word   .Lxor_n1, 100, .Lxor_split_b8_r21_neg_restore
+        .word   .Lxor_one, 100, .Lxor_split_b8_r21_zero
+.Lxor_split_b8_r21_neg_restore:
+        .word   .Lxor_one, 100, .+4
         .word   .Lxor_c80, 100, .+4
         .word   .Lxor_c80, 160, .+4
         .word   .Lxor_n1, 100, .+4
@@ -36714,15 +36126,10 @@ __subleq_xor_b7:
         .word   .Lxor_n1, 104, .+4
         .word   12, 12, .Lxor_b7_PP
 .Lxor_split_b7_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lxor_split_b7_r21_ambig
-        .word   .Lxor_c80, 100, .+4
-        .word   .Lxor_c80, 160, .+4
-        .word   .Lxor_n1, 100, .+4
-        .word   12, 12, .Lxor_split_b7_strip
-.Lxor_split_b7_r21_ambig:
-        .word   .Lxor_one, 168, .Lxor_split_b7_r21_zero
+        .word   .Lxor_n1, 100, .Lxor_split_b7_r21_neg_restore
+        .word   .Lxor_one, 100, .Lxor_split_b7_r21_zero
+.Lxor_split_b7_r21_neg_restore:
+        .word   .Lxor_one, 100, .+4
         .word   .Lxor_c80, 100, .+4
         .word   .Lxor_c80, 160, .+4
         .word   .Lxor_n1, 100, .+4
@@ -36886,15 +36293,10 @@ __subleq_xor_b6:
         .word   .Lxor_n1, 104, .+4
         .word   12, 12, .Lxor_b6_PP
 .Lxor_split_b6_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lxor_split_b6_r21_ambig
-        .word   .Lxor_c80, 100, .+4
-        .word   .Lxor_c80, 160, .+4
-        .word   .Lxor_n1, 100, .+4
-        .word   12, 12, .Lxor_split_b6_strip
-.Lxor_split_b6_r21_ambig:
-        .word   .Lxor_one, 168, .Lxor_split_b6_r21_zero
+        .word   .Lxor_n1, 100, .Lxor_split_b6_r21_neg_restore
+        .word   .Lxor_one, 100, .Lxor_split_b6_r21_zero
+.Lxor_split_b6_r21_neg_restore:
+        .word   .Lxor_one, 100, .+4
         .word   .Lxor_c80, 100, .+4
         .word   .Lxor_c80, 160, .+4
         .word   .Lxor_n1, 100, .+4
@@ -37064,15 +36466,10 @@ __subleq_xor_b5:
         .word   .Lxor_n1, 104, .+4
         .word   12, 12, .Lxor_b5_PP
 .Lxor_split_b5_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lxor_split_b5_r21_ambig
-        .word   .Lxor_c80, 100, .+4
-        .word   .Lxor_c80, 160, .+4
-        .word   .Lxor_n1, 100, .+4
-        .word   12, 12, .Lxor_split_b5_strip
-.Lxor_split_b5_r21_ambig:
-        .word   .Lxor_one, 168, .Lxor_split_b5_r21_zero
+        .word   .Lxor_n1, 100, .Lxor_split_b5_r21_neg_restore
+        .word   .Lxor_one, 100, .Lxor_split_b5_r21_zero
+.Lxor_split_b5_r21_neg_restore:
+        .word   .Lxor_one, 100, .+4
         .word   .Lxor_c80, 100, .+4
         .word   .Lxor_c80, 160, .+4
         .word   .Lxor_n1, 100, .+4
@@ -37248,15 +36645,10 @@ __subleq_xor_b4:
         .word   .Lxor_n1, 104, .+4
         .word   12, 12, .Lxor_b4_PP
 .Lxor_split_b4_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lxor_split_b4_r21_ambig
-        .word   .Lxor_c80, 100, .+4
-        .word   .Lxor_c80, 160, .+4
-        .word   .Lxor_n1, 100, .+4
-        .word   12, 12, .Lxor_split_b4_strip
-.Lxor_split_b4_r21_ambig:
-        .word   .Lxor_one, 168, .Lxor_split_b4_r21_zero
+        .word   .Lxor_n1, 100, .Lxor_split_b4_r21_neg_restore
+        .word   .Lxor_one, 100, .Lxor_split_b4_r21_zero
+.Lxor_split_b4_r21_neg_restore:
+        .word   .Lxor_one, 100, .+4
         .word   .Lxor_c80, 100, .+4
         .word   .Lxor_c80, 160, .+4
         .word   .Lxor_n1, 100, .+4
@@ -37438,15 +36830,10 @@ __subleq_xor_b3:
         .word   .Lxor_n1, 104, .+4
         .word   12, 12, .Lxor_b3_PP
 .Lxor_split_b3_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lxor_split_b3_r21_ambig
-        .word   .Lxor_c80, 100, .+4
-        .word   .Lxor_c80, 160, .+4
-        .word   .Lxor_n1, 100, .+4
-        .word   12, 12, .Lxor_split_b3_strip
-.Lxor_split_b3_r21_ambig:
-        .word   .Lxor_one, 168, .Lxor_split_b3_r21_zero
+        .word   .Lxor_n1, 100, .Lxor_split_b3_r21_neg_restore
+        .word   .Lxor_one, 100, .Lxor_split_b3_r21_zero
+.Lxor_split_b3_r21_neg_restore:
+        .word   .Lxor_one, 100, .+4
         .word   .Lxor_c80, 100, .+4
         .word   .Lxor_c80, 160, .+4
         .word   .Lxor_n1, 100, .+4
@@ -37634,15 +37021,10 @@ __subleq_xor_b2:
         .word   .Lxor_n1, 104, .+4
         .word   12, 12, .Lxor_b2_PP
 .Lxor_split_b2_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lxor_split_b2_r21_ambig
-        .word   .Lxor_c80, 100, .+4
-        .word   .Lxor_c80, 160, .+4
-        .word   .Lxor_n1, 100, .+4
-        .word   12, 12, .Lxor_split_b2_strip
-.Lxor_split_b2_r21_ambig:
-        .word   .Lxor_one, 168, .Lxor_split_b2_r21_zero
+        .word   .Lxor_n1, 100, .Lxor_split_b2_r21_neg_restore
+        .word   .Lxor_one, 100, .Lxor_split_b2_r21_zero
+.Lxor_split_b2_r21_neg_restore:
+        .word   .Lxor_one, 100, .+4
         .word   .Lxor_c80, 100, .+4
         .word   .Lxor_c80, 160, .+4
         .word   .Lxor_n1, 100, .+4
@@ -37836,15 +37218,10 @@ __subleq_xor_b1:
         .word   .Lxor_n1, 104, .+4
         .word   12, 12, .Lxor_b1_PP
 .Lxor_split_b1_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lxor_split_b1_r21_ambig
-        .word   .Lxor_c80, 100, .+4
-        .word   .Lxor_c80, 160, .+4
-        .word   .Lxor_n1, 100, .+4
-        .word   12, 12, .Lxor_split_b1_strip
-.Lxor_split_b1_r21_ambig:
-        .word   .Lxor_one, 168, .Lxor_split_b1_r21_zero
+        .word   .Lxor_n1, 100, .Lxor_split_b1_r21_neg_restore
+        .word   .Lxor_one, 100, .Lxor_split_b1_r21_zero
+.Lxor_split_b1_r21_neg_restore:
+        .word   .Lxor_one, 100, .+4
         .word   .Lxor_c80, 100, .+4
         .word   .Lxor_c80, 160, .+4
         .word   .Lxor_n1, 100, .+4
@@ -38044,15 +37421,10 @@ __subleq_xor_b0:
         .word   .Lxor_n1, 104, .+4
         .word   12, 12, .Lxor_b0_PP
 .Lxor_split_b0_r21_le0:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lxor_split_b0_r21_ambig
-        .word   .Lxor_c80, 100, .+4
-        .word   .Lxor_c80, 160, .+4
-        .word   .Lxor_n1, 100, .+4
-        .word   12, 12, .Lxor_split_b0_strip
-.Lxor_split_b0_r21_ambig:
-        .word   .Lxor_one, 168, .Lxor_split_b0_r21_zero
+        .word   .Lxor_n1, 100, .Lxor_split_b0_r21_neg_restore
+        .word   .Lxor_one, 100, .Lxor_split_b0_r21_zero
+.Lxor_split_b0_r21_neg_restore:
+        .word   .Lxor_one, 100, .+4
         .word   .Lxor_c80, 100, .+4
         .word   .Lxor_c80, 160, .+4
         .word   .Lxor_n1, 100, .+4
@@ -38065,28 +37437,20 @@ __subleq_xor_b0:
         .word   144, 100, .Lxor_b31_r21_neg
         .word   12, 12, .Lxor_b31_chk_r22
 .Lxor_b31_r21_neg:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lxor_b31_r21_ambig
-        .word   .Lxor_c80, 160, .+4
-        .word   .Lxor_c80, 100, .+4
-        .word   12, 12, .Lxor_b31_chk_r22
-.Lxor_b31_r21_ambig:
-        .word   .Lxor_one, 168, .Lxor_b31_chk_r22
+        .word   .Lxor_n1, 100, .Lxor_b31_r21_neg_restore
+        .word   .Lxor_one, 100, .Lxor_b31_chk_r22
+.Lxor_b31_r21_neg_restore:
+        .word   .Lxor_one, 100, .+4
         .word   .Lxor_c80, 160, .+4
         .word   .Lxor_c80, 100, .+4
 .Lxor_b31_chk_r22:
         .word   144, 104, .Lxor_b31_r22_neg
         .word   12, 12, .Lxor_Bit30
 .Lxor_b31_r22_neg:
-        .word   168, 168, .+4
-        .word   104, 168, .+4
-        .word   144, 168, .Lxor_b31_r22_ambig
-        .word   .Lxor_c80, 160, .+4
-        .word   .Lxor_c80, 104, .+4
-        .word   12, 12, .Lxor_Bit30
-.Lxor_b31_r22_ambig:
-        .word   .Lxor_one, 168, .Lxor_Bit30
+        .word   .Lxor_n1, 104, .Lxor_b31_r22_neg_restore
+        .word   .Lxor_one, 104, .Lxor_Bit30
+.Lxor_b31_r22_neg_restore:
+        .word   .Lxor_one, 104, .+4
         .word   .Lxor_c80, 160, .+4
         .word   .Lxor_c80, 104, .+4
 .Lxor_Bit30:
@@ -39411,12 +38775,10 @@ __subleq_xor_b0:
 .Lxor_neg4:
         .word   -4
 .Lxor_r21_le0_fast:
-        .word   168, 168, .+4
-        .word   100, 168, .+4
-        .word   144, 168, .Lxor_r21_ambig_fast
-        .word   12, 12, .Lxor_small_check
-.Lxor_r21_ambig_fast:
-        .word   .Lxor_one, 168, .Lxor_ret_r22
+        .word   .Lxor_n1, 100, .Lxor_r21_neg_fast_restore
+        .word   .Lxor_one, 100, .Lxor_ret_r22
+.Lxor_r21_neg_fast_restore:
+        .word   .Lxor_one, 100, .+4
         .word   12, 12, .Lxor_small_check
 .Lxor_ret_r22:
         .word   104, 12, .+4
@@ -39436,12 +38798,10 @@ __subleq_xor_b0:
 .Lxor_r22_neg4:
         .word   -4
 .Lxor_r22_le0_fast:
-        .word   168, 168, .+4
-        .word   104, 168, .+4
-        .word   144, 168, .Lxor_r22_ambig_fast
-        .word   12, 12, .Lxor_small_check
-.Lxor_r22_ambig_fast:
-        .word   .Lxor_one, 168, .Lxor_ret_r21
+        .word   .Lxor_n1, 104, .Lxor_r22_neg_fast_restore
+        .word   .Lxor_one, 104, .Lxor_ret_r21
+.Lxor_r22_neg_fast_restore:
+        .word   .Lxor_one, 104, .+4
         .word   12, 12, .Lxor_small_check
 .Lxor_ret_r21:
         .word   100, 12, .+4
@@ -39870,12 +39230,10 @@ __subleq_srl_1:
         .word   144, 100, .Lsrl1_b31_chk
         .word   12, 12, .Lsrl1_b31_setup
 .Lsrl1_b31_chk:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsrl1_b31_ambig
-        .word   12, 12, .Lsrl1_b31_set
-.Lsrl1_b31_ambig:
-        .word   .Lsrl_one, 172, .Lsrl1_b31_setup
+        .word   .Lsrl_negone, 100, .Lsrl1_b31_neg_restore
+        .word   .Lsrl_one, 100, .Lsrl1_b31_setup
+.Lsrl1_b31_neg_restore:
+        .word   .Lsrl_one, 100, .+4
 .Lsrl1_b31_set:
         .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n1073741824, 96, .+4
@@ -40127,12 +39485,10 @@ __subleq_srl_2:
         .word   144, 100, .Lsrl2_b31_chk
         .word   12, 12, .Lsrl2_b31_setup
 .Lsrl2_b31_chk:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsrl2_b31_ambig
-        .word   12, 12, .Lsrl2_b31_set
-.Lsrl2_b31_ambig:
-        .word   .Lsrl_one, 172, .Lsrl2_b31_setup
+        .word   .Lsrl_negone, 100, .Lsrl2_b31_neg_restore
+        .word   .Lsrl_one, 100, .Lsrl2_b31_setup
+.Lsrl2_b31_neg_restore:
+        .word   .Lsrl_one, 100, .+4
 .Lsrl2_b31_set:
         .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n536870912, 96, .+4
@@ -40376,12 +39732,10 @@ __subleq_srl_3:
         .word   144, 100, .Lsrl3_b31_chk
         .word   12, 12, .Lsrl3_b31_setup
 .Lsrl3_b31_chk:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsrl3_b31_ambig
-        .word   12, 12, .Lsrl3_b31_set
-.Lsrl3_b31_ambig:
-        .word   .Lsrl_one, 172, .Lsrl3_b31_setup
+        .word   .Lsrl_negone, 100, .Lsrl3_b31_neg_restore
+        .word   .Lsrl_one, 100, .Lsrl3_b31_setup
+.Lsrl3_b31_neg_restore:
+        .word   .Lsrl_one, 100, .+4
 .Lsrl3_b31_set:
         .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n268435456, 96, .+4
@@ -40617,12 +39971,10 @@ __subleq_srl_4:
         .word   144, 100, .Lsrl4_b31_chk
         .word   12, 12, .Lsrl4_b31_setup
 .Lsrl4_b31_chk:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsrl4_b31_ambig
-        .word   12, 12, .Lsrl4_b31_set
-.Lsrl4_b31_ambig:
-        .word   .Lsrl_one, 172, .Lsrl4_b31_setup
+        .word   .Lsrl_negone, 100, .Lsrl4_b31_neg_restore
+        .word   .Lsrl_one, 100, .Lsrl4_b31_setup
+.Lsrl4_b31_neg_restore:
+        .word   .Lsrl_one, 100, .+4
 .Lsrl4_b31_set:
         .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n134217728, 96, .+4
@@ -40850,12 +40202,10 @@ __subleq_srl_5:
         .word   144, 100, .Lsrl5_b31_chk
         .word   12, 12, .Lsrl5_b31_setup
 .Lsrl5_b31_chk:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsrl5_b31_ambig
-        .word   12, 12, .Lsrl5_b31_set
-.Lsrl5_b31_ambig:
-        .word   .Lsrl_one, 172, .Lsrl5_b31_setup
+        .word   .Lsrl_negone, 100, .Lsrl5_b31_neg_restore
+        .word   .Lsrl_one, 100, .Lsrl5_b31_setup
+.Lsrl5_b31_neg_restore:
+        .word   .Lsrl_one, 100, .+4
 .Lsrl5_b31_set:
         .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n67108864, 96, .+4
@@ -41075,12 +40425,10 @@ __subleq_srl_6:
         .word   144, 100, .Lsrl6_b31_chk
         .word   12, 12, .Lsrl6_b31_setup
 .Lsrl6_b31_chk:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsrl6_b31_ambig
-        .word   12, 12, .Lsrl6_b31_set
-.Lsrl6_b31_ambig:
-        .word   .Lsrl_one, 172, .Lsrl6_b31_setup
+        .word   .Lsrl_negone, 100, .Lsrl6_b31_neg_restore
+        .word   .Lsrl_one, 100, .Lsrl6_b31_setup
+.Lsrl6_b31_neg_restore:
+        .word   .Lsrl_one, 100, .+4
 .Lsrl6_b31_set:
         .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n33554432, 96, .+4
@@ -41292,12 +40640,10 @@ __subleq_srl_7:
         .word   144, 100, .Lsrl7_b31_chk
         .word   12, 12, .Lsrl7_b31_setup
 .Lsrl7_b31_chk:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsrl7_b31_ambig
-        .word   12, 12, .Lsrl7_b31_set
-.Lsrl7_b31_ambig:
-        .word   .Lsrl_one, 172, .Lsrl7_b31_setup
+        .word   .Lsrl_negone, 100, .Lsrl7_b31_neg_restore
+        .word   .Lsrl_one, 100, .Lsrl7_b31_setup
+.Lsrl7_b31_neg_restore:
+        .word   .Lsrl_one, 100, .+4
 .Lsrl7_b31_set:
         .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n16777216, 96, .+4
@@ -41501,12 +40847,10 @@ __subleq_srl_8:
         .word   144, 100, .Lsrl8_b31_chk
         .word   12, 12, .Lsrl8_b31_setup
 .Lsrl8_b31_chk:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsrl8_b31_ambig
-        .word   12, 12, .Lsrl8_b31_set
-.Lsrl8_b31_ambig:
-        .word   .Lsrl_one, 172, .Lsrl8_b31_setup
+        .word   .Lsrl_negone, 100, .Lsrl8_b31_neg_restore
+        .word   .Lsrl_one, 100, .Lsrl8_b31_setup
+.Lsrl8_b31_neg_restore:
+        .word   .Lsrl_one, 100, .+4
 .Lsrl8_b31_set:
         .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n8388608, 96, .+4
@@ -41702,12 +41046,10 @@ __subleq_srl_9:
         .word   144, 100, .Lsrl9_b31_chk
         .word   12, 12, .Lsrl9_b31_setup
 .Lsrl9_b31_chk:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsrl9_b31_ambig
-        .word   12, 12, .Lsrl9_b31_set
-.Lsrl9_b31_ambig:
-        .word   .Lsrl_one, 172, .Lsrl9_b31_setup
+        .word   .Lsrl_negone, 100, .Lsrl9_b31_neg_restore
+        .word   .Lsrl_one, 100, .Lsrl9_b31_setup
+.Lsrl9_b31_neg_restore:
+        .word   .Lsrl_one, 100, .+4
 .Lsrl9_b31_set:
         .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n4194304, 96, .+4
@@ -41895,12 +41237,10 @@ __subleq_srl_10:
         .word   144, 100, .Lsrl10_b31_chk
         .word   12, 12, .Lsrl10_b31_setup
 .Lsrl10_b31_chk:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsrl10_b31_ambig
-        .word   12, 12, .Lsrl10_b31_set
-.Lsrl10_b31_ambig:
-        .word   .Lsrl_one, 172, .Lsrl10_b31_setup
+        .word   .Lsrl_negone, 100, .Lsrl10_b31_neg_restore
+        .word   .Lsrl_one, 100, .Lsrl10_b31_setup
+.Lsrl10_b31_neg_restore:
+        .word   .Lsrl_one, 100, .+4
 .Lsrl10_b31_set:
         .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n2097152, 96, .+4
@@ -42080,12 +41420,10 @@ __subleq_srl_11:
         .word   144, 100, .Lsrl11_b31_chk
         .word   12, 12, .Lsrl11_b31_setup
 .Lsrl11_b31_chk:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsrl11_b31_ambig
-        .word   12, 12, .Lsrl11_b31_set
-.Lsrl11_b31_ambig:
-        .word   .Lsrl_one, 172, .Lsrl11_b31_setup
+        .word   .Lsrl_negone, 100, .Lsrl11_b31_neg_restore
+        .word   .Lsrl_one, 100, .Lsrl11_b31_setup
+.Lsrl11_b31_neg_restore:
+        .word   .Lsrl_one, 100, .+4
 .Lsrl11_b31_set:
         .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n1048576, 96, .+4
@@ -42257,12 +41595,10 @@ __subleq_srl_12:
         .word   144, 100, .Lsrl12_b31_chk
         .word   12, 12, .Lsrl12_b31_setup
 .Lsrl12_b31_chk:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsrl12_b31_ambig
-        .word   12, 12, .Lsrl12_b31_set
-.Lsrl12_b31_ambig:
-        .word   .Lsrl_one, 172, .Lsrl12_b31_setup
+        .word   .Lsrl_negone, 100, .Lsrl12_b31_neg_restore
+        .word   .Lsrl_one, 100, .Lsrl12_b31_setup
+.Lsrl12_b31_neg_restore:
+        .word   .Lsrl_one, 100, .+4
 .Lsrl12_b31_set:
         .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n524288, 96, .+4
@@ -42426,12 +41762,10 @@ __subleq_srl_13:
         .word   144, 100, .Lsrl13_b31_chk
         .word   12, 12, .Lsrl13_b31_setup
 .Lsrl13_b31_chk:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsrl13_b31_ambig
-        .word   12, 12, .Lsrl13_b31_set
-.Lsrl13_b31_ambig:
-        .word   .Lsrl_one, 172, .Lsrl13_b31_setup
+        .word   .Lsrl_negone, 100, .Lsrl13_b31_neg_restore
+        .word   .Lsrl_one, 100, .Lsrl13_b31_setup
+.Lsrl13_b31_neg_restore:
+        .word   .Lsrl_one, 100, .+4
 .Lsrl13_b31_set:
         .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n262144, 96, .+4
@@ -42587,12 +41921,10 @@ __subleq_srl_14:
         .word   144, 100, .Lsrl14_b31_chk
         .word   12, 12, .Lsrl14_b31_setup
 .Lsrl14_b31_chk:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsrl14_b31_ambig
-        .word   12, 12, .Lsrl14_b31_set
-.Lsrl14_b31_ambig:
-        .word   .Lsrl_one, 172, .Lsrl14_b31_setup
+        .word   .Lsrl_negone, 100, .Lsrl14_b31_neg_restore
+        .word   .Lsrl_one, 100, .Lsrl14_b31_setup
+.Lsrl14_b31_neg_restore:
+        .word   .Lsrl_one, 100, .+4
 .Lsrl14_b31_set:
         .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n131072, 96, .+4
@@ -42740,12 +42072,10 @@ __subleq_srl_15:
         .word   144, 100, .Lsrl15_b31_chk
         .word   12, 12, .Lsrl15_b31_setup
 .Lsrl15_b31_chk:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsrl15_b31_ambig
-        .word   12, 12, .Lsrl15_b31_set
-.Lsrl15_b31_ambig:
-        .word   .Lsrl_one, 172, .Lsrl15_b31_setup
+        .word   .Lsrl_negone, 100, .Lsrl15_b31_neg_restore
+        .word   .Lsrl_one, 100, .Lsrl15_b31_setup
+.Lsrl15_b31_neg_restore:
+        .word   .Lsrl_one, 100, .+4
 .Lsrl15_b31_set:
         .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n65536, 96, .+4
@@ -42885,12 +42215,10 @@ __subleq_srl_16:
         .word   144, 100, .Lsrl16_b31_chk
         .word   12, 12, .Lsrl16_b31_setup
 .Lsrl16_b31_chk:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsrl16_b31_ambig
-        .word   12, 12, .Lsrl16_b31_set
-.Lsrl16_b31_ambig:
-        .word   .Lsrl_one, 172, .Lsrl16_b31_setup
+        .word   .Lsrl_negone, 100, .Lsrl16_b31_neg_restore
+        .word   .Lsrl_one, 100, .Lsrl16_b31_setup
+.Lsrl16_b31_neg_restore:
+        .word   .Lsrl_one, 100, .+4
 .Lsrl16_b31_set:
         .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n32768, 96, .+4
@@ -43022,12 +42350,10 @@ __subleq_srl_17:
         .word   144, 100, .Lsrl17_b31_chk
         .word   12, 12, .Lsrl17_b31_setup
 .Lsrl17_b31_chk:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsrl17_b31_ambig
-        .word   12, 12, .Lsrl17_b31_set
-.Lsrl17_b31_ambig:
-        .word   .Lsrl_one, 172, .Lsrl17_b31_setup
+        .word   .Lsrl_negone, 100, .Lsrl17_b31_neg_restore
+        .word   .Lsrl_one, 100, .Lsrl17_b31_setup
+.Lsrl17_b31_neg_restore:
+        .word   .Lsrl_one, 100, .+4
 .Lsrl17_b31_set:
         .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n16384, 96, .+4
@@ -43151,12 +42477,10 @@ __subleq_srl_18:
         .word   144, 100, .Lsrl18_b31_chk
         .word   12, 12, .Lsrl18_b31_setup
 .Lsrl18_b31_chk:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsrl18_b31_ambig
-        .word   12, 12, .Lsrl18_b31_set
-.Lsrl18_b31_ambig:
-        .word   .Lsrl_one, 172, .Lsrl18_b31_setup
+        .word   .Lsrl_negone, 100, .Lsrl18_b31_neg_restore
+        .word   .Lsrl_one, 100, .Lsrl18_b31_setup
+.Lsrl18_b31_neg_restore:
+        .word   .Lsrl_one, 100, .+4
 .Lsrl18_b31_set:
         .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n8192, 96, .+4
@@ -43272,12 +42596,10 @@ __subleq_srl_19:
         .word   144, 100, .Lsrl19_b31_chk
         .word   12, 12, .Lsrl19_b31_setup
 .Lsrl19_b31_chk:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsrl19_b31_ambig
-        .word   12, 12, .Lsrl19_b31_set
-.Lsrl19_b31_ambig:
-        .word   .Lsrl_one, 172, .Lsrl19_b31_setup
+        .word   .Lsrl_negone, 100, .Lsrl19_b31_neg_restore
+        .word   .Lsrl_one, 100, .Lsrl19_b31_setup
+.Lsrl19_b31_neg_restore:
+        .word   .Lsrl_one, 100, .+4
 .Lsrl19_b31_set:
         .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n4096, 96, .+4
@@ -43385,12 +42707,10 @@ __subleq_srl_20:
         .word   144, 100, .Lsrl20_b31_chk
         .word   12, 12, .Lsrl20_b31_setup
 .Lsrl20_b31_chk:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsrl20_b31_ambig
-        .word   12, 12, .Lsrl20_b31_set
-.Lsrl20_b31_ambig:
-        .word   .Lsrl_one, 172, .Lsrl20_b31_setup
+        .word   .Lsrl_negone, 100, .Lsrl20_b31_neg_restore
+        .word   .Lsrl_one, 100, .Lsrl20_b31_setup
+.Lsrl20_b31_neg_restore:
+        .word   .Lsrl_one, 100, .+4
 .Lsrl20_b31_set:
         .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n2048, 96, .+4
@@ -43490,12 +42810,10 @@ __subleq_srl_21:
         .word   144, 100, .Lsrl21_b31_chk
         .word   12, 12, .Lsrl21_b31_setup
 .Lsrl21_b31_chk:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsrl21_b31_ambig
-        .word   12, 12, .Lsrl21_b31_set
-.Lsrl21_b31_ambig:
-        .word   .Lsrl_one, 172, .Lsrl21_b31_setup
+        .word   .Lsrl_negone, 100, .Lsrl21_b31_neg_restore
+        .word   .Lsrl_one, 100, .Lsrl21_b31_setup
+.Lsrl21_b31_neg_restore:
+        .word   .Lsrl_one, 100, .+4
 .Lsrl21_b31_set:
         .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n1024, 96, .+4
@@ -43587,12 +42905,10 @@ __subleq_srl_22:
         .word   144, 100, .Lsrl22_b31_chk
         .word   12, 12, .Lsrl22_b31_setup
 .Lsrl22_b31_chk:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsrl22_b31_ambig
-        .word   12, 12, .Lsrl22_b31_set
-.Lsrl22_b31_ambig:
-        .word   .Lsrl_one, 172, .Lsrl22_b31_setup
+        .word   .Lsrl_negone, 100, .Lsrl22_b31_neg_restore
+        .word   .Lsrl_one, 100, .Lsrl22_b31_setup
+.Lsrl22_b31_neg_restore:
+        .word   .Lsrl_one, 100, .+4
 .Lsrl22_b31_set:
         .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n512, 96, .+4
@@ -43676,12 +42992,10 @@ __subleq_srl_23:
         .word   144, 100, .Lsrl23_b31_chk
         .word   12, 12, .Lsrl23_b31_setup
 .Lsrl23_b31_chk:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsrl23_b31_ambig
-        .word   12, 12, .Lsrl23_b31_set
-.Lsrl23_b31_ambig:
-        .word   .Lsrl_one, 172, .Lsrl23_b31_setup
+        .word   .Lsrl_negone, 100, .Lsrl23_b31_neg_restore
+        .word   .Lsrl_one, 100, .Lsrl23_b31_setup
+.Lsrl23_b31_neg_restore:
+        .word   .Lsrl_one, 100, .+4
 .Lsrl23_b31_set:
         .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n256, 96, .+4
@@ -43757,12 +43071,10 @@ __subleq_srl_24:
         .word   144, 100, .Lsrl24_b31_chk
         .word   12, 12, .Lsrl24_b31_setup
 .Lsrl24_b31_chk:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsrl24_b31_ambig
-        .word   12, 12, .Lsrl24_b31_set
-.Lsrl24_b31_ambig:
-        .word   .Lsrl_one, 172, .Lsrl24_b31_setup
+        .word   .Lsrl_negone, 100, .Lsrl24_b31_neg_restore
+        .word   .Lsrl_one, 100, .Lsrl24_b31_setup
+.Lsrl24_b31_neg_restore:
+        .word   .Lsrl_one, 100, .+4
 .Lsrl24_b31_set:
         .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n128, 96, .+4
@@ -43830,12 +43142,10 @@ __subleq_srl_25:
         .word   144, 100, .Lsrl25_b31_chk
         .word   12, 12, .Lsrl25_b31_setup
 .Lsrl25_b31_chk:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsrl25_b31_ambig
-        .word   12, 12, .Lsrl25_b31_set
-.Lsrl25_b31_ambig:
-        .word   .Lsrl_one, 172, .Lsrl25_b31_setup
+        .word   .Lsrl_negone, 100, .Lsrl25_b31_neg_restore
+        .word   .Lsrl_one, 100, .Lsrl25_b31_setup
+.Lsrl25_b31_neg_restore:
+        .word   .Lsrl_one, 100, .+4
 .Lsrl25_b31_set:
         .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n64, 96, .+4
@@ -43895,12 +43205,10 @@ __subleq_srl_26:
         .word   144, 100, .Lsrl26_b31_chk
         .word   12, 12, .Lsrl26_b31_setup
 .Lsrl26_b31_chk:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsrl26_b31_ambig
-        .word   12, 12, .Lsrl26_b31_set
-.Lsrl26_b31_ambig:
-        .word   .Lsrl_one, 172, .Lsrl26_b31_setup
+        .word   .Lsrl_negone, 100, .Lsrl26_b31_neg_restore
+        .word   .Lsrl_one, 100, .Lsrl26_b31_setup
+.Lsrl26_b31_neg_restore:
+        .word   .Lsrl_one, 100, .+4
 .Lsrl26_b31_set:
         .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n32, 96, .+4
@@ -43952,12 +43260,10 @@ __subleq_srl_27:
         .word   144, 100, .Lsrl27_b31_chk
         .word   12, 12, .Lsrl27_b31_setup
 .Lsrl27_b31_chk:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsrl27_b31_ambig
-        .word   12, 12, .Lsrl27_b31_set
-.Lsrl27_b31_ambig:
-        .word   .Lsrl_one, 172, .Lsrl27_b31_setup
+        .word   .Lsrl_negone, 100, .Lsrl27_b31_neg_restore
+        .word   .Lsrl_one, 100, .Lsrl27_b31_setup
+.Lsrl27_b31_neg_restore:
+        .word   .Lsrl_one, 100, .+4
 .Lsrl27_b31_set:
         .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n16, 96, .+4
@@ -44001,12 +43307,10 @@ __subleq_srl_28:
         .word   144, 100, .Lsrl28_b31_chk
         .word   12, 12, .Lsrl28_b31_setup
 .Lsrl28_b31_chk:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsrl28_b31_ambig
-        .word   12, 12, .Lsrl28_b31_set
-.Lsrl28_b31_ambig:
-        .word   .Lsrl_one, 172, .Lsrl28_b31_setup
+        .word   .Lsrl_negone, 100, .Lsrl28_b31_neg_restore
+        .word   .Lsrl_one, 100, .Lsrl28_b31_setup
+.Lsrl28_b31_neg_restore:
+        .word   .Lsrl_one, 100, .+4
 .Lsrl28_b31_set:
         .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n8, 96, .+4
@@ -44042,12 +43346,10 @@ __subleq_srl_29:
         .word   144, 100, .Lsrl29_b31_chk
         .word   12, 12, .Lsrl29_b31_setup
 .Lsrl29_b31_chk:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsrl29_b31_ambig
-        .word   12, 12, .Lsrl29_b31_set
-.Lsrl29_b31_ambig:
-        .word   .Lsrl_one, 172, .Lsrl29_b31_setup
+        .word   .Lsrl_negone, 100, .Lsrl29_b31_neg_restore
+        .word   .Lsrl_one, 100, .Lsrl29_b31_setup
+.Lsrl29_b31_neg_restore:
+        .word   .Lsrl_one, 100, .+4
 .Lsrl29_b31_set:
         .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n4, 96, .+4
@@ -44075,12 +43377,10 @@ __subleq_srl_30:
         .word   144, 100, .Lsrl30_b31_chk
         .word   12, 12, .Lsrl30_b31_setup
 .Lsrl30_b31_chk:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsrl30_b31_ambig
-        .word   12, 12, .Lsrl30_b31_set
-.Lsrl30_b31_ambig:
-        .word   .Lsrl_one, 172, .Lsrl30_b31_setup
+        .word   .Lsrl_negone, 100, .Lsrl30_b31_neg_restore
+        .word   .Lsrl_one, 100, .Lsrl30_b31_setup
+.Lsrl30_b31_neg_restore:
+        .word   .Lsrl_one, 100, .+4
 .Lsrl30_b31_set:
         .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n2, 96, .+4
@@ -44100,12 +43400,10 @@ __subleq_srl_31:
         .word   144, 100, .Lsrl31_b31_chk
         .word   12, 12, .Lsrl31_b31_setup
 .Lsrl31_b31_chk:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsrl31_b31_ambig
-        .word   12, 12, .Lsrl31_b31_set
-.Lsrl31_b31_ambig:
-        .word   .Lsrl_one, 172, .Lsrl31_b31_setup
+        .word   .Lsrl_negone, 100, .Lsrl31_b31_neg_restore
+        .word   .Lsrl_one, 100, .Lsrl31_b31_setup
+.Lsrl31_b31_neg_restore:
+        .word   .Lsrl_one, 100, .+4
 .Lsrl31_b31_set:
         .word   .Lsrl_c2147483648, 100, .+4
         .word   .Lsrl_n1, 96, .+4
@@ -44282,13 +43580,10 @@ __subleq_sra:
         .word   144, 172, .Lsra_ab_maybe_neg
         .word   12, 12, .Lsra_zero
 .Lsra_ab_maybe_neg:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsra_ab_ambig
-        .word   12, 12, .Lsra_minus1
-.Lsra_ab_ambig:
-        .word   .Lsra_one, 172, .Lsra_zero
-        .word   12, 12, .Lsra_minus1
+        .word   .Lsra_negone, 100, .Lsra_ab_neg_restore
+        .word   .Lsra_one, 100, .Lsra_zero
+.Lsra_ab_neg_restore:
+        .word   .Lsra_one, 100, .+4
 .Lsra_zero:
         .word   96, 96, .Lsra_done
 .Lsra_minus1:
@@ -44306,13 +43601,10 @@ __subleq_sra_1:
         .word   144, 172, .Lsra1_maybe_neg
         .word   12, 12, .Lsra1_pos
 .Lsra1_maybe_neg:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsra1_ambig
-        .word   12, 12, .Lsra1_neg
-.Lsra1_ambig:
-        .word   .Lsra_one, 172, .Lsra1_pos
-        .word   12, 12, .Lsra1_neg
+        .word   .Lsra_negone, 100, .Lsra1_neg_restore
+        .word   .Lsra_one, 100, .Lsra1_pos
+.Lsra1_neg_restore:
+        .word   .Lsra_one, 100, .+4
 .Lsra1_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
@@ -44585,13 +43877,10 @@ __subleq_sra_2:
         .word   144, 172, .Lsra2_maybe_neg
         .word   12, 12, .Lsra2_pos
 .Lsra2_maybe_neg:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsra2_ambig
-        .word   12, 12, .Lsra2_neg
-.Lsra2_ambig:
-        .word   .Lsra_one, 172, .Lsra2_pos
-        .word   12, 12, .Lsra2_neg
+        .word   .Lsra_negone, 100, .Lsra2_neg_restore
+        .word   .Lsra_one, 100, .Lsra2_pos
+.Lsra2_neg_restore:
+        .word   .Lsra_one, 100, .+4
 .Lsra2_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
@@ -44856,13 +44145,10 @@ __subleq_sra_3:
         .word   144, 172, .Lsra3_maybe_neg
         .word   12, 12, .Lsra3_pos
 .Lsra3_maybe_neg:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsra3_ambig
-        .word   12, 12, .Lsra3_neg
-.Lsra3_ambig:
-        .word   .Lsra_one, 172, .Lsra3_pos
-        .word   12, 12, .Lsra3_neg
+        .word   .Lsra_negone, 100, .Lsra3_neg_restore
+        .word   .Lsra_one, 100, .Lsra3_pos
+.Lsra3_neg_restore:
+        .word   .Lsra_one, 100, .+4
 .Lsra3_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
@@ -45119,13 +44405,10 @@ __subleq_sra_4:
         .word   144, 172, .Lsra4_maybe_neg
         .word   12, 12, .Lsra4_pos
 .Lsra4_maybe_neg:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsra4_ambig
-        .word   12, 12, .Lsra4_neg
-.Lsra4_ambig:
-        .word   .Lsra_one, 172, .Lsra4_pos
-        .word   12, 12, .Lsra4_neg
+        .word   .Lsra_negone, 100, .Lsra4_neg_restore
+        .word   .Lsra_one, 100, .Lsra4_pos
+.Lsra4_neg_restore:
+        .word   .Lsra_one, 100, .+4
 .Lsra4_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
@@ -45374,13 +44657,10 @@ __subleq_sra_5:
         .word   144, 172, .Lsra5_maybe_neg
         .word   12, 12, .Lsra5_pos
 .Lsra5_maybe_neg:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsra5_ambig
-        .word   12, 12, .Lsra5_neg
-.Lsra5_ambig:
-        .word   .Lsra_one, 172, .Lsra5_pos
-        .word   12, 12, .Lsra5_neg
+        .word   .Lsra_negone, 100, .Lsra5_neg_restore
+        .word   .Lsra_one, 100, .Lsra5_pos
+.Lsra5_neg_restore:
+        .word   .Lsra_one, 100, .+4
 .Lsra5_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
@@ -45621,13 +44901,10 @@ __subleq_sra_6:
         .word   144, 172, .Lsra6_maybe_neg
         .word   12, 12, .Lsra6_pos
 .Lsra6_maybe_neg:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsra6_ambig
-        .word   12, 12, .Lsra6_neg
-.Lsra6_ambig:
-        .word   .Lsra_one, 172, .Lsra6_pos
-        .word   12, 12, .Lsra6_neg
+        .word   .Lsra_negone, 100, .Lsra6_neg_restore
+        .word   .Lsra_one, 100, .Lsra6_pos
+.Lsra6_neg_restore:
+        .word   .Lsra_one, 100, .+4
 .Lsra6_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
@@ -45860,13 +45137,10 @@ __subleq_sra_7:
         .word   144, 172, .Lsra7_maybe_neg
         .word   12, 12, .Lsra7_pos
 .Lsra7_maybe_neg:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsra7_ambig
-        .word   12, 12, .Lsra7_neg
-.Lsra7_ambig:
-        .word   .Lsra_one, 172, .Lsra7_pos
-        .word   12, 12, .Lsra7_neg
+        .word   .Lsra_negone, 100, .Lsra7_neg_restore
+        .word   .Lsra_one, 100, .Lsra7_pos
+.Lsra7_neg_restore:
+        .word   .Lsra_one, 100, .+4
 .Lsra7_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
@@ -46091,13 +45365,10 @@ __subleq_sra_8:
         .word   144, 172, .Lsra8_maybe_neg
         .word   12, 12, .Lsra8_pos
 .Lsra8_maybe_neg:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsra8_ambig
-        .word   12, 12, .Lsra8_neg
-.Lsra8_ambig:
-        .word   .Lsra_one, 172, .Lsra8_pos
-        .word   12, 12, .Lsra8_neg
+        .word   .Lsra_negone, 100, .Lsra8_neg_restore
+        .word   .Lsra_one, 100, .Lsra8_pos
+.Lsra8_neg_restore:
+        .word   .Lsra_one, 100, .+4
 .Lsra8_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
@@ -46314,13 +45585,10 @@ __subleq_sra_9:
         .word   144, 172, .Lsra9_maybe_neg
         .word   12, 12, .Lsra9_pos
 .Lsra9_maybe_neg:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsra9_ambig
-        .word   12, 12, .Lsra9_neg
-.Lsra9_ambig:
-        .word   .Lsra_one, 172, .Lsra9_pos
-        .word   12, 12, .Lsra9_neg
+        .word   .Lsra_negone, 100, .Lsra9_neg_restore
+        .word   .Lsra_one, 100, .Lsra9_pos
+.Lsra9_neg_restore:
+        .word   .Lsra_one, 100, .+4
 .Lsra9_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
@@ -46529,13 +45797,10 @@ __subleq_sra_10:
         .word   144, 172, .Lsra10_maybe_neg
         .word   12, 12, .Lsra10_pos
 .Lsra10_maybe_neg:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsra10_ambig
-        .word   12, 12, .Lsra10_neg
-.Lsra10_ambig:
-        .word   .Lsra_one, 172, .Lsra10_pos
-        .word   12, 12, .Lsra10_neg
+        .word   .Lsra_negone, 100, .Lsra10_neg_restore
+        .word   .Lsra_one, 100, .Lsra10_pos
+.Lsra10_neg_restore:
+        .word   .Lsra_one, 100, .+4
 .Lsra10_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
@@ -46736,13 +46001,10 @@ __subleq_sra_11:
         .word   144, 172, .Lsra11_maybe_neg
         .word   12, 12, .Lsra11_pos
 .Lsra11_maybe_neg:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsra11_ambig
-        .word   12, 12, .Lsra11_neg
-.Lsra11_ambig:
-        .word   .Lsra_one, 172, .Lsra11_pos
-        .word   12, 12, .Lsra11_neg
+        .word   .Lsra_negone, 100, .Lsra11_neg_restore
+        .word   .Lsra_one, 100, .Lsra11_pos
+.Lsra11_neg_restore:
+        .word   .Lsra_one, 100, .+4
 .Lsra11_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
@@ -46935,13 +46197,10 @@ __subleq_sra_12:
         .word   144, 172, .Lsra12_maybe_neg
         .word   12, 12, .Lsra12_pos
 .Lsra12_maybe_neg:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsra12_ambig
-        .word   12, 12, .Lsra12_neg
-.Lsra12_ambig:
-        .word   .Lsra_one, 172, .Lsra12_pos
-        .word   12, 12, .Lsra12_neg
+        .word   .Lsra_negone, 100, .Lsra12_neg_restore
+        .word   .Lsra_one, 100, .Lsra12_pos
+.Lsra12_neg_restore:
+        .word   .Lsra_one, 100, .+4
 .Lsra12_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
@@ -47126,13 +46385,10 @@ __subleq_sra_13:
         .word   144, 172, .Lsra13_maybe_neg
         .word   12, 12, .Lsra13_pos
 .Lsra13_maybe_neg:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsra13_ambig
-        .word   12, 12, .Lsra13_neg
-.Lsra13_ambig:
-        .word   .Lsra_one, 172, .Lsra13_pos
-        .word   12, 12, .Lsra13_neg
+        .word   .Lsra_negone, 100, .Lsra13_neg_restore
+        .word   .Lsra_one, 100, .Lsra13_pos
+.Lsra13_neg_restore:
+        .word   .Lsra_one, 100, .+4
 .Lsra13_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
@@ -47309,13 +46565,10 @@ __subleq_sra_14:
         .word   144, 172, .Lsra14_maybe_neg
         .word   12, 12, .Lsra14_pos
 .Lsra14_maybe_neg:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsra14_ambig
-        .word   12, 12, .Lsra14_neg
-.Lsra14_ambig:
-        .word   .Lsra_one, 172, .Lsra14_pos
-        .word   12, 12, .Lsra14_neg
+        .word   .Lsra_negone, 100, .Lsra14_neg_restore
+        .word   .Lsra_one, 100, .Lsra14_pos
+.Lsra14_neg_restore:
+        .word   .Lsra_one, 100, .+4
 .Lsra14_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
@@ -47484,13 +46737,10 @@ __subleq_sra_15:
         .word   144, 172, .Lsra15_maybe_neg
         .word   12, 12, .Lsra15_pos
 .Lsra15_maybe_neg:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsra15_ambig
-        .word   12, 12, .Lsra15_neg
-.Lsra15_ambig:
-        .word   .Lsra_one, 172, .Lsra15_pos
-        .word   12, 12, .Lsra15_neg
+        .word   .Lsra_negone, 100, .Lsra15_neg_restore
+        .word   .Lsra_one, 100, .Lsra15_pos
+.Lsra15_neg_restore:
+        .word   .Lsra_one, 100, .+4
 .Lsra15_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
@@ -47651,13 +46901,10 @@ __subleq_sra_16:
         .word   144, 172, .Lsra16_maybe_neg
         .word   12, 12, .Lsra16_pos
 .Lsra16_maybe_neg:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsra16_ambig
-        .word   12, 12, .Lsra16_neg
-.Lsra16_ambig:
-        .word   .Lsra_one, 172, .Lsra16_pos
-        .word   12, 12, .Lsra16_neg
+        .word   .Lsra_negone, 100, .Lsra16_neg_restore
+        .word   .Lsra_one, 100, .Lsra16_pos
+.Lsra16_neg_restore:
+        .word   .Lsra_one, 100, .+4
 .Lsra16_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
@@ -47810,13 +47057,10 @@ __subleq_sra_17:
         .word   144, 172, .Lsra17_maybe_neg
         .word   12, 12, .Lsra17_pos
 .Lsra17_maybe_neg:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsra17_ambig
-        .word   12, 12, .Lsra17_neg
-.Lsra17_ambig:
-        .word   .Lsra_one, 172, .Lsra17_pos
-        .word   12, 12, .Lsra17_neg
+        .word   .Lsra_negone, 100, .Lsra17_neg_restore
+        .word   .Lsra_one, 100, .Lsra17_pos
+.Lsra17_neg_restore:
+        .word   .Lsra_one, 100, .+4
 .Lsra17_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
@@ -47961,13 +47205,10 @@ __subleq_sra_18:
         .word   144, 172, .Lsra18_maybe_neg
         .word   12, 12, .Lsra18_pos
 .Lsra18_maybe_neg:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsra18_ambig
-        .word   12, 12, .Lsra18_neg
-.Lsra18_ambig:
-        .word   .Lsra_one, 172, .Lsra18_pos
-        .word   12, 12, .Lsra18_neg
+        .word   .Lsra_negone, 100, .Lsra18_neg_restore
+        .word   .Lsra_one, 100, .Lsra18_pos
+.Lsra18_neg_restore:
+        .word   .Lsra_one, 100, .+4
 .Lsra18_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
@@ -48104,13 +47345,10 @@ __subleq_sra_19:
         .word   144, 172, .Lsra19_maybe_neg
         .word   12, 12, .Lsra19_pos
 .Lsra19_maybe_neg:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsra19_ambig
-        .word   12, 12, .Lsra19_neg
-.Lsra19_ambig:
-        .word   .Lsra_one, 172, .Lsra19_pos
-        .word   12, 12, .Lsra19_neg
+        .word   .Lsra_negone, 100, .Lsra19_neg_restore
+        .word   .Lsra_one, 100, .Lsra19_pos
+.Lsra19_neg_restore:
+        .word   .Lsra_one, 100, .+4
 .Lsra19_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
@@ -48239,13 +47477,10 @@ __subleq_sra_20:
         .word   144, 172, .Lsra20_maybe_neg
         .word   12, 12, .Lsra20_pos
 .Lsra20_maybe_neg:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsra20_ambig
-        .word   12, 12, .Lsra20_neg
-.Lsra20_ambig:
-        .word   .Lsra_one, 172, .Lsra20_pos
-        .word   12, 12, .Lsra20_neg
+        .word   .Lsra_negone, 100, .Lsra20_neg_restore
+        .word   .Lsra_one, 100, .Lsra20_pos
+.Lsra20_neg_restore:
+        .word   .Lsra_one, 100, .+4
 .Lsra20_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
@@ -48366,13 +47601,10 @@ __subleq_sra_21:
         .word   144, 172, .Lsra21_maybe_neg
         .word   12, 12, .Lsra21_pos
 .Lsra21_maybe_neg:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsra21_ambig
-        .word   12, 12, .Lsra21_neg
-.Lsra21_ambig:
-        .word   .Lsra_one, 172, .Lsra21_pos
-        .word   12, 12, .Lsra21_neg
+        .word   .Lsra_negone, 100, .Lsra21_neg_restore
+        .word   .Lsra_one, 100, .Lsra21_pos
+.Lsra21_neg_restore:
+        .word   .Lsra_one, 100, .+4
 .Lsra21_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
@@ -48485,13 +47717,10 @@ __subleq_sra_22:
         .word   144, 172, .Lsra22_maybe_neg
         .word   12, 12, .Lsra22_pos
 .Lsra22_maybe_neg:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsra22_ambig
-        .word   12, 12, .Lsra22_neg
-.Lsra22_ambig:
-        .word   .Lsra_one, 172, .Lsra22_pos
-        .word   12, 12, .Lsra22_neg
+        .word   .Lsra_negone, 100, .Lsra22_neg_restore
+        .word   .Lsra_one, 100, .Lsra22_pos
+.Lsra22_neg_restore:
+        .word   .Lsra_one, 100, .+4
 .Lsra22_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
@@ -48596,13 +47825,10 @@ __subleq_sra_23:
         .word   144, 172, .Lsra23_maybe_neg
         .word   12, 12, .Lsra23_pos
 .Lsra23_maybe_neg:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsra23_ambig
-        .word   12, 12, .Lsra23_neg
-.Lsra23_ambig:
-        .word   .Lsra_one, 172, .Lsra23_pos
-        .word   12, 12, .Lsra23_neg
+        .word   .Lsra_negone, 100, .Lsra23_neg_restore
+        .word   .Lsra_one, 100, .Lsra23_pos
+.Lsra23_neg_restore:
+        .word   .Lsra_one, 100, .+4
 .Lsra23_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
@@ -48699,13 +47925,10 @@ __subleq_sra_24:
         .word   144, 172, .Lsra24_maybe_neg
         .word   12, 12, .Lsra24_pos
 .Lsra24_maybe_neg:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsra24_ambig
-        .word   12, 12, .Lsra24_neg
-.Lsra24_ambig:
-        .word   .Lsra_one, 172, .Lsra24_pos
-        .word   12, 12, .Lsra24_neg
+        .word   .Lsra_negone, 100, .Lsra24_neg_restore
+        .word   .Lsra_one, 100, .Lsra24_pos
+.Lsra24_neg_restore:
+        .word   .Lsra_one, 100, .+4
 .Lsra24_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
@@ -48794,13 +48017,10 @@ __subleq_sra_25:
         .word   144, 172, .Lsra25_maybe_neg
         .word   12, 12, .Lsra25_pos
 .Lsra25_maybe_neg:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsra25_ambig
-        .word   12, 12, .Lsra25_neg
-.Lsra25_ambig:
-        .word   .Lsra_one, 172, .Lsra25_pos
-        .word   12, 12, .Lsra25_neg
+        .word   .Lsra_negone, 100, .Lsra25_neg_restore
+        .word   .Lsra_one, 100, .Lsra25_pos
+.Lsra25_neg_restore:
+        .word   .Lsra_one, 100, .+4
 .Lsra25_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
@@ -48881,13 +48101,10 @@ __subleq_sra_26:
         .word   144, 172, .Lsra26_maybe_neg
         .word   12, 12, .Lsra26_pos
 .Lsra26_maybe_neg:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsra26_ambig
-        .word   12, 12, .Lsra26_neg
-.Lsra26_ambig:
-        .word   .Lsra_one, 172, .Lsra26_pos
-        .word   12, 12, .Lsra26_neg
+        .word   .Lsra_negone, 100, .Lsra26_neg_restore
+        .word   .Lsra_one, 100, .Lsra26_pos
+.Lsra26_neg_restore:
+        .word   .Lsra_one, 100, .+4
 .Lsra26_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
@@ -48960,13 +48177,10 @@ __subleq_sra_27:
         .word   144, 172, .Lsra27_maybe_neg
         .word   12, 12, .Lsra27_pos
 .Lsra27_maybe_neg:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsra27_ambig
-        .word   12, 12, .Lsra27_neg
-.Lsra27_ambig:
-        .word   .Lsra_one, 172, .Lsra27_pos
-        .word   12, 12, .Lsra27_neg
+        .word   .Lsra_negone, 100, .Lsra27_neg_restore
+        .word   .Lsra_one, 100, .Lsra27_pos
+.Lsra27_neg_restore:
+        .word   .Lsra_one, 100, .+4
 .Lsra27_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
@@ -49031,13 +48245,10 @@ __subleq_sra_28:
         .word   144, 172, .Lsra28_maybe_neg
         .word   12, 12, .Lsra28_pos
 .Lsra28_maybe_neg:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsra28_ambig
-        .word   12, 12, .Lsra28_neg
-.Lsra28_ambig:
-        .word   .Lsra_one, 172, .Lsra28_pos
-        .word   12, 12, .Lsra28_neg
+        .word   .Lsra_negone, 100, .Lsra28_neg_restore
+        .word   .Lsra_one, 100, .Lsra28_pos
+.Lsra28_neg_restore:
+        .word   .Lsra_one, 100, .+4
 .Lsra28_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
@@ -49094,13 +48305,10 @@ __subleq_sra_29:
         .word   144, 172, .Lsra29_maybe_neg
         .word   12, 12, .Lsra29_pos
 .Lsra29_maybe_neg:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsra29_ambig
-        .word   12, 12, .Lsra29_neg
-.Lsra29_ambig:
-        .word   .Lsra_one, 172, .Lsra29_pos
-        .word   12, 12, .Lsra29_neg
+        .word   .Lsra_negone, 100, .Lsra29_neg_restore
+        .word   .Lsra_one, 100, .Lsra29_pos
+.Lsra29_neg_restore:
+        .word   .Lsra_one, 100, .+4
 .Lsra29_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
@@ -49149,13 +48357,10 @@ __subleq_sra_30:
         .word   144, 172, .Lsra30_maybe_neg
         .word   12, 12, .Lsra30_pos
 .Lsra30_maybe_neg:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsra30_ambig
-        .word   12, 12, .Lsra30_neg
-.Lsra30_ambig:
-        .word   .Lsra_one, 172, .Lsra30_pos
-        .word   12, 12, .Lsra30_neg
+        .word   .Lsra_negone, 100, .Lsra30_neg_restore
+        .word   .Lsra_one, 100, .Lsra30_pos
+.Lsra30_neg_restore:
+        .word   .Lsra_one, 100, .+4
 .Lsra30_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
@@ -49196,13 +48401,10 @@ __subleq_sra_31:
         .word   144, 172, .Lsra31_maybe_neg
         .word   12, 12, .Lsra31_pos
 .Lsra31_maybe_neg:
-        .word   172, 172, .+4
-        .word   100, 172, .+4
-        .word   144, 172, .Lsra31_ambig
-        .word   12, 12, .Lsra31_neg
-.Lsra31_ambig:
-        .word   .Lsra_one, 172, .Lsra31_pos
-        .word   12, 12, .Lsra31_neg
+        .word   .Lsra_negone, 100, .Lsra31_neg_restore
+        .word   .Lsra_one, 100, .Lsra31_pos
+.Lsra31_neg_restore:
+        .word   .Lsra_one, 100, .+4
 .Lsra31_neg:
         .word   .Lsra_negone, 180, .+4
         .word   172, 172, .+4
@@ -49861,13 +49063,10 @@ __subleq_lb_b3:
         .word   .Llb_n256, 172, .Llb_b0_b7_N
         .word   12, 12, .Llb_b0_b7_P
 .Llb_b0_le0:
-        .word   184, 184, .+4
-        .word   12, 12, .+4
-        .word   172, 12, .+4
-        .word   12, 184, .+4
-        .word   .Llb_neg1, 184, .Llb_b0_neg
-        .word   12, 12, .Llb_b0_bias
+        .word   .Llb_neg1, 172, .Llb_b0_neg
+        .word   .Llb_c1, 172, .Llb_b0_bias
 .Llb_b0_neg:
+        .word   .Llb_c1, 172, .+4
         .word   .Llb_min, 172, .+4
         .word   12, 12, .Llb_b0_bias
 .Llb_byte1:
@@ -50077,13 +49276,10 @@ __subleq_lb_b3:
         .word   .Llb_n65536, 172, .Llb_b1_b15_N
         .word   12, 12, .Llb_b1_b15_P
 .Llb_b1_le0:
-        .word   184, 184, .+4
-        .word   12, 12, .+4
-        .word   172, 12, .+4
-        .word   12, 184, .+4
-        .word   .Llb_neg1, 184, .Llb_b1_neg
-        .word   12, 12, .Llb_b1_bias
+        .word   .Llb_neg1, 172, .Llb_b1_neg
+        .word   .Llb_c1, 172, .Llb_b1_bias
 .Llb_b1_neg:
+        .word   .Llb_c1, 172, .+4
         .word   .Llb_min, 172, .+4
         .word   12, 12, .Llb_b1_bias
 .Llb_byte2:
@@ -50237,13 +49433,10 @@ __subleq_lb_b3:
         .word   .Llb_n16777216, 172, .Llb_b2_b23_N
         .word   12, 12, .Llb_b2_b23_P
 .Llb_b2_le0:
-        .word   184, 184, .+4
-        .word   12, 12, .+4
-        .word   172, 12, .+4
-        .word   12, 184, .+4
-        .word   .Llb_neg1, 184, .Llb_b2_neg
-        .word   12, 12, .Llb_b2_bias
+        .word   .Llb_neg1, 172, .Llb_b2_neg
+        .word   .Llb_c1, 172, .Llb_b2_bias
 .Llb_b2_neg:
+        .word   .Llb_c1, 172, .+4
         .word   .Llb_min, 172, .+4
         .word   12, 12, .Llb_b2_bias
 .Llb_byte3:
@@ -50336,13 +49529,10 @@ __subleq_lb_b3:
 .Llb_b3_b24_N_st:
         .word   12, 12, .Llb_ret1
 .Llb_b3_le0:
-        .word   184, 184, .+4
-        .word   12, 12, .+4
-        .word   172, 12, .+4
-        .word   12, 184, .+4
-        .word   .Llb_neg1, 184, .Llb_b3_neg
-        .word   12, 12, .Llb_b3_bias
+        .word   .Llb_neg1, 172, .Llb_b3_neg
+        .word   .Llb_c1, 172, .Llb_b3_bias
 .Llb_b3_neg:
+        .word   .Llb_c1, 172, .+4
         .word   .Llb_n128, 96, .+4
         .word   .Llb_min, 172, .+4
         .word   12, 12, .Llb_b3_bias
@@ -51387,13 +50577,10 @@ __subleq_sb_b3:
 .Lsb_b0_b0_N_st:
         .word   12, 12, .Lsb_b0_shift
 .Lsb_b0_le0:
-        .word   180, 180, .+4
-        .word   12, 12, .+4
-        .word   172, 12, .+4
-        .word   12, 180, .+4
-        .word   .Lsb_neg1, 180, .Lsb_b0_neg
-        .word   12, 12, .Lsb_b0_bias
+        .word   .Lsb_neg1, 172, .Lsb_b0_neg
+        .word   .Lsb_one, 172, .Lsb_b0_bias
 .Lsb_b0_neg:
+        .word   .Lsb_one, 172, .+4
         .word   .Lsb_n2147483648, 176, .+4
         .word   .Lsb_min, 172, .+4
         .word   12, 12, .Lsb_b0_bias
@@ -51760,13 +50947,10 @@ __subleq_sb_b3:
 .Lsb_b1_b0_N_st:
         .word   12, 12, .Lsb_b1_shift
 .Lsb_b1_le0:
-        .word   180, 180, .+4
-        .word   12, 12, .+4
-        .word   172, 12, .+4
-        .word   12, 180, .+4
-        .word   .Lsb_neg1, 180, .Lsb_b1_neg
-        .word   12, 12, .Lsb_b1_bias
+        .word   .Lsb_neg1, 172, .Lsb_b1_neg
+        .word   .Lsb_one, 172, .Lsb_b1_bias
 .Lsb_b1_neg:
+        .word   .Lsb_one, 172, .+4
         .word   .Lsb_n2147483648, 176, .+4
         .word   .Lsb_min, 172, .+4
         .word   12, 12, .Lsb_b1_bias
@@ -52171,13 +51355,10 @@ __subleq_sb_b3:
 .Lsb_b2_b0_N_st:
         .word   12, 12, .Lsb_b2_shift
 .Lsb_b2_le0:
-        .word   180, 180, .+4
-        .word   12, 12, .+4
-        .word   172, 12, .+4
-        .word   12, 180, .+4
-        .word   .Lsb_neg1, 180, .Lsb_b2_neg
-        .word   12, 12, .Lsb_b2_bias
+        .word   .Lsb_neg1, 172, .Lsb_b2_neg
+        .word   .Lsb_one, 172, .Lsb_b2_bias
 .Lsb_b2_neg:
+        .word   .Lsb_one, 172, .+4
         .word   .Lsb_n2147483648, 176, .+4
         .word   .Lsb_min, 172, .+4
         .word   12, 12, .Lsb_b2_bias
@@ -52601,13 +51782,10 @@ __subleq_sb_b3:
         .word   .Lsb_npow16777216, 172, .Lsb_b3_b23_N
         .word   12, 12, .Lsb_b3_b23_P
 .Lsb_b3_le0:
-        .word   180, 180, .+4
-        .word   12, 12, .+4
-        .word   172, 12, .+4
-        .word   12, 180, .+4
-        .word   .Lsb_neg1, 180, .Lsb_b3_neg
-        .word   12, 12, .Lsb_b3_bias
+        .word   .Lsb_neg1, 172, .Lsb_b3_neg
+        .word   .Lsb_one, 172, .Lsb_b3_bias
 .Lsb_b3_neg:
+        .word   .Lsb_one, 172, .+4
         .word   .Lsb_min, 172, .+4
         .word   12, 12, .Lsb_b3_bias
 .Lsb_b3_shift:
@@ -53391,13 +52569,10 @@ __subleq_lh_h1:
         .word   .Llh_n65536, 172, .Llh_h0_b15_N
         .word   12, 12, .Llh_h0_b15_P
 .Llh_h0_le0:
-        .word   184, 184, .+4
-        .word   12, 12, .+4
-        .word   172, 12, .+4
-        .word   12, 184, .+4
-        .word   .Llh_neg1, 184, .Llh_h0_neg
-        .word   12, 12, .Llh_h0_bias
+        .word   .Llh_neg1, 172, .Llh_h0_neg
+        .word   .Llh_c1, 172, .Llh_h0_bias
 .Llh_h0_neg:
+        .word   .Llh_c1, 172, .+4
         .word   .Llh_min, 172, .+4
         .word   12, 12, .Llh_h0_bias
 .Llh_half1:
@@ -53740,13 +52915,10 @@ __subleq_lh_h1:
 .Llh_h1_b0_N_st:
         .word   12, 12, .Llh_ret1
 .Llh_h1_le0:
-        .word   184, 184, .+4
-        .word   12, 12, .+4
-        .word   172, 12, .+4
-        .word   12, 184, .+4
-        .word   .Llh_neg1, 184, .Llh_h1_neg
-        .word   12, 12, .Llh_h1_bias
+        .word   .Llh_neg1, 172, .Llh_h1_neg
+        .word   .Llh_c1, 172, .Llh_h1_bias
 .Llh_h1_neg:
+        .word   .Llh_c1, 172, .+4
         .word   .Llh_n32768, 96, .+4
         .word   .Llh_min, 172, .+4
         .word   12, 12, .Llh_h1_bias
@@ -54598,13 +53770,10 @@ __subleq_sh_h1:
 .Lsh_b0_b0_N_st:
         .word   12, 12, .Lsh_b0_shift
 .Lsh_b0_le0:
-        .word   180, 180, .+4
-        .word   12, 12, .+4
-        .word   172, 12, .+4
-        .word   12, 180, .+4
-        .word   .Lsh_neg1, 180, .Lsh_b0_neg
-        .word   12, 12, .Lsh_b0_bias
+        .word   .Lsh_neg1, 172, .Lsh_b0_neg
+        .word   .Lsh_one, 172, .Lsh_b0_bias
 .Lsh_b0_neg:
+        .word   .Lsh_one, 172, .+4
         .word   .Lsh_n2147483648, 176, .+4
         .word   .Lsh_min, 172, .+4
         .word   12, 12, .Lsh_b0_bias
@@ -54917,13 +54086,10 @@ __subleq_sh_h1:
         .word   .Lsh_npow65536, 172, .Lsh_b1_b15_N
         .word   12, 12, .Lsh_b1_b15_P
 .Lsh_b1_le0:
-        .word   180, 180, .+4
-        .word   12, 12, .+4
-        .word   172, 12, .+4
-        .word   12, 180, .+4
-        .word   .Lsh_neg1, 180, .Lsh_b1_neg
-        .word   12, 12, .Lsh_b1_bias
+        .word   .Lsh_neg1, 172, .Lsh_b1_neg
+        .word   .Lsh_one, 172, .Lsh_b1_bias
 .Lsh_b1_neg:
+        .word   .Lsh_one, 172, .+4
         .word   .Lsh_min, 172, .+4
         .word   12, 12, .Lsh_b1_bias
 .Lsh_b1_shift:
@@ -55166,15 +54332,11 @@ __ashldi3:
         .word   144, 180, .Lashldi3_chk31
         .word   12, 12, .Lashldi3_d31
 .Lashldi3_chk31:
-        .word   160, 160, .+4
-        .word   180, 160, .+4
-        .word   144, 160, .Lashldi3_a31
+        .word   .Lashldi3_n1, 180, .Lashldi3_carry31
+        .word   .Lashldi3_c1, 180, .Lashldi3_d31
+.Lashldi3_carry31:
+        .word   .Lashldi3_c1, 180, .+4
         .word   .Lashldi3_n1, 188, .Lashldi3_d31
-        .word   12, 12, .Lashldi3_d31
-.Lashldi3_a31:
-        .word   .Lashldi3_c1, 160, .Lashldi3_d31
-        .word   .Lashldi3_n1, 188, .Lashldi3_d31
-        .word   12, 12, .Lashldi3_d31
 .Lashldi3_d31:
         .word   12, 12, .+4
         .word   180, 12, .+4
@@ -55191,15 +54353,11 @@ __ashldi3:
         .word   144, 180, .Lashldi3_chk30
         .word   12, 12, .Lashldi3_d30
 .Lashldi3_chk30:
-        .word   160, 160, .+4
-        .word   180, 160, .+4
-        .word   144, 160, .Lashldi3_a30
+        .word   .Lashldi3_n1, 180, .Lashldi3_carry30
+        .word   .Lashldi3_c1, 180, .Lashldi3_d30
+.Lashldi3_carry30:
+        .word   .Lashldi3_c1, 180, .+4
         .word   .Lashldi3_n1, 188, .Lashldi3_d30
-        .word   12, 12, .Lashldi3_d30
-.Lashldi3_a30:
-        .word   .Lashldi3_c1, 160, .Lashldi3_d30
-        .word   .Lashldi3_n1, 188, .Lashldi3_d30
-        .word   12, 12, .Lashldi3_d30
 .Lashldi3_d30:
         .word   12, 12, .+4
         .word   180, 12, .+4
@@ -55216,15 +54374,11 @@ __ashldi3:
         .word   144, 180, .Lashldi3_chk29
         .word   12, 12, .Lashldi3_d29
 .Lashldi3_chk29:
-        .word   160, 160, .+4
-        .word   180, 160, .+4
-        .word   144, 160, .Lashldi3_a29
+        .word   .Lashldi3_n1, 180, .Lashldi3_carry29
+        .word   .Lashldi3_c1, 180, .Lashldi3_d29
+.Lashldi3_carry29:
+        .word   .Lashldi3_c1, 180, .+4
         .word   .Lashldi3_n1, 188, .Lashldi3_d29
-        .word   12, 12, .Lashldi3_d29
-.Lashldi3_a29:
-        .word   .Lashldi3_c1, 160, .Lashldi3_d29
-        .word   .Lashldi3_n1, 188, .Lashldi3_d29
-        .word   12, 12, .Lashldi3_d29
 .Lashldi3_d29:
         .word   12, 12, .+4
         .word   180, 12, .+4
@@ -55241,15 +54395,11 @@ __ashldi3:
         .word   144, 180, .Lashldi3_chk28
         .word   12, 12, .Lashldi3_d28
 .Lashldi3_chk28:
-        .word   160, 160, .+4
-        .word   180, 160, .+4
-        .word   144, 160, .Lashldi3_a28
+        .word   .Lashldi3_n1, 180, .Lashldi3_carry28
+        .word   .Lashldi3_c1, 180, .Lashldi3_d28
+.Lashldi3_carry28:
+        .word   .Lashldi3_c1, 180, .+4
         .word   .Lashldi3_n1, 188, .Lashldi3_d28
-        .word   12, 12, .Lashldi3_d28
-.Lashldi3_a28:
-        .word   .Lashldi3_c1, 160, .Lashldi3_d28
-        .word   .Lashldi3_n1, 188, .Lashldi3_d28
-        .word   12, 12, .Lashldi3_d28
 .Lashldi3_d28:
         .word   12, 12, .+4
         .word   180, 12, .+4
@@ -55266,15 +54416,11 @@ __ashldi3:
         .word   144, 180, .Lashldi3_chk27
         .word   12, 12, .Lashldi3_d27
 .Lashldi3_chk27:
-        .word   160, 160, .+4
-        .word   180, 160, .+4
-        .word   144, 160, .Lashldi3_a27
+        .word   .Lashldi3_n1, 180, .Lashldi3_carry27
+        .word   .Lashldi3_c1, 180, .Lashldi3_d27
+.Lashldi3_carry27:
+        .word   .Lashldi3_c1, 180, .+4
         .word   .Lashldi3_n1, 188, .Lashldi3_d27
-        .word   12, 12, .Lashldi3_d27
-.Lashldi3_a27:
-        .word   .Lashldi3_c1, 160, .Lashldi3_d27
-        .word   .Lashldi3_n1, 188, .Lashldi3_d27
-        .word   12, 12, .Lashldi3_d27
 .Lashldi3_d27:
         .word   12, 12, .+4
         .word   180, 12, .+4
@@ -55291,15 +54437,11 @@ __ashldi3:
         .word   144, 180, .Lashldi3_chk26
         .word   12, 12, .Lashldi3_d26
 .Lashldi3_chk26:
-        .word   160, 160, .+4
-        .word   180, 160, .+4
-        .word   144, 160, .Lashldi3_a26
+        .word   .Lashldi3_n1, 180, .Lashldi3_carry26
+        .word   .Lashldi3_c1, 180, .Lashldi3_d26
+.Lashldi3_carry26:
+        .word   .Lashldi3_c1, 180, .+4
         .word   .Lashldi3_n1, 188, .Lashldi3_d26
-        .word   12, 12, .Lashldi3_d26
-.Lashldi3_a26:
-        .word   .Lashldi3_c1, 160, .Lashldi3_d26
-        .word   .Lashldi3_n1, 188, .Lashldi3_d26
-        .word   12, 12, .Lashldi3_d26
 .Lashldi3_d26:
         .word   12, 12, .+4
         .word   180, 12, .+4
@@ -55316,15 +54458,11 @@ __ashldi3:
         .word   144, 180, .Lashldi3_chk25
         .word   12, 12, .Lashldi3_d25
 .Lashldi3_chk25:
-        .word   160, 160, .+4
-        .word   180, 160, .+4
-        .word   144, 160, .Lashldi3_a25
+        .word   .Lashldi3_n1, 180, .Lashldi3_carry25
+        .word   .Lashldi3_c1, 180, .Lashldi3_d25
+.Lashldi3_carry25:
+        .word   .Lashldi3_c1, 180, .+4
         .word   .Lashldi3_n1, 188, .Lashldi3_d25
-        .word   12, 12, .Lashldi3_d25
-.Lashldi3_a25:
-        .word   .Lashldi3_c1, 160, .Lashldi3_d25
-        .word   .Lashldi3_n1, 188, .Lashldi3_d25
-        .word   12, 12, .Lashldi3_d25
 .Lashldi3_d25:
         .word   12, 12, .+4
         .word   180, 12, .+4
@@ -55341,15 +54479,11 @@ __ashldi3:
         .word   144, 180, .Lashldi3_chk24
         .word   12, 12, .Lashldi3_d24
 .Lashldi3_chk24:
-        .word   160, 160, .+4
-        .word   180, 160, .+4
-        .word   144, 160, .Lashldi3_a24
+        .word   .Lashldi3_n1, 180, .Lashldi3_carry24
+        .word   .Lashldi3_c1, 180, .Lashldi3_d24
+.Lashldi3_carry24:
+        .word   .Lashldi3_c1, 180, .+4
         .word   .Lashldi3_n1, 188, .Lashldi3_d24
-        .word   12, 12, .Lashldi3_d24
-.Lashldi3_a24:
-        .word   .Lashldi3_c1, 160, .Lashldi3_d24
-        .word   .Lashldi3_n1, 188, .Lashldi3_d24
-        .word   12, 12, .Lashldi3_d24
 .Lashldi3_d24:
         .word   12, 12, .+4
         .word   180, 12, .+4
@@ -55366,15 +54500,11 @@ __ashldi3:
         .word   144, 180, .Lashldi3_chk23
         .word   12, 12, .Lashldi3_d23
 .Lashldi3_chk23:
-        .word   160, 160, .+4
-        .word   180, 160, .+4
-        .word   144, 160, .Lashldi3_a23
+        .word   .Lashldi3_n1, 180, .Lashldi3_carry23
+        .word   .Lashldi3_c1, 180, .Lashldi3_d23
+.Lashldi3_carry23:
+        .word   .Lashldi3_c1, 180, .+4
         .word   .Lashldi3_n1, 188, .Lashldi3_d23
-        .word   12, 12, .Lashldi3_d23
-.Lashldi3_a23:
-        .word   .Lashldi3_c1, 160, .Lashldi3_d23
-        .word   .Lashldi3_n1, 188, .Lashldi3_d23
-        .word   12, 12, .Lashldi3_d23
 .Lashldi3_d23:
         .word   12, 12, .+4
         .word   180, 12, .+4
@@ -55391,15 +54521,11 @@ __ashldi3:
         .word   144, 180, .Lashldi3_chk22
         .word   12, 12, .Lashldi3_d22
 .Lashldi3_chk22:
-        .word   160, 160, .+4
-        .word   180, 160, .+4
-        .word   144, 160, .Lashldi3_a22
+        .word   .Lashldi3_n1, 180, .Lashldi3_carry22
+        .word   .Lashldi3_c1, 180, .Lashldi3_d22
+.Lashldi3_carry22:
+        .word   .Lashldi3_c1, 180, .+4
         .word   .Lashldi3_n1, 188, .Lashldi3_d22
-        .word   12, 12, .Lashldi3_d22
-.Lashldi3_a22:
-        .word   .Lashldi3_c1, 160, .Lashldi3_d22
-        .word   .Lashldi3_n1, 188, .Lashldi3_d22
-        .word   12, 12, .Lashldi3_d22
 .Lashldi3_d22:
         .word   12, 12, .+4
         .word   180, 12, .+4
@@ -55416,15 +54542,11 @@ __ashldi3:
         .word   144, 180, .Lashldi3_chk21
         .word   12, 12, .Lashldi3_d21
 .Lashldi3_chk21:
-        .word   160, 160, .+4
-        .word   180, 160, .+4
-        .word   144, 160, .Lashldi3_a21
+        .word   .Lashldi3_n1, 180, .Lashldi3_carry21
+        .word   .Lashldi3_c1, 180, .Lashldi3_d21
+.Lashldi3_carry21:
+        .word   .Lashldi3_c1, 180, .+4
         .word   .Lashldi3_n1, 188, .Lashldi3_d21
-        .word   12, 12, .Lashldi3_d21
-.Lashldi3_a21:
-        .word   .Lashldi3_c1, 160, .Lashldi3_d21
-        .word   .Lashldi3_n1, 188, .Lashldi3_d21
-        .word   12, 12, .Lashldi3_d21
 .Lashldi3_d21:
         .word   12, 12, .+4
         .word   180, 12, .+4
@@ -55441,15 +54563,11 @@ __ashldi3:
         .word   144, 180, .Lashldi3_chk20
         .word   12, 12, .Lashldi3_d20
 .Lashldi3_chk20:
-        .word   160, 160, .+4
-        .word   180, 160, .+4
-        .word   144, 160, .Lashldi3_a20
+        .word   .Lashldi3_n1, 180, .Lashldi3_carry20
+        .word   .Lashldi3_c1, 180, .Lashldi3_d20
+.Lashldi3_carry20:
+        .word   .Lashldi3_c1, 180, .+4
         .word   .Lashldi3_n1, 188, .Lashldi3_d20
-        .word   12, 12, .Lashldi3_d20
-.Lashldi3_a20:
-        .word   .Lashldi3_c1, 160, .Lashldi3_d20
-        .word   .Lashldi3_n1, 188, .Lashldi3_d20
-        .word   12, 12, .Lashldi3_d20
 .Lashldi3_d20:
         .word   12, 12, .+4
         .word   180, 12, .+4
@@ -55466,15 +54584,11 @@ __ashldi3:
         .word   144, 180, .Lashldi3_chk19
         .word   12, 12, .Lashldi3_d19
 .Lashldi3_chk19:
-        .word   160, 160, .+4
-        .word   180, 160, .+4
-        .word   144, 160, .Lashldi3_a19
+        .word   .Lashldi3_n1, 180, .Lashldi3_carry19
+        .word   .Lashldi3_c1, 180, .Lashldi3_d19
+.Lashldi3_carry19:
+        .word   .Lashldi3_c1, 180, .+4
         .word   .Lashldi3_n1, 188, .Lashldi3_d19
-        .word   12, 12, .Lashldi3_d19
-.Lashldi3_a19:
-        .word   .Lashldi3_c1, 160, .Lashldi3_d19
-        .word   .Lashldi3_n1, 188, .Lashldi3_d19
-        .word   12, 12, .Lashldi3_d19
 .Lashldi3_d19:
         .word   12, 12, .+4
         .word   180, 12, .+4
@@ -55491,15 +54605,11 @@ __ashldi3:
         .word   144, 180, .Lashldi3_chk18
         .word   12, 12, .Lashldi3_d18
 .Lashldi3_chk18:
-        .word   160, 160, .+4
-        .word   180, 160, .+4
-        .word   144, 160, .Lashldi3_a18
+        .word   .Lashldi3_n1, 180, .Lashldi3_carry18
+        .word   .Lashldi3_c1, 180, .Lashldi3_d18
+.Lashldi3_carry18:
+        .word   .Lashldi3_c1, 180, .+4
         .word   .Lashldi3_n1, 188, .Lashldi3_d18
-        .word   12, 12, .Lashldi3_d18
-.Lashldi3_a18:
-        .word   .Lashldi3_c1, 160, .Lashldi3_d18
-        .word   .Lashldi3_n1, 188, .Lashldi3_d18
-        .word   12, 12, .Lashldi3_d18
 .Lashldi3_d18:
         .word   12, 12, .+4
         .word   180, 12, .+4
@@ -55516,15 +54626,11 @@ __ashldi3:
         .word   144, 180, .Lashldi3_chk17
         .word   12, 12, .Lashldi3_d17
 .Lashldi3_chk17:
-        .word   160, 160, .+4
-        .word   180, 160, .+4
-        .word   144, 160, .Lashldi3_a17
+        .word   .Lashldi3_n1, 180, .Lashldi3_carry17
+        .word   .Lashldi3_c1, 180, .Lashldi3_d17
+.Lashldi3_carry17:
+        .word   .Lashldi3_c1, 180, .+4
         .word   .Lashldi3_n1, 188, .Lashldi3_d17
-        .word   12, 12, .Lashldi3_d17
-.Lashldi3_a17:
-        .word   .Lashldi3_c1, 160, .Lashldi3_d17
-        .word   .Lashldi3_n1, 188, .Lashldi3_d17
-        .word   12, 12, .Lashldi3_d17
 .Lashldi3_d17:
         .word   12, 12, .+4
         .word   180, 12, .+4
@@ -55541,15 +54647,11 @@ __ashldi3:
         .word   144, 180, .Lashldi3_chk16
         .word   12, 12, .Lashldi3_d16
 .Lashldi3_chk16:
-        .word   160, 160, .+4
-        .word   180, 160, .+4
-        .word   144, 160, .Lashldi3_a16
+        .word   .Lashldi3_n1, 180, .Lashldi3_carry16
+        .word   .Lashldi3_c1, 180, .Lashldi3_d16
+.Lashldi3_carry16:
+        .word   .Lashldi3_c1, 180, .+4
         .word   .Lashldi3_n1, 188, .Lashldi3_d16
-        .word   12, 12, .Lashldi3_d16
-.Lashldi3_a16:
-        .word   .Lashldi3_c1, 160, .Lashldi3_d16
-        .word   .Lashldi3_n1, 188, .Lashldi3_d16
-        .word   12, 12, .Lashldi3_d16
 .Lashldi3_d16:
         .word   12, 12, .+4
         .word   180, 12, .+4
@@ -55566,15 +54668,11 @@ __ashldi3:
         .word   144, 180, .Lashldi3_chk15
         .word   12, 12, .Lashldi3_d15
 .Lashldi3_chk15:
-        .word   160, 160, .+4
-        .word   180, 160, .+4
-        .word   144, 160, .Lashldi3_a15
+        .word   .Lashldi3_n1, 180, .Lashldi3_carry15
+        .word   .Lashldi3_c1, 180, .Lashldi3_d15
+.Lashldi3_carry15:
+        .word   .Lashldi3_c1, 180, .+4
         .word   .Lashldi3_n1, 188, .Lashldi3_d15
-        .word   12, 12, .Lashldi3_d15
-.Lashldi3_a15:
-        .word   .Lashldi3_c1, 160, .Lashldi3_d15
-        .word   .Lashldi3_n1, 188, .Lashldi3_d15
-        .word   12, 12, .Lashldi3_d15
 .Lashldi3_d15:
         .word   12, 12, .+4
         .word   180, 12, .+4
@@ -55591,15 +54689,11 @@ __ashldi3:
         .word   144, 180, .Lashldi3_chk14
         .word   12, 12, .Lashldi3_d14
 .Lashldi3_chk14:
-        .word   160, 160, .+4
-        .word   180, 160, .+4
-        .word   144, 160, .Lashldi3_a14
+        .word   .Lashldi3_n1, 180, .Lashldi3_carry14
+        .word   .Lashldi3_c1, 180, .Lashldi3_d14
+.Lashldi3_carry14:
+        .word   .Lashldi3_c1, 180, .+4
         .word   .Lashldi3_n1, 188, .Lashldi3_d14
-        .word   12, 12, .Lashldi3_d14
-.Lashldi3_a14:
-        .word   .Lashldi3_c1, 160, .Lashldi3_d14
-        .word   .Lashldi3_n1, 188, .Lashldi3_d14
-        .word   12, 12, .Lashldi3_d14
 .Lashldi3_d14:
         .word   12, 12, .+4
         .word   180, 12, .+4
@@ -55616,15 +54710,11 @@ __ashldi3:
         .word   144, 180, .Lashldi3_chk13
         .word   12, 12, .Lashldi3_d13
 .Lashldi3_chk13:
-        .word   160, 160, .+4
-        .word   180, 160, .+4
-        .word   144, 160, .Lashldi3_a13
+        .word   .Lashldi3_n1, 180, .Lashldi3_carry13
+        .word   .Lashldi3_c1, 180, .Lashldi3_d13
+.Lashldi3_carry13:
+        .word   .Lashldi3_c1, 180, .+4
         .word   .Lashldi3_n1, 188, .Lashldi3_d13
-        .word   12, 12, .Lashldi3_d13
-.Lashldi3_a13:
-        .word   .Lashldi3_c1, 160, .Lashldi3_d13
-        .word   .Lashldi3_n1, 188, .Lashldi3_d13
-        .word   12, 12, .Lashldi3_d13
 .Lashldi3_d13:
         .word   12, 12, .+4
         .word   180, 12, .+4
@@ -55641,15 +54731,11 @@ __ashldi3:
         .word   144, 180, .Lashldi3_chk12
         .word   12, 12, .Lashldi3_d12
 .Lashldi3_chk12:
-        .word   160, 160, .+4
-        .word   180, 160, .+4
-        .word   144, 160, .Lashldi3_a12
+        .word   .Lashldi3_n1, 180, .Lashldi3_carry12
+        .word   .Lashldi3_c1, 180, .Lashldi3_d12
+.Lashldi3_carry12:
+        .word   .Lashldi3_c1, 180, .+4
         .word   .Lashldi3_n1, 188, .Lashldi3_d12
-        .word   12, 12, .Lashldi3_d12
-.Lashldi3_a12:
-        .word   .Lashldi3_c1, 160, .Lashldi3_d12
-        .word   .Lashldi3_n1, 188, .Lashldi3_d12
-        .word   12, 12, .Lashldi3_d12
 .Lashldi3_d12:
         .word   12, 12, .+4
         .word   180, 12, .+4
@@ -55666,15 +54752,11 @@ __ashldi3:
         .word   144, 180, .Lashldi3_chk11
         .word   12, 12, .Lashldi3_d11
 .Lashldi3_chk11:
-        .word   160, 160, .+4
-        .word   180, 160, .+4
-        .word   144, 160, .Lashldi3_a11
+        .word   .Lashldi3_n1, 180, .Lashldi3_carry11
+        .word   .Lashldi3_c1, 180, .Lashldi3_d11
+.Lashldi3_carry11:
+        .word   .Lashldi3_c1, 180, .+4
         .word   .Lashldi3_n1, 188, .Lashldi3_d11
-        .word   12, 12, .Lashldi3_d11
-.Lashldi3_a11:
-        .word   .Lashldi3_c1, 160, .Lashldi3_d11
-        .word   .Lashldi3_n1, 188, .Lashldi3_d11
-        .word   12, 12, .Lashldi3_d11
 .Lashldi3_d11:
         .word   12, 12, .+4
         .word   180, 12, .+4
@@ -55691,15 +54773,11 @@ __ashldi3:
         .word   144, 180, .Lashldi3_chk10
         .word   12, 12, .Lashldi3_d10
 .Lashldi3_chk10:
-        .word   160, 160, .+4
-        .word   180, 160, .+4
-        .word   144, 160, .Lashldi3_a10
+        .word   .Lashldi3_n1, 180, .Lashldi3_carry10
+        .word   .Lashldi3_c1, 180, .Lashldi3_d10
+.Lashldi3_carry10:
+        .word   .Lashldi3_c1, 180, .+4
         .word   .Lashldi3_n1, 188, .Lashldi3_d10
-        .word   12, 12, .Lashldi3_d10
-.Lashldi3_a10:
-        .word   .Lashldi3_c1, 160, .Lashldi3_d10
-        .word   .Lashldi3_n1, 188, .Lashldi3_d10
-        .word   12, 12, .Lashldi3_d10
 .Lashldi3_d10:
         .word   12, 12, .+4
         .word   180, 12, .+4
@@ -55716,15 +54794,11 @@ __ashldi3:
         .word   144, 180, .Lashldi3_chk9
         .word   12, 12, .Lashldi3_d9
 .Lashldi3_chk9:
-        .word   160, 160, .+4
-        .word   180, 160, .+4
-        .word   144, 160, .Lashldi3_a9
+        .word   .Lashldi3_n1, 180, .Lashldi3_carry9
+        .word   .Lashldi3_c1, 180, .Lashldi3_d9
+.Lashldi3_carry9:
+        .word   .Lashldi3_c1, 180, .+4
         .word   .Lashldi3_n1, 188, .Lashldi3_d9
-        .word   12, 12, .Lashldi3_d9
-.Lashldi3_a9:
-        .word   .Lashldi3_c1, 160, .Lashldi3_d9
-        .word   .Lashldi3_n1, 188, .Lashldi3_d9
-        .word   12, 12, .Lashldi3_d9
 .Lashldi3_d9:
         .word   12, 12, .+4
         .word   180, 12, .+4
@@ -55741,15 +54815,11 @@ __ashldi3:
         .word   144, 180, .Lashldi3_chk8
         .word   12, 12, .Lashldi3_d8
 .Lashldi3_chk8:
-        .word   160, 160, .+4
-        .word   180, 160, .+4
-        .word   144, 160, .Lashldi3_a8
+        .word   .Lashldi3_n1, 180, .Lashldi3_carry8
+        .word   .Lashldi3_c1, 180, .Lashldi3_d8
+.Lashldi3_carry8:
+        .word   .Lashldi3_c1, 180, .+4
         .word   .Lashldi3_n1, 188, .Lashldi3_d8
-        .word   12, 12, .Lashldi3_d8
-.Lashldi3_a8:
-        .word   .Lashldi3_c1, 160, .Lashldi3_d8
-        .word   .Lashldi3_n1, 188, .Lashldi3_d8
-        .word   12, 12, .Lashldi3_d8
 .Lashldi3_d8:
         .word   12, 12, .+4
         .word   180, 12, .+4
@@ -55766,15 +54836,11 @@ __ashldi3:
         .word   144, 180, .Lashldi3_chk7
         .word   12, 12, .Lashldi3_d7
 .Lashldi3_chk7:
-        .word   160, 160, .+4
-        .word   180, 160, .+4
-        .word   144, 160, .Lashldi3_a7
+        .word   .Lashldi3_n1, 180, .Lashldi3_carry7
+        .word   .Lashldi3_c1, 180, .Lashldi3_d7
+.Lashldi3_carry7:
+        .word   .Lashldi3_c1, 180, .+4
         .word   .Lashldi3_n1, 188, .Lashldi3_d7
-        .word   12, 12, .Lashldi3_d7
-.Lashldi3_a7:
-        .word   .Lashldi3_c1, 160, .Lashldi3_d7
-        .word   .Lashldi3_n1, 188, .Lashldi3_d7
-        .word   12, 12, .Lashldi3_d7
 .Lashldi3_d7:
         .word   12, 12, .+4
         .word   180, 12, .+4
@@ -55791,15 +54857,11 @@ __ashldi3:
         .word   144, 180, .Lashldi3_chk6
         .word   12, 12, .Lashldi3_d6
 .Lashldi3_chk6:
-        .word   160, 160, .+4
-        .word   180, 160, .+4
-        .word   144, 160, .Lashldi3_a6
+        .word   .Lashldi3_n1, 180, .Lashldi3_carry6
+        .word   .Lashldi3_c1, 180, .Lashldi3_d6
+.Lashldi3_carry6:
+        .word   .Lashldi3_c1, 180, .+4
         .word   .Lashldi3_n1, 188, .Lashldi3_d6
-        .word   12, 12, .Lashldi3_d6
-.Lashldi3_a6:
-        .word   .Lashldi3_c1, 160, .Lashldi3_d6
-        .word   .Lashldi3_n1, 188, .Lashldi3_d6
-        .word   12, 12, .Lashldi3_d6
 .Lashldi3_d6:
         .word   12, 12, .+4
         .word   180, 12, .+4
@@ -55816,15 +54878,11 @@ __ashldi3:
         .word   144, 180, .Lashldi3_chk5
         .word   12, 12, .Lashldi3_d5
 .Lashldi3_chk5:
-        .word   160, 160, .+4
-        .word   180, 160, .+4
-        .word   144, 160, .Lashldi3_a5
+        .word   .Lashldi3_n1, 180, .Lashldi3_carry5
+        .word   .Lashldi3_c1, 180, .Lashldi3_d5
+.Lashldi3_carry5:
+        .word   .Lashldi3_c1, 180, .+4
         .word   .Lashldi3_n1, 188, .Lashldi3_d5
-        .word   12, 12, .Lashldi3_d5
-.Lashldi3_a5:
-        .word   .Lashldi3_c1, 160, .Lashldi3_d5
-        .word   .Lashldi3_n1, 188, .Lashldi3_d5
-        .word   12, 12, .Lashldi3_d5
 .Lashldi3_d5:
         .word   12, 12, .+4
         .word   180, 12, .+4
@@ -55841,15 +54899,11 @@ __ashldi3:
         .word   144, 180, .Lashldi3_chk4
         .word   12, 12, .Lashldi3_d4
 .Lashldi3_chk4:
-        .word   160, 160, .+4
-        .word   180, 160, .+4
-        .word   144, 160, .Lashldi3_a4
+        .word   .Lashldi3_n1, 180, .Lashldi3_carry4
+        .word   .Lashldi3_c1, 180, .Lashldi3_d4
+.Lashldi3_carry4:
+        .word   .Lashldi3_c1, 180, .+4
         .word   .Lashldi3_n1, 188, .Lashldi3_d4
-        .word   12, 12, .Lashldi3_d4
-.Lashldi3_a4:
-        .word   .Lashldi3_c1, 160, .Lashldi3_d4
-        .word   .Lashldi3_n1, 188, .Lashldi3_d4
-        .word   12, 12, .Lashldi3_d4
 .Lashldi3_d4:
         .word   12, 12, .+4
         .word   180, 12, .+4
@@ -55866,15 +54920,11 @@ __ashldi3:
         .word   144, 180, .Lashldi3_chk3
         .word   12, 12, .Lashldi3_d3
 .Lashldi3_chk3:
-        .word   160, 160, .+4
-        .word   180, 160, .+4
-        .word   144, 160, .Lashldi3_a3
+        .word   .Lashldi3_n1, 180, .Lashldi3_carry3
+        .word   .Lashldi3_c1, 180, .Lashldi3_d3
+.Lashldi3_carry3:
+        .word   .Lashldi3_c1, 180, .+4
         .word   .Lashldi3_n1, 188, .Lashldi3_d3
-        .word   12, 12, .Lashldi3_d3
-.Lashldi3_a3:
-        .word   .Lashldi3_c1, 160, .Lashldi3_d3
-        .word   .Lashldi3_n1, 188, .Lashldi3_d3
-        .word   12, 12, .Lashldi3_d3
 .Lashldi3_d3:
         .word   12, 12, .+4
         .word   180, 12, .+4
@@ -55891,15 +54941,11 @@ __ashldi3:
         .word   144, 180, .Lashldi3_chk2
         .word   12, 12, .Lashldi3_d2
 .Lashldi3_chk2:
-        .word   160, 160, .+4
-        .word   180, 160, .+4
-        .word   144, 160, .Lashldi3_a2
+        .word   .Lashldi3_n1, 180, .Lashldi3_carry2
+        .word   .Lashldi3_c1, 180, .Lashldi3_d2
+.Lashldi3_carry2:
+        .word   .Lashldi3_c1, 180, .+4
         .word   .Lashldi3_n1, 188, .Lashldi3_d2
-        .word   12, 12, .Lashldi3_d2
-.Lashldi3_a2:
-        .word   .Lashldi3_c1, 160, .Lashldi3_d2
-        .word   .Lashldi3_n1, 188, .Lashldi3_d2
-        .word   12, 12, .Lashldi3_d2
 .Lashldi3_d2:
         .word   12, 12, .+4
         .word   180, 12, .+4
@@ -55916,15 +54962,11 @@ __ashldi3:
         .word   144, 180, .Lashldi3_chk1
         .word   12, 12, .Lashldi3_d1
 .Lashldi3_chk1:
-        .word   160, 160, .+4
-        .word   180, 160, .+4
-        .word   144, 160, .Lashldi3_a1
+        .word   .Lashldi3_n1, 180, .Lashldi3_carry1
+        .word   .Lashldi3_c1, 180, .Lashldi3_d1
+.Lashldi3_carry1:
+        .word   .Lashldi3_c1, 180, .+4
         .word   .Lashldi3_n1, 188, .Lashldi3_d1
-        .word   12, 12, .Lashldi3_d1
-.Lashldi3_a1:
-        .word   .Lashldi3_c1, 160, .Lashldi3_d1
-        .word   .Lashldi3_n1, 188, .Lashldi3_d1
-        .word   12, 12, .Lashldi3_d1
 .Lashldi3_d1:
         .word   12, 12, .+4
         .word   180, 12, .+4
@@ -56048,12 +55090,10 @@ __lshrdi3:
         .word   144, 184, .Llshrdi3_hi_le0
         .word   12, 12, .Llshrdi3_hi_pos
 .Llshrdi3_hi_le0:
-        .word   160, 160, .+4
-        .word   184, 160, .+4
-        .word   144, 160, .Llshrdi3_hi_ambig
-        .word   12, 12, .Llshrdi3_hi_b31
-.Llshrdi3_hi_ambig:
-        .word   .Llshrdi3_c1, 160, .Llshrdi3_hi_pos
+        .word   .Llshrdi3_n1, 184, .Llshrdi3_hi_neg_restore
+        .word   .Llshrdi3_c1, 184, .Llshrdi3_hi_pos
+.Llshrdi3_hi_neg_restore:
+        .word   .Llshrdi3_c1, 184, .+4
         .word   12, 12, .Llshrdi3_hi_b31
 .Llshrdi3_hi_b31:
         .word   .Llshrdi3_cmin, 184, .+4
@@ -56311,12 +55351,10 @@ __lshrdi3:
         .word   144, 180, .Llshrdi3_lo_le0
         .word   12, 12, .Llshrdi3_lo_pos
 .Llshrdi3_lo_le0:
-        .word   160, 160, .+4
-        .word   180, 160, .+4
-        .word   144, 160, .Llshrdi3_lo_ambig
-        .word   12, 12, .Llshrdi3_lo_b31
-.Llshrdi3_lo_ambig:
-        .word   .Llshrdi3_c1, 160, .Llshrdi3_lo_pos
+        .word   .Llshrdi3_n1, 180, .Llshrdi3_lo_neg_restore
+        .word   .Llshrdi3_c1, 180, .Llshrdi3_lo_pos
+.Llshrdi3_lo_neg_restore:
+        .word   .Llshrdi3_c1, 180, .+4
         .word   12, 12, .Llshrdi3_lo_b31
 .Llshrdi3_lo_b31:
         .word   .Llshrdi3_cmin, 180, .+4
@@ -56581,13 +55619,10 @@ __lshrdi3:
         .word   .Llshrdi3_cmin, 180, .Llshrdi3_dec
         .word   12, 12, .Llshrdi3_dec
 .Llshrdi3_cr_le0:
-        .word   164, 164, .+4
-        .word   160, 164, .+4
-        .word   144, 164, .Llshrdi3_cr_ambig
-        .word   .Llshrdi3_cmin, 180, .Llshrdi3_dec
-        .word   12, 12, .Llshrdi3_dec
-.Llshrdi3_cr_ambig:
-        .word   .Llshrdi3_c1, 164, .Llshrdi3_dec
+        .word   .Llshrdi3_n1, 160, .Llshrdi3_cr_neg_restore
+        .word   .Llshrdi3_c1, 160, .Llshrdi3_dec
+.Llshrdi3_cr_neg_restore:
+        .word   .Llshrdi3_c1, 160, .+4
         .word   .Llshrdi3_cmin, 180, .Llshrdi3_dec
         .word   12, 12, .Llshrdi3_dec
 .Llshrdi3_dec:
@@ -56981,12 +56016,10 @@ __ashrdi3:
         .word   144, 184, .Lashrdi3_hi_le0
         .word   12, 12, .Lashrdi3_hi_pos
 .Lashrdi3_hi_le0:
-        .word   160, 160, .+4
-        .word   184, 160, .+4
-        .word   144, 160, .Lashrdi3_hi_ambig
-        .word   12, 12, .Lashrdi3_hi_b31
-.Lashrdi3_hi_ambig:
-        .word   .Lashrdi3_c1, 160, .Lashrdi3_hi_pos
+        .word   .Lashrdi3_n1, 184, .Lashrdi3_hi_neg_restore
+        .word   .Lashrdi3_c1, 184, .Lashrdi3_hi_pos
+.Lashrdi3_hi_neg_restore:
+        .word   .Lashrdi3_c1, 184, .+4
         .word   12, 12, .Lashrdi3_hi_b31
 .Lashrdi3_hi_b31:
         .word   .Lashrdi3_cmin, 184, .+4
@@ -57245,12 +56278,10 @@ __ashrdi3:
         .word   144, 180, .Lashrdi3_lo_le0
         .word   12, 12, .Lashrdi3_lo_pos
 .Lashrdi3_lo_le0:
-        .word   160, 160, .+4
-        .word   180, 160, .+4
-        .word   144, 160, .Lashrdi3_lo_ambig
-        .word   12, 12, .Lashrdi3_lo_b31
-.Lashrdi3_lo_ambig:
-        .word   .Lashrdi3_c1, 160, .Lashrdi3_lo_pos
+        .word   .Lashrdi3_n1, 180, .Lashrdi3_lo_neg_restore
+        .word   .Lashrdi3_c1, 180, .Lashrdi3_lo_pos
+.Lashrdi3_lo_neg_restore:
+        .word   .Lashrdi3_c1, 180, .+4
         .word   12, 12, .Lashrdi3_lo_b31
 .Lashrdi3_lo_b31:
         .word   .Lashrdi3_cmin, 180, .+4
@@ -57515,13 +56546,10 @@ __ashrdi3:
         .word   .Lashrdi3_cmin, 180, .Lashrdi3_dec
         .word   12, 12, .Lashrdi3_dec
 .Lashrdi3_cr_le0:
-        .word   164, 164, .+4
-        .word   160, 164, .+4
-        .word   144, 164, .Lashrdi3_cr_ambig
-        .word   .Lashrdi3_cmin, 180, .Lashrdi3_dec
-        .word   12, 12, .Lashrdi3_dec
-.Lashrdi3_cr_ambig:
-        .word   .Lashrdi3_c1, 164, .Lashrdi3_dec
+        .word   .Lashrdi3_n1, 160, .Lashrdi3_cr_neg_restore
+        .word   .Lashrdi3_c1, 160, .Lashrdi3_dec
+.Lashrdi3_cr_neg_restore:
+        .word   .Lashrdi3_c1, 160, .+4
         .word   .Lashrdi3_cmin, 180, .Lashrdi3_dec
         .word   12, 12, .Lashrdi3_dec
 .Lashrdi3_dec:
@@ -58046,15 +57074,10 @@ __subleq_memset:
         .word 144, 180, .Lmemset_align_sign_neg
         .word 12, 12, .Lmemset_align_bias
 .Lmemset_align_sign_neg:
-        .word 184, 184, .+4
-        .word 180, 184, .+4
-        .word 144, 184, .Lmemset_align_sign_ambig
-        .word .Lmemset_min, 180, .+4
-        .word 12, 12, .Lmemset_align_bias
-.Lmemset_align_sign_ambig:
-        .word .Lmemset_n1, 184, .Lmemset_align_sign_intmin
-        .word 12, 12, .Lmemset_align_bias
-.Lmemset_align_sign_intmin:
+        .word .Lmemset_n1, 180, .Lmemset_align_sign_neg_restore
+        .word .Lmemset_one, 180, .Lmemset_align_bias
+.Lmemset_align_sign_neg_restore:
+        .word .Lmemset_one, 180, .+4
         .word .Lmemset_min, 180, .+4
 .Lmemset_align_bias:
         .word 184, 184, .+4
@@ -58967,15 +57990,10 @@ __subleq_memset:
         .word 144, 180, .Lmemset_fz_align_sign_neg
         .word 12, 12, .Lmemset_fz_align_bias
 .Lmemset_fz_align_sign_neg:
-        .word 184, 184, .+4
-        .word 180, 184, .+4
-        .word 144, 184, .Lmemset_fz_align_sign_ambig
-        .word .Lmemset_min, 180, .+4
-        .word 12, 12, .Lmemset_fz_align_bias
-.Lmemset_fz_align_sign_ambig:
-        .word .Lmemset_n1, 184, .Lmemset_fz_align_sign_intmin
-        .word 12, 12, .Lmemset_fz_align_bias
-.Lmemset_fz_align_sign_intmin:
+        .word .Lmemset_n1, 180, .Lmemset_fz_align_sign_neg_restore
+        .word .Lmemset_one, 180, .Lmemset_fz_align_bias
+.Lmemset_fz_align_sign_neg_restore:
+        .word .Lmemset_one, 180, .+4
         .word .Lmemset_min, 180, .+4
 .Lmemset_fz_align_bias:
         .word 184, 184, .+4
@@ -59751,6 +58769,8 @@ __subleq_memset:
         .word -16
 .Lmemset_min:
         .word -2147483648
+.Lmemset_one:
+        .word 1
 .Lmemset_pow1:
         .word 1
 .Lmemset_npow1:
@@ -60035,15 +59055,10 @@ __subleq_memset16:
         .word 144, 180, .Lms16_align_sign_neg
         .word 12, 12, .Lms16_align_bias
 .Lms16_align_sign_neg:
-        .word 184, 184, .+4
-        .word 180, 184, .+4
-        .word 144, 184, .Lms16_align_sign_ambig
-        .word .Lms16_min, 180, .+4
-        .word 12, 12, .Lms16_align_bias
-.Lms16_align_sign_ambig:
-        .word .Lms16_n1, 184, .Lms16_align_sign_intmin
-        .word 12, 12, .Lms16_align_bias
-.Lms16_align_sign_intmin:
+        .word .Lms16_n1, 180, .Lms16_align_sign_neg_restore
+        .word .Lms16_one, 180, .Lms16_align_bias
+.Lms16_align_sign_neg_restore:
+        .word .Lms16_one, 180, .+4
         .word .Lms16_min, 180, .+4
 .Lms16_align_bias:
         .word 184, 184, .+4
@@ -60942,6 +59957,8 @@ __subleq_memset16:
         .word -1
 .Lms16_min:
         .word -2147483648
+.Lms16_one:
+        .word 1
 .Lms16_pow1:
         .word 1
 .Lms16_npow1:
@@ -61092,15 +60109,10 @@ __subleq_memmove:
         .word 144, 160, .Lmemmove_bwd_align_sign_neg
         .word 12, 12, .Lmemmove_bwd_align_bias
 .Lmemmove_bwd_align_sign_neg:
-        .word 180, 180, .+4
-        .word 160, 180, .+4
-        .word 144, 180, .Lmemmove_bwd_align_sign_ambig
-        .word .Lmemmove_min, 160, .+4
-        .word 12, 12, .Lmemmove_bwd_align_bias
-.Lmemmove_bwd_align_sign_ambig:
-        .word .Lmemmove_n1, 180, .Lmemmove_bwd_align_sign_intmin
-        .word 12, 12, .Lmemmove_bwd_align_bias
-.Lmemmove_bwd_align_sign_intmin:
+        .word .Lmemmove_n1, 160, .Lmemmove_bwd_align_sign_neg_restore
+        .word .Lmemmove_one, 160, .Lmemmove_bwd_align_bias
+.Lmemmove_bwd_align_sign_neg_restore:
+        .word .Lmemmove_one, 160, .+4
         .word .Lmemmove_min, 160, .+4
 .Lmemmove_bwd_align_bias:
         .word 180, 180, .+4
@@ -61407,15 +60419,10 @@ __subleq_memmove:
         .word 144, 180, .Lmemmove_bh_sign_neg
         .word 12, 12, .Lmemmove_bh_bias
 .Lmemmove_bh_sign_neg:
-        .word 184, 184, .+4
-        .word 180, 184, .+4
-        .word 144, 184, .Lmemmove_bh_sign_ambig
-        .word .Lmemmove_min, 180, .+4
-        .word 12, 12, .Lmemmove_bh_bias
-.Lmemmove_bh_sign_ambig:
-        .word .Lmemmove_n1, 184, .Lmemmove_bh_sign_intmin
-        .word 12, 12, .Lmemmove_bh_bias
-.Lmemmove_bh_sign_intmin:
+        .word .Lmemmove_n1, 180, .Lmemmove_bh_sign_neg_restore
+        .word .Lmemmove_one, 180, .Lmemmove_bh_bias
+.Lmemmove_bh_sign_neg_restore:
+        .word .Lmemmove_one, 180, .+4
         .word .Lmemmove_min, 180, .+4
 .Lmemmove_bh_bias:
         .word 184, 184, .+4
@@ -61762,15 +60769,10 @@ __subleq_memmove:
         .word 144, 180, .Lmemmove_bs_sign_neg
         .word 12, 12, .Lmemmove_bs_bias
 .Lmemmove_bs_sign_neg:
-        .word 184, 184, .+4
-        .word 180, 184, .+4
-        .word 144, 184, .Lmemmove_bs_sign_ambig
-        .word .Lmemmove_min, 180, .+4
-        .word 12, 12, .Lmemmove_bs_bias
-.Lmemmove_bs_sign_ambig:
-        .word .Lmemmove_n1, 184, .Lmemmove_bs_sign_intmin
-        .word 12, 12, .Lmemmove_bs_bias
-.Lmemmove_bs_sign_intmin:
+        .word .Lmemmove_n1, 180, .Lmemmove_bs_sign_neg_restore
+        .word .Lmemmove_one, 180, .Lmemmove_bs_bias
+.Lmemmove_bs_sign_neg_restore:
+        .word .Lmemmove_one, 180, .+4
         .word .Lmemmove_min, 180, .+4
 .Lmemmove_bs_bias:
         .word 184, 184, .+4
@@ -64514,15 +63516,10 @@ __subleq_memmove:
         .word 144, 180, .Lmemmove_btail_sign_neg
         .word 12, 12, .Lmemmove_btail_bias
 .Lmemmove_btail_sign_neg:
-        .word 184, 184, .+4
-        .word 180, 184, .+4
-        .word 144, 184, .Lmemmove_btail_sign_ambig
-        .word .Lmemmove_min, 180, .+4
-        .word 12, 12, .Lmemmove_btail_bias
-.Lmemmove_btail_sign_ambig:
-        .word .Lmemmove_n1, 184, .Lmemmove_btail_sign_intmin
-        .word 12, 12, .Lmemmove_btail_bias
-.Lmemmove_btail_sign_intmin:
+        .word .Lmemmove_n1, 180, .Lmemmove_btail_sign_neg_restore
+        .word .Lmemmove_one, 180, .Lmemmove_btail_bias
+.Lmemmove_btail_sign_neg_restore:
+        .word .Lmemmove_one, 180, .+4
         .word .Lmemmove_min, 180, .+4
 .Lmemmove_btail_bias:
         .word 184, 184, .+4
@@ -65331,15 +64328,10 @@ __subleq_memmove:
         .word 144, 160, .Lmemmove_fwd_align_sign_neg
         .word 12, 12, .Lmemmove_fwd_align_bias
 .Lmemmove_fwd_align_sign_neg:
-        .word 180, 180, .+4
-        .word 160, 180, .+4
-        .word 144, 180, .Lmemmove_fwd_align_sign_ambig
-        .word .Lmemmove_min, 160, .+4
-        .word 12, 12, .Lmemmove_fwd_align_bias
-.Lmemmove_fwd_align_sign_ambig:
-        .word .Lmemmove_n1, 180, .Lmemmove_fwd_align_sign_intmin
-        .word 12, 12, .Lmemmove_fwd_align_bias
-.Lmemmove_fwd_align_sign_intmin:
+        .word .Lmemmove_n1, 160, .Lmemmove_fwd_align_sign_neg_restore
+        .word .Lmemmove_one, 160, .Lmemmove_fwd_align_bias
+.Lmemmove_fwd_align_sign_neg_restore:
+        .word .Lmemmove_one, 160, .+4
         .word .Lmemmove_min, 160, .+4
 .Lmemmove_fwd_align_bias:
         .word 180, 180, .+4
@@ -65640,15 +64632,10 @@ __subleq_memmove:
         .word 144, 180, .Lmemmove_fhead_sign_neg
         .word 12, 12, .Lmemmove_fhead_bias
 .Lmemmove_fhead_sign_neg:
-        .word 184, 184, .+4
-        .word 180, 184, .+4
-        .word 144, 184, .Lmemmove_fhead_sign_ambig
-        .word .Lmemmove_min, 180, .+4
-        .word 12, 12, .Lmemmove_fhead_bias
-.Lmemmove_fhead_sign_ambig:
-        .word .Lmemmove_n1, 184, .Lmemmove_fhead_sign_intmin
-        .word 12, 12, .Lmemmove_fhead_bias
-.Lmemmove_fhead_sign_intmin:
+        .word .Lmemmove_n1, 180, .Lmemmove_fhead_sign_neg_restore
+        .word .Lmemmove_one, 180, .Lmemmove_fhead_bias
+.Lmemmove_fhead_sign_neg_restore:
+        .word .Lmemmove_one, 180, .+4
         .word .Lmemmove_min, 180, .+4
 .Lmemmove_fhead_bias:
         .word 184, 184, .+4
@@ -66458,15 +65445,10 @@ __subleq_memmove:
         .word 144, 180, .Lmemmove_uhead_sign_neg
         .word 12, 12, .Lmemmove_uhead_bias
 .Lmemmove_uhead_sign_neg:
-        .word 184, 184, .+4
-        .word 180, 184, .+4
-        .word 144, 184, .Lmemmove_uhead_sign_ambig
-        .word .Lmemmove_min, 180, .+4
-        .word 12, 12, .Lmemmove_uhead_bias
-.Lmemmove_uhead_sign_ambig:
-        .word .Lmemmove_n1, 184, .Lmemmove_uhead_sign_intmin
-        .word 12, 12, .Lmemmove_uhead_bias
-.Lmemmove_uhead_sign_intmin:
+        .word .Lmemmove_n1, 180, .Lmemmove_uhead_sign_neg_restore
+        .word .Lmemmove_one, 180, .Lmemmove_uhead_bias
+.Lmemmove_uhead_sign_neg_restore:
+        .word .Lmemmove_one, 180, .+4
         .word .Lmemmove_min, 180, .+4
 .Lmemmove_uhead_bias:
         .word 184, 184, .+4
@@ -66812,15 +65794,10 @@ __subleq_memmove:
         .word 144, 180, .Lmemmove_setup_sign_neg
         .word 12, 12, .Lmemmove_setup_bias
 .Lmemmove_setup_sign_neg:
-        .word 184, 184, .+4
-        .word 180, 184, .+4
-        .word 144, 184, .Lmemmove_setup_sign_ambig
-        .word .Lmemmove_min, 180, .+4
-        .word 12, 12, .Lmemmove_setup_bias
-.Lmemmove_setup_sign_ambig:
-        .word .Lmemmove_n1, 184, .Lmemmove_setup_sign_intmin
-        .word 12, 12, .Lmemmove_setup_bias
-.Lmemmove_setup_sign_intmin:
+        .word .Lmemmove_n1, 180, .Lmemmove_setup_sign_neg_restore
+        .word .Lmemmove_one, 180, .Lmemmove_setup_bias
+.Lmemmove_setup_sign_neg_restore:
+        .word .Lmemmove_one, 180, .+4
         .word .Lmemmove_min, 180, .+4
 .Lmemmove_setup_bias:
         .word 184, 184, .+4
@@ -69541,6 +68518,8 @@ __subleq_memmove:
         .word -16
 .Lmemmove_min:
         .word -2147483648
+.Lmemmove_one:
+        .word 1
         .word 37
         .word 42
         .word 35

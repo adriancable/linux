@@ -105,7 +105,6 @@ __subleq_sdivrem:
         .word   172, 168, .Lsdivrem_chk_16bit
         .word   12, 12, .Lsdivrem_bit7
 .Lsdivrem_chk_16bit:
-        .word   144, 172, .Lsdivrem_bit31
         .word   168, 168, .+4
         .word   .Lsdivrem_n65537, 168, .+4
         .word   172, 168, .Lsdivrem_bit31
@@ -1001,7 +1000,6 @@ __subleq_udivrem:
         .word   172, 168, .Ludivrem_chk_16bit
         .word   12, 12, .Ludivrem_bit7
 .Ludivrem_chk_16bit:
-        .word   144, 172, .Ludivrem_bit31
         .word   168, 168, .+4
         .word   .Ludivrem_n65537, 168, .+4
         .word   172, 168, .Ludivrem_bit31
@@ -2919,7 +2917,8 @@ __subleq_sdivrem64:
         .word   12, 168, .+4
         .word   12, 12, .+4
         .word   104, 12, .+4
-        .word   12, 172, .Lsd64v_div_done
+        .word   12, 172, .+4
+        .word   12, 12, .Lsd64v_div_done
 .Lsd64v_intmin_eq:
         .word   .Lsd64v_const_neg1, 160, .+4
         .word   12, 12, .Lsd64v_div_done
@@ -38999,126 +38998,188 @@ __subleq_shl:
         .word   .Lshl_one, 104, .Lshl_do_30
         .word   .Lshl_one, 104, .Lshl_do_31
         .word   96, 96, .Lshl_exit
+        .globl  __subleq_shl_31
+__subleq_shl_31:
 .Lshl_do_31:
         .word   12, 12, .+4
         .word   96, 12, .+4
         .word   12, 96, .+4
+        .globl  __subleq_shl_30
+__subleq_shl_30:
 .Lshl_do_30:
         .word   12, 12, .+4
         .word   96, 12, .+4
         .word   12, 96, .+4
+        .globl  __subleq_shl_29
+__subleq_shl_29:
 .Lshl_do_29:
         .word   12, 12, .+4
         .word   96, 12, .+4
         .word   12, 96, .+4
+        .globl  __subleq_shl_28
+__subleq_shl_28:
 .Lshl_do_28:
         .word   12, 12, .+4
         .word   96, 12, .+4
         .word   12, 96, .+4
+        .globl  __subleq_shl_27
+__subleq_shl_27:
 .Lshl_do_27:
         .word   12, 12, .+4
         .word   96, 12, .+4
         .word   12, 96, .+4
+        .globl  __subleq_shl_26
+__subleq_shl_26:
 .Lshl_do_26:
         .word   12, 12, .+4
         .word   96, 12, .+4
         .word   12, 96, .+4
+        .globl  __subleq_shl_25
+__subleq_shl_25:
 .Lshl_do_25:
         .word   12, 12, .+4
         .word   96, 12, .+4
         .word   12, 96, .+4
+        .globl  __subleq_shl_24
+__subleq_shl_24:
 .Lshl_do_24:
         .word   12, 12, .+4
         .word   96, 12, .+4
         .word   12, 96, .+4
+        .globl  __subleq_shl_23
+__subleq_shl_23:
 .Lshl_do_23:
         .word   12, 12, .+4
         .word   96, 12, .+4
         .word   12, 96, .+4
+        .globl  __subleq_shl_22
+__subleq_shl_22:
 .Lshl_do_22:
         .word   12, 12, .+4
         .word   96, 12, .+4
         .word   12, 96, .+4
+        .globl  __subleq_shl_21
+__subleq_shl_21:
 .Lshl_do_21:
         .word   12, 12, .+4
         .word   96, 12, .+4
         .word   12, 96, .+4
+        .globl  __subleq_shl_20
+__subleq_shl_20:
 .Lshl_do_20:
         .word   12, 12, .+4
         .word   96, 12, .+4
         .word   12, 96, .+4
+        .globl  __subleq_shl_19
+__subleq_shl_19:
 .Lshl_do_19:
         .word   12, 12, .+4
         .word   96, 12, .+4
         .word   12, 96, .+4
+        .globl  __subleq_shl_18
+__subleq_shl_18:
 .Lshl_do_18:
         .word   12, 12, .+4
         .word   96, 12, .+4
         .word   12, 96, .+4
+        .globl  __subleq_shl_17
+__subleq_shl_17:
 .Lshl_do_17:
         .word   12, 12, .+4
         .word   96, 12, .+4
         .word   12, 96, .+4
+        .globl  __subleq_shl_16
+__subleq_shl_16:
 .Lshl_do_16:
         .word   12, 12, .+4
         .word   96, 12, .+4
         .word   12, 96, .+4
+        .globl  __subleq_shl_15
+__subleq_shl_15:
 .Lshl_do_15:
         .word   12, 12, .+4
         .word   96, 12, .+4
         .word   12, 96, .+4
+        .globl  __subleq_shl_14
+__subleq_shl_14:
 .Lshl_do_14:
         .word   12, 12, .+4
         .word   96, 12, .+4
         .word   12, 96, .+4
+        .globl  __subleq_shl_13
+__subleq_shl_13:
 .Lshl_do_13:
         .word   12, 12, .+4
         .word   96, 12, .+4
         .word   12, 96, .+4
+        .globl  __subleq_shl_12
+__subleq_shl_12:
 .Lshl_do_12:
         .word   12, 12, .+4
         .word   96, 12, .+4
         .word   12, 96, .+4
+        .globl  __subleq_shl_11
+__subleq_shl_11:
 .Lshl_do_11:
         .word   12, 12, .+4
         .word   96, 12, .+4
         .word   12, 96, .+4
+        .globl  __subleq_shl_10
+__subleq_shl_10:
 .Lshl_do_10:
         .word   12, 12, .+4
         .word   96, 12, .+4
         .word   12, 96, .+4
+        .globl  __subleq_shl_9
+__subleq_shl_9:
 .Lshl_do_9:
         .word   12, 12, .+4
         .word   96, 12, .+4
         .word   12, 96, .+4
+        .globl  __subleq_shl_8
+__subleq_shl_8:
 .Lshl_do_8:
         .word   12, 12, .+4
         .word   96, 12, .+4
         .word   12, 96, .+4
+        .globl  __subleq_shl_7
+__subleq_shl_7:
 .Lshl_do_7:
         .word   12, 12, .+4
         .word   96, 12, .+4
         .word   12, 96, .+4
+        .globl  __subleq_shl_6
+__subleq_shl_6:
 .Lshl_do_6:
         .word   12, 12, .+4
         .word   96, 12, .+4
         .word   12, 96, .+4
+        .globl  __subleq_shl_5
+__subleq_shl_5:
 .Lshl_do_5:
         .word   12, 12, .+4
         .word   96, 12, .+4
         .word   12, 96, .+4
+        .globl  __subleq_shl_4
+__subleq_shl_4:
 .Lshl_do_4:
         .word   12, 12, .+4
         .word   96, 12, .+4
         .word   12, 96, .+4
+        .globl  __subleq_shl_3
+__subleq_shl_3:
 .Lshl_do_3:
         .word   12, 12, .+4
         .word   96, 12, .+4
         .word   12, 96, .+4
+        .globl  __subleq_shl_2
+__subleq_shl_2:
 .Lshl_do_2:
         .word   12, 12, .+4
         .word   96, 12, .+4
         .word   12, 96, .+4
+        .globl  __subleq_shl_1
+__subleq_shl_1:
 .Lshl_do_1:
         .word   12, 12, .+4
         .word   96, 12, .+4
@@ -43584,6 +43645,7 @@ __subleq_sra:
         .word   .Lsra_one, 100, .Lsra_zero
 .Lsra_ab_neg_restore:
         .word   .Lsra_one, 100, .+4
+        .word   12, 12, .Lsra_minus1
 .Lsra_zero:
         .word   96, 96, .Lsra_done
 .Lsra_minus1:

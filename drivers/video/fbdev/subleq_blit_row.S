@@ -32,7 +32,7 @@
 .set REG_R24, 112       /* bg (use directly) */
 .set REG_T4, 176        /* scratch for fg */
 .set REG_T5, 180        /* scratch for bg */
-.set INDIRECT, 2
+.set INDIRECT, 1
 
 subleq_blit_row8:
         /*

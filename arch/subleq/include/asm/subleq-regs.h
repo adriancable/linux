@@ -75,7 +75,7 @@
 .set REG_T15, 220
 
 /* Indirect addressing flag (OR'd with register address) */
-.set INDIRECT, 2
+.set INDIRECT, 1
 
 /* Thread size = PAGE_SIZE (must match asm/page.h PAGE_SHIFT=14 -> 16KB) */
 .set THREAD_SIZE, 16384

@@ -2808,11 +2808,10 @@ __subleq_syscall:
 
         /*
          * SYSCALL_JMPTGT contains the return PC. Jump using indirect addressing.
-         * SYSCALL_JMPTGT | INDIRECT = 236 | 2 = 238
          *
          * Use SYSCALL_SCRATCH as dummy source (we're done with it)
          */
-        .word   SYSCALL_SCRATCH, SYSCALL_SCRATCH, 238
+        .word   SYSCALL_SCRATCH, SYSCALL_SCRATCH, SYSCALL_JMPTGT | INDIRECT
 
 
 

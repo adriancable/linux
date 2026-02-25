@@ -2126,12 +2126,15 @@ subleq_direct_putcs:
 
 
 .Ldone:
-        /* Return: Load RA from [SP] and jump to it */
+        /* Return: Load RA from [SP], pop the stack, and jump to return address */
         .word   REG_T4, REG_T4, .+4
         .word   REG_Z, REG_Z, .+4
         .word   REG_SP | INDIRECT, REG_Z, .+4   /* Z = -[SP] = -return_addr */
         .word   REG_Z, REG_T4, .+4              /* T4 = return_addr */
-        .word   REG_Z, REG_Z, REG_T4 | INDIRECT /* Jump to [T4] */
+        .word   REG_Z, REG_Z, .+4               /* Z = 0 */
+        /* Pop RA: SP += 4 (callee must undo the push done by emitPushRALabel) */
+        .word   .Lconst_n4, REG_SP, .+4
+        .word   REG_Z, REG_Z, REG_T4 | INDIRECT /* Jump to [T4] = return_addr */
 
 /*===========================================================================
  * INLINE EXTRACTION LATTICE

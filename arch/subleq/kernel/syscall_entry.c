@@ -86,9 +86,9 @@ asmlinkage long __subleq_syscall_c(long nr, long a1, long a2, long a3, long a4, 
 	 * - If the syscall is interrupted and needs restart, we need these
 	 * - Signal handling uses these to restart syscalls after handler returns
 	 *
-	 * fn(a1, a2, a3, a4, a5, a6) - we save all 6 args for restart.
-	 * Previously only a1-a4 were saved, which broke restart of 5/6-arg
-	 * syscalls (e.g. mmap) interrupted by signals.
+	 * fn(a1, a2, a3, a4, a5, a6) - all 6 args are saved for restart.
+	 * All 6 are needed because 5/6-arg syscalls (e.g., mmap) would fail
+	 * to restart if their later arguments were lost.
 	 */
 	PT_REG_SET_SIGNED(regs, syscall_nr, nr);
 	PT_REG_SET(regs, orig_r21, nr);  /* Syscall number (for lookup) */
@@ -308,8 +308,7 @@ void subleq_init_kernel_sp(struct task_struct *tsk)
 	 * IMPORTANT: This margin must be large enough for the deepest kernel
 	 * call chain. The do_signal() -> get_signal() path in particular
 	 * allocates large structures (struct ksignal) and calls many nested
-	 * functions. 256 bytes may have been too small so we increased to
-	 * 1024.
+	 * functions, requiring at least 1024 bytes of stack headroom.
 	 */
 	subleq_kernel_sp = (unsigned long)task_stack_page(tsk) + THREAD_SIZE 
 			   - sizeof(struct pt_regs) - 1024;

@@ -27,7 +27,6 @@ extern bool do_signal(struct pt_regs *regs);
 
 void __cpuidle arch_cpu_idle(void)
 {
-	/* Print 'I' once on first idle entry to confirm we reach idle */
 	raw_local_irq_enable();
 	/* Busy wait - Subleq has no halt instruction */
 }
@@ -187,7 +186,7 @@ void start_thread(struct pt_regs *regs, unsigned long pc, unsigned long sp)
 	
 	/*
 	 * CRITICAL: Mark that we're NOT in a syscall.
-	 * Hazard 1342: memset sets syscall_nr=0, which makes in_syscall()
+	 * memset sets syscall_nr=0, which makes in_syscall()
 	 * return true (syscall 0 = read). do_signal() would then incorrectly
 	 * try to handle syscall restart, corrupting the return context.
 	 */
@@ -264,7 +263,7 @@ int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
 		PT_REG_SET(childregs, r3, (unsigned long)args->fn);
 		PT_REG_SET(childregs, r21, (unsigned long)args->fn_arg);
 		PT_REG_SET(childregs, pc, 0);
-		/* Mark not in syscall (Hazard 1342) */
+		/* Mark not in syscall (memset leaves syscall_nr=0) */
 		syscall_wont_restart(childregs);
 
 		return 0;
@@ -280,7 +279,7 @@ int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
 	 * Mark not in syscall for the child.
 	 * Even though the parent is in clone/fork syscall, the child is
 	 * starting fresh and should not inherit the syscall restart state.
-	 * Hazard 1342: without this, in_syscall() returns true and
+	 * Without this, in_syscall() returns true and
 	 * do_signal() corrupts the return context.
 	 */
 	syscall_wont_restart(childregs);

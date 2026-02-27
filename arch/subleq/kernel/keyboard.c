@@ -160,7 +160,7 @@ static int __init subleq_kbd_init(void)
 
 	pr_info("subleq_kbd: initializing keyboard driver\n");
 
-	/* Cache fbcon detection at init time (Fix #5) */
+	/* Cache fbcon detection at init time */
 	fb_mode = subleq_fbcon_active();
 
 	if (fb_mode) {

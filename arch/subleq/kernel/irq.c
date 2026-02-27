@@ -2,7 +2,7 @@
 /*
  * Subleq interrupt handling
  *
- * The VM fires a timer interrupt every 500000 instruction cycles:
+ * The VM fires a timer interrupt periodically (by instruction count):
  * - Saves current PC to m[1] (byte address 4)
  * - Jumps to handler address in m[0]
  *

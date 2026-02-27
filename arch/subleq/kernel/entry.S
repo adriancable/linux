@@ -21,7 +21,7 @@
 /*
  * Kernel scratch/save slots (words 57-62, bytes 228-248)
  * Compact layout placing all kernel registers together.
- * Note: Words 63-65 (bytes 252-260) are clock registers (read-only).
+ * Note: Words 64-67 (bytes 256-271) are clock registers (read-only).
  */
 .set INT_Z2, 228         /* Scratch for address calculations (word 57) */
 .set SAVE_SP, 232        /* Saved interrupted SP for restoration (word 58) */
@@ -190,7 +190,7 @@ subleq_irq_entry:
 
         /* User mode: Switch to kernel stack */
         /*
-         * CRITICAL FIX: Set SP so that after SYSCALL_JMPTGT/SCRATCH pushes (-8)
+         * Set SP so that after SYSCALL_JMPTGT/SCRATCH pushes (-8)
          * and pt_regs allocation (-PT_SIZE=236), pt_regs ends up at kernel_sp + 1024.
          * This matches task_pt_regs(current), ensuring signal delivery and sigreturn
          * use the same pt_regs location.
@@ -1042,10 +1042,10 @@ subleq_irq_entry_end:
  * This function uses Subleq+ indirect addressing to avoid self-modifying code,
  * making it fully re-entrant and safe for use when interrupts are enabled.
  *
- * The key technique is using the indirect flag (|2) on operands:
- *   - A|2 means: use m[A] as the actual A address (dereference)
- *   - B|2 means: use m[B] as the actual B address (dereference)
- *   - C|2 means: jump to m[C] instead of C
+ * The key technique is using the indirect flag (|1) on operands:
+ *   - A|1 means: use m[A] as the actual A address (dereference)
+ *   - B|1 means: use m[B] as the actual B address (dereference)
+ *   - C|1 means: jump to m[C] instead of C
  *
  * This function:
  *   1. Pushes RA to prev's stack
@@ -1282,7 +1282,7 @@ __switch_to:
         /*
          * STEP 4b: Update subleq_kernel_sp for next task
          *
-         * CRITICAL FIX: Without this, all tasks use init_task's kernel stack
+         * IMPORTANT: Without this, all tasks would use init_task's kernel stack
          * for syscalls, causing corruption when multiple tasks make syscalls.
          *
          * Formula: subleq_kernel_sp = next->stack + KERNEL_SP_OFFSET
@@ -1508,10 +1508,7 @@ __switch_to:
          */
 .Lsw_return:
         /* Jump directly to [RA] */
-        .word   SW_Z, SW_Z, .+4
-        .word   SW_Z
-        .word   SW_Z
-        .word   REG_RA | INDIRECT
+        .word   SW_Z, SW_Z, REG_RA | INDIRECT
 
 .Lsw_ra_copy:
         .word   0       /* Temp storage for RA */
@@ -1974,11 +1971,8 @@ jump_to_userspace:
          * This is a RAW JUMP - no return address is pushed!
          */
 .Ljtu_jump:
-        .word   SW_Z, SW_Z, .+4
         /* Indirect jump: subleq(Z, Z, R21|I) jumps to m[R21] */
-        .word   SW_Z
-        .word   SW_Z
-        .word   REG_R21 | INDIRECT
+        .word   SW_Z, SW_Z, REG_R21 | INDIRECT
 
         /*
          * Halt loop - if user binary returns, it will end up here
@@ -2041,16 +2035,16 @@ __subleq_syscall:
          * STEP 1: Save SP to global subleq_syscall_saved_sp
          */
         .word   subleq_syscall_saved_sp, subleq_syscall_saved_sp, .+4  /* clear */
-        .word   REG_T0, REG_T0, .+4  /* ZZ = 0 */
-        .word   REG_SP, REG_T0, .+4       /* ZZ = -SP */
+        .word   REG_T0, REG_T0, .+4  /* T0 = 0 */
+        .word   REG_SP, REG_T0, .+4       /* T0 = -SP */
         .word   REG_T0, subleq_syscall_saved_sp, .+4  /* saved_sp = SP */
         
         /*
          * STEP 2: Save FP to global subleq_syscall_saved_fp
          */
         .word   subleq_syscall_saved_fp, subleq_syscall_saved_fp, .+4  /* clear */
-        .word   REG_T0, REG_T0, .+4  /* ZZ = 0 */
-        .word   REG_FP, REG_T0, .+4       /* ZZ = -FP */
+        .word   REG_T0, REG_T0, .+4  /* T0 = 0 */
+        .word   REG_FP, REG_T0, .+4       /* T0 = -FP */
         .word   REG_T0, subleq_syscall_saved_fp, .+4  /* saved_fp = FP */
 
         /*
@@ -2059,8 +2053,8 @@ __subleq_syscall:
          * On entry, the CALLER has already pushed the return address to [SP].
          * The calling convention is: caller does SP -= 4; [SP] = ret; jump func
          *
-         * So [SP] contains the return address, NOT [FP+4]!
-         * [FP+4] was wrong - FP on entry is the caller's frame pointer.
+         * So [SP] contains the return address.
+         * (FP on entry is the caller's frame pointer, not ours.)
          */
         /* Clear saved_ra */
         .word   subleq_syscall_saved_ra, subleq_syscall_saved_ra, .+4
@@ -2077,7 +2071,7 @@ __subleq_syscall:
          */
         .word   REG_SP, REG_SP, .+4       /* SP = 0 */
         .word   REG_T0, REG_T0, .+4
-        .word   subleq_kernel_sp, REG_T0, .+4  /* ZZ = -kernel_sp */
+        .word   subleq_kernel_sp, REG_T0, .+4  /* T0 = -kernel_sp */
         .word   REG_T0, REG_SP, .+4   /* SP = kernel_sp */
 
         /*
@@ -2103,7 +2097,7 @@ __subleq_syscall:
 
         /* Compute pt_regs base = subleq_kernel_sp + 1024 into REG_T9 */
         .word   REG_T0, REG_T0, .+4
-        .word   subleq_kernel_sp, REG_T0, .+4        /* ZZ = -kernel_sp */
+        .word   subleq_kernel_sp, REG_T0, .+4        /* T0 = -kernel_sp */
         .word   REG_T9, REG_T9, .+4                      /* T9 = 0 */
         .word   REG_T0, REG_T9, .+4                  /* T9 = kernel_sp */
         .word   .Lconst_neg1024, REG_T9, .+4           /* T9 = kernel_sp + 1024 = pt_regs base */
@@ -2361,15 +2355,15 @@ __subleq_syscall:
         /* Compute saved_sp + 12 into REG_T8 for indirect access */
         .word   REG_T8, REG_T8, .+4                                /* T8 = 0 */
         .word   REG_T0, REG_T0, .+4
-        .word   subleq_syscall_saved_sp, REG_T0, .+4           /* ZZ = -saved_sp */
+        .word   subleq_syscall_saved_sp, REG_T0, .+4           /* T0 = -saved_sp */
         .word   REG_T0, REG_T8, .+4                            /* T8 = saved_sp */
         .word   .Lconst_neg12, REG_T8, .+4                       /* T8 = saved_sp + 12 */
         
         /* Load [T8] into REG_T0 using indirect addressing */
         .word   REG_T0, REG_T0, .+4
-        .word   REG_T8 | INDIRECT, REG_T0, .+4                 /* ZZ = -[T8] = -a6 */
+        .word   REG_T8 | INDIRECT, REG_T0, .+4                 /* T0 = -[T8] = -a6 */
         
-        /* Push -ZZ onto kernel stack */
+        /* Push -T0 onto kernel stack */
         .word   .Lconst_4, REG_SP, .+4                           /* SP -= 4 */
         .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .+4          /* [SP] = 0 */
         .word   REG_T0, REG_SP | INDIRECT, .+4                 /* [SP] = a6 */
@@ -2377,12 +2371,12 @@ __subleq_syscall:
         /* ---- Push a5 (from [saved_sp + 8]) ---- */
         .word   REG_T8, REG_T8, .+4                                /* T8 = 0 */
         .word   REG_T0, REG_T0, .+4
-        .word   subleq_syscall_saved_sp, REG_T0, .+4           /* ZZ = -saved_sp */
+        .word   subleq_syscall_saved_sp, REG_T0, .+4           /* T0 = -saved_sp */
         .word   REG_T0, REG_T8, .+4                            /* T8 = saved_sp */
         .word   .Lconst_neg8, REG_T8, .+4                        /* T8 = saved_sp + 8 */
         
         .word   REG_T0, REG_T0, .+4
-        .word   REG_T8 | INDIRECT, REG_T0, .+4                 /* ZZ = -a5 */
+        .word   REG_T8 | INDIRECT, REG_T0, .+4                 /* T0 = -a5 */
         
         .word   .Lconst_4, REG_SP, .+4                           /* SP -= 4 */
         .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .+4          /* [SP] = 0 */
@@ -2391,12 +2385,12 @@ __subleq_syscall:
         /* ---- Push a4 (from [saved_sp + 4]) ---- */
         .word   REG_T8, REG_T8, .+4                                /* T8 = 0 */
         .word   REG_T0, REG_T0, .+4
-        .word   subleq_syscall_saved_sp, REG_T0, .+4           /* ZZ = -saved_sp */
+        .word   subleq_syscall_saved_sp, REG_T0, .+4           /* T0 = -saved_sp */
         .word   REG_T0, REG_T8, .+4                            /* T8 = saved_sp */
         .word   .Lconst_neg4, REG_T8, .+4                /* T8 = saved_sp + 4 */
         
         .word   REG_T0, REG_T0, .+4
-        .word   REG_T8 | INDIRECT, REG_T0, .+4                 /* ZZ = -a4 */
+        .word   REG_T8 | INDIRECT, REG_T0, .+4                 /* T0 = -a4 */
         
         .word   .Lconst_4, REG_SP, .+4                           /* SP -= 4 */
         .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .+4          /* [SP] = 0 */
@@ -2405,8 +2399,7 @@ __subleq_syscall:
         /*
          * STEP 5: Set up call frame and call __subleq_syscall_c
          *
-         * Using Subleq+ indirect addressing to push return address onto stack.
-         * This avoids SMC which was buggy in the previous implementation.
+         * Uses Subleq+ indirect addressing to push the return address onto the stack.
          *
          * Stack-based call sequence:
          *   1. SP -= 4 (make room for return address)
@@ -2462,11 +2455,11 @@ __subleq_syscall:
          * When the handler returns, it calls sys_rt_sigreturn which restores the
          * ORIGINAL register values back into pt_regs.
          *
-         * Previously, the syscall return path only restored SP/FP/R24/PC, leaving
-         * the signal handler's garbage in the GPRs and T-registers. This caused
-         * crashes when resuming interrupted runtime helpers.
-         *
-         * Now we restore everything, exactly like the IRQ return path does.
+         * All registers are restored, exactly like the IRQ return path.
+         * This is required for sys_rt_sigreturn: when a signal interrupts user
+         * code (e.g., in __subleq_mul), the handler returns via sigreturn which
+         * restores original register values back into pt_regs. The syscall return
+         * path must then reload all registers to resume the interrupted code.
          *
          * Stack layout at this point (AFTER C function returned):
          *   - C epilogue popped return address: SP += 4

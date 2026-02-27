@@ -988,7 +988,6 @@ elf_process_relr_section:
 
         .word   .Lconst_neg4, REG_SP, .+4
 
-        .word   REG_Z, REG_Z, .+4
         .word   REG_Z, REG_Z, REG_T7 | INDIRECT
 
 .size elf_process_relr_section, .-elf_process_relr_section

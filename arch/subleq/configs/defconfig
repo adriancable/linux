@@ -1,9 +1,17 @@
 # SPDX-License-Identifier: GPL-2.0
 # Minimal defconfig for Subleq
+#
+# Subleq is a 32-bit NOMMU OISC with no hardware peripherals beyond
+# framebuffer, timer interrupts, and putchar/getchar character I/O.
+# This defconfig explicitly disables hardware-dependent subsystems
+# to prevent Kconfig defaults from pulling in dead code.
 
 # CONFIG_MMU is not set
 # CONFIG_SMP is not set
 CONFIG_SUBLEQ=y
+
+# IPC - needed for POSIX shared memory, semaphores, message queues
+CONFIG_SYSVIPC=y
 
 # Basic kernel features
 CONFIG_PRINTK=y
@@ -74,8 +82,19 @@ CONFIG_DUMMY=y
 # CONFIG_PPP is not set
 # CONFIG_SLIP is not set
 
+# Wireless (no WiFi hardware exists)
+# CONFIG_WIRELESS is not set
+# CONFIG_WLAN is not set
+
+# Networking extras (no real NIC)
+# CONFIG_ETHTOOL_NETLINK is not set
+
 # Binary format support (using custom binfmt_elf_subleq.c)
 # CONFIG_BINFMT_FLAT is not set
+
+# Core dump (no debugger or disk to consume them)
+# CONFIG_COREDUMP is not set
+# CONFIG_ELF_CORE is not set
 
 # No drivers
 # CONFIG_SERIAL_8250 is not set
@@ -86,6 +105,8 @@ CONFIG_VT_CONSOLE=y
 # CONFIG_VT_HW_CONSOLE_BINDING is not set
 # CONFIG_HW_CONSOLE is not set
 # CONFIG_LEGACY_PTYS is not set
+# CONFIG_CONSOLE_TRANSLATIONS is not set
+# CONFIG_LEGACY_TIOCSTI is not set
 CONFIG_UNIX98_PTYS=y
 
 # Framebuffer
@@ -100,6 +121,7 @@ CONFIG_DUMMY_CONSOLE_COLUMNS=100
 CONFIG_DUMMY_CONSOLE_ROWS=32
 CONFIG_FRAMEBUFFER_CONSOLE=y
 CONFIG_FRAMEBUFFER_CONSOLE_DETECT_PRIMARY=y
+# CONFIG_FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION is not set
 CONFIG_FONT_SUPPORT=y
 CONFIG_FONT_8x16=y
 CONFIG_FONTS=y
@@ -130,13 +152,50 @@ CONFIG_CMDLINE_FORCE=y
 
 # Disable unused subsystems
 # CONFIG_FW_LOADER is not set
-# Input subsystem for keyboard scancode handling
+
+# Input subsystem - custom keyboard.c polling driver, no mouse hardware
 CONFIG_INPUT=y
 CONFIG_INPUT_KEYBOARD=y
+# CONFIG_KEYBOARD_ATKBD is not set
+# CONFIG_INPUT_MOUSE is not set
 # CONFIG_SERIO is not set
+# CONFIG_INPUT_VIVALDIFMAP is not set
 # CONFIG_HID_SUPPORT is not set
 # CONFIG_USB_SUPPORT is not set
 # CONFIG_RUNTIME_TESTING_MENU is not set
+
+# Hardware monitoring (no sensors exist)
+# CONFIG_HWMON is not set
+
+# Hardware RNG (entropy comes from clock seeding in time.c)
+# CONFIG_HW_RANDOM is not set
+
+# /dev/mem (no benefit, security surface)
+# CONFIG_DEVMEM is not set
+
+# CPU mitigations (Subleq VM has no speculative execution)
+# CONFIG_CPU_MITIGATIONS is not set
+
+# Namespaces (not needed unless unshare is used)
+# CONFIG_NAMESPACES is not set
+
+# Unnecessary syscall/FS features
+# CONFIG_FHANDLE is not set
+# CONFIG_ADVISE_SYSCALLS is not set
+# CONFIG_CACHESTAT_SYSCALL is not set
+# CONFIG_DNOTIFY is not set
+# CONFIG_NETWORK_FILESYSTEMS is not set
+
+# Virtualization (no VirtIO/VHost devices)
+# CONFIG_VIRTIO_MENU is not set
+# CONFIG_VHOST_MENU is not set
+
+# BPF (syscall disabled, core infra not needed)
+# CONFIG_BPF is not set
+
+# Memory debugging (runtime overhead)
+# CONFIG_SLUB_DEBUG is not set
+# CONFIG_DEBUG_MEMORY_INIT is not set
 
 # Default hostname
 CONFIG_DEFAULT_HOSTNAME="eternal"

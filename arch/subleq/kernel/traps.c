@@ -100,8 +100,10 @@ int is_valid_bugaddr(unsigned long addr)
 /*
  * Stack trace capture - minimal implementation
  */
+#ifdef CONFIG_STACKTRACE
 void save_stack_trace(struct stack_trace *trace)
 {
 	/* Not implemented for Subleq */
 	trace->nr_entries = 0;
 }
+#endif

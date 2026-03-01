@@ -993,12 +993,7 @@ subleq_irq_entry:
         .word   INT_HANDLER, INT_HANDLER, .+4
         .word   INT_Z, INT_HANDLER, .+4
 
-
-
-        .word   INT_Z, INT_Z, .+4
-        .word   INT_Z
-        .word   INT_Z
-        .word   SAVE_JMPTGT | INDIRECT
+        .word   INT_Z, INT_Z, SAVE_JMPTGT | INDIRECT
 
 .Ljump_failed:
         .word   .Lconst_char_I, -4, .Lhang

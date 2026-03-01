@@ -241,8 +241,7 @@ subleq_direct_putcs:
         /* Set render return to .Lrender0_ret (4 insn using neg constant) */
         .word   REG_T5, REG_T5, .+4            /* T5 = 0 */
         .word   .Lrender0_ret_neg, REG_T5, .+4 /* T5 -= (-ret) = ret_addr */
-        .word   REG_Z, REG_Z, .+4              /* Z = 0 (needed for render_char entry) */
-        .word   REG_Z, REG_Z, .Lrender_char    /* jump */
+        .word   REG_Z, REG_Z, .Lrender_char    /* clear Z + jump */
 
 .Lrender0_ret:
         /* Advance T8 by 32 (8 pixels * 4 bytes) for next column */
@@ -265,8 +264,7 @@ subleq_direct_putcs:
         /* Set render return to .Lrender1_ret (4 insn using neg constant) */
         .word   REG_T5, REG_T5, .+4            /* T5 = 0 */
         .word   .Lrender1_ret_neg, REG_T5, .+4 /* T5 -= (-ret) = ret_addr */
-        .word   REG_Z, REG_Z, .+4              /* Z = 0 (needed for render_char entry) */
-        .word   REG_Z, REG_Z, .Lrender_char    /* jump */
+        .word   REG_Z, REG_Z, .Lrender_char    /* clear Z + jump */
 
 .Lrender1_ret:
         /* Advance T8 by 32 for char1's column */
@@ -1220,8 +1218,7 @@ subleq_direct_putcs:
 
         .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
         .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
-        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
-        .word   REG_Z, REG_Z, .Lrow_1
+        .word   REG_Z, REG_Z, .Lrow_1         /* clear Z + jump */
 
 .Lr1_pix7_bg:
         .word   .Lconst_n128, REG_R20, .+4
@@ -1280,8 +1277,7 @@ subleq_direct_putcs:
 
         .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
         .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
-        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
-        .word   REG_Z, REG_Z, .Lrow_2
+        .word   REG_Z, REG_Z, .Lrow_2         /* clear Z + jump */
 
 .Lr2_pix7_bg:
         .word   .Lconst_n128, REG_R20, .+4
@@ -1340,8 +1336,7 @@ subleq_direct_putcs:
 
         .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
         .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
-        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
-        .word   REG_Z, REG_Z, .Lrow_3
+        .word   REG_Z, REG_Z, .Lrow_3         /* clear Z + jump */
 
 .Lr3_pix7_bg:
         .word   .Lconst_n128, REG_R20, .+4
@@ -1400,8 +1395,7 @@ subleq_direct_putcs:
 
         .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
         .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
-        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
-        .word   REG_Z, REG_Z, .Lrow_4
+        .word   REG_Z, REG_Z, .Lrow_4         /* clear Z + jump */
 
 .Lr4_pix7_bg:
         .word   .Lconst_n128, REG_R20, .+4
@@ -1460,8 +1454,7 @@ subleq_direct_putcs:
 
         .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
         .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
-        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
-        .word   REG_Z, REG_Z, .Lrow_5
+        .word   REG_Z, REG_Z, .Lrow_5         /* clear Z + jump */
 
 .Lr5_pix7_bg:
         .word   .Lconst_n128, REG_R20, .+4
@@ -1520,8 +1513,7 @@ subleq_direct_putcs:
 
         .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
         .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
-        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
-        .word   REG_Z, REG_Z, .Lrow_6
+        .word   REG_Z, REG_Z, .Lrow_6         /* clear Z + jump */
 
 .Lr6_pix7_bg:
         .word   .Lconst_n128, REG_R20, .+4
@@ -1580,8 +1572,7 @@ subleq_direct_putcs:
 
         .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
         .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
-        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
-        .word   REG_Z, REG_Z, .Lrow_7
+        .word   REG_Z, REG_Z, .Lrow_7         /* clear Z + jump */
 
 .Lr7_pix7_bg:
         .word   .Lconst_n128, REG_R20, .+4
@@ -1640,8 +1631,7 @@ subleq_direct_putcs:
 
         .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
         .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
-        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
-        .word   REG_Z, REG_Z, .Lrow_8
+        .word   REG_Z, REG_Z, .Lrow_8         /* clear Z + jump */
 
 .Lr8_pix7_bg:
         .word   .Lconst_n128, REG_R20, .+4
@@ -1700,8 +1690,7 @@ subleq_direct_putcs:
 
         .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
         .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
-        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
-        .word   REG_Z, REG_Z, .Lrow_9
+        .word   REG_Z, REG_Z, .Lrow_9         /* clear Z + jump */
 
 .Lr9_pix7_bg:
         .word   .Lconst_n128, REG_R20, .+4
@@ -1760,8 +1749,7 @@ subleq_direct_putcs:
 
         .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
         .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
-        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
-        .word   REG_Z, REG_Z, .Lrow_10
+        .word   REG_Z, REG_Z, .Lrow_10        /* clear Z + jump */
 
 .Lr10_pix7_bg:
         .word   .Lconst_n128, REG_R20, .+4
@@ -1820,8 +1808,7 @@ subleq_direct_putcs:
 
         .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
         .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
-        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
-        .word   REG_Z, REG_Z, .Lrow_11
+        .word   REG_Z, REG_Z, .Lrow_11        /* clear Z + jump */
 
 .Lr11_pix7_bg:
         .word   .Lconst_n128, REG_R20, .+4
@@ -1880,8 +1867,7 @@ subleq_direct_putcs:
 
         .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
         .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
-        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
-        .word   REG_Z, REG_Z, .Lrow_12
+        .word   REG_Z, REG_Z, .Lrow_12        /* clear Z + jump */
 
 .Lr12_pix7_bg:
         .word   .Lconst_n128, REG_R20, .+4
@@ -1940,8 +1926,7 @@ subleq_direct_putcs:
 
         .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
         .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
-        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
-        .word   REG_Z, REG_Z, .Lrow_13
+        .word   REG_Z, REG_Z, .Lrow_13        /* clear Z + jump */
 
 .Lr13_pix7_bg:
         .word   .Lconst_n128, REG_R20, .+4
@@ -2000,8 +1985,7 @@ subleq_direct_putcs:
 
         .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
         .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
-        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
-        .word   REG_Z, REG_Z, .Lrow_14
+        .word   REG_Z, REG_Z, .Lrow_14        /* clear Z + jump */
 
 .Lr14_pix7_bg:
         .word   .Lconst_n128, REG_R20, .+4
@@ -2060,8 +2044,7 @@ subleq_direct_putcs:
 
         .word   .Lconst_n4, REG_T15, .+4      /* T15 += 4 */
         .word   REG_R22, REG_R21, .+4          /* R21 += pitch-32 */
-        .word   REG_Z, REG_Z, .+4             /* Z = 0 */
-        .word   REG_Z, REG_Z, .Lrow_15
+        .word   REG_Z, REG_Z, .Lrow_15        /* clear Z + jump */
 
 .Lr15_pix7_bg:
         .word   .Lconst_n128, REG_R20, .+4

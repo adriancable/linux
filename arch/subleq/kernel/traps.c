@@ -57,11 +57,20 @@ void show_stack(struct task_struct *task, unsigned long *sp, const char *loglvl)
 
 		addr = *stack++;
 
-		/* Check if this looks like a kernel text address */
+		/*
+		 * Check if this looks like a kernel text address.
+		 * With the negated RA calling convention, return addresses
+		 * on the stack are stored as -addr, so also check -addr.
+		 */
 		if (addr >= (unsigned long)_stext &&
 		    addr <= (unsigned long)_etext) {
 			printk("%s [<%08lx>] %pS\n", loglvl, addr,
 			       (void *)addr);
+			found++;
+		} else if (-addr >= (unsigned long)_stext &&
+			   -addr <= (unsigned long)_etext) {
+			printk("%s [<%08lx>] %pS (negated RA)\n", loglvl,
+			       -addr, (void *)-addr);
 			found++;
 		}
 	}

@@ -106,9 +106,7 @@ subleq_blit_row8:
 
 .Lpix_all_done:
         .word   REG_T4, REG_T4, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_SP | INDIRECT, REG_Z, .+4
-        .word   REG_Z, REG_T4, .+4
+        .word   REG_SP | INDIRECT, REG_T4, .+4
         .word   .Lconst_n4, REG_SP, .+4
         .word   REG_Z, REG_Z, REG_T4 | INDIRECT
 

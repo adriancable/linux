@@ -158,8 +158,9 @@ subleq_direct_putcs:
 
         /* Push return address and call mul */
         .word   .Lconst_4, REG_SP, .+4
+        /* .Lmul_ret_pos contains +.Lmul_ret, so [SP] = 0 - (+.Lmul_ret) = -.Lmul_ret */
         .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .+4
-        .word   .Lmul_ret_neg, REG_SP | INDIRECT, .+4
+        .word   .Lmul_ret_pos, REG_SP | INDIRECT, .+4
         .word   REG_Z, REG_Z, __subleq_mul
 
 .Lmul_ret:
@@ -2110,11 +2111,8 @@ subleq_direct_putcs:
 
 .Ldone:
         /* Return: Load RA from [SP], pop the stack, and jump to return address */
-        .word   REG_T4, REG_T4, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_SP | INDIRECT, REG_Z, .+4   /* Z = -[SP] = -return_addr */
-        .word   REG_Z, REG_T4, .+4              /* T4 = return_addr */
-        .word   REG_Z, REG_Z, .+4               /* Z = 0 */
+        .word   REG_T4, REG_T4, .+4              /* T4 = 0 */
+        .word   REG_SP | INDIRECT, REG_T4, .+4   /* T4 = 0 - (-retAddr) = +retAddr */
         /* Pop RA: SP += 4 (callee must undo the push done by emitPushRALabel) */
         .word   .Lconst_n4, REG_SP, .+4
         .word   REG_Z, REG_Z, REG_T4 | INDIRECT /* Jump to [T4] = return_addr */
@@ -2686,7 +2684,7 @@ subleq_direct_putcs:
 
 /* Return address constants */
 .Lmul_ret_const:    .word   .Lmul_ret
-.Lmul_ret_neg:      .word   -.Lmul_ret
+.Lmul_ret_pos:      .word   .Lmul_ret
 .Lrender0_ret_c:    .word   .Lrender0_ret
 .Lrender1_ret_c:    .word   .Lrender1_ret
 /* Negated return address constants for 4-insn T5 load */

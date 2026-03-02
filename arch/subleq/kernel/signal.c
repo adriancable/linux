@@ -307,7 +307,7 @@ static int setup_rt_frame(struct ksignal *ksig, sigset_t *set,
 		ra_slot = (unsigned long __user *)((unsigned long)frame - 4);
 
 		/* Push the trampoline address */
-		err = __put_user((unsigned long)ret_from_user_rt_signal, ra_slot);
+		err = __put_user(-(unsigned long)ret_from_user_rt_signal, ra_slot);
 		if (err)
 			return -EFAULT;
 

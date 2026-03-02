@@ -982,9 +982,7 @@ elf_process_relr_section:
         .word   REG_R20, REG_R20, .+4
 
         .word   REG_T7, REG_T7, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_SP | INDIRECT, REG_Z, .+4
-        .word   REG_Z, REG_T7, .+4
+        .word   REG_SP | INDIRECT, REG_T7, .+4
 
         .word   .Lconst_neg4, REG_SP, .+4
 

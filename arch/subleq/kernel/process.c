@@ -239,9 +239,10 @@ int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
 	 *   3. Pops retpc, jumps to ret_from_fork
 	 */
 
-	/* First, push ret_from_fork as the "return address" */
+	/* Push -ret_from_fork as the "return address" (negated RA convention:
+	 * __switch_to's pop-RA does RA = 0 - [SP], so [SP] must be -addr) */
 	retpc_slot = (unsigned long *)childregs - 1;
-	*retpc_slot = (unsigned long)ret_from_fork;
+	*retpc_slot = -(unsigned long)ret_from_fork;
 
 	/* Then allocate switch_stack below the return address */
 	childstack = (struct switch_stack *)retpc_slot - 1;

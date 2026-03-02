@@ -135,8 +135,12 @@ void __init setup_arch(char **cmdline_p)
 {
 	/* BSS already cleared in subleq_start() before start_kernel() */
 
+	printk("__builtin_return_address(0)=%08X _RET_IP_=%08X _THIS_IP_=%08X\n", __builtin_return_address(0), _RET_IP_, _THIS_IP_);
+
 	/* Register early console */
 	register_console(&subleq_early_console);
+
+	printk("__builtin_return_address(0)=%08X _RET_IP_=%08X _THIS_IP_=%08X\n", __builtin_return_address(0), _RET_IP_, _THIS_IP_);
 
 	pr_info("Eternal Software Initiative Linux %s (https://eternal-software.org)\n", UTS_RELEASE);
 	pr_info("CPU: ESI Subleq+ OISC\n");
@@ -160,6 +164,8 @@ void __init setup_arch(char **cmdline_p)
 
 	/* Reserve low memory (boot area, registers, etc.) */
 	memblock_reserve(0, 0x1000);
+
+	printk("__builtin_return_address(0)=%08X _RET_IP_=%08X _THIS_IP_=%08X\n", __builtin_return_address(0), _RET_IP_, _THIS_IP_);
 
 	/*
 	 * Reserve framebuffer region at top of memory.

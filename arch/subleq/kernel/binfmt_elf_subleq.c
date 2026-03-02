@@ -2208,7 +2208,7 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 	/* Set up stack */
 	stack_size = exec_info.stack_size;
 	if (stack_size == 0)
-		stack_size = 128 * 1024; /* 128KB default */
+		stack_size = 1024 * 1024; /* 1MB default */
 
 	stack_size = PAGE_ALIGN(stack_size);
 

@@ -142,24 +142,22 @@ static inline void arch_local_irq_enable(void)
 static inline unsigned long arch_local_irq_save(void)
 {
 	unsigned long flags = *SUBLEQ_INT_HANDLER;
-	arch_local_irq_disable();
+	if (flags) {
+		*SUBLEQ_INT_HANDLER = 0;
+		*SUBLEQ_INT_SAVED_HANDLER = flags;
+	}
 	return flags;
 }
 
 /* Restore saved interrupt flags */
 static inline void arch_local_irq_restore(unsigned long flags)
 {
-	if (flags) {
-		/*
-		 * Re-enable interrupts only if not in any interrupt context.
-		 * Same reasoning as arch_local_irq_enable().
-		 */
-		if (!__subleq_in_interrupt()) {
-			*SUBLEQ_INT_HANDLER = flags;
-		}
-	} else {
-		/* Leave disabled */
-		*SUBLEQ_INT_HANDLER = 0;
+	/*
+	 * Re-enable interrupts only if not in any interrupt context.
+	 * Same reasoning as arch_local_irq_enable().
+	 */
+	if (flags && !__subleq_in_interrupt()) {
+		*SUBLEQ_INT_HANDLER = flags;
 	}
 }
 
@@ -171,7 +169,7 @@ static inline bool arch_irqs_disabled_flags(unsigned long flags)
 
 static inline bool arch_irqs_disabled(void)
 {
-	return arch_irqs_disabled_flags(arch_local_save_flags());
+	return *SUBLEQ_INT_HANDLER == 0;
 }
 
 #endif /* !__ASSEMBLY__ */

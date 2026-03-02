@@ -1653,8 +1653,8 @@ static void fbcon_redraw_blit(struct vc_data *vc, struct fb_info *info,
 		unsigned short *s = (unsigned short *)
 		    (vc->vc_origin + vc->vc_size_row * (first_row + ycount));
 
-		par->bitops->bmove(vc, info, line + ycount, 0,
-				   line, 0, count, cols);
+		par->bitops->bmove(vc, info, first_row + ycount, 0,
+				   first_row, 0, count, cols);
 		memmove(d, s, count * cols * sizeof(unsigned short));
 	}
 }

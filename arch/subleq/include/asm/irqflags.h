@@ -41,8 +41,9 @@ extern void __subleq_putchar(int c);
  *
  * With CONFIG_THREAD_INFO_IN_TASK, thread_info is the first member of
  * task_struct. We access preempt_count at offset 4 (after the flags field)
- * from __current_task directly. This is much cheaper than the old
- * SP-masking approach (~3 instructions vs ~200 for __subleq_and).
+ * via current_thread_info()->preempt_count. This is much cheaper than
+ * the old SP-masking approach, and the >= 256 threshold check avoids
+ * the expensive __subleq_and call entirely (~3 vs ~200 instructions).
  *
  * We need to check BOTH hardirq AND softirq context:
  *   in_interrupt() = (preempt_count & (HARDIRQ_MASK | SOFTIRQ_MASK))
@@ -52,14 +53,18 @@ extern void __subleq_putchar(int c);
  * interrupts during softirq processing, causing re-entrancy.
  *
  * Bit layout (from preempt.h):
- *   Bits 0-7:   preempt count
- *   Bits 8-15:  softirq count (SOFTIRQ_MASK = 0x0000ff00)
- *   Bits 16-19: hardirq count (HARDIRQ_MASK = 0x000f0000)
- *   Bits 20+:   NMI, etc
+ *   Bits 0-7:   preempt count (always < 256)
+ *   Bits 8-15:  softirq count (SOFTIRQ_OFFSET = 0x100)
+ *   Bits 16-19: hardirq count (HARDIRQ_OFFSET = 0x10000)
+ *   Bit 31:     PREEMPT_NEED_RESCHED — never set (generic preempt.h no-op)
+ *
+ * OPTIMIZATION: Since bits 0-7 are always < 256 and bit 31 is never set
+ * (asm-generic/preempt.h set_preempt_need_resched() is a no-op),
+ * preempt_count >= 256 iff any interrupt-context bits (8+) are set.
+ * This replaces an expensive __subleq_and call (~200 instructions)
+ * with a simple subtraction + sign check (~3 instructions).
  */
-#define SUBLEQ_HARDIRQ_MASK 0x000f0000
-#define SUBLEQ_SOFTIRQ_MASK 0x0000ff00
-#define SUBLEQ_IRQMASK (SUBLEQ_HARDIRQ_MASK | SUBLEQ_SOFTIRQ_MASK)
+#define SUBLEQ_IRQ_THRESHOLD 256
 
 /* Offset of preempt_count within task_struct (thread_info is at offset 0) */
 #define SUBLEQ_TI_PREEMPT_OFFSET 4
@@ -70,7 +75,7 @@ static inline int __subleq_in_interrupt(void)
 
 	/* thread_info is at offset 0 of task_struct; preempt_count at offset 4 */
 	int *preempt_ptr = (int *)((unsigned long)__current_task + SUBLEQ_TI_PREEMPT_OFFSET);
-	return (*preempt_ptr) & SUBLEQ_IRQMASK;
+	return *preempt_ptr >= SUBLEQ_IRQ_THRESHOLD;
 }
 
 /* Get current interrupt state (0 = disabled, nonzero = enabled) */

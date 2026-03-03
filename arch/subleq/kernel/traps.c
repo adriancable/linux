@@ -27,8 +27,8 @@ void __init trap_init(void)
 /*
  * Stack trace display
  *
- * Subleq calling convention: return address is pushed onto the stack
- * before each call. We walk the stack looking for values that could be
+ * RA-Direct calling convention: non-leaf functions save -RA to the stack
+ * in their prologues. We walk the stack looking for values that could be
  * return addresses (between start of kernel text and end).
  *
  * This is a heuristic - we can't perfectly identify stack frames without

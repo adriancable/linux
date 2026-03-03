@@ -200,6 +200,7 @@ void start_thread(struct pt_regs *regs, unsigned long pc, unsigned long sp)
  * switches to this thread for the first time:
  *   1. It restores registers from switch_stack (initially zeroed)
  *   2. It pops the "return address" (retpc) which is ret_from_fork
+ *      (RA-Direct: __switch_to pushes RA at entry, so pop works the same)
  *   3. ret_from_fork checks r3: if non-zero, it's a kernel thread
  *   4. For kernel threads: ret_from_fork calls kernel_thread_helper
  *      which reads pt_regs.r3 (the fn) and pt_regs.r21 (the arg)
@@ -240,7 +241,8 @@ int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
 	 */
 
 	/* Push -ret_from_fork as the "return address" (negated RA convention:
-	 * __switch_to's pop-RA does RA = 0 - [SP], so [SP] must be -addr) */
+	 * __switch_to's prologue pushes RA to [SP], and its pop-RA does
+	 * RA = 0 - [SP], so [SP] must be -addr) */
 	retpc_slot = (unsigned long *)childregs - 1;
 	*retpc_slot = -(unsigned long)ret_from_fork;
 

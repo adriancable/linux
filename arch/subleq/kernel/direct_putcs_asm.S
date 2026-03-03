@@ -9,17 +9,17 @@
  *                          const u32 *font, const u16 *s, u32 cnt,
  *                          u32 s_pitch, u32 fg, u32 bg);
  *
- * Arguments (on stack, Subleq variadic convention):
- *   [SP+4]  = fb        - Framebuffer base pointer
- *   [SP+8]  = fb_pitch  - Bytes per framebuffer row (e.g. 3200)
- *   [SP+12] = x         - Starting X pixel coordinate
- *   [SP+16] = y         - Starting Y pixel coordinate
- *   [SP+20] = font      - Expanded font array (word per row)
- *   [SP+24] = s         - Screen buffer (u16 per char)
- *   [SP+28] = cnt       - Number of characters
- *   [SP+32] = s_off    - Byte offset of s within word (0=aligned, 2=misaligned)
- *   [SP+36] = fg        - Foreground color (32-bit XRGB)
- *   [SP+40] = bg        - Background color (32-bit XRGB)
+ * Arguments (on stack, Subleq variadic convention, RA-Direct: no RA on stack):
+ *   [SP+0]  = fb        - Framebuffer base pointer
+ *   [SP+4]  = fb_pitch  - Bytes per framebuffer row (e.g. 3200)
+ *   [SP+8]  = x         - Starting X pixel coordinate
+ *   [SP+12] = y         - Starting Y pixel coordinate
+ *   [SP+16] = font      - Expanded font array (word per row)
+ *   [SP+20] = s         - Screen buffer (u16 per char)
+ *   [SP+24] = cnt       - Number of characters
+ *   [SP+28] = s_off    - Byte offset of s within word (0=aligned, 2=misaligned)
+ *   [SP+32] = fg        - Foreground color (32-bit XRGB)
+ *   [SP+36] = bg        - Background color (32-bit XRGB)
  *
  * Register allocation:
  *   T8  = current pixel pointer (fb + y*pitch + x*4)
@@ -41,18 +41,25 @@ subleq_direct_putcs:
 #include <asm/subleq-regs.h>
 
 /*===========================================================================
- * PROLOGUE: Load arguments
+ * PROLOGUE: Save RA and load arguments
  * Calling convention: args 1-4 in R21-R24, args 5+ on stack (right-to-left)
+ * RA-Direct: no RA on stack, RA register holds return address
  * At entry:
- *   R21 = fb, R22 = fb_pitch, R23 = x, R24 = y
- *   [SP+0] = RA
- *   [SP+4] = bg (arg 10, pushed first)
- *   [SP+8] = fg (arg 9)
- *   [SP+12] = s_pitch (arg 8)
- *   [SP+16] = cnt (arg 7)
- *   [SP+20] = s (arg 6)
- *   [SP+24] = font (arg 5)
+ *   R21 = fb, R22 = fb_pitch, R23 = x, R24 = y, RA = return address
+ *   [SP+0] = font (arg 5)
+ *   [SP+4] = s (arg 6)
+ *   [SP+8] = cnt (arg 7)
+ *   [SP+12] = s_off (arg 8)
+ *   [SP+16] = fg (arg 9)
+ *   [SP+20] = bg (arg 10, pushed first)
+ *
+ * Non-leaf function: save RA to stack before calling __subleq_mul
  *===========================================================================*/
+
+        /* Save RA: SP -= 4; [SP] = -RA */
+        .word   .Lconst_4, REG_SP, .+4              /* SP -= 4 */
+        .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .+4  /* [SP] = 0 */
+        .word   REG_RA, REG_SP | INDIRECT, .+4      /* [SP] = 0 - RA = -RA */
 
         /* T8 = fb = R21 (Z-scratch: Z is clean at entry) */
         .word   REG_R21, REG_Z, .+4
@@ -80,9 +87,9 @@ subleq_direct_putcs:
         .word   REG_Z, REG_R21, .+4
         .word   REG_Z, REG_Z, .+4
 
-        /* Stack layout at entry (RA pushed by caller):
-         * [SP+0]  = RA
-         * [SP+4]  = font (arg 5, pushed last)
+        /* Stack layout (RA-Direct: saved RA at top, then caller's args):
+         * [SP+0]  = saved -RA (our prologue pushed this)
+         * [SP+4]  = font (arg 5)
          * [SP+8]  = s (arg 6)
          * [SP+12] = cnt (arg 7)
          * [SP+16] = s_off (arg 8, 0=aligned, 2=misaligned)
@@ -90,7 +97,7 @@ subleq_direct_putcs:
          * [SP+24] = bg (arg 10, pushed first)
          */
 
-        /* T15 = SP + 4 (pointer to font arg) */
+        /* T15 = SP + 4 (pointer to font arg, skip saved RA) */
         .word   REG_T15, REG_T15, .+4
         .word   REG_Z, REG_Z, .+4
         .word   REG_SP, REG_Z, .+4        /* Z = -SP */
@@ -156,15 +163,12 @@ subleq_direct_putcs:
         .word   REG_Z, REG_R22, .+4
         .word   REG_Z, REG_Z, .+4
 
-        /* Push return address and call mul */
-        .word   .Lconst_4, REG_SP, .+4
-        /* .Lmul_ret_pos contains +.Lmul_ret, so [SP] = 0 - (+.Lmul_ret) = -.Lmul_ret */
-        .word   REG_SP | INDIRECT, REG_SP | INDIRECT, .+4
-        .word   .Lmul_ret_pos, REG_SP | INDIRECT, .+4
+        /* RA-Direct call to __subleq_mul: LI RA, retLabel; JMP */
+        .word   REG_RA, REG_RA, .+4                 /* RA = 0 */
+        .word   .Lmul_ret_neg, REG_RA, .+4          /* RA = 0 - (-.Lmul_ret) = .Lmul_ret */
         .word   REG_Z, REG_Z, __subleq_mul
 
 .Lmul_ret:
-        /* __subleq_mul already popped return address, no extra pop needed */
 
         /* R20 now = y * fb_pitch. Add to T8 (fb base) */
         .word   REG_R20, REG_Z, .+4
@@ -2110,12 +2114,11 @@ subleq_direct_putcs:
 
 
 .Ldone:
-        /* Return: Load RA from [SP], pop the stack, and jump to return address */
-        .word   REG_T4, REG_T4, .+4              /* T4 = 0 */
-        .word   REG_SP | INDIRECT, REG_T4, .+4   /* T4 = 0 - (-retAddr) = +retAddr */
-        /* Pop RA: SP += 4 (callee must undo the push done by emitPushRALabel) */
-        .word   .Lconst_n4, REG_SP, .+4
-        .word   REG_Z, REG_Z, REG_T4 | INDIRECT /* Jump to [T4] = return_addr */
+        /* Restore RA from stack and return (RA-Direct non-leaf) */
+        .word   REG_RA, REG_RA, .+4              /* RA = 0 */
+        .word   REG_SP | INDIRECT, REG_RA, .+4   /* RA = 0 - (-savedRA) = +savedRA */
+        .word   .Lconst_n4, REG_SP, .+4          /* SP += 4 (pop saved RA) */
+        .word   REG_Z, REG_Z, REG_RA | INDIRECT  /* Jump to [RA] = return_addr */
 
 /*===========================================================================
  * INLINE EXTRACTION LATTICE
@@ -2684,7 +2687,7 @@ subleq_direct_putcs:
 
 /* Return address constants */
 .Lmul_ret_const:    .word   .Lmul_ret
-.Lmul_ret_pos:      .word   .Lmul_ret
+.Lmul_ret_neg:      .word   -.Lmul_ret
 .Lrender0_ret_c:    .word   .Lrender0_ret
 .Lrender1_ret_c:    .word   .Lrender1_ret
 /* Negated return address constants for 4-insn T5 load */

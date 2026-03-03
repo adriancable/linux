@@ -285,34 +285,24 @@ static int setup_rt_frame(struct ksignal *ksig, sigset_t *set,
 	 * Set up registers for signal handler.
 	 * When we return to userspace, we'll be executing the handler.
 	 *
-	 * CRITICAL: Subleq's RET instruction pops the return address from [SP].
-	 * Normal function calls push RA before jumping to the callee.
-	 * We must simulate this by pushing the trampoline address onto the stack.
+	 * RA-Direct convention: The RA register is set in pt_regs before returning
+	 * to userspace. The signal handler receives the trampoline address in RA.
+	 *
+	 * When the handler returns via JMP RA|I, execution goes to the trampoline.
+	 * No stack slot for the return address is needed.
 	 *
 	 * Stack layout after setup:
 	 *   [higher addresses]
-	 *   <signal frame data>  <- frame points here
-	 *   [return address]     <- SP points here (trampoline address)
+	 *   <signal frame data>  <- frame points here = SP
 	 *   [lower addresses]
 	 *
 	 * When handler returns:
-	 * 1. Handler's epilogue restores SP to point to return address
-	 * 2. RET pops return address and jumps to trampoline
-	 * 3. Trampoline invokes sigreturn with SP pointing above the RA slot
+	 * 1. Handler returns via JMP RA|I -> trampoline
+	 * 2. Trampoline invokes sigreturn to restore original context
 	 */
 	{
-		unsigned long __user *ra_slot;
-
-		/* Allocate space for return address below the frame */
-		ra_slot = (unsigned long __user *)((unsigned long)frame - 4);
-
-		/* Push the trampoline address */
-		err = __put_user(-(unsigned long)ret_from_user_rt_signal, ra_slot);
-		if (err)
-			return -EFAULT;
-
-		/* SP points to the pushed return address */
-		PT_REG_SET(regs, sp, (unsigned long)ra_slot);
+		/* RA-Direct: SP = frame directly, no RA slot needed */
+		PT_REG_SET(regs, sp, (unsigned long)frame);
 	}
 
 	PT_REG_SET(regs, pc, (unsigned long)ksig->ka.sa.sa_handler);
@@ -329,8 +319,8 @@ static int setup_rt_frame(struct ksignal *ksig, sigset_t *set,
 	}
 
 	/*
-	 * Also set RA register for compatibility with code that reads RA directly.
-	 * The primary return mechanism is the pushed value on the stack.
+	 * RA-Direct: Set RA to trampoline address.
+	 * The handler will return via JMP RA|I, jumping to the trampoline.
 	 */
 	PT_REG_SET(regs, ra, (unsigned long)ret_from_user_rt_signal);
 
@@ -516,14 +506,14 @@ asmlinkage long sys_rt_sigreturn(void)
 	sigset_t set;
 
 	/*
-	 * The signal frame is at SP - 4.
+	 * The signal frame is at SP.
 	 *
-	 * When the handler's RET pops the return address, SP points to the frame.
-	 * Then the trampoline JUMPs (not CALLs) to __subleq_syscall.
-	 * But syscall_entry.c adds 4 to saved_sp to account for a normal CALL's
-	 * pushed RA. Since we jumped, not called, we need to subtract that 4.
+	 * RA-Direct: The handler returned via JMP RA|I to the trampoline.
+	 * SP was not modified by the return — it still points to the frame.
+	 * The trampoline JUMPs (not CALLs) to __subleq_syscall.
+	 * __subleq_syscall reads RA from the register, so SP is unchanged.
 	 */
-	frame = (struct rt_sigframe __user *)(PT_REG_GET(regs, sp) - 4);
+	frame = (struct rt_sigframe __user *)(PT_REG_GET(regs, sp));
 
 	if (!access_ok(frame, sizeof(*frame)))
 		goto badframe;

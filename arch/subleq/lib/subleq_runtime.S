@@ -1,5 +1,7 @@
 .Lrt_c4:
         .word   4
+.Lrt_cneg4:
+        .word   -4
 
 
         .globl  __subleq_sdivrem
@@ -831,12 +833,9 @@ __subleq_sdivrem:
         .word   160, 12, .+4
         .word   12, 104, .Lsdivrem_pop
 .Lsdivrem_pop:
-        .word   160, 160, .+4
-        .word   17, 160, .+4
-        .word   .Lsdivrem_neg4, 16, .+4
         .word   12
         .word   12
-        .word   161
+        .word   21
 .Lsdivrem_neg1:
         .word   -1
 .Lsdivrem_neg4:
@@ -2624,12 +2623,9 @@ __subleq_udivrem:
         .word   164, 12, .+4
         .word   12, 104, .Ludivrem_pop
 .Ludivrem_pop:
-        .word   160, 160, .+4
-        .word   17, 160, .+4
-        .word   .Ludivrem_neg4, 16, .+4
         .word   12
         .word   12
-        .word   161
+        .word   21
 .Ludivrem_neg1:
         .word   -1
 .Ludivrem_neg4:
@@ -12281,12 +12277,9 @@ __subleq_sdivrem64:
         .word   12, 112, .Lsd64v_clean
 .Lsd64v_clean:
 .Lsd64v_pop:
-        .word   160, 160, .+4
-        .word   17, 160, .+4
-        .word   .Lsd64v_neg4, 16, .+4
         .word   12
         .word   12
-        .word   161
+        .word   21
 .Lsd64v_neg1:
         .word   -1
 .Lsd64v_neg4:
@@ -23788,12 +23781,9 @@ __subleq_udivrem64:
         .word   172, 12, .+4
         .word   12, 112, .Lud64_pop
 .Lud64_pop:
-        .word   160, 160, .+4
-        .word   17, 160, .+4
-        .word   .Lud64_neg4, 16, .+4
         .word   12
         .word   12
-        .word   161
+        .word   21
 .Lud64_neg1:
         .word   -1
 .Lud64_neg4:
@@ -23937,6 +23927,9 @@ __subleq_udivrem64:
         .globl  __divdi3
         .type   __divdi3,@function
 __divdi3:
+        .word .Lrt_c4, 16, .+4
+        .word 17, 17, .+4
+        .word 20, 17, .+4
         .word   204, 204, .+4
         .word   100, 12, .+4
         .word   12, 204, .+4
@@ -23964,9 +23957,8 @@ __divdi3:
         .word   12, 112, .Ldivdi3_bhi_done
 .Ldivdi3_bhi_done:
         # Call __subleq_sdivrem64
-        .word .Lrt_c4, 16, .+4
-        .word 17, 17, .+4
-        .word .Ldivdi3_retaddr_pos, 17, .+4
+        .word 20, 20, .+4
+        .word .Ldivdi3_post_call_neg, 20, .+4
         .word 12, 12, __subleq_sdivrem64
 .Ldivdi3_post_call:
 .Ldivdi3_st_lo_st1:
@@ -23987,21 +23979,21 @@ __divdi3:
         .word   96, 96, .+4
         .word   204, 12, .+4
         .word   12, 96, .+4
+        .word 20, 20, .+4
+        .word 17, 20, .+4
+        .word .Lrt_cneg4, 16, .+4
 .Ldivdi3_pop:
-        .word   160, 160, .+4
-        .word   17, 160, .+4
-        .word   .Ldivdi3_neg4, 16, .+4
         .word   12
         .word   12
-        .word   161
+        .word   21
 .Ldivdi3_neg1:
         .word   -1
 .Ldivdi3_neg4:
         .word   -4
 .Ldivdi3_c4:
         .word   4
-.Ldivdi3_retaddr_pos:
-        .word   .Ldivdi3_post_call
+.Ldivdi3_post_call_neg:
+        .word   -.Ldivdi3_post_call
 .Ldivdi3_soff4:
         .word   -4
         .size   __divdi3, . - __divdi3
@@ -24009,6 +24001,9 @@ __divdi3:
         .globl  __moddi3
         .type   __moddi3,@function
 __moddi3:
+        .word .Lrt_c4, 16, .+4
+        .word 17, 17, .+4
+        .word 20, 17, .+4
         .word   204, 204, .+4
         .word   100, 12, .+4
         .word   12, 204, .+4
@@ -24036,9 +24031,8 @@ __moddi3:
         .word   12, 112, .Lmoddi3_bhi_done
 .Lmoddi3_bhi_done:
         # Call __subleq_sdivrem64
-        .word .Lrt_c4, 16, .+4
-        .word 17, 17, .+4
-        .word .Lmoddi3_retaddr_pos, 17, .+4
+        .word 20, 20, .+4
+        .word .Lmoddi3_post_call_neg, 20, .+4
         .word 12, 12, __subleq_sdivrem64
 .Lmoddi3_post_call:
         .word   100, 100, .+4
@@ -24067,21 +24061,21 @@ __moddi3:
         .word   96, 96, .+4
         .word   204, 12, .+4
         .word   12, 96, .+4
+        .word 20, 20, .+4
+        .word 17, 20, .+4
+        .word .Lrt_cneg4, 16, .+4
 .Lmoddi3_pop:
-        .word   160, 160, .+4
-        .word   17, 160, .+4
-        .word   .Lmoddi3_neg4, 16, .+4
         .word   12
         .word   12
-        .word   161
+        .word   21
 .Lmoddi3_neg1:
         .word   -1
 .Lmoddi3_neg4:
         .word   -4
 .Lmoddi3_c4:
         .word   4
-.Lmoddi3_retaddr_pos:
-        .word   .Lmoddi3_post_call
+.Lmoddi3_post_call_neg:
+        .word   -.Lmoddi3_post_call
 .Lmoddi3_soff4:
         .word   -4
         .size   __moddi3, . - __moddi3
@@ -24089,6 +24083,9 @@ __moddi3:
         .globl  __udivdi3
         .type   __udivdi3,@function
 __udivdi3:
+        .word .Lrt_c4, 16, .+4
+        .word 17, 17, .+4
+        .word 20, 17, .+4
         .word   204, 204, .+4
         .word   100, 12, .+4
         .word   12, 204, .+4
@@ -24116,9 +24113,8 @@ __udivdi3:
         .word   12, 112, .Ludivdi3_bhi_done
 .Ludivdi3_bhi_done:
         # Call __subleq_udivrem64
-        .word .Lrt_c4, 16, .+4
-        .word 17, 17, .+4
-        .word .Ludivdi3_retaddr_pos, 17, .+4
+        .word 20, 20, .+4
+        .word .Ludivdi3_post_call_neg, 20, .+4
         .word 12, 12, __subleq_udivrem64
 .Ludivdi3_post_call:
 .Ludivdi3_st_lo_st1:
@@ -24139,21 +24135,21 @@ __udivdi3:
         .word   96, 96, .+4
         .word   204, 12, .+4
         .word   12, 96, .+4
+        .word 20, 20, .+4
+        .word 17, 20, .+4
+        .word .Lrt_cneg4, 16, .+4
 .Ludivdi3_pop:
-        .word   160, 160, .+4
-        .word   17, 160, .+4
-        .word   .Ludivdi3_neg4, 16, .+4
         .word   12
         .word   12
-        .word   161
+        .word   21
 .Ludivdi3_neg1:
         .word   -1
 .Ludivdi3_neg4:
         .word   -4
 .Ludivdi3_c4:
         .word   4
-.Ludivdi3_retaddr_pos:
-        .word   .Ludivdi3_post_call
+.Ludivdi3_post_call_neg:
+        .word   -.Ludivdi3_post_call
 .Ludivdi3_soff4:
         .word   -4
         .size   __udivdi3, . - __udivdi3
@@ -24161,6 +24157,9 @@ __udivdi3:
         .globl  __umoddi3
         .type   __umoddi3,@function
 __umoddi3:
+        .word .Lrt_c4, 16, .+4
+        .word 17, 17, .+4
+        .word 20, 17, .+4
         .word   204, 204, .+4
         .word   100, 12, .+4
         .word   12, 204, .+4
@@ -24188,9 +24187,8 @@ __umoddi3:
         .word   12, 112, .Lumoddi3_bhi_done
 .Lumoddi3_bhi_done:
         # Call __subleq_udivrem64
-        .word .Lrt_c4, 16, .+4
-        .word 17, 17, .+4
-        .word .Lumoddi3_retaddr_pos, 17, .+4
+        .word 20, 20, .+4
+        .word .Lumoddi3_post_call_neg, 20, .+4
         .word 12, 12, __subleq_udivrem64
 .Lumoddi3_post_call:
         .word   100, 100, .+4
@@ -24219,21 +24217,21 @@ __umoddi3:
         .word   96, 96, .+4
         .word   204, 12, .+4
         .word   12, 96, .+4
+        .word 20, 20, .+4
+        .word 17, 20, .+4
+        .word .Lrt_cneg4, 16, .+4
 .Lumoddi3_pop:
-        .word   160, 160, .+4
-        .word   17, 160, .+4
-        .word   .Lumoddi3_neg4, 16, .+4
         .word   12
         .word   12
-        .word   161
+        .word   21
 .Lumoddi3_neg1:
         .word   -1
 .Lumoddi3_neg4:
         .word   -4
 .Lumoddi3_c4:
         .word   4
-.Lumoddi3_retaddr_pos:
-        .word   .Lumoddi3_post_call
+.Lumoddi3_post_call_neg:
+        .word   -.Lumoddi3_post_call
 .Lumoddi3_soff4:
         .word   -4
         .size   __umoddi3, . - __umoddi3
@@ -24708,12 +24706,9 @@ __subleq_mul:
         .word   12, 96, .+4
 .Lmul_exit:
 .Lmul_pop:
-        .word   160, 160, .+4
-        .word   17, 160, .+4
-        .word   .Lmul_neg4, 16, .+4
         .word   12
         .word   12
-        .word   161
+        .word   21
 .Lmul_neg1:
         .word   -1
 .Lmul_neg4:
@@ -32817,12 +32812,9 @@ __subleq_and_b0:
 .Land_done:
         .word   160, 96, .+4
 .Land_pop:
-        .word   160, 160, .+4
-        .word   17, 160, .+4
-        .word   .Land_neg4, 16, .+4
         .word   12
         .word   12
-        .word   161
+        .word   21
 .Land_neg1:
         .word   -1
 .Land_neg4:
@@ -32869,12 +32861,9 @@ __subleq_and_b0:
 .Land_ret_zero:
         .word   96, 96, .+4
 .Land_zero_pop:
-        .word   160, 160, .+4
-        .word   17, 160, .+4
-        .word   .Land_zero_neg4, 16, .+4
         .word   12
         .word   12
-        .word   161
+        .word   21
 .Land_zero_neg1:
         .word   -1
 .Land_zero_neg4:
@@ -46727,12 +46716,9 @@ __subleq_or_b0:
         .word   96, 96, .+4
         .word   160, 96, .+4
 .Lor_pop:
-        .word   160, 160, .+4
-        .word   17, 160, .+4
-        .word   .Lor_neg4, 16, .+4
         .word   12
         .word   12
-        .word   161
+        .word   21
 .Lor_neg1:
         .word   -1
 .Lor_neg4:
@@ -46748,12 +46734,9 @@ __subleq_or_b0:
         .word   96, 96, .+4
         .word   12, 96, .+4
 .Lor_r22_pop:
-        .word   160, 160, .+4
-        .word   17, 160, .+4
-        .word   .Lor_r22_neg4, 16, .+4
         .word   12
         .word   12
-        .word   161
+        .word   21
 .Lor_r22_neg1:
         .word   -1
 .Lor_r22_neg4:
@@ -46769,12 +46752,9 @@ __subleq_or_b0:
         .word   96, 96, .+4
         .word   12, 96, .+4
 .Lor_r21_pop:
-        .word   160, 160, .+4
-        .word   17, 160, .+4
-        .word   .Lor_r21_neg4, 16, .+4
         .word   12
         .word   12
-        .word   161
+        .word   21
 .Lor_r21_neg1:
         .word   -1
 .Lor_r21_neg4:
@@ -60858,12 +60838,9 @@ __subleq_xor_b0:
         .word   96, 96, .+4
         .word   160, 96, .+4
 .Lxor_pop:
-        .word   160, 160, .+4
-        .word   17, 160, .+4
-        .word   .Lxor_neg4, 16, .+4
         .word   12
         .word   12
-        .word   161
+        .word   21
 .Lxor_neg1:
         .word   -1
 .Lxor_neg4:
@@ -60879,12 +60856,9 @@ __subleq_xor_b0:
         .word   96, 96, .+4
         .word   12, 96, .+4
 .Lxor_r22_pop:
-        .word   160, 160, .+4
-        .word   17, 160, .+4
-        .word   .Lxor_r22_neg4, 16, .+4
         .word   12
         .word   12
-        .word   161
+        .word   21
 .Lxor_r22_neg1:
         .word   -1
 .Lxor_r22_neg4:
@@ -60900,12 +60874,9 @@ __subleq_xor_b0:
         .word   96, 96, .+4
         .word   12, 96, .+4
 .Lxor_r21_pop:
-        .word   160, 160, .+4
-        .word   17, 160, .+4
-        .word   .Lxor_r21_neg4, 16, .+4
         .word   12
         .word   12
-        .word   161
+        .word   21
 .Lxor_r21_neg1:
         .word   -1
 .Lxor_r21_neg4:
@@ -61283,12 +61254,9 @@ __subleq_shl_1:
         .word   12, 96, .Lshl_exit
 .Lshl_exit:
 .Lshl_pop:
-        .word   160, 160, .+4
-        .word   17, 160, .+4
-        .word   .Lshl_neg4, 16, .+4
         .word   12
         .word   12
-        .word   161
+        .word   21
 .Lshl_neg1:
         .word   -1
 .Lshl_neg4:
@@ -65162,12 +65130,9 @@ __subleq_srl_31:
         .word   12, 96, .Lsrl_done
 .Lsrl_done:
 .Lsrl_pop:
-        .word   160, 160, .+4
-        .word   17, 160, .+4
-        .word   .Lsrl_neg4, 16, .+4
         .word   12
         .word   12
-        .word   161
+        .word   21
 .Lsrl_neg1:
         .word   -1
 .Lsrl_neg4:
@@ -69773,12 +69738,9 @@ __subleq_sra_31:
         .word   12, 96, .Lsra_done
 .Lsra_done:
 .Lsra_pop:
-        .word   160, 160, .+4
-        .word   17, 160, .+4
-        .word   .Lsra_neg4, 16, .+4
         .word   12
         .word   12
-        .word   161
+        .word   21
 .Lsra_neg1:
         .word   -1
 .Lsra_neg4:
@@ -70873,12 +70835,9 @@ __subleq_lb_b3:
         .word   12, 12, .Llb_b3_bias
 .Llb_ret1:
 .Llb_pop:
-        .word   160, 160, .+4
-        .word   17, 160, .+4
-        .word   .Llb_neg4, 16, .+4
         .word   12
         .word   12
-        .word   161
+        .word   21
 .Llb_neg1:
         .word   -1
 .Llb_neg4:
@@ -73237,12 +73196,9 @@ __subleq_sb_b3:
         .word   180, 101, .Lsb_ret
 .Lsb_ret:
 .Lsb_pop:
-        .word   160, 160, .+4
-        .word   17, 160, .+4
-        .word   .Lsb_neg4, 16, .+4
         .word   12
         .word   12
-        .word   161
+        .word   21
 .Lsb_neg1:
         .word   -1
 .Lsb_neg4:
@@ -74255,12 +74211,9 @@ __subleq_lh_h1:
         .word   12, 12, .Llh_h1_bias
 .Llh_ret1:
 .Llh_pop:
-        .word   160, 160, .+4
-        .word   17, 160, .+4
-        .word   .Llh_neg4, 16, .+4
         .word   12
         .word   12
-        .word   161
+        .word   21
 .Llh_neg1:
         .word   -1
 .Llh_neg4:
@@ -75504,12 +75457,9 @@ __subleq_sh_h1:
         .word   180, 101, .Lsh_ret
 .Lsh_ret:
 .Lsh_pop:
-        .word   160, 160, .+4
-        .word   17, 160, .+4
-        .word   .Lsh_neg4, 16, .+4
         .word   12
         .word   12
-        .word   161
+        .word   21
 .Lsh_neg1:
         .word   -1
 .Lsh_neg4:
@@ -76294,12 +76244,9 @@ __ashldi3:
         .word   12, 96, .+4
         .word   12, 12, .Lashldi3_pop
 .Lashldi3_pop:
-        .word   160, 160, .+4
-        .word   17, 160, .+4
-        .word   .Lashldi3_neg4, 16, .+4
         .word   12
         .word   12
-        .word   161
+        .word   21
 .Lashldi3_neg1:
         .word   -1
 .Lashldi3_neg4:
@@ -76883,12 +76830,9 @@ __lshrdi3:
         .word   12, 96, .+4
         .word   12, 12, .Llshrdi3_pop
 .Llshrdi3_pop:
-        .word   160, 160, .+4
-        .word   17, 160, .+4
-        .word   .Llshrdi3_neg4, 16, .+4
         .word   12
         .word   12
-        .word   161
+        .word   21
 .Llshrdi3_neg1:
         .word   -1
 .Llshrdi3_neg4:
@@ -77750,12 +77694,9 @@ __ashrdi3:
         .word   12, 96, .+4
         .word   12, 12, .Lashrdi3_pop
 .Lashrdi3_pop:
-        .word   160, 160, .+4
-        .word   17, 160, .+4
-        .word   .Lashrdi3_neg4, 16, .+4
         .word   12
         .word   12
-        .word   161
+        .word   21
 .Lashrdi3_neg1:
         .word   -1
 .Lashrdi3_neg4:
@@ -78047,6 +77988,9 @@ __subleq_memcpy_aligned:
 # __subleq_memset(dest=R21, c=R22, n=R23) returns R20=dest
 # OPTIMIZED: Inline byte masking and alignment checks
 __subleq_memset:
+        .word .Lrt_c4, 16, .+4
+        .word 17, 17, .+4
+        .word 20, 17, .+4
         .word 12, 12, .+4
         .word 96, 96, .+4
         .word 100, 12, .+4
@@ -78547,9 +78491,8 @@ __subleq_memset:
         .word 196, 196, .+4
         .word 104, 12, .+4
         .word 12, 196, .+4
-        .word .Lrt_c4, 16, .+4
-        .word 17, 17, .+4
-        .word .Lmemset_head_sb_ret_pos, 17, .+4
+        .word 20, 20, .+4
+        .word .Lmemset_head_sb_ret_neg, 20, .+4
         .word 12, 12, __subleq_sb_nomask
 .Lmemset_head_sb_ret:
         .word 100, 100, .+4
@@ -79112,9 +79055,8 @@ __subleq_memset:
         .word 196, 196, .+4
         .word 104, 12, .+4
         .word 12, 196, .+4
-        .word .Lrt_c4, 16, .+4
-        .word 17, 17, .+4
-        .word .Lmemset_tail_sb_ret_pos, 17, .+4
+        .word 20, 20, .+4
+        .word .Lmemset_tail_sb_ret_neg, 20, .+4
         .word 12, 12, __subleq_sb_nomask
 .Lmemset_tail_sb_ret:
         .word 100, 100, .+4
@@ -79435,9 +79377,8 @@ __subleq_memset:
         .word 100, 12, .+4
         .word 12, 192, .+4
         .word 104, 104, .+4
-        .word .Lrt_c4, 16, .+4
-        .word 17, 17, .+4
-        .word .Lmemset_fz_head_sb_ret_pos, 17, .+4
+        .word 20, 20, .+4
+        .word .Lmemset_fz_head_sb_ret_neg, 20, .+4
         .word 12, 12, __subleq_sb_nomask
 .Lmemset_fz_head_sb_ret:
         .word 100, 100, .+4
@@ -79860,9 +79801,8 @@ __subleq_memset:
         .word 100, 12, .+4
         .word 12, 192, .+4
         .word 104, 104, .+4
-        .word .Lrt_c4, 16, .+4
-        .word 17, 17, .+4
-        .word .Lmemset_fz_tail_sb_ret_pos, 17, .+4
+        .word 20, 20, .+4
+        .word .Lmemset_fz_tail_sb_ret_neg, 20, .+4
         .word 12, 12, __subleq_sb_nomask
 .Lmemset_fz_tail_sb_ret:
         .word 100, 100, .+4
@@ -79877,13 +79817,13 @@ __subleq_memset:
         .word 12, 12, .+4
         .word 200, 12, .+4
         .word 12, 96, .+4
+        .word 20, 20, .+4
+        .word 17, 20, .+4
+        .word .Lrt_cneg4, 16, .+4
 .Lmemset_pop:
-        .word   160, 160, .+4
-        .word   17, 160, .+4
-        .word   .Lmemset_neg4, 16, .+4
         .word   12
         .word   12
-        .word   161
+        .word   21
 .Lmemset_neg1:
         .word   -1
 .Lmemset_neg4:
@@ -80038,14 +79978,14 @@ __subleq_memset:
         .word 1073741824
 .Lmemset_npow1073741824:
         .word -1073741824
-.Lmemset_head_sb_ret_pos:
-        .word .Lmemset_head_sb_ret
-.Lmemset_tail_sb_ret_pos:
-        .word .Lmemset_tail_sb_ret
-.Lmemset_fz_head_sb_ret_pos:
-        .word .Lmemset_fz_head_sb_ret
-.Lmemset_fz_tail_sb_ret_pos:
-        .word .Lmemset_fz_tail_sb_ret
+.Lmemset_head_sb_ret_neg:
+        .word -.Lmemset_head_sb_ret
+.Lmemset_tail_sb_ret_neg:
+        .word -.Lmemset_tail_sb_ret
+.Lmemset_fz_head_sb_ret_neg:
+        .word -.Lmemset_fz_head_sb_ret
+.Lmemset_fz_tail_sb_ret_neg:
+        .word -.Lmemset_fz_tail_sb_ret
 
         .size __subleq_memset, . - __subleq_memset
 
@@ -80055,6 +79995,9 @@ __subleq_memset:
 # PRECONDITION: dest is word-aligned (& 3 == 0)
 # Skips head-phase alignment check and byte loop
 __subleq_memset_aligned:
+        .word .Lrt_c4, 16, .+4
+        .word 17, 17, .+4
+        .word 20, 17, .+4
         .word 12, 12, .+4
         .word 96, 96, .+4
         .word 100, 12, .+4
@@ -80146,12 +80089,9 @@ __subleq_memset32:
         .word 12, 12, .Lms32_body_single
 .Lms32_done:
 .Lmemset32_pop:
-        .word   160, 160, .+4
-        .word   17, 160, .+4
-        .word   .Lmemset32_neg4, 16, .+4
         .word   12
         .word   12
-        .word   161
+        .word   21
 .Lmemset32_neg1:
         .word   -1
 .Lmemset32_neg4:
@@ -80173,6 +80113,9 @@ __subleq_memset32:
         .type   __subleq_memset16,@function
 # __subleq_memset16(s=R21, v=R22, count=R23) returns R20=s
 __subleq_memset16:
+        .word .Lrt_c4, 16, .+4
+        .word 17, 17, .+4
+        .word 20, 17, .+4
         .word 96, 96, .+4
         .word 100, 12, .+4
         .word 12, 96, .+4
@@ -80495,9 +80438,8 @@ __subleq_memset16:
         .word 204, 204, .+4
         .word 100, 12, .+4
         .word 12, 204, .+4
-        .word .Lrt_c4, 16, .+4
-        .word 17, 17, .+4
-        .word .Lms16_head_sh_ret_pos, 17, .+4
+        .word 20, 20, .+4
+        .word .Lms16_head_sh_ret_neg, 20, .+4
         .word 12, 12, __subleq_sh
 .Lms16_head_sh_ret:
         .word 100, 100, .+4
@@ -81035,9 +80977,8 @@ __subleq_memset16:
         .word 104, 104, .+4
         .word 196, 12, .+4
         .word 12, 104, .+4
-        .word .Lrt_c4, 16, .+4
-        .word 17, 17, .+4
-        .word .Lms16_tail_sh_ret_pos, 17, .+4
+        .word 20, 20, .+4
+        .word .Lms16_tail_sh_ret_neg, 20, .+4
         .word 12, 12, __subleq_sh
 .Lms16_tail_sh_ret:
 .Lms16_done:
@@ -81045,13 +80986,13 @@ __subleq_memset16:
         .word 12, 12, .+4
         .word 200, 12, .+4
         .word 12, 96, .+4
+        .word 20, 20, .+4
+        .word 17, 20, .+4
+        .word .Lrt_cneg4, 16, .+4
 .Lmemset16_pop:
-        .word   160, 160, .+4
-        .word   17, 160, .+4
-        .word   .Lmemset16_neg4, 16, .+4
         .word   12
         .word   12
-        .word   161
+        .word   21
 .Lmemset16_neg1:
         .word   -1
 .Lmemset16_neg4:
@@ -81204,10 +81145,10 @@ __subleq_memset16:
         .word 1073741824
 .Lms16_npow1073741824:
         .word -1073741824
-.Lms16_head_sh_ret_pos:
-        .word .Lms16_head_sh_ret
-.Lms16_tail_sh_ret_pos:
-        .word .Lms16_tail_sh_ret
+.Lms16_head_sh_ret_neg:
+        .word -.Lms16_head_sh_ret
+.Lms16_tail_sh_ret_neg:
+        .word -.Lms16_tail_sh_ret
 
         .size __subleq_memset16, . - __subleq_memset16
 
@@ -81216,6 +81157,9 @@ __subleq_memset16:
 # __subleq_memmove(dest=R21, src=R22, n=R23) returns R20=dest
 # Optimized 3-phase when (src&3)==(dst&3), handles overlap
 __subleq_memmove:
+        .word .Lrt_c4, 16, .+4
+        .word 17, 17, .+4
+        .word 20, 17, .+4
         .word 200, 200, .+4
         .word 100, 12, .+4
         .word 12, 200, .+4
@@ -81845,9 +81789,8 @@ __subleq_memmove:
         .word 100, 100, .+4
         .word 104, 12, .+4
         .word 12, 100, .+4
-        .word .Lrt_c4, 16, .+4
-        .word 17, 17, .+4
-        .word .Lmemmove_bwd_hlb_ret_pos, 17, .+4
+        .word 20, 20, .+4
+        .word .Lmemmove_bwd_hlb_ret_neg, 20, .+4
         .word 12, 12, __subleq_lb
 .Lmemmove_bwd_hlb_ret:
         .word 104, 104, .+4
@@ -81857,9 +81800,8 @@ __subleq_memmove:
         .word 100, 100, .+4
         .word 192, 12, .+4
         .word 12, 100, .+4
-        .word .Lrt_c4, 16, .+4
-        .word 17, 17, .+4
-        .word .Lmemmove_bwd_hsb_ret_pos, 17, .+4
+        .word 20, 20, .+4
+        .word .Lmemmove_bwd_hsb_ret_neg, 20, .+4
         .word 12, 12, __subleq_sb_nomask
 .Lmemmove_bwd_hsb_ret:
         .word 100, 100, .+4
@@ -84890,9 +84832,8 @@ __subleq_memmove:
         .word 100, 100, .+4
         .word 104, 12, .+4
         .word 12, 100, .+4
-        .word .Lrt_c4, 16, .+4
-        .word 17, 17, .+4
-        .word .Lmemmove_bwd_tail_lb_ret_pos, 17, .+4
+        .word 20, 20, .+4
+        .word .Lmemmove_bwd_tail_lb_ret_neg, 20, .+4
         .word 12, 12, __subleq_lb
 .Lmemmove_bwd_tail_lb_ret:
         .word 104, 104, .+4
@@ -84902,9 +84843,8 @@ __subleq_memmove:
         .word 100, 100, .+4
         .word 192, 12, .+4
         .word 12, 100, .+4
-        .word .Lrt_c4, 16, .+4
-        .word 17, 17, .+4
-        .word .Lmemmove_bwd_tail_sb_ret_pos, 17, .+4
+        .word 20, 20, .+4
+        .word .Lmemmove_bwd_tail_sb_ret_neg, 20, .+4
         .word 12, 12, __subleq_sb_nomask
 .Lmemmove_bwd_tail_sb_ret:
         .word 100, 100, .+4
@@ -85360,9 +85300,8 @@ __subleq_memmove:
         .word 100, 100, .+4
         .word 104, 12, .+4
         .word 12, 100, .+4
-        .word .Lrt_c4, 16, .+4
-        .word 17, 17, .+4
-        .word .Lmemmove_bwd_head_lb_ret_pos, 17, .+4
+        .word 20, 20, .+4
+        .word .Lmemmove_bwd_head_lb_ret_neg, 20, .+4
         .word 12, 12, __subleq_lb
 .Lmemmove_bwd_head_lb_ret:
         .word 104, 104, .+4
@@ -85372,9 +85311,8 @@ __subleq_memmove:
         .word 100, 100, .+4
         .word 192, 12, .+4
         .word 12, 100, .+4
-        .word .Lrt_c4, 16, .+4
-        .word 17, 17, .+4
-        .word .Lmemmove_bwd_head_sb_ret_pos, 17, .+4
+        .word 20, 20, .+4
+        .word .Lmemmove_bwd_head_sb_ret_neg, 20, .+4
         .word 12, 12, __subleq_sb_nomask
 .Lmemmove_bwd_head_sb_ret:
         .word 100, 100, .+4
@@ -86002,9 +85940,8 @@ __subleq_memmove:
         .word 100, 100, .+4
         .word 104, 12, .+4
         .word 12, 100, .+4
-        .word .Lrt_c4, 16, .+4
-        .word 17, 17, .+4
-        .word .Lmemmove_head_lb_ret_pos, 17, .+4
+        .word 20, 20, .+4
+        .word .Lmemmove_head_lb_ret_neg, 20, .+4
         .word 12, 12, __subleq_lb
 .Lmemmove_head_lb_ret:
         .word 104, 104, .+4
@@ -86014,9 +85951,8 @@ __subleq_memmove:
         .word 100, 100, .+4
         .word 192, 12, .+4
         .word 12, 100, .+4
-        .word .Lrt_c4, 16, .+4
-        .word 17, 17, .+4
-        .word .Lmemmove_head_sb_ret_pos, 17, .+4
+        .word 20, 20, .+4
+        .word .Lmemmove_head_sb_ret_neg, 20, .+4
         .word 12, 12, __subleq_sb_nomask
 .Lmemmove_head_sb_ret:
         .word 100, 100, .+4
@@ -86467,9 +86403,8 @@ __subleq_memmove:
         .word 100, 100, .+4
         .word 104, 12, .+4
         .word 12, 100, .+4
-        .word .Lrt_c4, 16, .+4
-        .word 17, 17, .+4
-        .word .Lmemmove_tail_lb_ret_pos, 17, .+4
+        .word 20, 20, .+4
+        .word .Lmemmove_tail_lb_ret_neg, 20, .+4
         .word 12, 12, __subleq_lb
 .Lmemmove_tail_lb_ret:
         .word 104, 104, .+4
@@ -86479,9 +86414,8 @@ __subleq_memmove:
         .word 100, 100, .+4
         .word 192, 12, .+4
         .word 12, 100, .+4
-        .word .Lrt_c4, 16, .+4
-        .word 17, 17, .+4
-        .word .Lmemmove_tail_sb_ret_pos, 17, .+4
+        .word 20, 20, .+4
+        .word .Lmemmove_tail_sb_ret_neg, 20, .+4
         .word 12, 12, __subleq_sb_nomask
 .Lmemmove_tail_sb_ret:
         .word 100, 100, .+4
@@ -86811,9 +86745,8 @@ __subleq_memmove:
         .word 100, 100, .+4
         .word 104, 12, .+4
         .word 12, 100, .+4
-        .word .Lrt_c4, 16, .+4
-        .word 17, 17, .+4
-        .word .Lmemmove_uhead_lb_ret_pos, 17, .+4
+        .word 20, 20, .+4
+        .word .Lmemmove_uhead_lb_ret_neg, 20, .+4
         .word 12, 12, __subleq_lb
 .Lmemmove_uhead_lb_ret:
         .word 104, 104, .+4
@@ -86823,9 +86756,8 @@ __subleq_memmove:
         .word 100, 100, .+4
         .word 192, 12, .+4
         .word 12, 100, .+4
-        .word .Lrt_c4, 16, .+4
-        .word 17, 17, .+4
-        .word .Lmemmove_uhead_sb_ret_pos, 17, .+4
+        .word 20, 20, .+4
+        .word .Lmemmove_uhead_sb_ret_neg, 20, .+4
         .word 12, 12, __subleq_sb_nomask
 .Lmemmove_uhead_sb_ret:
         .word 100, 100, .+4
@@ -89447,9 +89379,8 @@ __subleq_memmove:
         .word 100, 100, .+4
         .word 104, 12, .+4
         .word 12, 100, .+4
-        .word .Lrt_c4, 16, .+4
-        .word 17, 17, .+4
-        .word .Lmemmove_fwd_lb_ret_pos, 17, .+4
+        .word 20, 20, .+4
+        .word .Lmemmove_fwd_lb_ret_neg, 20, .+4
         .word 12, 12, __subleq_lb
 .Lmemmove_fwd_lb_ret:
         .word 104, 104, .+4
@@ -89459,9 +89390,8 @@ __subleq_memmove:
         .word 100, 100, .+4
         .word 192, 12, .+4
         .word 12, 100, .+4
-        .word .Lrt_c4, 16, .+4
-        .word 17, 17, .+4
-        .word .Lmemmove_fwd_sb_ret_pos, 17, .+4
+        .word 20, 20, .+4
+        .word .Lmemmove_fwd_sb_ret_neg, 20, .+4
         .word 12, 12, __subleq_sb_nomask
 .Lmemmove_fwd_sb_ret:
         .word 100, 100, .+4
@@ -89480,13 +89410,13 @@ __subleq_memmove:
         .word 12, 12, .+4
         .word 200, 12, .+4
         .word 12, 96, .+4
+        .word 20, 20, .+4
+        .word 17, 20, .+4
+        .word .Lrt_cneg4, 16, .+4
 .Lmemmove_pop:
-        .word   160, 160, .+4
-        .word   17, 160, .+4
-        .word   .Lmemmove_neg4, 16, .+4
         .word   12
         .word   12
-        .word   161
+        .word   21
 .Lmemmove_neg1:
         .word   -1
 .Lmemmove_neg4:
@@ -89655,35 +89585,35 @@ __subleq_memmove:
         .word 1073741824
 .Lmemmove_npow1073741824:
         .word -1073741824
-.Lmemmove_bwd_hlb_ret_pos:
-        .word .Lmemmove_bwd_hlb_ret
-.Lmemmove_bwd_hsb_ret_pos:
-        .word .Lmemmove_bwd_hsb_ret
-.Lmemmove_bwd_tail_lb_ret_pos:
-        .word .Lmemmove_bwd_tail_lb_ret
-.Lmemmove_bwd_tail_sb_ret_pos:
-        .word .Lmemmove_bwd_tail_sb_ret
-.Lmemmove_bwd_head_lb_ret_pos:
-        .word .Lmemmove_bwd_head_lb_ret
-.Lmemmove_bwd_head_sb_ret_pos:
-        .word .Lmemmove_bwd_head_sb_ret
-.Lmemmove_head_lb_ret_pos:
-        .word .Lmemmove_head_lb_ret
-.Lmemmove_head_sb_ret_pos:
-        .word .Lmemmove_head_sb_ret
-.Lmemmove_tail_lb_ret_pos:
-        .word .Lmemmove_tail_lb_ret
-.Lmemmove_tail_sb_ret_pos:
-        .word .Lmemmove_tail_sb_ret
-.Lmemmove_fwd_lb_ret_pos:
-        .word .Lmemmove_fwd_lb_ret
-.Lmemmove_fwd_sb_ret_pos:
-        .word .Lmemmove_fwd_sb_ret
+.Lmemmove_bwd_hlb_ret_neg:
+        .word -.Lmemmove_bwd_hlb_ret
+.Lmemmove_bwd_hsb_ret_neg:
+        .word -.Lmemmove_bwd_hsb_ret
+.Lmemmove_bwd_tail_lb_ret_neg:
+        .word -.Lmemmove_bwd_tail_lb_ret
+.Lmemmove_bwd_tail_sb_ret_neg:
+        .word -.Lmemmove_bwd_tail_sb_ret
+.Lmemmove_bwd_head_lb_ret_neg:
+        .word -.Lmemmove_bwd_head_lb_ret
+.Lmemmove_bwd_head_sb_ret_neg:
+        .word -.Lmemmove_bwd_head_sb_ret
+.Lmemmove_head_lb_ret_neg:
+        .word -.Lmemmove_head_lb_ret
+.Lmemmove_head_sb_ret_neg:
+        .word -.Lmemmove_head_sb_ret
+.Lmemmove_tail_lb_ret_neg:
+        .word -.Lmemmove_tail_lb_ret
+.Lmemmove_tail_sb_ret_neg:
+        .word -.Lmemmove_tail_sb_ret
+.Lmemmove_fwd_lb_ret_neg:
+        .word -.Lmemmove_fwd_lb_ret
+.Lmemmove_fwd_sb_ret_neg:
+        .word -.Lmemmove_fwd_sb_ret
 
-.Lmemmove_uhead_lb_ret_pos:
-        .word .Lmemmove_uhead_lb_ret
-.Lmemmove_uhead_sb_ret_pos:
-        .word .Lmemmove_uhead_sb_ret
+.Lmemmove_uhead_lb_ret_neg:
+        .word -.Lmemmove_uhead_lb_ret
+.Lmemmove_uhead_sb_ret_neg:
+        .word -.Lmemmove_uhead_sb_ret
         .size __subleq_memmove, . - __subleq_memmove
 
         .globl  __subleq_memmove_aligned
@@ -89692,6 +89622,9 @@ __subleq_memmove:
 # PRECONDITION: dest and src are word-aligned (& 3 == 0)
 # Skips alignment lattice + head/tail byte loops
 __subleq_memmove_aligned:
+        .word .Lrt_c4, 16, .+4
+        .word 17, 17, .+4
+        .word 20, 17, .+4
         .word 200, 200, .+4
         .word 100, 12, .+4
         .word 12, 200, .+4

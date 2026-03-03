@@ -26,6 +26,7 @@
 /* Register definitions */
 .set REG_Z, 12
 .set REG_SP, 16
+.set REG_RA, 20
 .set REG_R21, 100       /* dst pointer (modified in place) */
 .set REG_R22, 104       /* byte (biased in place) */
 .set REG_R23, 108       /* fg (use directly) */
@@ -105,10 +106,8 @@ subleq_blit_row8:
         .word   REG_T4, REG_R21 | INDIRECT, .+4
 
 .Lpix_all_done:
-        .word   REG_T4, REG_T4, .+4
-        .word   REG_SP | INDIRECT, REG_T4, .+4
-        .word   .Lconst_n4, REG_SP, .+4
-        .word   REG_Z, REG_Z, REG_T4 | INDIRECT
+        /* RA-Direct return: leaf function, RA holds return address */
+        .word   REG_Z, REG_Z, REG_RA | INDIRECT
 
 /*===========================================================================
  * BG COLD TRAMPOLINES

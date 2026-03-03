@@ -11,7 +11,7 @@
  *
  * Arguments:
  *   R21 = relr_data, R22 = relr_size, R23 = load_addr, R24 = base_vaddr
- *   [SP+4] = load_offset (5th arg on stack)
+ *   [SP+0] = load_offset (5th arg on stack, no RA slot with RA-Direct)
  *
  * Returns: 0 in R20
  *
@@ -37,15 +37,10 @@ elf_process_relr_section:
         .word   REG_Z, REG_T0, .+4
         .word   REG_R24, REG_T0, .+4
 
-        /* T1 = load_offset from [SP+4] */
-        .word   REG_T7, REG_T7, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_SP, REG_Z, .+4
-        .word   REG_Z, REG_T7, .+4
-        .word   .Lconst_neg4, REG_T7, .+4
+        /* T1 = load_offset from [SP+0] (RA-Direct: no RA on stack) */
         .word   REG_T1, REG_T1, .+4
         .word   REG_Z, REG_Z, .+4
-        .word   REG_T7 | INDIRECT, REG_Z, .+4
+        .word   REG_SP | INDIRECT, REG_Z, .+4
         .word   REG_Z, REG_T1, .+4
 
         /* T2 = relr_size */
@@ -981,12 +976,8 @@ elf_process_relr_section:
 .Ldone:
         .word   REG_R20, REG_R20, .+4
 
-        .word   REG_T7, REG_T7, .+4
-        .word   REG_SP | INDIRECT, REG_T7, .+4
-
-        .word   .Lconst_neg4, REG_SP, .+4
-
-        .word   REG_Z, REG_Z, REG_T7 | INDIRECT
+        /* RA-Direct return: leaf function, RA holds return address */
+        .word   REG_Z, REG_Z, REG_RA | INDIRECT
 
 .size elf_process_relr_section, .-elf_process_relr_section
 

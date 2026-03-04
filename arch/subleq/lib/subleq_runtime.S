@@ -69823,7 +69823,6 @@ __subleq_lb:
         .word   160, 160, .+4
         .word   12, 160, .Llb_offset
 .Llb_offset:
-        .word   164, 164, .Llb_mod_bias
 .Llb_mod_bias:
         .word   .Llb_neg1, 100, .+4
 .Llb_mod_b30_P:
@@ -69884,26 +69883,22 @@ __subleq_lb:
         .word   .Llb_c8, 100, .Llb_mod_b3_P_to_N
 .Llb_mod_b2_P:
         .word   .Llb_c4, 100, .Llb_mod_b2_P_to_N
-.Llb_mod_b1_P:
-        .word   .Llb_c2, 100, .Llb_mod_b1_P_to_N
-        .word   .Llb_c2, 164, .Llb_mod_b0_P
-.Llb_mod_b1_P_to_N:
-        .word   12, 12, .Llb_mod_b0_N
-.Llb_mod_b1_N:
-        .word   .Llb_n2, 100, .Llb_mod_b1_N_to_N
-        .word   .Llb_c2, 164, .Llb_mod_b0_P
-.Llb_mod_b1_N_to_N:
-        .word   12, 12, .Llb_mod_b0_N
-.Llb_mod_b0_P:
-        .word   .Llb_c1, 100, .Llb_mod_b0_P_to_N
-        .word   .Llb_c1, 164, .Llb_mod_done
-.Llb_mod_b0_P_to_N:
-        .word   12, 12, .Llb_mod_done
-.Llb_mod_b0_N:
-        .word   .Llb_n1, 100, .Llb_mod_b0_N_to_N
-        .word   .Llb_c1, 164, .Llb_mod_done
-.Llb_mod_b0_N_to_N:
-        .word   12, 12, .Llb_mod_done
+.Llb_mod_done:
+        .word   144, 100, .Llb_mod_done_n
+        .word   .Llb_c1, 100, .Llb_align
+.Llb_align:
+        .word   100, 160, .+4
+.Llb_ldword:
+        .word   172, 172, .+4
+        .word   12, 12, .+4
+        .word   161, 12, .+4
+        .word   12, 172, .Llb_branch
+.Llb_branch:
+        .word   96, 96, .+4
+        .word   144, 100, .Llb_byte0
+        .word   .Llb_c1, 100, .Llb_byte1
+        .word   .Llb_c1, 100, .Llb_byte2
+        .word   12, 12, .Llb_byte3
 .Llb_mod_b30_P_to_N:
         .word   12, 12, .Llb_mod_b29_N
 .Llb_mod_b29_P_to_N:
@@ -69961,7 +69956,7 @@ __subleq_lb:
 .Llb_mod_b3_P_to_N:
         .word   12, 12, .Llb_mod_b2_N
 .Llb_mod_b2_P_to_N:
-        .word   12, 12, .Llb_mod_b1_N
+        .word   12, 12, .Llb_mod_done_n
 .Llb_mod_b30_N:
         .word   .Llb_n1073741824, 100, .Llb_mod_b29_N
         .word   12, 12, .Llb_mod_b29_P
@@ -70047,24 +70042,12 @@ __subleq_lb:
         .word   .Llb_n8, 100, .Llb_mod_b2_N
         .word   12, 12, .Llb_mod_b2_P
 .Llb_mod_b2_N:
-        .word   .Llb_n4, 100, .Llb_mod_b1_N
-        .word   12, 12, .Llb_mod_b1_P
-.Llb_mod_done:
-        .word   184, 184, .+4
-        .word   164, 184, .+4
-.Llb_align:
-        .word   184, 160, .Llb_ldword
-.Llb_ldword:
-        .word   172, 172, .+4
-        .word   12, 12, .+4
-        .word   161, 12, .+4
-        .word   12, 172, .Llb_branch
-.Llb_branch:
-        .word   96, 96, .+4
-        .word   144, 184, .Llb_byte0
-        .word   .Llb_c1, 184, .Llb_byte1
-        .word   .Llb_c1, 184, .Llb_byte2
-        .word   12, 12, .Llb_byte3
+        .word   .Llb_n4, 100, .Llb_mod_done_n
+        .word   12, 12, .Llb_mod_done
+.Llb_mod_done_n:
+        .word   .Llb_neg3, 100, .+4
+        .word   100, 160, .+4
+        .word   12, 12, .Llb_ldword
 
         .globl  __subleq_lb_b0
 __subleq_lb_b0:
@@ -70966,6 +70949,8 @@ __subleq_lb_b3:
         .word   -536870912
 .Llb_n1073741824:
         .word   -1073741824
+.Llb_neg3:
+        .word   -3
 .Llb_min:
         .word   -2147483648
 
@@ -71174,7 +71159,6 @@ __subleq_sb_nomask:
         .word   100, 12, .+4
         .word   12, 168, .Lsb_mod_bias
 .Lsb_mod_bias:
-        .word   184, 184, .+4
         .word   .Lsb_neg1, 168, .+4
 .Lsb_mb30_P:
         .word   .Lsb_pow1073741824, 168, .Lsb_mb30_P_to_N
@@ -71234,26 +71218,22 @@ __subleq_sb_nomask:
         .word   .Lsb_pow8, 168, .Lsb_mb3_P_to_N
 .Lsb_mb2_P:
         .word   .Lsb_pow4, 168, .Lsb_mb2_P_to_N
-.Lsb_mb1_P:
-        .word   .Lsb_pow2, 168, .Lsb_mb1_P_to_N
-        .word   .Lsb_pow2, 184, .Lsb_mb0_P
-.Lsb_mb1_P_to_N:
-        .word   12, 12, .Lsb_mb0_N
-.Lsb_mb1_N:
-        .word   .Lsb_npow2, 168, .Lsb_mb1_N_to_N
-        .word   .Lsb_pow2, 184, .Lsb_mb0_P
-.Lsb_mb1_N_to_N:
-        .word   12, 12, .Lsb_mb0_N
-.Lsb_mb0_P:
-        .word   .Lsb_pow1, 168, .Lsb_mb0_P_to_N
-        .word   .Lsb_pow1, 184, .Lsb_mod_done
-.Lsb_mb0_P_to_N:
-        .word   12, 12, .Lsb_mod_done
-.Lsb_mb0_N:
-        .word   .Lsb_npow1, 168, .Lsb_mb0_N_to_N
-        .word   .Lsb_pow1, 184, .Lsb_mod_done
-.Lsb_mb0_N_to_N:
-        .word   12, 12, .Lsb_mod_done
+.Lsb_mod_done:
+        .word   144, 168, .Lsb_mod_done_n
+        .word   .Lsb_one, 168, .Lsb_align
+.Lsb_align:
+        .word   168, 100, .+4
+.Lsb_ldword:
+        .word   172, 172, .+4
+        .word   12, 12, .+4
+        .word   101, 12, .+4
+        .word   12, 172, .Lsb_branch
+.Lsb_branch:
+        .word   176, 176, .+4
+        .word   144, 168, .Lsb_byte0
+        .word   .Lsb_one, 168, .Lsb_byte1
+        .word   .Lsb_one, 168, .Lsb_byte2
+        .word   12, 12, .Lsb_byte3
 .Lsb_mb30_P_to_N:
         .word   12, 12, .Lsb_mb29_N
 .Lsb_mb29_P_to_N:
@@ -71311,7 +71291,7 @@ __subleq_sb_nomask:
 .Lsb_mb3_P_to_N:
         .word   12, 12, .Lsb_mb2_N
 .Lsb_mb2_P_to_N:
-        .word   12, 12, .Lsb_mb1_N
+        .word   12, 12, .Lsb_mod_done_n
 .Lsb_mb30_N:
         .word   .Lsb_npow1073741824, 168, .Lsb_mb29_N
         .word   12, 12, .Lsb_mb29_P
@@ -71397,24 +71377,12 @@ __subleq_sb_nomask:
         .word   .Lsb_npow8, 168, .Lsb_mb2_N
         .word   12, 12, .Lsb_mb2_P
 .Lsb_mb2_N:
-        .word   .Lsb_npow4, 168, .Lsb_mb1_N
-        .word   12, 12, .Lsb_mb1_P
-.Lsb_mod_done:
-        .word   168, 168, .+4
-        .word   184, 168, .+4
-.Lsb_align:
-        .word   168, 100, .Lsb_ldword
-.Lsb_ldword:
-        .word   172, 172, .+4
-        .word   12, 12, .+4
-        .word   101, 12, .+4
-        .word   12, 172, .Lsb_branch
-.Lsb_branch:
-        .word   176, 176, .+4
-        .word   144, 168, .Lsb_byte0
-        .word   .Lsb_one, 168, .Lsb_byte1
-        .word   .Lsb_one, 168, .Lsb_byte2
-        .word   12, 12, .Lsb_byte3
+        .word   .Lsb_npow4, 168, .Lsb_mod_done_n
+        .word   12, 12, .Lsb_mod_done
+.Lsb_mod_done_n:
+        .word   .Lsb_neg3, 168, .+4
+        .word   168, 100, .+4
+        .word   12, 12, .Lsb_ldword
 
         .globl  __subleq_sb_b0
 __subleq_sb_b0:
@@ -73282,9 +73250,7 @@ __subleq_lh:
         .word   160, 160, .+4
         .word   12, 160, .Llh_offset
 .Llh_offset:
-        .word   164, 164, .Llh_mod_bias
 .Llh_mod_bias:
-        .word   184, 184, .+4
         .word   .Llh_neg1, 100, .+4
 .Llh_mod_b30_P:
         .word   .Llh_c1073741824, 100, .Llh_mod_b30_P_to_N
@@ -73344,26 +73310,20 @@ __subleq_lh:
         .word   .Llh_c8, 100, .Llh_mod_b3_P_to_N
 .Llh_mod_b2_P:
         .word   .Llh_c4, 100, .Llh_mod_b2_P_to_N
-.Llh_mod_b1_P:
-        .word   .Llh_c2, 100, .Llh_mod_b1_P_to_N
-        .word   .Llh_c2, 184, .Llh_mod_b0_P
-.Llh_mod_b1_P_to_N:
-        .word   12, 12, .Llh_mod_b0_N
-.Llh_mod_b1_N:
-        .word   .Llh_n2, 100, .Llh_mod_b1_N_to_N
-        .word   .Llh_c2, 184, .Llh_mod_b0_P
-.Llh_mod_b1_N_to_N:
-        .word   12, 12, .Llh_mod_b0_N
-.Llh_mod_b0_P:
-        .word   .Llh_c1, 100, .Llh_mod_b0_P_to_N
-        .word   .Llh_c1, 184, .Llh_mod_done
-.Llh_mod_b0_P_to_N:
-        .word   12, 12, .Llh_mod_done
-.Llh_mod_b0_N:
-        .word   .Llh_n1, 100, .Llh_mod_b0_N_to_N
-        .word   .Llh_c1, 184, .Llh_mod_done
-.Llh_mod_b0_N_to_N:
-        .word   12, 12, .Llh_mod_done
+.Llh_mod_done:
+        .word   144, 100, .Llh_mod_done_n
+        .word   .Llh_c1, 100, .Llh_align
+.Llh_align:
+        .word   100, 160, .+4
+.Llh_ldword:
+        .word   172, 172, .+4
+        .word   12, 12, .+4
+        .word   161, 12, .+4
+        .word   12, 172, .Llh_branch
+.Llh_branch:
+        .word   96, 96, .+4
+        .word   144, 100, .Llh_half0
+        .word   12, 12, .Llh_half1
 .Llh_mod_b30_P_to_N:
         .word   12, 12, .Llh_mod_b29_N
 .Llh_mod_b29_P_to_N:
@@ -73421,7 +73381,7 @@ __subleq_lh:
 .Llh_mod_b3_P_to_N:
         .word   12, 12, .Llh_mod_b2_N
 .Llh_mod_b2_P_to_N:
-        .word   12, 12, .Llh_mod_b1_N
+        .word   12, 12, .Llh_mod_done_n
 .Llh_mod_b30_N:
         .word   .Llh_n1073741824, 100, .Llh_mod_b29_N
         .word   12, 12, .Llh_mod_b29_P
@@ -73507,28 +73467,12 @@ __subleq_lh:
         .word   .Llh_n8, 100, .Llh_mod_b2_N
         .word   12, 12, .Llh_mod_b2_P
 .Llh_mod_b2_N:
-        .word   .Llh_n4, 100, .Llh_mod_b1_N
-        .word   12, 12, .Llh_mod_b1_P
-.Llh_mod_done:
-        .word   180, 180, .+4
-        .word   184, 180, .+4
-.Llh_chk_off:
-        .word   180, 160, .Llh_ldword
-        .word   144, 180, .Llh_is_0
-        .word   .Llh_neg1, 164, .Llh_is_2
-.Llh_is_0:
+        .word   .Llh_n4, 100, .Llh_mod_done_n
+        .word   12, 12, .Llh_mod_done
+.Llh_mod_done_n:
+        .word   .Llh_neg3, 100, .+4
+        .word   100, 160, .+4
         .word   12, 12, .Llh_ldword
-.Llh_is_2:
-        .word   12, 12, .Llh_ldword
-.Llh_ldword:
-        .word   172, 172, .+4
-        .word   12, 12, .+4
-        .word   161, 12, .+4
-        .word   12, 172, .Llh_branch
-.Llh_branch:
-        .word   96, 96, .+4
-        .word   144, 164, .Llh_half0
-        .word   12, 12, .Llh_half1
 
         .globl  __subleq_lh_h0
 __subleq_lh_h0:
@@ -74281,6 +74225,7 @@ __subleq_lh_h1:
 .Llh_c1073741824: .word 1073741824
 .Llh_n1073741824: .word -1073741824
 .Llh_min: .word -2147483648
+.Llh_neg3: .word -3
 
         .size   __subleq_lh, . - __subleq_lh
 
@@ -74425,7 +74370,6 @@ __subleq_sh:
         .word   100, 12, .+4
         .word   12, 168, .Lsh_mod_bias
 .Lsh_mod_bias:
-        .word   184, 184, .+4
         .word   .Lsh_neg1, 168, .+4
 .Lsh_mb30_P:
         .word   .Lsh_pow1073741824, 168, .Lsh_mb30_P_to_N
@@ -74485,26 +74429,20 @@ __subleq_sh:
         .word   .Lsh_pow8, 168, .Lsh_mb3_P_to_N
 .Lsh_mb2_P:
         .word   .Lsh_pow4, 168, .Lsh_mb2_P_to_N
-.Lsh_mb1_P:
-        .word   .Lsh_pow2, 168, .Lsh_mb1_P_to_N
-        .word   .Lsh_pow2, 184, .Lsh_mb0_P
-.Lsh_mb1_P_to_N:
-        .word   12, 12, .Lsh_mb0_N
-.Lsh_mb1_N:
-        .word   .Lsh_npow2, 168, .Lsh_mb1_N_to_N
-        .word   .Lsh_pow2, 184, .Lsh_mb0_P
-.Lsh_mb1_N_to_N:
-        .word   12, 12, .Lsh_mb0_N
-.Lsh_mb0_P:
-        .word   .Lsh_pow1, 168, .Lsh_mb0_P_to_N
-        .word   .Lsh_pow1, 184, .Lsh_mod_done
-.Lsh_mb0_P_to_N:
-        .word   12, 12, .Lsh_mod_done
-.Lsh_mb0_N:
-        .word   .Lsh_npow1, 168, .Lsh_mb0_N_to_N
-        .word   .Lsh_pow1, 184, .Lsh_mod_done
-.Lsh_mb0_N_to_N:
-        .word   12, 12, .Lsh_mod_done
+.Lsh_mod_done:
+        .word   144, 168, .Lsh_mod_done_n
+        .word   .Lsh_one, 168, .Lsh_align
+.Lsh_align:
+        .word   168, 100, .+4
+.Lsh_ldword:
+        .word   172, 172, .+4
+        .word   12, 12, .+4
+        .word   101, 12, .+4
+        .word   12, 172, .Lsh_branch
+.Lsh_branch:
+        .word   176, 176, .+4
+        .word   144, 168, .Lsh_h0
+        .word   12, 12, .Lsh_h1
 .Lsh_mb30_P_to_N:
         .word   12, 12, .Lsh_mb29_N
 .Lsh_mb29_P_to_N:
@@ -74562,7 +74500,7 @@ __subleq_sh:
 .Lsh_mb3_P_to_N:
         .word   12, 12, .Lsh_mb2_N
 .Lsh_mb2_P_to_N:
-        .word   12, 12, .Lsh_mb1_N
+        .word   12, 12, .Lsh_mod_done_n
 .Lsh_mb30_N:
         .word   .Lsh_npow1073741824, 168, .Lsh_mb29_N
         .word   12, 12, .Lsh_mb29_P
@@ -74648,22 +74586,12 @@ __subleq_sh:
         .word   .Lsh_npow8, 168, .Lsh_mb2_N
         .word   12, 12, .Lsh_mb2_P
 .Lsh_mb2_N:
-        .word   .Lsh_npow4, 168, .Lsh_mb1_N
-        .word   12, 12, .Lsh_mb1_P
-.Lsh_mod_done:
-        .word   168, 168, .+4
-        .word   184, 168, .+4
-.Lsh_align:
-        .word   168, 100, .Lsh_ldword
-.Lsh_ldword:
-        .word   172, 172, .+4
-        .word   12, 12, .+4
-        .word   101, 12, .+4
-        .word   12, 172, .Lsh_branch
-.Lsh_branch:
-        .word   176, 176, .+4
-        .word   144, 168, .Lsh_h0
-        .word   12, 12, .Lsh_h1
+        .word   .Lsh_npow4, 168, .Lsh_mod_done_n
+        .word   12, 12, .Lsh_mod_done
+.Lsh_mod_done_n:
+        .word   .Lsh_neg3, 168, .+4
+        .word   168, 100, .+4
+        .word   12, 12, .Lsh_ldword
 
         .globl  __subleq_sh_h0
 __subleq_sh_h0:
@@ -75467,6 +75395,7 @@ __subleq_sh_h1:
 .Lsh_one: .word 1
 .Lsh_two: .word 2
 .Lsh_min: .word -2147483648
+.Lsh_neg3: .word -3
 .Lsh_n2147483648: .word -2147483648
 .Lsh_pow1: .word 1
 .Lsh_npow1: .word -1

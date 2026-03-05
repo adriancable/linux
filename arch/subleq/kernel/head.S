@@ -53,7 +53,7 @@ _start:
 	 */
 	.extern subleq_start
 .Ljump_start:
-	.word 144, 144, subleq_start
+	.word REG_Z, REG_Z, subleq_start
 
 	/*
 	 * If subleq_start somehow returns, halt the machine.

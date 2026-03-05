@@ -589,7 +589,7 @@ subleq_irq_entry:
         /* RA-Direct call to subleq_do_IRQ */
         .word   REG_RA, REG_RA, .+4                          /* RA = 0 */
         .word   .Lirq_return_neg, REG_RA, .+4                /* RA = .Lirq_returned */
-        .word   INT_Z, INT_Z, subleq_do_IRQ
+        .word   REG_Z, REG_Z, subleq_do_IRQ
 
         /*
          * PHASE 2b: WORK LOOP (ColdFire pattern)
@@ -613,7 +613,7 @@ subleq_irq_entry:
         /* RA-Direct call to subleq_do_work(regs) */
         .word   REG_RA, REG_RA, .+4                          /* RA = 0 */
         .word   .Lwork_return_neg, REG_RA, .+4                /* RA = .Lwork_returned */
-        .word   INT_Z, INT_Z, subleq_do_work
+        .word   REG_Z, REG_Z, subleq_do_work
 
 .Lwork_returned:
         /* Check R20: if <= 0, done. Otherwise reload R21 and loop.
@@ -2374,7 +2374,7 @@ __subleq_syscall:
         .word   .Lsyscall_c_ret_neg, REG_RA, .+4                      /* RA = .Lsyscall_c_return */
 
         /* Jump to C handler */
-        .word   REG_T0, REG_T0, __subleq_syscall_c
+        .word   REG_Z, REG_Z, __subleq_syscall_c
 
 
         /* Return point from C handler */
@@ -2946,7 +2946,7 @@ ret_from_user_rt_signal:
          */
         .word   REG_RA, REG_RA, .+4
         .word   .Lsigret_halt_neg, REG_RA, .+4
-        .word   REG_T0, REG_T0, __subleq_syscall
+        .word   REG_Z, REG_Z, __subleq_syscall
 
 .Lsigret_halt:
         .word   REG_T0, REG_T0, .Lsigret_halt

@@ -69817,35 +69817,8 @@ __subleq_sra_31:
         .globl  __subleq_lb
         .type   __subleq_lb,@function
 
-# __subleq_lb: Load byte - Aggressively Optimized + Address Cache
+# __subleq_lb: Load byte - Aggressively Optimized
 __subleq_lb:
-        .word   .Llb_cache_raw, 12, .+4
-        .word   100, 12, .Llb_cache_le0
-        .word   12, 12, .Llb_cache_miss
-.Llb_cache_le0:
-        .word   .Llb_neg1, 12, .Llb_cache_miss_zd
-        .word   100, 100, .+4
-        .word   .Llb_cache_offset, 100, .+4
-        .word   160, 160, .+4
-        .word   .Llb_cache_aligned, 160, .+4
-        .word   .Llb_c3, 100, .Llb_cache_chk4
-.Llb_cache_chk4:
-        .word   .Llb_neg1, 100, .Llb_cache_nowrap
-        .word   100, 100, .+4
-        .word   .Llb_n4, 160, .+4
-        .word   .Llb_cache_aligned, .Llb_cache_aligned, .+4
-        .word   160, .Llb_cache_aligned, .+4
-        .word   .Llb_cache_offset, .Llb_cache_offset, .+4
-        .word   .Llb_c1, .Llb_cache_raw, .+4
-        .word   12, 12, .Llb_ldword
-.Llb_cache_nowrap:
-        .word   .Llb_neg3, 100, .+4
-        .word   .Llb_c1, .Llb_cache_offset, .+4
-        .word   .Llb_c1, .Llb_cache_raw, .+4
-        .word   12, 12, .Llb_ldword
-.Llb_cache_miss_zd:
-        .word   12, 12, .Llb_cache_miss
-.Llb_cache_miss:
         .word   100, 12, .+4
         .word   160, 160, .+4
         .word   12, 160, .Llb_offset
@@ -69915,14 +69888,6 @@ __subleq_lb:
         .word   .Llb_c1, 100, .Llb_align
 .Llb_align:
         .word   100, 160, .+4
-        .word   .Llb_cache_aligned, .Llb_cache_aligned, .+4
-        .word   160, .Llb_cache_aligned, .+4
-        .word   .Llb_cache_offset, .Llb_cache_offset, .+4
-        .word   100, .Llb_cache_offset, .+4
-        .word   .Llb_cache_raw, .Llb_cache_raw, .+4
-        .word   160, .Llb_cache_raw, .+4
-        .word   100, .Llb_cache_raw, .+4
-        .word   .Llb_c1, .Llb_cache_raw, .+4
 .Llb_ldword:
         .word   172, 172, .+4
         .word   12, 12, .+4
@@ -70986,16 +70951,8 @@ __subleq_lb_b3:
         .word   -1073741824
 .Llb_neg3:
         .word   -3
-.Llb_c3:
-        .word   3
 .Llb_min:
         .word   -2147483648
-.Llb_cache_raw:
-        .word   2
-.Llb_cache_aligned:
-        .word   0
-.Llb_cache_offset:
-        .word   0
 
         .size   __subleq_lb, . - __subleq_lb
 
@@ -71193,36 +71150,14 @@ __subleq_sb:
         .word   12, 12, .Lsb_off
         .globl  __subleq_sb_nomask
 __subleq_sb_nomask:
-        .word   .Lsb_cache_raw, 12, .+4
-        .word   100, 12, .Lsb_cache_le0
-        .word   12, 12, .Lsb_cache_miss
-.Lsb_cache_le0:
-        .word   .Lsb_neg1, 12, .Lsb_cache_miss_zd
-        .word   168, 168, .+4
-        .word   .Lsb_cache_offset, 168, .+4
-        .word   100, 100, .+4
-        .word   .Lsb_cache_aligned, 100, .+4
-        .word   .Lsb_c3, 168, .Lsb_cache_chk4
-.Lsb_cache_chk4:
-        .word   .Lsb_neg1, 168, .Lsb_cache_nowrap
-        .word   168, 168, .+4
-        .word   .Lsb_npow4, 100, .+4
-        .word   .Lsb_cache_aligned, .Lsb_cache_aligned, .+4
-        .word   100, .Lsb_cache_aligned, .+4
-        .word   .Lsb_cache_offset, .Lsb_cache_offset, .+4
-        .word   .Lsb_one, .Lsb_cache_raw, .+4
-        .word   12, 12, .Lsb_ldword
-.Lsb_cache_nowrap:
-        .word   .Lsb_neg3, 168, .+4
-        .word   .Lsb_one, .Lsb_cache_offset, .+4
-        .word   .Lsb_one, .Lsb_cache_raw, .+4
-        .word   12, 12, .Lsb_ldword
-.Lsb_cache_miss_zd:
-        .word   12, 12, .Lsb_cache_miss
-.Lsb_cache_miss:
         .word   100, 12, .+4
         .word   168, 168, .+4
-        .word   12, 168, .+4
+        .word   12, 168, .Lsb_mod_bias
+.Lsb_off:
+        .word   168, 168, .+4
+        .word   12, 12, .+4
+        .word   100, 12, .+4
+        .word   12, 168, .Lsb_mod_bias
 .Lsb_mod_bias:
         .word   .Lsb_neg1, 168, .+4
 .Lsb_mb30_P:
@@ -71288,14 +71223,6 @@ __subleq_sb_nomask:
         .word   .Lsb_one, 168, .Lsb_align
 .Lsb_align:
         .word   168, 100, .+4
-        .word   .Lsb_cache_aligned, .Lsb_cache_aligned, .+4
-        .word   100, .Lsb_cache_aligned, .+4
-        .word   .Lsb_cache_offset, .Lsb_cache_offset, .+4
-        .word   168, .Lsb_cache_offset, .+4
-        .word   .Lsb_cache_raw, .Lsb_cache_raw, .+4
-        .word   100, .Lsb_cache_raw, .+4
-        .word   168, .Lsb_cache_raw, .+4
-        .word   .Lsb_one, .Lsb_cache_raw, .+4
 .Lsb_ldword:
         .word   172, 172, .+4
         .word   12, 12, .+4
@@ -71456,8 +71383,6 @@ __subleq_sb_nomask:
         .word   .Lsb_neg3, 168, .+4
         .word   168, 100, .+4
         .word   12, 12, .Lsb_ldword
-.Lsb_off:
-        .word   12, 12, __subleq_sb_nomask
 
         .globl  __subleq_sb_b0
 __subleq_sb_b0:
@@ -73249,7 +73174,6 @@ __subleq_sb_b3:
 .Lsb_one: .word 1
 .Lsb_two: .word 2
 .Lsb_neg3: .word -3
-.Lsb_c3: .word 3
 .Lsb_min: .word -2147483648
 .Lsb_n2147483648: .word -2147483648
 .Lsb_pow1: .word 1
@@ -73314,47 +73238,14 @@ __subleq_sb_b3:
 .Lsb_npow536870912: .word -536870912
 .Lsb_pow1073741824: .word 1073741824
 .Lsb_npow1073741824: .word -1073741824
-.Lsb_cache_raw:
-        .word   2
-.Lsb_cache_aligned:
-        .word   0
-.Lsb_cache_offset:
-        .word   0
 
         .size   __subleq_sb, . - __subleq_sb
 
         .globl  __subleq_lh
         .type   __subleq_lh,@function
 
-# __subleq_lh: Load halfword - Biased Non-Restoring Lattice + Address Cache
+# __subleq_lh: Load halfword - Biased Non-Restoring Lattice
 __subleq_lh:
-        .word   .Llh_cache_raw, 12, .+4
-        .word   100, 12, .Llh_cache_le0
-        .word   12, 12, .Llh_cache_miss
-.Llh_cache_le0:
-        .word   .Llh_neg1, 12, .Llh_cache_miss_zd
-        .word   100, 100, .+4
-        .word   .Llh_cache_offset, 100, .+4
-        .word   160, 160, .+4
-        .word   .Llh_cache_aligned, 160, .+4
-        .word   .Llh_c2, 100, .Llh_cache_chk4
-.Llh_cache_chk4:
-        .word   .Llh_neg1, 100, .Llh_cache_nowrap
-        .word   100, 100, .+4
-        .word   .Llh_n4, 160, .+4
-        .word   .Llh_cache_aligned, .Llh_cache_aligned, .+4
-        .word   160, .Llh_cache_aligned, .+4
-        .word   .Llh_cache_offset, .Llh_cache_offset, .+4
-        .word   .Llh_c2, .Llh_cache_raw, .+4
-        .word   12, 12, .Llh_ldword
-.Llh_cache_nowrap:
-        .word   .Llh_neg3, 100, .+4
-        .word   .Llh_c2, .Llh_cache_offset, .+4
-        .word   .Llh_c2, .Llh_cache_raw, .+4
-        .word   12, 12, .Llh_ldword
-.Llh_cache_miss_zd:
-        .word   12, 12, .Llh_cache_miss
-.Llh_cache_miss:
         .word   100, 12, .+4
         .word   160, 160, .+4
         .word   12, 160, .Llh_offset
@@ -73424,14 +73315,6 @@ __subleq_lh:
         .word   .Llh_c1, 100, .Llh_align
 .Llh_align:
         .word   100, 160, .+4
-        .word   .Llh_cache_aligned, .Llh_cache_aligned, .+4
-        .word   160, .Llh_cache_aligned, .+4
-        .word   .Llh_cache_offset, .Llh_cache_offset, .+4
-        .word   100, .Llh_cache_offset, .+4
-        .word   .Llh_cache_raw, .Llh_cache_raw, .+4
-        .word   160, .Llh_cache_raw, .+4
-        .word   100, .Llh_cache_raw, .+4
-        .word   .Llh_c2, .Llh_cache_raw, .+4
 .Llh_ldword:
         .word   172, 172, .+4
         .word   12, 12, .+4
@@ -74343,12 +74226,6 @@ __subleq_lh_h1:
 .Llh_n1073741824: .word -1073741824
 .Llh_min: .word -2147483648
 .Llh_neg3: .word -3
-.Llh_cache_raw:
-        .word   2
-.Llh_cache_aligned:
-        .word   0
-.Llh_cache_offset:
-        .word   0
 
         .size   __subleq_lh, . - __subleq_lh
 
@@ -74488,39 +74365,10 @@ __subleq_sh:
         .word   104, 180, .Lsh_off
         .word   .Lsh_npow65536, 104, .Lsh_off
 .Lsh_off:
-        .word   12, 12, __subleq_sh_nomask
-        .globl  __subleq_sh_nomask
-__subleq_sh_nomask:
-        .word   .Lsh_cache_raw, 12, .+4
-        .word   100, 12, .Lsh_cache_le0
-        .word   12, 12, .Lsh_cache_miss
-.Lsh_cache_le0:
-        .word   .Lsh_neg1, 12, .Lsh_cache_miss_zd
         .word   168, 168, .+4
-        .word   .Lsh_cache_offset, 168, .+4
-        .word   100, 100, .+4
-        .word   .Lsh_cache_aligned, 100, .+4
-        .word   .Lsh_pow2, 168, .Lsh_cache_chk4
-.Lsh_cache_chk4:
-        .word   .Lsh_neg1, 168, .Lsh_cache_nowrap
-        .word   168, 168, .+4
-        .word   .Lsh_npow4, 100, .+4
-        .word   .Lsh_cache_aligned, .Lsh_cache_aligned, .+4
-        .word   100, .Lsh_cache_aligned, .+4
-        .word   .Lsh_cache_offset, .Lsh_cache_offset, .+4
-        .word   .Lsh_two, .Lsh_cache_raw, .+4
-        .word   12, 12, .Lsh_ldword
-.Lsh_cache_nowrap:
-        .word   .Lsh_neg3, 168, .+4
-        .word   .Lsh_two, .Lsh_cache_offset, .+4
-        .word   .Lsh_two, .Lsh_cache_raw, .+4
-        .word   12, 12, .Lsh_ldword
-.Lsh_cache_miss_zd:
-        .word   12, 12, .Lsh_cache_miss
-.Lsh_cache_miss:
+        .word   12, 12, .+4
         .word   100, 12, .+4
-        .word   168, 168, .+4
-        .word   12, 168, .+4
+        .word   12, 168, .Lsh_mod_bias
 .Lsh_mod_bias:
         .word   .Lsh_neg1, 168, .+4
 .Lsh_mb30_P:
@@ -74586,14 +74434,6 @@ __subleq_sh_nomask:
         .word   .Lsh_one, 168, .Lsh_align
 .Lsh_align:
         .word   168, 100, .+4
-        .word   .Lsh_cache_aligned, .Lsh_cache_aligned, .+4
-        .word   100, .Lsh_cache_aligned, .+4
-        .word   .Lsh_cache_offset, .Lsh_cache_offset, .+4
-        .word   168, .Lsh_cache_offset, .+4
-        .word   .Lsh_cache_raw, .Lsh_cache_raw, .+4
-        .word   100, .Lsh_cache_raw, .+4
-        .word   168, .Lsh_cache_raw, .+4
-        .word   .Lsh_two, .Lsh_cache_raw, .+4
 .Lsh_ldword:
         .word   172, 172, .+4
         .word   12, 12, .+4
@@ -75619,12 +75459,6 @@ __subleq_sh_h1:
 .Lsh_npow536870912: .word -536870912
 .Lsh_pow1073741824: .word 1073741824
 .Lsh_npow1073741824: .word -1073741824
-.Lsh_cache_raw:
-        .word   2
-.Lsh_cache_aligned:
-        .word   0
-.Lsh_cache_offset:
-        .word   0
 
         .size   __subleq_sh, . - __subleq_sh
 

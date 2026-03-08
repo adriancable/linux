@@ -1994,23 +1994,30 @@ __subleq_syscall:
         /*
          * STEP 0: DISABLE INTERRUPTS
          *
-         * CRITICAL: We must disable interrupts before saving ANY state.
-         * If an interrupt fires during the save sequence, a context switch
-         * could allow another task to overwrite our scratch registers (REG_T0)
-         * or globals (subleq_syscall_saved_*), corrupting our state.
+         * CRITICAL ORDERING: Zero m[0] FIRST (atomic, one instruction), then
+         * update .Lsyscall_saved_handler while interrupts are guaranteed off.
          *
-         * Save m[0] (interrupt handler) to .Lsyscall_saved_handler, then clear m[0].
+         * .Lsyscall_saved_handler is a SHARED GLOBAL. If we cleared and set it
+         * with m[0] still nonzero, a timer interrupt between those two writes
+         * could context-switch to another task that also calls __subleq_syscall.
+         * That task would set the slot to `handler`. When the original task
+         * resumed and ran its "set" instruction, it would add handler on top:
+         *   slot = handler + handler = 2*handler
+         * The subsequent re-enable would then write m[0] = 2*handler — bug!
          *
-         * IMPORTANT: We use REG_T0 as scratch here.
-         * If an interrupt fires mid-sequence, the interrupt handler saves T0
-         * to the kernel stack and restores it on return. This makes the sequence
-         * race-safe even if we're interrupted before m[0] is cleared.
+         * By zeroing m[0] first (one instruction = the disable is atomic), no
+         * interrupt can fire between the clear-slot and set-slot steps, so no
+         * context switch is possible during those two writes.
+         *
+         * If an interrupt fires between the read of m[0] (T0 = -m[0]) and the
+         * zero of m[0], the interrupt handler saves/restores T0 via pt_regs, so
+         * T0 = -handler is preserved correctly when we resume.
          */
         .word   REG_T0, REG_T0, .+4                         /* T0 = 0 */
         .word   INT_HANDLER, REG_T0, .+4                    /* T0 = -m[0] */
-        .word   .Lsyscall_saved_handler, .Lsyscall_saved_handler, .+4  /* clear save slot */
-        .word   REG_T0, .Lsyscall_saved_handler, .+4        /* save slot = m[0] */
-        .word   INT_HANDLER, INT_HANDLER, .+4               /* m[0] = 0 (disabled!) */
+        .word   INT_HANDLER, INT_HANDLER, .+4               /* m[0] = 0 (DISABLED FIRST) */
+        .word   .Lsyscall_saved_handler, .Lsyscall_saved_handler, .+4  /* clear save slot (safe: m[0]=0) */
+        .word   REG_T0, .Lsyscall_saved_handler, .+4        /* save slot = old m[0] (safe: m[0]=0) */
 
         /*
          * STEP 1: Save SP to global subleq_syscall_saved_sp

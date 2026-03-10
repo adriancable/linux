@@ -1,8 +1,10 @@
+        .section .text.__rt_constants,"ax",@progbits
 .Lrt_c4:
         .word   4
 .Lrt_cneg4:
         .word   -4
 
+        .section .text.__subleq_sdivrem,"ax",@progbits
 
         .globl  __subleq_sdivrem
         .type   __subleq_sdivrem,@function
@@ -974,6 +976,8 @@ __subleq_sdivrem:
         .word   -2147483648
 
         .size   __subleq_sdivrem, . - __subleq_sdivrem
+
+        .section .text.__subleq_udivrem,"ax",@progbits
 
         .globl  __subleq_udivrem
         .type   __subleq_udivrem,@function
@@ -2764,6 +2768,8 @@ __subleq_udivrem:
         .word   -2147483648
 
         .size   __subleq_udivrem, . - __subleq_udivrem
+
+        .section .text.__subleq_sdivrem64,"ax",@progbits
 
         .globl  __subleq_sdivrem64
         .type   __subleq_sdivrem64,@function
@@ -12418,6 +12424,8 @@ __subleq_sdivrem64:
         .word   -2147483648
 
         .size   __subleq_sdivrem64, . - __subleq_sdivrem64
+
+        .section .text.__subleq_udivrem64,"ax",@progbits
 
         .globl  __subleq_udivrem64
         .type   __subleq_udivrem64,@function
@@ -23921,6 +23929,8 @@ __subleq_udivrem64:
 
         .size   __subleq_udivrem64, . - __subleq_udivrem64
 
+        .section .text.__divdi3,"ax",@progbits
+
 # ===== 64-bit Division Libcall Wrappers (SRET) =====
 # Register-based Calling Convention: R21=sret, R22=a_lo, R23=a_hi, R24=b_lo, Stack=b_hi
 
@@ -24235,6 +24245,8 @@ __umoddi3:
 .Lumoddi3_soff4:
         .word   -4
         .size   __umoddi3, . - __umoddi3
+
+        .section .text.__subleq_mul,"ax",@progbits
 
         .globl  __subleq_mul
         .type   __subleq_mul,@function
@@ -24976,6 +24988,8 @@ __subleq_mul:
         .word   12, 96, .+4
         .word   12, 12, .Lmul_chk_negate
 .size __subleq_mul, . - __subleq_mul
+
+        .section .text.__subleq_and,"ax",@progbits
 
         .globl  __subleq_and
         .type   __subleq_and,@function
@@ -33004,6 +33018,8 @@ __subleq_and_b0:
         .word   -1
 
         .size   __subleq_and, . - __subleq_and
+
+        .section .text.__subleq_or,"ax",@progbits
 
         .globl  __subleq_or
         .type   __subleq_or,@function
@@ -46895,6 +46911,8 @@ __subleq_or_b0:
         .word   -1
 
         .size   __subleq_or, . - __subleq_or
+
+        .section .text.__subleq_xor,"ax",@progbits
 
         .globl  __subleq_xor
         .type   __subleq_xor,@function
@@ -61018,6 +61036,8 @@ __subleq_xor_b0:
 
         .size   __subleq_xor, . - __subleq_xor
 
+        .section .text.__subleq_shl,"ax",@progbits
+
         .globl  __subleq_shl
         .type   __subleq_shl,@function
 
@@ -61264,6 +61284,8 @@ __subleq_shl_1:
 .Lshl_one: .word 1
 
         .size   __subleq_shl, . - __subleq_shl
+
+        .section .text.__subleq_srl,"ax",@progbits
 
         .globl  __subleq_srl
         .type   __subleq_srl,@function
@@ -65205,6 +65227,8 @@ __subleq_srl_31:
 .Lsrl_c2147483648: .word 2147483648
 .Lsrl_n2147483648: .word -2147483648
 .size __subleq_srl, . - __subleq_srl
+
+        .section .text.__subleq_sra,"ax",@progbits
 
         .globl  __subleq_sra
         .type   __subleq_sra,@function
@@ -69814,6 +69838,8 @@ __subleq_sra_31:
 .Lsra_n2147483648: .word -2147483648
 .size __subleq_sra, . - __subleq_sra
 
+        .section .text.__subleq_lb,"ax",@progbits
+
         .globl  __subleq_lb
         .type   __subleq_lb,@function
 
@@ -70955,6 +70981,8 @@ __subleq_lb_b3:
         .word   -2147483648
 
         .size   __subleq_lb, . - __subleq_lb
+
+        .section .text.__subleq_sb,"ax",@progbits
 
         .globl  __subleq_sb
         .type   __subleq_sb,@function
@@ -73241,6 +73269,8 @@ __subleq_sb_b3:
 
         .size   __subleq_sb, . - __subleq_sb
 
+        .section .text.__subleq_lh,"ax",@progbits
+
         .globl  __subleq_lh
         .type   __subleq_lh,@function
 
@@ -74228,6 +74258,8 @@ __subleq_lh_h1:
 .Llh_neg3: .word -3
 
         .size   __subleq_lh, . - __subleq_lh
+
+        .section .text.__subleq_sh,"ax",@progbits
 
         .globl  __subleq_sh
         .type   __subleq_sh,@function
@@ -75461,6 +75493,8 @@ __subleq_sh_h1:
 .Lsh_npow1073741824: .word -1073741824
 
         .size   __subleq_sh, . - __subleq_sh
+
+        .section .text.__shift_di3,"ax",@progbits
 
 # ===== 64-bit Shift Libcall Functions (V3 - Optimized) =====
 
@@ -77893,6 +77927,8 @@ __ashrdi3:
 .Lashrdi3_lh_n1073741824:
         .word   -1073741824
         .size   __ashrdi3, . - __ashrdi3
+
+        .section .text.__subleq_memops,"ax",@progbits
 
         .globl  __subleq_memcpy
         .type   __subleq_memcpy,@function
@@ -89567,3 +89603,4 @@ __subleq_memmove_aligned:
         .word 12, 12, .Lmemmove_bwd_fast_setup
 
         .size __subleq_memmove_aligned, . - __subleq_memmove_aligned
+

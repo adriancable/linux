@@ -1603,9 +1603,11 @@ ret_from_fork:
          * 2. Return pointer to pt_regs in R20
          *
          * Then we read directly from pt_regs:
-         *   pt_regs->r20 at offset 68 = syscall return value (0 for fork child)
-         *   pt_regs->sp  at offset 88 = user stack pointer  
-         *   pt_regs->pc  at offset 96 = user PC to return to
+         *   pt_regs->r20 at offset  68 = syscall return value (0 for fork child)
+         *   pt_regs->fp  at offset 116 = frame pointer
+         *   pt_regs->sp  at offset 120 = user stack pointer
+         *   pt_regs->ra  at offset 124 = return address
+         *   pt_regs->pc  at offset 128 = user PC to return to
          *
          * This ensures no C code can clobber these critical values.
          */

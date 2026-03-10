@@ -60,8 +60,22 @@ static inline u64 subleq_seconds_to_ns(u64 seconds)
 {
 	if (likely(seconds == cached_seconds_val))
 		return cached_seconds_ns;
-	cached_seconds_val = seconds;
+	/*
+	 * Write cached_seconds_ns BEFORE cached_seconds_val.
+	 *
+	 * On 32-bit Subleq, u64 reads and writes are non-atomic (two 32-bit
+	 * operations). If an interrupt fires mid-update and calls sched_clock()
+	 * or subleq_read_clock(), it will read either:
+	 *   - The old cached_seconds_val  → cache miss → recomputes correctly
+	 *   - The new cached_seconds_val  → cache hit  → reads new cached_seconds_ns
+	 *
+	 * By writing cached_seconds_ns first, we guarantee that whenever the
+	 * new cached_seconds_val is visible, the new cached_seconds_ns is already
+	 * in place. The reverse order would risk a reader seeing new_val but
+	 * old_ns, producing a result ~1 second in the past.
+	 */
 	cached_seconds_ns = seconds * NSEC_PER_SEC;
+	cached_seconds_val = seconds;
 	return cached_seconds_ns;
 }
 

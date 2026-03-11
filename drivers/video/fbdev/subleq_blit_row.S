@@ -1,17 +1,20 @@
 /* SPDX-License-Identifier: GPL-2.0 */
 /*
- * Subleq optimized 1bpp to 32bpp row blitter - OPTIMIZED VERSION
+ * Subleq optimized 1bpp to 32bpp row blitter - P/N NON-RESTORING VERSION
  *
  * void subleq_blit_row8(u32 *dst, u8 byte, u32 fg, u32 bg)
  *
  * OPTIMIZATION STRATEGY:
  * 1. Bias byte by +1: byte becomes 1-256 (never 0)
- * 2. Test T1 - power:
- *    - If result <= 0: bit was CLEAR (bg) - BRANCH TAKEN
- *    - If result > 0: bit was SET (fg) - FALL THROUGH
- * 3. Use args directly (no temp copy for fg/bg) - saves 8 instructions
- * 4. Pre-subtract dst ptr increment from constants - amortize cost
- * 5. Share common write code where possible
+ * 2. Non-restoring P/N lattice: after subtracting a power-of-2,
+ *    if result <= 0 (bg), do NOT restore -- instead, next pixel
+ *    uses the complementary (negative) test constant.
+ *    P-state: subtract positive power (R22 is positive residual)
+ *    N-state: subtract negative power = add (R22 is negative residual)
+ * 3. Foreground P-state path is completely straight-line (hot path)
+ * 4. Pre-negate fg/bg into T4/T5
+ *
+ * Saves 1 instruction per BG pixel vs the restoring approach.
  *
  * With biasing:
  *   byte=0x00 -> biased=1 -> 1-128=-127 <= 0 (bit 7 clear, correct)
@@ -31,77 +34,66 @@
 .set REG_R22, 104       /* byte (biased in place) */
 .set REG_R23, 108       /* fg (use directly) */
 .set REG_R24, 112       /* bg (use directly) */
-.set REG_T4, 176        /* scratch for fg */
-.set REG_T5, 180        /* scratch for bg */
+.set REG_T4, 176        /* scratch for -fg */
+.set REG_T5, 180        /* scratch for -bg */
 .set INDIRECT, 1
 
 subleq_blit_row8:
-        /*
-         * OPTIMIZED: Use R21 directly as dst pointer, bias R22 in place.
-         * Saves 8 instructions vs copying to T0/T1.
-         *
-         * R21 = dst (use directly, caller-saved so we can modify)
-         * R22 = byte + 1 (biased in place)
-         */
         .word   .Lconst_n1, REG_R22, .+4      /* R22 += 1 (bias) */
 
-/*
- * OPTIMIZATION: pre-negate fg/bg into T4/T5.
- */
         .word   REG_T4, REG_T4, .+4
-        .word   REG_R23, REG_T4, .+4          /* T4 = -fg */
+        .word   REG_R23, REG_T4, .+4           /* T4 = -fg */
         .word   REG_T5, REG_T5, .+4
-        .word   REG_R24, REG_T5, .+4          /* T5 = -bg */
+        .word   REG_R24, REG_T5, .+4           /* T5 = -bg */
 
-/*
- * PIXEL MACRO (optimized):
- * Foreground path is completely straight-line. Background falls to out-of-line trampolines.
- */
+/*===========================================================================
+ * P-STATE INLINE PATH (hot: all-foreground falls straight through)
+ *===========================================================================*/
 
-/*=== PIXEL 0 (bit 7) ===*/
-.Lpix0: .word   .Lconst_0x80, REG_R22, .Lpix0_bg
+/*=== PIXEL 0 (bit 7) - always starts in P-state ===*/
+.Lpix0_P: .word .Lconst_0x80, REG_R22, .Lpix0_P_bg
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
         .word   REG_T4, REG_R21 | INDIRECT, .+4
         .word   .Lconst_n4, REG_R21, .+4
 
-/*=== PIXEL 1 (bit 6) ===*/
-.Lpix1: .word   .Lconst_0x40, REG_R22, .Lpix1_bg
+/*=== PIXEL 1 (bit 6) P-state ===*/
+.Lpix1_P: .word .Lconst_0x40, REG_R22, .Lpix1_P_bg
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
         .word   REG_T4, REG_R21 | INDIRECT, .+4
         .word   .Lconst_n4, REG_R21, .+4
 
-/*=== PIXEL 2 (bit 5) ===*/
-.Lpix2: .word   .Lconst_0x20, REG_R22, .Lpix2_bg
+/*=== PIXEL 2 (bit 5) P-state ===*/
+.Lpix2_P: .word .Lconst_0x20, REG_R22, .Lpix2_P_bg
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
         .word   REG_T4, REG_R21 | INDIRECT, .+4
         .word   .Lconst_n4, REG_R21, .+4
 
-/*=== PIXEL 3 (bit 4) ===*/
-.Lpix3: .word   .Lconst_0x10, REG_R22, .Lpix3_bg
+/*=== PIXEL 3 (bit 4) P-state ===*/
+.Lpix3_P: .word .Lconst_0x10, REG_R22, .Lpix3_P_bg
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
         .word   REG_T4, REG_R21 | INDIRECT, .+4
         .word   .Lconst_n4, REG_R21, .+4
 
-/*=== PIXEL 4 (bit 3) ===*/
-.Lpix4: .word   .Lconst_0x08, REG_R22, .Lpix4_bg
+/*=== PIXEL 4 (bit 3) P-state ===*/
+.Lpix4_P: .word .Lconst_0x08, REG_R22, .Lpix4_P_bg
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
         .word   REG_T4, REG_R21 | INDIRECT, .+4
         .word   .Lconst_n4, REG_R21, .+4
 
-/*=== PIXEL 5 (bit 2) ===*/
-.Lpix5: .word   .Lconst_0x04, REG_R22, .Lpix5_bg
+/*=== PIXEL 5 (bit 2) P-state ===*/
+.Lpix5_P: .word .Lconst_0x04, REG_R22, .Lpix5_P_bg
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
         .word   REG_T4, REG_R21 | INDIRECT, .+4
         .word   .Lconst_n4, REG_R21, .+4
 
-/*=== PIXEL 6 (bit 1) ===*/
-.Lpix6: .word   .Lconst_0x02, REG_R22, .Lpix6_bg
+/*=== PIXEL 6 (bit 1) P-state ===*/
+.Lpix6_P: .word .Lconst_0x02, REG_R22, .Lpix6_P_bg
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
         .word   REG_T4, REG_R21 | INDIRECT, .+4
         .word   .Lconst_n4, REG_R21, .+4
 
-/*=== PIXEL 7 (bit 0) ===*/
-.Lpix7: .word   .Lconst_0x01, REG_R22, .Lpix7_bg
+/*=== PIXEL 7 (bit 0) P-state ===*/
+.Lpix7_P: .word .Lconst_0x01, REG_R22, .Lpix7_P_bg
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
         .word   REG_T4, REG_R21 | INDIRECT, .+4
 
@@ -110,59 +102,140 @@ subleq_blit_row8:
         .word   REG_Z, REG_Z, REG_RA | INDIRECT
 
 /*===========================================================================
- * BG COLD TRAMPOLINES
+ * P-STATE BG TRAMPOLINES
+ * No restore needed — transition to N-state for next pixel.
  *===========================================================================*/
-.Lpix0_bg:
-        .word   .Lconst_n0x80, REG_R22, .+4
+.Lpix0_P_bg:
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
         .word   REG_T5, REG_R21 | INDIRECT, .+4
         .word   .Lconst_n4, REG_R21, .+4
-        .word   REG_Z, REG_Z, .Lpix1
+        .word   REG_Z, REG_Z, .Lpix1_N
 
-.Lpix1_bg:
-        .word   .Lconst_n0x40, REG_R22, .+4
+.Lpix1_P_bg:
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
         .word   REG_T5, REG_R21 | INDIRECT, .+4
         .word   .Lconst_n4, REG_R21, .+4
-        .word   REG_Z, REG_Z, .Lpix2
+        .word   REG_Z, REG_Z, .Lpix2_N
 
-.Lpix2_bg:
-        .word   .Lconst_n0x20, REG_R22, .+4
+.Lpix2_P_bg:
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
         .word   REG_T5, REG_R21 | INDIRECT, .+4
         .word   .Lconst_n4, REG_R21, .+4
-        .word   REG_Z, REG_Z, .Lpix3
+        .word   REG_Z, REG_Z, .Lpix3_N
 
-.Lpix3_bg:
-        .word   .Lconst_n0x10, REG_R22, .+4
+.Lpix3_P_bg:
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
         .word   REG_T5, REG_R21 | INDIRECT, .+4
         .word   .Lconst_n4, REG_R21, .+4
-        .word   REG_Z, REG_Z, .Lpix4
+        .word   REG_Z, REG_Z, .Lpix4_N
 
-.Lpix4_bg:
-        .word   .Lconst_n0x08, REG_R22, .+4
+.Lpix4_P_bg:
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
         .word   REG_T5, REG_R21 | INDIRECT, .+4
         .word   .Lconst_n4, REG_R21, .+4
-        .word   REG_Z, REG_Z, .Lpix5
+        .word   REG_Z, REG_Z, .Lpix5_N
 
-.Lpix5_bg:
-        .word   .Lconst_n0x04, REG_R22, .+4
+.Lpix5_P_bg:
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
         .word   REG_T5, REG_R21 | INDIRECT, .+4
         .word   .Lconst_n4, REG_R21, .+4
-        .word   REG_Z, REG_Z, .Lpix6
+        .word   REG_Z, REG_Z, .Lpix6_N
 
-.Lpix6_bg:
-        .word   .Lconst_n0x02, REG_R22, .+4
+.Lpix6_P_bg:
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
         .word   REG_T5, REG_R21 | INDIRECT, .+4
         .word   .Lconst_n4, REG_R21, .+4
-        .word   REG_Z, REG_Z, .Lpix7
+        .word   REG_Z, REG_Z, .Lpix7_N
 
-.Lpix7_bg:
-        /* No restore needed for last pixel */
+.Lpix7_P_bg:
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T5, REG_R21 | INDIRECT, .+4
+        .word   REG_Z, REG_Z, .Lpix_all_done
+
+/*===========================================================================
+ * N-STATE NODES + BG TRAMPOLINES
+ * N-state test: subtract NEGATIVE power (= add positive power back)
+ * If result > 0: bit was SET -> FG, transition back to P-state
+ * If result <= 0: bit was CLEAR -> BG, stay in N-state
+ *===========================================================================*/
+.Lpix1_N: .word .Lconst_n0x40, REG_R22, .Lpix1_N_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T4, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lpix2_P
+
+.Lpix1_N_bg:
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T5, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lpix2_N
+
+.Lpix2_N: .word .Lconst_n0x20, REG_R22, .Lpix2_N_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T4, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lpix3_P
+
+.Lpix2_N_bg:
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T5, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lpix3_N
+
+.Lpix3_N: .word .Lconst_n0x10, REG_R22, .Lpix3_N_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T4, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lpix4_P
+
+.Lpix3_N_bg:
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T5, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lpix4_N
+
+.Lpix4_N: .word .Lconst_n0x08, REG_R22, .Lpix4_N_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T4, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lpix5_P
+
+.Lpix4_N_bg:
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T5, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lpix5_N
+
+.Lpix5_N: .word .Lconst_n0x04, REG_R22, .Lpix5_N_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T4, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lpix6_P
+
+.Lpix5_N_bg:
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T5, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lpix6_N
+
+.Lpix6_N: .word .Lconst_n0x02, REG_R22, .Lpix6_N_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T4, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lpix7_P
+
+.Lpix6_N_bg:
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T5, REG_R21 | INDIRECT, .+4
+        .word   .Lconst_n4, REG_R21, .+4
+        .word   REG_Z, REG_Z, .Lpix7_N
+
+.Lpix7_N: .word .Lconst_n0x01, REG_R22, .Lpix7_N_bg
+        .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
+        .word   REG_T4, REG_R21 | INDIRECT, .+4
+        .word   REG_Z, REG_Z, .Lpix_all_done
+
+.Lpix7_N_bg:
         .word   REG_R21 | INDIRECT, REG_R21 | INDIRECT, .+4
         .word   REG_T5, REG_R21 | INDIRECT, .+4
         .word   REG_Z, REG_Z, .Lpix_all_done
@@ -177,7 +250,7 @@ subleq_blit_row8:
 .Lconst_n1:
         .word   -1
 
-/* Power constants (positive for subtract-test) */
+/* Power constants (positive for P-state subtraction) */
 .Lconst_0x80:
         .word   0x80
 .Lconst_0x40:
@@ -195,7 +268,7 @@ subleq_blit_row8:
 .Lconst_0x01:
         .word   0x01
 
-/* Negative power constants (for restore) */
+/* Negative power constants (for N-state subtraction = addition) */
 .Lconst_n0x80:
         .word   -0x80
 .Lconst_n0x40:
@@ -210,3 +283,5 @@ subleq_blit_row8:
         .word   -0x04
 .Lconst_n0x02:
         .word   -0x02
+.Lconst_n0x01:
+        .word   -0x01

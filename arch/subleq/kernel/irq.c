@@ -72,13 +72,16 @@ void subleq_do_IRQ(struct pt_regs *regs)
 	{
 		unsigned int ticks = 0;
 		u32 lo = readl((void __iomem *)SUBLEQ_CLOCK_S_LO);
+		u32 hi = readl((void __iomem *)SUBLEQ_CLOCK_S_HI);
 		u32 ns = readl((void __iomem *)SUBLEQ_CLOCK_NS);
-		static u32 last_s;
+		static u32 last_s_lo;
+		static u32 last_s_hi;
 		static u32 last_ns;
 		const u32 tick_ns = NSEC_PER_SEC / HZ;
 
-		if (last_s == 0 && last_ns == 0) {
-			last_s = lo;
+		if (last_s_lo == 0 && last_s_hi == 0 && last_ns == 0) {
+			last_s_lo = lo;
+			last_s_hi = hi;
 			last_ns = ns;
 		}
 
@@ -88,17 +91,25 @@ void subleq_do_IRQ(struct pt_regs *regs)
 		 */
 		for (;;) {
 			u32 next_ns = last_ns + tick_ns;
-			u32 next_s = last_s;
+			u32 next_s_lo = last_s_lo;
+			u32 next_s_hi = last_s_hi;
 
 			if (next_ns >= NSEC_PER_SEC) {
 				next_ns -= NSEC_PER_SEC;
-				next_s++;
+				next_s_lo++;
+				if (next_s_lo == 0)
+					next_s_hi++;
 			}
-			/* Proper tuple comparison: (lo,ns) >= (next_s,next_ns) */
-			if (lo > next_s ||
-			    (lo == next_s && ns >= next_ns)) {
+			/*
+			 * Full 64-bit tuple comparison:
+			 * (hi,lo,ns) >= (next_s_hi,next_s_lo,next_ns)
+			 */
+			if (hi > next_s_hi ||
+			    (hi == next_s_hi && (lo > next_s_lo ||
+			    (lo == next_s_lo && ns >= next_ns)))) {
 				ticks++;
-				last_s = next_s;
+				last_s_lo = next_s_lo;
+				last_s_hi = next_s_hi;
 				last_ns = next_ns;
 			} else {
 				break;

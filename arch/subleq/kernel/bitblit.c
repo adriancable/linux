@@ -1,14 +1,10 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * Subleq-optimized bitblit operations for fbcon
+ * Subleq-optimized bitblit for fbcon
  *
- * Optimizations over generic bitblit.c:
- * 1. Use memcpy instead of byte-by-byte copy
- * 2. Hoist invariant computations out of hot loops
- * 3. Fast path for 8-pixel wide fonts (the common case)
- * 4. Skip intermediate buffer when no attributes needed
- *
- * This file overrides the generic bitblit for Subleq architecture.
+ * Overrides the generic bitblit with: memcpy instead of byte-by-byte copy,
+ * loop-invariant hoisting, fast path for 8px wide fonts, and direct
+ * framebuffer rendering that skips the intermediate pixmap buffer.
  */
 
 #include <linux/module.h>
@@ -21,17 +17,8 @@
 #include "../../../drivers/video/fbdev/core/fbcon.h"
 
 /*
- * Direct framebuffer rendering - bypasses pixmap buffer entirely.
- * Renders characters directly to 32bpp framebuffer.
- *
- * fb:       Framebuffer base pointer (32bpp XRGB8888)
- * fb_pitch: Bytes per framebuffer row (e.g., 800*4=3200)
- * x, y:     Pixel coordinates of first character
- * font:     Expanded font array (one byte per word)
- * s:        Screen buffer (u16 per char: attr<<8 | char)
- * cnt:      Number of characters to render
- * s_pitch:  Bytes between characters in screen buffer (usually 2)
- * fg, bg:   Foreground/background colors (32-bit XRGB)
+ * Render characters directly to 32bpp framebuffer, bypassing the pixmap.
+ * See the assembly implementation for parameter details.
  */
 extern void subleq_direct_putcs(u32 *fb, u32 fb_pitch, u32 x, u32 y,
 				const u32 *font, const u16 *s, u32 cnt,
@@ -39,9 +26,8 @@ extern void subleq_direct_putcs(u32 *fb, u32 fb_pitch, u32 x, u32 y,
 
 
 /*
- * Expanded font: one byte per word for fast word-aligned access.
- * This eliminates byte extraction operations in the Subleq blitter.
- * Size: 256 chars × 16 rows × 4 bytes = 16KB
+ * Expanded font: one word per byte for fast word-aligned access.
+ * 256 chars × 16 rows × 4 bytes = 16KB.
  */
 static u32 expanded_font[256 * 16] __aligned(4);
 static const u8 *current_font_data;
@@ -118,11 +104,7 @@ static void bit_clear(struct vc_data *vc, struct fb_info *info, int sy,
 	info->fbops->fb_fillrect(info, &region);
 }
 
-/*
- * SUBLEQ-OPTIMIZED: Fast 8-pixel font path using memcpy
- * For 8-pixel wide fonts (idx==1), each scanline is just 1 byte.
- * We can use memcpy for the entire character cell instead of row-by-row.
- */
+/* Fast path for 8px font: each scanline is 1 byte, can use memcpy */
 static inline void subleq_pad_8pixel(u8 *dst, u32 d_pitch, u8 *src, u32 height)
 {
 	/* When d_pitch == 1 (single character), entire cell is contiguous */
@@ -139,13 +121,9 @@ static inline void subleq_pad_8pixel(u8 *dst, u32 d_pitch, u8 *src, u32 height)
 }
 
 /*
- * SUBLEQ-OPTIMIZED: bit_putcs_aligned for 8-pixel wide fonts
- *
- * Key optimizations:
- * 1. Hoist charmask, charcnt, cellsize, height out of loop
- * 2. Use pointer arithmetic instead of array indexing
- * 3. Fast memcpy-based font data copy
- * 4. Separate paths for attribute/no-attribute (common case is no attr)
+ * Aligned putcs for 8px wide fonts.
+ * Hoists charmask/cellsize/height out of the loop. Separate
+ * fast/medium/slow paths for no-attr, wider fonts, and attr cases.
  */
 static void bit_putcs_aligned(struct vc_data *vc, struct fb_info *info,
 			      const u16 *s, u32 attr, u32 cnt,

@@ -1,22 +1,10 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * Subleq syscall C handler - called from assembly trampoline
+ * Subleq syscall C handler — dispatches syscalls from the assembly trampoline.
  *
- * The trampoline in entry.S handles:
- *   - Saving return address to a global (avoids userspace stack corruption)
- *   - Switching to kernel stack
- *   - Calling this function
- *   - Returning via the saved return address
- *
- * This function just dispatches to the appropriate syscall.
- *
- * NOTE: pt_regs values are stored NEGATED. All access uses PT_REG_GET/SET macros.
- *
- * Architecture notes:
- * - This is a NOMMU architecture, so we don't use the full generic entry
- *   infrastructure (enter_from_user_mode/exit_to_user_mode/context_tracking).
- * - We don't support syscall tracing (strace), seccomp, or audit currently.
- * - Signal handling and syscall restart are fully implemented.
+ * pt_regs values are stored NEGATED; all access uses PT_REG_GET/SET.
+ * NOMMU — no generic entry infrastructure, no syscall tracing/seccomp.
+ * Signal handling and syscall restart are fully implemented.
  */
 
 #include <linux/syscalls.h>
@@ -69,26 +57,15 @@ asmlinkage long __subleq_syscall_c(long nr, long a1, long a2, long a3, long a4, 
 	long ret;
 
 	/*
-	 * pt_regs->pc, fp, sp, ra are now filled in by the assembly entry code
-	 * (in __subleq_syscall) BEFORE calling us. This is critical to avoid
-	 * a race condition: if we copied from globals here, an interrupt between
-	 * the assembly saving to globals and us copying to pt_regs could allow
-	 * another task to overwrite the globals, corrupting our return state.
-	 *
-	 * Assembly now saves directly to pt_regs atomically after switching
-	 * to the kernel stack, eliminating this race window.
+	 * pt_regs->pc/fp/sp/ra are filled in by the assembly entry code
+	 * BEFORE calling us, avoiding a race where an interrupt could
+	 * overwrite globals between save and copy.
 	 */
 	regs = task_pt_regs(current);
 
 	/*
-	 * Save original syscall number and arguments for restart.
-	 * This is critical for proper syscall restart support:
-	 * - If the syscall is interrupted and needs restart, we need these
-	 * - Signal handling uses these to restart syscalls after handler returns
-	 *
-	 * fn(a1, a2, a3, a4, a5, a6) - all 6 args are saved for restart.
-	 * All 6 are needed because 5/6-arg syscalls (e.g., mmap) would fail
-	 * to restart if their later arguments were lost.
+	 * Save original syscall number and all 6 arguments for restart.
+	 * Signal handling needs these to restart syscalls after the handler.
 	 */
 	PT_REG_SET_SIGNED(regs, syscall_nr, nr);
 	PT_REG_SET(regs, orig_r21, nr);  /* Syscall number (for lookup) */
@@ -117,21 +94,9 @@ asmlinkage long __subleq_syscall_c(long nr, long a1, long a2, long a3, long a4, 
 	}
 
 	/*
-	 * Syscall execution with restart loop.
-	 *
-	 * Some syscalls (like wait_for_vfork_done) return -ERESTARTNOINTR
-	 * when interrupted. The kernel expects the architecture to
-	 * automatically restart these syscalls.
-	 *
-	 * We implement restart by looping here. This is architecturally
-	 * correct because:
-	 * 1. We're still in the kernel, so context is preserved
-	 * 2. When signals are implemented, do_signal() will deliver them
-	 *    first and only set up restart for those that need it
-	 * 3. The loop breaks on success or non-restartable errors
-	 *
-	 * This matches the behavior of the "restart block" mechanism
-	 * but without needing to modify PC (which is complex for Subleq).
+	 * Restart loop: some syscalls (e.g., wait_for_vfork_done) return
+	 * -ERESTARTNOINTR when interrupted. We loop here rather than
+	 * modifying PC, which is complex on Subleq.
 	 */
 	int restart_count = 0;
 
@@ -148,13 +113,8 @@ restart_syscall:
 	PT_REG_SET_SIGNED(regs, r20, ret);
 
 	/*
-	 * Handle signal delivery and syscall restart.
-	 *
-	 * do_signal() returns true if a signal handler was set up.
-	 * In that case, we must NOT perform the restart logic below -
-	 * instead, we return to userspace to run the signal handler.
-	 * The restart (if SA_RESTART) happens when the handler returns
-	 * via sigreturn.
+	 * If do_signal() set up a handler, return to userspace immediately.
+	 * Restart (if SA_RESTART) happens when the handler returns via sigreturn.
 	 */
 	if (do_signal(regs)) {
 		/* Signal handler was set up - return to userspace */
@@ -168,11 +128,9 @@ restart_syscall:
 	ret = PT_REG_GET_SIGNED(regs, r20);
 
 	/*
-	 * CRITICAL: sys_rt_sigreturn sets syscall_nr to -1 to indicate
-	 * that the syscall has been handled and should NOT be restarted.
-	 * If we don't check this, and the restored R20 happens to be a
-	 * restart error code (like -ERESTARTNOINTR), we would incorrectly
-	 * restart the sigreturn syscall with the wrong SP, causing a crash.
+	 * sys_rt_sigreturn sets syscall_nr to -1 to prevent restart.
+	 * Without this check, a restored r20 with a restart code would
+	 * incorrectly restart sigreturn with the wrong SP.
 	 */
 	if (!in_syscall(regs)) {
 		/* Sigreturn completed - do not attempt restart */
@@ -182,14 +140,8 @@ restart_syscall:
 	switch (ret) {
 	case -ERESTARTNOINTR:
 		/*
-		 * Always restart - this is used by wait_for_vfork_done().
-		 * The vfork parent must wait for the child to exec/exit,
-		 * so interruption should be transparent.
-		 *
-		 * CRITICAL: We must call cond_resched() to give the child
-		 * process a chance to run! Otherwise we spin here forever
-		 * because the child (which needs to call exec/exit to wake
-		 * us up) never gets scheduled.
+		 * Always restart — used by wait_for_vfork_done().
+		 * Must yield so the child gets to run and complete.
 		 */
 		restart_count++;
 		if (restart_count > 10000) {
@@ -208,25 +160,15 @@ restart_syscall:
 		goto restart_syscall;
 
 	/*
-	 * Note: ERESTARTSYS and ERESTARTNOHAND are NOT handled here.
-	 * do_signal() -> handle_restart() converts these codes:
-	 * - If a signal handler exists: may convert to EINTR or keep for SA_RESTART
-	 * - If no handler: converts to ERESTARTNOINTR to trigger restart
-	 * So by the time we reach this switch, these codes have already
-	 * been transformed and will hit the ERESTARTNOINTR case above.
+	 * ERESTARTSYS/ERESTARTNOHAND are handled by do_signal() ->
+	 * handle_restart(), which converts them to ERESTARTNOINTR
+	 * when no handler is present. They won't reach here.
 	 */
 
 	case -ERESTART_RESTARTBLOCK: {
 		/*
-		 * ERESTART_RESTARTBLOCK requires calling the restart_block
-		 * function instead of the original syscall. This is used by
-		 * nanosleep/futex to handle remaining time correctly.
-		 *
-		 * Example: nanosleep(3s) interrupted after 1s by SIGALRM
-		 * - nanosleep sets up restart_block with remaining 2s
-		 * - Returns -ERESTART_RESTARTBLOCK
-		 * - We call restart_block.fn() which sleeps the remaining 2s
-		 * - Total sleep time = 3s as expected
+		 * Call restart_block instead of the original syscall.
+		 * Used by nanosleep/futex to handle remaining time.
 		 */
 		struct restart_block *restart = &current->restart_block;
 		ret = restart->fn(restart);
@@ -256,13 +198,9 @@ out:
 	syscall_wont_restart(regs);
 
 	/*
-	 * Process pending work before returning to userspace.
-	 *
-	 * This matches the pattern used by ColdFire/nios2 where syscall
-	 * returns go through ret_from_exception, which checks all TIF flags
-	 * in a loop. Without this, a timer tick during syscall execution
-	 * would not cause a reschedule until the next interrupt, increasing
-	 * worst-case scheduling latency by up to one full timer tick.
+	 * Check pending work before returning to userspace.
+	 * Without this, a timer tick during syscall execution would not
+	 * cause a reschedule until the next interrupt.
 	 */
 	if (need_resched())
 		schedule();
@@ -276,13 +214,8 @@ out:
 		do_signal(regs);
 
 	/*
-	 * Process TIF_NOTIFY_RESUME task_work before returning to userspace.
-	 *
-	 * CRITICAL: fput() defers file close via task_work_add(), which sets
-	 * TIF_NOTIFY_RESUME. Without draining these callbacks here, files
-	 * opened during exec (e.g., the executable itself) are never properly
-	 * closed, leaking their f_cred reference and causing struct cred to
-	 * accumulate indefinitely.
+	 * Drain task_work (TIF_NOTIFY_RESUME). Without this, deferred
+	 * fput() calls leak f_cred references indefinitely.
 	 */
 	if (test_thread_flag(TIF_NOTIFY_RESUME))
 		resume_user_mode_work(regs);
@@ -293,10 +226,9 @@ out:
 
 
 /*
- * subleq_init_kernel_sp - Initialize kernel stack pointer for a task
- *
- * Called during context switch to set up subleq_kernel_sp for the new task.
- * The assembly trampoline uses this to switch to the kernel stack.
+ * Set subleq_kernel_sp for a task. The assembly trampoline uses this
+ * to switch to the kernel stack. Must leave enough headroom for the
+ * deepest kernel call chain (do_signal path needs ~1KB).
  */
 extern unsigned long subleq_kernel_sp;
 

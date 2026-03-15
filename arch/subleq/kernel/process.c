@@ -36,20 +36,13 @@ void __cpuidle arch_cpu_idle(void)
  * It's declared in switch_to.h
  */
 
-/*
- * ret_from_fork is in entry.S - it's the return address for new threads
- */
+/* Assembly entry point for new threads */
 extern char ret_from_fork[];
 
 /*
- * kernel_thread_helper - Called by ret_from_fork for new kernel threads
- *
- * When a new kernel thread is first scheduled, __switch_to returns to
- * ret_from_fork, which then calls this function. The thread's function
- * pointer and argument were stored in the pt_regs by copy_thread.
- *
- * IMPORTANT: We must call schedule_tail(prev) first to finish the context
- * switch. The prev pointer is passed in R21 (first argument) by ret_from_fork.
+ * Entry point for new kernel threads. Called with:
+ *   r4 = fn pointer, r5 = arg
+ * Finishes the context switch, then calls fn(arg).
  */
 extern asmlinkage void schedule_tail(struct task_struct *prev);
 
@@ -59,31 +52,15 @@ void kernel_thread_helper(struct task_struct *prev)
 	int (*fn)(void *) = (int (*)(void *))PT_REG_GET(regs, r3);
 	void *arg = (void *)PT_REG_GET(regs, r21);
 
-	/*
-	 * CRITICAL: Must call schedule_tail() first!
-	 * This calls finish_task_switch(prev) which clears prev->on_cpu.
-	 * Without this, try_to_wake_up() will spin forever waiting for
-	 * on_cpu to become 0 when trying to wake up the previous task.
-	 */
+	/* Finish context switch bookkeeping before running the thread */
 	schedule_tail(prev);
 
 	/* Call the kernel thread function */
 	fn(arg);
 
 	/*
-	 * The kernel thread function has returned. There are two cases:
-	 *
-	 * 1. Normal kernel thread completion: The thread did its work and is done.
-	 *    In this case, we should call do_exit(0).
-	 *
-	 * 2. kernel_execve() was called: The thread called kernel_execve() to
-	 *    transform into a user process (e.g., init). In this case, start_thread()
-	 *    was called which set regs->r3 = 0 (user thread marker), and we should
-	 *    NOT call do_exit(). Instead, we should return to userspace by setting
-	 *    SP and jumping to PC.
-	 *
-	 * We check regs->r3: if it's 0, this is now a user thread and we should
-	 * transition to userspace. Otherwise, it's a completed kernel thread.
+	 * If fn() returns, check if kernel_execve() transformed this into
+	 * a user thread (r3 == 0). If so, jump to userspace; otherwise exit.
 	 */
 	regs = task_pt_regs(current); /* Re-read in case it changed */
 
@@ -111,42 +88,20 @@ void kernel_thread_helper(struct task_struct *prev)
 }
 
 /*
- * ret_to_user_prep - Prepare for return to userspace (called from ret_from_fork in asm)
- *
- * This is called when a user thread is scheduled for the first time after
- * fork or clone. It ONLY calls schedule_tail to complete the context switch.
- *
- * Arguments:
- *   prev (R21) - previous task pointer (for schedule_tail)
- *
- * Returns:
- *   R20 = pointer to current task's pt_regs
- *
- * IMPORTANT: The assembly code in ret_from_fork will read pc, sp, and r20
- * directly from pt_regs to set up the return to userspace. This ensures
- * no registers are clobbered by C code.
+ * Prepare for userspace return after fork/clone.
+ * Finishes the context switch and processes pending work.
+ * Returns a pointer to pt_regs for the assembly caller.
  */
 struct pt_regs *ret_to_user_prep(struct task_struct *prev)
 {
 	struct pt_regs *regs;
-	
-	/*
-	 * CRITICAL: Must call schedule_tail() first!
-	 * This calls finish_task_switch(prev) which clears prev->on_cpu.
-	 */
+
 	schedule_tail(prev);
 
 	/* Return pointer to pt_regs for assembly to use */
 	regs = task_pt_regs(current);
 
-	/*
-	 * Process pending work before returning to userspace.
-	 *
-	 * Like ColdFire/nios2's ret_from_fork -> ret_from_exception path,
-	 * we must check all TIF work flags. A signal sent to the child
-	 * between fork() and first schedule would otherwise be delayed
-	 * until the next interrupt.
-	 */
+	/* Process pending work before returning to userspace */
 	if (need_resched())
 		schedule();
 
@@ -161,18 +116,9 @@ struct pt_regs *ret_to_user_prep(struct task_struct *prev)
 }
 
 /*
- * Start a new thread (called after execve)
- *
- * This is called by the binary format handlers (e.g., binfmt_flat) after
- * loading a new executable. It sets up the registers for the new program.
- *
- * IMPORTANT: We must set r3 = 0 to mark this as a user thread!
- * When a kernel thread calls kernel_execve(), the old kernel thread had
- * r3 = fn (non-zero). We need to clear it so ret_from_fork knows this is
- * now a user thread that should return to userspace.
- *
- * NOTE: Since pt_regs stores values NEGATED, we use PT_REG_SET for all writes.
- * memset(0) works because -0 = 0.
+ * Initialize registers for a freshly exec'd thread.
+ * r3 = 0 marks this as a user thread (kernel threads have r3 = fn ptr).
+ * memset(0) is safe for negated storage since -0 = 0.
  */
 void start_thread(struct pt_regs *regs, unsigned long pc, unsigned long sp)
 {
@@ -240,9 +186,7 @@ int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
 	 *   3. Pops retpc, jumps to ret_from_fork
 	 */
 
-	/* Push -ret_from_fork as the "return address" (negated RA convention:
-	 * __switch_to's prologue pushes RA to [SP], and its pop-RA does
-	 * RA = 0 - [SP], so [SP] must be -addr) */
+	/* Store negated ret_from_fork (RA-Direct: pop does RA = -[SP]) */
 	retpc_slot = (unsigned long *)childregs - 1;
 	*retpc_slot = -(unsigned long)ret_from_fork;
 

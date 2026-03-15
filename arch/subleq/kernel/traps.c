@@ -27,12 +27,8 @@ void __init trap_init(void)
 /*
  * Stack trace display
  *
- * RA-Direct calling convention: non-leaf functions save -RA to the stack
- * in their prologues. We walk the stack looking for values that could be
- * return addresses (between start of kernel text and end).
- *
- * This is a heuristic - we can't perfectly identify stack frames without
- * frame pointers, but we can print plausible return addresses.
+ * Heuristic walk: scan the stack for values in the kernel text range.
+ * Also checks -addr since RA-Direct stores negated return addresses.
  */
 extern char _stext[], _etext[];
 
@@ -57,11 +53,7 @@ void show_stack(struct task_struct *task, unsigned long *sp, const char *loglvl)
 
 		addr = *stack++;
 
-		/*
-		 * Check if this looks like a kernel text address.
-		 * With the negated RA calling convention, return addresses
-		 * on the stack are stored as -addr, so also check -addr.
-		 */
+		/* Check both addr and -addr (negated RA convention) */
 		if (addr >= (unsigned long)_stext &&
 		    addr <= (unsigned long)_etext) {
 			printk("%s [<%08lx>] %pS\n", loglvl, addr,

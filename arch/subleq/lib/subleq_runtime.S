@@ -3142,7 +3142,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n1073741824, 180, .+4
         .word   12, 12, .Lsd64v_62_cmp
 .Lsd64v_62_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -3286,7 +3285,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n536870912, 180, .+4
         .word   12, 12, .Lsd64v_61_cmp
 .Lsd64v_61_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -3430,7 +3428,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n268435456, 180, .+4
         .word   12, 12, .Lsd64v_60_cmp
 .Lsd64v_60_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -3574,7 +3571,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n134217728, 180, .+4
         .word   12, 12, .Lsd64v_59_cmp
 .Lsd64v_59_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -3718,7 +3714,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n67108864, 180, .+4
         .word   12, 12, .Lsd64v_58_cmp
 .Lsd64v_58_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -3862,7 +3857,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n33554432, 180, .+4
         .word   12, 12, .Lsd64v_57_cmp
 .Lsd64v_57_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -4006,7 +4000,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n16777216, 180, .+4
         .word   12, 12, .Lsd64v_56_cmp
 .Lsd64v_56_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -4150,7 +4143,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n8388608, 180, .+4
         .word   12, 12, .Lsd64v_55_cmp
 .Lsd64v_55_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -4294,7 +4286,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n4194304, 180, .+4
         .word   12, 12, .Lsd64v_54_cmp
 .Lsd64v_54_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -4438,7 +4429,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n2097152, 180, .+4
         .word   12, 12, .Lsd64v_53_cmp
 .Lsd64v_53_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -4582,7 +4572,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n1048576, 180, .+4
         .word   12, 12, .Lsd64v_52_cmp
 .Lsd64v_52_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -4726,7 +4715,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n524288, 180, .+4
         .word   12, 12, .Lsd64v_51_cmp
 .Lsd64v_51_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -4870,7 +4858,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n262144, 180, .+4
         .word   12, 12, .Lsd64v_50_cmp
 .Lsd64v_50_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -5014,7 +5001,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n131072, 180, .+4
         .word   12, 12, .Lsd64v_49_cmp
 .Lsd64v_49_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -5158,7 +5144,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n65536, 180, .+4
         .word   12, 12, .Lsd64v_48_cmp
 .Lsd64v_48_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -5302,7 +5287,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n32768, 180, .+4
         .word   12, 12, .Lsd64v_47_cmp
 .Lsd64v_47_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -5446,7 +5430,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n16384, 180, .+4
         .word   12, 12, .Lsd64v_46_cmp
 .Lsd64v_46_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -5590,7 +5573,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n8192, 180, .+4
         .word   12, 12, .Lsd64v_45_cmp
 .Lsd64v_45_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -5734,7 +5716,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n4096, 180, .+4
         .word   12, 12, .Lsd64v_44_cmp
 .Lsd64v_44_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -5878,7 +5859,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n2048, 180, .+4
         .word   12, 12, .Lsd64v_43_cmp
 .Lsd64v_43_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -6022,7 +6002,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n1024, 180, .+4
         .word   12, 12, .Lsd64v_42_cmp
 .Lsd64v_42_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -6166,7 +6145,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n512, 180, .+4
         .word   12, 12, .Lsd64v_41_cmp
 .Lsd64v_41_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -6310,7 +6288,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n256, 180, .+4
         .word   12, 12, .Lsd64v_40_cmp
 .Lsd64v_40_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -6454,7 +6431,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n128, 180, .+4
         .word   12, 12, .Lsd64v_39_cmp
 .Lsd64v_39_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -6598,7 +6574,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n64, 180, .+4
         .word   12, 12, .Lsd64v_38_cmp
 .Lsd64v_38_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -6742,7 +6717,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n32, 180, .+4
         .word   12, 12, .Lsd64v_37_cmp
 .Lsd64v_37_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -6886,7 +6860,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n16, 180, .+4
         .word   12, 12, .Lsd64v_36_cmp
 .Lsd64v_36_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -7030,7 +7003,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n8, 180, .+4
         .word   12, 12, .Lsd64v_35_cmp
 .Lsd64v_35_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -7174,7 +7146,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n4, 180, .+4
         .word   12, 12, .Lsd64v_34_cmp
 .Lsd64v_34_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -7318,7 +7289,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n2, 180, .+4
         .word   12, 12, .Lsd64v_33_cmp
 .Lsd64v_33_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -7462,7 +7432,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n1, 180, .+4
         .word   12, 12, .Lsd64v_32_cmp
 .Lsd64v_32_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -7759,7 +7728,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n1073741824, 176, .+4
         .word   12, 12, .Lsd64v_30_cmp
 .Lsd64v_30_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -7903,7 +7871,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n536870912, 176, .+4
         .word   12, 12, .Lsd64v_29_cmp
 .Lsd64v_29_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -8047,7 +8014,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n268435456, 176, .+4
         .word   12, 12, .Lsd64v_28_cmp
 .Lsd64v_28_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -8191,7 +8157,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n134217728, 176, .+4
         .word   12, 12, .Lsd64v_27_cmp
 .Lsd64v_27_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -8335,7 +8300,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n67108864, 176, .+4
         .word   12, 12, .Lsd64v_26_cmp
 .Lsd64v_26_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -8479,7 +8443,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n33554432, 176, .+4
         .word   12, 12, .Lsd64v_25_cmp
 .Lsd64v_25_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -8623,7 +8586,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n16777216, 176, .+4
         .word   12, 12, .Lsd64v_24_cmp
 .Lsd64v_24_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -8767,7 +8729,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n8388608, 176, .+4
         .word   12, 12, .Lsd64v_23_cmp
 .Lsd64v_23_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -8911,7 +8872,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n4194304, 176, .+4
         .word   12, 12, .Lsd64v_22_cmp
 .Lsd64v_22_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -9055,7 +9015,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n2097152, 176, .+4
         .word   12, 12, .Lsd64v_21_cmp
 .Lsd64v_21_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -9199,7 +9158,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n1048576, 176, .+4
         .word   12, 12, .Lsd64v_20_cmp
 .Lsd64v_20_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -9343,7 +9301,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n524288, 176, .+4
         .word   12, 12, .Lsd64v_19_cmp
 .Lsd64v_19_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -9487,7 +9444,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n262144, 176, .+4
         .word   12, 12, .Lsd64v_18_cmp
 .Lsd64v_18_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -9631,7 +9587,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n131072, 176, .+4
         .word   12, 12, .Lsd64v_17_cmp
 .Lsd64v_17_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -9775,7 +9730,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n65536, 176, .+4
         .word   12, 12, .Lsd64v_16_cmp
 .Lsd64v_16_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -9919,7 +9873,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n32768, 176, .+4
         .word   12, 12, .Lsd64v_15_cmp
 .Lsd64v_15_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -10063,7 +10016,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n16384, 176, .+4
         .word   12, 12, .Lsd64v_14_cmp
 .Lsd64v_14_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -10207,7 +10159,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n8192, 176, .+4
         .word   12, 12, .Lsd64v_13_cmp
 .Lsd64v_13_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -10351,7 +10302,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n4096, 176, .+4
         .word   12, 12, .Lsd64v_12_cmp
 .Lsd64v_12_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -10495,7 +10445,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n2048, 176, .+4
         .word   12, 12, .Lsd64v_11_cmp
 .Lsd64v_11_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -10639,7 +10588,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n1024, 176, .+4
         .word   12, 12, .Lsd64v_10_cmp
 .Lsd64v_10_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -10783,7 +10731,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n512, 176, .+4
         .word   12, 12, .Lsd64v_9_cmp
 .Lsd64v_9_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -10927,7 +10874,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n256, 176, .+4
         .word   12, 12, .Lsd64v_8_cmp
 .Lsd64v_8_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -11071,7 +11017,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n128, 176, .+4
         .word   12, 12, .Lsd64v_7_cmp
 .Lsd64v_7_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -11215,7 +11160,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n64, 176, .+4
         .word   12, 12, .Lsd64v_6_cmp
 .Lsd64v_6_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -11359,7 +11303,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n32, 176, .+4
         .word   12, 12, .Lsd64v_5_cmp
 .Lsd64v_5_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -11503,7 +11446,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n16, 176, .+4
         .word   12, 12, .Lsd64v_4_cmp
 .Lsd64v_4_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -11647,7 +11589,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n8, 176, .+4
         .word   12, 12, .Lsd64v_3_cmp
 .Lsd64v_3_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -11791,7 +11732,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n4, 176, .+4
         .word   12, 12, .Lsd64v_2_cmp
 .Lsd64v_2_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -11935,7 +11875,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n2, 176, .+4
         .word   12, 12, .Lsd64v_1_cmp
 .Lsd64v_1_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -12079,7 +12018,6 @@ __subleq_sdivrem64:
         .word   .Lsd64v_n1, 176, .+4
         .word   12, 12, .Lsd64v_0_cmp
 .Lsd64v_0_cmp:
-        .word   12, 12, .+4
         .word   184, 184, .+4
         .word   172, 12, .+4
         .word   12, 184, .+4
@@ -12704,7 +12642,6 @@ __subleq_udivrem64:
         .word   .Lud64_n1073741824, 180, .+4
         .word   12, 12, .Lud64_62_cmp
 .Lud64_62_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_62_r24pos
         .word   12, 12, .Lud64_62_r24big
 .Lud64_62_r24pos:
@@ -12880,7 +12817,6 @@ __subleq_udivrem64:
         .word   .Lud64_n536870912, 180, .+4
         .word   12, 12, .Lud64_61_cmp
 .Lud64_61_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_61_r24pos
         .word   12, 12, .Lud64_61_r24big
 .Lud64_61_r24pos:
@@ -13056,7 +12992,6 @@ __subleq_udivrem64:
         .word   .Lud64_n268435456, 180, .+4
         .word   12, 12, .Lud64_60_cmp
 .Lud64_60_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_60_r24pos
         .word   12, 12, .Lud64_60_r24big
 .Lud64_60_r24pos:
@@ -13232,7 +13167,6 @@ __subleq_udivrem64:
         .word   .Lud64_n134217728, 180, .+4
         .word   12, 12, .Lud64_59_cmp
 .Lud64_59_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_59_r24pos
         .word   12, 12, .Lud64_59_r24big
 .Lud64_59_r24pos:
@@ -13408,7 +13342,6 @@ __subleq_udivrem64:
         .word   .Lud64_n67108864, 180, .+4
         .word   12, 12, .Lud64_58_cmp
 .Lud64_58_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_58_r24pos
         .word   12, 12, .Lud64_58_r24big
 .Lud64_58_r24pos:
@@ -13584,7 +13517,6 @@ __subleq_udivrem64:
         .word   .Lud64_n33554432, 180, .+4
         .word   12, 12, .Lud64_57_cmp
 .Lud64_57_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_57_r24pos
         .word   12, 12, .Lud64_57_r24big
 .Lud64_57_r24pos:
@@ -13760,7 +13692,6 @@ __subleq_udivrem64:
         .word   .Lud64_n16777216, 180, .+4
         .word   12, 12, .Lud64_56_cmp
 .Lud64_56_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_56_r24pos
         .word   12, 12, .Lud64_56_r24big
 .Lud64_56_r24pos:
@@ -13936,7 +13867,6 @@ __subleq_udivrem64:
         .word   .Lud64_n8388608, 180, .+4
         .word   12, 12, .Lud64_55_cmp
 .Lud64_55_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_55_r24pos
         .word   12, 12, .Lud64_55_r24big
 .Lud64_55_r24pos:
@@ -14112,7 +14042,6 @@ __subleq_udivrem64:
         .word   .Lud64_n4194304, 180, .+4
         .word   12, 12, .Lud64_54_cmp
 .Lud64_54_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_54_r24pos
         .word   12, 12, .Lud64_54_r24big
 .Lud64_54_r24pos:
@@ -14288,7 +14217,6 @@ __subleq_udivrem64:
         .word   .Lud64_n2097152, 180, .+4
         .word   12, 12, .Lud64_53_cmp
 .Lud64_53_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_53_r24pos
         .word   12, 12, .Lud64_53_r24big
 .Lud64_53_r24pos:
@@ -14464,7 +14392,6 @@ __subleq_udivrem64:
         .word   .Lud64_n1048576, 180, .+4
         .word   12, 12, .Lud64_52_cmp
 .Lud64_52_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_52_r24pos
         .word   12, 12, .Lud64_52_r24big
 .Lud64_52_r24pos:
@@ -14640,7 +14567,6 @@ __subleq_udivrem64:
         .word   .Lud64_n524288, 180, .+4
         .word   12, 12, .Lud64_51_cmp
 .Lud64_51_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_51_r24pos
         .word   12, 12, .Lud64_51_r24big
 .Lud64_51_r24pos:
@@ -14816,7 +14742,6 @@ __subleq_udivrem64:
         .word   .Lud64_n262144, 180, .+4
         .word   12, 12, .Lud64_50_cmp
 .Lud64_50_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_50_r24pos
         .word   12, 12, .Lud64_50_r24big
 .Lud64_50_r24pos:
@@ -14992,7 +14917,6 @@ __subleq_udivrem64:
         .word   .Lud64_n131072, 180, .+4
         .word   12, 12, .Lud64_49_cmp
 .Lud64_49_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_49_r24pos
         .word   12, 12, .Lud64_49_r24big
 .Lud64_49_r24pos:
@@ -15168,7 +15092,6 @@ __subleq_udivrem64:
         .word   .Lud64_n65536, 180, .+4
         .word   12, 12, .Lud64_48_cmp
 .Lud64_48_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_48_r24pos
         .word   12, 12, .Lud64_48_r24big
 .Lud64_48_r24pos:
@@ -15344,7 +15267,6 @@ __subleq_udivrem64:
         .word   .Lud64_n32768, 180, .+4
         .word   12, 12, .Lud64_47_cmp
 .Lud64_47_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_47_r24pos
         .word   12, 12, .Lud64_47_r24big
 .Lud64_47_r24pos:
@@ -15520,7 +15442,6 @@ __subleq_udivrem64:
         .word   .Lud64_n16384, 180, .+4
         .word   12, 12, .Lud64_46_cmp
 .Lud64_46_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_46_r24pos
         .word   12, 12, .Lud64_46_r24big
 .Lud64_46_r24pos:
@@ -15696,7 +15617,6 @@ __subleq_udivrem64:
         .word   .Lud64_n8192, 180, .+4
         .word   12, 12, .Lud64_45_cmp
 .Lud64_45_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_45_r24pos
         .word   12, 12, .Lud64_45_r24big
 .Lud64_45_r24pos:
@@ -15872,7 +15792,6 @@ __subleq_udivrem64:
         .word   .Lud64_n4096, 180, .+4
         .word   12, 12, .Lud64_44_cmp
 .Lud64_44_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_44_r24pos
         .word   12, 12, .Lud64_44_r24big
 .Lud64_44_r24pos:
@@ -16048,7 +15967,6 @@ __subleq_udivrem64:
         .word   .Lud64_n2048, 180, .+4
         .word   12, 12, .Lud64_43_cmp
 .Lud64_43_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_43_r24pos
         .word   12, 12, .Lud64_43_r24big
 .Lud64_43_r24pos:
@@ -16224,7 +16142,6 @@ __subleq_udivrem64:
         .word   .Lud64_n1024, 180, .+4
         .word   12, 12, .Lud64_42_cmp
 .Lud64_42_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_42_r24pos
         .word   12, 12, .Lud64_42_r24big
 .Lud64_42_r24pos:
@@ -16400,7 +16317,6 @@ __subleq_udivrem64:
         .word   .Lud64_n512, 180, .+4
         .word   12, 12, .Lud64_41_cmp
 .Lud64_41_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_41_r24pos
         .word   12, 12, .Lud64_41_r24big
 .Lud64_41_r24pos:
@@ -16576,7 +16492,6 @@ __subleq_udivrem64:
         .word   .Lud64_n256, 180, .+4
         .word   12, 12, .Lud64_40_cmp
 .Lud64_40_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_40_r24pos
         .word   12, 12, .Lud64_40_r24big
 .Lud64_40_r24pos:
@@ -16752,7 +16667,6 @@ __subleq_udivrem64:
         .word   .Lud64_n128, 180, .+4
         .word   12, 12, .Lud64_39_cmp
 .Lud64_39_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_39_r24pos
         .word   12, 12, .Lud64_39_r24big
 .Lud64_39_r24pos:
@@ -16928,7 +16842,6 @@ __subleq_udivrem64:
         .word   .Lud64_n64, 180, .+4
         .word   12, 12, .Lud64_38_cmp
 .Lud64_38_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_38_r24pos
         .word   12, 12, .Lud64_38_r24big
 .Lud64_38_r24pos:
@@ -17104,7 +17017,6 @@ __subleq_udivrem64:
         .word   .Lud64_n32, 180, .+4
         .word   12, 12, .Lud64_37_cmp
 .Lud64_37_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_37_r24pos
         .word   12, 12, .Lud64_37_r24big
 .Lud64_37_r24pos:
@@ -17280,7 +17192,6 @@ __subleq_udivrem64:
         .word   .Lud64_n16, 180, .+4
         .word   12, 12, .Lud64_36_cmp
 .Lud64_36_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_36_r24pos
         .word   12, 12, .Lud64_36_r24big
 .Lud64_36_r24pos:
@@ -17456,7 +17367,6 @@ __subleq_udivrem64:
         .word   .Lud64_n8, 180, .+4
         .word   12, 12, .Lud64_35_cmp
 .Lud64_35_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_35_r24pos
         .word   12, 12, .Lud64_35_r24big
 .Lud64_35_r24pos:
@@ -17632,7 +17542,6 @@ __subleq_udivrem64:
         .word   .Lud64_n4, 180, .+4
         .word   12, 12, .Lud64_34_cmp
 .Lud64_34_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_34_r24pos
         .word   12, 12, .Lud64_34_r24big
 .Lud64_34_r24pos:
@@ -17808,7 +17717,6 @@ __subleq_udivrem64:
         .word   .Lud64_n2, 180, .+4
         .word   12, 12, .Lud64_33_cmp
 .Lud64_33_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_33_r24pos
         .word   12, 12, .Lud64_33_r24big
 .Lud64_33_r24pos:
@@ -17984,7 +17892,6 @@ __subleq_udivrem64:
         .word   .Lud64_n1, 180, .+4
         .word   12, 12, .Lud64_32_cmp
 .Lud64_32_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_32_r24pos
         .word   12, 12, .Lud64_32_r24big
 .Lud64_32_r24pos:
@@ -18350,7 +18257,6 @@ __subleq_udivrem64:
         .word   .Lud64_n1073741824, 176, .+4
         .word   12, 12, .Lud64_30_cmp
 .Lud64_30_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_30_r24pos
         .word   12, 12, .Lud64_30_r24big
 .Lud64_30_r24pos:
@@ -18526,7 +18432,6 @@ __subleq_udivrem64:
         .word   .Lud64_n536870912, 176, .+4
         .word   12, 12, .Lud64_29_cmp
 .Lud64_29_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_29_r24pos
         .word   12, 12, .Lud64_29_r24big
 .Lud64_29_r24pos:
@@ -18702,7 +18607,6 @@ __subleq_udivrem64:
         .word   .Lud64_n268435456, 176, .+4
         .word   12, 12, .Lud64_28_cmp
 .Lud64_28_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_28_r24pos
         .word   12, 12, .Lud64_28_r24big
 .Lud64_28_r24pos:
@@ -18878,7 +18782,6 @@ __subleq_udivrem64:
         .word   .Lud64_n134217728, 176, .+4
         .word   12, 12, .Lud64_27_cmp
 .Lud64_27_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_27_r24pos
         .word   12, 12, .Lud64_27_r24big
 .Lud64_27_r24pos:
@@ -19054,7 +18957,6 @@ __subleq_udivrem64:
         .word   .Lud64_n67108864, 176, .+4
         .word   12, 12, .Lud64_26_cmp
 .Lud64_26_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_26_r24pos
         .word   12, 12, .Lud64_26_r24big
 .Lud64_26_r24pos:
@@ -19230,7 +19132,6 @@ __subleq_udivrem64:
         .word   .Lud64_n33554432, 176, .+4
         .word   12, 12, .Lud64_25_cmp
 .Lud64_25_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_25_r24pos
         .word   12, 12, .Lud64_25_r24big
 .Lud64_25_r24pos:
@@ -19406,7 +19307,6 @@ __subleq_udivrem64:
         .word   .Lud64_n16777216, 176, .+4
         .word   12, 12, .Lud64_24_cmp
 .Lud64_24_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_24_r24pos
         .word   12, 12, .Lud64_24_r24big
 .Lud64_24_r24pos:
@@ -19582,7 +19482,6 @@ __subleq_udivrem64:
         .word   .Lud64_n8388608, 176, .+4
         .word   12, 12, .Lud64_23_cmp
 .Lud64_23_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_23_r24pos
         .word   12, 12, .Lud64_23_r24big
 .Lud64_23_r24pos:
@@ -19758,7 +19657,6 @@ __subleq_udivrem64:
         .word   .Lud64_n4194304, 176, .+4
         .word   12, 12, .Lud64_22_cmp
 .Lud64_22_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_22_r24pos
         .word   12, 12, .Lud64_22_r24big
 .Lud64_22_r24pos:
@@ -19934,7 +19832,6 @@ __subleq_udivrem64:
         .word   .Lud64_n2097152, 176, .+4
         .word   12, 12, .Lud64_21_cmp
 .Lud64_21_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_21_r24pos
         .word   12, 12, .Lud64_21_r24big
 .Lud64_21_r24pos:
@@ -20110,7 +20007,6 @@ __subleq_udivrem64:
         .word   .Lud64_n1048576, 176, .+4
         .word   12, 12, .Lud64_20_cmp
 .Lud64_20_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_20_r24pos
         .word   12, 12, .Lud64_20_r24big
 .Lud64_20_r24pos:
@@ -20286,7 +20182,6 @@ __subleq_udivrem64:
         .word   .Lud64_n524288, 176, .+4
         .word   12, 12, .Lud64_19_cmp
 .Lud64_19_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_19_r24pos
         .word   12, 12, .Lud64_19_r24big
 .Lud64_19_r24pos:
@@ -20462,7 +20357,6 @@ __subleq_udivrem64:
         .word   .Lud64_n262144, 176, .+4
         .word   12, 12, .Lud64_18_cmp
 .Lud64_18_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_18_r24pos
         .word   12, 12, .Lud64_18_r24big
 .Lud64_18_r24pos:
@@ -20638,7 +20532,6 @@ __subleq_udivrem64:
         .word   .Lud64_n131072, 176, .+4
         .word   12, 12, .Lud64_17_cmp
 .Lud64_17_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_17_r24pos
         .word   12, 12, .Lud64_17_r24big
 .Lud64_17_r24pos:
@@ -20814,7 +20707,6 @@ __subleq_udivrem64:
         .word   .Lud64_n65536, 176, .+4
         .word   12, 12, .Lud64_16_cmp
 .Lud64_16_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_16_r24pos
         .word   12, 12, .Lud64_16_r24big
 .Lud64_16_r24pos:
@@ -20990,7 +20882,6 @@ __subleq_udivrem64:
         .word   .Lud64_n32768, 176, .+4
         .word   12, 12, .Lud64_15_cmp
 .Lud64_15_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_15_r24pos
         .word   12, 12, .Lud64_15_r24big
 .Lud64_15_r24pos:
@@ -21166,7 +21057,6 @@ __subleq_udivrem64:
         .word   .Lud64_n16384, 176, .+4
         .word   12, 12, .Lud64_14_cmp
 .Lud64_14_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_14_r24pos
         .word   12, 12, .Lud64_14_r24big
 .Lud64_14_r24pos:
@@ -21342,7 +21232,6 @@ __subleq_udivrem64:
         .word   .Lud64_n8192, 176, .+4
         .word   12, 12, .Lud64_13_cmp
 .Lud64_13_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_13_r24pos
         .word   12, 12, .Lud64_13_r24big
 .Lud64_13_r24pos:
@@ -21518,7 +21407,6 @@ __subleq_udivrem64:
         .word   .Lud64_n4096, 176, .+4
         .word   12, 12, .Lud64_12_cmp
 .Lud64_12_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_12_r24pos
         .word   12, 12, .Lud64_12_r24big
 .Lud64_12_r24pos:
@@ -21694,7 +21582,6 @@ __subleq_udivrem64:
         .word   .Lud64_n2048, 176, .+4
         .word   12, 12, .Lud64_11_cmp
 .Lud64_11_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_11_r24pos
         .word   12, 12, .Lud64_11_r24big
 .Lud64_11_r24pos:
@@ -21870,7 +21757,6 @@ __subleq_udivrem64:
         .word   .Lud64_n1024, 176, .+4
         .word   12, 12, .Lud64_10_cmp
 .Lud64_10_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_10_r24pos
         .word   12, 12, .Lud64_10_r24big
 .Lud64_10_r24pos:
@@ -22046,7 +21932,6 @@ __subleq_udivrem64:
         .word   .Lud64_n512, 176, .+4
         .word   12, 12, .Lud64_9_cmp
 .Lud64_9_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_9_r24pos
         .word   12, 12, .Lud64_9_r24big
 .Lud64_9_r24pos:
@@ -22222,7 +22107,6 @@ __subleq_udivrem64:
         .word   .Lud64_n256, 176, .+4
         .word   12, 12, .Lud64_8_cmp
 .Lud64_8_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_8_r24pos
         .word   12, 12, .Lud64_8_r24big
 .Lud64_8_r24pos:
@@ -22398,7 +22282,6 @@ __subleq_udivrem64:
         .word   .Lud64_n128, 176, .+4
         .word   12, 12, .Lud64_7_cmp
 .Lud64_7_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_7_r24pos
         .word   12, 12, .Lud64_7_r24big
 .Lud64_7_r24pos:
@@ -22574,7 +22457,6 @@ __subleq_udivrem64:
         .word   .Lud64_n64, 176, .+4
         .word   12, 12, .Lud64_6_cmp
 .Lud64_6_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_6_r24pos
         .word   12, 12, .Lud64_6_r24big
 .Lud64_6_r24pos:
@@ -22750,7 +22632,6 @@ __subleq_udivrem64:
         .word   .Lud64_n32, 176, .+4
         .word   12, 12, .Lud64_5_cmp
 .Lud64_5_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_5_r24pos
         .word   12, 12, .Lud64_5_r24big
 .Lud64_5_r24pos:
@@ -22926,7 +22807,6 @@ __subleq_udivrem64:
         .word   .Lud64_n16, 176, .+4
         .word   12, 12, .Lud64_4_cmp
 .Lud64_4_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_4_r24pos
         .word   12, 12, .Lud64_4_r24big
 .Lud64_4_r24pos:
@@ -23102,7 +22982,6 @@ __subleq_udivrem64:
         .word   .Lud64_n8, 176, .+4
         .word   12, 12, .Lud64_3_cmp
 .Lud64_3_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_3_r24pos
         .word   12, 12, .Lud64_3_r24big
 .Lud64_3_r24pos:
@@ -23278,7 +23157,6 @@ __subleq_udivrem64:
         .word   .Lud64_n4, 176, .+4
         .word   12, 12, .Lud64_2_cmp
 .Lud64_2_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_2_r24pos
         .word   12, 12, .Lud64_2_r24big
 .Lud64_2_r24pos:
@@ -23454,7 +23332,6 @@ __subleq_udivrem64:
         .word   .Lud64_n2, 176, .+4
         .word   12, 12, .Lud64_1_cmp
 .Lud64_1_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_1_r24pos
         .word   12, 12, .Lud64_1_r24big
 .Lud64_1_r24pos:
@@ -23630,7 +23507,6 @@ __subleq_udivrem64:
         .word   .Lud64_n1, 176, .+4
         .word   12, 12, .Lud64_0_cmp
 .Lud64_0_cmp:
-        .word   12, 12, .+4
         .word   144, 192, .Lud64_0_r24pos
         .word   12, 12, .Lud64_0_r24big
 .Lud64_0_r24pos:
@@ -71670,12 +71546,10 @@ __ashldi3:
         .word   184, 184, .+4
         .word   108, 12, .+4
         .word   12, 184, .+4
-        .word   12, 12, .+4
         .word   144, 112, .Lashldi3_done
         .word   160, 160, .+4
         .word   .Lashldi3_n64, 160, .+4
         .word   112, 160, .Lashldi3_zero
-        .word   12, 12, .+4
         .word   160, 160, .+4
         .word   .Lashldi3_n32, 160, .+4
         .word   112, 160, .Lashldi3_swap
@@ -71685,7 +71559,6 @@ __ashldi3:
         .word   12, 12, .+4
         .word   180, 12, .+4
         .word   12, 184, .+4
-        .word   12, 12, .+4
         .word   180, 180, .+4
         .word   .Lashldi3_c32, 112, .Lashldi3_done
 .Lashldi3_disp:
@@ -72345,12 +72218,10 @@ __ashldi3:
         .word   188, 12, .+4
         .word   12, 184, .+4
 .Lashldi3_done:
-        .word   12, 12, .+4
         .word   160, 160, .+4
         .word   180, 160, .+4
         .word   197, 197, .+4
         .word   160, 197, .+4
-        .word   12, 12, .+4
         .word   .Lashldi3_m4, 196, .+4
         .word   160, 160, .+4
         .word   184, 160, .+4
@@ -72406,12 +72277,10 @@ __lshrdi3:
         .word   176, 176, .+4
         .word   112, 12, .+4
         .word   12, 176, .+4
-        .word   12, 12, .+4
         .word   144, 176, .Llshrdi3_done
         .word   160, 160, .+4
         .word   .Llshrdi3_n64, 160, .+4
         .word   176, 160, .Llshrdi3_big
-        .word   12, 12, .+4
         .word   160, 160, .+4
         .word   .Llshrdi3_n32, 160, .+4
         .word   176, 160, .Llshrdi3_swap
@@ -72426,7 +72295,6 @@ __lshrdi3:
         .word   12, 12, .+4
         .word   184, 12, .+4
         .word   12, 180, .+4
-        .word   12, 12, .+4
         .word   .Llshrdi3_c32, 176, .+4
         .word   184, 184, .Llshrdi3_chk0
 .Llshrdi3_chk0:
@@ -72446,7 +72314,6 @@ __lshrdi3:
         .word   200, 200, .+4
         .word   184, 12, .+4
         .word   12, 200, .+4
-        .word   12, 12, .+4
         .word   144, 184, .Llshrdi3_hi_le0
         .word   12, 12, .Llshrdi3_hi_pos
 .Llshrdi3_hi_le0:
@@ -72931,12 +72798,10 @@ __lshrdi3:
         .word   .Llshrdi3_c1, 176, .Llshrdi3_loop
         .word   12, 12, .Llshrdi3_loop
 .Llshrdi3_done:
-        .word   12, 12, .+4
         .word   160, 160, .+4
         .word   180, 160, .+4
         .word   197, 197, .+4
         .word   160, 197, .+4
-        .word   12, 12, .+4
         .word   .Llshrdi3_m4, 196, .+4
         .word   160, 160, .+4
         .word   184, 160, .+4
@@ -73240,12 +73105,10 @@ __ashrdi3:
         .word   176, 176, .+4
         .word   112, 12, .+4
         .word   12, 176, .+4
-        .word   12, 12, .+4
         .word   144, 176, .Lashrdi3_done
         .word   160, 160, .+4
         .word   .Lashrdi3_n64, 160, .+4
         .word   176, 160, .Lashrdi3_big
-        .word   12, 12, .+4
         .word   160, 160, .+4
         .word   .Lashrdi3_n32, 160, .+4
         .word   176, 160, .Lashrdi3_swap
@@ -73274,7 +73137,6 @@ __ashrdi3:
         .word   12, 12, .+4
         .word   184, 12, .+4
         .word   12, 180, .+4
-        .word   12, 12, .+4
         .word   .Lashrdi3_c32, 176, .+4
         .word   144, 180, .Lashrdi3_se_le0
         .word   12, 12, .Lashrdi3_se_pos
@@ -73309,7 +73171,6 @@ __ashrdi3:
         .word   200, 200, .+4
         .word   184, 12, .+4
         .word   12, 200, .+4
-        .word   12, 12, .+4
         .word   144, 184, .Lashrdi3_hi_le0
         .word   12, 12, .Lashrdi3_hi_pos
 .Lashrdi3_hi_le0:
@@ -73795,12 +73656,10 @@ __ashrdi3:
         .word   .Lashrdi3_c1, 176, .Lashrdi3_loop
         .word   12, 12, .Lashrdi3_loop
 .Lashrdi3_done:
-        .word   12, 12, .+4
         .word   160, 160, .+4
         .word   180, 160, .+4
         .word   197, 197, .+4
         .word   160, 197, .+4
-        .word   12, 12, .+4
         .word   .Lashrdi3_m4, 196, .+4
         .word   160, 160, .+4
         .word   184, 160, .+4
@@ -74119,7 +73978,6 @@ __subleq_memset:
         .word 12, 96, .+4
         .word 200, 200, .+4
         .word 12, 200, .+4
-        .word 12, 12, .+4
         .word .Lmemset_zero, 108, .Lmemset_done
         .word .Lmemset_zero, 104, .Lmemset_check_zero
         .word 180, 180, .Lmemset_normal_path_start
@@ -75662,7 +75520,6 @@ __subleq_memset_aligned:
         .word 12, 96, .+4
         .word 200, 200, .+4
         .word 12, 200, .+4
-        .word 12, 12, .+4
         .word .Lmemset_zero, 108, .Lmemset_done
         .word .Lmemset_zero, 104, .Lmemset_aligned_check_zero
         .word 180, 180, .Lmemset_aligned_normal_path
@@ -75781,7 +75638,6 @@ __subleq_memset16:
         .word 200, 200, .+4
         .word 100, 12, .+4
         .word 12, 200, .+4
-        .word 12, 12, .+4
         .word .Lms16_zero, 108, .Lms16_done
         .word 12, 12, .+4
         .word 196, 196, .+4
@@ -77632,7 +77488,6 @@ __subleq_memmove:
         .word .Lmemmove_npow256, 172, .Lmemmove_bwd_ua8_e_fuse_w1_b7_N
         .word 12, 12, .Lmemmove_bwd_ua8_e_fuse_w1_b7_P
 .Lmemmove_bwd_ua8_e_fuse_done:
-        .word 12, 12, .+4
         .word 101, 101, .+4
         .word 168, 168, .+4
         .word 180, 168, .+4
@@ -78069,7 +77924,6 @@ __subleq_memmove:
         .word .Lmemmove_npow256, 172, .Lmemmove_bwd_ua8_o_fuse_w1_b7_N
         .word 12, 12, .Lmemmove_bwd_ua8_o_fuse_w1_b7_P
 .Lmemmove_bwd_ua8_o_fuse_done:
-        .word 12, 12, .+4
         .word 101, 101, .+4
         .word 168, 168, .+4
         .word 180, 168, .+4
@@ -78112,7 +77966,6 @@ __subleq_memmove:
         .word 101, 101, .+4
         .word 12, 12, .Lmemmove_bwd_ua16_e_advance
 .Lmemmove_bwd_ua16_e_combine:
-        .word 12, 12, .+4
         .word 188, 188, .+4
         .word 160, 12, .+4
         .word 12, 188, .+4
@@ -78363,7 +78216,6 @@ __subleq_memmove:
         .word 101, 101, .+4
         .word 12, 12, .Lmemmove_bwd_ua16_o_advance
 .Lmemmove_bwd_ua16_o_combine:
-        .word 12, 12, .+4
         .word 188, 188, .+4
         .word 164, 12, .+4
         .word 12, 188, .+4
@@ -78614,7 +78466,6 @@ __subleq_memmove:
         .word 101, 101, .+4
         .word 12, 12, .Lmemmove_bwd_ua24_e_advance
 .Lmemmove_bwd_ua24_e_combine:
-        .word 12, 12, .+4
         .word 188, 188, .+4
         .word 160, 12, .+4
         .word 12, 188, .+4
@@ -78769,7 +78620,6 @@ __subleq_memmove:
         .word 101, 101, .+4
         .word 12, 12, .Lmemmove_bwd_ua24_o_advance
 .Lmemmove_bwd_ua24_o_combine:
-        .word 12, 12, .+4
         .word 188, 188, .+4
         .word 164, 12, .+4
         .word 12, 188, .+4
@@ -78924,7 +78774,6 @@ __subleq_memmove:
         .word 101, 101, .+4
         .word 12, 12, .Lmemmove_bwd_ua32_e_advance
 .Lmemmove_bwd_ua32_e_combine:
-        .word 12, 12, .+4
         .word 180, 180, .+4
         .word 160, 12, .+4
         .word 12, 180, .+4
@@ -78970,7 +78819,6 @@ __subleq_memmove:
         .word 101, 101, .+4
         .word 12, 12, .Lmemmove_bwd_ua32_o_advance
 .Lmemmove_bwd_ua32_o_combine:
-        .word 12, 12, .+4
         .word 180, 180, .+4
         .word 164, 12, .+4
         .word 12, 180, .+4
@@ -80752,7 +80600,6 @@ __subleq_memmove:
         .word 104, 12, .+4
         .word 12, 184, .+4
         .word 168, 184, .+4
-        .word 12, 12, .+4
         .word 160, 160, .+4
         .word 185, 160, .+4
         .word 180, 180, .+4
@@ -80761,7 +80608,6 @@ __subleq_memmove:
         .word 12, 12, .+4
         .word 180, 12, .+4
         .word 12, 160, .+4
-        .word 12, 12, .+4
         .word .Lmemmove_n4, 184, .+4
         .word 180, 180, .+4
         .word 12, 12, .+4
@@ -81204,7 +81050,6 @@ __subleq_memmove:
         .word .Lmemmove_npow256, 172, .Lmemmove_ua8_e_fuse_w1_b7_N
         .word 12, 12, .Lmemmove_ua8_e_fuse_w1_b7_P
 .Lmemmove_ua8_e_fuse_done:
-        .word 12, 12, .+4
         .word 101, 101, .+4
         .word 180, 180, .+4
         .word 168, 180, .+4
@@ -81641,7 +81486,6 @@ __subleq_memmove:
         .word .Lmemmove_npow256, 172, .Lmemmove_ua8_o_fuse_w1_b7_N
         .word 12, 12, .Lmemmove_ua8_o_fuse_w1_b7_P
 .Lmemmove_ua8_o_fuse_done:
-        .word 12, 12, .+4
         .word 101, 101, .+4
         .word 180, 180, .+4
         .word 168, 180, .+4
@@ -81684,7 +81528,6 @@ __subleq_memmove:
         .word 101, 101, .+4
         .word 12, 12, .Lmemmove_ua16_e_advance
 .Lmemmove_ua16_e_combine:
-        .word 12, 12, .+4
         .word 172, 172, .+4
         .word 160, 12, .+4
         .word 12, 172, .+4
@@ -81935,7 +81778,6 @@ __subleq_memmove:
         .word 101, 101, .+4
         .word 12, 12, .Lmemmove_ua16_o_advance
 .Lmemmove_ua16_o_combine:
-        .word 12, 12, .+4
         .word 172, 172, .+4
         .word 164, 12, .+4
         .word 12, 172, .+4
@@ -82186,7 +82028,6 @@ __subleq_memmove:
         .word 101, 101, .+4
         .word 12, 12, .Lmemmove_ua24_e_advance
 .Lmemmove_ua24_e_combine:
-        .word 12, 12, .+4
         .word 172, 172, .+4
         .word 160, 12, .+4
         .word 12, 172, .+4
@@ -82341,7 +82182,6 @@ __subleq_memmove:
         .word 101, 101, .+4
         .word 12, 12, .Lmemmove_ua24_o_advance
 .Lmemmove_ua24_o_combine:
-        .word 12, 12, .+4
         .word 172, 172, .+4
         .word 164, 12, .+4
         .word 12, 172, .+4

@@ -74,11 +74,7 @@ static void subleq_tty_close(struct tty_struct *tty, struct file *filp)
 static ssize_t subleq_tty_write(struct tty_struct *tty, const u8 *buf,
 				size_t count)
 {
-	/*
-	 * No \r\n expansion here — the TTY line discipline (n_tty)
-	 * already handles OPOST/ONLCR before calling .write().
-	 * Doing it again would produce \r\r\n.
-	 */
+	/* n_tty already handles OPOST/ONLCR; expanding here would double \r */
 	for (size_t i = 0; i < count; i++)
 		__subleq_putchar(buf[i]);
 
@@ -203,11 +199,7 @@ static int __init subleq_tty_init(void)
 		return ret;
 	}
 
-	/*
-	 * Disable the early boot console BEFORE registering the TTY console.
-	 * This prevents duplicate messages since both consoles use the same
-	 * underlying __subleq_putchar output.
-	 */
+	/* Disable early console to avoid duplicate output via __subleq_putchar */
 	{
 		extern int subleq_early_disabled;
 		subleq_early_disabled = 1;

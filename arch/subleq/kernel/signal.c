@@ -31,24 +31,13 @@ extern long sys_ni_syscall(void);
 
 
 
-/*
- * Signal return trampoline - defined in entry.S
- * This is a kernel function that the userspace signal handler returns to.
- * It invokes sys_rt_sigreturn to restore the original context.
- */
+/* Signal return trampoline (entry.S) — invokes sys_rt_sigreturn */
 extern void ret_from_user_rt_signal(void);
 
 /*
- * Signal frame structure - placed on user stack when delivering a signal.
- *
- * When a signal is delivered:
- * 1. This frame is pushed onto the user stack
- * 2. SP is set to point to this frame
- * 3. PC is set to the signal handler
- * 4. R21 (arg1) is set to the signal number
- *
- * When the handler returns (via pretcode), sys_rt_sigreturn restores
- * the original context from this frame.
+ * Signal frame placed on user stack when delivering a signal.
+ * pretcode points to the return trampoline; sys_rt_sigreturn
+ * restores the original context from uc when the handler returns.
  */
 struct rt_sigframe {
 	void *pretcode;              /* Return trampoline address */
@@ -60,11 +49,8 @@ struct rt_sigframe {
 };
 
 /*
- * save_sigcontext - Save register state to sigcontext
- *
- * Copies pt_regs to the user's sigcontext. Since pt_regs stores values
- * NEGATED, we use PT_REG_GET to get the logical (positive) values for
- * userspace.
+ * Save registers to sigcontext. PT_REG_GET converts from negated
+ * internal storage to positive values for userspace.
  */
 static int save_sigcontext(struct sigcontext __user *sc, struct pt_regs *regs)
 {
@@ -140,10 +126,8 @@ static int save_sigcontext(struct sigcontext __user *sc, struct pt_regs *regs)
 }
 
 /*
- * restore_sigcontext - Restore register state from sigcontext
- *
- * Copies user's sigcontext back to pt_regs. Since pt_regs stores values
- * NEGATED, we use PT_REG_SET to negate the user's positive values.
+ * Restore registers from sigcontext. PT_REG_SET negates the user's
+ * positive values back to internal storage format.
  */
 static int restore_sigcontext(struct pt_regs *regs, struct sigcontext __user *sc)
 {
@@ -237,17 +221,8 @@ static inline void __user *get_sigframe(struct ksignal *ksig,
 }
 
 /*
- * setup_rt_frame - Set up the signal frame on user stack
- *
- * This function:
- * 1. Allocates space on user stack for rt_sigframe
- * 2. Saves current registers to the frame
- * 3. Saves signal mask
- * 4. Sets pretcode to return trampoline
- * 5. Modifies regs so that when we return to userspace:
- *    - PC points to signal handler
- *    - SP points to signal frame
- *    - R21 (arg1) contains signal number
+ * Build the signal frame on the user stack and redirect execution
+ * to the signal handler. RA is set to the return trampoline.
  */
 static int setup_rt_frame(struct ksignal *ksig, sigset_t *set,
 			  struct pt_regs *regs)
@@ -281,25 +256,7 @@ static int setup_rt_frame(struct ksignal *ksig, sigset_t *set,
 	if (err)
 		return -EFAULT;
 
-	/*
-	 * Set up registers for signal handler.
-	 * When we return to userspace, we'll be executing the handler.
-	 *
-	 * RA-Direct convention: The RA register is set in pt_regs before returning
-	 * to userspace. The signal handler receives the trampoline address in RA.
-	 *
-	 * When the handler returns via JMP RA|I, execution goes to the trampoline.
-	 * No stack slot for the return address is needed.
-	 *
-	 * Stack layout after setup:
-	 *   [higher addresses]
-	 *   <signal frame data>  <- frame points here = SP
-	 *   [lower addresses]
-	 *
-	 * When handler returns:
-	 * 1. Handler returns via JMP RA|I -> trampoline
-	 * 2. Trampoline invokes sigreturn to restore original context
-	 */
+	/* RA-Direct: SP = frame, RA = trampoline. No stack slot needed. */
 	{
 		/* RA-Direct: SP = frame directly, no RA slot needed */
 		PT_REG_SET(regs, sp, (unsigned long)frame);
@@ -328,13 +285,7 @@ static int setup_rt_frame(struct ksignal *ksig, sigset_t *set,
 }
 
 /*
- * handle_restart - Handle syscall restart based on error code and signal state
- *
- * @regs: Current pt_regs
- * @ka:   Signal action (NULL if no signal to deliver)
- * @has_handler: True if a signal handler is about to be invoked
- *
- * This follows the m68k pattern for handling restart codes.
+ * Handle syscall restart based on error code and signal state.
  */
 static inline void
 handle_restart(struct pt_regs *regs, struct k_sigaction *ka, int has_handler)
@@ -418,18 +369,9 @@ static void handle_signal(struct ksignal *ksig, struct pt_regs *regs)
 }
 
 /*
- * do_signal - Handle signal delivery and syscall restart
- *
- * This is called from the syscall return path. It:
- * 1. Checks for pending signals using get_signal()
- * 2. If a signal is pending, handles restart and delivers the signal
- * 3. If no signal, handles restart for interrupted syscalls
- *
- * Returns: true if a signal handler was set up, false otherwise.
- * When true is returned, the caller must NOT perform syscall restart
- * logic - control should return to userspace to run the signal handler.
- *
- * Following the m68k pattern for proper NOMMU signal handling.
+ * Main signal delivery entry point, called from the syscall return path.
+ * Returns true if a signal handler was set up (caller must not do
+ * restart logic — the handler runs first).
  */
 bool do_signal(struct pt_regs *regs)
 {
@@ -470,15 +412,7 @@ bool do_signal(struct pt_regs *regs)
 }
 
 /*
- * do_notify_resume - Handle pending work before returning to user mode
- *
- * Called from the interrupt/exception return path (in entry.S or irq.c)
- * when there is pending work to do (TIF_SIGPENDING, TIF_NOTIFY_RESUME).
- *
- * Following the m68k pattern from arch/m68k/kernel/signal.c.
- *
- * @regs: pt_regs of the interrupted context. Signal delivery will modify
- *        this to redirect execution to the signal handler.
+ * Handle pending work (signals, task_work) before returning to user mode.
  */
 asmlinkage void do_notify_resume(struct pt_regs *regs)
 {
@@ -493,11 +427,7 @@ asmlinkage void do_notify_resume(struct pt_regs *regs)
 }
 
 /*
- * sys_rt_sigreturn - Restore context after signal handler returns
- *
- * This is called when the signal handler returns via the trampoline.
- * It restores the original register state and signal mask from the
- * signal frame on the user stack.
+ * Restore context after signal handler returns via the trampoline.
  */
 asmlinkage long sys_rt_sigreturn(void)
 {
@@ -537,19 +467,9 @@ asmlinkage long sys_rt_sigreturn(void)
 		goto badframe;
 
 	/*
-	 * CRITICAL: Handle syscall restart if the restored context contains
-	 * a kernel restart error code.
-	 *
-	 * When a syscall is interrupted by a signal and SA_RESTART is set,
-	 * handle_restart() in handle_signal() sets regs->r20 to -ERESTARTNOINTR
-	 * and saves the original syscall number/args. After the signal handler
-	 * returns and we restore that context, we must actually restart the
-	 * syscall instead of returning the internal error code to userspace.
-	 * 
-	 * We must check that the interrupted context was actually in a syscall
-	 * (syscall_nr >= 0) before attempting to restart, otherwise a user program
-	 * that happens to have R20 = -ERESTARTNOINTR will accidentally trigger
-	 * a spurious syscall restart using garbage registers.
+	 * If the restored context was in a syscall with a restart error
+	 * code, actually restart it now. We must verify syscall_nr >= 0
+	 * to avoid spurious restarts from userspace r20 values.
 	 */
 	if (PT_REG_GET_SIGNED(regs, syscall_nr) >= 0) {
 		long ret = PT_REG_GET_SIGNED(regs, r20);

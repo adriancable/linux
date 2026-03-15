@@ -43,9 +43,7 @@
 #ifndef R_386_32
 #define R_386_32 1 /* Absolute 32-bit address */
 #endif
-/* R_386_COPY (5) and R_386_JUMP_SLOT (7) are not used.
- * The toolchain uses -z notext for direct R_386_32 relocations.
- */
+/* R_386_COPY and R_386_JUMP_SLOT not used; toolchain uses -z notext */
 #ifndef R_386_RELATIVE
 #define R_386_RELATIVE 8 /* Adjust by load base (for shared libs) */
 #endif
@@ -78,18 +76,10 @@
 	} while (0)
 #endif
 
-/*
- * Check if a symbol needs external resolution.
- * Returns 1 for undefined symbols that need to be resolved by the kernel
- * runtime or other loaded libraries.
- * Returns 0 for defined symbols or file symbols.
- */
+/* Returns 1 if the symbol is undefined and needs resolution */
 static inline int symbol_needs_resolution(const struct elf32_sym *sym)
 {
-	/*
-	 * STT_FILE (type=4) + STB_LOCAL (bind=0) always encodes as st_info==4.
-	 * Compare the full byte to avoid expensive & 0xf on Subleq.
-	 */
+	/* STT_FILE (st_info == 4): metadata, not a real symbol */
 	if (sym->st_info == 4)  /* STT_FILE */
 		return 0;
 	/* SHN_UNDEF = 0: undefined symbols needing kernel/library resolution */
@@ -727,11 +717,7 @@ struct libsrt_state {
 	int loaded_lib_count;
 };
 
-/*
- * DJB2 hash function - uses shifts instead of multiply.
- * On Subleq, (hash << 5) + hash is ~17 ops vs ~200 ops for multiply.
- * That's 12x faster per character than FNV-1a.
- */
+/* DJB2 hash — addition and shifts only, no multiply needed */
 static inline unsigned int djb2_hash(const char *str)
 {
 	unsigned int hash = 5381;
@@ -790,9 +776,7 @@ static unsigned long libsrt_hash_lookup(struct libsrt_state *state, const char *
 	return 0;  /* Not found */
 }
 
-/* Track which libraries have been loaded to avoid duplicates.
- * Also stores file/header info for deferred relocation processing (two-pass). */
-/* Check if a library has already been loaded. Returns load_addr or 0 if not. */
+/* Check if a library was already loaded; returns load_addr or 0 */
 static unsigned long find_loaded_lib(struct libsrt_state *state, const char *name)
 {
 	int i;

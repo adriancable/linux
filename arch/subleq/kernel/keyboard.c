@@ -2,21 +2,12 @@
 /*
  * Subleq Keyboard Input Driver
  *
- * Polls __subleq_getchar() for SDL scancode events and feeds them
- * into the Linux input subsystem. The VT keyboard layer handles
- * keymap translation, shift states, Ctrl combos, F-keys, etc.
+ * Polls __subleq_getchar() for key events. In framebuffer mode, events
+ * are SDL scancodes (positive=down, negative=up, 0=none) fed to the
+ * input subsystem. In serial mode, raw ASCII is injected into ttyS0.
  *
- * Protocol from VM: one int per key event
- *   positive = SDL scancode (key down)
- *   negative = -SDL scancode (key up)
- *   0 = no key pending
- *
- * SDL scancodes are USB HID usage page 0x07 codes. The mapping
- * table from HID usage to Linux KEY_* is copied from
- * drivers/hid/hid-input.c (hid_keyboard[256]).
- *
- * For serial console (vm.c without framebuffer), we fall back to
- * injecting raw ASCII bytes into ttyS0.
+ * SDL scancodes are USB HID page 0x07 codes; the HID-to-KEY_* mapping
+ * is from drivers/hid/hid-input.c.
  */
 
 #include <linux/init.h>
@@ -65,10 +56,7 @@ static const unsigned char hid_to_keycode[256] = {
 	150,158,159,128,136,177,178,176,142,152,173,140,  0,  0,  0,  0
 };
 
-/*
- * Detect whether framebuffer console is active at runtime.
- * Result is cached during init — see subleq_kbd_init().
- */
+/* Cached at init time */
 static bool fb_mode;
 
 static bool subleq_fbcon_active(void)
@@ -76,10 +64,7 @@ static bool subleq_fbcon_active(void)
 	return !strstr(saved_command_line, "console=ttyS");
 }
 
-/*
- * Serial console fallback: inject ASCII into VT.
- * Does NOT push the flip buffer — caller pushes once after the batch.
- */
+/* Inject ASCII into VT (serial fallback). Caller must push the flip buffer. */
 static void subleq_kbd_inject_to_vt(unsigned char c)
 {
 	struct tty_struct *tty;
@@ -113,10 +98,7 @@ static void subleq_kbd_poll(struct timer_list *t)
 	int c;
 
 	if (fb_mode && subleq_kbd_dev) {
-		/*
-		 * Framebuffer mode: read single-int scancode events.
-		 * Positive = key down, negative = key up.
-		 */
+		/* Scancode events: positive = down, negative = up */
 		while ((c = __subleq_getchar()) != 0) {
 			int scancode = c > 0 ? c : -c;
 			int keycode;

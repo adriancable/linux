@@ -103,7 +103,7 @@ static void subleq_kbd_poll(struct timer_list *t)
 			int scancode = c > 0 ? c : -c;
 			int keycode;
 
-			if (scancode < 0 || scancode > 255)
+			if (scancode <= 0 || scancode > 255)
 				continue;
 
 			keycode = hid_to_keycode[scancode];

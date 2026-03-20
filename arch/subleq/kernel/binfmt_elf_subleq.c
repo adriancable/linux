@@ -2149,7 +2149,7 @@ static int load_elf_subleq_binary(struct linux_binprm *bprm)
 	kfree(phdrs);
 	phdrs = NULL;
 	if (ret < 0)
-		return ret;
+		goto out;
 
 	subleq_elf_debug("Executable loaded at 0x%lx, entry=0x%lx",
 			 exec_info.load_addr, exec_info.entry_addr);

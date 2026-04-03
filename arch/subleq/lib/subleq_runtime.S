@@ -67268,7 +67268,7 @@ __subleq_sb:
         .word   180, 180, .+4
         .word   104, 12, .+4
         .word   12, 180, .+4
-        .word   .Lconst_256, 180, .Lsb_off
+        .word   .Lconst_255, 180, .Lsb_off
 .Lsb_mask:
         .word   144, 104, .Lsb_mask_chk31
         .word   12, 12, .Lsb_mask_b30
@@ -67657,7 +67657,7 @@ __subleq_sb_b3:
         .word   180, 180, .+4
         .word   104, 12, .+4
         .word   12, 180, .+4
-        .word   .Lconst_256, 180, .Lsb_ldword
+        .word   .Lconst_255, 180, .Lsb_ldword
         .word   12, 12, .Lsb_mask
 
 .Lsb_fast_s1:
@@ -67673,7 +67673,7 @@ __subleq_sb_b3:
         .word   180, 180, .+4
         .word   104, 12, .+4
         .word   12, 180, .+4
-        .word   .Lconst_256, 180, .Lsb_ldword
+        .word   .Lconst_255, 180, .Lsb_ldword
         .word   12, 12, .Lsb_mask_s1
 .Lsb_mask_s1:
         .word   152, 100, .+4
@@ -67692,7 +67692,7 @@ __subleq_sb_b3:
         .word   180, 180, .+4
         .word   104, 12, .+4
         .word   12, 180, .+4
-        .word   .Lconst_256, 180, .Lsb_ldword
+        .word   .Lconst_255, 180, .Lsb_ldword
         .word   12, 12, .Lsb_mask_s2
 .Lsb_mask_s2:
         .word   .Lconst_n2, 100, .+4
@@ -67711,7 +67711,7 @@ __subleq_sb_b3:
         .word   180, 180, .+4
         .word   104, 12, .+4
         .word   12, 180, .+4
-        .word   .Lconst_256, 180, .Lsb_ldword
+        .word   .Lconst_255, 180, .Lsb_ldword
         .word   12, 12, .Lsb_mask_s3
 .Lsb_mask_s3:
         .word   .Lconst_n3, 100, .+4
@@ -69320,7 +69320,7 @@ __subleq_sh:
         .word   180, 180, .+4
         .word   104, 12, .+4
         .word   12, 180, .+4
-        .word   .Lconst_65536, 180, .Lsh_off
+        .word   .Lconst_65535, 180, .Lsh_off
 .Lsh_mask:
         .word   144, 104, .Lsh_mask_chk31
         .word   12, 12, .Lsh_mask_b30
@@ -69633,7 +69633,7 @@ __subleq_sh_h1:
         .word   180, 180, .+4
         .word   104, 12, .+4
         .word   12, 180, .+4
-        .word   .Lconst_65536, 180, .Lsh_ldword
+        .word   .Lconst_65535, 180, .Lsh_ldword
         .word   12, 12, .Lsh_mask
 
 .Lsh_fast_chk0_split1:
@@ -69649,7 +69649,7 @@ __subleq_sh_h1:
         .word   180, 180, .+4
         .word   104, 12, .+4
         .word   12, 180, .+4
-        .word   .Lconst_65536, 180, .Lsh_ldword
+        .word   .Lconst_65535, 180, .Lsh_ldword
         .word   12, 12, .Lsh_mask_split1
 .Lsh_mask_split1:
         .word   .Lconst_n2, 100, .+4
@@ -103022,17 +103022,19 @@ __subleq_memmove:
         .word 12, 12, .Lmemmove_bwd_ua8_e_combine
 .Lmemmove_bwd_ua8_e_zchk_w0:
         .word 180, 180, .+4
-        .word 160, 180, .+4
-        .word 144, 180, .Lmemmove_bwd_ua8_e_zchk_w1
-        .word 12, 12, .Lmemmove_bwd_ua8_e_combine
+        .word 12, 12, .+4
+        .word 160, 12, .+4
+        .word 12, 180, .+4
+        .word 152, 180, .Lmemmove_bwd_ua8_e_combine
 .Lmemmove_bwd_ua8_e_zchk_w1:
         .word 144, 164, .Lmemmove_bwd_ua8_e_zchk_w1b
         .word 12, 12, .Lmemmove_bwd_ua8_e_combine
 .Lmemmove_bwd_ua8_e_zchk_w1b:
         .word 180, 180, .+4
-        .word 164, 180, .+4
-        .word 144, 180, .Lmemmove_bwd_ua8_e_zero_store
-        .word 12, 12, .Lmemmove_bwd_ua8_e_combine
+        .word 12, 12, .+4
+        .word 164, 12, .+4
+        .word 12, 180, .+4
+        .word 152, 180, .Lmemmove_bwd_ua8_e_combine
 .Lmemmove_bwd_ua8_e_zero_store:
         .word 101, 101, .+4
         .word 12, 12, .Lmemmove_bwd_ua8_e_advance
@@ -103480,17 +103482,19 @@ __subleq_memmove:
         .word 12, 12, .Lmemmove_bwd_ua8_o_combine
 .Lmemmove_bwd_ua8_o_zchk_w0:
         .word 180, 180, .+4
-        .word 164, 180, .+4
-        .word 144, 180, .Lmemmove_bwd_ua8_o_zchk_w1
-        .word 12, 12, .Lmemmove_bwd_ua8_o_combine
+        .word 12, 12, .+4
+        .word 164, 12, .+4
+        .word 12, 180, .+4
+        .word 152, 180, .Lmemmove_bwd_ua8_o_combine
 .Lmemmove_bwd_ua8_o_zchk_w1:
         .word 144, 160, .Lmemmove_bwd_ua8_o_zchk_w1b
         .word 12, 12, .Lmemmove_bwd_ua8_o_combine
 .Lmemmove_bwd_ua8_o_zchk_w1b:
         .word 180, 180, .+4
-        .word 160, 180, .+4
-        .word 144, 180, .Lmemmove_bwd_ua8_o_zero_store
-        .word 12, 12, .Lmemmove_bwd_ua8_o_combine
+        .word 12, 12, .+4
+        .word 160, 12, .+4
+        .word 12, 180, .+4
+        .word 152, 180, .Lmemmove_bwd_ua8_o_combine
 .Lmemmove_bwd_ua8_o_zero_store:
         .word 101, 101, .+4
         .word 12, 12, .Lmemmove_bwd_ua8_o_advance
@@ -103941,17 +103945,21 @@ __subleq_memmove:
         .word 12, 12, .Lmemmove_bwd_ua16_e_combine
 .Lmemmove_bwd_ua16_e_zchk_w0:
         .word 180, 180, .+4
-        .word 160, 180, .+4
-        .word 144, 180, .Lmemmove_bwd_ua16_e_zchk_w1
-        .word 12, 12, .Lmemmove_bwd_ua16_e_combine
+        .word 12, 12, .+4
+        .word 160, 12, .+4
+        .word 12, 180, .+4
+        .word 12, 12, .+4
+        .word 152, 180, .Lmemmove_bwd_ua16_e_combine
 .Lmemmove_bwd_ua16_e_zchk_w1:
         .word 144, 164, .Lmemmove_bwd_ua16_e_zchk_w1b
         .word 12, 12, .Lmemmove_bwd_ua16_e_combine
 .Lmemmove_bwd_ua16_e_zchk_w1b:
         .word 180, 180, .+4
-        .word 164, 180, .+4
-        .word 144, 180, .Lmemmove_bwd_ua16_e_zero_store
-        .word 12, 12, .Lmemmove_bwd_ua16_e_combine
+        .word 12, 12, .+4
+        .word 164, 12, .+4
+        .word 12, 180, .+4
+        .word 12, 12, .+4
+        .word 152, 180, .Lmemmove_bwd_ua16_e_combine
 .Lmemmove_bwd_ua16_e_zero_store:
         .word 101, 101, .+4
         .word 12, 12, .Lmemmove_bwd_ua16_e_advance
@@ -104194,17 +104202,21 @@ __subleq_memmove:
         .word 12, 12, .Lmemmove_bwd_ua16_o_combine
 .Lmemmove_bwd_ua16_o_zchk_w0:
         .word 180, 180, .+4
-        .word 164, 180, .+4
-        .word 144, 180, .Lmemmove_bwd_ua16_o_zchk_w1
-        .word 12, 12, .Lmemmove_bwd_ua16_o_combine
+        .word 12, 12, .+4
+        .word 164, 12, .+4
+        .word 12, 180, .+4
+        .word 12, 12, .+4
+        .word 152, 180, .Lmemmove_bwd_ua16_o_combine
 .Lmemmove_bwd_ua16_o_zchk_w1:
         .word 144, 160, .Lmemmove_bwd_ua16_o_zchk_w1b
         .word 12, 12, .Lmemmove_bwd_ua16_o_combine
 .Lmemmove_bwd_ua16_o_zchk_w1b:
         .word 180, 180, .+4
-        .word 160, 180, .+4
-        .word 144, 180, .Lmemmove_bwd_ua16_o_zero_store
-        .word 12, 12, .Lmemmove_bwd_ua16_o_combine
+        .word 12, 12, .+4
+        .word 160, 12, .+4
+        .word 12, 180, .+4
+        .word 12, 12, .+4
+        .word 152, 180, .Lmemmove_bwd_ua16_o_combine
 .Lmemmove_bwd_ua16_o_zero_store:
         .word 101, 101, .+4
         .word 12, 12, .Lmemmove_bwd_ua16_o_advance
@@ -104450,17 +104462,21 @@ __subleq_memmove:
         .word 12, 12, .Lmemmove_bwd_ua24_e_combine
 .Lmemmove_bwd_ua24_e_zchk_w0:
         .word 180, 180, .+4
-        .word 160, 180, .+4
-        .word 144, 180, .Lmemmove_bwd_ua24_e_zchk_w1
-        .word 12, 12, .Lmemmove_bwd_ua24_e_combine
+        .word 12, 12, .+4
+        .word 160, 12, .+4
+        .word 12, 180, .+4
+        .word 12, 12, .+4
+        .word 152, 180, .Lmemmove_bwd_ua24_e_combine
 .Lmemmove_bwd_ua24_e_zchk_w1:
         .word 144, 164, .Lmemmove_bwd_ua24_e_zchk_w1b
         .word 12, 12, .Lmemmove_bwd_ua24_e_combine
 .Lmemmove_bwd_ua24_e_zchk_w1b:
         .word 180, 180, .+4
-        .word 164, 180, .+4
-        .word 144, 180, .Lmemmove_bwd_ua24_e_zero_store
-        .word 12, 12, .Lmemmove_bwd_ua24_e_combine
+        .word 12, 12, .+4
+        .word 164, 12, .+4
+        .word 12, 180, .+4
+        .word 12, 12, .+4
+        .word 152, 180, .Lmemmove_bwd_ua24_e_combine
 .Lmemmove_bwd_ua24_e_zero_store:
         .word 101, 101, .+4
         .word 12, 12, .Lmemmove_bwd_ua24_e_advance
@@ -104607,17 +104623,21 @@ __subleq_memmove:
         .word 12, 12, .Lmemmove_bwd_ua24_o_combine
 .Lmemmove_bwd_ua24_o_zchk_w0:
         .word 180, 180, .+4
-        .word 164, 180, .+4
-        .word 144, 180, .Lmemmove_bwd_ua24_o_zchk_w1
-        .word 12, 12, .Lmemmove_bwd_ua24_o_combine
+        .word 12, 12, .+4
+        .word 164, 12, .+4
+        .word 12, 180, .+4
+        .word 12, 12, .+4
+        .word 152, 180, .Lmemmove_bwd_ua24_o_combine
 .Lmemmove_bwd_ua24_o_zchk_w1:
         .word 144, 160, .Lmemmove_bwd_ua24_o_zchk_w1b
         .word 12, 12, .Lmemmove_bwd_ua24_o_combine
 .Lmemmove_bwd_ua24_o_zchk_w1b:
         .word 180, 180, .+4
-        .word 160, 180, .+4
-        .word 144, 180, .Lmemmove_bwd_ua24_o_zero_store
-        .word 12, 12, .Lmemmove_bwd_ua24_o_combine
+        .word 12, 12, .+4
+        .word 160, 12, .+4
+        .word 12, 180, .+4
+        .word 12, 12, .+4
+        .word 152, 180, .Lmemmove_bwd_ua24_o_combine
 .Lmemmove_bwd_ua24_o_zero_store:
         .word 101, 101, .+4
         .word 12, 12, .Lmemmove_bwd_ua24_o_advance
@@ -104767,17 +104787,21 @@ __subleq_memmove:
         .word 12, 12, .Lmemmove_bwd_ua32_e_combine
 .Lmemmove_bwd_ua32_e_zchk_w0:
         .word 180, 180, .+4
-        .word 160, 180, .+4
-        .word 144, 180, .Lmemmove_bwd_ua32_e_zchk_w1
-        .word 12, 12, .Lmemmove_bwd_ua32_e_combine
+        .word 12, 12, .+4
+        .word 160, 12, .+4
+        .word 12, 180, .+4
+        .word 12, 12, .+4
+        .word 152, 180, .Lmemmove_bwd_ua32_e_combine
 .Lmemmove_bwd_ua32_e_zchk_w1:
         .word 144, 164, .Lmemmove_bwd_ua32_e_zchk_w1b
         .word 12, 12, .Lmemmove_bwd_ua32_e_combine
 .Lmemmove_bwd_ua32_e_zchk_w1b:
         .word 180, 180, .+4
-        .word 164, 180, .+4
-        .word 144, 180, .Lmemmove_bwd_ua32_e_zero_store
-        .word 12, 12, .Lmemmove_bwd_ua32_e_combine
+        .word 12, 12, .+4
+        .word 164, 12, .+4
+        .word 12, 180, .+4
+        .word 12, 12, .+4
+        .word 152, 180, .Lmemmove_bwd_ua32_e_combine
 .Lmemmove_bwd_ua32_e_zero_store:
         .word 101, 101, .+4
         .word 12, 12, .Lmemmove_bwd_ua32_e_advance
@@ -104808,17 +104832,21 @@ __subleq_memmove:
         .word 12, 12, .Lmemmove_bwd_ua32_o_combine
 .Lmemmove_bwd_ua32_o_zchk_w0:
         .word 180, 180, .+4
-        .word 164, 180, .+4
-        .word 144, 180, .Lmemmove_bwd_ua32_o_zchk_w1
-        .word 12, 12, .Lmemmove_bwd_ua32_o_combine
+        .word 12, 12, .+4
+        .word 164, 12, .+4
+        .word 12, 180, .+4
+        .word 12, 12, .+4
+        .word 152, 180, .Lmemmove_bwd_ua32_o_combine
 .Lmemmove_bwd_ua32_o_zchk_w1:
         .word 144, 160, .Lmemmove_bwd_ua32_o_zchk_w1b
         .word 12, 12, .Lmemmove_bwd_ua32_o_combine
 .Lmemmove_bwd_ua32_o_zchk_w1b:
         .word 180, 180, .+4
-        .word 160, 180, .+4
-        .word 144, 180, .Lmemmove_bwd_ua32_o_zero_store
-        .word 12, 12, .Lmemmove_bwd_ua32_o_combine
+        .word 12, 12, .+4
+        .word 160, 12, .+4
+        .word 12, 180, .+4
+        .word 12, 12, .+4
+        .word 152, 180, .Lmemmove_bwd_ua32_o_combine
 .Lmemmove_bwd_ua32_o_zero_store:
         .word 101, 101, .+4
         .word 12, 12, .Lmemmove_bwd_ua32_o_advance
@@ -106657,17 +106685,19 @@ __subleq_memmove:
         .word 12, 12, .Lmemmove_ua8_e_combine
 .Lmemmove_ua8_e_zchk_w0:
         .word 180, 180, .+4
-        .word 160, 180, .+4
-        .word 144, 180, .Lmemmove_ua8_e_zchk_w1
-        .word 12, 12, .Lmemmove_ua8_e_combine
+        .word 12, 12, .+4
+        .word 160, 12, .+4
+        .word 12, 180, .+4
+        .word 152, 180, .Lmemmove_ua8_e_combine
 .Lmemmove_ua8_e_zchk_w1:
         .word 144, 164, .Lmemmove_ua8_e_zchk_w1b
         .word 12, 12, .Lmemmove_ua8_e_combine
 .Lmemmove_ua8_e_zchk_w1b:
         .word 180, 180, .+4
-        .word 164, 180, .+4
-        .word 144, 180, .Lmemmove_ua8_e_zero_store
-        .word 12, 12, .Lmemmove_ua8_e_combine
+        .word 12, 12, .+4
+        .word 164, 12, .+4
+        .word 12, 180, .+4
+        .word 152, 180, .Lmemmove_ua8_e_combine
 .Lmemmove_ua8_e_zero_store:
         .word 101, 101, .+4
         .word 12, 12, .Lmemmove_ua8_e_advance
@@ -107115,17 +107145,19 @@ __subleq_memmove:
         .word 12, 12, .Lmemmove_ua8_o_combine
 .Lmemmove_ua8_o_zchk_w0:
         .word 180, 180, .+4
-        .word 164, 180, .+4
-        .word 144, 180, .Lmemmove_ua8_o_zchk_w1
-        .word 12, 12, .Lmemmove_ua8_o_combine
+        .word 12, 12, .+4
+        .word 164, 12, .+4
+        .word 12, 180, .+4
+        .word 152, 180, .Lmemmove_ua8_o_combine
 .Lmemmove_ua8_o_zchk_w1:
         .word 144, 160, .Lmemmove_ua8_o_zchk_w1b
         .word 12, 12, .Lmemmove_ua8_o_combine
 .Lmemmove_ua8_o_zchk_w1b:
         .word 180, 180, .+4
-        .word 160, 180, .+4
-        .word 144, 180, .Lmemmove_ua8_o_zero_store
-        .word 12, 12, .Lmemmove_ua8_o_combine
+        .word 12, 12, .+4
+        .word 160, 12, .+4
+        .word 12, 180, .+4
+        .word 152, 180, .Lmemmove_ua8_o_combine
 .Lmemmove_ua8_o_zero_store:
         .word 101, 101, .+4
         .word 12, 12, .Lmemmove_ua8_o_advance
@@ -107576,17 +107608,21 @@ __subleq_memmove:
         .word 12, 12, .Lmemmove_ua16_e_combine
 .Lmemmove_ua16_e_zchk_w0:
         .word 180, 180, .+4
-        .word 160, 180, .+4
-        .word 144, 180, .Lmemmove_ua16_e_zchk_w1
-        .word 12, 12, .Lmemmove_ua16_e_combine
+        .word 12, 12, .+4
+        .word 160, 12, .+4
+        .word 12, 180, .+4
+        .word 12, 12, .+4
+        .word 152, 180, .Lmemmove_ua16_e_combine
 .Lmemmove_ua16_e_zchk_w1:
         .word 144, 164, .Lmemmove_ua16_e_zchk_w1b
         .word 12, 12, .Lmemmove_ua16_e_combine
 .Lmemmove_ua16_e_zchk_w1b:
         .word 180, 180, .+4
-        .word 164, 180, .+4
-        .word 144, 180, .Lmemmove_ua16_e_zero_store
-        .word 12, 12, .Lmemmove_ua16_e_combine
+        .word 12, 12, .+4
+        .word 164, 12, .+4
+        .word 12, 180, .+4
+        .word 12, 12, .+4
+        .word 152, 180, .Lmemmove_ua16_e_combine
 .Lmemmove_ua16_e_zero_store:
         .word 101, 101, .+4
         .word 12, 12, .Lmemmove_ua16_e_advance
@@ -107829,17 +107865,21 @@ __subleq_memmove:
         .word 12, 12, .Lmemmove_ua16_o_combine
 .Lmemmove_ua16_o_zchk_w0:
         .word 180, 180, .+4
-        .word 164, 180, .+4
-        .word 144, 180, .Lmemmove_ua16_o_zchk_w1
-        .word 12, 12, .Lmemmove_ua16_o_combine
+        .word 12, 12, .+4
+        .word 164, 12, .+4
+        .word 12, 180, .+4
+        .word 12, 12, .+4
+        .word 152, 180, .Lmemmove_ua16_o_combine
 .Lmemmove_ua16_o_zchk_w1:
         .word 144, 160, .Lmemmove_ua16_o_zchk_w1b
         .word 12, 12, .Lmemmove_ua16_o_combine
 .Lmemmove_ua16_o_zchk_w1b:
         .word 180, 180, .+4
-        .word 160, 180, .+4
-        .word 144, 180, .Lmemmove_ua16_o_zero_store
-        .word 12, 12, .Lmemmove_ua16_o_combine
+        .word 12, 12, .+4
+        .word 160, 12, .+4
+        .word 12, 180, .+4
+        .word 12, 12, .+4
+        .word 152, 180, .Lmemmove_ua16_o_combine
 .Lmemmove_ua16_o_zero_store:
         .word 101, 101, .+4
         .word 12, 12, .Lmemmove_ua16_o_advance
@@ -108085,17 +108125,21 @@ __subleq_memmove:
         .word 12, 12, .Lmemmove_ua24_e_combine
 .Lmemmove_ua24_e_zchk_w0:
         .word 180, 180, .+4
-        .word 160, 180, .+4
-        .word 144, 180, .Lmemmove_ua24_e_zchk_w1
-        .word 12, 12, .Lmemmove_ua24_e_combine
+        .word 12, 12, .+4
+        .word 160, 12, .+4
+        .word 12, 180, .+4
+        .word 12, 12, .+4
+        .word 152, 180, .Lmemmove_ua24_e_combine
 .Lmemmove_ua24_e_zchk_w1:
         .word 144, 164, .Lmemmove_ua24_e_zchk_w1b
         .word 12, 12, .Lmemmove_ua24_e_combine
 .Lmemmove_ua24_e_zchk_w1b:
         .word 180, 180, .+4
-        .word 164, 180, .+4
-        .word 144, 180, .Lmemmove_ua24_e_zero_store
-        .word 12, 12, .Lmemmove_ua24_e_combine
+        .word 12, 12, .+4
+        .word 164, 12, .+4
+        .word 12, 180, .+4
+        .word 12, 12, .+4
+        .word 152, 180, .Lmemmove_ua24_e_combine
 .Lmemmove_ua24_e_zero_store:
         .word 101, 101, .+4
         .word 12, 12, .Lmemmove_ua24_e_advance
@@ -108242,17 +108286,21 @@ __subleq_memmove:
         .word 12, 12, .Lmemmove_ua24_o_combine
 .Lmemmove_ua24_o_zchk_w0:
         .word 180, 180, .+4
-        .word 164, 180, .+4
-        .word 144, 180, .Lmemmove_ua24_o_zchk_w1
-        .word 12, 12, .Lmemmove_ua24_o_combine
+        .word 12, 12, .+4
+        .word 164, 12, .+4
+        .word 12, 180, .+4
+        .word 12, 12, .+4
+        .word 152, 180, .Lmemmove_ua24_o_combine
 .Lmemmove_ua24_o_zchk_w1:
         .word 144, 160, .Lmemmove_ua24_o_zchk_w1b
         .word 12, 12, .Lmemmove_ua24_o_combine
 .Lmemmove_ua24_o_zchk_w1b:
         .word 180, 180, .+4
-        .word 160, 180, .+4
-        .word 144, 180, .Lmemmove_ua24_o_zero_store
-        .word 12, 12, .Lmemmove_ua24_o_combine
+        .word 12, 12, .+4
+        .word 160, 12, .+4
+        .word 12, 180, .+4
+        .word 12, 12, .+4
+        .word 152, 180, .Lmemmove_ua24_o_combine
 .Lmemmove_ua24_o_zero_store:
         .word 101, 101, .+4
         .word 12, 12, .Lmemmove_ua24_o_advance
@@ -108657,4 +108705,8 @@ __subleq_memmove_aligned:
         .word   3
 .Lconst_n3:
         .word   -3
+.Lconst_255:
+        .word   255
+.Lconst_65535:
+        .word   65535
 

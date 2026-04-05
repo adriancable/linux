@@ -329,9 +329,8 @@ elf_process_relr_section:
         .word   .Lconst_neg4, REG_T4, .+4
         .word   REG_Z, REG_Z, .Lloop_next
 
-/*=== BITMAP ENTRY: inline lattice (replaces table-driven loop) ===*/
+/*=== BITMAP ENTRY: rolling-pointer lattice (T9 = T7+120..T7+0) ===*/
 .Lbitmap_entry:
-        /* T7 = base_ptr = addr_adj + base = T0 + T4 */
         .word   REG_T7, REG_T7, .+4
         .word   REG_Z, REG_Z, .+4
         .word   REG_T0, REG_Z, .+4
@@ -340,627 +339,487 @@ elf_process_relr_section:
         .word   REG_T4, REG_Z, .+4
         .word   REG_Z, REG_T7, .+4
 
-        /* T8 = -load_offset (precomputed for 1-op relocation) */
         .word   REG_T8, REG_T8, .+4
         .word   REG_T1, REG_T8, .+4
 
-        /* T5 = T6 = original entry (working copy) */
         .word   REG_T5, REG_T5, .+4
         .word   REG_Z, REG_Z, .+4
         .word   REG_T6, REG_Z, .+4
         .word   REG_Z, REG_T5, .+4
 
-        /* BIT 31: sign check */
-        .word   ZERO, REG_T5, .Lbmp_b31_check
-        .word   REG_Z, REG_Z, .Lbmp_bias
-.Lbmp_b31_check:
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T5, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_neg1, REG_T9, .+4
-        .word   ZERO, REG_T9, .Lbmp_b31_set
-        .word   REG_Z, REG_Z, .Lbmp_bias
-.Lbmp_b31_set:
-        /* Bit 31 set: apply relocation at offset 120 */
-        .word   .Lconst_0x80000000, REG_T5, .+4
+        /* T9 = T7 + 120 (rolling pointer) */
         .word   REG_T9, REG_T9, .+4
         .word   REG_Z, REG_Z, .+4
         .word   REG_T7, REG_Z, .+4
         .word   REG_Z, REG_T9, .+4
         .word   .Lconst_noff120, REG_T9, .+4
+
+        /* BIT 31: sign check (R20 scratch) */
+        .word   ZERO, REG_T5, .Lbmp_b31_check
+        .word   .Lconst_4, REG_T9, .+4
+        .word   REG_Z, REG_Z, .Lbmp_bias
+.Lbmp_b31_check:
+        .word   REG_R20, REG_R20, .+4
+        .word   REG_Z, REG_Z, .+4
+        .word   REG_T5, REG_Z, .+4
+        .word   REG_Z, REG_R20, .+4
+        .word   .Lconst_neg1, REG_R20, .+4
+        .word   ZERO, REG_R20, .Lbmp_b31_set
+        .word   .Lconst_4, REG_T9, .+4
+        .word   REG_Z, REG_Z, .Lbmp_bias
+.Lbmp_b31_set:
+        .word   .Lconst_0x80000000, REG_T5, .+4
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
 .Lbmp_bias:
         .word   .Lconst_neg1, REG_T5, .+4
+
 .Lbmp_b30_P:
         .word   .Lconst_0x40000000, REG_T5, .Lbmp_b30_P_to_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff116, REG_T9, .+4
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b29_P
 .Lbmp_b29_P:
         .word   .Lconst_0x20000000, REG_T5, .Lbmp_b29_P_to_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff112, REG_T9, .+4
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b28_P
 .Lbmp_b28_P:
         .word   .Lconst_0x10000000, REG_T5, .Lbmp_b28_P_to_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff108, REG_T9, .+4
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b27_P
 .Lbmp_b27_P:
         .word   .Lconst_0x08000000, REG_T5, .Lbmp_b27_P_to_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff104, REG_T9, .+4
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b26_P
 .Lbmp_b26_P:
         .word   .Lconst_0x04000000, REG_T5, .Lbmp_b26_P_to_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff100, REG_T9, .+4
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b25_P
 .Lbmp_b25_P:
         .word   .Lconst_0x02000000, REG_T5, .Lbmp_b25_P_to_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff96, REG_T9, .+4
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b24_P
 .Lbmp_b24_P:
         .word   .Lconst_0x01000000, REG_T5, .Lbmp_b24_P_to_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff92, REG_T9, .+4
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b23_P
 .Lbmp_b23_P:
         .word   .Lconst_0x00800000, REG_T5, .Lbmp_b23_P_to_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff88, REG_T9, .+4
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b22_P
 .Lbmp_b22_P:
         .word   .Lconst_0x00400000, REG_T5, .Lbmp_b22_P_to_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff84, REG_T9, .+4
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b21_P
 .Lbmp_b21_P:
         .word   .Lconst_0x00200000, REG_T5, .Lbmp_b21_P_to_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff80, REG_T9, .+4
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b20_P
 .Lbmp_b20_P:
         .word   .Lconst_0x00100000, REG_T5, .Lbmp_b20_P_to_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff76, REG_T9, .+4
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b19_P
 .Lbmp_b19_P:
         .word   .Lconst_0x00080000, REG_T5, .Lbmp_b19_P_to_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff72, REG_T9, .+4
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b18_P
 .Lbmp_b18_P:
         .word   .Lconst_0x00040000, REG_T5, .Lbmp_b18_P_to_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff68, REG_T9, .+4
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b17_P
 .Lbmp_b17_P:
         .word   .Lconst_0x00020000, REG_T5, .Lbmp_b17_P_to_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff64, REG_T9, .+4
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b16_P
 .Lbmp_b16_P:
         .word   .Lconst_0x00010000, REG_T5, .Lbmp_b16_P_to_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff60, REG_T9, .+4
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b15_P
 .Lbmp_b15_P:
         .word   .Lconst_0x00008000, REG_T5, .Lbmp_b15_P_to_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff56, REG_T9, .+4
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b14_P
 .Lbmp_b14_P:
         .word   .Lconst_0x00004000, REG_T5, .Lbmp_b14_P_to_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff52, REG_T9, .+4
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b13_P
 .Lbmp_b13_P:
         .word   .Lconst_0x00002000, REG_T5, .Lbmp_b13_P_to_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff48, REG_T9, .+4
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b12_P
 .Lbmp_b12_P:
         .word   .Lconst_0x00001000, REG_T5, .Lbmp_b12_P_to_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff44, REG_T9, .+4
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b11_P
 .Lbmp_b11_P:
         .word   .Lconst_0x00000800, REG_T5, .Lbmp_b11_P_to_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff40, REG_T9, .+4
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b10_P
 .Lbmp_b10_P:
         .word   .Lconst_0x00000400, REG_T5, .Lbmp_b10_P_to_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff36, REG_T9, .+4
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b9_P
 .Lbmp_b9_P:
         .word   .Lconst_0x00000200, REG_T5, .Lbmp_b9_P_to_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff32, REG_T9, .+4
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b8_P
 .Lbmp_b8_P:
         .word   .Lconst_0x00000100, REG_T5, .Lbmp_b8_P_to_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff28, REG_T9, .+4
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b7_P
 .Lbmp_b7_P:
         .word   .Lconst_0x00000080, REG_T5, .Lbmp_b7_P_to_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff24, REG_T9, .+4
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b6_P
 .Lbmp_b6_P:
         .word   .Lconst_0x00000040, REG_T5, .Lbmp_b6_P_to_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff20, REG_T9, .+4
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b5_P
 .Lbmp_b5_P:
         .word   .Lconst_0x00000020, REG_T5, .Lbmp_b5_P_to_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff16, REG_T9, .+4
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b4_P
 .Lbmp_b4_P:
         .word   .Lconst_0x00000010, REG_T5, .Lbmp_b4_P_to_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff12, REG_T9, .+4
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b3_P
 .Lbmp_b3_P:
         .word   .Lconst_0x00000008, REG_T5, .Lbmp_b3_P_to_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff8, REG_T9, .+4
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b2_P
 .Lbmp_b2_P:
         .word   .Lconst_0x00000004, REG_T5, .Lbmp_b2_P_to_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff4, REG_T9, .+4
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b1_P
 .Lbmp_b1_P:
         .word   .Lconst_0x00000002, REG_T5, .Lbmp_b1_P_to_N
-        .word   REG_T8, REG_T7 | INDIRECT, .+4
+        .word   REG_T8, REG_T9 | INDIRECT, .+4
         .word   REG_Z, REG_Z, .Lbmp_done
+
 .Lbmp_b30_P_to_N:
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b29_N
 .Lbmp_b29_P_to_N:
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b28_N
 .Lbmp_b28_P_to_N:
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b27_N
 .Lbmp_b27_P_to_N:
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b26_N
 .Lbmp_b26_P_to_N:
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b25_N
 .Lbmp_b25_P_to_N:
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b24_N
 .Lbmp_b24_P_to_N:
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b23_N
 .Lbmp_b23_P_to_N:
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b22_N
 .Lbmp_b22_P_to_N:
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b21_N
 .Lbmp_b21_P_to_N:
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b20_N
 .Lbmp_b20_P_to_N:
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b19_N
 .Lbmp_b19_P_to_N:
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b18_N
 .Lbmp_b18_P_to_N:
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b17_N
 .Lbmp_b17_P_to_N:
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b16_N
 .Lbmp_b16_P_to_N:
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b15_N
 .Lbmp_b15_P_to_N:
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b14_N
 .Lbmp_b14_P_to_N:
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b13_N
 .Lbmp_b13_P_to_N:
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b12_N
 .Lbmp_b12_P_to_N:
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b11_N
 .Lbmp_b11_P_to_N:
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b10_N
 .Lbmp_b10_P_to_N:
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b9_N
 .Lbmp_b9_P_to_N:
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b8_N
 .Lbmp_b8_P_to_N:
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b7_N
 .Lbmp_b7_P_to_N:
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b6_N
 .Lbmp_b6_P_to_N:
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b5_N
 .Lbmp_b5_P_to_N:
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b4_N
 .Lbmp_b4_P_to_N:
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b3_N
 .Lbmp_b3_P_to_N:
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b2_N
 .Lbmp_b2_P_to_N:
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b1_N
 .Lbmp_b1_P_to_N:
         .word   REG_Z, REG_Z, .Lbmp_done
+
 .Lbmp_b30_N:
-        .word   .Lconst_n0x40000000, REG_T5, .Lbmp_b29_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff116, REG_T9, .+4
+        .word   .Lconst_n0x40000000, REG_T5, .Lbmp_b30_N_skip
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b29_P
+.Lbmp_b30_N_skip:
+        .word   .Lconst_4, REG_T9, .+4
 .Lbmp_b29_N:
-        .word   .Lconst_n0x20000000, REG_T5, .Lbmp_b28_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff112, REG_T9, .+4
+        .word   .Lconst_n0x20000000, REG_T5, .Lbmp_b29_N_skip
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b28_P
+.Lbmp_b29_N_skip:
+        .word   .Lconst_4, REG_T9, .+4
 .Lbmp_b28_N:
-        .word   .Lconst_n0x10000000, REG_T5, .Lbmp_b27_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff108, REG_T9, .+4
+        .word   .Lconst_n0x10000000, REG_T5, .Lbmp_b28_N_skip
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b27_P
+.Lbmp_b28_N_skip:
+        .word   .Lconst_4, REG_T9, .+4
 .Lbmp_b27_N:
-        .word   .Lconst_n0x08000000, REG_T5, .Lbmp_b26_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff104, REG_T9, .+4
+        .word   .Lconst_n0x08000000, REG_T5, .Lbmp_b27_N_skip
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b26_P
+.Lbmp_b27_N_skip:
+        .word   .Lconst_4, REG_T9, .+4
 .Lbmp_b26_N:
-        .word   .Lconst_n0x04000000, REG_T5, .Lbmp_b25_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff100, REG_T9, .+4
+        .word   .Lconst_n0x04000000, REG_T5, .Lbmp_b26_N_skip
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b25_P
+.Lbmp_b26_N_skip:
+        .word   .Lconst_4, REG_T9, .+4
 .Lbmp_b25_N:
-        .word   .Lconst_n0x02000000, REG_T5, .Lbmp_b24_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff96, REG_T9, .+4
+        .word   .Lconst_n0x02000000, REG_T5, .Lbmp_b25_N_skip
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b24_P
+.Lbmp_b25_N_skip:
+        .word   .Lconst_4, REG_T9, .+4
 .Lbmp_b24_N:
-        .word   .Lconst_n0x01000000, REG_T5, .Lbmp_b23_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff92, REG_T9, .+4
+        .word   .Lconst_n0x01000000, REG_T5, .Lbmp_b24_N_skip
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b23_P
+.Lbmp_b24_N_skip:
+        .word   .Lconst_4, REG_T9, .+4
 .Lbmp_b23_N:
-        .word   .Lconst_n0x00800000, REG_T5, .Lbmp_b22_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff88, REG_T9, .+4
+        .word   .Lconst_n0x00800000, REG_T5, .Lbmp_b23_N_skip
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b22_P
+.Lbmp_b23_N_skip:
+        .word   .Lconst_4, REG_T9, .+4
 .Lbmp_b22_N:
-        .word   .Lconst_n0x00400000, REG_T5, .Lbmp_b21_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff84, REG_T9, .+4
+        .word   .Lconst_n0x00400000, REG_T5, .Lbmp_b22_N_skip
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b21_P
+.Lbmp_b22_N_skip:
+        .word   .Lconst_4, REG_T9, .+4
 .Lbmp_b21_N:
-        .word   .Lconst_n0x00200000, REG_T5, .Lbmp_b20_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff80, REG_T9, .+4
+        .word   .Lconst_n0x00200000, REG_T5, .Lbmp_b21_N_skip
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b20_P
+.Lbmp_b21_N_skip:
+        .word   .Lconst_4, REG_T9, .+4
 .Lbmp_b20_N:
-        .word   .Lconst_n0x00100000, REG_T5, .Lbmp_b19_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff76, REG_T9, .+4
+        .word   .Lconst_n0x00100000, REG_T5, .Lbmp_b20_N_skip
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b19_P
+.Lbmp_b20_N_skip:
+        .word   .Lconst_4, REG_T9, .+4
 .Lbmp_b19_N:
-        .word   .Lconst_n0x00080000, REG_T5, .Lbmp_b18_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff72, REG_T9, .+4
+        .word   .Lconst_n0x00080000, REG_T5, .Lbmp_b19_N_skip
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b18_P
+.Lbmp_b19_N_skip:
+        .word   .Lconst_4, REG_T9, .+4
 .Lbmp_b18_N:
-        .word   .Lconst_n0x00040000, REG_T5, .Lbmp_b17_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff68, REG_T9, .+4
+        .word   .Lconst_n0x00040000, REG_T5, .Lbmp_b18_N_skip
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b17_P
+.Lbmp_b18_N_skip:
+        .word   .Lconst_4, REG_T9, .+4
 .Lbmp_b17_N:
-        .word   .Lconst_n0x00020000, REG_T5, .Lbmp_b16_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff64, REG_T9, .+4
+        .word   .Lconst_n0x00020000, REG_T5, .Lbmp_b17_N_skip
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b16_P
+.Lbmp_b17_N_skip:
+        .word   .Lconst_4, REG_T9, .+4
 .Lbmp_b16_N:
-        .word   .Lconst_n0x00010000, REG_T5, .Lbmp_b15_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff60, REG_T9, .+4
+        .word   .Lconst_n0x00010000, REG_T5, .Lbmp_b16_N_skip
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b15_P
+.Lbmp_b16_N_skip:
+        .word   .Lconst_4, REG_T9, .+4
 .Lbmp_b15_N:
-        .word   .Lconst_n0x00008000, REG_T5, .Lbmp_b14_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff56, REG_T9, .+4
+        .word   .Lconst_n0x00008000, REG_T5, .Lbmp_b15_N_skip
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b14_P
+.Lbmp_b15_N_skip:
+        .word   .Lconst_4, REG_T9, .+4
 .Lbmp_b14_N:
-        .word   .Lconst_n0x00004000, REG_T5, .Lbmp_b13_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff52, REG_T9, .+4
+        .word   .Lconst_n0x00004000, REG_T5, .Lbmp_b14_N_skip
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b13_P
+.Lbmp_b14_N_skip:
+        .word   .Lconst_4, REG_T9, .+4
 .Lbmp_b13_N:
-        .word   .Lconst_n0x00002000, REG_T5, .Lbmp_b12_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff48, REG_T9, .+4
+        .word   .Lconst_n0x00002000, REG_T5, .Lbmp_b13_N_skip
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b12_P
+.Lbmp_b13_N_skip:
+        .word   .Lconst_4, REG_T9, .+4
 .Lbmp_b12_N:
-        .word   .Lconst_n0x00001000, REG_T5, .Lbmp_b11_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff44, REG_T9, .+4
+        .word   .Lconst_n0x00001000, REG_T5, .Lbmp_b12_N_skip
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b11_P
+.Lbmp_b12_N_skip:
+        .word   .Lconst_4, REG_T9, .+4
 .Lbmp_b11_N:
-        .word   .Lconst_n0x00000800, REG_T5, .Lbmp_b10_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff40, REG_T9, .+4
+        .word   .Lconst_n0x00000800, REG_T5, .Lbmp_b11_N_skip
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b10_P
+.Lbmp_b11_N_skip:
+        .word   .Lconst_4, REG_T9, .+4
 .Lbmp_b10_N:
-        .word   .Lconst_n0x00000400, REG_T5, .Lbmp_b9_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff36, REG_T9, .+4
+        .word   .Lconst_n0x00000400, REG_T5, .Lbmp_b10_N_skip
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b9_P
+.Lbmp_b10_N_skip:
+        .word   .Lconst_4, REG_T9, .+4
 .Lbmp_b9_N:
-        .word   .Lconst_n0x00000200, REG_T5, .Lbmp_b8_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff32, REG_T9, .+4
+        .word   .Lconst_n0x00000200, REG_T5, .Lbmp_b9_N_skip
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b8_P
+.Lbmp_b9_N_skip:
+        .word   .Lconst_4, REG_T9, .+4
 .Lbmp_b8_N:
-        .word   .Lconst_n0x00000100, REG_T5, .Lbmp_b7_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff28, REG_T9, .+4
+        .word   .Lconst_n0x00000100, REG_T5, .Lbmp_b8_N_skip
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b7_P
+.Lbmp_b8_N_skip:
+        .word   .Lconst_4, REG_T9, .+4
 .Lbmp_b7_N:
-        .word   .Lconst_n0x00000080, REG_T5, .Lbmp_b6_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff24, REG_T9, .+4
+        .word   .Lconst_n0x00000080, REG_T5, .Lbmp_b7_N_skip
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b6_P
+.Lbmp_b7_N_skip:
+        .word   .Lconst_4, REG_T9, .+4
 .Lbmp_b6_N:
-        .word   .Lconst_n0x00000040, REG_T5, .Lbmp_b5_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff20, REG_T9, .+4
+        .word   .Lconst_n0x00000040, REG_T5, .Lbmp_b6_N_skip
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b5_P
+.Lbmp_b6_N_skip:
+        .word   .Lconst_4, REG_T9, .+4
 .Lbmp_b5_N:
-        .word   .Lconst_n0x00000020, REG_T5, .Lbmp_b4_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff16, REG_T9, .+4
+        .word   .Lconst_n0x00000020, REG_T5, .Lbmp_b5_N_skip
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b4_P
+.Lbmp_b5_N_skip:
+        .word   .Lconst_4, REG_T9, .+4
 .Lbmp_b4_N:
-        .word   .Lconst_n0x00000010, REG_T5, .Lbmp_b3_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff12, REG_T9, .+4
+        .word   .Lconst_n0x00000010, REG_T5, .Lbmp_b4_N_skip
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b3_P
+.Lbmp_b4_N_skip:
+        .word   .Lconst_4, REG_T9, .+4
 .Lbmp_b3_N:
-        .word   .Lconst_n0x00000008, REG_T5, .Lbmp_b2_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff8, REG_T9, .+4
+        .word   .Lconst_n0x00000008, REG_T5, .Lbmp_b3_N_skip
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b2_P
+.Lbmp_b3_N_skip:
+        .word   .Lconst_4, REG_T9, .+4
 .Lbmp_b2_N:
-        .word   .Lconst_n0x00000004, REG_T5, .Lbmp_b1_N
-        .word   REG_T9, REG_T9, .+4
-        .word   REG_Z, REG_Z, .+4
-        .word   REG_T7, REG_Z, .+4
-        .word   REG_Z, REG_T9, .+4
-        .word   .Lconst_noff4, REG_T9, .+4
+        .word   .Lconst_n0x00000004, REG_T5, .Lbmp_b2_N_skip
         .word   REG_T8, REG_T9 | INDIRECT, .+4
+        .word   .Lconst_4, REG_T9, .+4
         .word   REG_Z, REG_Z, .Lbmp_b1_P
+.Lbmp_b2_N_skip:
+        .word   .Lconst_4, REG_T9, .+4
 .Lbmp_b1_N:
         .word   .Lconst_n0x00000002, REG_T5, .Lbmp_done
-        .word   REG_T8, REG_T7 | INDIRECT, .+4
+        .word   REG_T8, REG_T9 | INDIRECT, .+4
         .word   REG_Z, REG_Z, .Lbmp_done
 .Lbmp_done:
         .word   .Lconst_neg124, REG_T4, .+4
@@ -1122,64 +981,6 @@ elf_process_relr_section:
         .word   -0x40000000
 
 /* Bitmap relocation offset constants */
-.Lconst_noff4:
-        .word   -4
-.Lconst_noff8:
-        .word   -8
-.Lconst_noff12:
-        .word   -12
-.Lconst_noff16:
-        .word   -16
-.Lconst_noff20:
-        .word   -20
-.Lconst_noff24:
-        .word   -24
-.Lconst_noff28:
-        .word   -28
-.Lconst_noff32:
-        .word   -32
-.Lconst_noff36:
-        .word   -36
-.Lconst_noff40:
-        .word   -40
-.Lconst_noff44:
-        .word   -44
-.Lconst_noff48:
-        .word   -48
-.Lconst_noff52:
-        .word   -52
-.Lconst_noff56:
-        .word   -56
-.Lconst_noff60:
-        .word   -60
-.Lconst_noff64:
-        .word   -64
-.Lconst_noff68:
-        .word   -68
-.Lconst_noff72:
-        .word   -72
-.Lconst_noff76:
-        .word   -76
-.Lconst_noff80:
-        .word   -80
-.Lconst_noff84:
-        .word   -84
-.Lconst_noff88:
-        .word   -88
-.Lconst_noff92:
-        .word   -92
-.Lconst_noff96:
-        .word   -96
-.Lconst_noff100:
-        .word   -100
-.Lconst_noff104:
-        .word   -104
-.Lconst_noff108:
-        .word   -108
-.Lconst_noff112:
-        .word   -112
-.Lconst_noff116:
-        .word   -116
 .Lconst_noff120:
         .word   -120
 

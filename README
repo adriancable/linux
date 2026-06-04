@@ -1,3 +1,6 @@
+This repository provides a port of the Linux kernel for the Eternal Software Initiative CPU architecture. Full documentation
+including build instructions can be found in our [root repository](https://github.com/adriancable/eternal).
+
 Linux kernel
 ============
 

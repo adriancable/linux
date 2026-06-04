@@ -130,7 +130,7 @@ CONFIG_FONTS=y
 CONFIG_EARLY_PRINTK=y
 
 # Command line - use tty0 for framebuffer console, ttyS0 for text/serial console
-CONFIG_CMDLINE="console=ttyS0 loglevel=7"
+CONFIG_CMDLINE="console=tty0 loglevel=7"
 CONFIG_CMDLINE_FORCE=y
 
 # Disable debugging (too much output)

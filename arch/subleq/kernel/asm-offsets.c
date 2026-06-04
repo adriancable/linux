@@ -3,6 +3,8 @@
  * Subleq asm-offsets - Generate constants for assembly code
  */
 
+#define COMPILE_OFFSETS
+
 #include <linux/kbuild.h>
 #include <linux/sched.h>
 #include <asm/ptrace.h>
